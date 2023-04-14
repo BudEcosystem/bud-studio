@@ -3,6 +3,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { readDirectory , createOrReplaceFile, readFileContent,deleteFileOrFolder} from '../utils/fs-utils';
 
+import {storeSecret} from '../utils/fs-secrets';
+
 import {
   Layout,
   Form,
@@ -43,6 +45,9 @@ function Home() {
 
     // delete file
     const deletrResponse = deleteFileOrFolder(filePath);
+
+    // store secret
+    storeSecret('google-credentials', { username: 'my-username', password: 'my-password' });
 
 
   },[]);
