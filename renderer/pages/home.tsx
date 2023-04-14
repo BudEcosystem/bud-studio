@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { readDirectory , createOrReplaceFile, readFileContent,deleteFileOrFolder} from '../utils/fs-utils';
 
-import {storeSecret} from '../utils/fs-secrets';
+import {retrieveSecret, storeSecret} from '../utils/fs-secrets';
 
 import {
   Layout,
@@ -48,6 +48,7 @@ function Home() {
 
     // store secret
     storeSecret('google-credentials', { username: 'my-username', password: 'my-password' });
+    console.log("Secret stored",retrieveSecret('google-credentials'));
 
 
   },[]);
