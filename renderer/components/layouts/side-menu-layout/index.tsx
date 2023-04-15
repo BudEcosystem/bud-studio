@@ -3,6 +3,7 @@ import styles from './side-menu-layout.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChevronDoubleLeftIcon, MagnifyingGlassIcon, StarIcon, BellIcon } from '@heroicons/react/24/outline'
 import TopBar from "components/top-bar";
+import Link from "next/link";
 
 
 export default function SideMenuLayout() {
@@ -24,11 +25,11 @@ export default function SideMenuLayout() {
                         <p>Favourites</p>
                         <div className={styles.menuInfo}>⌘ U</div>
                     </div>
-                    <div className={styles.menuItem}>
+                    <Link className={styles.menuItem} href="/canvas">
                         <BellIcon className={styles.icons} />
                         <p>Notification</p>
                         <div className={styles.menuInfo}>⌘ N</div>
-                    </div>
+                    </Link>
                     <div className={`${styles.menuItem} ${styles.active}`}>
                         <MagnifyingGlassIcon className={styles.icons} />
                         <p>My Spaces</p>
