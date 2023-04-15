@@ -52,7 +52,9 @@ function Home() {
         <title>Home - Nextron (with-javascript-ant-design)</title>
       </Head>
 
-      <SideMenuLayout></SideMenuLayout>
+      <SideMenuLayout>
+        HOME PAGE
+      </SideMenuLayout>
 
       <Link href="/projects/test/file">
           <a>Go to next page</a>
