@@ -6,7 +6,7 @@ import TopBar from "components/top-bar";
 import Link from "next/link";
 
 
-export default function SideMenuLayout() {
+export default function SideMenuLayout({children}) {
     return (
         <div className={styles.layoutWrapper}>
             <div className={styles.sidePanelWrapper}>
@@ -39,7 +39,7 @@ export default function SideMenuLayout() {
             </div>
             <div className={styles.contentWrapper}>
                 <TopBar></TopBar>
-                BINGO
+                {children}
             </div>
         </div>
     )
