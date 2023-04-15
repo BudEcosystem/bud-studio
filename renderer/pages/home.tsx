@@ -60,7 +60,7 @@ function Home() {
       </Head>
 
       <Header>
-        <Link href="/next">
+        <Link href="/projects/test/file">
           <a>Go to next page</a>
         </Link>
       </Header>
