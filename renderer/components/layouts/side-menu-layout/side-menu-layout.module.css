@@ -1,0 +1,58 @@
+.layoutWrapper{
+    height: 100vh;
+    display: flex;
+}
+.sidePanelWrapper{
+    background: var(--bud-container-background);
+    width: 220px;
+    flex-shrink: 0;
+}
+.contentWrapper{
+    background: var(--bud-page-background);
+    width: 100%;
+}
+.topWrap{
+    display: flex;
+    margin: 70px 20px 40px;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo{
+    width: 80px;
+    height: 24px;
+    background: no-repeat center;
+    background-size: contain;
+}
+.menuItem{
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    position: relative;
+}
+.menuItem::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg, rgba(144, 104, 253, 0.2) 0%, rgba(144, 104, 253, 0) 90%);
+    border-left: 2px solid transparent;
+    width: 0;
+    transition: all 1s;
+}
+.menuItem:hover::before, .menuItem.active::before{
+    width: 100%;
+    border-left-color: var(--bud-primary-color);
+}
+.menuItem .icons{
+    width: 18px;
+}
+.menuItem p{
+    margin: 0 20px;
+    width: calc(100% - 83px);
+}
+.menuItem .menuInfo{
+    font-size: 0.9em;
+    color: var(--bud-secondary-text-color);
+}
