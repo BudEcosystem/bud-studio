@@ -21,6 +21,9 @@ const Page: React.FC = () => {
     let [editorInstance, setEditorInstance] = useState({});
 
     const handleInstance = (instance) => {
+
+        console.log("test")
+
         setEditorInstance(instance)
     }
 

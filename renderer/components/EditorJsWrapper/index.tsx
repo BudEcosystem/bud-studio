@@ -1,17 +1,30 @@
 import { createReactEditorJS } from "react-editor-js";
 import { EDITOR_JS_TOOLS } from "@/configs/editor/tools";
+import React, { useEffect } from "react";
 const ReactEditorJS = createReactEditorJS();
 
 const EditorJsWrapper = ({ data, handleInstance }) => {
-  // Editor.js This will show block editor in component
-  // pass EDITOR_JS_TOOLS in tools props to configure tools with editor.js
-  // return <EditorJs instanceRef={(instance) => handleInstance(instance)}
-  //                  tools={EDITOR_JS_TOOLS} data={data}
-  //                  placeholder={`Write from here...`}/>
+  const editorCore = React.useRef(null);
+
+  useEffect(() => {
+    console.log("Editor Core", editorCore.current)
+  },[editorCore]);
+
+  const handleInitialize = React.useCallback((instance) => {
+
+    console.log("Handle Initialize Called")
+
+    editorCore.current = instance;
+  }, []);
+
+  const handleSave = React.useCallback(async () => {
+    const savedData = await editorCore.current.save();
+  }, []);
 
   return (
     <ReactEditorJS
       tools={EDITOR_JS_TOOLS}
+      onInitialize={handleInitialize}
       defaultValue={{
         time: 1635603431943,
         blocks: [
