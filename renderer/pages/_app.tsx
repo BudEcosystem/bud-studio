@@ -3,7 +3,8 @@ import Head from 'next/head';
 import { Button, ConfigProvider, theme } from 'antd';
 import type { AppProps } from 'next/app';
 
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
