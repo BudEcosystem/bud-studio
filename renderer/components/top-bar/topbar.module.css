@@ -1,0 +1,4 @@
+.topBarWrap{
+    border-bottom: 1px solid var(--bud-border-color);
+    padding: 18px;
+}

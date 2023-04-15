@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+:root {
+    --bud-primary-color: #9068FD;
+    --bud-page-background: #050505;
+    --bud-container-background: #0E0E0E;
+    --bud-border-color: #252525;
+
+    --bud-primary-text-color: #C6C6C6;
+    --bud-secondary-text-color: #565D62;
+    --bud-icon-color: #565D62;
+
+    --bud-font-family: 'DM Sans', sans-serif;
+}
+
+[dark-theme="dark"]{
+    --bud-primary-color: #181818;
+    --bud-page-background: #000000;
+    --bud-container-background: #181818;
+    --bud-container-border: #272727;
+    --bud-icon-color: #565D62;
+}
+
+body{
+    margin: 0;
+    background: var(--bud-page-background);
+    font-family: var(--bud-font-family);
+    font-size: 14px;
+    color: var(--bud-primary-text-color);
+}
+
+.icons{
+    color: var(--bud-icon-color);
+    width: 16px;
+    cursor: pointer;
+}
