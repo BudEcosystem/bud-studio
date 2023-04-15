@@ -35,6 +35,7 @@ import InlineCode from '@editorjs/inline-code'
 import SimpleImage from '@editorjs/simple-image'
 import CodeBox from '@bomdi/codebox'
 import AnyButton from "editorjs-button"
+import Timeline from 'components/BudEditorTimeline/tool';
 
 
 
@@ -56,6 +57,8 @@ export const EDITOR_JS_TOOLS = {
   simpleImage: SimpleImage,
   codeBox: CodeBox,
   anyButton: AnyButton,
+  timeline: Timeline,
+
 }
 
 

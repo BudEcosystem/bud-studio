@@ -11,6 +11,7 @@ import {
   Select
 } from 'antd';
 import SideMenuLayout from '../components/layouts/side-menu-layout';
+import BudImageEditor from '../components/BudImageEditor';
 
 const { Item: FormItem } = Form;
 const { Option } = Select;
@@ -53,6 +54,11 @@ function Home() {
 
       <SideMenuLayout></SideMenuLayout>
 
+      <Link href="/projects/test/file">
+          <a>Go to next page</a>
+        </Link>
+
+        <BudImageEditor/>
     </React.Fragment>
   );
 };

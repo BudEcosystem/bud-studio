@@ -1,10 +1,8 @@
-
 import { createReactEditorJS } from "react-editor-js";
 import { EDITOR_JS_TOOLS } from "@/configs/editor/tools";
 const ReactEditorJS = createReactEditorJS();
 
 const EditorJsWrapper = ({ data, handleInstance }) => {
-
   // Editor.js This will show block editor in component
   // pass EDITOR_JS_TOOLS in tools props to configure tools with editor.js
   // return <EditorJs instanceRef={(instance) => handleInstance(instance)}
