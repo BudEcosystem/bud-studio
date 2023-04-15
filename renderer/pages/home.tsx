@@ -51,7 +51,9 @@ function Home() {
         <title>Home - Nextron (with-javascript-ant-design)</title>
       </Head>
 
-      <SideMenuLayout></SideMenuLayout>
+      <SideMenuLayout>
+        HOME PAGE
+      </SideMenuLayout>
 
     </React.Fragment>
   );
