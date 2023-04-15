@@ -1,12 +1,11 @@
 import React = require("react");
 import styles from './side-menu-layout.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ChevronDoubleLeftIcon, MagnifyingGlassIcon, StarIcon, BellIcon } from '@heroicons/react/24/outline'
+import { ChevronDoubleLeftIcon, MagnifyingGlassIcon, StarIcon, BellIcon, QueueListIcon } from '@heroicons/react/24/outline'
 import TopBar from "components/top-bar";
 import Link from "next/link";
 
 
-export default function SideMenuLayout({children}) {
+export default function SideMenuLayout({children, showTopBar }) {
     return (
         <div className={styles.layoutWrapper}>
             <div className={styles.sidePanelWrapper}>
@@ -30,15 +29,15 @@ export default function SideMenuLayout({children}) {
                         <p>Notification</p>
                         <div className={styles.menuInfo}>⌘ N</div>
                     </Link>
-                    <div className={`${styles.menuItem} ${styles.active}`}>
-                        <MagnifyingGlassIcon className={styles.icons} />
+                    <Link className={`${styles.menuItem} ${styles.active}`} href='/home'>
+                        <QueueListIcon className={styles.icons} />
                         <p>My Spaces</p>
                         <div className={styles.menuInfo}>⌘ S</div>
-                    </div>
+                    </Link>
                 </div>
             </div>
             <div className={styles.contentWrapper}>
-                <TopBar></TopBar>
+                {showTopBar && <TopBar></TopBar> }
                 {children}
             </div>
         </div>

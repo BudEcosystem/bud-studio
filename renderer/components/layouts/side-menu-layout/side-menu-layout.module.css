@@ -29,6 +29,8 @@
     padding: 12px 20px;
     cursor: pointer;
     position: relative;
+    color: var(--bud-primsary-text-color);
+    text-decoration: none;
 }
 .menuItem::before{
     content: '';
