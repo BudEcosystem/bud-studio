@@ -10,5 +10,11 @@
     ],
     "exclude": [
       "node_modules"
-    ]
+    ],
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@/configs/*": ["configs/*"]
+      }
+    }
 }
