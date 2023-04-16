@@ -1,0 +1,16 @@
+.breadcrumbWrap{
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+}
+.breadcrumbWrap div{
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+.breadcrumbWrap div svg{
+    margin-right: 5px;
+}
+.breadcrumbWrap > svg{
+    margin: 0 5px;
+}

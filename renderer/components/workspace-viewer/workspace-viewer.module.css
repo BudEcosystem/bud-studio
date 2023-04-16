@@ -6,7 +6,7 @@
     position: absolute;
     width: 220px;
     left: 250px;
-    top: -60px;
+    bottom: -200px;
     z-index: 100;
 }
 
@@ -64,6 +64,10 @@
     border: none;
     outline: none;
     background: transparent;
+}
+.listWrap{
+    max-height: 300px;
+    overflow-y: scroll;
 }
 .folder{
     margin-bottom: 10px;
