@@ -43,7 +43,7 @@ export default function SideMenuLayout({ children, showTopBar }) {
 
   const { push } = useRouter();
   const newPage = async () => {
-    //const pathDoc = await ipcRenderer.invoke("app-get-path", "documents");
+    const pathDoc = await ipcRenderer.invoke("app-get-path", "documents");
     console.log("Path", pathDoc);
     const file = await createNewFile(pathDoc);
     console.log("File", file);
@@ -94,7 +94,6 @@ export default function SideMenuLayout({ children, showTopBar }) {
 
     setShowAddWorkspace(!showAddWorkspace);
   };
-
   return (
     <div className={collapsed ? `${styles.layoutWrapper} ${styles.collapsed}` : `${styles.layoutWrapper}`}>
         <div className={styles.sidePanelWrapper}>
