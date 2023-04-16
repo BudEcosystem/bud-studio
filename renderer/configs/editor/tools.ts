@@ -47,7 +47,7 @@ export const EDITOR_JS_TOOLS = {
   warning: Warning,
   code: Code,
   linkTool: LinkTool,
-  image: Image,
+  // image: Image,
   raw: Raw,
   header: Header,
   quote: Quote,
@@ -57,7 +57,10 @@ export const EDITOR_JS_TOOLS = {
   simpleImage: SimpleImage,
   codeBox: CodeBox,
   anyButton: AnyButton,
-  timeline: Timeline,
+  image: {
+    class: Timeline,
+    inlineToolbar: true,
+  },
 
 }
 

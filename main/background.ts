@@ -1,4 +1,4 @@
-import { app } from 'electron';
+import { app,ipcMain } from 'electron';
 import serve from 'electron-serve';
 import { createWindow } from './helpers';
 import electronWindowState from 'electron-window-state';
@@ -13,6 +13,8 @@ if (isProd) {
 
 (async () => {
   await app.whenReady();
+
+
 
   const mainWindowState = electronWindowState({
     defaultWidth: 1000,
@@ -29,6 +31,7 @@ if (isProd) {
     vibrancy: 'under-window',
     height: mainWindowState.height,
     webPreferences: {
+      preload: './preload.js',
       webgl: true,
       sandbox: false,
       webviewTag: false, // The webview tag is not recommended. Consider alternatives like iframe or Electron's BrowserView. https://www.electronjs.org/docs/latest/api/webview-tag#warning
@@ -43,6 +46,15 @@ if (isProd) {
     await mainWindow.loadURL(`http://localhost:${port}/home`);
     mainWindow.webContents.openDevTools();
   }
+  
+  ipcMain.handle('app-get-path', async (event, name) => {
+    return app.getPath("documents");
+  });
+
+  // ipcMain.on('message-from-renderer', (event, message) => {
+  //   console.log(message);
+  // });
+
 })();
 
 app.on('window-all-closed', () => {

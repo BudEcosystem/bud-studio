@@ -130,6 +130,8 @@ export const createOrReplaceFile = (filePath: string, content: string): boolean 
         console.log(`Error creating or replacing file ${filePath}: ${error}`);
         throw new Error(`Error creating or replacing file ${filePath}: ${error}`);
     }
+
+    return false
 };
 
 /**

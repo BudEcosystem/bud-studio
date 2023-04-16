@@ -57,8 +57,8 @@ function Home() {
       </SideMenuLayout>
 
      
-
-      <BudImageEditor />
+{/* 
+      <BudImageEditor /> */}
     </React.Fragment>
   );
 }
