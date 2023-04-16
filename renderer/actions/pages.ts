@@ -9,10 +9,10 @@ import { createOrReplaceFile } from 'utils/fs-utils';
 
 // create a new file named 'abc.json' in the user's documents folder
 
-const createNewFile = async (documentsFolder,workspace="default",project="default"): Promise<any> => {
+const createNewFile = async (documentsFolder, workspace = "default", project = "default"): Promise<any> => {
     try {
 
-        const budStudioFolder = path.join(documentsFolder, "Bud-Studio",workspace,project);
+        const budStudioFolder = path.join(documentsFolder, "Bud-Studio", workspace, project);
         if (!fs.existsSync(budStudioFolder)) {
             fs.mkdirSync(budStudioFolder, { recursive: true });
         }
@@ -29,6 +29,7 @@ const createNewFile = async (documentsFolder,workspace="default",project="defaul
             "time": Math.floor(Date.now() / 1000),
             "title": fileName.split('.')[0],
             "content_version": 1,
+            "assets_path": budStudioFolder,
             "blocks": [
                 {
                     "id": "MLMq0kvkBQ",
