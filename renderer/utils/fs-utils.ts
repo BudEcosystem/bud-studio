@@ -16,6 +16,7 @@ interface FileObject {
     children: FileObject[];
     createdAt?: string;
     content?: unknown;
+    filePath: any;
 }
 
 /**
@@ -41,7 +42,7 @@ export const readDirectory = (dirPath: string): FileObject => {
 
     const normalizedPath = path.normalize(dirPath);
 
-    const result: FileObject = { name: path.basename(normalizedPath), isDirectory: true, children: [] };
+    const result: FileObject = { name: path.basename(normalizedPath), isDirectory: true, children: [], filePath: dirPath };
 
     const files = fs.readdirSync(dirPath);
     files.forEach((file) => {
@@ -55,20 +56,20 @@ export const readDirectory = (dirPath: string): FileObject => {
                 try {
                     const content = fs.readFileSync(filePath, 'utf8');
                     result.children.push({
-                        name: file, isDirectory: false, createdAt, content: JSON.parse(content),
+                        name: file, isDirectory: false, createdAt, content: JSON.parse(content), filePath,
                         children: []
                     });
                 } catch (error) {
                     console.log(`Error reading ${filePath}: ${error}`);
                     result.children.push({
                         name: file, isDirectory: false, createdAt,
-                        children: []
+                        children: [], filePath
                     });
                 }
             } else {
                 result.children.push({
                     name: file, isDirectory: false, createdAt,
-                    children: []
+                    children: [] , filePath
                 });
             }
         }
@@ -144,14 +145,14 @@ export const createOrReplaceFile = (filePath: string, content: string): boolean 
 */
 export const readFileContent = (filePath: string): string | null => {
     try {
-      const normalizedPath = path.normalize(filePath);
-      const content = fs.readFileSync(normalizedPath, 'utf8');
-      return content;
+        const normalizedPath = path.normalize(filePath);
+        const content = fs.readFileSync(normalizedPath, 'utf8');
+        return content;
     } catch (error) {
-      console.log(`Error reading file ${filePath}: ${error}`);
-      throw new Error(`Error reading file ${filePath}: ${error}`);
+        console.log(`Error reading file ${filePath}: ${error}`);
+        throw new Error(`Error reading file ${filePath}: ${error}`);
     }
-  };
+};
 
 
 
@@ -164,20 +165,20 @@ export const readFileContent = (filePath: string): string | null => {
  */
 export const deleteFileOrFolder = (filePath: string): boolean => {
     try {
-      const normalizedPath = path.normalize(filePath);
-      if (fs.existsSync(normalizedPath)) {
-        if (fs.statSync(normalizedPath).isDirectory()) {
-          fs.rmdirSync(normalizedPath, { recursive: true });
-          console.log(`Folder ${normalizedPath} deleted.`);
-        } else {
-          fs.unlinkSync(normalizedPath);
-          console.log(`File ${normalizedPath} deleted.`);
+        const normalizedPath = path.normalize(filePath);
+        if (fs.existsSync(normalizedPath)) {
+            if (fs.statSync(normalizedPath).isDirectory()) {
+                fs.rmdirSync(normalizedPath, { recursive: true });
+                console.log(`Folder ${normalizedPath} deleted.`);
+            } else {
+                fs.unlinkSync(normalizedPath);
+                console.log(`File ${normalizedPath} deleted.`);
+            }
+            return true;
         }
         return true;
-      }
-      return true;
     } catch (error) {
-      console.log(`Error deleting file or folder ${filePath}: ${error}`);
-      throw new Error(`Error deleting file or folder ${filePath}: ${error}`);
+        console.log(`Error deleting file or folder ${filePath}: ${error}`);
+        throw new Error(`Error deleting file or folder ${filePath}: ${error}`);
     }
-  };
+};
