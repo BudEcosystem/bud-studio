@@ -8,6 +8,7 @@ import { ipcRenderer } from "electron";
 import { useRouter } from "next/router";
 import { useRef } from 'react';
 import WorkspaceViewer from 'components/workspace-viewer';
+import AskBud from 'components/ask-bud';
 
 
 export default function SideMenuLayout({children, showTopBar }) {
@@ -125,6 +126,7 @@ export default function SideMenuLayout({children, showTopBar }) {
             <div className={styles.contentWrapper} >
                 {showTopBar && <TopBar></TopBar> }
                 {children}
+                <AskBud></AskBud>
             </div>
         </div>
     )

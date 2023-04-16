@@ -3,7 +3,7 @@
     display: flex;
 }
 .sidePanelWrapper{
-    background: var(--bud-container-background);
+    background: var(--bud-page-background);
     width: 220px;
     flex-shrink: 0;
     transition: all 0.5s;
@@ -12,10 +12,13 @@
     z-index: 3;
 }
 .contentWrapper{
-    background: var(--bud-page-background);
+    background: var(--bud-container-background);
     width: calc(100% - 220px);
+    margin: 20px;
     margin-left: 220px;
     transition: all 0.5s;
+    border-radius: 20px;
+    border: 1px solid var(--bud-border-color);
 }
 .layoutWrapper.collapsed .sidePanelWrapper{
     width: 70px;
@@ -181,6 +184,11 @@
     border-radius: 4px;
     margin-right: 20px;
     flex-shrink: 0;
+    transition: all 0.5s;
+    margin-left: 3px;
+}
+.collapsed .workspaceItem .colorTag{
+    margin-left: 3px;
 }
 .workspaceItem p {
     margin: 0;
