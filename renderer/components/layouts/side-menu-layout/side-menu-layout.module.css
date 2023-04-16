@@ -3,20 +3,29 @@
     display: flex;
 }
 .sidePanelWrapper{
-    background: var(--bud-container-background);
+    background: var(--bud-page-background);
     width: 220px;
     flex-shrink: 0;
     transition: all 0.5s;
+    position: fixed;
+    height: 100vh;
+    z-index: 3;
 }
 .contentWrapper{
-    background: var(--bud-page-background);
-    width: 100%;
+    background: var(--bud-container-background);
+    width: calc(100% - 220px);
+    margin: 20px;
+    margin-left: 220px;
+    transition: all 0.5s;
+    border-radius: 20px;
+    border: 1px solid var(--bud-border-color);
 }
 .layoutWrapper.collapsed .sidePanelWrapper{
-    width: 100px;
+    width: 70px;
 }
 .layoutWrapper.collapsed .contentWrapper{
-
+    width: calc(100% - 70px);
+    margin-left: 70px;
 }
 .topWrap{
     display: flex;
@@ -28,13 +37,33 @@
 .logo{
     width: 80px;
     height: 24px;
-    background: no-repeat center;
-    background-size: contain;
+    background: no-repeat left center;
+    background-size: 100% auto;
     flex-shrink: 0;
+    background-size: auto;
+    transition: all 0.5s;
+}
+.collapsed .logo{
+    width: 24px;
 }
 .collapseWrap{
     position: absolute;
     right: 0;
+    transition: all 0.5s;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    z-index: 99;
+}
+.collapsed .collapseWrap{
+    right: -30px;
+    transform: rotate(180deg);
+    background: var(--bud-page-background);
+    border: 1px solid var(--bud-border-color);
+}
+.menuWrap{
+    margin-bottom: 80px;
 }
 .menuItem{
     display: flex;
@@ -44,6 +73,10 @@
     position: relative;
     color: var(--bud-primsary-text-color);
     text-decoration: none;
+    width: 180px;
+}
+.collapsed .menuItem{
+    width: auto;
 }
 .menuItem::before{
     content: '';
@@ -62,12 +95,115 @@
 }
 .menuItem .icons{
     width: 18px;
+    flex-shrink: 0;
 }
 .menuItem p{
     margin: 0 20px;
     width: calc(100% - 83px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: all 0.5s;
+}
+.collapsed .menuItem p{
+    /* display: none; */
+    opacity: 0;
 }
 .menuItem .menuInfo{
     font-size: 0.9em;
     color: var(--bud-secondary-text-color);
+}
+.collapsed .menuItem .menuInfo{
+    display: none;
+    /* opacity: 0; */
+}
+.workspacesWrap{
+    position: relative;
+}
+
+.workspaceTitle{
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    color: var(--bud-secondary-text-color);
+}
+.workspaceTitle p{
+    margin: 0;
+    margin-right: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.collapsed .workspaceTitle p{
+    display: none;
+    width: 0;
+}
+.workspaceTitle .addIcon{
+    width: 20px;
+    height: 20px;
+    background: var(--bud-tertiary-background);
+    border-radius: 5px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.5s;
+}
+.workspaceTitle .addIcon:hover{
+    border: 1px solid var(--bud-secondary-text-color);
+}
+
+.workspaceItem{
+    padding: 12px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.workspaceItem::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg, rgba(144, 104, 253, 0.2) 0%, rgba(144, 104, 253, 0) 90%);
+    border-left: 2px solid transparent;
+    width: 0;
+    transition: all 1s;
+    z-index: 0;
+}
+.workspaceItem:hover::before, .workspaceItem.active::before{
+    width: 100%;
+    border-left-color: var(--bud-primary-color);
+}
+.workspaceItem .colorTag{
+    width: 14px;
+    height: 14px;
+    background: var(--bud-primary-color);
+    border-radius: 4px;
+    margin-right: 20px;
+    flex-shrink: 0;
+    transition: all 0.5s;
+    margin-left: 3px;
+}
+.collapsed .workspaceItem .colorTag{
+    margin-left: 3px;
+}
+.workspaceItem p {
+    margin: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.collapsed .workspaceItem p{
+    display: none;
+    width: 0;
+}
+.workspaceItem input{
+    z-index: 1;
+    background: none;
+    padding: 2px 0px;
+    border: none;
+    outline: none;
 }

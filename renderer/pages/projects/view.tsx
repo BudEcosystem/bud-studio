@@ -51,7 +51,7 @@ const Page: React.FC = () => {
 
   return (
     <>
-      <SideMenuLayout>
+      <SideMenuLayout showTopBar={true}>
         {EditorJsWrapper && pageContent && (
           <EditorJsWrapper
             handleInstance={handleInstance}

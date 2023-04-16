@@ -3,8 +3,9 @@
 :root {
     --bud-primary-color: #9068FD;
     --bud-page-background: #050505;
-    --bud-container-background: #0E0E0E;
+    --bud-container-background: #0F0F0F;
     --bud-border-color: #252525;
+    --bud-tertiary-background: #272727;
 
     --bud-primary-text-color: #C6C6C6;
     --bud-secondary-text-color: #565D62;
@@ -21,6 +22,11 @@
     --bud-container-background: #181818;
     --bud-container-border: #272727;
     --bud-icon-color: #565D62;
+}
+
+::selection{
+    background: var(--bud-primary-color);
+    color: var(--bud-primary-text-color);
 }
 
 body{
