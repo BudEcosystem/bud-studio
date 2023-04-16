@@ -125,7 +125,7 @@ export default function SideMenuLayout({children, showTopBar }) {
             </div>
             <div className={styles.contentWrapper} >
                 {showTopBar && <TopBar></TopBar> }
-                {children}
+                <div className={styles.container}>{children}</div>
                 <AskBud></AskBud>
             </div>
         </div>
