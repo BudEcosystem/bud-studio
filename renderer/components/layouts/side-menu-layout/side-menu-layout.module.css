@@ -6,22 +6,35 @@
     background: var(--bud-container-background);
     width: 220px;
     flex-shrink: 0;
+    transition: all 0.5s;
 }
 .contentWrapper{
     background: var(--bud-page-background);
     width: 100%;
+}
+.layoutWrapper.collapsed .sidePanelWrapper{
+    width: 100px;
+}
+.layoutWrapper.collapsed .contentWrapper{
+
 }
 .topWrap{
     display: flex;
     margin: 70px 20px 40px;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 .logo{
     width: 80px;
     height: 24px;
     background: no-repeat center;
     background-size: contain;
+    flex-shrink: 0;
+}
+.collapseWrap{
+    position: absolute;
+    right: 0;
 }
 .menuItem{
     display: flex;

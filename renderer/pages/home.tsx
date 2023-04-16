@@ -51,7 +51,7 @@ function Home() {
         <title>Home - Nextron (with-javascript-ant-design)</title>
       </Head>
 
-      <SideMenuLayout>
+      <SideMenuLayout showTopBar={true}>
         HOME PAGE
       </SideMenuLayout>
 

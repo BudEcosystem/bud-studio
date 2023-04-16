@@ -6,12 +6,18 @@ import Link from "next/link";
 
 
 export default function SideMenuLayout({children, showTopBar }) {
+
+    const [collapsed, setCollapsed] = React.useState(false);
+
+    
     return (
-        <div className={styles.layoutWrapper}>
+        <div className={collapsed ? `${styles.layoutWrapper} ${styles.collapsed}` : `${styles.layoutWrapper}`}>
             <div className={styles.sidePanelWrapper}>
                 <div className={styles.topWrap}>
                     <div className={styles.logo} style={{backgroundImage: 'url(images/logo.png)'}}></div>
-                    <ChevronDoubleLeftIcon className="icons" />
+                    <div className={styles.collapseWrap} onClick={() => setCollapsed(!collapsed)}>
+                        <ChevronDoubleLeftIcon className="icons" />
+                    </div>
                 </div>
                 <div className={styles.menuWrap}>
                     <div className={styles.menuItem}>
