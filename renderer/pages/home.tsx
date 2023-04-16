@@ -1,25 +1,24 @@
-import React, { useEffect } from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import { readDirectory , createOrReplaceFile, readFileContent,deleteFileOrFolder} from '../utils/fs-utils';
-
-import {retrieveSecret, storeSecret} from '../utils/fs-secrets';
-
+import React, { useEffect } from "react";
+import Head from "next/head";
+import Link from "next/link";
 import {
-  Layout,
-  Form,
-  Select
-} from 'antd';
-import SideMenuLayout from '../components/layouts/side-menu-layout';
-import BudImageEditor from '../components/BudImageEditor';
+  readDirectory,
+  createOrReplaceFile,
+  readFileContent,
+  deleteFileOrFolder,
+} from "../utils/fs-utils";
+
+import { retrieveSecret, storeSecret } from "../utils/fs-secrets";
+
+import { Layout, Form, Select } from "antd";
+import SideMenuLayout from "../components/layouts/side-menu-layout";
+import BudImageEditor from "../components/BudImageEditor";
 
 const { Item: FormItem } = Form;
 const { Option } = Select;
 
 function Home() {
-
   useEffect(() => {
-
     console.log("Page Loaded");
 
     // Load the directory structure
@@ -40,11 +39,12 @@ function Home() {
     // const deletrResponse = deleteFileOrFolder(filePath);
 
     // store secret
-    storeSecret('google-credentials', { username: 'my-username', password: 'my-password' });
-    console.log("Secret stored",retrieveSecret('google-credentials'));
-
-
-  },[]);
+    storeSecret("google-credentials", {
+      username: "my-username",
+      password: "my-password",
+    });
+    console.log("Secret stored", retrieveSecret("google-credentials"));
+  }, []);
 
   return (
     <React.Fragment>
@@ -53,17 +53,14 @@ function Home() {
       </Head>
 
       <SideMenuLayout>
-        HOME PAGE
+      <a href="/projects/test/file">Page</a>
       </SideMenuLayout>
 
-      <Link href="/projects/test/file">
-          <a>Go to next page</a>
-        </Link>
+     
 
-        <BudImageEditor/>
+      <BudImageEditor />
     </React.Fragment>
   );
-};
+}
 
 export default Home;
-

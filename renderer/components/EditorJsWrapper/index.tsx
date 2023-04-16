@@ -18,10 +18,13 @@ const EditorJsWrapper = ({ data, handleInstance }) => {
   }, []);
 
   const handleSave = React.useCallback(async () => {
+    console.log(editorCore.current)
     const savedData = await editorCore.current.save();
   }, []);
 
   return (
+    <>
+     <button onClick={handleSave}>Save</button>
     <ReactEditorJS
       tools={EDITOR_JS_TOOLS}
       onInitialize={handleInitialize}
@@ -142,6 +145,8 @@ const EditorJsWrapper = ({ data, handleInstance }) => {
         ],
       }}
     />
+   
+    </>
   );
 };
 

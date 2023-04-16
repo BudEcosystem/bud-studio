@@ -1,5 +1,5 @@
 import { default as React } from "react";
-import { createRoot } from 'react-dom/client';
+import { createRoot } from "react-dom/client";
 import EventTimeline from "./eventTimeline";
 
 export default class Timeline {
@@ -42,6 +42,7 @@ export default class Timeline {
     this.nodes.holder = rootNode;
 
     const onDataChange = (newData) => {
+      console.log(newData);
       this.data = {
         ...newData,
       };
