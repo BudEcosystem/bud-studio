@@ -4,6 +4,7 @@ specifiers:
   '@ant-design/icons': ^4.7.0
   '@babel/runtime-corejs3': ^7.21.0
   '@bomdi/codebox': ^2.0.0
+  '@codexteam/icons': ^0.3.0
   '@editorjs/checklist': ^1.4.0
   '@editorjs/code': ^2.8.0
   '@editorjs/delimiter': ^1.3.0
@@ -37,6 +38,7 @@ specifiers:
   next: ^13.3.0
   next-themes: ^0.2.1
   nextron: ^8.5.0
+  query-string: ^8.1.0
   react: ^18.2.0
   react-dom: ^18.2.0
   react-editor-js: ^2.1.0
@@ -49,6 +51,7 @@ specifiers:
 
 dependencies:
   '@bomdi/codebox': 2.0.0
+  '@codexteam/icons': 0.3.0
   '@editorjs/checklist': 1.5.0
   '@editorjs/code': 2.8.0
   '@editorjs/delimiter': 1.3.0
@@ -75,6 +78,7 @@ dependencies:
   filerobot-image-editor: 4.4.0_lj3vsyuhwgjk7opgloruqy333i
   konva: 9.0.0
   next-themes: 0.2.1_yucv4tfv7v7nrkw2uguegj6e7e
+  query-string: 8.1.0
   react-editor-js: 2.1.0_zxarmw3p2pxcs632a2b5chqv2a
   react-feather: 2.0.10_react@18.2.0
   react-filerobot-image-editor: 4.4.0_hvg5mtdmfj56ihrxwts7urtvbe
@@ -3255,6 +3259,11 @@ packages:
       supports-color: 5.5.0
     dev: false
 
+  /decode-uri-component/0.4.1:
+    resolution: {integrity: sha512-+8VxcR21HhTy8nOt6jf20w0c9CADrw1O8d+VZ/YzzCt4bJ3uBjw+D1q2osAB8RnpwwaeYBxy0HyKQxD5JBMuuQ==}
+    engines: {node: '>=14.16'}
+    dev: false
+
   /decompress-response/3.3.0:
     resolution: {integrity: sha512-BzRPQuY1ip+qDonAOz42gRm/pg9F768C+npV/4JOsxRC2sq+Rlk+Q4ZCAsOhnIaMrgarILY+RMUIvMmmX1qAEA==}
     engines: {node: '>=4'}
@@ -3598,6 +3607,11 @@ packages:
     transitivePeerDependencies:
       - konva
       - react-is
+    dev: false
+
+  /filter-obj/5.1.0:
+    resolution: {integrity: sha512-qWeTREPoT7I0bifpPUXtxkZJ1XJzxWtfoWWkdVGqa+eCr3SHW/Ocp89o8vLvbUuQnadybJpjOKu4V+RwO6sGng==}
+    engines: {node: '>=14.16'}
     dev: false
 
   /find-cache-dir/3.3.2:
@@ -4543,6 +4557,15 @@ packages:
       react: 18.2.0
     dev: true
 
+  /query-string/8.1.0:
+    resolution: {integrity: sha512-BFQeWxJOZxZGix7y+SByG3F36dA0AbTy9o6pSmKFcFz7DAj0re9Frkty3saBn3nHo3D0oZJ/+rx3r8H8r8Jbpw==}
+    engines: {node: '>=14.16'}
+    dependencies:
+      decode-uri-component: 0.4.1
+      filter-obj: 5.1.0
+      split-on-first: 3.0.0
+    dev: false
+
   /randombytes/2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
     dependencies:
@@ -5465,6 +5488,11 @@ packages:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /split-on-first/3.0.0:
+    resolution: {integrity: sha512-qxQJTx2ryR0Dw0ITYyekNQWpz6f8dGd7vffGNflQQ3Iqj9NJ6qiZ7ELpZsJ/QBhIVAiDfXdag3+Gp8RvWa62AA==}
+    engines: {node: '>=12'}
+    dev: false
 
   /sprintf-js/1.1.2:
     resolution: {integrity: sha512-VE0SOVEHCk7Qc8ulkWw3ntAzXuqf7S2lvwQaDLRnUeIEaKNQJzV6BwmLKhOqT61aGhfUMrXeaBk+oDGCzvhcug==}
