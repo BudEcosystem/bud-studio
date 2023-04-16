@@ -7,13 +7,22 @@
     width: 220px;
     flex-shrink: 0;
     transition: all 0.5s;
+    position: fixed;
+    height: 100vh;
+    z-index: 3;
 }
 .contentWrapper{
     background: var(--bud-page-background);
-    width: 100%;
+    width: calc(100% - 220px);
+    margin-left: 220px;
+    transition: all 0.5s;
 }
 .layoutWrapper.collapsed .sidePanelWrapper{
     width: 70px;
+}
+.layoutWrapper.collapsed .contentWrapper{
+    width: calc(100% - 70px);
+    margin-left: 70px;
 }
 .topWrap{
     display: flex;
@@ -42,6 +51,7 @@
     height: 20px;
     display: flex;
     justify-content: center;
+    z-index: 99;
 }
 .collapsed .collapseWrap{
     right: -30px;
@@ -116,6 +126,14 @@
 }
 .workspaceTitle p{
     margin: 0;
+    margin-right: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.collapsed .workspaceTitle p{
+    display: none;
+    width: 0;
 }
 .workspaceTitle .addIcon{
     width: 20px;
@@ -125,7 +143,6 @@
     display: flex;
     justify-content:center;
     align-items: center;
-    margin-left: 20px;
     cursor: pointer;
     border: 1px solid transparent;
     transition: all 0.5s;
@@ -167,6 +184,13 @@
 }
 .workspaceItem p {
     margin: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.collapsed .workspaceItem p{
+    display: none;
+    width: 0;
 }
 .workspaceItem input{
     z-index: 1;

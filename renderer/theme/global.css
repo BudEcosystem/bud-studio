@@ -24,6 +24,11 @@
     --bud-icon-color: #565D62;
 }
 
+::selection{
+    background: var(--bud-primary-color);
+    color: var(--bud-primary-text-color);
+}
+
 body{
     margin: 0;
     background: var(--bud-page-background);

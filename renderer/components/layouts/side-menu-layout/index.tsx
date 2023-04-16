@@ -56,7 +56,7 @@ export default function SideMenuLayout({children, showTopBar }) {
         <div className={collapsed ? `${styles.layoutWrapper} ${styles.collapsed}` : `${styles.layoutWrapper}`}>
             <div className={styles.sidePanelWrapper}>
                 <div className={styles.topWrap}>
-                    <div className={styles.logo} style={{backgroundImage: 'url(images/logo.png)'}}></div>
+                    <div className={styles.logo} style={{backgroundImage: 'url(/images/logo.png)'}}></div>
                     <div className={styles.collapseWrap} onClick={() => setCollapsed(!collapsed)}>
                         <ChevronDoubleLeftIcon className="icons" />
                     </div>
@@ -109,7 +109,7 @@ export default function SideMenuLayout({children, showTopBar }) {
                     </div>
                     <div className={styles.workspaceListWrap}>
                         {workspaces.map((item: any, index: number) => (
-                            <div className={styles.workspaceItem} key={index} onClick={() => setShowWokspaceViewer(true)}>
+                            <div className={styles.workspaceItem} key={index} onClick={() => setShowWokspaceViewer(!showWorkspaceViewer)}>
                                 <div className={styles.colorTag}></div>
                                 <p>{item.name}</p>
                             </div>

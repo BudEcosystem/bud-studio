@@ -4,6 +4,7 @@ import { Button, ConfigProvider, theme } from 'antd';
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'next-themes';
 import 'theme/global.css';
+import 'theme/editorjs.css';
 
 
 
