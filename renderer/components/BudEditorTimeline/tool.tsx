@@ -20,12 +20,16 @@ export default class Timeline {
   CSS: any;
   nodes: any;
   wrapper: any;
+  filePath: any;
 
-  constructor({ data, config, api, readOnly }) {
+  constructor({ data, config, api, readOnly,filePath }) {
     this.api = api;
     this.readOnly = readOnly;
     this.wrapper = undefined;
     this.data = data;
+
+    // dpn't use , file path is not being transfered
+    this.filePath = filePath;
 
     this.CSS = {
       wrapper: "walkthrough-timeline",
@@ -37,14 +41,12 @@ export default class Timeline {
   }
 
   
-
   render() {
     const rootNode = document.createElement("div");
     rootNode.setAttribute("class", this.CSS.wrapper);
     this.nodes.holder = rootNode;
 
     const onDataChange = (newData) => {
-      console.log("New Data",newData);
       this.data = newData;
     };
 

@@ -3,15 +3,13 @@
 import BudImageEditor from "components/BudImageEditor";
 import FilerobotImageEditor from "filerobot-image-editor";
 
-
-import path from 'path';
-import fs from 'fs';
-
+import path from "path";
+import fs from "fs";
 
 import { default as React, useRef } from "react";
 
 const EventTimeline = (props) => {
-  console.log("Iitial Data", props.data);
+  console.log("Initial Data", props.data);
 
   const [timelineData, setTimelineData] = React.useState(
     props.data ? props.data : null
@@ -29,74 +27,42 @@ const EventTimeline = (props) => {
     }
   };
 
-  const onAddEvent = (e) => {
-    const newData = timelineData;
-    newData.imagev2 = newData;
-    updateTimelineData(newData);
-  };
-
-  const onContentChange = (index, fieldName) => {
-    console.log("triggers");
-    return (e) => {
-      const newData = {
-        ...timelineData,
-      };
-      newData.events[index][fieldName] = e.currentTarget.textContent;
-      updateTimelineData(newData);
-    };
-  };
-
-  const setImage = () => {
-    setTimelineData({
-      file: {
-        url: "https://scaleflex.airstore.io/demo/stephen-walker-unsplash.jpg",
-      },
-      stretched: false,
-      withBackground: false,
-      withBorder: false,
-    });
-  };
-
   const handleFileClick = () => {
     fileInputRef.current.click();
   };
 
-  const getBolb = (filePath)=>{
+  const getBolb = (filePath) => {
     const fileBuffer = fs.readFileSync(filePath);
     const buffer = new Buffer.from(fileBuffer);
-    const blob = new Blob([buffer], { type: 'image/jpeg' });
+    const blob = new Blob([buffer], { type: "image/jpeg" });
 
     return URL.createObjectURL(blob);
-  }
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    const filePath = path.join('/Users/rahulvramesh/Bud/Bud-Studio', file.name);
-    fs.copyFileSync(file.path, filePath);
-    //setPreviewUrl(URL.createObjectURL(file));
+    const currentProjectPath = localStorage.getItem("currentProject");
+    const lastSegment = currentProjectPath.split("/").pop();
+    const remainingPath = currentProjectPath.slice(
+      0,
+      -(lastSegment.length + 1)
+    );
 
-    
+    //console.log("Current Project Path",localStorage.getItem("currentProject"));
+    // const filePath = path.join(`${currentProjectPath.split("/")}`, file.name);
+    const finalFile = `${remainingPath}/${Math.random()}-${file.name}}`;
+    fs.copyFileSync(file.path, finalFile);
 
-    let newData = {...timelineData}
+    let newData = { ...timelineData };
     newData = {
-        file: {
-          url: filePath
-        },
-        stretched: false,
-        withBackground: false,
-        withBorder: false,
-      }
+      file: {
+        url: finalFile,
+      },
+      stretched: false,
+      withBackground: false,
+      withBorder: false,
+    };
     updateTimelineData(newData);
-
-    // setTimelineData({
-    //   file: {
-    //     url: URL.createObjectURL(file)
-    //   },
-    //   stretched: false,
-    //   withBackground: false,
-    //   withBorder: false,
-    // });
-    // Do something with the selected file
   };
 
   const classes = {
@@ -185,8 +151,6 @@ const EventTimeline = (props) => {
                 {isEditImageState && (
                   <BudImageEditor image={getBolb(timelineData.file.url)} />
                 )}
-
-                {/* <BudImageEditor image={timelineData.image}/> */}
               </div>
               <div className="timeline-content">
                 <div className={`description ${classes.description}`}>
@@ -195,47 +159,6 @@ const EventTimeline = (props) => {
               </div>
             </div>
           )}
-
-          {/* {timelineData.events.map((event, index) => (
-            <div key={index} className="timeline-item">
-              <div
-                style={classes.time}
-                contentEditable={true}
-                suppressContentEditableWarning={!props.readOnly}
-                onInput={() => onContentChange(index, "time")}
-              >
-                {event.time}
-              </div>
-              <div className="timeline-separator">
-                <div className={`timeline-dot ${classes.timelinedot}`} />
-                <div className="timeline-connector" />
-              </div>
-              <div className="timeline-content">
-                <div
-                  className={`description ${classes.description}`}
-                  contentEditable={!props.readOnly}
-                  suppressContentEditableWarning={!props.readOnly}
-                  onBlur={() => onContentChange(index, "description")}
-                >
-                  {event.description}
-                </div>
-              </div>
-            </div>
-          ))}
-          {!props.readOnly && (
-            <div className="timeline-item">
-              <div style={classes.oppositeInButton} />
-              <div className="timeline-separator">
-                <div
-                  className={`timeline-dot primary add-button ${classes.addButton}`}
-                  onClick={onAddEvent}
-                >
-                  <span style={classes.addButtonText}> + </span>
-                </div>
-              </div>
-              <div className="timeline-content" />
-            </div>
-          )} */}
         </div>
       </div>
     </>
