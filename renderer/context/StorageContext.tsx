@@ -7,87 +7,90 @@ export const StorageContext = createContext({}); // create a new context
 export const DataProvider = ({ children }) => {
   // create a provider component
   const [data, setData] = useState({}); // initialize the data state with an empty object
-  const [fileSystem, setFileSystem] = useState({}); // initialize the data state with an empty object
+  const [fileSystem, setFileSystem] = useState(null); // initialize the data state with an empty object
   const [baseSavePath, setBaseSavePath] = useState(null); // initialize the data state with an empty object
 
-  useEffect(() => {
-    // Base Path
-    const getBasePath = async () => {
-      //Todo : save to local storage
-      const basePath = await ipcRenderer.invoke("app-get-path", "documents");
-      setBaseSavePath(basePath);
-    };
+  const getFileSystem = async (bp) => {
+    if (!bp) {
+      return;
+    }
+    const root = readDirectory(bp + "/Bud-Studio");
+    let optionsTemp = [];
 
-    // File System
-    const getFileSystem = async () => {
-        console.log("Context",baseSavePath)
-      if (!baseSavePath) {
-        return;
-      }
-      const root = readDirectory(baseSavePath + "/Bud-Studio");
-      let optionsTemp = [];
+    root.children.map((item) => {
+      if (item.isDirectory) {
+        let tempItem = {
+          value: item.name,
+          name: item.name,
+          children: [],
+        };
 
-      root.children.map((item) => {
         if (item.isDirectory) {
-          let tempItem = {
+          item.children.map((childAItem) => {
+            if (childAItem.isDirectory) {
+              let secondItem = {
+                value: childAItem.name,
+                name: childAItem.name,
+                children: [],
+              };
+
+              childAItem.children.map((childBItem) => {
+                if (childBItem.isDirectory) {
+                  secondItem.children.push({
+                    value: childBItem.name,
+                    name: childBItem.name,
+                    children: [],
+                  });
+                } else if (childBItem.name.includes(".json")) {
+                  secondItem.children.push({
+                    value: childBItem.filePath,
+                    name: childBItem.name.split(".json")[0],
+                    children: [],
+                  });
+                }
+              });
+
+              tempItem.children.push(secondItem);
+            } else if (childAItem.name.includes(".json")) {
+              tempItem.children.push({
+                value: childAItem.name,
+                name: childAItem.name.split(".json")[0],
+                children: [],
+              });
+            }
+          });
+
+          optionsTemp.push(tempItem);
+        } else {
+          optionsTemp.push({
             value: item.name,
-            label: item.name,
+            name: item.name,
             children: [],
-          };
-
-          if (item.isDirectory) {
-            item.children.map((childAItem) => {
-              if (childAItem.isDirectory) {
-                let secondItem = {
-                  value: childAItem.name,
-                  label: childAItem.name,
-                  children: [],
-                };
-
-                childAItem.children.map((childBItem) => {
-                  if (childBItem.isDirectory) {
-                    secondItem.children.push({
-                      value: childBItem.name,
-                      label: childBItem.name,
-                      children: [],
-                    });
-                  } else if (childBItem.name.includes(".json")) {
-                    secondItem.children.push({
-                      value: childBItem.filePath,
-                      label: childBItem.name.split(".json")[0],
-                      children: [],
-                    });
-                  }
-                });
-
-                tempItem.children.push(secondItem);
-              } else if (childAItem.name.includes(".json")) {
-                tempItem.children.push({
-                  value: childAItem.name,
-                  label: childAItem.name.split(".json")[0],
-                  children: [],
-                });
-              }
-            });
-
-            optionsTemp.push(tempItem);
-          } else {
-            optionsTemp.push({
-              value: item.name,
-              label: item.name,
-              children: [],
-            });
-          }
+          });
         }
+      }
+    });
+
+    setFileSystem(optionsTemp);
+  };
+
+  const getBasePath = async () => {
+    //Todo : save to local storage
+    const basePath = await ipcRenderer.invoke("app-get-path", "documents");
+    setBaseSavePath(basePath);
+    return basePath;
+  };
+
+  const refreshStorage = async () => {
+    getBasePath().then((bp) => {
+        getFileSystem(bp);
       });
+  }
 
-      console.log("Context",optionsTemp);
-
-      setFileSystem(optionsTemp);
-    };
-
-    getBasePath();
-    getFileSystem();
+  useEffect(() => {
+    getBasePath().then((bp) => {
+      getFileSystem(bp);
+    });
   }, []);
 
   const updateData = (newData) => {
@@ -106,6 +109,7 @@ export const DataProvider = ({ children }) => {
     updateData,
     updateFileSystem,
     baseSavePath,
+    refreshStorage
   };
 
   return (

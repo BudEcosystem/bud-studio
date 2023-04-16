@@ -4,8 +4,21 @@ import fs from 'fs';
 import { ipcRenderer } from 'electron';
 import { createOrReplaceFile } from 'utils/fs-utils';
 
+const createWorkspace = async(basePath,workspaceName: string): any => {
+    //let documentsFolder = getBasePath();
+    try {
+        //let documentsFolder = getBasePath();
+        const budStudioFolder = path.join(basePath, "Bud-Studio", workspaceName);
+        if (!fs.existsSync(budStudioFolder)) {
+            fs.mkdirSync(budStudioFolder, { recursive: true });
+        }
 
-
+        return { budStudioFolder, basePath };
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
 
 // create a new file named 'abc.json' in the user's documents folder
 
@@ -53,4 +66,4 @@ const createNewFile = async (documentsFolder, workspace = "default", project = "
 };
 
 
-export { createNewFile };
+export { createNewFile, createWorkspace };
