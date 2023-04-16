@@ -1,4 +1,4 @@
-import React = require("react");
+import React, { useEffect } from 'react'
 import styles from './side-menu-layout.module.css';
 import { ChevronDoubleLeftIcon, MagnifyingGlassIcon, StarIcon, BellIcon, QueueListIcon } from '@heroicons/react/24/outline'
 import TopBar from "components/top-bar";
@@ -6,11 +6,24 @@ import Link from "next/link";
 import { createNewFile } from "actions/pages";
 import { ipcRenderer } from "electron";
 import { useRouter } from "next/router";
+import { useRef } from 'react';
+import WorkspaceViewer from 'components/workspace-viewer';
 
 
 export default function SideMenuLayout({children, showTopBar }) {
 
+    const initialList = [
+        {name: 'Accubits'},
+        {name: 'DevBud'},
+        {name: 'Accubits'},
+    ]
+
+    const addWorkspaceInput = useRef(null);
+
     const [collapsed, setCollapsed] = React.useState(false);
+    const [showAddWorkspace, setShowAddWorkspace] = React.useState(false);
+    const [workspaces, setWorkspaces] = React.useState(initialList as any);
+    const [showWorkspaceViewer, setShowWokspaceViewer] = React.useState(false);
 
     
     const { push } = useRouter();
@@ -23,6 +36,20 @@ export default function SideMenuLayout({children, showTopBar }) {
         //redirect to new page in nextjs
         push(`/projects/view?page=${file.fileName.split('.')[0]}&filePath=${file.filePath}`);
 
+    }
+
+    useEffect(() => {
+        if(showAddWorkspace) addWorkspaceInput.current.focus()
+    }, [showAddWorkspace])
+    
+    const addWorkspace = (event) => {
+        if (event.key != 'Enter') return;
+        let space = {
+            name: event.target.value
+        }
+        workspaces.push(space);
+        setWorkspaces(workspaces);
+        setShowAddWorkspace(!showAddWorkspace);
     }
 
     return (
@@ -73,6 +100,26 @@ export default function SideMenuLayout({children, showTopBar }) {
 
                     
                     
+                </div>
+                <div className={styles.workspacesWrap}>
+                    
+                    <div className={styles.workspaceTitle}>
+                        <p>Work Spaces</p>
+                        <div className={styles.addIcon} onClick={() => setShowAddWorkspace(!showAddWorkspace)}>+</div>
+                    </div>
+                    <div className={styles.workspaceListWrap}>
+                        {workspaces.map((item: any, index: number) => (
+                            <div className={styles.workspaceItem} key={index} onClick={() => setShowWokspaceViewer(true)}>
+                                <div className={styles.colorTag}></div>
+                                <p>{item.name}</p>
+                            </div>
+                        ))}
+                        {showAddWorkspace && <div className={styles.workspaceItem}>
+                            <div className={styles.colorTag}></div>
+                            <input type="text" placeholder='Space name' ref={addWorkspaceInput} onKeyUp={(event) => addWorkspace(event)}/>
+                        </div>}
+                    </div>
+                    {showWorkspaceViewer && <WorkspaceViewer></WorkspaceViewer>}
                 </div>
             </div>
             <div className={styles.contentWrapper} >
