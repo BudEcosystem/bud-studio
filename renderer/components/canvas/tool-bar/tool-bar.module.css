@@ -1,0 +1,34 @@
+.toolBarWrap{
+    background: var(--bud-container-background);
+    border-radius: 5px;
+    border: 1px solid var(--bud-border-color);
+    padding: 3px;
+}
+
+.tool{
+    padding: 10px 10px;
+    /* border-bottom: 1px solid var(--bud-border-color); */
+    cursor: pointer;
+    transition: all 0.5s;
+    display: flex;
+    position: relative;
+}
+.tool::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transition: all 0.5s;
+    opacity: 1;
+    border-radius: 3px;
+}
+.tool:hover::before{
+    background: var(--bud-primary-color);
+    opacity: 0.2;
+}
+.tool svg{
+    width: 23px;
+    color: var(--bud-primary-text-color);
+}

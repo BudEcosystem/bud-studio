@@ -4,11 +4,7 @@ import { Button, ConfigProvider, theme } from 'antd';
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'next-themes';
 import 'theme/global.css';
-import { config } from '@fortawesome/fontawesome-svg-core'
-import '@fortawesome/fontawesome-svg-core/styles.css'
 
-
-config.autoAddCss = false
 
 
 function MyApp({ Component, pageProps }: AppProps) {

@@ -1,18 +1,15 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import SideMenuLayout from '../components/layouts/side-menu-layout';
+import Canvas from 'components/canvas';
 
 
-export default function Canvas() {
+export default function CanvasPage() {
 
   return (
     <React.Fragment>
-      <Head>
-        <title>Home - Nextron (with-javascript-ant-design)</title>
-      </Head>
-
-      <SideMenuLayout>
-        HOME PAGE
+      <SideMenuLayout showTopBar={false}>
+        <Canvas></Canvas>
       </SideMenuLayout>
 
     </React.Fragment>

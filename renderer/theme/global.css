@@ -11,6 +11,8 @@
     --bud-icon-color: #565D62;
 
     --bud-font-family: 'DM Sans', sans-serif;
+
+    --bud-node-border-color: #9068FD96;
 }
 
 [dark-theme="dark"]{
@@ -33,4 +35,8 @@ body{
     color: var(--bud-icon-color);
     width: 16px;
     cursor: pointer;
+}
+
+.react-flow__controls-button{
+    background: var(--bud-container-background);
 }
