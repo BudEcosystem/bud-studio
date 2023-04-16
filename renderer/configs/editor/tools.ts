@@ -19,7 +19,7 @@ import dynamic from 'next/dynamic';
 
 import Embed from '@editorjs/embed'
 import Table from '@editorjs/table'
-import Paragraph from '@editorjs/paragraph'
+// import Paragraph from '@editorjs/paragraph'
 import List from '@editorjs/list'
 import Warning from '@editorjs/warning'
 import Code from '@editorjs/code'
@@ -36,6 +36,7 @@ import SimpleImage from '@editorjs/simple-image'
 import CodeBox from '@bomdi/codebox'
 import AnyButton from "editorjs-button"
 import Timeline from 'components/BudEditorTimeline/tool';
+import BudEditorParagraphTool from 'components/BudEditorParagraph/tool';
 
 
 
@@ -57,6 +58,10 @@ export const EDITOR_JS_TOOLS = {
   simpleImage: SimpleImage,
   codeBox: CodeBox,
   anyButton: AnyButton,
+  paragraph: {
+    class: BudEditorParagraphTool,
+    inlineToolbar: true,
+  },
   image: {
     class: Timeline,
     inlineToolbar: true,
