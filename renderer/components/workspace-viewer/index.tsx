@@ -15,21 +15,12 @@ export default function WorkspaceViewer({
   getBasePath,
   refreshStorage,
 }) {
-
-  const initialList = [
-    {
-      name: "People Ops",
-      children: [{ name: "Document A" }, { name: "Document B" }],
-    },
-    { name: "HR", children: [{ name: "Document A" }, { name: "Document B" }] },
-    { name: "Dev", children: [] },
-  ];
-
   const addFolderInput = useRef(null);
   const { push } = useRouter();
 
   const [showAddFolder, setShowAddFolder] = React.useState(false);
   const [folders, setFolders] = React.useState(selectedWokspace as any);
+  const [searchKey, setSearchKey] = React.useState("");
 
   useEffect(() => {
     if (showAddFolder) addFolderInput.current.focus();
@@ -37,16 +28,10 @@ export default function WorkspaceViewer({
 
   useEffect(() => {
     setFolders(selectedWokspace);
-  },[selectedWokspace]);
+  }, [selectedWokspace]);
 
   const addFolder = (event) => {
     if (event.key != "Enter") return;
-    // let space = {
-    //   name: event.target.value,
-    // };
-    // folders.push(space);
-    // setFolders(folders);
-
     // Create New Directory
     const createFolder = async () => {
       const response = await createProjectFolder(
@@ -65,6 +50,49 @@ export default function WorkspaceViewer({
   const goToEditor = (filePath) => {
     push(`/projects/view?page=bud&filePath=${filePath}`);
   };
+
+  // Search functionality
+  const searchFilesAndFolders = (event) => {
+    setSearchKey(event.target.value);
+  };
+
+  const search = () => {
+    console.log("Search Key", JSON.stringify(folders));
+
+    let tempResult = {
+        name: folders.name,
+        value : folders.value,
+        children : []
+    }
+
+    folders.children.map((item: any, index: number) => {
+        //console.log("Looking For Search",item);
+        // if(item.name.toLowerCase().includes(searchKey.toLowerCase())){
+        //     tempResult.push(item);
+        //     return;
+        // } else {
+        //     if(item.children){
+        //         item.children.map((child: any, index: number) => {
+        //             if(child.name.toLowerCase().includes(searchKey.toLowerCase())){
+        //                 tempResult.push(child);
+        //                 return;
+        //             }
+        //         });
+        //     }
+        // }
+    });
+
+    console.log("Result",tempResult)
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      // Call the search function when the user presses the enter key
+      //handleSearch();
+      search();
+    }
+  }
+
 
   return (
     <div className={styles.viewerWrap}>
@@ -88,7 +116,13 @@ export default function WorkspaceViewer({
       </div>
       <div className={styles.searchWrap}>
         <MagnifyingGlassIcon className={styles.icons} />
-        <input type="text" placeholder="Search" />
+        <input
+          type="text"
+          value={searchKey}
+          placeholder="Search"
+          onChange={searchFilesAndFolders}
+          onKeyDown={handleKeyDown}
+        />
       </div>
       <div className={styles.listWrap}>
         {showAddFolder && (
