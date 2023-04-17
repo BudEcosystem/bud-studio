@@ -20,6 +20,7 @@ export default function WorkspaceViewer({
 
   const [showAddFolder, setShowAddFolder] = React.useState(false);
   const [folders, setFolders] = React.useState(selectedWokspace as any);
+  const [tempFolders, setTempFolders] = React.useState(selectedWokspace as any);
   const [searchKey, setSearchKey] = React.useState("");
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export default function WorkspaceViewer({
 
   useEffect(() => {
     setFolders(selectedWokspace);
+    setTempFolders(selectedWokspace);
   }, [selectedWokspace]);
 
   const addFolder = (event) => {
@@ -60,39 +62,31 @@ export default function WorkspaceViewer({
     console.log("Search Key", JSON.stringify(folders));
 
     let tempResult = {
-        name: folders.name,
-        value : folders.value,
-        children : []
-    }
-
-    folders.children.map((item: any, index: number) => {
-        //console.log("Looking For Search",item);
-        // if(item.name.toLowerCase().includes(searchKey.toLowerCase())){
-        //     tempResult.push(item);
-        //     return;
-        // } else {
-        //     if(item.children){
-        //         item.children.map((child: any, index: number) => {
-        //             if(child.name.toLowerCase().includes(searchKey.toLowerCase())){
-        //                 tempResult.push(child);
-        //                 return;
-        //             }
-        //         });
-        //     }
-        // }
+      name: folders.name,
+      value: folders.value,
+      children: [],
+    };
+    console.log("optionsTemp folders", folders);
+    let updatedWithSearch = folders.children.map((item: any, index: number) => {
+      return {
+        ...item,
+        children: item.children.filter((data) => data.name.includes(searchKey)),
+      };
     });
 
-    console.log("Result",tempResult)
+    console.log("Result", tempResult);
+    console.log("optionsTemp updatedWithSearch", updatedWithSearch);
+    setTempFolders({ ...folders, children: updatedWithSearch });
   };
+  console.log("optionsTemp tempFolders", tempFolders);
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       // Call the search function when the user presses the enter key
       //handleSearch();
       search();
     }
-  }
-
+  };
 
   return (
     <div className={styles.viewerWrap}>
@@ -141,7 +135,7 @@ export default function WorkspaceViewer({
             </div>
           </div>
         )}
-        {folders.children.map((item: any, index: number) => (
+        {tempFolders?.children?.map((item: any, index: number) => (
           <div className={`${styles.folder} ${styles.open}`}>
             <div className={styles.folderTitle}>
               <div className={styles.openIcon}></div>
