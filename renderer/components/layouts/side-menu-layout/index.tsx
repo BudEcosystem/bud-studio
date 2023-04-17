@@ -19,13 +19,8 @@ import { useStorageContext } from "context/StorageContext";
 import { generateColor } from "utils/color-generator";
 
 export default function SideMenuLayout({ children, showTopBar }) {
+  // @ts-ignore
   const { fileSystem, refreshStorage, baseSavePath } = useStorageContext();
-
-  // const initialList = [
-  //     {name: 'Accubits'},
-  //     {name: 'DevBud'},
-  //     {name: 'Accubits'},
-  // ]
 
   const addWorkspaceInput = useRef(null);
 
@@ -99,12 +94,6 @@ export default function SideMenuLayout({ children, showTopBar }) {
       const res = createWorkspace(path, event.target.value);
       if (res) refreshStorage();
     });
-
-    // Create New Directory
-    //const res = createWorkspace(event.target.value);
-    // if(!res) return;
-    // Update The Library
-    //refreshStorage();
 
     setShowAddWorkspace(!showAddWorkspace);
   };
