@@ -140,6 +140,7 @@
     align-items: center;
     padding: 7px 10px 7px 45px;
     position: relative;
+    cursor: pointer;
 }
 .fileItem::before{
     content: '';

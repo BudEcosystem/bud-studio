@@ -184,7 +184,6 @@
 .workspaceItem .colorTag{
     width: 14px;
     height: 14px;
-    background: var(--bud-primary-color);
     border-radius: 4px;
     margin-right: 20px;
     flex-shrink: 0;
