@@ -4,11 +4,27 @@ import fs from 'fs';
 import { ipcRenderer } from 'electron';
 import { createOrReplaceFile } from 'utils/fs-utils';
 
-const createWorkspace = async(basePath,workspaceName: string): any => {
+const createWorkspace = async (basePath, workspaceName: string): any => {
     //let documentsFolder = getBasePath();
     try {
         //let documentsFolder = getBasePath();
         const budStudioFolder = path.join(basePath, "Bud-Studio", workspaceName);
+        if (!fs.existsSync(budStudioFolder)) {
+            fs.mkdirSync(budStudioFolder, { recursive: true });
+        }
+
+        return { budStudioFolder, basePath };
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+const createProjectFolder = async (basePath, folder, workspaceName: string): any => {
+    //let documentsFolder = getBasePath();
+    try {
+        //let documentsFolder = getBasePath();
+        const budStudioFolder = path.join(basePath, "Bud-Studio", workspaceName, folder);
         if (!fs.existsSync(budStudioFolder)) {
             fs.mkdirSync(budStudioFolder, { recursive: true });
         }
@@ -66,4 +82,4 @@ const createNewFile = async (documentsFolder, workspace = "default", project = "
 };
 
 
-export { createNewFile, createWorkspace };
+export { createNewFile, createWorkspace, createProjectFolder };
