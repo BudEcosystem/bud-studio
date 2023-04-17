@@ -2,11 +2,12 @@
   display: flex;
   align-items: center;
   border-radius: 5px;
+  padding-right:10px;
+  padding-left:10px;
 }
 .breadcrumbWrap div {
   display: flex;
   align-items: center;
-  margin-right: 10px;
 }
 .breadcrumbWrap div svg {
   margin-right: 5px;
@@ -24,5 +25,5 @@
   border-radius: 3px;
   transform: matrix(-1, 0, 0, 1, 0, 0);
   width: 28px;
-height: 17px;
+  height: 17px;
 }

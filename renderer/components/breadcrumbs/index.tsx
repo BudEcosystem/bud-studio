@@ -32,7 +32,7 @@ export default function Breadcrumbs() {
       {projectSplit && (
         <div className={styles.breadcrumbWrap}  style={{ backgroundColor: `${generateColorOpacity(projectSplit.workspace,0.4)}` }}>
           <div className={styles.workspaceBg}>
-            <EllipsisHorizontalIcon className="icons" />
+            <EllipsisHorizontalIcon style= {{marginRight:'0px'}}/>
           </div>
           <ChevronRightIcon className="icons" />
           <div className={styles.capitalized}>

@@ -31,7 +31,7 @@ export default function SideMenuLayout({ children, showTopBar }) {
   const [selectedWokspace, setSelectedWorkspace] = React.useState(null);
 
   const expandWorkspace = (workspaceItem) => {
-    setShowWokspaceViewer(!showWorkspaceViewer);
+    // setShowWokspaceViewer(!showWorkspaceViewer);
     setSelectedWorkspace(workspaceItem);
   };
 

@@ -7,7 +7,7 @@ import {  StarIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
 export default function TopBar(){
     return(
         <div className={styles.topBarWrap}>
-            <Breadcrumbs></Breadcrumbs>
+            <Breadcrumbs/>
             <div className={styles.optionsWrap}>
                 <div className={styles.favicon}>
                     <StarIcon className="icons" />
