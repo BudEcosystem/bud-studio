@@ -6,7 +6,7 @@
     position: absolute;
     width: 220px;
     left: 250px;
-    bottom: -200px;
+    bottom: 2vh;
     z-index: 100;
 }
 
