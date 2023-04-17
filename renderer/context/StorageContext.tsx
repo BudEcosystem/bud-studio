@@ -10,6 +10,8 @@ export const DataProvider = ({ children }) => {
   const [fileSystem, setFileSystem] = useState(null); // initialize the data state with an empty object
   const [baseSavePath, setBaseSavePath] = useState(null); // initialize the data state with an empty object
 
+  const [currentFile, setCurrentFile] = useState(null); // initialize the data state with an empty object
+
   const getFileSystem = async (bp) => {
     if (!bp) {
       return;
@@ -83,9 +85,9 @@ export const DataProvider = ({ children }) => {
 
   const refreshStorage = async () => {
     getBasePath().then((bp) => {
-        getFileSystem(bp);
-      });
-  }
+      getFileSystem(bp);
+    });
+  };
 
   useEffect(() => {
     getBasePath().then((bp) => {
@@ -103,13 +105,28 @@ export const DataProvider = ({ children }) => {
     setFileSystem({ ...fileSystem, ...newData }); // merge the new data with the existing data
   };
 
+  const getProjectSplit = async () => {
+    if(!currentFile) return null;
+    // Given The file Path, find the first and second folder path
+    const filePathObj = currentFile.split("/");
+
+    return {
+      workspace: filePathObj[filePathObj.length - 3],
+      folder: filePathObj[filePathObj.length - 2],
+      file: filePathObj[filePathObj.length - 1].split(".json")[0].replace("-", " ")
+    };
+  };
+
   const contextValue = {
     data,
     fileSystem,
     updateData,
     updateFileSystem,
     baseSavePath,
-    refreshStorage
+    refreshStorage,
+    getProjectSplit,
+    currentFile,
+    setCurrentFile
   };
 
   return (

@@ -6,6 +6,7 @@ import { ipcRenderer } from "electron";
 import { useRouter } from "next/router";
 import { createNewFile } from "actions/pages";
 import queryString from 'query-string';
+import { useStorageContext } from "context/StorageContext";
 
 
 let EditorJsWrapper = dynamic(
@@ -21,24 +22,25 @@ const Page: React.FC = () => {
   const router = useRouter();
   //const { page, filePath } = router.query;
 
+  //@ts-ignore
+  const {currentFile, setCurrentFile} = useStorageContext()
+
   useEffect(() => {
     console.log("Object Creation Started");
     const parsed = queryString.parse(location.search);
 
-    console.log("Changes",parsed);
-
-    // check if its new project
-
     if (parsed.filePath) {
       //set current project file i local storage
       localStorage.setItem("currentProject", parsed.filePath.toString());
-     
+      // Set The Context
+      setCurrentFile(parsed.filePath.toString())
       console.log("Changes",parsed.filePath)
-      const data = readFileContent(parsed.filePath);
+      const data = readFileContent(parsed.filePath.toString());
       console.log("Changes",data);
       setPageContent(JSON.parse(data));
     } else {
       const path = localStorage.getItem("currentProject");
+      setCurrentFile(parsed.filePath.toString());
       const data = readFileContent(path);
       console.log(data);
       setPageContent(JSON.parse(data));

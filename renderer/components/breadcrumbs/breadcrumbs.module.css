@@ -1,16 +1,28 @@
-.breadcrumbWrap{
-    display: flex;
-    align-items: center;
-    border-radius: 5px;
+.breadcrumbWrap {
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
 }
-.breadcrumbWrap div{
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
+.breadcrumbWrap div {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
 }
-.breadcrumbWrap div svg{
-    margin-right: 5px;
+.breadcrumbWrap div svg {
+  margin-right: 5px;
 }
-.breadcrumbWrap > svg{
-    margin: 0 5px;
+.breadcrumbWrap > svg {
+  margin: 0 5px;
+}
+.capitalized {
+  text-transform: capitalize;
+}
+
+.workspaceBg {
+  background: #000000;
+  opacity: 0.2;
+  border-radius: 3px;
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+  width: 28px;
+height: 17px;
 }
