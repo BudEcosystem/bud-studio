@@ -120,7 +120,7 @@ export default function WorkspaceViewer({
       </div>
       <div className={styles.listWrap}>
         {showAddFolder && (
-          <div className={`${styles.folder}`}>
+          <div className={`${styles.folder} ${styles.open}`}>
             <div className={styles.folderTitle}>
               <div className={styles.openIcon}></div>
               <div className={styles.folderIcon}>
@@ -135,8 +135,8 @@ export default function WorkspaceViewer({
             </div>
           </div>
         )}
-        {tempFolders?.children?.map((item: any, index: number) => (
-          <div className={`${styles.folder} ${styles.open}`}>
+        {tempFolders.children.map((item: any, index: number) => (
+          <div className={`${styles.folder} ${item.children.length > 0 ?styles.open:""}`}>
             <div className={styles.folderTitle}>
               <div className={styles.openIcon}></div>
               <div className={styles.folderIcon}>
@@ -148,7 +148,7 @@ export default function WorkspaceViewer({
                 <EllipsisHorizontalIcon className="icons" />
               </div>
             </div>
-            {item.children && (
+            {item.children.length > 0 && (
               <div className={styles.folderList}>
                 {item.children.map((file: any, index: number) => (
                   <div className={styles.fileItem}>
