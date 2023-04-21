@@ -6,7 +6,7 @@ const TopPanel = () => {
   return (
     <div>
       <HeaderText textString="482 results" opacity="75"/>
-      <TopPanelResult img="pin" text="Pin tab"/ desc="Pin the current tab">
+      <TopPanelResult img="pin" text="Pin tab" desc="Pin the current tab" />
     </div>
   )
 }
