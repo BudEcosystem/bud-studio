@@ -1,0 +1,25 @@
+.imageHolder {
+    display: flex;
+    column-gap: 10px;
+
+}
+
+.imageHolder input {
+    padding: 10px;
+    border-radius: 5px;
+
+}
+
+.imageHolder button {
+    border-radius: 5px;
+    padding: 5px;
+    border: none;
+    background-color: blueviolet;
+    color: white;
+}
+
+.image {
+    border-radius: 5px;
+    height: 300px;
+    width: 300px;
+}

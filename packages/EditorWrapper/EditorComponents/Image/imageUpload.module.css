@@ -1,0 +1,32 @@
+.uploadButton button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    font-weight: 500;
+    border-radius: 5px;
+    background-color: rgb(232, 232, 232);
+}
+
+.imageHolder {
+    position: relative;
+}
+
+.imageOverlay {
+    position: absolute;
+    padding: 10px;
+    inset: 0;
+    background-color: rgba(53, 52, 52, 0.245);
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    color: white;
+}
+
+.imageOverlay button {
+    cursor: pointer;
+    background-color: rgb(102, 102, 102);
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 5px 10px;
+}
