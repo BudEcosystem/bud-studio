@@ -1,9 +1,11 @@
 import React from 'react';
-import './OmniSearch.css'
+import TopPanel from './omniComponent/TopPanel';
 
 const OmniSearch = () => {
   return (
-    <div>OmniSearch</div>
+    <div className='mainLauncher'>
+      <TopPanel />
+    </div>
   )
 }
 

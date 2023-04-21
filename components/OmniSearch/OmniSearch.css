@@ -1,0 +1,22 @@
+.mainLauncher {
+  display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 14px 9px;
+gap: 26px;
+
+position: absolute;
+width: 536px;
+height: 400px;
+left: 400px;
+top: 100px;
+
+background: rgba(24, 24, 24, 0.32);
+/* Stroke 1 */
+
+border: 1px solid #242424;
+backdrop-filter: blur(46.5px);
+/* Note: backdrop-filter has minimal browser support */
+
+border-radius: 14px;
+}
