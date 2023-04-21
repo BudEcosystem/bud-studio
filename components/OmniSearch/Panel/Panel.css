@@ -56,3 +56,14 @@
     font-size: 12px;
     opacity: 0.75;
 }
+
+.arrowDiv {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    background: #0F0F0F;
+    border: 1px solid #242424;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+}

@@ -72,7 +72,7 @@ const Panel = () => {
           <ButtonComponent name="Commands" />
         </div>
         <div>
-          <p className="bottomSuggestionText">Use arrow keys <span>{<UpArrow />}</span> <span>{<DownArrow />} to navigate.</span></p>
+          <p className="bottomSuggestionText">Use arrow keys  <span className="arrowDiv">{<UpArrow />}</span> <span className="arrowDiv">{<DownArrow />}</span>  to navigate</p>
         </div>
       </div>
     </div>
