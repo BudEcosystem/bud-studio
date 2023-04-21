@@ -3,9 +3,10 @@
     align-items: center;
     justify-content: center;
     width: 638px;
-    height: 50px;
+    height: 52px;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #69479D 57.81%, rgba(175, 147, 218, 0.05) 100%);
     border-radius: 12px;
+    margin-bottom: 10px;
 }
 
 .SearchBar {

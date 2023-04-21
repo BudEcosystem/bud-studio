@@ -1,12 +1,13 @@
 import React from 'react';
-import TopPanel from './omniComponent/TopPanel';
 import SearchBar from './SearchBar/SearchBar';
+import Panel from './Panel/Panel'
+
 
 const OmniSearch = () => {
   return (
-    <div className='mainLauncher'>
+    <div className='OmniSearch'>
       <SearchBar />
-      <TopPanel />
+      <Panel/>
     </div>
   )
 }

@@ -1,0 +1,23 @@
+.Panel {
+    width: 638px;
+    height: 446px;
+    border-radius: 14px;
+    background: rgba(24, 24, 24, 0.32);
+    backdrop-filter: blur(46.5px);
+    border: 1px solid #242424;
+    padding: 10px;
+}
+
+.PanelResults {
+    color: #7B8388;
+    opacity: 0.75;
+    margin-left: 5px;
+    margin-top: 5px;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.PanelOptions {
+    margin-top: 15px;
+    margin-left: 5px;
+}

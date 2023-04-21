@@ -3,7 +3,7 @@ import { Layout, Menu, Breadcrumb, Button } from "antd";
 import Link from "next/link";
 import { withRouter, NextRouter } from "next/router";
 import { WithRouterProps } from "next/dist/client/with-router";
-
+import OmniSearch from "../components/OmniSearch/OmniSearch";
 import {
   DesktopOutlined,
   DashboardOutlined,
@@ -113,6 +113,9 @@ const AppLayout = (props: React.PropsWithChildren<Props>) => {
           }}
         >
           {props.children}
+          <div style={{marginLeft: "100px", marginTop: "200px"}}>
+          <OmniSearch/>
+          </div>
         </Content>
       </Layout>
     </Layout>

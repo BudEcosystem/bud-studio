@@ -1,0 +1,27 @@
+.PanelOption {
+    display: flex;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.PanelOptionIcon {
+    width: 10px;
+    height: 10px;
+}
+
+.PanelOptionTexts {
+    margin-left: 15px;
+}
+
+.PanelOptionName {
+    color: white;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 2px;
+}
+
+.PanelOptionDesc{
+    color: #7B8388;
+    font-size: 14px;
+    font-weight: 400;
+}
