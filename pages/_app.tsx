@@ -7,6 +7,8 @@ import "../styles/globals.css";
 import "../styles/index.css";
 import "../components/Layout.css";
 import "../components/OmniSearch/OmniSearch.css"
+import "../components/OmniSearch/SearchBar/SearchBar.css"
+import "../components/OmniSearch/OmniSearch.css"
 //redux
 import { store } from "../redux/store";
 import { Provider } from "react-redux";
