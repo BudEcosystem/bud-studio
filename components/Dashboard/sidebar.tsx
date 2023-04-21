@@ -2,6 +2,7 @@ import { Layout, Menu } from "antd";
 import classes from "./dashboard.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 const { Sider } = Layout;
 
 interface SideBarProps {
@@ -51,6 +52,8 @@ const sidebarOptions = [
 ];
 
 function SideBar({ isCollapsed }: SideBarProps) {
+  const [activeClassName, setActiveClassName] = useState("0");
+
   return (
     <Sider
       width={240}
@@ -86,7 +89,20 @@ function SideBar({ isCollapsed }: SideBarProps) {
         defaultSelectedKeys={["1"]}
       >
         {sidebarOptions.map((menu, i) => (
-          <Menu.Item key={i} icon={menu.icon}>
+          <Menu.Item
+            className={`${
+              classes[
+                `${
+                  i == +activeClassName
+                    ? "sidebar-menu-items-active"
+                    : "sidebar-menu-items"
+                }`
+              ]
+            }`}
+            key={i}
+            icon={menu.icon}
+            onClick={(e) => setActiveClassName(e.key)}
+          >
             <Link href={menu.link}>{menu.label}</Link>
           </Menu.Item>
         ))}
@@ -97,7 +113,7 @@ function SideBar({ isCollapsed }: SideBarProps) {
         mode="inline"
       >
         <Menu.Item
-          className={classes["sidebar-work-spaces"]}
+          className={`${classes["sidebar-work-spaces"]} ${classes["sidebar-menu-items"]}`}
           key="menu1"
           icon={
             <Image

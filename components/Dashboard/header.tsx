@@ -1,4 +1,4 @@
-import { Layout, Space } from "antd";
+import { Layout, Space, Switch } from "antd";
 import classes from "./dashboard.module.css";
 import Image from "next/image";
 const { Header } = Layout;
@@ -54,6 +54,16 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
             height={10}
           />
         </div>
+        <div className={classes["controls-switch-box"]}>
+          <Switch className={classes["controls-switch"]} />
+          {/* <Image
+            className={classes["controls-switch-arrow"]}
+            src={"/images/other/switch-arrow.png"}
+            alt={"#"}
+            width={10}
+            height={10}
+          /> */}
+          </div>
         <div className={classes["controls-box-right-box"]}>
         <Image
             className="hover-effect"
