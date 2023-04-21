@@ -1,12 +1,20 @@
+.panelParent {
+    /* margin-bottom: 20px; */
+
+}
+
 .PanelOption {
     display: flex;
-    margin-bottom: 20px;
     cursor: pointer;
+    align-items: center;
 }
 
 .PanelOptionIcon {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .PanelOptionTexts {
@@ -17,11 +25,12 @@
     color: white;
     font-size: 14px;
     font-weight: 400;
-    margin-bottom: 2px;
 }
 
-.PanelOptionDesc{
+.PanelOptionDesc {
     color: #7B8388;
     font-size: 14px;
     font-weight: 400;
+    margin-left: 27px;
+    margin-top: 2px;
 }
