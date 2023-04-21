@@ -1,3 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
+:root {
+  --max-width: 1100px;
+  --border-radius: 12px;
+
+  /* Font related */
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+    --fs--2: clamp(0.63rem, calc(1.05rem + -0.34vw), 0.99rem);
+    --fs--1: clamp(0.88rem, calc(1.08rem + -0.16vw), 1.05rem);
+    --fs-0: clamp(1.13rem, calc(1.10rem + 0.12vw), 1.25rem);
+    --fs-1: clamp(1.20rem, calc(1.10rem + 0.53vw), 1.77rem);
+    --fs-2: clamp(1.28rem, calc(1.07rem + 1.15vw), 2.50rem);
+    --fs-3: clamp(1.37rem, calc(0.98rem + 2.04vw), 3.53rem);
+    --fs-4: clamp(1.46rem, calc(0.83rem + 3.33vw), 5.00rem);
+    --fs-5: clamp(1.56rem, calc(0.58rem + 5.19vw), 7.07rem);
+
+    /* Colors */
+  --primary-bgc: #000000;
+  --primary-bgc-light: #0f0f0f;
+  --white-color: #fff;
+  --light-gray: #565262a4;
+  /* --light-gray: #565262; */
+  --light-gray-50: #4e4d5256;
+  --light-gray-200: #c6c6c6;
+  --light-gray-300: #adadad;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.hover-effect {
+  opacity: 0.6;
+  transition: all 0.3s;
+}
+
+.hover-effect:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
 body {
   margin: 0;
   --selected-color:linear-gradient(270deg, rgba(149, 154, 236, 0.26) 0%, rgba(0, 0, 0, 0) 89.29%);
