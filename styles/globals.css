@@ -1,34 +1,64 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap");
+
+:root {
+  --max-width: 1100px;
+  --border-radius: 12px;
+
+  /* Font related */
+  --bud-font-family: "DM Sans", sans-serif;
+  --fs--2: clamp(0.63rem, calc(1.05rem + -0.34vw), 0.99rem);
+  --fs--1: clamp(0.88rem, calc(1.08rem + -0.16vw), 1.05rem);
+  --fs-0: clamp(1.13rem, calc(1.1rem + 0.12vw), 1.25rem);
+  --fs-1: clamp(1.2rem, calc(1.1rem + 0.53vw), 1.77rem);
+  --fs-2: clamp(1.28rem, calc(1.07rem + 1.15vw), 2.5rem);
+  --fs-3: clamp(1.37rem, calc(0.98rem + 2.04vw), 3.53rem);
+  --fs-4: clamp(1.46rem, calc(0.83rem + 3.33vw), 5rem);
+  --fs-5: clamp(1.56rem, calc(0.58rem + 5.19vw), 7.07rem);
+
+  /* Colors */
+  --bud-primary-color: #9068fd;
+  --bud-page-background: #050505;
+  --bud-container-background: #0f0f0f;
+  --bud-border-color: #252525;
+  --bud-tertiary-background: #272727;
+
+  --bud-primary-text-color: #c6c6c6;
+  --bud-secondary-text-color: #565d62;
+  --bud-icon-color: #565d62;
+  --bud-node-border-color: #9068fd96;
+
+  --primary-bgc: #000000;
+  --primary-bgc-2: #1a1a20;
+  --primary-bgc-light: #0f0f0f;
+  --white-color: #fff;
+  --light-gray: #565262a4;
+  /* --light-gray: #565262; */
+  --light-gray-50: #4e4d5256;
+  --light-gray-200: #c6c6c6;
+  --light-gray-300: #adadad;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
   margin: 0;
-  --selected-color:linear-gradient(270deg, rgba(149, 154, 236, 0.26) 0%, rgba(0, 0, 0, 0) 89.29%);
-  --bg-color:#000000;
-  --content-color:#242424
+  font-family: "DM Sans", sans-serif;
 }
-.ant-layout-sider{
-  background:var(--bg-color) !important;
-}
+
 :where(.css-dev-only-do-not-override-b11g6e).ant-menu-dark {
-  background:var(--bg-color) !important;  
+  background: var(--primary-bgc) !important;
 }
-.ant-menu-item{
-  background:var(--bg-color) !important;  
+
+.hover-effect {
+  opacity: 0.6;
+  transition: all 0.3s;
 }
-.ant-layout-content {
-  margin:0.5208333333333334vw;
-  background:var(--content-color) !important; 
-  border-radius:1.015296875vw !important;   
+
+.hover-effect:hover {
+  opacity: 1;
+  cursor: pointer;
 }
-.ant-layout-sider {
-}
-.ant-layout-sider-trigger{
-  background:var(--bg-color) !important; 
-}
-.ant-layout{
-  background:var(--bg-color) !important;  
-}
-.ant-layout-sider-has-trigger{
-  min-width:12.552083333333334vw !important;
-}
-.ant-layout-sider-collapsed {
-  min-width:4.552083333333334vw !important;
-}
+
+
+
+

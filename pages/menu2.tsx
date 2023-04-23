@@ -8,7 +8,7 @@ export default function App() {
       console.log(count)
   },[count])
   return (
-    <div>menu 2</div>
+    <div>Menu 2</div>
   )
 }
 

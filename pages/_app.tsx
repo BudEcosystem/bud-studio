@@ -16,6 +16,7 @@ import { store } from "../redux/store";
 import { Provider } from "react-redux";
 
 const AppLayout = dynamic(() => import("../components/Layout"), { ssr: false });
+const AppLayout2 = dynamic(() => import("../components/Dashboard/index"), { ssr: false });
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -28,7 +29,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         }}
       >
         {" "}
-        <AppLayout>
+        <AppLayout2>
           <Head>
             <title>NextJs Antdesign Typescript</title>
             <meta
@@ -37,7 +38,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             />
           </Head>
           <Component {...pageProps} />
-        </AppLayout>
+        </AppLayout2>
       </ConfigProvider>
     </Provider>
   );
