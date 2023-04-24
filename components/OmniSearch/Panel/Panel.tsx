@@ -12,57 +12,32 @@ import {
 import ButtonComponent from "./Button/Button";
 
 const Panel = () => {
+  const items = [
+    { id: 1, icon: <Pin />, name: "Pin Tab", desc: "Pin in the current tab" },
+    { id: 2, icon: <Bookmark />, name: "Bookmark", desc: "Create a bookmark" },
+    { id: 3, icon: <FullScreen />, name: "FullScreen", desc: "Make the page fullscreen" },
+    { id: 4, icon: <Reload />, name: "Reload", desc: "Reload the page" },
+  ]
+  const items2 = [
+    { id: 5, icon: <Add />, name: "Create New Task", desc: "" },
+    { id: 6, icon: <Add />, name: "Create Note", desc: "" },
+    { id: 7, icon: <Add />, name: "Create Add member", desc: "" },
+  ]
   return (
     <div className="Panel">
       <div className="PanelResults">482 results</div>
 
       <div className="PanelOptions">
-        <PanelOption
-          icon={<Pin />}
-          name={"Pin Tab"}
-          description={"Pin in the current tab"}
-          textColor=""
-        />
-        <PanelOption
-          icon={<Bookmark />}
-          name={"Bookmark"}
-          description={"Create a bookmark"}
-          textColor=""
-        />
-        <PanelOption
-          icon={<FullScreen />}
-          name={"Fullscreen"}
-          description={"Make the page fullscreen"}
-          textColor=""
-        />
-        <PanelOption
-          icon={<Reload />}
-          name={"Reload"}
-          description={"Reload the page"}
-          textColor=""
-        />
+        {items.map((item) => (
+          <PanelOption key={item.id} icon={item.icon} name={item.name} description={item.desc} />
+        ))}
       </div>
       <div className="line"></div>
       <div className="action">Quick actions</div>
       <div className="PanelOptions">
-        <PanelOption
-          icon={<Add />}
-          name={"Create New Task"}
-          description={""}
-          textColor="#7B8388"
-        />
-        <PanelOption
-          icon={<Add />}
-          name={"Create Note"}
-          description={""}
-          textColor="#7B8388"
-        />
-        <PanelOption
-          icon={<Add />}
-          name={"Create Add member"}
-          description={""}
-          textColor="#7B8388"
-        />
+      {items2.map((item) => (
+          <PanelOption key={item.id} icon={item.icon} name={item.name} description={item.desc} />
+        ))}
       </div>
       <div className="bottomSuggestionContainer">
         <div className="btnContainer">
