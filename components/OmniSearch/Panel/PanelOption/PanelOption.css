@@ -6,10 +6,6 @@
     cursor: pointer;
 }
 
-.panelChild {
-    padding: 15px;
-}
-
 .PanelOption {
     display: flex;
     cursor: pointer;

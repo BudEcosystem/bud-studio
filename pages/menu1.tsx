@@ -7,7 +7,6 @@ export default function App() {
 
   const handleKeyDown = (event) => {
     if (event.ctrlKey && event.key === 'm') {
-      console.log("MODAL", !isModalOpen)
       setIsModalOpen((!isModalOpen));
     }
   };

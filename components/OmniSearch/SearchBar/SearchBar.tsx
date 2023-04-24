@@ -6,7 +6,7 @@ const SearchBar = ({themeColor}) => {
 
         <div className='SearchBar'>
 
-            <div style={{marginLeft: "15px"}}>
+            <div style={{display: "flex", alignItems: "center", marginLeft: "15px"}}>
             <SearchIcon />
             </div>
 
