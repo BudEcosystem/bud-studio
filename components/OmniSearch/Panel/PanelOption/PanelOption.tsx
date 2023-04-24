@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-const PanelOption = ({ icon, name, description, textColor }) => {
-  const [background, setBackground] = useState("")
+const PanelOption = ({ key, icon, name, description }) => {
+  const [background, setBackground] = useState(null)
   let isDes = true;
   if (description === "") isDes = false;
   return (
@@ -10,7 +10,7 @@ const PanelOption = ({ icon, name, description, textColor }) => {
         <div className="PanelOption">
           <div className="PanelOptionIcon">{icon}</div>
           <div className="PanelOptionTexts">
-            <div className="PanelOptionName" style={{ color: textColor }}>
+            <div className="PanelOptionName" style={{ color: isDes ? "white" : "#7B8388" }}>
               {name}
             </div>
           </div>
