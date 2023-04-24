@@ -23,7 +23,7 @@ export default function App() {
       <div>Menu 1</div>
 
       <Button type="primary" onClick={showModal}>
-        Open Modal
+        OmniSearch
       </Button>
       
       <Modal className="Modal" title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>

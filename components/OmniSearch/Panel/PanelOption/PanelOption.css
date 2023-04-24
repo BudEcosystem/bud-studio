@@ -1,5 +1,5 @@
 .panelParent {
-    transition: all .30s ease;
+    transition: all .40s ease;
 }
 .panelParent:hover {
     background: #171718;

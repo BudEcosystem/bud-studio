@@ -12,3 +12,7 @@ height: auto;
 .Modal .ant-modal-title {
     display: none;
 }
+
+.Modal .ant-modal-footer {
+    display: none;
+}
