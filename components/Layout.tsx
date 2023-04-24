@@ -113,9 +113,6 @@ const AppLayout = (props: React.PropsWithChildren<Props>) => {
           }}
         >
           {props.children}
-          <div style={{marginLeft: "100px", marginTop: "100px"}}>
-          <OmniSearch/>
-          </div>
         </Content>
       </Layout>
     </Layout>

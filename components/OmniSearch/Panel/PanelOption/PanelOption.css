@@ -3,6 +3,7 @@
 }
 .panelParent:hover {
     background: #171718;
+    cursor: pointer;
 }
 
 .panelChild {
