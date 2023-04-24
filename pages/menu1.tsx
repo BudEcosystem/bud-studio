@@ -4,9 +4,11 @@ import { Button, Modal } from 'antd';
 
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleKeyDown = (event) => {
     if (event.ctrlKey && event.key === 'm') {
-      setIsModalOpen(true);
+      console.log("MODAL", !isModalOpen)
+      setIsModalOpen((!isModalOpen));
     }
   };
   useEffect(() => {
@@ -14,7 +16,7 @@ export default function App() {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [isModalOpen]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -33,7 +35,7 @@ export default function App() {
       <Button type="primary" onClick={showModal}>
         OmniSearch
       </Button>
-      <Modal className="Modal" title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal className="Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <OmniSearch />
        </Modal>
     </>
