@@ -1,6 +1,12 @@
 .panelParent {
-    /* margin-bottom: 20px; */
+    transition: all .30s ease;
+}
+.panelParent:hover {
+    background: #171718;
+}
 
+.panelChild {
+    padding: 15px;
 }
 
 .PanelOption {

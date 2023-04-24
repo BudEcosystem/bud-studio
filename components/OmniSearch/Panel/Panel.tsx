@@ -44,7 +44,7 @@ const Panel = () => {
       </div>
       <div className="line"></div>
       <div className="action">Quick actions</div>
-      <div className="PanelOptions mgTop">
+      <div className="PanelOptions">
         <PanelOption
           icon={<Add />}
           name={"Create New Task"}
