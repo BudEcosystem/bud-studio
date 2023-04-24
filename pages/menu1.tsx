@@ -33,9 +33,9 @@ export default function App() {
       <Button type="primary" onClick={showModal}>
         OmniSearch
       </Button>
-      {isModalOpen && <Modal className="Modal" title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+      <Modal className="Modal" title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <OmniSearch />
-       </Modal>}
+       </Modal>
     </>
   );
 }
