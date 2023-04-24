@@ -72,7 +72,7 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
             width={15}
             height={15}
           />
-          <p>Share</p>
+          <p className="hover-effect">Share</p>
           <Image
             className="hover-effect"
             src={"/images/other/more.png"}

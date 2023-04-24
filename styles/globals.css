@@ -42,7 +42,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: "DM Sans", sans-serif;
+  font-family: var(--bud-font-family);
 }
 
 :where(.css-dev-only-do-not-override-b11g6e).ant-menu-dark {
