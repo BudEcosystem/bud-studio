@@ -2,7 +2,7 @@ import { Layout, Menu } from "antd";
 import classes from "./dashboard.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 const { Sider } = Layout;
 
 interface SideBarProps {
