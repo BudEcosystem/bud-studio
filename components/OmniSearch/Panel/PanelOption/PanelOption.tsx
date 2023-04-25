@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const PanelOption = ({ key, active, item, setSelected, setHovered }) => {
+const PanelOption = ({active, item, setSelected, setHovered}) => {
   let isDes = true;
   if (item.desc === "") isDes = false;
   return (
