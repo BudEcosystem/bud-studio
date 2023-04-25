@@ -1,5 +1,5 @@
 import React from 'react';
-import {SearchIcon} from './SearchIcon'
+import { SearchIcon } from "./SearchIcon";
 const SearchBar = ({themeColor}) => {
   return (
     <div className='SearchBarGradient' style={{background: `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, ${themeColor} 57.81%, rgba(175, 147, 218, 0.05) 100%)`}}>
