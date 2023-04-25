@@ -32,7 +32,6 @@
   --primary-bgc-light: #0f0f0f;
   --white-color: #fff;
   --light-gray: #565262a4;
-  /* --light-gray: #565262; */
   --light-gray-50: #4e4d5256;
   --light-gray-200: #c6c6c6;
   --light-gray-300: #adadad;
@@ -42,7 +41,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: "DM Sans", sans-serif;
+  font-family: var(--bud-font-family);
 }
 
 :where(.css-dev-only-do-not-override-b11g6e).ant-menu-dark {
