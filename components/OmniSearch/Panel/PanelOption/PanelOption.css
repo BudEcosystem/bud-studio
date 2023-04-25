@@ -1,6 +1,8 @@
 .panelParent {
     transition: all .40s ease;
 }
+
+.panelParent.active,
 .panelParent:hover {
     background: #171718;
     cursor: pointer;
