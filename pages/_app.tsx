@@ -6,6 +6,11 @@ import { ConfigProvider } from "antd";
 import "../styles/globals.css";
 import "../styles/index.css";
 import "../components/Layout.css";
+import "../components/OmniSearch/OmniSearch.css"
+import "../components/OmniSearch/SearchBar/SearchBar.css"
+import "../components/OmniSearch/Panel/Panel.css";
+import "../components/OmniSearch/Panel/PanelOption/PanelOption.css"
+import "../components/OmniSearch/Panel/Button/Button.css"
 //redux
 import { store } from "../redux/store";
 import { Provider } from "react-redux";

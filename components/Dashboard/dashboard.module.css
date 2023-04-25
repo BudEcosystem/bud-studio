@@ -38,7 +38,7 @@
   border-radius: 20px;
   padding: 0 8px;
   border: 2px solid var(--bud-border-color);
-  z-index: 99999999;
+  z-index: 1000;
 }
 
 /* Header */
