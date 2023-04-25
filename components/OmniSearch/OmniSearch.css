@@ -1,8 +1,8 @@
 .OmniSearch {
-display: flex;
-flex-direction: column;
-align-items: center;
-height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
 }
 
 .Modal .ant-modal-content {
