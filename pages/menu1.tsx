@@ -31,9 +31,6 @@ export default function App() {
   return (
     <>
       <div>Menu 1</div>
-      <Button type="primary" onClick={showModal}>
-        OmniSearch
-      </Button>
       <Modal className="Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <OmniSearch />
        </Modal>
