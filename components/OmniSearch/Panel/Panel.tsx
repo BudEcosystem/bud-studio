@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PanelOption from "./PanelOption/PanelOption";
 import {
   Pin,
@@ -10,6 +10,34 @@ import {
   DownArrow
 } from "./PanelOption/PanelSvgIcons";
 import ButtonComponent from "./Button/Button";
+
+const useKeyPress = function (targetKey) {
+  const [keyPressed, setKeyPressed] = useState(false);
+
+  useEffect(() => {
+    function downHandler({ key }) {
+      if (key === targetKey) {
+        setKeyPressed(true);
+      }
+    }
+
+    const upHandler = ({ key }) => {
+      if (key === targetKey) {
+        setKeyPressed(false);
+      }
+    };
+
+    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keyup", upHandler);
+
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  }, [targetKey]);
+
+  return keyPressed;
+};
 
 const Panel = () => {
   const items = [
@@ -23,20 +51,50 @@ const Panel = () => {
     { id: 6, icon: <Add />, name: "Create Note", desc: "" },
     { id: 7, icon: <Add />, name: "Create Add member", desc: "" },
   ]
+
+  const [selected, setSelected] = useState(undefined);
+  const downPress = useKeyPress("ArrowDown");
+  const upPress = useKeyPress("ArrowUp");
+  const enterPress = useKeyPress("Enter");
+  const [cursor, setCursor] = useState(0);
+  const [hovered, setHovered] = useState(undefined);
+
+  useEffect(() => {
+    if (items.length+items2.length && downPress) {
+      setCursor((prevState) =>
+        prevState < items.length+items2.length - 1 ? prevState + 1 : prevState
+      );
+    }
+  }, [downPress]);
+  useEffect(() => {
+    if (items.length+items2.length && upPress) {
+      setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
+    }
+  }, [upPress]);
+  useEffect(() => {
+    if (items.length && enterPress) {
+      setSelected(items[cursor]);
+    }
+  }, [cursor, enterPress]);
+  useEffect(() => {
+    if (items.length && hovered) {
+      setCursor(items.indexOf(hovered));
+    }
+  }, [hovered]);
   return (
     <div className="Panel">
       <div className="PanelResults">482 results</div>
 
       <div className="PanelOptions">
-        {items.map((item) => (
-          <PanelOption key={item.id} icon={item.icon} name={item.name} description={item.desc} />
+        {items.map((item, i) => (
+          <PanelOption key={item.id} active={i === cursor} item={item} setSelected={setSelected} setHovered={setHovered} />
         ))}
       </div>
       <div className="line"></div>
       <div className="action">Quick actions</div>
       <div className="PanelOptions">
-      {items2.map((item) => (
-          <PanelOption key={item.id} icon={item.icon} name={item.name} description={item.desc} />
+      {items2.map((item, i) => (
+          <PanelOption key={item.id} active={i+items.length === cursor} item={item} setSelected={setSelected} setHovered={setHovered} />
         ))}
       </div>
       <div className="bottomSuggestionContainer">

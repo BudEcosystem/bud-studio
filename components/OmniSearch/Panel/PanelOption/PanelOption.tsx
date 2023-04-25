@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 
-const PanelOption = ({ key, icon, name, description }) => {
-  const [background, setBackground] = useState(null)
+const PanelOption = ({ key, active, item, setSelected, setHovered }) => {
   let isDes = true;
-  if (description === "") isDes = false;
+  if (item.desc === "") isDes = false;
   return (
-    <div className="panelParent">
+    <div className={`panelParent ${active ? "active" : ""}`} onClick={() => setSelected(item)} onMouseEnter={() => setHovered(item)} onMouseLeave={() => setHovered(undefined)}>
       <div className="panelChild" style={{padding: isDes ? "10px 15px" : "10px 15px"}}>
         <div className="PanelOption">
-          <div className="PanelOptionIcon">{icon}</div>
+          <div className="PanelOptionIcon">{item.icon}</div>
           <div className="PanelOptionTexts">
             <div className="PanelOptionName" style={{ color: isDes ? "white" : "#7B8388" }}>
-              {name}
+              {item.name}
             </div>
           </div>
         </div>
-        {isDes && <div className="PanelOptionDesc">{description}</div>}
+        {isDes && <div className="PanelOptionDesc">{item.desc}</div>}
       </div>
     </div>
   );
