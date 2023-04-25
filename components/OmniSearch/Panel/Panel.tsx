@@ -73,7 +73,8 @@ const Panel = () => {
   }, [upPress]);
   useEffect(() => {
     if (items.length && enterPress) {
-      setSelected(items[cursor]);
+      const itemsArr = [...items, ...items2]
+      setSelected(itemsArr[cursor]);
     }
   }, [cursor, enterPress]);
   useEffect(() => {
