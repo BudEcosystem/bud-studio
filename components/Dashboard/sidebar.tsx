@@ -3,6 +3,8 @@ import classes from "./dashboard.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import WorkspaceModal from "../WorkspaceModal/WorkspaceModal";
+import { Button, Modal } from 'antd';
 const { Sider } = Layout;
 
 interface SideBarProps {
@@ -60,7 +62,24 @@ function SideBar({ isCollapsed }: SideBarProps) {
   const [activeClassName, setActiveClassName] = useState("0");
   const [showAddWorkspace, setShowAddWorkspace] = useState(false);
   const [workspaces, setWorkspaces] = useState([]);
+  const [workspaceModal, setWorkspaceModal] = useState(false);
+  const [workspaceColor, setWorkspaceColor] = useState()
+  const [workspaceName, setWorkspaceName] = useState()
 
+  const showWorkspaceModal = (color, name) => {
+    setWorkspaceModal(!workspaceModal)
+    console.log("WORKSPACE PRESSED", workspaceModal);
+    setWorkspaceColor(color);
+    setWorkspaceName(name);
+  }
+
+  const handleOk = () => {
+    setWorkspaceModal(false)
+  };
+
+  const handleCancel = () => {
+    setWorkspaceModal(false)
+  };
   useEffect(() => {
     setShowAddWorkspace(false);
   }, [isCollapsed]);
@@ -87,6 +106,8 @@ function SideBar({ isCollapsed }: SideBarProps) {
       collapsible
       collapsed={isCollapsed}
     >
+       <Modal className="Modal" open={workspaceModal} onOk={handleOk} onCancel={handleCancel}><WorkspaceModal name={workspaceName} color={workspaceColor}/></Modal>
+
       <div className={classes["logo"]}>
         <Image
           src={"/images/logo/logo.png"}
@@ -201,6 +222,7 @@ function SideBar({ isCollapsed }: SideBarProps) {
           {workspaces.length > 0 &&
             workspaces.map((menu, i) => (
               <Menu.Item
+                onClick={() => showWorkspaceModal(menu.color, menu.name)}
                 className={`${classes["sidebar-menu-item"]}`}
                 key={i}
                 icon={
