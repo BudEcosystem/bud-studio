@@ -5,7 +5,7 @@ const PanelOption = ({ key, active, item, setSelected, setHovered }) => {
   if (item.desc === "") isDes = false;
   return (
     <div className={`panelParent ${active ? "active" : ""}`} onClick={() => setSelected(item)} onMouseEnter={() => setHovered(item)} onMouseLeave={() => setHovered(undefined)}>
-      <div className="panelChild" style={{padding: isDes ? "10px 15px" : "10px 15px"}}>
+      <div className="panelChild" style={{ padding: isDes ? "10px 15px" : "10px 15px" }}>
         <div className="PanelOption">
           <div className="PanelOptionIcon">{item.icon}</div>
           <div className="PanelOptionTexts">

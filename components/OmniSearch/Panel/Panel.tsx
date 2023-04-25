@@ -60,14 +60,14 @@ const Panel = () => {
   const [hovered, setHovered] = useState(undefined);
 
   useEffect(() => {
-    if (items.length+items2.length && downPress) {
+    if (items.length + items2.length && downPress) {
       setCursor((prevState) =>
-        prevState < items.length+items2.length - 1 ? prevState + 1 : prevState
+        prevState < items.length + items2.length - 1 ? prevState + 1 : prevState
       );
     }
   }, [downPress]);
   useEffect(() => {
-    if (items.length+items2.length && upPress) {
+    if (items.length + items2.length && upPress) {
       setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
     }
   }, [upPress]);
@@ -78,7 +78,7 @@ const Panel = () => {
   }, [cursor, enterPress]);
   useEffect(() => {
     if (items.length && hovered) {
-      setCursor(items.indexOf(hovered));
+      setCursor(hovered.id - 1);
     }
   }, [hovered]);
   return (
@@ -93,8 +93,8 @@ const Panel = () => {
       <div className="line"></div>
       <div className="action">Quick actions</div>
       <div className="PanelOptions">
-      {items2.map((item, i) => (
-          <PanelOption key={item.id} active={i+items.length === cursor} item={item} setSelected={setSelected} setHovered={setHovered} />
+        {items2.map((item, i) => (
+          <PanelOption key={item.id} active={i + items.length === cursor} item={item} setSelected={setSelected} setHovered={setHovered} />
         ))}
       </div>
       <div className="bottomSuggestionContainer">
