@@ -11,6 +11,6 @@ const OmniSearch = () => {
       <Panel/>
     </div>
   )
-}
+};
 
 export default OmniSearch
