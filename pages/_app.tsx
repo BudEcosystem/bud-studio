@@ -14,6 +14,7 @@ import "../components/OmniSearch/Panel/Button/Button.css"
 //redux
 import { store } from "../redux/store";
 import { Provider } from "react-redux";
+import OmniSearch from "../components/OmniSearch/OmniSearch";
 
 const AppLayout = dynamic(() => import("../components/Layout"), { ssr: false });
 const AppLayout2 = dynamic(() => import("../components/Dashboard/index"), { ssr: false });
@@ -38,6 +39,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             />
           </Head>
           <Component {...pageProps} />
+          <OmniSearch />
         </AppLayout2>
       </ConfigProvider>
     </Provider>
