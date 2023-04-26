@@ -13,11 +13,11 @@ const WorkspaceModal = ({name,color}) => {
             <div style={{display: "flex", alignItems: "center"}}>
                 <Drag/>
                 <div style={{backgroundColor: `${color}`, width: "12px",  height:"12px", borderRadius: "4px", marginRight: "10px", marginLeft: "10px"}}></div>
-                <div style={{width: "100px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color:  "#C6C6C6", fontWeight: "400", fontSize: "14px"}}>{name}</div>
+                <div style={{width: "120px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color:  "#C6C6C6", fontWeight: "400", fontSize: "14px"}}>{name}</div>
             </div>
 
             <div style={{display: "flex", alignItems: "center"}}>
-                <div onClick={() => {setShowColorPin(!showColorPin)}} style={{background : `${showColorPin ? `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, ${color} 57.81%, rgba(175, 147, 218, 0.05) 100%)` : ""}`}}  className="WorkspaceIconBox">
+                <div onClick={() => {setShowColorPin(!showColorPin)}} style={{marginRight: "6px", background : `${showColorPin ? `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, ${color} 57.81%, rgba(175, 147, 218, 0.05) 100%)` : ""}`}}  className="WorkspaceIconBox">
                     <div className='WorkspaceIcon'><Pin/></div>
                 </div>
                 
