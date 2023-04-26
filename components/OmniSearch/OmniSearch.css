@@ -16,3 +16,7 @@
 .Modal .ant-modal-footer {
     display: none;
 }
+
+.Modal .ant-modal-close {
+    display: none;
+}
