@@ -1,0 +1,72 @@
+.Launcher {
+    width: 625px;
+    height: 50px;
+    background: #000000;
+    border: 0.3px solid #939AFF;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.RocketLaunchDiv {
+    opacity: 0.5;
+    display: flex;
+    align-items: "center";
+    cursor: pointer;
+}
+
+.RocketLaunchDiv:hover {
+    opacity: 1;
+}
+
+.RocketOuter {
+    width: 40px;
+    height: 40px;
+    background: #212023;
+    border-radius: 12px;
+    margin-left: 5px;
+    display: grid;
+    place-items: center;
+}
+
+.RocketInner {
+    width: 30px;
+    height: 30px;
+    background: #939AFF;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.85);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+}
+
+.LauncherInput {
+    height: 100%;
+    width: 45%;
+    color: white;
+    border: none;
+    outline: none;
+    background: #000000;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+::-webkit-input-placeholder {
+    text-align: center;
+  }
+  
+  :-moz-placeholder {
+    text-align: center;
+  }
+
+  .VoiceDiv {
+    display: grid;
+    place-items: "center";
+    margin-right: 15px;
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
+  .VoiceDiv:hover {
+    opacity: 1;
+  }
