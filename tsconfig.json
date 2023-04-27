@@ -1,30 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
+    "incremental": true,
+    "target": "es2021",
+    "module": "commonjs",
+    "lib": ["dom", "es2021"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "sourceMap": true,
+    "baseUrl": "./src",
     "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true
+    "allowJs": true,
+    "outDir": ".erb/dll"
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+  "exclude": ["test", "release/build", "release/app/dist", ".erb/dll"]
 }
