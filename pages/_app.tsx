@@ -26,7 +26,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         {" "}
         <AppLayout2>
           <Head>
-            <title>NextJs Antdesign Typescript</title>
+            <title>Bud Studio</title>
             <meta
               name="viewport"
               content="width=device-width, initial-scale=1"

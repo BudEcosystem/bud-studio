@@ -114,6 +114,7 @@ function SideBar({ isCollapsed }: SideBarProps) {
       >
         <Menu.Item
           className={`${classes["sidebar-work-spaces"]} ${classes["sidebar-menu-items"]}`}
+          
           key="menu1"
           icon={
             <Image
