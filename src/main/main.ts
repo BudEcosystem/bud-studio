@@ -12,8 +12,9 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import MenuBuilder from './menu';
+import electronWindowState from 'electron-window-state';
 import { resolveHtmlPath } from './util';
+
 
 class AppUpdater {
   constructor() {
@@ -25,11 +26,11 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
+// ipcMain.on('ipc-example', async (event, arg) => {
+//   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
+//   console.log(msgTemplate(arg));
+//   event.reply('ipc-example', msgTemplate('pong'));
+// });
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -56,6 +57,10 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
+const isMacOS = () => {
+  return process.platform === 'darwin';
+};
+
 const createWindow = async () => {
   if (isDebug) {
     await installExtensions();
@@ -71,10 +76,23 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
+    minHeight: 728,
+    minWidth: 900,
     height: 728,
-    icon: getAssetPath('icon.png'),
+    width: 1000,
+    transparent: true,
+    visualEffectState: 'active',
+    vibrancy: 'under-window',
+    icon: getAssetPath('logo.png'),
+    titleBarStyle: isMacOS() ? 'hiddenInset' : 'default',
+    trafficLightPosition: { x: 20, y: 18 },
     webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      webgl: true,
+      sandbox: false,
+      webviewTag: false, // The webview tag is not recommended. Consider alternatives like iframe or Electron's BrowserView. https://www.electronjs.org/docs/latest/api/webview-tag#warning
+      spellcheck: false, // FIXME: enable?
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
@@ -98,13 +116,13 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
+  // const menuBuilder = new MenuBuilder(mainWindow);
+  // menuBuilder.buildMenu();
 
   // Open urls in the user's browser
   mainWindow.webContents.setWindowOpenHandler((edata) => {
     shell.openExternal(edata.url);
-    return { action: 'deny' };
+    return { action: 'allow' };
   });
 
   // Remove this if your app does not use auto updates
@@ -128,6 +146,7 @@ app
   .whenReady()
   .then(() => {
     createWindow();
+
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
