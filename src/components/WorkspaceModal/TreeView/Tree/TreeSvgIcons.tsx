@@ -1,4 +1,4 @@
-export const Folder = ({fill, stroke}) => {
+export function Folder({ fill, stroke }) {
   return (
     <svg
       width="12"
@@ -18,14 +18,14 @@ export const Folder = ({fill, stroke}) => {
         d="M0 3.72034H11.1851C11.6351 3.72034 12 4.08521 12 4.53529V10.4143C12 10.8644 11.6351 11.2293 11.1851 11.2293H0.814948C0.364865 11.2293 0 10.8644 0 10.4143V3.72034Z"
         fill={`${fill}`}
         stroke={`${stroke}`}
-        stroke-width="2"
+        strokeWidth="2"
         mask="url(#path-2-inside-1_748_6446)"
       />
     </svg>
   );
-};
+}
 
-export const WhiteFolder = () => {
+export function WhiteFolder() {
   return (
     <svg
       width="12"
@@ -44,14 +44,14 @@ export const WhiteFolder = () => {
       <path
         d="M0 3.72034H11.1851C11.6351 3.72034 12 4.0852 12 4.53529V10.4143C12 10.8644 11.6351 11.2293 11.1851 11.2293H0.814948C0.364865 11.2293 0 10.8644 0 10.4143V3.72034Z"
         stroke="white"
-        stroke-width="2"
+        strokeWidth="2"
         mask="url(#path-2-inside-1_748_6577)"
       />
     </svg>
   );
-};
+}
 
-export const Page = () => {
+export function Page() {
   return (
     <svg
       width="12"
@@ -71,13 +71,13 @@ export const Page = () => {
       <path
         d="M7.34329 10.6616L3.12268 10.6616"
         stroke="#C6C6C6"
-        stroke-linecap="round"
+        strokeLinecap="round"
       />
       <path
         d="M3.12274 8.67462L5.48254 8.67462"
         stroke="#C6C6C6"
-        stroke-linecap="round"
+        strokeLinecap="round"
       />
     </svg>
   );
-};
+}

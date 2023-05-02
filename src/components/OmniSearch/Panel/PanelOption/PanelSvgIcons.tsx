@@ -1,4 +1,4 @@
-export const Bookmark = () => {
+export function Bookmark() {
   return (
     <svg
       width="9"
@@ -17,9 +17,9 @@ export const Bookmark = () => {
       />
     </svg>
   );
-};
+}
 
-export const FullScreen = () => {
+export function FullScreen() {
   return (
     <svg
       width="9"
@@ -42,9 +42,9 @@ export const FullScreen = () => {
       />
     </svg>
   );
-};
+}
 
-export const Pin = () => {
+export function Pin() {
   return (
     <svg
       width="15"
@@ -68,9 +68,9 @@ export const Pin = () => {
       />
     </svg>
   );
-};
+}
 
-export const Reload = () => {
+export function Reload() {
   return (
     <svg
       width="9"
@@ -95,9 +95,9 @@ export const Reload = () => {
       />
     </svg>
   );
-};
+}
 
-export const Add = () => {
+export function Add() {
   return (
     <svg
       width="17"
@@ -150,9 +150,9 @@ export const Add = () => {
       </defs>
     </svg>
   );
-};
+}
 
-export const UpArrow = () => {
+export function UpArrow() {
   return (
     <svg
       width="9"
@@ -169,9 +169,9 @@ export const UpArrow = () => {
       />
     </svg>
   );
-};
+}
 
-export const DownArrow = () => {
+export function DownArrow() {
   return (
     <svg
       width="9"
@@ -188,4 +188,4 @@ export const DownArrow = () => {
       />
     </svg>
   );
-};
+}

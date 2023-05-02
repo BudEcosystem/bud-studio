@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import SearchBar from "./SearchBar/SearchBar";
-import Panel from "./Panel/Panel";
-import { Modal } from "antd";
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'antd';
+import SearchBar from './SearchBar/SearchBar';
+import Panel from './Panel/Panel';
 
-const OmniSearch = () => {
-  const [themeColor, setThemeColor] = useState("aqua");
+function OmniSearch() {
+  const [themeColor, setThemeColor] = useState('aqua');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleKeyDown = (event) => {
-    if (event.ctrlKey && event.key === "m") {
+    if (event.ctrlKey && event.key === 'm') {
       setIsModalOpen(!isModalOpen);
     }
   };
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isModalOpen]);
 
@@ -42,6 +42,6 @@ const OmniSearch = () => {
       </div>
     </Modal>
   );
-};
+}
 
 export default OmniSearch;

@@ -65,10 +65,10 @@
 .kanban-main {
   display: flex;
   flex-direction: row;
-  min-width:inherit;
+  min-width: inherit;
 }
-.kanban-main:not(:first-child){
-  margin-left:20px
+.kanban-main:not(:first-child) {
+  margin-left: 20px;
 }
 .kanban-each-section-div {
   display: flex;
@@ -104,13 +104,13 @@
 }
 .kanban-each-section-div-body-draggables-header-part-one-dragger {
   margin-left: 1.0559662090813093vh;
-  cursor:move;
+  cursor: move;
 }
 .kanban-each-section-div-body-draggables-header-part-one-header {
   margin-left: 0.4166666666666667vw;
   /* width: 151px; */
   /* height: 14px; */
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 0.7291666666666666vw;
@@ -192,7 +192,7 @@
 .add-new-text {
   width: 4.583333333333333vw;
   height: 0.6770833333333334vw;
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 0.625vw;
@@ -232,7 +232,7 @@
   height: 0.5901041666666667vw;
 }
 .day-details {
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 0.5208333333333334vw;
@@ -240,7 +240,7 @@
 }
 .card-details {
   /* height:60px; */
-  font-family: "DM Sans";
+  font-family: 'DM Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -253,6 +253,6 @@
 }
 //drag
 .draggable .dragging {
-    opacity: .5;
-    background-color:green;
-  }
+  opacity: 0.5;
+  background-color: green;
+}

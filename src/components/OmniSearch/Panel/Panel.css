@@ -1,72 +1,70 @@
 .Panel {
-    width: 638px;
-    min-height: 446px;
-    border-radius: 14px;
-    background: rgba(24, 24, 24, 0.32);
-    backdrop-filter: blur(46.5px);
-    border: 1px solid #242424;
-    /* padding: 10px; */
+  width: 638px;
+  min-height: 446px;
+  border-radius: 14px;
+  background: rgba(24, 24, 24, 0.32);
+  backdrop-filter: blur(46.5px);
+  border: 1px solid #242424;
+  /* padding: 10px; */
 }
 
 .PanelResults {
-    color: #7B8388;
-    opacity: 0.75;
-    margin-left: 15px;
-    margin-top: 15px;
-    font-weight: 400;
-    font-size: 12px;
+  color: #7b8388;
+  opacity: 0.75;
+  margin-left: 15px;
+  margin-top: 15px;
+  font-weight: 400;
+  font-size: 12px;
 }
 
 .PanelOptions {
-    /* margin-top: 15px;
+  /* margin-top: 15px;
     margin-left: 5px; */
-    
 }
 
-.line{
-    width: 91%;
-    margin-left: 15px;
-    border: 1px solid #242424;
+.line {
+  width: 91%;
+  margin-left: 15px;
+  border: 1px solid #242424;
 }
 
-.mgTop{
-    margin-top: 18px;
+.mgTop {
+  margin-top: 18px;
 }
 
-.action{
-    color: #7B8388;
-    opacity: 1;
-    margin-left: 15px;
-    margin-top: 15px;
-    font-weight: 400;
-    font-size: 12px;
+.action {
+  color: #7b8388;
+  opacity: 1;
+  margin-left: 15px;
+  margin-top: 15px;
+  font-weight: 400;
+  font-size: 12px;
 }
 
-
-.bottomSuggestionContainer{
-    display: flex;
-    padding: 15px;
-    justify-content: space-between;
-    align-items: center;
+.bottomSuggestionContainer {
+  display: flex;
+  padding: 15px;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.btnContainer{
-    display: flex;
+.btnContainer {
+  display: flex;
 }
 
-.bottomSuggestionText{
-    color: #7B8388;
-    font-size: 12px;
-    opacity: 0.75;
+.bottomSuggestionText {
+  color: #7b8388;
+  font-size: 12px;
+  opacity: 0.75;
 }
 
 .arrowDiv {
-    display: inline-flex;
-    width: 20px;
-    height: 20px;
-    background: #0F0F0F;
-    border: 1px solid #242424;
-    border-radius: 5px;
-    align-items: center;
-    justify-content: center;
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  background: #0f0f0f;
+  border: 1px solid #242424;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
 }

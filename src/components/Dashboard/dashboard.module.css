@@ -201,7 +201,7 @@
   font-size: 14px;
   line-height: 100%;
   color: var(--light-gray-200);
-  margin-top:32px;
+  margin-top: 32px;
 }
 .sidebar-work-spaces {
   background: #060507;
@@ -239,8 +239,8 @@
   border-radius: 13.8292px;
 }
 
-.controls-box-right-box p{
-  color:#FFFFFF;
-  padding-left:10px;
-  border-left:1px solid #7B8388;
+.controls-box-right-box p {
+  color: #ffffff;
+  padding-left: 10px;
+  border-left: 1px solid #7b8388;
 }

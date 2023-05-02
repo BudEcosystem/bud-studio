@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import PanelOption from "./PanelOption/PanelOption";
+import React, { useEffect, useState } from 'react';
+import PanelOption from './PanelOption/PanelOption';
 import {
   Pin,
   Bookmark,
@@ -7,9 +7,9 @@ import {
   Reload,
   Add,
   UpArrow,
-  DownArrow
-} from "./PanelOption/PanelSvgIcons";
-import ButtonComponent from "./Button/Button";
+  DownArrow,
+} from './PanelOption/PanelSvgIcons';
+import ButtonComponent from './Button/Button';
 
 const useKeyPress = function (targetKey) {
   const [keyPressed, setKeyPressed] = useState(false);
@@ -27,35 +27,40 @@ const useKeyPress = function (targetKey) {
       }
     };
 
-    window.addEventListener("keydown", downHandler);
-    window.addEventListener("keyup", upHandler);
+    window.addEventListener('keydown', downHandler);
+    window.addEventListener('keyup', upHandler);
 
     return () => {
-      window.removeEventListener("keydown", downHandler);
-      window.removeEventListener("keyup", upHandler);
+      window.removeEventListener('keydown', downHandler);
+      window.removeEventListener('keyup', upHandler);
     };
   }, [targetKey]);
 
   return keyPressed;
 };
 
-const Panel = () => {
+function Panel() {
   const items = [
-    { id: 1, icon: <Pin />, name: "Pin Tab", desc: "Pin in the current tab" },
-    { id: 2, icon: <Bookmark />, name: "Bookmark", desc: "Create a bookmark" },
-    { id: 3, icon: <FullScreen />, name: "FullScreen", desc: "Make the page fullscreen" },
-    { id: 4, icon: <Reload />, name: "Reload", desc: "Reload the page" },
-  ]
+    { id: 1, icon: <Pin />, name: 'Pin Tab', desc: 'Pin in the current tab' },
+    { id: 2, icon: <Bookmark />, name: 'Bookmark', desc: 'Create a bookmark' },
+    {
+      id: 3,
+      icon: <FullScreen />,
+      name: 'FullScreen',
+      desc: 'Make the page fullscreen',
+    },
+    { id: 4, icon: <Reload />, name: 'Reload', desc: 'Reload the page' },
+  ];
   const items2 = [
-    { id: 5, icon: <Add />, name: "Create New Task", desc: "" },
-    { id: 6, icon: <Add />, name: "Create Note", desc: "" },
-    { id: 7, icon: <Add />, name: "Create Add member", desc: "" },
-  ]
+    { id: 5, icon: <Add />, name: 'Create New Task', desc: '' },
+    { id: 6, icon: <Add />, name: 'Create Note', desc: '' },
+    { id: 7, icon: <Add />, name: 'Create Add member', desc: '' },
+  ];
 
   const [selected, setSelected] = useState(undefined);
-  const downPress = useKeyPress("ArrowDown");
-  const upPress = useKeyPress("ArrowUp");
-  const enterPress = useKeyPress("Enter");
+  const downPress = useKeyPress('ArrowDown');
+  const upPress = useKeyPress('ArrowUp');
+  const enterPress = useKeyPress('Enter');
   const [cursor, setCursor] = useState(0);
   const [hovered, setHovered] = useState(undefined);
 
@@ -73,9 +78,9 @@ const Panel = () => {
   }, [upPress]);
   useEffect(() => {
     if (items.length && enterPress) {
-      const itemsArr = [...items, ...items2]
+      const itemsArr = [...items, ...items2];
       setSelected(itemsArr[cursor]);
-      console.log(itemsArr[cursor])
+      console.log(itemsArr[cursor]);
     }
   }, [cursor, enterPress]);
   useEffect(() => {
@@ -89,14 +94,26 @@ const Panel = () => {
 
       <div className="PanelOptions">
         {items.map((item, i) => (
-          <PanelOption key={item.id} active={i === cursor} item={item} setSelected={setSelected} setHovered={setHovered} />
+          <PanelOption
+            key={item.id}
+            active={i === cursor}
+            item={item}
+            setSelected={setSelected}
+            setHovered={setHovered}
+          />
         ))}
       </div>
-      <div className="line"></div>
+      <div className="line" />
       <div className="action">Quick actions</div>
       <div className="PanelOptions">
         {items2.map((item, i) => (
-          <PanelOption key={item.id} active={i + items.length === cursor} item={item} setSelected={setSelected} setHovered={setHovered} />
+          <PanelOption
+            key={item.id}
+            active={i + items.length === cursor}
+            item={item}
+            setSelected={setSelected}
+            setHovered={setHovered}
+          />
         ))}
       </div>
       <div className="bottomSuggestionContainer">
@@ -107,11 +124,20 @@ const Panel = () => {
           <ButtonComponent name="Commands" />
         </div>
         <div>
-          <p className="bottomSuggestionText">Use arrow keys  <span className="arrowDiv">{<UpArrow />}</span> <span className="arrowDiv">{<DownArrow />}</span>  to navigate</p>
+          <p className="bottomSuggestionText">
+            Use arrow keys{' '}
+            <span className="arrowDiv">
+              <UpArrow />
+            </span>{' '}
+            <span className="arrowDiv">
+              <DownArrow />
+            </span>{' '}
+            to navigate
+          </p>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Panel;

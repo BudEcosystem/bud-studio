@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../../redux/store";
-import KanbanCards from "./cards";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState } from '../../redux/store';
+import KanbanCards from './cards';
 
 export default function KanbanSections() {
   const count = useSelector((state: RootState) => state.counter);
@@ -19,12 +19,12 @@ export default function KanbanSections() {
           <KanbanCards hasSubTask messagePassed={false} />
           <KanbanCards hasSubTask messagePassed={false} />
           <KanbanCards hasSubTask messagePassed={true} /> */}
-        </div>{" "}
+        </div>{' '}
         <div className="kanban-each-section-body-cards">
           <KanbanCards hasSubTask={false} messagePassed={false} />
           <KanbanCards hasSubTask messagePassed={false} />
           <KanbanCards hasSubTask messagePassed={false} />
-          <KanbanCards hasSubTask messagePassed={true} />
+          <KanbanCards hasSubTask messagePassed />
         </div>
       </div>
     </div>

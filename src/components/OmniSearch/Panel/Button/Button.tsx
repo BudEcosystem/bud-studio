@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-const ButtonComponent = ({name}) => {
+function ButtonComponent({ name }) {
   return (
     <div className="btn">
-        <p>{name}</p>   
+      <p>{name}</p>
     </div>
-  )
+  );
 }
 
-export default ButtonComponent
+export default ButtonComponent;

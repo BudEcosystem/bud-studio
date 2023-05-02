@@ -1,65 +1,80 @@
 import React, { useEffect, useState } from 'react';
-import {Rocket, BudIcon, Voice, CommandF}  from './LauncherIcons'
 import { Modal } from 'antd';
+import { Rocket, BudIcon, Voice, CommandF } from './LauncherIcons';
 
-const Launcher = () => {
+function Launcher() {
+  const [showLauncher, setShowLauncher] = useState(false);
 
-    const [showLauncher, setShowLauncher] = useState(false);
+  const handleKeyDown = (event) => {
+    if (event.ctrlKey && event.key === 'y') {
+      setShowLauncher(!showLauncher);
+    }
+  };
 
-    const handleKeyDown = (event) => {
-        if (event.ctrlKey && event.key === "y") {
-          setShowLauncher(!showLauncher);
-        }
-      };
-
-      useEffect(() => {
-        document.addEventListener("keydown", handleKeyDown);
-        return () => {
-          document.removeEventListener("keydown", handleKeyDown);
-          document.getElementById("inputTag").focus();
-        };
-      }, [showLauncher]);
-
-    const showModal = () => {
-      setShowLauncher(true);
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.getElementById('inputTag').focus();
     };
+  }, [showLauncher]);
 
-    const handleOk = () => {
-      setShowLauncher(false);
-    };
+  const showModal = () => {
+    setShowLauncher(true);
+  };
 
-    const handleCancel = () => {
-      setShowLauncher(false);
-    };
+  const handleOk = () => {
+    setShowLauncher(false);
+  };
+
+  const handleCancel = () => {
+    setShowLauncher(false);
+  };
 
   return (
-    <Modal style={{ top: 870 }} className="Modal" open={showLauncher} onOk={handleOk} onCancel={handleCancel}>
-    <div className='Launcher'>
-
+    <Modal
+      style={{ top: 870 }}
+      className="Modal"
+      open={showLauncher}
+      onOk={handleOk}
+      onCancel={handleCancel}
+    >
+      <div className="Launcher">
         <div className="RocketLaunchDiv">
-        <div className="RocketOuter">
-            <div className='RocketInner'>
-                <Rocket/>
+          <div className="RocketOuter">
+            <div className="RocketInner">
+              <Rocket />
             </div>
-        </div>
-        <div style={{display: "flex", alignItems: "center", marginLeft: "10px"}}>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginLeft: '10px',
+            }}
+          >
             <BudIcon />
-        </div>
-        </div>
-
-        <input id="inputTag" className='LauncherInput' type="text" placeholder=  {`Get started by typing your need `}/>
-        <div style={{display: "grid", placeItems: "center", marginLeft:"-95px"}}>
-            <CommandF/>
+          </div>
         </div>
 
-
-        <div className='VoiceDiv'>
-            <Voice/>
+        <input
+          id="inputTag"
+          className="LauncherInput"
+          type="text"
+          placeholder={`Get started by typing your need `}
+        />
+        <div
+          style={{ display: 'grid', placeItems: 'center', marginLeft: '-95px' }}
+        >
+          <CommandF />
         </div>
 
-    </div>
+        <div className="VoiceDiv">
+          <Voice />
+        </div>
+      </div>
     </Modal>
-  )
+  );
 }
 
-export default Launcher
+export default Launcher;

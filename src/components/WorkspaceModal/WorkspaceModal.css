@@ -1,101 +1,101 @@
 .WorkspaceModal {
-    background: #0C0C0C;
-    min-height: 420px;
-    height: fit-content;
-    width: fit-content;
-    min-width: 280px;
-    border-radius: 14px;
-    border: 1px solid #1D1D1D;
-    padding: 20px;
+  background: #0c0c0c;
+  min-height: 420px;
+  height: fit-content;
+  width: fit-content;
+  min-width: 280px;
+  border-radius: 14px;
+  border: 1px solid #1d1d1d;
+  padding: 20px;
 }
 
 .WorkspaceModalTop {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .WorkspaceIconBox {
-    width: 31px;
-    height: 29px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
+  width: 31px;
+  height: 29px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
 }
 
 .WorkspaceIcon {
-    display: grid;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    width: 29px;
-    height: 29px;
-    background: #171718;
-    border-radius: 8px;
+  display: grid;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  background: #171718;
+  border-radius: 8px;
 }
 
 .WorkspaceSearchBar {
-    width: 240px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    background: #1B1C1E;
-    mix-blend-mode: normal;
-    border: 1px solid #1D1D1D;
-    border-radius: 19.4937px;
+  width: 240px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  background: #1b1c1e;
+  mix-blend-mode: normal;
+  border: 1px solid #1d1d1d;
+  border-radius: 19.4937px;
 }
 
 .WorkspaceSearchInput {
-    background: #1B1C1E;
-    border: none;
-    outline: none;
-    width: 170px;
-    height: 34px;
-    color: white;
-    margin-left: 10px;
-    font-family: sans-serif;
-    font-size: 14px;
-    font-weight: 400;
+  background: #1b1c1e;
+  border: none;
+  outline: none;
+  width: 170px;
+  height: 34px;
+  color: white;
+  margin-left: 10px;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .handle {
-    cursor: grab;
+  cursor: grab;
 }
 
 .secondWorkspaceModal {
-    width: 200px;
-    height: 280px;
-    background: #0C0C0C;
-    border: 1px solid #1D1D1D;
-    border-radius: 14px;
-    padding: 15px;
+  width: 200px;
+  height: 280px;
+  background: #0c0c0c;
+  border: 1px solid #1d1d1d;
+  border-radius: 14px;
+  padding: 15px;
 }
 
 .secondWorkspaceOptions {
-    height: 90%;
-    width: 100%;
-    margin-top: 10px;
+  height: 90%;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .secondWorkspaceOption {
-    display: flex;
-    width: 100%;
-    height: 30px;
-    color: white;
-    align-items: center;
-    font-weight: 400;
-    font-size: 14px;
-    cursor: pointer;
+  display: flex;
+  width: 100%;
+  height: 30px;
+  color: white;
+  align-items: center;
+  font-weight: 400;
+  font-size: 14px;
+  cursor: pointer;
 }
 
-.secondWorkspaceOption:hover .secondWorkspaceRightArrow{
-    display: block;
+.secondWorkspaceOption:hover .secondWorkspaceRightArrow {
+  display: block;
 }
 
 .secondWorkspaceRightArrow {
-    position: absolute;
-    margin-left: 67%;
-    display: none;
+  position: absolute;
+  margin-left: 67%;
+  display: none;
 }

@@ -12,9 +12,9 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+
 import electronWindowState from 'electron-window-state';
 import { resolveHtmlPath } from './util';
-
 
 class AppUpdater {
   constructor() {

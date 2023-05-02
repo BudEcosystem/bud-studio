@@ -1,89 +1,88 @@
-.treeViewContainer {}
+.treeViewContainer {
+}
 
 .treeLiItem {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .treeViewList {
-    list-style: none;
+  list-style: none;
 }
 
 .treeList {
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
 }
 
-.treeChildLabelUl{
-    position: relative;
-    list-style: none;
+.treeChildLabelUl {
+  position: relative;
+  list-style: none;
 }
 
 .treeChildLabelUl::before {
-    content: "";
-    position: absolute;
-    border-left: 2px solid white;
-    height: 80%;
-    left: 5px;
+  content: '';
+  position: absolute;
+  border-left: 2px solid white;
+  height: 80%;
+  left: 5px;
 }
 .treeList:not(.first)::after {
-    content: "";
-    position: absolute;
-    height: 15px;
-    width: 15px;
-    left: 1px;
-    background-color: transparent;
-    border: 2px solid;
-    border-color:transparent transparent white transparent ;
-    border-radius: 0px 0px 0px 25px;
-    margin-bottom: 15px;
+  content: '';
+  position: absolute;
+  height: 15px;
+  width: 15px;
+  left: 1px;
+  background-color: transparent;
+  border: 2px solid;
+  border-color: transparent transparent white transparent;
+  border-radius: 0px 0px 0px 25px;
+  margin-bottom: 15px;
 }
 
 .folderImgContainer {
-    margin-left: 10px;
-    margin-top: 5px;
+  margin-left: 10px;
+  margin-top: 5px;
 }
 
 .treeLabel {
-    margin-left: 8px;
-    margin-top: 5px;
-
+  margin-left: 8px;
+  margin-top: 5px;
 }
-.arrow{
-    transform: rotate(-90deg); 
-    transition: transform .2s ease-in;
-
+.arrow {
+  transform: rotate(-90deg);
+  transition: transform 0.2s ease-in;
 }
 .active {
-    transform: unset;
+  transform: unset;
 }
 
 .plus {
-    background: #151517;
-    font-size: 25px;
-    color: white;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    margin-left: 73%;
-    width: 26px;
-    height: 26px;
-    margin-top: 5px;
-    /* padding: 8px; */
+  background: #151517;
+  font-size: 25px;
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  margin-left: 73%;
+  width: 26px;
+  height: 26px;
+  margin-top: 5px;
+  /* padding: 8px; */
 }
 
 .activeList {
-    color: red;
+  color: red;
 }
 
 .treeLabel {
-    color: white;
+  color: white;
 }
 
 .treeChildLabel {
-    margin-left: 30px;
+  margin-left: 30px;
 }
 .treeChildLabel.show {
 }

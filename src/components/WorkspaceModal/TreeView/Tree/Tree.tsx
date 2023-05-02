@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { UpArrow } from "../../../OmniSearch/Panel/PanelOption/PanelSvgIcons";
-import { Folder, WhiteFolder, Page } from "./TreeSvgIcons";
+import React, { useState } from 'react';
+import { UpArrow } from '../../../OmniSearch/Panel/PanelOption/PanelSvgIcons';
+import { Folder, WhiteFolder, Page } from './TreeSvgIcons';
 
-const Tree = ({ data = [], color }) => {
+function Tree({ data = [], color }) {
   const [activeNode, setActiveNode] = useState(null);
 
   const handleNodeClick = (node) => {
@@ -16,47 +16,45 @@ const Tree = ({ data = [], color }) => {
     <div className="treeViewContainer">
       <ul className="treeViewList">
         {data.map((tree, i) => (
-          <TreeNode key={tree.id}
-          node={tree}
-          color={color}
-          isFirst={i === i}
-          isActive={activeNode === tree}
+          <TreeNode
+            key={tree.id}
+            node={tree}
+            color={color}
+            isFirst={i === i}
+            isActive={activeNode === tree}
             onClick={handleNodeClick}
-            activeNode />
+            activeNode
+          />
         ))}
       </ul>
     </div>
   );
-};
+}
 
-const TreeNode = ({ node, color, isFirst, isActive, onClick, activeNode }) => {
-  const [childVisible, setChildVisiblity] = useState(
-    node.isParent ? false : true
-  );
-  const hasChild = node.children ? true : false;
+function TreeNode({ node, color, isFirst, isActive, onClick, activeNode }) {
+  const [childVisible, setChildVisiblity] = useState(!node.isParent);
+  const hasChild = !!node.children;
 
-  let isParentStyle = {
-    background: `linear-gradient(90.28deg, ${
-      color + "20"
-    } 4.88%, rgba(17, 21, 18, 0) 91.54%)`,
-    borderRadius: "10px",
-    cursor: "pointer",
-    "::after": "border-bottom: 0px"
+  const isParentStyle = {
+    background: `linear-gradient(90.28deg, ${`${color}20`} 4.88%, rgba(17, 21, 18, 0) 91.54%)`,
+    borderRadius: '10px',
+    cursor: 'pointer',
+    '::after': 'border-bottom: 0px',
   };
   const toggleChildVisibility = () => {
     node.isParent ? setChildVisiblity((v) => !v) : setChildVisiblity(true);
-    onClick(node)
+    onClick(node);
   };
   return (
-    <li className={`treeLiItem`}>
+    <li className="treeLiItem">
       <div
         className={`treeList${isFirst ? ' first' : ''}`}
         style={node.isParent && childVisible ? isParentStyle : {}}
         onClick={toggleChildVisibility}
       >
         {hasChild && node.isParent && (
-          <div className={`arrow ${childVisible ? "active" : ""}`}>
-            <UpArrow stroke={`${childVisible ? color : "#7B8388"}`} />
+          <div className={`arrow ${childVisible ? 'active' : ''}`}>
+            <UpArrow stroke={`${childVisible ? color : '#7B8388'}`} />
           </div>
         )}
         <div className="folderImgContainer">
@@ -74,7 +72,7 @@ const TreeNode = ({ node, color, isFirst, isActive, onClick, activeNode }) => {
         {childVisible && node.isParent && <div className="plus">+</div>}
       </div>
       {hasChild && childVisible && (
-        <div className={`treeChildLabel${childVisible ? " show" : ""}`}>
+        <div className={`treeChildLabel${childVisible ? ' show' : ''}`}>
           <ul className="treeChildLabelUl">
             {/* <Tree data={node.children} color={color} /> */}
             {node.children.map((child, index) => (
@@ -93,6 +91,6 @@ const TreeNode = ({ node, color, isFirst, isActive, onClick, activeNode }) => {
       )}
     </li>
   );
-};
+}
 
 export default Tree;

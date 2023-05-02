@@ -1,41 +1,41 @@
 .panelParent {
-    transition: all .40s ease;
+  transition: all 0.4s ease;
 }
 
 .panelParent.active,
 .panelParent:hover {
-    background: #171718;
-    cursor: pointer;
+  background: #171718;
+  cursor: pointer;
 }
 
 .PanelOption {
-    display: flex;
-    cursor: pointer;
-    align-items: center;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
 }
 
 .PanelOptionIcon {
-    width: 12px;
-    height: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .PanelOptionTexts {
-    margin-left: 15px;
+  margin-left: 15px;
 }
 
 .PanelOptionName {
-    color: white;
-    font-size: 14px;
-    font-weight: 400;
+  color: white;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .PanelOptionDesc {
-    color: #7B8388;
-    font-size: 14px;
-    font-weight: 400;
-    margin-left: 27px;
-    margin-top: 2px;
+  color: #7b8388;
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 27px;
+  margin-top: 2px;
 }

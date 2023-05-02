@@ -16,9 +16,9 @@ function ContentView({ setCollapsed, isCollapsed, children }: any) {
       />
       {children}
       <Content className={classes['site-layout-content']}>
-        <Launcher/>
+        <Launcher />
       </Content>
-      <OmniSearch/>
+      <OmniSearch />
     </Layout>
   );
 }

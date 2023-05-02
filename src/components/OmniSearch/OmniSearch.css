@@ -1,19 +1,18 @@
 .OmniSearch {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: auto;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
 }
 
 .Modal .ant-modal-content {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 .Modal .ant-modal-title {
-    display: none;
+  display: none;
 }
 
 .Modal .ant-modal-footer {
-    display: none;
+  display: none;
 }
