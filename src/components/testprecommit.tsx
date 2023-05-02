@@ -6,7 +6,6 @@ export const PreCommit = () => {
 
     useEffect(() => {
 
-        
         setIs(true);
     }, []);
 
