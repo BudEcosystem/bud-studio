@@ -11,6 +11,7 @@ interface SideBarProps {
   isCollapsed: boolean;
   setCollapsed: any;
 }
+
 const sidebarOptions = [
   {
     key: '1',
@@ -49,7 +50,7 @@ const sidebarOptions = [
 function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   const [activeClassName, setActiveClassName] = useState('0');
   const addWorkspaceInput = useRef(null);
-  const [hex_code, setHex_code] = useState("#ffffff");
+  const [hex_code, setHex_code] = useState('#ffffff');
   const [showAddWorkspace, setShowAddWorkspace] = useState(false);
   const [workspaces, setWorkspaces] = useState([] as any);
   const [workspaceModal, setWorkspaceModal] = useState(false);
@@ -62,9 +63,28 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     navigate(link);
   };
 
+  useEffect(() => {
+    function handleKeyDown(event: any) {
+      if (event.ctrlKey && event.key === 'n') {
+        navigate('/menuOne');
+        setActiveClassName('0');
+      }
+      if (event.ctrlKey && event.key === 'f') {
+        navigate('/menuTwo');
+        setActiveClassName('1');
+      }
+    }
+
+    document.body.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   const showWorkspaceModal = (color: any, name: any) => {
     setWorkspaceModal(!workspaceModal);
-    console.log("WORKSPACE PRESSED", workspaceModal);
+    console.log('WORKSPACE PRESSED', workspaceModal);
     setWorkspaceColor(color);
     setWorkspaceName(name);
   };
@@ -82,8 +102,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   }, [isCollapsed]);
 
   const addWorkspace = (event: any) => {
-    if (event.key != "Enter") return;
-    if (event.target.value.trim() == "") return;
+    if (event.key != 'Enter') return;
+    if (event.target.value.trim() == '') return;
 
     let space = {
       name: event.target.value,
@@ -91,7 +111,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     };
     workspaces.push(space);
     setWorkspaces(workspaces);
-    setHex_code("#ffffff");
+    setHex_code('#ffffff');
     setShowAddWorkspace(!showAddWorkspace);
   };
   return (
@@ -120,17 +140,17 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
         </div>
 
         <Modal
-        style={{
-          top: 250,
-          right: 440
-        }}
-        className="Modal"
-        open={workspaceModal}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <WorkspaceModal name={workspaceName} color={workspaceColor} />
-      </Modal>
+          style={{
+            top: 250,
+            right: 440,
+          }}
+          className="Modal"
+          open={workspaceModal}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <WorkspaceModal name={workspaceName} color={workspaceColor} />
+        </Modal>
         <Menu
           className={classes['main-sidebar-menu-1']}
           theme="dark"
@@ -175,24 +195,24 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
             }
           >
             <div className={classes['sidebar-work-spaces-box']}>
-            <label>Work spaces</label>
+              <label>Work spaces</label>
               {isCollapsed ? null : (
                 <p
                   onClick={(e) => {
                     e.stopPropagation();
                     setShowAddWorkspace(!showAddWorkspace);
                   }}
-                  className={classes["sidebar-work-spaces-box-p"]}
+                  className={classes['sidebar-work-spaces-box-p']}
                 >
-                  {showAddWorkspace ? "X" : "New +"}
+                  {showAddWorkspace ? 'X' : 'New +'}
                 </p>
               )}
             </div>
           </Menu.Item>
           {showAddWorkspace && (
-            <div className={classes["workspace-add"]}>
+            <div className={classes['workspace-add']}>
               <input
-                className={classes["workspace-add-color"]}
+                className={classes['workspace-add-color']}
                 type="color"
                 name="hex_code"
                 value={hex_code}
@@ -224,30 +244,30 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
           </div>
         </Menu.Item> */}
 
-        <div className={`${classes["main-sidebar-menu-ws-box"]}`}>
-          {workspaces.length > 0 &&
-            workspaces.map((menu:any, i:any) => (
-              <Menu.Item
-                onClick={() => showWorkspaceModal(menu.color, menu.name)}
-                className={`${classes["sidebar-menu-item"]}`}
-                key={i}
-                icon={
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect width="14" height="14" rx="4" fill={menu.color} />
-                  </svg>
-                }
-              >
-                {/* <Link href={menu.link}>{menu.label}</Link> */}
-                <p>{menu.name}</p>
-              </Menu.Item>
-            ))}
-        </div>
+          <div className={`${classes['main-sidebar-menu-ws-box']}`}>
+            {workspaces.length > 0 &&
+              workspaces.map((menu: any, i: any) => (
+                <Menu.Item
+                  onClick={() => showWorkspaceModal(menu.color, menu.name)}
+                  className={`${classes['sidebar-menu-item']}`}
+                  key={i}
+                  icon={
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect width="14" height="14" rx="4" fill={menu.color} />
+                    </svg>
+                  }
+                >
+                  {/* <Link href={menu.link}>{menu.label}</Link> */}
+                  <p>{menu.name}</p>
+                </Menu.Item>
+              ))}
+          </div>
         </Menu>
       </Sider>
       <ContentView isCollapsed={isCollapsed} setCollapsed={setCollapsed}>
