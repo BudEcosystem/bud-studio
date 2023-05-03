@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { UpArrow } from '../../../OmniSearch/Panel/PanelOption/PanelSvgIcons';
-import { Folder, WhiteFolder, Page } from './TreeSvgIcons';
+import React, { useState } from "react";
+import { UpArrow } from "../../../OmniSearch/Panel/PanelOption/PanelSvgIcons";
+import { Folder, WhiteFolder, Page } from "./TreeSvgIcons";
+import "./Tree.css"
 
 function Tree({ data = [], color }) {
   const [activeNode, setActiveNode] = useState(null);
