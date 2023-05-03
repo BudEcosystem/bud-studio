@@ -35,6 +35,9 @@ function OmniSearch() {
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
+      style={{
+        left: 120
+      }}
     >
       <div className="OmniSearch">
         <SearchBar themeColor={themeColor} />

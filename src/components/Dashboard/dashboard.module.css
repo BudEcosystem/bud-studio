@@ -160,6 +160,7 @@ align-items: center;
 .main-sidebar,
 .main-sidebar-menu-1 {
   background-color: var(--primary-bgc) !important;
+  height: 250px;
 }
 
 .sidebar-menu-items,
