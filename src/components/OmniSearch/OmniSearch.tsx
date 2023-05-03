@@ -36,7 +36,8 @@ function OmniSearch() {
       onOk={handleOk}
       onCancel={handleCancel}
       style={{
-        left: 120
+        top: 150,
+        left: 100
       }}
     >
       <div className="OmniSearch">

@@ -163,6 +163,11 @@ align-items: center;
   height: 250px;
 }
 
+.main-sidebar-menu-2 {
+  height: 100vh;
+  margin-bottom: 200px;
+}
+
 .sidebar-menu-items,
 .sidebar-menu-items-active {
   display: flex;
@@ -211,6 +216,10 @@ align-items: center;
   transition: all 1s !important;
 }
 
+.sidebar-menu-item svg {
+  margin-left: 10px;
+}
+
 .logo {
   display: flex;
   justify-content: flex-start;
@@ -223,6 +232,12 @@ align-items: center;
   line-height: 100%;
   color: var(--light-gray-200);
   margin-top: 32px;
+}
+
+.main-sidebar-menu-ws-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .sidebar-work-spaces {
@@ -283,8 +298,8 @@ align-items: center;
   margin-right: 5px;
 }
 
-.main-sidebar-menu-ws-box {
-  margin-left: 20px;
+.sidebar-menu-userprofile-menu {
+  background-color: #060507;
 }
 
 .sidebar-inline-box {
@@ -295,6 +310,48 @@ align-items: center;
 
 .sidebar-ws-fvrt {
   margin-top: 30px !important;
+}
+
+.sidebar-menu-userprofile {
+    background-color: #060507 !important;
+}
+
+.sidebar-menu-userprofile-profile {
+  border: 1px solid rgba(210, 207, 207, 0.418);
+  border-radius: 50px;
+  padding: 2px;
+}
+
+.sidebar-menu-userprofile-box {
+  max-width: 120px;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 6px;
+  color: white;
+}
+
+.sidebar-menu-userprofile-details {
+  display: flex;
+  flex-direction: column;
+  gap:5px
+}
+
+.sidebar-menu-userprofile-details h1{
+  font-size:14px;
+  font-weight: 400;
+  max-height: 12px !important;
+}
+
+.controls-box-right-box p {
+  color: #ffffff;
+  padding-left: 10px;
+  border-left: 1px solid #7b8388;
+}
+
+.main-sidebar-profile-menu {
+  background-color: var(--primary-bgc) !important;
+  margin-top: 400px;
 }
 
 .sidebar-menu-userprofile {
@@ -328,8 +385,8 @@ align-items: center;
   max-height: 12px !important;
 }
 
-.controls-box-right-box p {
-  color: #ffffff;
-  padding-left: 10px;
-  border-left: 1px solid #7b8388;
+.sidebar-menu-userprofile-details p{
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--bud-secondary-text-color);
 }

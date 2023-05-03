@@ -268,6 +268,34 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 </Menu.Item>
               ))}
           </div>
+          <Menu.Item
+          className={`${classes["sidebar-menu-userprofile"]}`}
+          icon={
+            <div className={`${classes["sidebar-menu-userprofile-profile"]}`}>
+              <img
+                src={"/images/other/test-user.png"}
+                alt={"#"}
+                width={25}
+                height={25}
+              />
+            </div>
+          }
+        >
+          <div className={`${classes["sidebar-menu-userprofile-box"]}`}>
+            <span className={`${classes["sidebar-menu-userprofile-details"]}`}>
+              <h1>Mark Louis</h1>
+              <p>@mark.ls</p>
+            </span>
+
+            <img
+              className="hover-effect"
+              src={"/images/other/settings-icon.png"}
+              alt={"#"}
+              width={15}
+              height={15}
+            />
+          </div>
+        </Menu.Item>
         </Menu>
       </Sider>
       <ContentView isCollapsed={isCollapsed} setCollapsed={setCollapsed}>
