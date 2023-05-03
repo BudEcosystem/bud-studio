@@ -13,6 +13,12 @@
   margin: 20px;
 }
 
+.ant-layout-sider-children{
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
 .site-layout-content {
   position: relative;
   background: var(--primary-bgc-light) !important;
@@ -164,8 +170,12 @@ align-items: center;
 }
 
 .main-sidebar-menu-2 {
-  height: 100vh;
-  margin-bottom: 200px;
+  height: 100%;
+}
+
+.main-sidebar-menu-3 {
+  margin-top: 60px;
+  background-color: var(--primary-bgc) !important;
 }
 
 .sidebar-menu-items,

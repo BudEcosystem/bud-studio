@@ -268,7 +268,9 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 </Menu.Item>
               ))}
           </div>
-          <Menu.Item
+        </Menu>
+        <Menu theme="dark" mode="inline" className={classes['main-sidebar-menu-3']}>
+        <Menu.Item
           className={`${classes["sidebar-menu-userprofile"]}`}
           icon={
             <div className={`${classes["sidebar-menu-userprofile-profile"]}`}>
