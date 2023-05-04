@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 import { Modal } from 'antd';
 import {
@@ -14,13 +14,13 @@ import {
   Plus,
   RightArrow,
 } from "./WorkspaceIcons";
-import { Modal } from "antd";
 import TreeView from "./TreeView/TreeView";
 import "./WorkspaceModal.css"
 
-const WorkspaceModal = ({ name, color }:any) => {
+const WorkspaceModal = ({ name, color, setWorkspaceModal, workspaceModal }:any) => {
   const [showColorPin, setShowColorPin] = useState(false);
   const [showColorDots, setShowColorDots] = useState(false);
+  const [isDrag, setIsDrag] = useState(true);
 
   const handleOk = () => {
     setShowColorDots(false);
@@ -30,14 +30,28 @@ const WorkspaceModal = ({ name, color }:any) => {
     setShowColorDots(false);
   };
 
+ let menuRef = useRef(null)
+//   useEffect(() => {
+//     let handler = (e) => {
+//       if(!menuRef?.current?.contains(e.target)){
+//         setWorkspaceModal(false)
+//         console.log("Dsfd")
+//       }
+//     }
+//     document.addEventListener("mousedown", handler);
+//     return() =>{
+//       document.removeEventListener("mousedown", handler);
+//     }
+//   }, [])
+
   return (
     <Draggable handle=".handle">
-      <div className="WorkspaceModal">
+      <div ref={menuRef} className="WorkspaceModal">
         <div className="WorkspaceModalTop">
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div className="handle">
+            {isDrag && (<div className="handle">
               <Drag />
-            </div>
+            </div>)}
             <div
               style={{
                 backgroundColor: `${color}`,
@@ -78,7 +92,7 @@ const WorkspaceModal = ({ name, color }:any) => {
               }}
               className="WorkspaceIconBox"
             >
-              <div className="WorkspaceIcon">
+              <div className="WorkspaceIcon" onClick={() => setIsDrag(!isDrag)}>
                 <Pin />
               </div>
             </div>

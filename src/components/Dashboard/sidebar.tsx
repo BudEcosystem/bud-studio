@@ -57,6 +57,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   const [workspaceColor, setWorkspaceColor] = useState();
   const [workspaceName, setWorkspaceName] = useState();
 
+  let workspaceRef = useRef<HTMLDivElement>(null)
+
   const navigate = useNavigate();
   const navigateContent = (e: any, link: To) => {
     setActiveClassName(e.key);
@@ -139,7 +141,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
           </p>
         </div>
 
-        <Modal
+        {/* <Modal
           style={{
             top: 250,
             right: 440,
@@ -150,7 +152,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
           onCancel={handleCancel}
         >
           <WorkspaceModal name={workspaceName} color={workspaceColor} />
-        </Modal>
+        </Modal> */}
         <Menu
           className={classes['main-sidebar-menu-1']}
           theme="dark"
@@ -268,6 +270,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 </Menu.Item>
               ))}
           </div>
+        {workspaceModal && <WorkspaceModal name={workspaceName} color={workspaceColor} setWorkspaceModal={setWorkspaceModal} workspaceModal={workspaceModal} />}
+
         </Menu>
         <Menu theme="dark" mode="inline" className={classes['main-sidebar-menu-3']}>
         <Menu.Item
