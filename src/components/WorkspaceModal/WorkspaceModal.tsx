@@ -21,6 +21,7 @@ const WorkspaceModal = ({ name, color, setWorkspaceModal, workspaceModal }:any) 
   const [showColorPin, setShowColorPin] = useState(false);
   const [showColorDots, setShowColorDots] = useState(false);
   const [isDrag, setIsDrag] = useState(true);
+  let pinned = false;
 
   const handleOk = () => {
     setShowColorDots(false);
@@ -38,8 +39,9 @@ const WorkspaceModal = ({ name, color, setWorkspaceModal, workspaceModal }:any) 
        * Alert if clicked on outside of element
        */
       function handleClickOutside(event: any) {
-        if (ref.current && !ref.current.contains(event.target) && isDrag) {
+        if (ref.current && !ref.current.contains(event.target) && !pinned) {
           setWorkspaceModal(false);
+          console.log("CLICKED OUSTIDE", !pinned)
 
       }
       }
@@ -102,7 +104,7 @@ const WorkspaceModal = ({ name, color, setWorkspaceModal, workspaceModal }:any) 
               }}
               className="WorkspaceIconBox"
             >
-              <div className="WorkspaceIcon" onClick={() => setIsDrag(!isDrag)}>
+              <div className="WorkspaceIcon" onClick={() => {setIsDrag(!isDrag); pinned = !pinned}}>
                 <Pin />
               </div>
             </div>
