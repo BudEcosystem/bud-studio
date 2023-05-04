@@ -227,7 +227,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
               />
             </div>
           )}
-          {/* <Menu.Item
+          <Menu.Item
           className={`${classes["sidebar-ws-fvrt"]}`}
           icon={
             <img
@@ -240,9 +240,11 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
         >
           <div className={`${classes["sidebar-inline-box"]}`}>
             <label>Favourites</label>
-            <p>⌘ L</p>
+            {isCollapsed ? null : (
+                <p style={{marginLeft: "70px"}}>⌘ L</p>
+              )}
           </div>
-        </Menu.Item> */}
+        </Menu.Item>
 
           <div className={`${classes['main-sidebar-menu-ws-box']}`}>
             {workspaces.length > 0 &&
@@ -251,8 +253,9 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                   onClick={() => showWorkspaceModal(menu.color, menu.name)}
                   className={`${classes['sidebar-menu-item']}`}
                   key={i}
-                  icon={
+                  icon={ !isCollapsed ? 
                     <svg
+                      style={{marginLeft : "25px"}}
                       width="14"
                       height="14"
                       viewBox="0 0 14 14"
@@ -260,7 +263,18 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <rect width="14" height="14" rx="4" fill={menu.color} />
-                    </svg>
+                    </svg> : 
+                      <svg
+                      style={{marginLeft : "10px"}}
+                        width="14"
+                        height="14"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect width="14" height="14" rx="4" fill={menu.color} />
+                      </svg>
+
                   }
                 >
                   {/* <Link href={menu.link}>{menu.label}</Link> */}
@@ -269,6 +283,47 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
               ))}
           </div>
         </Menu>
+
+       { isCollapsed ?
+        <Menu style={{left: "-32px"}} theme="dark" mode="inline" className={classes['main-sidebar-menu-3']}>
+        <Menu.Item
+          className={`${classes["sidebar-menu-userprofile"]}`}
+          icon={
+            <div className={`${classes["sidebar-menu-userprofile-profile"]}`}>
+              <img
+                src={"/images/other/test-user.png"}
+                alt={"#"}
+                width={25}
+                height={25}
+              />
+            </div>
+          }
+        >
+          <div className={`${classes["sidebar-menu-userprofile-box"]}`}>
+            <span className={`${classes["sidebar-menu-userprofile-details"]}`}>
+              <h1>Mark Louis</h1>
+              <p>@mark.ls</p>
+            </span>
+          {isCollapsed ? 
+          <img
+          style={{marginLeft: "10px"}}
+          className="hover-effect"
+          src={"/images/other/settings-icon.png"}
+          alt={"#"}
+          width={15}
+          height={15}
+        /> :
+            <img
+              className="hover-effect"
+              src={"/images/other/settings-icon.png"}
+              alt={"#"}
+              width={15}
+              height={15}
+            /> }
+          </div>
+        </Menu.Item>
+        </Menu>
+        : 
         <Menu theme="dark" mode="inline" className={classes['main-sidebar-menu-3']}>
         <Menu.Item
           className={`${classes["sidebar-menu-userprofile"]}`}
@@ -298,7 +353,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
             />
           </div>
         </Menu.Item>
-        </Menu>
+        </Menu> }
       </Sider>
       <ContentView isCollapsed={isCollapsed} setCollapsed={setCollapsed}>
         <Routes>
