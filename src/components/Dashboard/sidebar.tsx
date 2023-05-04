@@ -241,7 +241,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
           }
         >
           <div className={`${classes["sidebar-inline-box"]}`}>
-            <label>Favourites</label>
+            <label style={{cursor: "pointer"}}>Favourites</label>
             {isCollapsed ? null : (
                 <p style={{marginLeft: "70px"}}>⌘ L</p>
               )}
