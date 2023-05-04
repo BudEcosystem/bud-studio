@@ -44,7 +44,7 @@
   border-radius: 20px;
   padding: 0 8px;
   border: 2px solid var(--bud-border-color);
-  z-index: 1000;
+  /* z-index: 1000; */
 }
 
 /* Header */
