@@ -49,9 +49,9 @@ const WorkspaceModal = ({ name, color, setWorkspaceModal, workspaceModal }:any) 
       <div ref={menuRef} className="WorkspaceModal">
         <div className="WorkspaceModalTop">
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            {isDrag && (<div className="handle">
+            {isDrag ? (<div className="handle">
               <Drag />
-            </div>)}
+            </div>) : (<div style={{visibility: "hidden"}}><Drag /></div>)}
             <div
               style={{
                 backgroundColor: `${color}`,

@@ -284,7 +284,6 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 </Menu.Item>
               ))}
           </div>
-        {workspaceModal && <WorkspaceModal name={workspaceName} color={workspaceColor} setWorkspaceModal={setWorkspaceModal} workspaceModal={workspaceModal} />}
 
         </Menu>
 
@@ -359,7 +358,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
         </Menu.Item>
         </Menu> }
       </Sider>
-      <ContentView isCollapsed={isCollapsed} setCollapsed={setCollapsed}>
+      <ContentView isCollapsed={isCollapsed} setCollapsed={setCollapsed} workspaceName={workspaceName} workspaceColor={workspaceColor} workspaceModal={workspaceModal} setWorkspaceModal={setWorkspaceModal}>
         <Routes>
           <Route path="/" element={<div>hello ******</div>} />
           <Route path="/menuTwo" element={<div>hello there</div>} />
