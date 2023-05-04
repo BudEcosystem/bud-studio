@@ -30,23 +30,33 @@ const WorkspaceModal = ({ name, color, setWorkspaceModal, workspaceModal }:any) 
     setShowColorDots(false);
   };
 
- let menuRef = useRef(null)
-//   useEffect(() => {
-//     let handler = (e) => {
-//       if(!menuRef?.current?.contains(e.target)){
-//         setWorkspaceModal(false)
-//         console.log("Dsfd")
-//       }
-//     }
-//     document.addEventListener("mousedown", handler);
-//     return() =>{
-//       document.removeEventListener("mousedown", handler);
-//     }
-//   }, [])
+  const wrapperRef = useRef(null);
+ 
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event: any) {
+        if (ref.current && !ref.current.contains(event.target) && isDrag) {
+          setWorkspaceModal(false);
+
+      }
+      }
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  useOutsideAlerter(wrapperRef);
 
   return (
-    <Draggable handle=".handle">
-      <div ref={menuRef} className="WorkspaceModal">
+    <Draggable id="WorkspaceModal" handle=".handle">
+      <div ref={wrapperRef} className="WorkspaceModal">
         <div className="WorkspaceModalTop">
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {isDrag ? (<div className="handle">
