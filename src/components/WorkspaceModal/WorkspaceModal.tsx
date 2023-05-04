@@ -13,14 +13,29 @@ import {
   Move,
   Plus,
   RightArrow,
-} from "./WorkspaceIcons";
-import TreeView from "./TreeView/TreeView";
-import "./WorkspaceModal.css"
+} from './WorkspaceIcons';
+import TreeView from './TreeView/TreeView';
+import './WorkspaceModal.css';
 
-const WorkspaceModal = ({ name, color, setWorkspaceModal, workspaceModal }:any) => {
+const WorkspaceModal = ({
+  name,
+  color,
+  setWorkspaceModal,
+  workspaceModal,
+}: any) => {
   const [showColorPin, setShowColorPin] = useState(false);
   const [showColorDots, setShowColorDots] = useState(false);
   const [isDrag, setIsDrag] = useState(true);
+  const [render, setRender] = useState(false);
+  useEffect(() => {
+    if (workspaceModal) {
+      setTimeout(() => {
+        setRender(true);
+      }, 100);
+    } else {
+      setRender(false);
+    }
+  }, [workspaceModal]);
   let pinned = false;
 
   const handleOk = () => {
@@ -58,12 +73,21 @@ const WorkspaceModal = ({ name, color, setWorkspaceModal, workspaceModal }:any) 
 
   return (
     <Draggable id="WorkspaceModal" handle=".handle">
-      <div ref={wrapperRef} className="WorkspaceModal">
+      <div
+        ref={wrapperRef}
+        className={`WorkspaceModal ${render ? 'show' : undefined}`}
+      >
         <div className="WorkspaceModalTop">
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            {isDrag ? (<div className="handle">
-              <Drag />
-            </div>) : (<div style={{visibility: "hidden"}}><Drag /></div>)}
+            {isDrag ? (
+              <div className="handle">
+                <Drag />
+              </div>
+            ) : (
+              <div style={{ visibility: 'hidden' }}>
+                <Drag />
+              </div>
+            )}
             <div
               style={{
                 backgroundColor: `${color}`,
@@ -107,54 +131,10 @@ const WorkspaceModal = ({ name, color, setWorkspaceModal, workspaceModal }:any) 
               <div className="WorkspaceIcon" onClick={() => {setIsDrag(!isDrag); pinned = !pinned}}>
                 <Pin />
               </div>
-            </div>
-
-            <div
-              onClick={() => {
-                setShowColorDots(!showColorDots);
-              }}
-              style={{
-                background: `${
-                  showColorDots
-                    ? `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, ${color} 57.81%, rgba(175, 147, 218, 0.05) 100%)`
-                    : ''
-                }`,
-              }}
-              className="WorkspaceIconBox"
-            >
-              <div className="WorkspaceIcon">
-                <Dots />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="WorkspaceSearchBar">
+              {showColorDots && (
           <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              marginLeft: '15px',
-            }}
-          >
-            <SearchIcon />
-          </div>
-          <input
-            className="WorkspaceSearchInput"
-            type="text"
-            placeholder="Search"
-          />
-        </div>
-
-        <TreeView color={color} />
-
-        {showColorDots && (
-          <Modal
             style={{ top: 355, right: 200 }}
-            open={showColorDots}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            className="Modal"
+            className="optionsModal"
           >
             <div className="secondWorkspaceModal">
               <Drag />
@@ -248,11 +228,51 @@ const WorkspaceModal = ({ name, color, setWorkspaceModal, workspaceModal }:any) 
                 </div>
               </div>
             </div>
-          </Modal>
+          </div>
         )}
+            </div>
+
+            <div
+              onClick={() => {
+                setShowColorDots(!showColorDots);
+              }}
+              style={{
+                background: `${
+                  showColorDots
+                    ? `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, ${color} 57.81%, rgba(175, 147, 218, 0.05) 100%)`
+                    : ''
+                }`,
+              }}
+              className="WorkspaceIconBox"
+            >
+              <div className="WorkspaceIcon">
+                <Dots />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="WorkspaceSearchBar">
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginLeft: '15px',
+            }}
+          >
+            <SearchIcon />
+          </div>
+          <input
+            className="WorkspaceSearchInput"
+            type="text"
+            placeholder="Search"
+          />
+        </div>
+
+        <TreeView color={color} />
       </div>
     </Draggable>
   );
-}
+};
 
 export default WorkspaceModal;

@@ -15,8 +15,8 @@
 
 .ant-layout-sider-children{
   display: flex;
-  justify-content: space-around;
-  flex-direction: column;
+  /* justify-content: space-around; */
+  /* flex-direction: column; */
 }
 
 .site-layout-content {
@@ -160,8 +160,8 @@ align-items: center;
 
 .main-sidebar {
   min-width: 400px;
-  height: 100vh;
-  transition: all 0.3s
+  height: 100px;
+  transition: all 0.3s;
 }
 
 .main-sidebar,

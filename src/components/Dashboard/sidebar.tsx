@@ -284,7 +284,6 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 </Menu.Item>
               ))}
           </div>
-
         </Menu>
 
        { isCollapsed ?
