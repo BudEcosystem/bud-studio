@@ -160,21 +160,23 @@ align-items: center;
 
 .main-sidebar {
   min-width: 400px;
-  transition: all 0.3s;
+  height: 100vh;
+  transition: all 0.3s
 }
 
 .main-sidebar,
 .main-sidebar-menu-1 {
   background-color: var(--primary-bgc) !important;
-  height: 55%;
 }
 
 .main-sidebar-menu-2 {
-  height: 40%;
+  max-height: 300px;
+  margin-top: 65%;
 }
 
 .main-sidebar-menu-3 {
-  margin-top: 100%;
+  position: absolute;
+  top: 85.5vh;
   background-color: var(--primary-bgc) !important;
 }
 
@@ -227,7 +229,6 @@ align-items: center;
 }
 
 .sidebar-menu-item svg {
-  margin-left: 10px;
 }
 
 .logo {
@@ -315,11 +316,13 @@ align-items: center;
 .sidebar-inline-box {
   display: flex;
   align-items: center;
-  margin-top: 30px;
+  cursor: pointer;
 }
 
 .sidebar-ws-fvrt {
-  margin-top: 30px !important;
+  margin-top: 10px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .sidebar-menu-userprofile {
