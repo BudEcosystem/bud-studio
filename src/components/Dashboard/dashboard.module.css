@@ -170,7 +170,7 @@ align-items: center;
 }
 
 .main-sidebar-menu-2 {
-  max-height: 300px;
+  max-height: 40%;
   margin-top: 65%;
 }
 
@@ -242,7 +242,7 @@ align-items: center;
   font-size: 14px;
   line-height: 100%;
   color: var(--light-gray-200);
-  margin-top: 32px;
+  margin-top: 10px;
 }
 
 .main-sidebar-menu-ws-box {

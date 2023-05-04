@@ -5,8 +5,10 @@ import HeaderComp from '../header';
 import classes from '../dashboard.module.css';
 import Launcher from '../../Launcher/Launcher';
 import OmniSearch from '../../OmniSearch/OmniSearch';
+import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 
-function ContentView({ setCollapsed, isCollapsed, children }: any) {
+function ContentView({ setCollapsed, isCollapsed, workspaceName, workspaceColor, workspaceModal, setWorkspaceModal, children, }: any) {
+
   const { Content } = Layout;
   return (
     <Layout className={classes['site-layout']}>
@@ -17,6 +19,7 @@ function ContentView({ setCollapsed, isCollapsed, children }: any) {
       {children}
       <Content className={classes['site-layout-content']}>
         <Launcher />
+       {workspaceModal && <WorkspaceModal name={workspaceName} color={workspaceColor} setWorkspaceModal={setWorkspaceModal} workspaceModal={workspaceModal} /> }
       </Content>
       <OmniSearch />
     </Layout>
