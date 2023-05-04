@@ -77,9 +77,11 @@
 }
 
 .optionsModal{
-  /* position: absolute; */
-  /* left: 100%; */
-  /* top: 10px; */
+  /* margin-top: 380px;
+  margin-left: 160px; */
+  position: absolute;
+  top: 120px;
+  left: 230px;
 }
 
 .handle {

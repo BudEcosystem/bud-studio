@@ -141,18 +141,6 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
           </p>
         </div>
 
-        {/* <Modal
-          style={{
-            top: 250,
-            right: 440,
-          }}
-          className="Modal"
-          open={workspaceModal}
-          onOk={handleOk}
-          onCancel={handleCancel}
-        >
-          <WorkspaceModal name={workspaceName} color={workspaceColor} />
-        </Modal> */}
         <Menu
           className={classes['main-sidebar-menu-1']}
           theme="dark"

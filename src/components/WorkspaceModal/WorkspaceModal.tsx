@@ -54,7 +54,6 @@ const WorkspaceModal = ({
       function handleClickOutside(event: any) {
         if (ref.current && !ref.current.contains(event.target) && isDrag) {
           setWorkspaceModal(false);
-          console.log('CLICKED OUSTIDE', !pinned);
           setIsDrag(false);
         }
       }
@@ -152,7 +151,7 @@ const WorkspaceModal = ({
                 <Dots />
               </div>
               {showColorDots && (
-                <div style={{ top: 355, right: 200 }} className="optionsModal">
+                <div className="optionsModal">
                   <div className="secondWorkspaceModal">
                     <Drag />
 
