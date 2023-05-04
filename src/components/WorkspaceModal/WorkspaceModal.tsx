@@ -36,6 +36,7 @@ const WorkspaceModal = ({
       setRender(false);
     }
   }, [workspaceModal]);
+  let pinned = false;
 
   const handleOk = () => {
     setShowColorDots(false);
@@ -45,24 +46,35 @@ const WorkspaceModal = ({
     setShowColorDots(false);
   };
 
-  let menuRef = useRef(null);
-  //   useEffect(() => {
-  //     let handler = (e) => {
-  //       if(!menuRef?.current?.contains(e.target)){
-  //         setWorkspaceModal(false)
-  //         console.log("Dsfd")
-  //       }
-  //     }
-  //     document.addEventListener("mousedown", handler);
-  //     return() =>{
-  //       document.removeEventListener("mousedown", handler);
-  //     }
-  //   }, [])
+  const wrapperRef = useRef(null);
+ 
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event: any) {
+        if (ref.current && !ref.current.contains(event.target) && !pinned) {
+          setWorkspaceModal(false);
+          console.log("CLICKED OUSTIDE", !pinned)
+
+      }
+      }
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  useOutsideAlerter(wrapperRef);
 
   return (
-    <Draggable handle=".handle">
+    <Draggable id="WorkspaceModal" handle=".handle">
       <div
-        ref={menuRef}
+        ref={wrapperRef}
         className={`WorkspaceModal ${render ? 'show' : undefined}`}
       >
         <div className="WorkspaceModalTop">
@@ -116,7 +128,7 @@ const WorkspaceModal = ({
               }}
               className="WorkspaceIconBox"
             >
-              <div className="WorkspaceIcon" onClick={() => setIsDrag(!isDrag)}>
+              <div className="WorkspaceIcon" onClick={() => {setIsDrag(!isDrag); pinned = !pinned}}>
                 <Pin />
               </div>
               {showColorDots && (
