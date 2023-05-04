@@ -25,7 +25,6 @@ const WorkspaceModal = ({
 }: any) => {
   const [showColorPin, setShowColorPin] = useState(false);
   const [showColorDots, setShowColorDots] = useState(false);
-  const [isDrag, setIsDrag] = useState(true);
   const [render, setRender] = useState(false);
   useEffect(() => {
     if (workspaceModal) {
@@ -47,29 +46,32 @@ const WorkspaceModal = ({
   };
 
   const wrapperRef = useRef(null);
- 
-  function useOutsideAlerter(ref: any) {
-    useEffect(() => {
-      /**
-       * Alert if clicked on outside of element
-       */
-      function handleClickOutside(event: any) {
-        if (ref.current && !ref.current.contains(event.target) && !pinned) {
-          setWorkspaceModal(false);
-          console.log("CLICKED OUSTIDE", !pinned)
 
+  function useOutsideAlerter(ref: any) {
+    const [isDrag, setIsDrag] = useState(true);
+
+    useEffect(() => {
+      function handleClickOutside(event: any) {
+        if (ref.current && !ref.current.contains(event.target) && isDrag) {
+          setWorkspaceModal(false);
+          console.log('CLICKED OUSTIDE', !pinned);
+          setIsDrag(false);
+        }
       }
-      }
-      // Bind the event listener
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
       return () => {
-        // Unbind the event listener on clean up
-        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, [ref]);
+    }, [ref, isDrag, setWorkspaceModal]);
+
+    function handleIsDrag() {
+      setIsDrag(!isDrag);
+    }
+
+    return { isDrag, handleIsDrag };
   }
 
-  useOutsideAlerter(wrapperRef);
+  const { isDrag, handleIsDrag } = useOutsideAlerter(wrapperRef);
 
   return (
     <Draggable id="WorkspaceModal" handle=".handle">
@@ -128,108 +130,9 @@ const WorkspaceModal = ({
               }}
               className="WorkspaceIconBox"
             >
-              <div className="WorkspaceIcon" onClick={() => {setIsDrag(!isDrag); pinned = !pinned}}>
+              <div className="WorkspaceIcon" onClick={handleIsDrag}>
                 <Pin />
               </div>
-              {showColorDots && (
-          <div
-            style={{ top: 355, right: 200 }}
-            className="optionsModal"
-          >
-            <div className="secondWorkspaceModal">
-              <Drag />
-
-              <div className="secondWorkspaceOptions">
-                <div style={{ marginBottom: '20px' }}>
-                  <div className="secondWorkspaceOption">
-                    <Plus />
-                    <h3
-                      style={{
-                        marginLeft: '20px',
-                        color: 'white',
-                        fontWeight: '400',
-                        fontSize: '14px',
-                      }}
-                    >
-                      Create New
-                    </h3>
-                  </div>
-                  <div className="secondWorkspaceOption">
-                    <Edit />
-                    <h3
-                      style={{
-                        marginLeft: '20px',
-                        color: 'white',
-                        fontWeight: '400',
-                        fontSize: '14px',
-                      }}
-                    >
-                      Rename
-                    </h3>
-                  </div>
-                </div>
-
-                <div style={{ marginBottom: '20px' }}>
-                  <div className="secondWorkspaceOption">
-                    <Duplicate />
-                    <h3
-                      style={{
-                        marginLeft: '20px',
-                        color: 'white',
-                        fontWeight: '400',
-                        fontSize: '14px',
-                      }}
-                    >
-                      Duplicate Space
-                    </h3>
-                  </div>
-                  <div className="secondWorkspaceOption">
-                    <Copy />
-                    <h3
-                      style={{
-                        marginLeft: '20px',
-                        color: 'white',
-                        fontWeight: '400',
-                        fontSize: '14px',
-                      }}
-                    >
-                      Copy to
-                    </h3>
-                  </div>
-                  <div className="secondWorkspaceOption">
-                    <Move />
-                    <h3
-                      style={{
-                        marginLeft: '20px',
-                        color: 'white',
-                        fontWeight: '400',
-                        fontSize: '14px',
-                      }}
-                    >
-                      Move to
-                    </h3>
-                  </div>
-                </div>
-
-                <div className="Delete">
-                  <div className="secondWorkspaceOption">
-                    <Delete />
-                    <h3
-                      style={{
-                        marginLeft: '20px',
-                        color: 'white',
-                        fontWeight: '400',
-                        fontSize: '14px',
-                      }}
-                    >
-                      Delete
-                    </h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
             </div>
 
             <div
@@ -248,6 +151,102 @@ const WorkspaceModal = ({
               <div className="WorkspaceIcon">
                 <Dots />
               </div>
+              {showColorDots && (
+                <div style={{ top: 355, right: 200 }} className="optionsModal">
+                  <div className="secondWorkspaceModal">
+                    <Drag />
+
+                    <div className="secondWorkspaceOptions">
+                      <div style={{ marginBottom: '20px' }}>
+                        <div className="secondWorkspaceOption">
+                          <Plus />
+                          <h3
+                            style={{
+                              marginLeft: '20px',
+                              color: 'white',
+                              fontWeight: '400',
+                              fontSize: '14px',
+                            }}
+                          >
+                            Create New
+                          </h3>
+                        </div>
+                        <div className="secondWorkspaceOption">
+                          <Edit />
+                          <h3
+                            style={{
+                              marginLeft: '20px',
+                              color: 'white',
+                              fontWeight: '400',
+                              fontSize: '14px',
+                            }}
+                          >
+                            Rename
+                          </h3>
+                        </div>
+                      </div>
+
+                      <div style={{ marginBottom: '20px' }}>
+                        <div className="secondWorkspaceOption">
+                          <Duplicate />
+                          <h3
+                            style={{
+                              marginLeft: '20px',
+                              color: 'white',
+                              fontWeight: '400',
+                              fontSize: '14px',
+                            }}
+                          >
+                            Duplicate Space
+                          </h3>
+                        </div>
+                        <div className="secondWorkspaceOption">
+                          <Copy />
+                          <h3
+                            style={{
+                              marginLeft: '20px',
+                              color: 'white',
+                              fontWeight: '400',
+                              fontSize: '14px',
+                            }}
+                          >
+                            Copy to
+                          </h3>
+                        </div>
+                        <div className="secondWorkspaceOption">
+                          <Move />
+                          <h3
+                            style={{
+                              marginLeft: '20px',
+                              color: 'white',
+                              fontWeight: '400',
+                              fontSize: '14px',
+                            }}
+                          >
+                            Move to
+                          </h3>
+                        </div>
+                      </div>
+
+                      <div className="Delete">
+                        <div className="secondWorkspaceOption">
+                          <Delete />
+                          <h3
+                            style={{
+                              marginLeft: '20px',
+                              color: 'white',
+                              fontWeight: '400',
+                              fontSize: '14px',
+                            }}
+                          >
+                            Delete
+                          </h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
