@@ -77,8 +77,6 @@
 }
 
 .optionsModal{
-  /* margin-top: 380px;
-  margin-left: 160px; */
   position: absolute;
   top: 120px;
   left: 230px;
@@ -120,6 +118,6 @@
 
 .secondWorkspaceRightArrow {
   position: absolute;
-  margin-left: 67%;
+  margin-left: 80%;
   display: none;
 }
