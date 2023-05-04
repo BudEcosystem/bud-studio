@@ -16,3 +16,20 @@
 .Modal .ant-modal-footer {
   display: none;
 }
+
+.BreadCrumb .ant-breadcrumb-separator {
+  color: white !important;
+}
+
+.BreadCrumb .ant-breadcrumb-link {
+  color: white !important;
+  cursor: pointer;
+}
+
+.BreadCrumb .ant-breadcrumb-link > svg {
+  margin-right: 5px;
+}
+
+.BreadCrumb .anticon > svg {
+  color: white !important;
+}

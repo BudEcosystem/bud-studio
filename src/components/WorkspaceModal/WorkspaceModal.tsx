@@ -13,10 +13,12 @@ import {
   Move,
   Plus,
   RightArrow,
-} from './WorkspaceIcons';
-import TreeView from './TreeView/TreeView';
+} from "./WorkspaceIcons";
+import { Modal } from "antd";
+import TreeView from "./TreeView/TreeView";
+import "./WorkspaceModal.css"
 
-function WorkspaceModal({ name, color }) {
+const WorkspaceModal = ({ name, color }:any) => {
   const [showColorPin, setShowColorPin] = useState(false);
   const [showColorDots, setShowColorDots] = useState(false);
 

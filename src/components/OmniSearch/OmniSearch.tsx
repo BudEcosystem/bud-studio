@@ -7,8 +7,8 @@ function OmniSearch() {
   const [themeColor, setThemeColor] = useState('aqua');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleKeyDown = (event) => {
-    if (event.ctrlKey && event.key === 'm') {
+  const handleKeyDown = (event: any) => {
+    if (event.ctrlKey && event.key === 'o') {
       setIsModalOpen(!isModalOpen);
     }
   };
@@ -35,6 +35,10 @@ function OmniSearch() {
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
+      style={{
+        top: 150,
+        left: 100
+      }}
     >
       <div className="OmniSearch">
         <SearchBar themeColor={themeColor} />

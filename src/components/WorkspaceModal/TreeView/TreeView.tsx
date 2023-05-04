@@ -1,4 +1,5 @@
-import Tree from './Tree/Tree';
+import Tree from "./Tree/Tree"
+import "./TreeView.css"
 
 const treeData = [
   {

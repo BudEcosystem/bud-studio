@@ -5,8 +5,8 @@ import { Rocket, BudIcon, Voice, CommandF } from './LauncherIcons';
 function Launcher() {
   const [showLauncher, setShowLauncher] = useState(false);
 
-  const handleKeyDown = (event) => {
-    if (event.ctrlKey && event.key === 'y') {
+  const handleKeyDown = (event: any) => {
+    if (event.ctrlKey && event.key === 'l') {
       setShowLauncher(!showLauncher);
     }
   };
@@ -33,7 +33,7 @@ function Launcher() {
 
   return (
     <Modal
-      style={{ top: 870 }}
+      style={{ top: "88%" }}
       className="Modal"
       open={showLauncher}
       onOk={handleOk}
