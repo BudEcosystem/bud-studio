@@ -153,9 +153,12 @@ const WorkspaceModal = ({
               </div>
               </div>
               {showColorDots && (
-                <div className="optionsModal">
+                <Draggable handle='.drag'>
+                  <div className="optionsModal">
                   <div className="secondWorkspaceModal">
+                    <div className='drag'>
                     <Drag />
+                    </div>
 
                     <div className="secondWorkspaceOptions">
                       <div style={{ marginBottom: '20px' }}>
@@ -253,6 +256,7 @@ const WorkspaceModal = ({
                     </div>
                   </div>
                 </div>
+                </Draggable>
               )}
           </div>
         </div>

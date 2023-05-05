@@ -82,7 +82,7 @@
   left: 230px;
 }
 
-.handle {
+.handle, .drag{
   cursor: grab;
 }
 
