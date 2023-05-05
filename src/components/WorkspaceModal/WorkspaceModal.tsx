@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
-import { Modal } from 'antd';
 import {
   Pin,
   Dots,
@@ -26,6 +25,7 @@ const WorkspaceModal = ({
   const [showColorPin, setShowColorPin] = useState(false);
   const [showColorDots, setShowColorDots] = useState(false);
   const [render, setRender] = useState(false);
+
   useEffect(() => {
     if (workspaceModal) {
       setTimeout(() => {
@@ -35,29 +35,29 @@ const WorkspaceModal = ({
       setRender(false);
     }
   }, [workspaceModal]);
-  let pinned = false;
-
-  const handleOk = () => {
-    setShowColorDots(false);
-  };
-
-  const handleCancel = () => {
-    setShowColorDots(false);
-  };
+;
 
   const wrapperRef = useRef(null);
   const optionModalRef = useRef(null);
 
-  function useOutsideAlerter(ref: any) {
+  function useOutsideAlerter(ref: any, optionRef: any) {
     const [isDrag, setIsDrag] = useState(true);
 
     useEffect(() => {
       function handleClickOutside(event: any) {
-        if (ref.current && !ref.current.contains(event.target) && isDrag) {
+
+        if(!showColorDots) {
+          if (optionRef.current && !optionRef.current.contains(event.target) && ref.current && !ref.current.contains(event.target)) {
+            setShowColorDots(false)
+          }
+        }
+        else if (ref.current && !ref.current.contains(event.target) && isDrag) {
           setWorkspaceModal(false);
           setIsDrag(false);
         }
+        else {}
       }
+
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
@@ -71,7 +71,7 @@ const WorkspaceModal = ({
     return { isDrag, handleIsDrag };
   }
 
-  const { isDrag, handleIsDrag } = useOutsideAlerter(wrapperRef);
+  const { isDrag, handleIsDrag } = useOutsideAlerter(wrapperRef, optionModalRef);
 
   return (
     <div className='box' style={{ height: '100%', width: '100%', backgroundColor: "red" }}>
@@ -178,7 +178,7 @@ const WorkspaceModal = ({
     </Draggable>
     {showColorDots && (
                 <Draggable bounds="parent" handle='.drag'>
-                  <div ref={wrapperRef} className="optionsModal">
+                  <div ref={optionModalRef} className="optionsModal">
                   <div className="secondWorkspaceModal">
                     <div className='drag'>
                     <Drag />
