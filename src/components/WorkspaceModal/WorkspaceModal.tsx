@@ -74,10 +74,11 @@ const WorkspaceModal = ({
   const { isDrag, handleIsDrag } = useOutsideAlerter(wrapperRef);
 
   return (
-    <Draggable bounds={{ top: -72, left: -20, right: 1330, bottom: 440 }} handle=".handle">
+    <div className='box' style={{ height: '100%', width: '100%', backgroundColor: "red" }}>
+    <Draggable bounds="parent" handle=".handle">
       <div
-        ref={wrapperRef}
         className={`WorkspaceModal ${render ? 'show' : undefined}`}
+        ref={wrapperRef}
       >
         <div className="WorkspaceModalTop">
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -152,9 +153,32 @@ const WorkspaceModal = ({
                 <Dots />
               </div>
               </div>
-              {showColorDots && (
-                <Draggable handle='.drag'>
-                  <div className="optionsModal">
+          </div>
+        </div>
+
+        <div className="WorkspaceSearchBar">
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginLeft: '15px',
+            }}
+          >
+            <SearchIcon />
+          </div>
+          <input
+            className="WorkspaceSearchInput"
+            type="text"
+            placeholder="Search"
+          />
+        </div>
+
+        <TreeView color={color} />
+      </div>
+    </Draggable>
+    {showColorDots && (
+                <Draggable bounds="parent" handle='.drag'>
+                  <div ref={wrapperRef} className="optionsModal">
                   <div className="secondWorkspaceModal">
                     <div className='drag'>
                     <Drag />
@@ -258,29 +282,7 @@ const WorkspaceModal = ({
                 </div>
                 </Draggable>
               )}
-          </div>
-        </div>
-
-        <div className="WorkspaceSearchBar">
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              marginLeft: '15px',
-            }}
-          >
-            <SearchIcon />
-          </div>
-          <input
-            className="WorkspaceSearchInput"
-            type="text"
-            placeholder="Search"
-          />
-        </div>
-
-        <TreeView color={color} />
-      </div>
-    </Draggable>
+    </div>
   );
 };
 
