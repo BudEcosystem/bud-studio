@@ -46,7 +46,7 @@ const WorkspaceModal = ({
     useEffect(() => {
       function handleClickOutside(event: any) {
 
-        if(!showColorDots) {
+        if(showColorDots) {
           if (optionRef.current && !optionRef.current.contains(event.target) && ref.current && !ref.current.contains(event.target)) {
             setShowColorDots(false)
           }
@@ -56,13 +56,13 @@ const WorkspaceModal = ({
           setIsDrag(false);
         }
         else {}
-      }
+    }
 
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, [ref, isDrag, setWorkspaceModal]);
+    }, [ref, isDrag, setWorkspaceModal, showColorDots]);
 
     function handleIsDrag() {
       setIsDrag(!isDrag);
@@ -74,7 +74,7 @@ const WorkspaceModal = ({
   const { isDrag, handleIsDrag } = useOutsideAlerter(wrapperRef, optionModalRef);
 
   return (
-    <div className='box' style={{ height: '100%', width: '100%', backgroundColor: "red" }}>
+    <div className='box' style={{ height: '100%', width: '100%'}}>
     <Draggable bounds="parent" handle=".handle">
       <div
         className={`WorkspaceModal ${render ? 'show' : undefined}`}
