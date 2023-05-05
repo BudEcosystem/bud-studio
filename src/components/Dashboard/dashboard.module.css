@@ -166,7 +166,7 @@ align-items: center;
 .main-sidebar,
 .main-sidebar-menu-1 {
   background-color: var(--primary-bgc) !important;
-  height: 55%;
+  /* height: 55%; */
 }
 
 .main-sidebar-menu-2 {
@@ -174,7 +174,7 @@ align-items: center;
 }
 
 .main-sidebar-menu-3 {
-  margin-top: 100%;
+  margin-top: auto;
   background-color: var(--primary-bgc) !important;
 }
 

@@ -3,3 +3,8 @@
   background: rgba(255, 255, 255, 0.575);
   margin: 15px;
 }
+
+.ant-layout-sider-children {
+  display: flex;
+  flex-direction: column;
+}
