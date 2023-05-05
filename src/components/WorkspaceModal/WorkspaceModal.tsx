@@ -74,7 +74,7 @@ const WorkspaceModal = ({
   const { isDrag, handleIsDrag } = useOutsideAlerter(wrapperRef);
 
   return (
-    <Draggable id="WorkspaceModal" handle=".handle">
+    <Draggable bounds={{ top: -72, left: -20, right: 1330, bottom: 440 }} handle=".handle">
       <div
         ref={wrapperRef}
         className={`WorkspaceModal ${render ? 'show' : undefined}`}
