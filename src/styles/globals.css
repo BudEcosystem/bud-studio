@@ -37,6 +37,8 @@
   --light-gray-50: #4e4d5256;
   --light-gray-200: #c6c6c6;
   --light-gray-300: #adadad;
+
+  --menuColor: rgba(144, 104, 253, 0.2);
 }
 
 * {
