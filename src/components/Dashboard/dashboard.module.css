@@ -402,6 +402,7 @@ border-color: #161616;
   margin-top: 10px !important;
   display: flex !important;
   align-items: center !important;
+  cursor: pointer;
 }
 
 .sidebar-menu-userprofile {

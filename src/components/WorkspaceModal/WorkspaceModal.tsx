@@ -46,6 +46,7 @@ const WorkspaceModal = ({
   };
 
   const wrapperRef = useRef(null);
+  const optionModalRef = useRef(null);
 
   function useOutsideAlerter(ref: any) {
     const [isDrag, setIsDrag] = useState(true);
@@ -54,7 +55,6 @@ const WorkspaceModal = ({
       function handleClickOutside(event: any) {
         if (ref.current && !ref.current.contains(event.target) && isDrag) {
           setWorkspaceModal(false);
-          console.log('CLICKED OUSTIDE', !pinned);
           setIsDrag(false);
         }
       }
@@ -151,8 +151,9 @@ const WorkspaceModal = ({
               <div className="WorkspaceIcon">
                 <Dots />
               </div>
+              </div>
               {showColorDots && (
-                <div style={{ top: 355, right: 200 }} className="optionsModal">
+                <div className="optionsModal">
                   <div className="secondWorkspaceModal">
                     <Drag />
 
@@ -170,6 +171,7 @@ const WorkspaceModal = ({
                           >
                             Create New
                           </h3>
+                          <div className='secondWorkspaceRightArrow'><RightArrow/></div>
                         </div>
                         <div className="secondWorkspaceOption">
                           <Edit />
@@ -183,6 +185,7 @@ const WorkspaceModal = ({
                           >
                             Rename
                           </h3>
+                          <div className='secondWorkspaceRightArrow'><RightArrow/></div>
                         </div>
                       </div>
 
@@ -199,6 +202,7 @@ const WorkspaceModal = ({
                           >
                             Duplicate Space
                           </h3>
+                          <div className='secondWorkspaceRightArrow'><RightArrow/></div>
                         </div>
                         <div className="secondWorkspaceOption">
                           <Copy />
@@ -212,6 +216,7 @@ const WorkspaceModal = ({
                           >
                             Copy to
                           </h3>
+                          <div className='secondWorkspaceRightArrow'><RightArrow/></div>
                         </div>
                         <div className="secondWorkspaceOption">
                           <Move />
@@ -225,6 +230,7 @@ const WorkspaceModal = ({
                           >
                             Move to
                           </h3>
+                          <div className='secondWorkspaceRightArrow'><RightArrow/></div>
                         </div>
                       </div>
 
@@ -241,13 +247,13 @@ const WorkspaceModal = ({
                           >
                             Delete
                           </h3>
+                          <div className='secondWorkspaceRightArrow'><RightArrow/></div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               )}
-            </div>
           </div>
         </div>
 
