@@ -255,7 +255,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       `${
                         i === +activeClassNameColor
                           ? 'sidebar-workspaces-items-active'
-                          : ''
+                          : 'sidebar-workspaces-items'
                       }`
                     ]
                   }`}
@@ -264,7 +264,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       icon={
                         !isCollapsed ? (
                           <svg
-                            style={{ marginLeft: '25px' }}
+                            style={{ marginLeft: '22px' }}
                             width="14"
                             height="14"
                             viewBox="0 0 14 14"
