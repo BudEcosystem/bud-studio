@@ -68,13 +68,13 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  margin-top: 32px;
 }
 
 .slide-arrow,
 .slide-arrow-active {
   z-index: 10;
-  margin-left: -15px;
-  margin-bottom: -100%;
+  margin-left: -35px;
   cursor: pointer;
   transition: all 0.3s;
 }
