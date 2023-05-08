@@ -1,0 +1,27 @@
+
+.editor {
+    width: 90vw;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.editorCover {
+    width: 1000px;
+    height: 200px;
+    background-color: red;
+    background-blend-mode: color, normal, normal, normal;
+    border-radius: 8px;
+}
+
+.editorIcon {
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    background-color: blue;
+    margin-right: 850px;
+    position: absolute;
+    top: 188px;
+    z-index: 20;
+}
