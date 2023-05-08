@@ -22,12 +22,12 @@ const Editor = () => {
                 Add Cover
               </div> }
 
-            {iconUrl ? 
+            {!iconUrl ? 
                 <div className='editorIcon'>
                     <img src={iconUrl} />   
                 </div>
                 : 
-                <div style={{marginRight: "910px", marginTop: "30px",  display: "flex", width: "fit-content", color: "#333539", cursor: "pointer"}}>
+                <div style={{fontSize: "14px", fontWeight: "500", marginRight: "910px", marginTop: "30px",  display: "flex", width: "fit-content", color: "#333539", cursor: "pointer"}}>
                     <div style={{marginRight: "10px"}}><AddIcon/></div> 
                     Add Icon
                 </div>
