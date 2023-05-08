@@ -8,11 +8,12 @@
   border: 1px solid #1d1d1d; 
   padding: 20px;
   position: absolute;
-  top: 180px;
+  top: 20%;
   /* visibility: hidden; */
   opacity: 0;
   transform: scale(0);
   transition: all 0.1s ease;
+  pointer-events: auto;
 }
 .show{
   opacity: 1;
@@ -79,8 +80,9 @@
 
 .optionsModal{
   position: absolute;
-  top: 290px;
+  top: 32%;
   left: 230px;
+  pointer-events: auto;
 }
 
 .handle, .drag{

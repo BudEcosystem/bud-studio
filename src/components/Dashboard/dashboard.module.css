@@ -252,9 +252,6 @@ align-items: center;
   transition: all 1s !important;
 }
 
-.sidebar-menu-item svg {
-}
-
 .logo {
   display: flex;
   justify-content: flex-start;
@@ -292,7 +289,10 @@ border-color: #161616;
   
 }
 
-.sidebar-workspaces-items,
+.sidebar-workspaces-items {
+  border-left: 3px solid transparent !important;
+}
+
 .sidebar-workspaces-items-active {
   display: flex;
   align-items: center;

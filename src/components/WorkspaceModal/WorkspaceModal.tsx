@@ -82,7 +82,7 @@ const WorkspaceModal = ({
   );
 
   return (
-    <div className="box" style={{ height: '100%', width: '100%' }}>
+    <div className="box" style={{position: 'absolute', top: "0", right: "0", height: '100%', width: '100%', pointerEvents: "none"}}>
       <Draggable bounds="parent" handle=".handle">
         <div
           className={`WorkspaceModal ${render ? 'show' : undefined}`}
