@@ -39,6 +39,8 @@
   --light-gray-300: #adadad;
 
   --menuColor: rgba(144, 104, 253, 0.2);
+  --menuHoverColor: rgba(144, 104, 253, 0.2);
+  --menuHoverColorOnLeave: rgba(144, 104, 253, 0.2);
 }
 
 * {

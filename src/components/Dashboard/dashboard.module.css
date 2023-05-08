@@ -314,7 +314,7 @@ border-color: #161616;
   left: 0 !important;
   background: linear-gradient(
     90deg,
-    var(--menuColor) 10%,
+    var(--menuHoverColorOnLeave) 10%,
     rgba(144, 104, 253, 0) 100%
   ) !important ;
   width: 0% !important;
@@ -323,6 +323,14 @@ border-color: #161616;
 
 .sidebar-workspaces-items:hover::before {
   width: 100% !important;
+  background: linear-gradient(
+    90deg,
+    var(--menuHoverColor) 10%,
+    rgba(144, 104, 253, 0) 100%
+  ) !important ;
+  opacity: 0.2;
+  /* background-color: red; */
+
 }
 
 .sidebar-workspaces-items-active::before {

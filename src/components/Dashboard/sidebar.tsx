@@ -56,6 +56,10 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   const [workspaceColor, setWorkspaceColor] = useState();
   const [workspaceName, setWorkspaceName] = useState();
   const [color, setColor] = useState('red');
+  const [hoverColor, setHoverColor] = useState('#ffffff');
+  const [hoverColorOnLeave, setHoverColoronLeave] = useState('#ffffff');
+
+
 
   let workspaceRef = useRef<HTMLDivElement>(null);
 
@@ -73,8 +77,20 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     showWorkspaceModal(menuColor, menuName)
   };
 
+  const setHoverColorHandler = (hovercolor: any) => {
+    setHoverColor(hovercolor)
+  }
+
+  const setHoverColorOnLeave = (hovercolor: any) => {
+    setHoverColoronLeave(hovercolor)
+    // setHoverColor(hovercolor)
+  }
+
   const boxStyle = {
     '--menuColor': color,
+    '--menuHoverColor': hoverColor,
+    '--menuHoverColorOnLeave': hoverColorOnLeave,
+
   };
 
   useEffect(() => {
@@ -258,7 +274,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                           : 'sidebar-workspaces-items'
                       }`
                     ]
-                  }`}
+                  }`} 
                       key={i}
                       style={boxStyle}
                       icon={
@@ -297,6 +313,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                         )
                       }
                       onClick={(e) => handlerColor(menu.color, menu.name, i)}
+                      onMouseEnter={() => setHoverColorHandler(menu.color)}
+                      onMouseLeave={() => setHoverColorOnLeave(menu.color)}
                     >
                       {/* <Link href={menu.link}>{menu.label}</Link> */}
                       <p>{menu.name}</p>
