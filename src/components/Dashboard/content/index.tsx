@@ -6,6 +6,7 @@ import classes from '../dashboard.module.css';
 import Launcher from '../../Launcher/Launcher';
 import OmniSearch from '../../OmniSearch/OmniSearch';
 import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
+import Editor from '../../Editor/Editor';
 
 function ContentView({ setCollapsed, isCollapsed, workspaceName, workspaceColor, workspaceModal, setWorkspaceModal, children, }: any) {
 
@@ -20,7 +21,7 @@ function ContentView({ setCollapsed, isCollapsed, workspaceName, workspaceColor,
       <Content className={classes['site-layout-content']}>
         <Launcher />
        {workspaceModal && <WorkspaceModal name={workspaceName} color={workspaceColor} setWorkspaceModal={setWorkspaceModal} workspaceModal={workspaceModal} /> }
-       <input type="text" placeholder='Type here' />
+       <Editor/>
       </Content>
       <OmniSearch />
     </Layout>
