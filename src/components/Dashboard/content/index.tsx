@@ -20,6 +20,7 @@ function ContentView({ setCollapsed, isCollapsed, workspaceName, workspaceColor,
       <Content className={classes['site-layout-content']}>
         <Launcher />
        {workspaceModal && <WorkspaceModal name={workspaceName} color={workspaceColor} setWorkspaceModal={setWorkspaceModal} workspaceModal={workspaceModal} /> }
+       <input type="text" placeholder='Type here' />
       </Content>
       <OmniSearch />
     </Layout>
