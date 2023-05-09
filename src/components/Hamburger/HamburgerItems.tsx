@@ -12,7 +12,7 @@ const HamburgerItems = ({ title, selected, onClick }) => {
           style={{ display: selected ? 'block' : 'none' }}
         >
           {title}
-        </p>
+        </p> 
       </div>
     </div>
   );
