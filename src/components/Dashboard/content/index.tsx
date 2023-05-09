@@ -7,9 +7,16 @@ import Launcher from '../../Launcher/Launcher';
 import OmniSearch from '../../OmniSearch/OmniSearch';
 import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 import Editor from '../../Editor/Editor';
+import Hamburger from 'components/Hamburger/Hamburger';
 
-function ContentView({ setCollapsed, isCollapsed, workspaceName, workspaceColor, workspaceModal, setWorkspaceModal, children, }: any) {
-
+function ContentView({
+  setCollapsed,
+  isCollapsed,
+  workspaceName,
+  workspaceModal,
+  setWorkspaceModal,
+  children,
+}: any) {
   const { Content } = Layout;
   return (
     <Layout className={classes['site-layout']}>
@@ -20,8 +27,15 @@ function ContentView({ setCollapsed, isCollapsed, workspaceName, workspaceColor,
       {children}
       <Content className={classes['site-layout-content']}>
         <Launcher />
-       {workspaceModal && <WorkspaceModal name={workspaceName} color={workspaceColor} setWorkspaceModal={setWorkspaceModal} workspaceModal={workspaceModal} /> }
-       <Editor/>
+        {workspaceModal && (
+          <WorkspaceModal
+            name={workspaceName}
+            setWorkspaceModal={setWorkspaceModal}
+            workspaceModal={workspaceModal}
+          />
+        )}
+        <Editor />
+        <Hamburger />
       </Content>
       <OmniSearch />
     </Layout>

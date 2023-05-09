@@ -1,5 +1,5 @@
-import Tree from "./Tree/Tree"
-import "./TreeView.css"
+import Tree from './Tree/Tree';
+import './TreeView.css';
 
 const treeData = [
   {
@@ -77,10 +77,10 @@ const treeData = [
   },
 ];
 
-function TreeView({ color }) {
+function TreeView() {
   return (
     <div className="tree">
-      <Tree data={treeData} color={color} />
+      <Tree data={treeData} />
     </div>
   );
 }
