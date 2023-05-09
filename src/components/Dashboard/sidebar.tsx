@@ -3,6 +3,8 @@ import { Layout, Menu, Modal, Space } from 'antd';
 import { Link, Route, Routes, To, useNavigate } from 'react-router-dom';
 import classes from './dashboard.module.css';
 import ContentView from './content';
+import { changeColor } from 'redux/slices/workspace';
+import { useDispatch,useSelector } from 'react-redux';
 
 const { Sider } = Layout;
 interface SideBarProps {
@@ -46,6 +48,7 @@ const sidebarOptions = [
 ];
 
 function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
+  const dispatch = useDispatch()
   const [activeClassName, setActiveClassName] = useState('0');
   const [activeClassNameColor, setActiveClassNameColor] = useState(-1);
   const addWorkspaceInput = useRef(null);
@@ -59,38 +62,41 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   const [hoverColor, setHoverColor] = useState('#ffffff');
   const [hoverColorOnLeave, setHoverColoronLeave] = useState('#ffffff');
 
-
-
   let workspaceRef = useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate();
   const navigateContent = (e: any, link: To) => {
-    setActiveClassName(e.key)
+    setActiveClassName(e.key);
     navigate(link);
-    setActiveClassNameColor(-1)
+    setActiveClassNameColor(-1);
   };
 
-  const handlerColor = (menuColor: any, menuName:any, i: any) => {
-    setActiveClassNameColor(i)
-    setActiveClassName('-1')
-    setColor(menuColor)
-    showWorkspaceModal(menuColor, menuName)
+  const handlerColor = (menuColor: any, menuName: any, i: any) => {
+try {
+  setActiveClassNameColor(i);
+  setActiveClassName('-1');
+  setColor(menuColor);
+  showWorkspaceModal(menuColor, menuName);
+  dispatch(changeColor(menuColor))
+}
+catch(err){
+  console.log(err)
+}
   };
 
   const setHoverColorHandler = (hovercolor: any) => {
-    setHoverColor(hovercolor)
-  }
+    setHoverColor(hovercolor);
+  };
 
   const setHoverColorOnLeave = (hovercolor: any) => {
-    setHoverColoronLeave(hovercolor)
+    setHoverColoronLeave(hovercolor);
     // setHoverColor(hovercolor)
-  }
+  };
 
   const boxStyle = {
     '--menuColor': color,
     '--menuHoverColor': hoverColor,
     '--menuHoverColorOnLeave': hoverColorOnLeave,
-
   };
 
   useEffect(() => {
@@ -134,7 +140,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     setHex_code('#ffffff');
     setShowAddWorkspace(!showAddWorkspace);
   };
- 
+
   return (
     <>
       <Sider
@@ -192,227 +198,231 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
               ))}
             </Menu>
             <div className={classes['sidebarMenuTop']}>
-            <Menu
-              className={classes['main-sidebar-menu-2']}
-              theme="dark"
-              mode="inline"
-            >
-              <Menu.Item
-                onClick={(e) => navigateContent(e, '/workspaces')}
-                className={`${classes['sidebar-work-spaces']} ${classes['sidebar-menu-items']}`}
-                key="menu1"
-                icon={
-                  <img
-                    src="/images/other/work-spaces.png"
-                    alt="#"
-                    width={14}
-                    height={14}
-                  />
-                }
-              >
-                <div className={classes['sidebar-work-spaces-box']}>
-                  <label>Work spaces</label>
-                  {isCollapsed ? null : (
-                    <p
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowAddWorkspace(!showAddWorkspace);
-                      }}
-                      className={classes['sidebar-work-spaces-box-p']}
-                    >
-                      {showAddWorkspace ? 'X' : 'New +'}
-                    </p>
-                  )}
-                </div>
-              </Menu.Item>
-              {showAddWorkspace && (
-                <div className={classes['workspace-add']}>
-                  <input
-                    className={classes['workspace-add-color']}
-                    type="color"
-                    name="hex_code"
-                    value={hex_code}
-                    defaultValue={hex_code}
-                    onChange={(e) => setHex_code(e.target.value)}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Space name"
-                    ref={addWorkspaceInput}
-                    onKeyUp={(event) => addWorkspace(event)}
-                  />
-                </div>
-              )}
-              <Menu.Item
-                className={`${classes['sidebar-ws-fvrt']}`}
-                icon={
-                  <img
-                    src={'/images/other/favourite-icon.png'}
-                    alt={'#'}
-                    width={14}
-                    height={14}
-                  />
-                }
-              >
-                <div className={`${classes['sidebar-inline-box']}`}>
-                  <label>Favourites</label>
-                  {isCollapsed ? null : (
-                    <p style={{ marginLeft: '70px' }}>⌘ L</p>
-                  )}
-                </div>
-              </Menu.Item>
-
-              <div className={`${classes['main-sidebar-menu-ws-box']}`}>
-                {workspaces.length > 0 &&
-                  workspaces.map((menu: any, i: any) => (
-                    <Menu.Item
-                      className={`${
-                    classes[
-                      `${
-                        i === +activeClassNameColor
-                          ? 'sidebar-workspaces-items-active'
-                          : 'sidebar-workspaces-items'
-                      }`
-                    ]
-                  }`} 
-                      key={i}
-                      style={boxStyle}
-                      icon={
-                        !isCollapsed ? (
-                          <svg
-                            style={{ marginLeft: '22px' }}
-                            width="14"
-                            height="14"
-                            viewBox="0 0 14 14"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <rect
-                              width="14"
-                              height="14"
-                              rx="4"
-                              fill={menu.color}
-                            />
-                          </svg>
-                        ) : (
-                          <svg
-                            style={{ marginLeft: '10px' }}
-                            width="14"
-                            height="14"
-                            viewBox="0 0 14 14"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <rect
-                              width="14"
-                              height="14"
-                              rx="4"
-                              fill={menu.color}
-                            />
-                          </svg>
-                        )
-                      }
-                      onClick={(e) => handlerColor(menu.color, menu.name, i)}
-                      onMouseEnter={() => setHoverColorHandler(menu.color)}
-                      onMouseLeave={() => setHoverColorOnLeave(menu.color)}
-                    >
-                      {/* <Link href={menu.link}>{menu.label}</Link> */}
-                      <p>{menu.name}</p>
-                    </Menu.Item>
-                  ))}
-              </div>
-            </Menu>
-
-            {isCollapsed ? (
               <Menu
-                style={{ left: '-32px' }}
+                className={classes['main-sidebar-menu-2']}
                 theme="dark"
                 mode="inline"
-                className={classes['main-sidebar-menu-3']}
               >
                 <Menu.Item
-                  className={`${classes['sidebar-menu-userprofile']}`}
+                  onClick={(e) => navigateContent(e, '/workspaces')}
+                  className={`${classes['sidebar-work-spaces']} ${classes['sidebar-menu-items']}`}
+                  key="menu1"
                   icon={
-                    <div
-                      className={`${classes['sidebar-menu-userprofile-profile']}`}
-                    >
-                      <img
-                        src={'/images/other/test-user.png'}
-                        alt={'#'}
-                        width={25}
-                        height={25}
-                      />
-                    </div>
+                    <img
+                      src="/images/other/work-spaces.png"
+                      alt="#"
+                      width={14}
+                      height={14}
+                    />
                   }
                 >
-                  <div className={`${classes['sidebar-menu-userprofile-box']}`}>
-                    <span
-                      className={`${classes['sidebar-menu-userprofile-details']}`}
-                    >
-                      <h1>Mark Louis</h1>
-                      <p>@mark.ls</p>
-                    </span>
-                    {isCollapsed ? (
-                      <img
-                        style={{ marginLeft: '10px' }}
-                        className="hover-effect"
-                        src={'/images/other/settings-icon.png'}
-                        alt={'#'}
-                        width={15}
-                        height={15}
-                      />
-                    ) : (
-                      <img
-                        className="hover-effect"
-                        src={'/images/other/settings-icon.png'}
-                        alt={'#'}
-                        width={15}
-                        height={15}
-                      />
+                  <div className={classes['sidebar-work-spaces-box']}>
+                    <label>Work spaces</label>
+                    {isCollapsed ? null : (
+                      <p
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowAddWorkspace(!showAddWorkspace);
+                        }}
+                        className={classes['sidebar-work-spaces-box-p']}
+                      >
+                        {showAddWorkspace ? 'X' : 'New +'}
+                      </p>
                     )}
                   </div>
                 </Menu.Item>
-              </Menu>
-            ) : (
-              <Menu
-                theme="dark"
-                mode="inline"
-                className={classes['main-sidebar-menu-3']}
-              >
-                <Menu.Item
-                  className={`${classes['sidebar-menu-userprofile']}`}
-                  icon={
-                    <div
-                      className={`${classes['sidebar-menu-userprofile-profile']}`}
-                    >
-                      <img
-                        src={'/images/other/test-user.png'}
-                        alt={'#'}
-                        width={25}
-                        height={25}
-                      />
-                    </div>
-                  }
-                >
-                  <div className={`${classes['sidebar-menu-userprofile-box']}`}>
-                    <span
-                      className={`${classes['sidebar-menu-userprofile-details']}`}
-                    >
-                      <h1>Mark Louis</h1>
-                      <p>@mark.ls</p>
-                    </span>
-
-                    <img
-                      className="hover-effect"
-                      src={'/images/other/settings-icon.png'}
-                      alt={'#'}
-                      width={15}
-                      height={15}
+                {showAddWorkspace && (
+                  <div className={classes['workspace-add']}>
+                    <input
+                      className={classes['workspace-add-color']}
+                      type="color"
+                      name="hex_code"
+                      value={hex_code}
+                      defaultValue={hex_code}
+                      onChange={(e) => setHex_code(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Space name"
+                      ref={addWorkspaceInput}
+                      onKeyUp={(event) => addWorkspace(event)}
                     />
                   </div>
+                )}
+                <Menu.Item
+                  className={`${classes['sidebar-ws-fvrt']}`}
+                  icon={
+                    <img
+                      src={'/images/other/favourite-icon.png'}
+                      alt={'#'}
+                      width={14}
+                      height={14}
+                    />
+                  }
+                >
+                  <div className={`${classes['sidebar-inline-box']}`}>
+                    <label>Favourites</label>
+                    {isCollapsed ? null : (
+                      <p style={{ marginLeft: '70px' }}>⌘ L</p>
+                    )}
+                  </div>
                 </Menu.Item>
+
+                <div className={`${classes['main-sidebar-menu-ws-box']}`}>
+                  {workspaces.length > 0 &&
+                    workspaces.map((menu: any, i: any) => (
+                      <Menu.Item
+                        className={`${
+                          classes[
+                            `${
+                              i === +activeClassNameColor
+                                ? 'sidebar-workspaces-items-active'
+                                : 'sidebar-workspaces-items'
+                            }`
+                          ]
+                        }`}
+                        key={i}
+                        style={boxStyle}
+                        icon={
+                          !isCollapsed ? (
+                            <svg
+                              style={{ marginLeft: '22px' }}
+                              width="14"
+                              height="14"
+                              viewBox="0 0 14 14"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <rect
+                                width="14"
+                                height="14"
+                                rx="4"
+                                fill={menu.color}
+                              />
+                            </svg>
+                          ) : (
+                            <svg
+                              style={{ marginLeft: '10px' }}
+                              width="14"
+                              height="14"
+                              viewBox="0 0 14 14"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <rect
+                                width="14"
+                                height="14"
+                                rx="4"
+                                fill={menu.color}
+                              />
+                            </svg>
+                          )
+                        }
+                        onClick={(e) => handlerColor(menu.color, menu.name, i)}
+                        onMouseEnter={() => setHoverColorHandler(menu.color)}
+                        onMouseLeave={() => setHoverColorOnLeave(menu.color)}
+                      >
+                        {/* <Link href={menu.link}>{menu.label}</Link> */}
+                        <p>{menu.name}</p>
+                      </Menu.Item>
+                    ))}
+                </div>
               </Menu>
-            )}
+
+              {isCollapsed ? (
+                <Menu
+                  style={{ left: '-32px' }}
+                  theme="dark"
+                  mode="inline"
+                  className={classes['main-sidebar-menu-3']}
+                >
+                  <Menu.Item
+                    className={`${classes['sidebar-menu-userprofile']}`}
+                    icon={
+                      <div
+                        className={`${classes['sidebar-menu-userprofile-profile']}`}
+                      >
+                        <img
+                          src={'/images/other/test-user.png'}
+                          alt={'#'}
+                          width={25}
+                          height={25}
+                        />
+                      </div>
+                    }
+                  >
+                    <div
+                      className={`${classes['sidebar-menu-userprofile-box']}`}
+                    >
+                      <span
+                        className={`${classes['sidebar-menu-userprofile-details']}`}
+                      >
+                        <h1>Mark Louis</h1>
+                        <p>@mark.ls</p>
+                      </span>
+                      {isCollapsed ? (
+                        <img
+                          style={{ marginLeft: '10px' }}
+                          className="hover-effect"
+                          src={'/images/other/settings-icon.png'}
+                          alt={'#'}
+                          width={15}
+                          height={15}
+                        />
+                      ) : (
+                        <img
+                          className="hover-effect"
+                          src={'/images/other/settings-icon.png'}
+                          alt={'#'}
+                          width={15}
+                          height={15}
+                        />
+                      )}
+                    </div>
+                  </Menu.Item>
+                </Menu>
+              ) : (
+                <Menu
+                  theme="dark"
+                  mode="inline"
+                  className={classes['main-sidebar-menu-3']}
+                >
+                  <Menu.Item
+                    className={`${classes['sidebar-menu-userprofile']}`}
+                    icon={
+                      <div
+                        className={`${classes['sidebar-menu-userprofile-profile']}`}
+                      >
+                        <img
+                          src={'/images/other/test-user.png'}
+                          alt={'#'}
+                          width={25}
+                          height={25}
+                        />
+                      </div>
+                    }
+                  >
+                    <div
+                      className={`${classes['sidebar-menu-userprofile-box']}`}
+                    >
+                      <span
+                        className={`${classes['sidebar-menu-userprofile-details']}`}
+                      >
+                        <h1>Mark Louis</h1>
+                        <p>@mark.ls</p>
+                      </span>
+
+                      <img
+                        className="hover-effect"
+                        src={'/images/other/settings-icon.png'}
+                        alt={'#'}
+                        width={15}
+                        height={15}
+                      />
+                    </div>
+                  </Menu.Item>
+                </Menu>
+              )}
             </div>
           </div>
         </div>
