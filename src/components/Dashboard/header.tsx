@@ -6,6 +6,7 @@
 import { useState } from 'react';
 import { Layout, Space, Breadcrumb} from 'antd';
 import classes from './dashboard.module.css';
+import { useSelector } from 'react-redux';
 
 
 const { Header } = Layout;
@@ -111,7 +112,8 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
 
   const [feedtext,setFeedText] = useState("Editor");
   const [switchToggle, setSwitchToggle] = useState(false)
-
+  const {workspace}:any = useSelector(state=>state)
+  let { color } = workspace
   const switchToggled = () => {
     setSwitchToggle(!switchToggle);
     if(switchToggle) {
@@ -183,8 +185,8 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
                 {
                   title: (
                     <>
-                      <FileIcon themeColor="#939AFF" />
-                      <span style={{color: "#939AFF"}}>UI/UX Design</span>
+                      <FileIcon themeColor={color} />
+                      <span style={{color: color}}>UI/UX Design</span>
                     </>
                   ),
                 },
@@ -193,11 +195,11 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
         </div>
 
         <div className={classes['controls-switch-box']}>
-          <div onClick={switchToggled} style={{border: `${!switchToggle ? "1px solid #939AFF" : "1px solid #25272B"}`, background: `${!switchToggle ? "#1a1a20" : "#25272B"}` }} className={classes['controls-switch']}>
-            <PencilIcon themeColor={`${!switchToggle ? "#939AFF" : "#7B8388"}`}/>
+          <div onClick={switchToggled} style={{border: `${!switchToggle ? `1px solid ${color}` : "1px solid #25272B"}`, background: `${!switchToggle ? "#1a1a20" : "#25272B"}` }} className={classes['controls-switch']}>
+            <PencilIcon themeColor={`${!switchToggle ? color : "#7B8388"}`}/>
           </div>
-          <div onClick={switchToggled} style={{border: `${switchToggle ? "1px solid #939AFF" : "1px solid #25272B"}` , background: `${switchToggle ? "#1a1a20" : "#25272B"}` }} className={classes['controls-switch']}>
-            <CanvasIcon themeColor={`${switchToggle ? "#939AFF" : "#7B8388"}`}/>
+          <div onClick={switchToggled} style={{border: `${switchToggle ? `1px solid ${color}` : "1px solid #25272B"}` , background: `${switchToggle ? "#1a1a20" : "#25272B"}` }} className={classes['controls-switch']}>
+            <CanvasIcon themeColor={`${switchToggle ? color : "#7B8388"}`}/>
           </div>
           <div className={classes['controls-switch-name']}>
             {feedtext}
