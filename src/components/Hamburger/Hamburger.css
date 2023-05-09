@@ -1,0 +1,43 @@
+.hamBurgerParent{
+    position: absolute;
+    top: 65%;
+}
+
+.hamItemsContainer {
+    display: flex;
+    align-items: center;
+    color: #B9B7B7;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 100%;
+    margin-top: 7px;
+    transition: all 0.5s ease;
+}
+
+.square {
+    width: 13px;
+    height: 13px;
+    background: #161819;
+    border: 1px solid #333538;
+    border-radius: 3px;
+    transform: rotate(45deg);
+}
+
+.hamItemsTitle {
+    margin-left: 7px;
+}
+
+.fillColor{
+    background: #939AFF;
+}
+
+.verticalBar {
+    width: 5px;
+    height: 80px;
+    margin-left: 4px;
+    margin-top: 2px;
+    background: linear-gradient(180deg, #939AFF 0%, rgba(147, 154, 255, 0) 100%);
+    border-radius: 1.5px 1.5px 0px 14px;
+}
