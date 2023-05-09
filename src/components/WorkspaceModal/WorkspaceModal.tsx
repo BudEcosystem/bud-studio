@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Draggable from 'react-draggable';
 import {
   Pin,
@@ -16,15 +17,12 @@ import {
 import TreeView from './TreeView/TreeView';
 import './WorkspaceModal.css';
 
-const WorkspaceModal = ({
-  name,
-  color,
-  setWorkspaceModal,
-  workspaceModal,
-}: any) => {
+const WorkspaceModal = ({ name, setWorkspaceModal, workspaceModal }: any) => {
   const [showColorPin, setShowColorPin] = useState(false);
   const [showColorDots, setShowColorDots] = useState(false);
   const [render, setRender] = useState(false);
+  const { workspace }: any = useSelector((state) => state);
+  let { color } = workspace;
 
   useEffect(() => {
     if (workspaceModal) {
@@ -82,7 +80,17 @@ const WorkspaceModal = ({
   );
 
   return (
-    <div className="box" style={{position: 'absolute', top: "0", right: "0", height: '100%', width: '100%', pointerEvents: "none"}}>
+    <div
+      className="box"
+      style={{
+        position: 'absolute',
+        top: '0',
+        right: '0',
+        height: '100%',
+        width: '100%',
+        pointerEvents: 'none',
+      }}
+    >
       <Draggable bounds="parent" handle=".handle">
         <div
           className={`WorkspaceModal ${render ? 'show' : undefined}`}
@@ -181,7 +189,7 @@ const WorkspaceModal = ({
             />
           </div>
 
-          <TreeView color={color} />
+          <TreeView />
         </div>
       </Draggable>
       {showColorDots && (

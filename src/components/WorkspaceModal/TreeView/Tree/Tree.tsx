@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useSelector } from 'react-redux';
 import { UpArrow } from "../../../OmniSearch/Panel/PanelOption/PanelSvgIcons";
 import { Folder, WhiteFolder, Page } from "./TreeSvgIcons";
 import "./Tree.css"
 
-function Tree({ data = [], color }) {
+function Tree({ data = []}) {
   const [activeNode, setActiveNode] = useState(null);
 
   const handleNodeClick = (node) => {
@@ -20,7 +21,6 @@ function Tree({ data = [], color }) {
           <TreeNode
             key={tree.id}
             node={tree}
-            color={color}
             isFirst={i === i}
             isActive={activeNode === tree}
             onClick={handleNodeClick}
@@ -32,8 +32,10 @@ function Tree({ data = [], color }) {
   );
 }
 
-function TreeNode({ node, color, isFirst, isActive, onClick, activeNode }) {
+function TreeNode({ node, isFirst, isActive, onClick, activeNode }) {
   const [childVisible, setChildVisiblity] = useState(!node.isParent);
+  const {workspace}:any = useSelector(state=>state)
+  let { color } = workspace
   const hasChild = !!node.children;
 
   const isParentStyle = {
@@ -80,7 +82,6 @@ function TreeNode({ node, color, isFirst, isActive, onClick, activeNode }) {
               <TreeNode
                 key={child.id}
                 node={child}
-                color={color}
                 isFirst=""
                 isActive={activeNode === child}
                 onClick={onClick}
