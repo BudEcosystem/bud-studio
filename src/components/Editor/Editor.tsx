@@ -19,18 +19,16 @@ const Editor = () => {
                     inlineToolbar: true,
                     config: {
                         // Add strikethrough and code formatting options to the inline toolbar
-                        inlineToolbar: ['bold', 'italic', 'link', 'strikethrough', 'code']
+                        inlineToolbar: ['bold', 'italic', 'link', 'alignment', 'code', 'strikethrough']
                     }
                   }
             },
             data: {
-                time: 1552744582955,
                 blocks: [
                   {
                     type: "header",
-                    "data": {
-                        "text": "Type your Heading here!",
-                        "level": 2
+                    data: {
+                        text: "Type your heading here",
                       }
                   }
                 ],
