@@ -10,7 +10,7 @@
 .editorCover {
     width: 1000px;
     height: 200px;
-    background-color: red;
+    background-image: linear-gradient(to bottom right, #9068fd, white);
     background-blend-mode: color, normal, normal, normal;
     border-radius: 8px;
 }
@@ -25,16 +25,14 @@
     top: 188px;
 }
 
-.editorHeading {
-    margin-right: 750px;
-    margin-top: 80px;
-}
-
-.editorjsHeading {
+.editorHeadingDiv {
     margin-top: 60px;
     margin-right: 350px;
-    height: 100px;
+    max-height: 60px;
     width: 800px;
+}
+.editorjsHeading {
+    
 }
 
 .editorjsHeading .ce-inline-toolbar__toggler-and-button-wrapper {
@@ -88,10 +86,91 @@
     background-color: #1F1E22 !important;
 }
 
+.editorjsHeading .ce-inline-tool--bold:hover {
+    background-color: #1F1E22 !important;
+}
+
 .editorjsHeading .ce-inline-tool--italic:hover {
     background-color: #1F1E22 !important;
 }
 
 .editorjsHeading .ce-inline-tool--link:hover {
+    background-color: #1F1E22 !important;
+}
+
+.editorjsHeading .ce-conversion-toolbar {
+    background-color: black !important;
+}
+
+.editorjsHeading .ce-conversion-tool__icon svg {
+    color: black;
+}
+
+.editorParaDiv {
+    margin-top: 60px;
+    margin-right: 340px;
+    height: 150px;
+    width: 840px;
+}
+
+.editorjsPara {
+}
+
+.editorjsPara .ce-paragraph {
+    font-size: 18px;
+}
+
+.editorjsPara .ce-popover {
+    background-color: black;
+}
+
+.editorjsPara .cdx-search-field {
+    display: none;
+}
+
+.editorjsPara .ce-inline-toolbar__toggler-and-button-wrapper {
+    background-color: black;
+}
+
+.editorjsPara .ce-inline-toolbar {
+    border-color: black;
+    top: -30px !important;
+}
+
+.editorjsPara .ce-inline-tool--active:hover {
+    background-color: #1F1E22 !important;
+}
+
+.editorjsPara .ce-inline-tool--bold:hover {
+    background-color: #1F1E22 !important;
+}
+
+.editorjsPara .ce-inline-tool--italic:hover {
+    background-color: #1F1E22 !important;
+}
+
+.editorjsPara .ce-inline-tool--link:hover {
+    background-color: #1F1E22 !important;
+}
+
+.editorjsPara .ce-conversion-toolbar {
+    background-color: black !important;
+}
+
+.editorjsPara .ce-conversion-tool__icon svg {
+    color: black;
+}
+
+.editorjsPara .ce-inline-toolbar__dropdown:hover {
+    background-color: #1F1E22 !important;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.editorjsPara .ce-popover__item-icon {
+    color: black;
+}
+
+.editorjsPara .ce-popover__item:hover {
     background-color: #1F1E22 !important;
 }

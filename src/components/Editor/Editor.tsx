@@ -10,13 +10,17 @@ const Editor = () => {
     const [iconUrl, setIconUrl] = useState();
 
     useEffect(() => {
-        const editor = new EditorJS({
+        const editor1 = new EditorJS({
             holder: 'editorjs',
             onReady: () => {console.log('Editor.js is ready to work!')},
             tools: { 
                 header: {
                     class: Header,
-                    inlineToolbar: true
+                    inlineToolbar: true,
+                    config: {
+                        // Add strikethrough and code formatting options to the inline toolbar
+                        inlineToolbar: ['bold', 'italic', 'link', 'strikethrough', 'code']
+                    }
                   }
             },
             data: {
@@ -27,6 +31,29 @@ const Editor = () => {
                     "data": {
                         "text": "Type your Heading here!",
                         "level": 2
+                      }
+                  }
+                ],
+                version: "2.11.10"
+              }
+          });
+
+          const editor2 = new EditorJS({
+            holder: 'editorjs2',
+            onReady: () => {console.log('Editor.js 2 is ready to work!')},
+            tools: { 
+                header: {
+                    class: Header,
+                    inlineToolbar: true
+                  }
+            },
+            data: {
+                time: 1552744582955,
+                blocks: [
+                  {
+                    type: "paragraph",
+                    "data": {
+                        "text": "Type subpara here!",
                       }
                   }
                 ],
@@ -67,9 +94,16 @@ const Editor = () => {
                 <h2 contentEditable="true">Type your Heading here</h2>
             </div> */}
 
+            <div className='editorHeadingDiv'>
              <div className='editorjsHeading' id="editorjs" >
              </div>
-        
+             </div>
+
+            <div className='editorParaDiv'>
+            <div className='editorjsPara' id="editorjs2">
+            </div>
+            </div>
+             
     </div>
   )
 }
