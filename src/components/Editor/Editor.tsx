@@ -1,10 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Editor.css';
+import EditorJS from '@editorjs/editorjs';
+import Header from '@editorjs/header';
+import Paragraph from '@editorjs/paragraph';
 import { AddCover, AddIcon } from './EditorIcons';
 
 const Editor = () => {
     const [coverUrl, setCoverUrl] = useState();
     const [iconUrl, setIconUrl] = useState();
+
+    useEffect(() => {
+        const editor = new EditorJS({
+            holder: 'editorjs',
+            onReady: () => {console.log('Editor.js is ready to work!')},
+            tools: { 
+                header: {
+                    class: Header,
+                    inlineToolbar: true
+                  }
+            },
+            data: {
+                time: 1552744582955,
+                blocks: [
+                  {
+                    type: "header",
+                    "data": {
+                        "text": "Type your Heading here!",
+                        "level": 2
+                      }
+                  }
+                ],
+                version: "2.11.10"
+              }
+          });
+    },[])
+    
 
   return (
     <div className='editor'>
@@ -32,6 +62,13 @@ const Editor = () => {
                     Add Icon
                 </div>
             }
+
+            {/* <div className='editorHeading'>
+                <h2 contentEditable="true">Type your Heading here</h2>
+            </div> */}
+
+             <div className='editorjsHeading' id="editorjs" >
+             </div>
         
     </div>
   )

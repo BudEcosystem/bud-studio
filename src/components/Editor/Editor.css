@@ -24,3 +24,74 @@
     position: absolute;
     top: 188px;
 }
+
+.editorHeading {
+    margin-right: 750px;
+    margin-top: 80px;
+}
+
+.editorjsHeading {
+    margin-top: 60px;
+    margin-right: 350px;
+    height: 100px;
+    width: 800px;
+}
+
+.editorjsHeading .ce-inline-toolbar__toggler-and-button-wrapper {
+    background-color: black;
+}
+
+.editorjsHeading .ce-toolbar__actions {
+    display: none;
+}
+
+.editorjsHeading .ce-header {
+    font-size: 30px;
+}
+
+.editorjsHeading .ce-header::selection {
+    background-color: #9068fd;
+}
+
+.editorjsHeading .ce-header span::selection {
+    background-color: #9068fd;
+}
+
+.editorjsHeading .ce-header i::selection {
+    background-color: #9068fd;
+}
+
+.editorjsHeading .ce-block__content::selection {
+    background-color: #9068fd !important;
+}
+
+.editorjsHeading .codex-editor {
+    height: 200px;
+}
+
+.editorjsHeading .ce-conversion-toolbar__label {
+    color: white;
+}
+
+.editorjsHeading .ce-inline-toolbar {
+    border-color: black;
+    top: -30px !important;
+}
+
+.editorjsHeading .ce-inline-toolbar__dropdown:hover {
+    background-color: #1F1E22 !important;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.editorjsHeading .ce-inline-tool--active:hover {
+    background-color: #1F1E22 !important;
+}
+
+.editorjsHeading .ce-inline-tool--italic:hover {
+    background-color: #1F1E22 !important;
+}
+
+.editorjsHeading .ce-inline-tool--link:hover {
+    background-color: #1F1E22 !important;
+}
