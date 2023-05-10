@@ -8,6 +8,7 @@ import OmniSearch from '../../OmniSearch/OmniSearch';
 import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 import Editor from '../../Editor/Editor';
 import Hamburger from 'components/Hamburger/Hamburger';
+import ListView from 'components/ListView/ListView';
 
 function ContentView({
   setCollapsed,
@@ -34,7 +35,8 @@ function ContentView({
             workspaceModal={workspaceModal}
           />
         )}
-        <Editor />
+        {/* <Editor /> */}
+        <ListView />
         <Hamburger />
       </Content>
       <OmniSearch />

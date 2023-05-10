@@ -1,0 +1,286 @@
+.listViewContainer {
+    margin-left: 56px;
+}
+
+.addCoverContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.flexVerticalCenter {
+    display: flex;
+    align-items: center;
+}
+
+.flexCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addCoverText {
+    /* font-family: 'Noto Sans'; */
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -0.02em;
+    color: #333539;
+    margin-left: 5px;
+}
+
+.kabuni {
+    display: flex;
+    align-items: center;
+}
+
+.tick {
+    font-family: arial;
+    -ms-transform: scaleX(-1) rotate(-35deg);
+    /* IE 9 */
+    -webkit-transform: scaleX(-1) rotate(-35deg);
+    /* Chrome, Safari, Opera */
+    transform: scaleX(-1) rotate(-35deg);
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 0.5;
+    margin-left: -9px;
+    margin-top: .5px;
+}
+
+.kabuniLogo {
+    width: 26px;
+    height: 26px;
+    background: #939AFF;
+    mix-blend-mode: lighten;
+    border-radius: 3.30189px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.kabuniText {
+    /* font-family: 'Noto Sans'; */
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 100%;
+    color: #FFFFFF;
+    margin-left: 10px;
+}
+
+.kabuniBottomText {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 100%;
+    color: #BBBBBB;
+    margin-top: 10px;
+}
+
+.optionsComponentParentContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.optionsComponentContainer {
+    margin-top: 60px;
+    margin-right: 50px;
+}
+
+.optionsComponentParent {
+    display: flex;
+}
+
+.dateText {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    color: #FFFFFF;
+    margin-left: 10px;
+}
+
+.dateContainer {
+    display: flex;
+    align-items: center;
+}
+
+.circularImageComponentContainer {
+    margin-left: 55px;
+}
+
+.circularImageContainer {
+    display: flex;
+}
+
+.imgCircular {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: aqua;
+    margin-left: -10px;
+    border: 2px solid #131313;
+}
+
+.imgCircularTxt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10.6667px;
+    line-height: 100%;
+    letter-spacing: 0.04em;
+    color: white;
+    background: linear-gradient(0deg, #29292B, #29292B), #D9D9D9 !important;
+}
+
+.newTaskPanelItems {
+    /* margin-left: 14px; */
+}
+
+.itemName {
+    margin-left: 9px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #8A8B8B;
+}
+
+.verticalLine {
+    margin: 0 14px;
+    color: #595959;
+}
+
+.newTaskContainer {
+    width: 98px;
+    height: 32px;
+    background: #212023;
+    border-radius: 6px;
+    margin-left: 24px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.plusContainer {
+    width: 27px;
+    height: 26px;
+    background: #0F0F0F;
+    border-radius: 5px;
+    font-size: 25px;
+    font-weight: 400;
+    color: #939AFF;
+}
+
+.newTaskText {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #FFFFFF;
+    margin-left: 6px;
+}
+
+.threeDots {
+    margin-left: 25px;
+}
+
+.curveContainer {
+    /* width: 90%; */
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    margin-top: 13px;
+}
+
+.borderCurveLine {
+    width: 93%;
+    height: 15px;
+    border-width: 1px 2px 0px 1px;
+    border-style: solid;
+    border-color: #252525;
+    filter: drop-shadow(0px -2px 5px rgba(0, 0, 0, 0.77));
+    border-radius: 21px 21px 0px 0px;
+}
+
+.mainListContainer {
+    width: 92%;
+    /* height: 100px;
+    background: #101010;
+    border: 0.5px dashed #2F2F2F;
+    border-radius: 12px; */
+}
+
+.mainListComponentContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.customCollapse .ant-collapse-header-text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 154.5%;
+    color: #FFFFFF;
+
+}
+
+.textIcon {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    margin-left: 21px;
+}
+
+.textIcon2 {
+    width: 12px;
+    height: 12px;
+    border: 0.8px solid #FFFFFF;
+    border-radius: 4px;
+    margin-left: 12px;
+}
+
+.insideCollapse .ant-collapse-content-box {
+    padding: 10px !important;
+}
+
+/* .insideCollapse > .ant-collapse-header{
+    padding: 0px !important;
+} */
+
+.hello .panelHeader .ant-collapse-header {
+    padding: 9px;
+}
+
+.HeaderSubCompParent {
+    justify-content: space-between;
+}
+
+.skillBar {
+    width: 77px;
+    height: 4px;
+    background: #0F0F0F;
+    border-radius: 21px;
+}
+
+.recContainer{
+    width: 59px;
+height: 18px;
+padding: 2px;
+background: #3D4047;
+border-radius: 6px;
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 100%;
+color: #C6C6C6;
+
+}
