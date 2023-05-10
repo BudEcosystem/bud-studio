@@ -7,6 +7,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    overflow: auto;
 }
 
 .editorCover {
@@ -45,12 +46,20 @@
     background-color: black;
 }
 
-.editorjsHeading .ce-toolbar__actions {
+.editorjsHeading .ce-inline-tool:hover {
+    background-color: #1F1E22 !important;
+}
+
+.editorjsHeading .ce-toolbar__plus {
     display: none;
 }
 
 .editorjsHeading .ce-header {
     font-size: 30px;
+}
+
+.editorjsHeading .cdx-settings-button {
+    color: white;
 }
 
 .editorjsHeading .ce-header::selection {
@@ -71,10 +80,6 @@
 
 .editorjsHeading .codex-editor {
     height: 200px;
-}
-
-.editorjsHeading .ce-conversion-toolbar__label {
-    color: white;
 }
 
 .editorjsHeading .ce-inline-toolbar {
@@ -108,6 +113,48 @@
 
 .editorjsHeading .ce-conversion-tool__icon svg {
     color: black;
+}
+
+.editorjsHeading .cdx-search-field {
+    display: none;
+}
+
+.editorjsHeading .ce-popover--opened {
+    background-color: black;
+    width: 10px !important;
+}
+
+.editorjsHeading .ce-toolbar__settings-btn {
+    color: white;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.editorjsHeading .ce-toolbar__settings-btn:hover {
+    color: black;
+}
+
+.editorjsHeading .ce-popover__items {
+    display: none;
+}
+
+.editorjsHeading .ce-popover__custom-content {
+    width: 110px !important;
+    display: flex;
+    align-items: start;
+}
+
+.editorjsHeading .ce-popover__custom-content span {
+    display: none;
+}
+
+.editorjsHeading .ce-inline-toolbar__buttons {
+    background-color: #1F1E22;
+    border-radius: 5px;
+}
+
+.editorjsHeading .ce-block--selected::selection {
+    background-color: #696969 !important;
 }
 
 .editorParaDiv {
@@ -196,11 +243,69 @@
 }
 
 .editorMoreOptions {
-    margin-right: 745px;
     color: #696969;
-    margin-top: 100px;
+    margin-top: 40px;
+    display: flex;
+    margin-left: 95px;
+    width: fit-content;
 }
 
 .editorjsPara .codex-editor__redactor {
     padding-bottom: 0px !important;
+}
+
+.editorjsPara .ce-toolbar__plus {
+    
+}
+
+.EditorOptionsBlock {
+    width: 260px;
+    height: 270px;
+    background: #28272C;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.85);
+    border-radius: 12px;
+    margin-top: 30px;
+    margin-right: 200px;
+    padding: 5px;
+}
+
+.editorOptionDiv::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .editorOptionDiv{
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    max-height: 215px;
+    overflow-y: scroll
+  }
+
+
+.EditorOptionComponent:hover {
+    background-color: #1F1E22;
+    border-radius: 12px;
+}
+
+.EditorOptionComponent {
+    height: 45px;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+
+.optionIcon {
+    border: 0.5px dashed #747474;
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    margin-left: 5px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    background-color: #28272C;
+}
+
+.EditorOptionComponent:hover .optionIcon {
+    border: 0.5px dashed #939AFF;
 }
