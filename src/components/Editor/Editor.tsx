@@ -3,11 +3,23 @@ import './Editor.css';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import Paragraph from '@editorjs/paragraph';
+import Quote from '@editorjs/quote'
+import Link from '@editorjs/link'
+import CheckList from '@editorjs/checklist';
+import Table from '@editorjs/table';
+import Underline from '@editorjs/underline';
+import List from '@editorjs/list';
+import Raw from '@editorjs/raw';
+import Code from '@editorjs/code';
+import Embed from '@editorjs/embed'
 import { AddCover, AddIcon } from './EditorIcons';
+import { useSelector } from 'react-redux';
 
 const Editor = () => {
     const [coverUrl, setCoverUrl] = useState();
     const [iconUrl, setIconUrl] = useState();
+    const { workspace }: any = useSelector((state) => state);
+    let { color } = workspace;
 
     useEffect(() => {
         const editor1 = new EditorJS({
@@ -21,14 +33,14 @@ const Editor = () => {
                         // Add strikethrough and code formatting options to the inline toolbar
                         inlineToolbar: ['bold', 'italic', 'link', 'alignment', 'code', 'strikethrough']
                     }
-                  }
+                  },
             },
             data: {
                 blocks: [
                   {
                     type: "header",
                     data: {
-                        text: "Type your heading here",
+                        text: "How to evolve into a super human with your digital mind place",
                       }
                   }
                 ],
@@ -40,10 +52,20 @@ const Editor = () => {
             holder: 'editorjs2',
             onReady: () => {console.log('Editor.js 2 is ready to work!')},
             tools: { 
-                header: {
-                    class: Header,
+                paragraph: {
+                    class: Paragraph,
                     inlineToolbar: true
-                  }
+                  },
+                quote: Quote,
+                checklist: CheckList,
+                link: Link,
+                header: Header,
+                table: Table,
+                list: List,
+                underline: Underline,
+                raw: Raw,
+                code: Code,
+                embed: Embed,
             },
             data: {
                 time: 1552744582955,
@@ -51,7 +73,7 @@ const Editor = () => {
                   {
                     type: "paragraph",
                     "data": {
-                        "text": "Type subpara here!",
+                        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
                       }
                   }
                 ],
@@ -59,13 +81,15 @@ const Editor = () => {
               }
           });
     },[])
+
+    const style = {'--bg-color': color}
     
 
   return (
     <div className='editor'>
 
         {!coverUrl ? 
-        <div className='editorCover'>
+        <div style={{backgroundImage: `linear-gradient(to bottom right, ${color}, white)`}} className='editorCover'>
             <img src={coverUrl} />
             <div style={{position: "absolute", left: "70%", display: "flex", width: "150px", alignItems: "center", justifyContent: 'space-between'}}>
             <div style={{paddingLeft: "10px", paddingRight: "10px", cursor: "pointer", width: "fit-content", height: "22px", background: "rgba(40, 39, 44, 0.28)", borderRadius: "11px", display: "grid", placeItems: "center", fontSize: "10px", fontWeight: "400"}}>Remove</div>
@@ -92,7 +116,7 @@ const Editor = () => {
                 <h2 contentEditable="true">Type your Heading here</h2>
             </div> */}
 
-            <div className='editorHeadingDiv'>
+            <div style={style} className='editorHeadingDiv'>
              <div className='editorjsHeading' id="editorjs" >
              </div>
              </div>
@@ -100,6 +124,11 @@ const Editor = () => {
             <div className='editorParaDiv'>
             <div className='editorjsPara' id="editorjs2">
             </div>
+            </div>
+
+
+            <div className='editorMoreOptions'>
+                Press “<span style={{color: "white"}}>@</span>” for bud , “<span style={{color: "white"}}>/</span>”  for editor blocks
             </div>
              
     </div>

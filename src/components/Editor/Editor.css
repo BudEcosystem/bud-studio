@@ -1,6 +1,8 @@
-
+:root {
+    --bg-color: #9068fd;
+}
 .editor {
-    width: 90vw;
+    width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
@@ -10,7 +12,6 @@
 .editorCover {
     width: 1000px;
     height: 200px;
-    background-image: linear-gradient(to bottom right, #9068fd, white);
     background-blend-mode: color, normal, normal, normal;
     border-radius: 8px;
 }
@@ -31,8 +32,13 @@
     max-height: 60px;
     width: 800px;
 }
+
 .editorjsHeading {
-    
+    max-height: 60px !important;
+}
+.editorjsHeading .codex-editor__redactor {
+    max-height: 60px;
+    padding-bottom: 0px !important;
 }
 
 .editorjsHeading .ce-inline-toolbar__toggler-and-button-wrapper {
@@ -48,19 +54,19 @@
 }
 
 .editorjsHeading .ce-header::selection {
-    background-color: #9068fd;
+    background-color: var(--bg-color);
 }
 
 .editorjsHeading .ce-header span::selection {
-    background-color: #9068fd;
+    background-color: var(--bg-color);
 }
 
 .editorjsHeading .ce-header i::selection {
-    background-color: #9068fd;
+    background-color: var(--bg-color);
 }
 
 .editorjsHeading .ce-block__content::selection {
-    background-color: #9068fd !important;
+    background-color: var(--bg-color);
 }
 
 .editorjsHeading .codex-editor {
@@ -76,10 +82,8 @@
     top: -30px !important;
 }
 
-.editorjsHeading .ce-inline-toolbar__dropdown:hover {
-    background-color: #1F1E22 !important;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+.editorjsHeading .ce-inline-toolbar__dropdown {
+    display: none;
 }
 
 .editorjsHeading .ce-inline-tool--active:hover {
@@ -118,6 +122,7 @@
 
 .editorjsPara .ce-paragraph {
     font-size: 18px;
+    color: #BBBBBB;
 }
 
 .editorjsPara .ce-popover {
@@ -134,7 +139,6 @@
 
 .editorjsPara .ce-inline-toolbar {
     border-color: black;
-    top: -30px !important;
 }
 
 .editorjsPara .ce-inline-tool--active:hover {
@@ -173,4 +177,30 @@
 
 .editorjsPara .ce-popover__item:hover {
     background-color: #1F1E22 !important;
+}
+
+.editorjsPara .ce-toolbar__plus {
+    background-color: transparent;
+}
+
+.editorjsPara .ce-toolbar__plus svg {
+    color: white;
+}
+
+.editorjsPara .ce-toolbar__settings-btn {
+    background-color: transparent;
+}
+
+.editorjsPara .ce-toolbar__settings-btn svg {
+    color: white;
+}
+
+.editorMoreOptions {
+    margin-right: 745px;
+    color: #696969;
+    margin-top: 100px;
+}
+
+.editorjsPara .codex-editor__redactor {
+    padding-bottom: 0px !important;
 }

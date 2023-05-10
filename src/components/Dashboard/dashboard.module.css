@@ -29,9 +29,6 @@
   border-radius: 0 !important;
   border-bottom-right-radius: 30px !important;
   border-bottom-left-radius: 30px !important;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
 }
 
 .site-layout-common-menu {

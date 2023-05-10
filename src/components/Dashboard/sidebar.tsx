@@ -432,9 +432,9 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
         setWorkspaceModal={setWorkspaceModal}
       >
         <Routes>
-          <Route path="/" element={<div>hello ******</div>} />
-          <Route path="/menuTwo" element={<div>hello there</div>} />
-          <Route path="/menuThree" element={<div>hello there</div>} />
+          <Route path="/" element={<div></div>} />
+          <Route path="/menuTwo" element={<div></div>} />
+          <Route path="/menuThree" element={<div></div>} />
         </Routes>
       </ContentView>
     </>
