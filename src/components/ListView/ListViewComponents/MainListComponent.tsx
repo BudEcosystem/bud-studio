@@ -59,18 +59,21 @@ const MainListComponent = () => {
   };
   const handlePanelChange = (index) => {
     const newActivePanel = [...activePanel];
-    console.log(index)
+    console.log(index);
     newActivePanel[index] = !newActivePanel[index];
     setActivePanel(newActivePanel);
   };
   const panelHeader = (text, col, index) => (
-    <div className="flexVerticalCenter" style={{justifyContent: "space-between"}}>
+    <div
+      className="flexVerticalCenter"
+      style={{ justifyContent: 'space-between' }}
+    >
       <div className="flexVerticalCenter">
         <div className="textIcon" style={{ background: col }}></div>
         <span style={{ marginLeft: '8px' }}>{text}</span>
       </div>
       {activePanel[index] && (
-        <div style={{marginRight:"14px"}}>
+        <div style={{ marginRight: '14px' }}>
           <p>New Task +</p>
         </div>
       )}
@@ -92,7 +95,7 @@ const MainListComponent = () => {
           </div>
         )}
         className="customCollapse"
-        style={{ background: 'var(--primary-bgc-light' }}
+        style={{ background: 'var(--primary-bgc-light)' }}
         // onChange={handlePanelChange}
       >
         {panelArr.map((item, i) => (
@@ -100,11 +103,11 @@ const MainListComponent = () => {
             header={panelHeader(item.headerText, item.colorIcon, i)}
             key={i}
             style={panelStyle}
-            onClick={e => handlePanelChange(i)}
-            className='insideCollapse'
+            onClick={(e) => handlePanelChange(i)}
+            className="insideCollapse"
           >
-            <div className='hello'>
-                <ChildMainListComponent />
+            <div className="hello">
+              <ChildMainListComponent />
             </div>
           </Panel>
         ))}
