@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Layout } from 'antd';
 import HeaderComp from '../header';
 import classes from '../dashboard.module.css';
@@ -8,6 +8,9 @@ import OmniSearch from '../../OmniSearch/OmniSearch';
 import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 import Editor from '../../Editor/Editor';
 import Hamburger from 'components/Hamburger/Hamburger';
+import ListView from 'components/ListView/ListView';
+import { useDispatch } from 'react-redux';
+import { setContentRef } from 'redux/slices/content';
 
 function ContentView({
   setCollapsed,
@@ -18,6 +21,13 @@ function ContentView({
   children,
 }: any) {
   const { Content } = Layout;
+  const dispatch = useDispatch();
+
+  const contentRef = useRef(null);
+
+  useEffect(() => {
+    dispatch(setContentRef(contentRef.current));
+  }, [contentRef, dispatch]);
   return (
     <Layout className={classes['site-layout']}>
       <HeaderComp
@@ -25,7 +35,7 @@ function ContentView({
         isCollapsed={isCollapsed}
       />
       {children}
-      <Content className={classes['site-layout-content']}>
+      <Content className={classes['site-layout-content']} ref={contentRef}>
         <Launcher />
         {workspaceModal && (
           <WorkspaceModal
@@ -34,7 +44,8 @@ function ContentView({
             workspaceModal={workspaceModal}
           />
         )}
-        <Editor />
+        {/* <Editor /> */}
+        <ListView />
         <Hamburger />
       </Content>
       <OmniSearch />

@@ -1,5 +1,5 @@
 .hamBurgerParent{
-    position: absolute;
+    position: fixed;
     top: 65%;
 }
 

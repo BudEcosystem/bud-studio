@@ -29,6 +29,7 @@
   border-radius: 0 !important;
   border-bottom-right-radius: 30px !important;
   border-bottom-left-radius: 30px !important;
+  overflow-y: auto;
 }
 
 .site-layout-common-menu {
