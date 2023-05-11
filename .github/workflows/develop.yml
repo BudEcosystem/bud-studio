@@ -1,0 +1,32 @@
+name: Build Electron App
+
+on:
+  push:
+    branches:
+      - develop  # Replace with your branch name if necessary
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: pnpm -r install
+
+      - name: Build Electron app
+        run: pnpm run package
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: built-app
+          path: release/build/  # Replace with the path to your built Electron app
+
