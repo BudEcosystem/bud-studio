@@ -4,7 +4,8 @@ import { Link, Route, Routes, To, useNavigate } from 'react-router-dom';
 import classes from './dashboard.module.css';
 import ContentView from './content';
 import { changeColor } from 'redux/slices/workspace';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import KanbanSection from 'components/KanbanNew';
 
 const { Sider } = Layout;
 interface SideBarProps {
@@ -45,10 +46,23 @@ const sidebarOptions = [
     label: 'Notifications',
     link: '/menuThree',
   },
+  {
+    key: '4',
+    icon: (
+      <img
+        src="/images/other/dashboardIcon.png"
+        alt="#"
+        width={14}
+        height={14}
+      />
+    ),
+    label: 'Kanban',
+    link: '/kanban',
+  },
 ];
 
 function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [activeClassName, setActiveClassName] = useState('0');
   const [activeClassNameColor, setActiveClassNameColor] = useState(-1);
   const addWorkspaceInput = useRef(null);
@@ -72,16 +86,15 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   };
 
   const handlerColor = (menuColor: any, menuName: any, i: any) => {
-try {
-  setActiveClassNameColor(i);
-  setActiveClassName('-1');
-  setColor(menuColor);
-  showWorkspaceModal(menuColor, menuName);
-  dispatch(changeColor(menuColor))
-}
-catch(err){
-  console.log(err)
-}
+    try {
+      setActiveClassNameColor(i);
+      setActiveClassName('-1');
+      setColor(menuColor);
+      showWorkspaceModal(menuColor, menuName);
+      dispatch(changeColor(menuColor));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const setHoverColorHandler = (hovercolor: any) => {
@@ -439,6 +452,7 @@ catch(err){
           <Route path="/" element={<div>hello ******</div>} />
           <Route path="/menuTwo" element={<div>hello there</div>} />
           <Route path="/menuThree" element={<div>hello there</div>} />
+          <Route path="/kanban" element={<KanbanSection/>} />
         </Routes>
       </ContentView>
     </>

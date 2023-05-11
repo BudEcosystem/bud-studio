@@ -21,7 +21,7 @@ function ContentView({ setCollapsed, isCollapsed, workspaceName, workspaceColor,
       <Content className={classes['site-layout-content']}>
         <Launcher />
        {workspaceModal && <WorkspaceModal name={workspaceName} color={workspaceColor} setWorkspaceModal={setWorkspaceModal} workspaceModal={workspaceModal} /> }
-       <Editor/>
+       {/* <Editor/> */}
       </Content>
       <OmniSearch />
     </Layout>
