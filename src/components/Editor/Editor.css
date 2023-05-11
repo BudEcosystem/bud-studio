@@ -77,6 +77,10 @@
     background-color: var(--bg-color);
 }
 
+.EditorOptionComponent:hover .optionIcon {
+    border-color: var(--bg-color);
+}
+
 .editorjsHeading .codex-editor {
     height: 200px;
 }
@@ -303,8 +307,4 @@
     place-items: center;
     cursor: pointer;
     background-color: #28272C;
-}
-
-.EditorOptionComponent:hover .optionIcon {
-    border: 0.5px dashed #939AFF;
 }

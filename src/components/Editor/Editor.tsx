@@ -149,13 +149,6 @@ const Editor = () => {
       }
   }
 
-  editor2?.current?.isReady.then(() => {
-    const paraElement = document.querySelector(".ce-paragraph");
-    if(paraElement) {
-    const text = paraElement?.textContent;
-  setParaText(text)
-    }})
-
     const handleKeyDown = (event: any) => {
       if (event.code === 'Slash' && !event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
         setShowEditorOptionsBlock(!showEditorOptionsBlock)
@@ -163,7 +156,6 @@ const Editor = () => {
     }
 
     useEffect(()=> {
-      console.log("PARA TEXT", paraText)
       editor2?.current?.isReady.then(() => {
         const paraElement = document.querySelector(".ce-paragraph");
         if(paraElement) {
@@ -203,7 +195,7 @@ const Editor = () => {
         else {}
       }
         })
-    },[color, paraText])
+    },[color])
 
 
     useEffect(() => {
@@ -216,7 +208,7 @@ const Editor = () => {
 
     const EditorOptionComponent = ({opt,icon, title, subTitle}: any) => {
       return (
-        <div onClick={(e) => insertBlock(opt)} className='EditorOptionComponent'>
+        <div style={style} onClick={(e) => insertBlock(opt)} className='EditorOptionComponent'>
           <div className='optionIcon'>{icon}</div>
           <div style={{display: "flex", flexDirection: "column", justifyContent: "center", marginLeft: "10px", cursor: "pointer"}}>
             <div style={{color: "white", fontSize: "16px", fontWeight: "400"}}>{title}</div>
