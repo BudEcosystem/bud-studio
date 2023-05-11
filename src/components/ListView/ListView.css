@@ -43,9 +43,9 @@
 .sticky {
     position: fixed;
     top: 95px;
-    width: 30%;
+    width: 35.5%;
     z-index: 15;
-    padding: 13px 0px 0px 0px;
+    padding: 13px 0px 10px 0px;
     /* transform: scale(0.5); */
     transition: all 0.5s;
 }
@@ -55,7 +55,8 @@
     top: 95px;
     left: 60.2%;
     /* width: 30%; */
-    z-index: 15;
+    z-index: 20;
+    padding: 0px 0px 10px 0px;
     /* transform: scale(0.5); */
     transition: all 0.5s;
     background-color: var(--primary-bgc-light);
