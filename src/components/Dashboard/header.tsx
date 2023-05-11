@@ -16,6 +16,16 @@ interface HeaderProps {
   isCollapsed: boolean;
 }
 
+const  SliderIcon = () => {
+  return (
+    <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1 1L1 8.51821" stroke="#7B8388" stroke-width="1.62894" stroke-linecap="round"/>
+<path d="M12.1228 4.39268H5.16016M5.16016 4.39268L7.846 1.69748M5.16016 4.39268L7.846 7.08789" stroke="#7B8388" stroke-width="1.25303" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+  );
+  }
+
 function SliderArrow({ slideFn, isCollapsed }: HeaderProps) {
   return (
     <div className={classes['slider-box']}>
@@ -29,6 +39,8 @@ function SliderArrow({ slideFn, isCollapsed }: HeaderProps) {
           height={30}
           onClick={slideFn}
         />
+
+        
       ) : (
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <img

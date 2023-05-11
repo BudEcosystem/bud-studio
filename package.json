@@ -105,8 +105,15 @@
   },
   "dependencies": {
     "@editorjs/editorjs": "^2.26.5",
+    "@editorjs/embed": "^2.5.3",
+    "@editorjs/list": "^1.8.0",
+    "@editorjs/paragraph": "^2.9.0",
+    "@editorjs/table": "^2.2.1",
+    "@editorjs/underline": "^1.1.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@sotaproject/strikethrough": "^1.0.1",
     "antd": "^5.4.5",
+    "editorjs-header-with-alignment": "^1.0.1",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.8",
     "electron-updater": "^5.3.0",
@@ -118,6 +125,11 @@
     "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
+    "@editorjs/checklist": "^1.5.0",
+    "@editorjs/code": "^2.8.0",
+    "@editorjs/link": "^2.5.0",
+    "@editorjs/quote": "^2.5.0",
+    "@editorjs/raw": "^2.4.0",
     "@electron/notarize": "^1.2.3",
     "@electron/rebuild": "^3.2.10",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
