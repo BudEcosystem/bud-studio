@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 
 const Editor = () => {
     const [coverUrl, setCoverUrl] = useState();
+    const [coverUrlAvailable, setCoverUrlAvailable] = useState(true)
     const [iconUrl, setIconUrl] = useState();
     const { workspace }: any = useSelector((state) => state);
     const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false)
@@ -225,11 +226,11 @@ const Editor = () => {
   return (
     <div className='editor'>
 
-        {!coverUrl ? 
+        {coverUrlAvailable ? 
         <div style={{backgroundImage: `linear-gradient(to bottom right, ${color}, white)`}} className='editorCover'>
             <img src={coverUrl} />
             <div style={{position: "absolute", left: "70%", display: "flex", width: "150px", alignItems: "center", justifyContent: 'space-between'}}>
-            <div style={{paddingLeft: "10px", paddingRight: "10px", cursor: "pointer", width: "fit-content", height: "22px", background: "rgba(40, 39, 44, 0.28)", borderRadius: "11px", display: "grid", placeItems: "center", fontSize: "10px", fontWeight: "400"}}>Remove</div>
+            <div onClick={e => setCoverUrlAvailable(false)} style={{paddingLeft: "10px", paddingRight: "10px", cursor: "pointer", width: "fit-content", height: "22px", background: "rgba(40, 39, 44, 0.28)", borderRadius: "11px", display: "grid", placeItems: "center", fontSize: "10px", fontWeight: "400"}}>Remove</div>
             <div style={{paddingLeft: "10px", paddingRight: "10px", cursor: "pointer", width: "fit-content", height: "22px", background: "rgba(40, 39, 44, 0.28)", borderRadius: "11px", display: "grid", placeItems: "center", fontSize: "10px", fontWeight: "400"}}>Change Cover</div>
             </div>
         </div> :
@@ -239,9 +240,10 @@ const Editor = () => {
               </div> }
 
             {!iconUrl ? 
-                <div className='editorIcon'>
+              coverUrlAvailable ?
+                (<div className='editorIcon'>
                     <img src={iconUrl} />   
-                </div>
+                </div>) : (<div style={{top: "10px"}} className='editorIcon'><img src={iconUrl} /></div>)
                 : 
                 <div style={{fontSize: "14px", fontWeight: "500", marginRight: "910px", marginTop: "120px",  display: "flex", width: "fit-content", color: "#333539", cursor: "pointer"}}>
                     <div style={{marginRight: "10px"}}><AddIcon/></div> 
