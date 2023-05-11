@@ -23,12 +23,11 @@
     border-radius: 10px;
     background-color: blue;
     margin-right: 850px;
-    position: absolute;
-    top: 188px;
+    position: relative;
+    bottom: 30px;
 }
 
 .editorHeadingDiv {
-    margin-top: 60px;
     margin-right: 350px;
     max-height: 60px;
     width: 800px;
@@ -241,12 +240,11 @@
 .editorjsPara .ce-toolbar__settings-btn svg {
     color: white;
 }
-
 .editorMoreOptions {
     color: #696969;
     margin-top: 40px;
     display: flex;
-    margin-left: 95px;
+    margin-left: 62px;
     width: fit-content;
 }
 
@@ -255,7 +253,7 @@
 }
 
 .editorjsPara .ce-toolbar__plus {
-    
+    display: none;
 }
 
 .EditorOptionsBlock {
@@ -292,6 +290,7 @@
     display: flex;
     align-items: center;
     transition: opacity 0.5s ease;
+    cursor: pointer;
 }
 
 .optionIcon {

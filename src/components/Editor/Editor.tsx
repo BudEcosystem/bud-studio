@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Editor.css';
 import EditorJS from '@editorjs/editorjs';
 import Paragraph from '@editorjs/paragraph';
@@ -12,7 +12,7 @@ import Raw from '@editorjs/raw';
 import Code from '@editorjs/code';
 import Embed from '@editorjs/embed';
 import Strikethrough from '@sotaproject/strikethrough';
-import { AddCover, AddIcon, TextIcon, ListIcon } from './EditorIcons';
+import { AddCover, AddIcon, TextIcon, ListIcon, Plus, TableIcon, CheckListIcon, HeadingIcon, ParagraphIcon  } from './EditorIcons';
 import { useSelector } from 'react-redux';
 
 const Editor = () => {
@@ -22,12 +22,20 @@ const Editor = () => {
     const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false)
     let { color } = workspace;
     const Header = require("editorjs-header-with-alignment");
+    const [paraText,setParaText] = useState()
+    const editor2 = useRef<EditorJS>()
     
-    const [editorOptions,setEditorOptions] = useState([{
-      key: "text",
-      icon: <TextIcon/>,
-      title: "Text",
-      subTitle: "Write in plane text."
+    const [editorOptions,setEditorOptions] = useState([
+      {
+        key: "header",
+        icon: <HeadingIcon/>,
+        title: "Heading",
+        subTitle: "Write a heading."
+      },{
+      key: "paragraph",
+      icon: <ParagraphIcon/>,
+      title: "Paragraph",
+      subTitle: "Write your words in paragraph."
     },{
       key: "quote",
       icon: <TextIcon/>,
@@ -40,17 +48,12 @@ const Editor = () => {
       subTitle: "Write a text as hyperlink."
     },{
       key: "checklist",
-      icon: <TextIcon/>,
+      icon: <CheckListIcon/>,
       title: "Checklist",
       subTitle: "Start a checklist."
     },{
-      key: "heading",
-      icon: <TextIcon/>,
-      title: "Heading",
-      subTitle: "Write a heading."
-    },{
       key: "table",
-      icon: <TextIcon/>,
+      icon: <TableIcon/>,
       title: "Simple Table",
       subTitle: "Start a clean table."
     },
@@ -74,6 +77,7 @@ const Editor = () => {
     },])
 
     useEffect(() => {
+
       const editor1 = new EditorJS({
         holder: 'editorjs',
         onReady: () => {console.log('Editor.js is ready to work!')},
@@ -97,13 +101,14 @@ const Editor = () => {
           }
       });
 
-      const editor2 = new EditorJS({
+       editor2.current = new EditorJS({
         holder: 'editorjs2',
+        autofocus: true,
         onReady: () => {console.log('Editor.js 2 is ready to work!')},
         tools: { 
             paragraph: {
                 class: Paragraph,
-                inlineToolbar: true
+                inlineToolbar: true,
               },
             quote: Quote,
             checklist: CheckList,
@@ -123,7 +128,7 @@ const Editor = () => {
               {
                 type: "paragraph",
                 "data": {
-                    "text": "Lorem ipsum dolor @alicia sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+                    "text": "Lorem ipsum dolor @alicia sit amet, #consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
                   }
               }
             ],
@@ -131,37 +136,25 @@ const Editor = () => {
           }
       });
 
-       
-      // editor2.isReady.then(() => {
-      //   const editorHolder = document.querySelector('.ce-block__content');
-      //   if (editorHolder) {
-      //     editorHolder.addEventListener('input', function(event) {
-      //       const paragraph = event.target.closest('.ce-block__content');
-      //       if (paragraph && paragraph.classList.contains('ce-block__content')) {
-      //         const text = paragraph.textContent;
-      //         const index = text.indexOf('@');
-      //         if (index !== -1) {
-      //           console.log(`@ symbol found at index ${index} in paragraph: ${text}`);
-      //         }
-      //       }
-      //     });
-      //   }
-      // });
+    },[]);
 
-      // document.addEventListener('keydown', function(event) {
-      //   if (event.code === 'Slash' && !event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
-      //     setShowEditorOptionsBlock(!showEditorOptionsBlock)
-      //     var blockTypes = Object.keys(editor2.configuration.tools);
-      //     var selectedType = prompt('Select a block type (' + blockTypes.join(', ') + '):');
-      //     if (selectedType && blockTypes.includes(selectedType)) {
-      //       editor2.blocks.insert(selectedType);
-      //     }
-      //   }
-      // });
+    const insertBlock = (opt: any) => {
+      console.log("OPT IS", opt)
+      var blockTypes = Object.keys(editor2?.current?.configuration?.tools);
+      const currentBlockIndex = editor2?.current?.blocks.getCurrentBlockIndex();
+      console.log("BLOCK TYPES", blockTypes)
+      if (opt && blockTypes.includes(opt) && currentBlockIndex) {
+        editor2?.current?.blocks.insert(opt, currentBlockIndex + 3)
+        setShowEditorOptionsBlock(false)
+      }
+  }
 
-
-
-    },[])
+  editor2?.current?.isReady.then(() => {
+    const paraElement = document.querySelector(".ce-paragraph");
+    if(paraElement) {
+    const text = paraElement?.textContent;
+  setParaText(text)
+    }})
 
     const handleKeyDown = (event: any) => {
       if (event.code === 'Slash' && !event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
@@ -169,14 +162,49 @@ const Editor = () => {
        }
     }
 
-     const insertBlock = (opt: any) => {
-        console.log("OPT IS", opt)
-        var blockTypes = Object.keys(editor2.configuration.tools);
-        if (opt && blockTypes.includes(opt)) {
-          editor2.blocks.insert(opt);
-          setShowEditorOptionsBlock(false)
+    useEffect(()=> {
+      console.log("PARA TEXT", paraText)
+      editor2?.current?.isReady.then(() => {
+        const paraElement = document.querySelector(".ce-paragraph");
+        if(paraElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = paraElement?.textContent;
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        console.log(text);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            console.log(`Found @${word}`);
+            // Apply styling to the matched text
+            const styledText = text?.replace(match, `<span style="color: white;">@${word}</span>`); 
+            if (matches2) {
+              matches2.forEach((match) => {
+                const word = match.slice(1);
+                console.log(`Found #${word}`);
+                // Apply styling to the matched text
+                const styledText2 = styledText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`); 
+                paraElement.innerHTML = styledText2;
+              });
+          }else {
+            paraElement.innerHTML = styledText;
+          }});
         }
-    }
+       else if (matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            console.log(`Found @${word}`);
+            // Apply styling to the matched text
+            const styledText = text?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`); 
+            paraElement.innerHTML = styledText;
+          });
+        }
+        else {}
+      }
+        })
+    },[color, paraText])
+
 
     useEffect(() => {
       document.addEventListener('keydown', handleKeyDown);
@@ -205,7 +233,7 @@ const Editor = () => {
   return (
     <div className='editor'>
 
-        {coverUrl ? 
+        {!coverUrl ? 
         <div style={{backgroundImage: `linear-gradient(to bottom right, ${color}, white)`}} className='editorCover'>
             <img src={coverUrl} />
             <div style={{position: "absolute", left: "70%", display: "flex", width: "150px", alignItems: "center", justifyContent: 'space-between'}}>
@@ -218,12 +246,12 @@ const Editor = () => {
                 Add Cover
               </div> }
 
-            {iconUrl ? 
+            {!iconUrl ? 
                 <div className='editorIcon'>
                     <img src={iconUrl} />   
                 </div>
                 : 
-                <div style={{fontSize: "14px", fontWeight: "500", marginRight: "910px", marginTop: "30px",  display: "flex", width: "fit-content", color: "#333539", cursor: "pointer"}}>
+                <div style={{fontSize: "14px", fontWeight: "500", marginRight: "910px", marginTop: "120px",  display: "flex", width: "fit-content", color: "#333539", cursor: "pointer"}}>
                     <div style={{marginRight: "10px"}}><AddIcon/></div> 
                     Add Icon
                 </div>
@@ -238,7 +266,7 @@ const Editor = () => {
             <div className='editorjsPara' id="editorjs2">
             </div>
             <div className='editorMoreOptions'>
-                Press “<div style={{color: "white"}}>@</div>” for bud , “<div style={{color: "white"}}>/</div>”  for editor blocks.
+              <div onClick={(e) => setShowEditorOptionsBlock(!showEditorOptionsBlock)} style={{marginTop: "2px", cursor:"pointer",marginRight: "20px"}}><Plus/></div>  Press “<div style={{color: "white"}}>@</div>” for bud , “<div style={{color: "white"}}>/</div>”  for editor blocks.
 
                 {showEditorOptionsBlock && 
                 <div className='EditorOptionsBlock'>
