@@ -3,3 +3,13 @@
   background: rgba(255, 255, 255, 0.575);
   margin: 15px;
 }
+.ant-breadcrumb-link{
+  display: flex;
+  align-items: center;
+}
+.ant-dropdown-trigger .ant-breadcrumb-link{
+  display: inline-block;
+}
+.ant-layout{
+  overflow: auto;
+}
