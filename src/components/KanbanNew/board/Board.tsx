@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import DraggableColumn from './Column';
 import { getItems } from '../data/sampleData';
-const KanbanBoard = () => {
+
+function KanbanBoard() {
   const onDragEndTriggered = (result: any) => {
     console.log(result);
   };
-  const [sections,setSections] = useState(getItems(3))
+  const [sections, setSections] = useState(getItems(3));
   return (
     <DragDropContext onDragEnd={onDragEndTriggered}>
       {/* droppable area */}
@@ -14,18 +15,27 @@ const KanbanBoard = () => {
         droppableId="board"
         type="COLUMN"
         direction="horizontal"
-        ignoreContainerClipping={true}
-        isCombineEnabled={true}
+        ignoreContainerClipping
+        isCombineEnabled
       >
         {(provided) => (
           <div
             style={{ display: 'inline-flex' }}
             ref={provided.innerRef}
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...provided.droppableProps}
           >
-            {sections.map(({ title,color,id }) => {
-              console.log('key- index', title);
-              return <DraggableColumn title={title} index={id} key={id} color={color} isCombineEnabled={false} useClone={false} />;
+            {sections.map(({ title, color, id }) => {
+              return (
+                <DraggableColumn
+                  title={title}
+                  index={id}
+                  key={id}
+                  color={color}
+                  isCombineEnabled={false}
+                  useClone={false}
+                />
+              );
             })}
             {provided.placeholder}
           </div>
@@ -33,5 +43,5 @@ const KanbanBoard = () => {
       </Droppable>
     </DragDropContext>
   );
-};
+}
 export default KanbanBoard;

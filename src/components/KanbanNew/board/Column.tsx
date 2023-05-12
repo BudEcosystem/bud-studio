@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import KanbanColumnChildList from '../List';
+
 interface draggableDiv {
   title: string;
   index: number;
@@ -7,53 +9,52 @@ interface draggableDiv {
   isCombineEnabled: boolean;
   useClone: boolean;
 }
-const DraggableColumn = ({
+function DraggableColumn({
   title,
   index,
   color,
   isCombineEnabled,
   useClone,
-}: draggableDiv) => {
+}: draggableDiv) {
+  console.log('title', title);
   return (
-    <>
-      <Draggable draggableId={title} index={index}>
-        {(provided, snapshot) => (
+    <Draggable draggableId={title} index={index}>
+      {(provided, snapshot) => (
+        <div
+          style={{ display: 'flex', flexDirection: 'column' }}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+        >
           <div
-            style={{ display: 'flex', flexDirection: 'column' }}
-            ref={provided.innerRef}
-            {...provided.draggableProps}
+            style={{
+              marginTop: '10px',
+              height: '70vh',
+              width: '400px',
+              background: color,
+              marginLeft: '10px',
+              padding: '10px',
+            }}
           >
             <div
-              style={{
-                marginTop: '10px',
-                height: '70vh',
-                width: '400px',
-                background: color,
-                marginLeft: '10px',
-                padding: '10px',
-              }}
+              data-isDragging={snapshot?.isDragging}
+              //   isDragging={snapshot?.isDragging}
+              {...provided?.dragHandleProps}
             >
-              <div
-                data-isDragging={snapshot?.isDragging}
-                //   isDragging={snapshot?.isDragging}
-                {...provided?.dragHandleProps}
-              >
-                {title}
-              </div>
-              {/* <Droppable></Droppable> */}
-              <KanbanColumnChildList
-                listType={'LIST'}
-                listId={title}
-                isDropDisabled={false}
-                isCombineEnabled={Boolean(isCombineEnabled)}
-                useClone={Boolean(useClone)}
-              />
+              {title}
             </div>
+            {/* <Droppable></Droppable> */}
+            <KanbanColumnChildList
+              listType="LIST"
+              listId={`${title}-LISTCHILD`}
+              isDropDisabled={false}
+              isCombineEnabled={Boolean(isCombineEnabled)}
+              useClone={Boolean(useClone)}
+            />
           </div>
-        )}
-      </Draggable>
-    </>
+        </div>
+      )}
+    </Draggable>
   );
-};
+}
 
 export default DraggableColumn;

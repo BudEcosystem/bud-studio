@@ -10,10 +10,11 @@ const InnerChildList = React.memo(function InnerChildList(props: any) {
     isClone,
     index,
   } = props;
+  // console.log('title listId child',child);
   return (
     <div>
       {childComp?.map((child:any, index:any) => (
-        <Draggable key={child.id} draggableId={`${index}-${child.id}`} index={index}>
+        <Draggable key={child.id} draggableId={`${child.id}`} index={index}>
           {(dragProvided, dragSnapshot) => (
             <div
             ref={dragProvided.innerRef}
