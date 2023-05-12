@@ -37,6 +37,8 @@ function WorkspaceMenuItem({
         if(!!e.value.name){
             setIsEditMode(false)        
         }
+        if(!newWorkSpace)
+            handlerColor(e.value.color, e.value.name, e.index)
     }
   }
 useEffect(() => {
