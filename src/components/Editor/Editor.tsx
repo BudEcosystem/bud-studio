@@ -25,6 +25,7 @@ const Editor = () => {
     const Header = require("editorjs-header-with-alignment");
     const [paraText,setParaText] = useState()
     const editor2 = useRef<EditorJS>()
+    const [render,setRender] = useState(false)
     
     const [editorOptions,setEditorOptions] = useState([
       {
@@ -198,6 +199,35 @@ const Editor = () => {
         })
     },[color])
 
+    useEffect(() => {
+      if (showEditorOptionsBlock) {
+        setTimeout(() => {
+          setRender(true);
+        }, 100);
+      } else {
+        setRender(false);
+      }
+    }, [showEditorOptionsBlock]);
+
+    editor2.current?.isReady.then(() => {
+      const editor = document.getElementById("editorjs2");
+
+      editor?.addEventListener("mouseup", () => {
+        const selection = window.getSelection();
+        const range = selection?.getRangeAt(0);
+
+        const startContainer = range?.startContainer;
+        const startOffset = range?.startOffset;
+        const endContainer = range?.endContainer;
+        const endOffset = range?.endOffset;
+
+        console.log("Start container:", startContainer);
+        console.log("Start offset:", startOffset);
+        console.log("End container:", endContainer);
+        console.log("End offset:", endOffset);
+      });
+    })
+
 
     useEffect(() => {
       document.addEventListener('keydown', handleKeyDown);
@@ -263,7 +293,7 @@ const Editor = () => {
               <div onClick={(e) => setShowEditorOptionsBlock(!showEditorOptionsBlock)} style={{marginTop: "2px", cursor:"pointer",marginRight: "20px"}}><Plus/></div>  Press “<div style={{color: "white"}}>@</div>” for bud , “<div style={{color: "white"}}>/</div>”  for editor blocks.
 
                 {showEditorOptionsBlock && 
-                <div className='EditorOptionsBlock'>
+                <div className={`EditorOptionsBlock ${render ? 'show' : undefined}`}>
                   <div style={{marginLeft: "5px", marginBottom: "20px", marginTop: "5px", overflow:"auto"}}>Editor Block</div>
                   
                   <div className='editorOptionDiv'>
