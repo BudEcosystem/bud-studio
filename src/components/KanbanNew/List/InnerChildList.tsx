@@ -1,6 +1,9 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-const InnerChildList = React.memo(function InnerChildList(props: any) {
+import ChildELement from './innerChild';
+
+function InnerChildList(props: any) {
   const {
     childComp,
     isDragging,
@@ -13,30 +16,28 @@ const InnerChildList = React.memo(function InnerChildList(props: any) {
   // console.log('title listId child',child);
   return (
     <div>
-      {childComp?.map((child:any, index:any) => (
+      {childComp?.map((child: any, index: any) => (
         <Draggable key={child.id} draggableId={`${child.id}`} index={index}>
-          {(dragProvided, dragSnapshot) => (
-            <div
-            ref={dragProvided.innerRef}
-              style={{
-                width: '90%',
-                height: '100px',
-                background: 'grey',
-                margin: '10px',
-              }}
-              key={child.id}
-              data-isDragging={dragSnapshot.isDragging}
-              data-isGroupedOver = {Boolean(dragSnapshot.combineTargetFor)}
-              data-provided = {dragProvided}
-            >
-              {' '}
-              Hello there {index}
-            </div>
-          )}
+          {(dragProvided, dragSnapshot) => {
+            console.log('dragSnapshot', dragSnapshot);
+            return (
+              <div
+                {...dragProvided.draggableProps}
+                ref={dragProvided.innerRef}
+                style={style}
+                key={child.id}
+                data-isDragging={dragSnapshot.isDragging}
+                data-isGroupedOver={Boolean(dragSnapshot.combineTargetFor)}
+                data-provided={dragProvided}
+              >
+                <ChildELement />
+              </div>
+            );
+          }}
         </Draggable>
       ))}
     </div>
   );
-});
+}
 
 export default InnerChildList;

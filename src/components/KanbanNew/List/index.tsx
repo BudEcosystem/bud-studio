@@ -19,10 +19,13 @@ function KanbanColumnChildList({
       droppableId={listId}
       type={listType}
       ignoreContainerClipping={ignoreContainerClipping}
-      isDropDisabled={isDropDisabled}
-      isCombineEnabled={isCombineEnabled}
+      isDropDisabled={false}
+      // isDropDisabled={isDropDisabled}
+      isCombineEnabled={false}
+      // isCombineEnabled={isCombineEnabled}
     >
       {(dropProvided, dropSnapshot) => (
+        // wrapper div for child components
         <div
           style={{
             overflow: 'scroll',
@@ -35,12 +38,14 @@ function KanbanColumnChildList({
           {...dropProvided.droppableProps}
         >
           {/* drop zone */}
-          <div ref={dropProvided.innerRef}>
-            <InnerChildList
-              childComp={getListItems(3)}
-              provided={dropProvided}
-            />
-            {dropProvided.placeholder}
+          <div>
+            <div ref={dropProvided.innerRef}>
+              <InnerChildList
+                childComp={getListItems(3)}
+                provided={dropProvided}
+              />
+              {dropProvided.placeholder}
+            </div>
           </div>
         </div>
       )}

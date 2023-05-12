@@ -19,6 +19,7 @@ function KanbanBoard() {
         isCombineEnabled
       >
         {(provided) => (
+          // container div
           <div
             style={{ display: 'inline-flex' }}
             ref={provided.innerRef}
@@ -27,6 +28,7 @@ function KanbanBoard() {
           >
             {sections.map(({ title, color, id }) => {
               return (
+                // column
                 <DraggableColumn
                   title={title}
                   index={id}

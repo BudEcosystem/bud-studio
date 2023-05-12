@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable react/no-unknown-property */
 import { useEffect } from 'react';
 import KanbanSections from './sections';
 
@@ -42,8 +44,10 @@ export default function KanbanMain() {
     });
     containers.forEach((container) => {
       container.addEventListener('dragover', (e: any) => {
+        console.log('hello there', e);
         try {
-          // e.preventDefault()
+          // eslint-disable-next-line no-unused-expressions
+          // e && e.preventDefault();
           // e.stopImmediatePropagation()
           const afterElement = getDragAfterElement(container, e?.clientY);
           const draggable: any = document.querySelector('.dragging');
@@ -100,9 +104,9 @@ export default function KanbanMain() {
       <div className="kanban-body-wrap">
         <div className="kanban-body-head">Head</div>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <KanbanSections />
-          <KanbanSections />
-          <KanbanSections />
+          <KanbanSections title="test1" />
+          <KanbanSections title="test2" />
+          <KanbanSections title="test3" />
         </div>
       </div>
     </div>

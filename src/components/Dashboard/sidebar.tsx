@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { Layout, Menu, Modal, Space } from 'antd';
 import { Link, Route, Routes, To, useNavigate } from 'react-router-dom';
-import classes from './dashboard.module.css';
-import ContentView from './content';
 import { changeColor } from 'redux/slices/workspace';
 import { useDispatch, useSelector } from 'react-redux';
 import KanbanSection from 'components/KanbanNew';
+import KanbanBoard from 'components/KanbanNew/board/Board';
+import ContentView from './content';
+import classes from './dashboard.module.css';
+import KanbanMain from 'components/Kanaban/KanbanMain';
 
 const { Sider } = Layout;
 interface SideBarProps {
@@ -76,7 +78,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   const [hoverColor, setHoverColor] = useState('#ffffff');
   const [hoverColorOnLeave, setHoverColoronLeave] = useState('#ffffff');
 
-  let workspaceRef = useRef<HTMLDivElement>(null);
+  const workspaceRef = useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate();
   const navigateContent = (e: any, link: To) => {
@@ -144,7 +146,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     if (event.key != 'Enter') return;
     if (event.target.value.trim() == '') return;
 
-    let space = {
+    const space = {
       name: event.target.value,
       color: hex_code,
     };
@@ -163,7 +165,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
         collapsible
         collapsed={isCollapsed}
       >
-        <div className={classes['sideBarItems']}>
+        <div className={classes.sideBarItems}>
           <div className={classes.logo}>
             <img
               src="/images/logo/logo.png"
@@ -184,7 +186,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
               )}
             </p>
           </div>
-          <div className={classes['sidebarMenu']}>
+          <div className={classes.sidebarMenu}>
             <Menu
               className={classes['main-sidebar-menu-1']}
               theme="dark"
@@ -210,7 +212,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 </Menu.Item>
               ))}
             </Menu>
-            <div className={classes['sidebarMenuTop']}>
+            <div className={classes.sidebarMenuTop}>
               <Menu
                 className={classes['main-sidebar-menu-2']}
                 theme="dark"
@@ -266,8 +268,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                   className={`${classes['sidebar-ws-fvrt']}`}
                   icon={
                     <img
-                      src={'/images/other/favourite-icon.png'}
-                      alt={'#'}
+                      src="/images/other/favourite-icon.png"
+                      alt="#"
                       width={14}
                       height={14}
                     />
@@ -356,8 +358,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                         className={`${classes['sidebar-menu-userprofile-profile']}`}
                       >
                         <img
-                          src={'/images/other/test-user.png'}
-                          alt={'#'}
+                          src="/images/other/test-user.png"
+                          alt="#"
                           width={25}
                           height={25}
                         />
@@ -377,16 +379,16 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                         <img
                           style={{ marginLeft: '10px' }}
                           className="hover-effect"
-                          src={'/images/other/settings-icon.png'}
-                          alt={'#'}
+                          src="/images/other/settings-icon.png"
+                          alt="#"
                           width={15}
                           height={15}
                         />
                       ) : (
                         <img
                           className="hover-effect"
-                          src={'/images/other/settings-icon.png'}
-                          alt={'#'}
+                          src="/images/other/settings-icon.png"
+                          alt="#"
                           width={15}
                           height={15}
                         />
@@ -407,8 +409,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                         className={`${classes['sidebar-menu-userprofile-profile']}`}
                       >
                         <img
-                          src={'/images/other/test-user.png'}
-                          alt={'#'}
+                          src="/images/other/test-user.png"
+                          alt="#"
                           width={25}
                           height={25}
                         />
@@ -427,8 +429,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
 
                       <img
                         className="hover-effect"
-                        src={'/images/other/settings-icon.png'}
-                        alt={'#'}
+                        src="/images/other/settings-icon.png"
+                        alt="#"
                         width={15}
                         height={15}
                       />
@@ -452,7 +454,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
           <Route path="/" element={<div>hello ******</div>} />
           <Route path="/menuTwo" element={<div>hello there</div>} />
           <Route path="/menuThree" element={<div>hello there</div>} />
-          <Route path="/kanban" element={<KanbanSection/>} />
+          <Route path="/kanban" element={<KanbanMain />} />
         </Routes>
       </ContentView>
     </>
