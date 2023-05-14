@@ -23,9 +23,9 @@ const Editor = () => {
     const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false)
     let { color } = workspace;
     const Header = require("editorjs-header-with-alignment");
-    const [paraText,setParaText] = useState()
     const editor2 = useRef<EditorJS>()
     const [render,setRender] = useState(false)
+    const cursorRect = useRef<DOMRect>()
     
     const [editorOptions,setEditorOptions] = useState([
       {
@@ -209,24 +209,13 @@ const Editor = () => {
       }
     }, [showEditorOptionsBlock]);
 
-    editor2.current?.isReady.then(() => {
-      const editor = document.getElementById("editorjs2");
+      editor2.current?.isReady.then(() => {
+        const activeElement = document.activeElement;
+        cursorRect.current = activeElement?.getBoundingClientRect();
+        console.log("POSITION OF CURSOR", cursorRect?.current?.left)
+      })
 
-      editor?.addEventListener("mouseup", () => {
-        const selection = window.getSelection();
-        const range = selection?.getRangeAt(0);
 
-        const startContainer = range?.startContainer;
-        const startOffset = range?.startOffset;
-        const endContainer = range?.endContainer;
-        const endOffset = range?.endOffset;
-
-        console.log("Start container:", startContainer);
-        console.log("Start offset:", startOffset);
-        console.log("End container:", endContainer);
-        console.log("End offset:", endOffset);
-      });
-    })
 
 
     useEffect(() => {
@@ -293,7 +282,7 @@ const Editor = () => {
               <div onClick={(e) => setShowEditorOptionsBlock(!showEditorOptionsBlock)} style={{marginTop: "2px", cursor:"pointer",marginRight: "20px"}}><Plus/></div>  Press “<div style={{color: "white"}}>@</div>” for bud , “<div style={{color: "white"}}>/</div>”  for editor blocks.
 
                 {showEditorOptionsBlock && 
-                <div className={`EditorOptionsBlock ${render ? 'show' : undefined}`}>
+                <div style={{top: `${coverUrlAvailable ? cursorRect.current.bottom > 650 ? "580": cursorRect?.current?.bottom - 140 : cursorRect.current.bottom > 650 ? "360" : cursorRect?.current?.bottom - 140 }px`, right: `${cursorRect?.current?.bottom > 650 ? undefined: "120" }px`}} className={`EditorOptionsBlock ${render ? 'show' : undefined}`}>
                   <div style={{marginLeft: "5px", marginBottom: "20px", marginTop: "5px", overflow:"auto"}}>Editor Block</div>
                   
                   <div className='editorOptionDiv'>
