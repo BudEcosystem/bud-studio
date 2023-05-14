@@ -253,7 +253,7 @@ const Editor = () => {
             <div style={{paddingLeft: "10px", paddingRight: "10px", cursor: "pointer", width: "fit-content", height: "22px", background: "rgba(40, 39, 44, 0.28)", borderRadius: "11px", display: "grid", placeItems: "center", fontSize: "10px", fontWeight: "400"}}>Change Cover</div>
             </div>
         </div> :
-              <div style={{position: "absolute", display: "flex", left: "90%", width: "fit-content", height: "fit-content", color: "#333539", cursor: "pointer"}}>
+              <div onClick={e => setCoverUrlAvailable(true)} style={{position: "absolute", display: "flex", left: "90%", width: "fit-content", height: "fit-content", color: "#333539", cursor: "pointer"}}>
                 <div style={{marginRight: "10px"}}><AddCover/></div> 
                 Add Cover
               </div> }
