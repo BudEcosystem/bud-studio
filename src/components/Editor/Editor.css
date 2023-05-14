@@ -302,14 +302,16 @@
 .EditorOptionComponent:hover {
     background-color: #1F1E22;
     border-radius: 12px;
+    transition: all 0.2s ease-in-out;
 }
 
 .EditorOptionComponent {
     height: 45px;
     display: flex;
     align-items: center;
-    transition: opacity 0.5s ease;
     cursor: pointer;
+    transform: translateY(10px);
+    transition: all 0.4s ease-in-out;
 }
 
 .optionIcon {
