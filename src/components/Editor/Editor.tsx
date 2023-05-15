@@ -84,6 +84,13 @@ const Editor = () => {
       editor1.current = new EditorJS({
         holder: 'editorjs',
         onReady: () => {console.log('Editor.js is ready to work!')},
+        onChange: () => {
+          editor1.current?.save().then((outputData) => {
+            console.log("HEADING DATA",outputData);
+          }).catch((error) => {
+            console.error('Error while saving data:', error);
+          });
+        },
         tools: { 
             header: {
                 class: Header,
@@ -107,7 +114,14 @@ const Editor = () => {
        editor2.current = new EditorJS({
         holder: 'editorjs2',
         autofocus: true,
-        onReady: () => {console.log('Editor.js 2 is ready to work!')},
+        onReady: () => {checkForMentions()},
+        onChange: () => {
+          editor2.current?.save().then((outputData) => {
+            console.log("PARAGRAPH DATA",outputData);
+          }).catch((error) => {
+            console.error('Error while saving data:', error);
+          });
+        },
         tools: { 
             paragraph: {
                 class: Paragraph,
@@ -131,7 +145,7 @@ const Editor = () => {
               {
                 type: "paragraph",
                 "data": {
-                    "text": "Lorem ipsum dolor @alicia sit amet, #consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+                    "text": "Lorem @govind ipsum dolor @alicia sit amet, #consectetur adipiscing elit, sed do eiusmod @rahul tempor #incididunt ut labore et dolore magna aliqua. ",
                   }
               }
             ],
@@ -139,27 +153,7 @@ const Editor = () => {
           }
       });
 
-    },[]);
-
-    const insertBlock = (opt: any) => {
-      console.log("OPT IS", opt)
-      var blockTypes = Object.keys(editor2?.current?.configuration?.tools);
-      const currentBlockIndex = editor2?.current?.blocks.getCurrentBlockIndex();
-      console.log("BLOCK TYPES", blockTypes)
-      if (opt && blockTypes.includes(opt) && currentBlockIndex) {
-        editor2?.current?.blocks.insert(opt, currentBlockIndex + 3)
-        setShowEditorOptionsBlock(false)
-      }
-  }
-
-    const handleKeyDown = (event: any) => {
-      if (event.code === 'Slash' && !event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
-        setShowEditorOptionsBlock(!showEditorOptionsBlock)
-       }
-    }
-
-    useEffect(()=> {
-      editor2?.current?.isReady.then(() => {
+      const checkForMentions = () => {
         const paraElement = document.querySelector(".ce-paragraph");
         if(paraElement) {
         const regex = /@(\w+)/g;
@@ -196,19 +190,29 @@ const Editor = () => {
           });
         }
         else {}
-
-        editor1.current?.save().then((outputData) => {
-          console.log("OUTPUT DATA",outputData);
-        }).catch((error) => {
-          console.error('Error while saving data:', error);
-        });
-
-        editor2.current?.save().then((outputData) => {
-          console.log("OUTPUT DATA",outputData);
-        }).catch((error) => {
-          console.error('Error while saving data:', error);
-        });
       }
+      }
+
+    },[]);
+
+    const insertBlock = (opt: any) => {
+      var blockTypes = Object.keys(editor2?.current?.configuration?.tools);
+      const currentBlockIndex = editor2?.current?.blocks.getCurrentBlockIndex();
+      if (opt && blockTypes.includes(opt) && currentBlockIndex) {
+        editor2?.current?.blocks.insert(opt, currentBlockIndex + 3)
+        setShowEditorOptionsBlock(false)
+      }
+  }
+
+    const handleKeyDown = (event: any) => {
+      if (event.code === 'Slash' && !event.shiftKey && !event.ctrlKey && !event.altKey && !event.metaKey) {
+        setShowEditorOptionsBlock(!showEditorOptionsBlock)
+       }
+    }
+
+    useEffect(()=> {
+      editor2?.current?.isReady.then(() => {
+        
         })
     },[color])
 
