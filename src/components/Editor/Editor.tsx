@@ -23,6 +23,7 @@ const Editor = () => {
     const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false)
     let { color } = workspace;
     const Header = require("editorjs-header-with-alignment");
+    const editor1 = useRef<EditorJS>()
     const editor2 = useRef<EditorJS>()
     const [render,setRender] = useState(false)
     const cursorRect = useRef<DOMRect>()
@@ -80,7 +81,7 @@ const Editor = () => {
 
     useEffect(() => {
 
-      const editor1 = new EditorJS({
+      editor1.current = new EditorJS({
         holder: 'editorjs',
         onReady: () => {console.log('Editor.js is ready to work!')},
         tools: { 
@@ -195,6 +196,18 @@ const Editor = () => {
           });
         }
         else {}
+
+        editor1.current?.save().then((outputData) => {
+          console.log("OUTPUT DATA",outputData);
+        }).catch((error) => {
+          console.error('Error while saving data:', error);
+        });
+
+        editor2.current?.save().then((outputData) => {
+          console.log("OUTPUT DATA",outputData);
+        }).catch((error) => {
+          console.error('Error while saving data:', error);
+        });
       }
         })
     },[color])
