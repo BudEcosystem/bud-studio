@@ -116,6 +116,7 @@ const Editor = () => {
         autofocus: true,
         onReady: () => {checkForMentions()},
         onChange: () => {
+          // checkForMentions();
           editor2.current?.save().then((outputData) => {
             console.log("PARAGRAPH DATA",outputData);
           }).catch((error) => {
@@ -152,6 +153,7 @@ const Editor = () => {
             version: "2.11.10"
           }
       });
+      
 
       const checkForMentions = () => {
         const paraElement = document.querySelector(".ce-paragraph");
@@ -159,37 +161,26 @@ const Editor = () => {
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
         const text = paraElement?.textContent;
+        let savedText = text
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
+        console.log("MATCHES", matches)
         console.log(text);
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
             console.log(`Found @${word}`);
             // Apply styling to the matched text
-            const styledText = text?.replace(match, `<span style="color: white;">@${word}</span>`); 
-            if (matches2) {
-              matches2.forEach((match) => {
-                const word = match.slice(1);
-                console.log(`Found #${word}`);
-                // Apply styling to the matched text
-                const styledText2 = styledText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`); 
-                paraElement.innerHTML = styledText2;
-              });
-          }else {
-            paraElement.innerHTML = styledText;
-          }});
-        }
-       else if (matches2) {
-          matches2.forEach((match) => {
-            const word = match.slice(1);
-            console.log(`Found @${word}`);
-            // Apply styling to the matched text
-            const styledText = text?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`); 
-            paraElement.innerHTML = styledText;
+            savedText = savedText?.replace(match, `<span style="color: white;">@${word}</span>`); 
           });
         }
-        else {}
+        if(matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`);
+          })
+        }
+        paraElement.innerHTML = savedText;
       }
       }
 
@@ -209,12 +200,6 @@ const Editor = () => {
         setShowEditorOptionsBlock(!showEditorOptionsBlock)
        }
     }
-
-    useEffect(()=> {
-      editor2?.current?.isReady.then(() => {
-        
-        })
-    },[color])
 
     useEffect(() => {
       if (showEditorOptionsBlock) {
