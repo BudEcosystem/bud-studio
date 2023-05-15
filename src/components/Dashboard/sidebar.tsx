@@ -8,6 +8,7 @@ import KanbanBoard from 'components/KanbanNew/board/Board';
 import ContentView from './content';
 import classes from './dashboard.module.css';
 import KanbanMain from 'components/Kanaban/KanbanMain';
+import Kanban from 'components/KanbanNew';
 
 const { Sider } = Layout;
 interface SideBarProps {
@@ -454,7 +455,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
           <Route path="/" element={<div>hello ******</div>} />
           <Route path="/menuTwo" element={<div>hello there</div>} />
           <Route path="/menuThree" element={<div>hello there</div>} />
-          <Route path="/kanban" element={<KanbanMain />} />
+          <Route path="/kanban" element={<Kanban />} />
         </Routes>
       </ContentView>
     </>

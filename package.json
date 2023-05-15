@@ -116,7 +116,8 @@
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
     "react-redux": "^8.0.5",
-    "react-router-dom": "^6.8.1"
+    "react-router-dom": "^6.8.1",
+    "styled-components": "6.0.0-rc.1"
   },
   "devDependencies": {
     "@electron/notarize": "^1.2.3",
