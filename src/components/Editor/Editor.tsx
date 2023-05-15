@@ -29,6 +29,7 @@ const Editor = () => {
     const editor2 = useRef<EditorJS>()
     const [render,setRender] = useState(false)
     const cursorRect = useRef<DOMRect>()
+    const refHoverBar = useRef();
     useEffect(()=>{
       if(workspace){
         let {color:colorFromRedux} = workspace
@@ -220,7 +221,10 @@ const Editor = () => {
         setShowEditorOptionsBlock(!showEditorOptionsBlock)
        }
     }
-
+    const onItemsMouseEnter = (e:any) => {
+      const top =e.currentTarget.offsetTop + 10;
+      refHoverBar.current.style.transform = `translateY(${top}px)`;
+    }
     useEffect(() => {
       if (showEditorOptionsBlock) {
         setTimeout(() => {
@@ -277,9 +281,9 @@ const Editor = () => {
     },[showEditorOptionsBlock])
 
 
-    const EditorOptionComponent = ({opt,icon, title, subTitle}: any) => {
+    const EditorOptionComponent = ({opt,icon, title, subTitle,onItemsMouseEnter}: any) => {
       return (
-        <div style={style} onClick={(e) => insertBlock(opt)} className='EditorOptionComponent'>
+        <div style={style} onClick={(e) => insertBlock(opt)} className='EditorOptionComponent' onMouseEnter={onItemsMouseEnter}>
           <div className='optionIcon'>{icon}</div>
           <div style={{display: "flex", flexDirection: "column", justifyContent: "center", marginLeft: "10px", cursor: "pointer"}}>
             <div style={{color: "white", fontSize: "16px", fontWeight: "400"}}>{title}</div>
@@ -337,8 +341,9 @@ const Editor = () => {
                   <div style={{marginLeft: "5px", marginBottom: "20px", marginTop: "5px", overflow:"auto"}}>Editor Block</div>
                   
                   <div className='editorOptionDiv'>
+                    <div className='hoverMovement' ref={refHoverBar} ></div>
                   {editorOptions.map((option) => (
-                    <EditorOptionComponent opt={option.key} icon={option.icon} title={option.title} subTitle={option.subTitle} />
+                    <EditorOptionComponent opt={option.key} icon={option.icon} title={option.title} subTitle={option.subTitle} onItemsMouseEnter={onItemsMouseEnter} />
                   ))}
                   </div>
               </div>}

@@ -299,11 +299,11 @@
   }
 
 
-.EditorOptionComponent:hover {
+/* .EditorOptionComponent:hover {
     background-color: #1F1E22;
     border-radius: 12px;
     transition: all 0.2s ease-in-out;
-}
+} */
 
 .EditorOptionComponent {
     height: 45px;
@@ -324,4 +324,21 @@
     place-items: center;
     cursor: pointer;
     background-color: #28272C;
+}
+.hoverMovement {
+    position: absolute;
+    right: 0;
+    left: 0;
+    background: #1F1E22;
+    height: 45px;
+    transition: transform .2s ease;
+    transform: translateY(9px);
+    z-index: -1;
+    border-radius: 12px;
+}
+.editorOptionDiv{
+    position: relative;
+}
+.EditorOptionComponent{
+    z-index: 2;
 }
