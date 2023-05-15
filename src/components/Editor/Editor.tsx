@@ -22,12 +22,19 @@ const Editor = () => {
     const { workspace }: any = useSelector((state) => state);
     const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false)
     let { color } = workspace;
+    const [colorDefined,setColor] = useState('#9068fd')
+    const colorRef =  useRef<any>()
     const Header = require("editorjs-header-with-alignment");
     const editor1 = useRef<EditorJS>()
     const editor2 = useRef<EditorJS>()
     const [render,setRender] = useState(false)
     const cursorRect = useRef<DOMRect>()
-    
+    useEffect(()=>{
+      if(workspace){
+        let {color:colorFromRedux} = workspace
+        setColor(colorFromRedux)
+      }
+    },[workspace])
     const [editorOptions,setEditorOptions] = useState([
       {
         key: "header",
@@ -114,9 +121,17 @@ const Editor = () => {
        editor2.current = new EditorJS({
         holder: 'editorjs2',
         autofocus: true,
-        onReady: () => {checkForMentions()},
+        onReady: () => {checkForMentions()
+          const blockElements = document.getElementsByClassName('editorjsPara');
+          console.log(blockElements)
+          Array.from(blockElements).forEach(blockElement => {
+            blockElement.addEventListener('focusout', () => {
+              // User finished editing the block
+              console.log('Block editing finished');
+              checkForMentions()
+            });
+          });},
         onChange: () => {
-          // checkForMentions();
           editor2.current?.save().then((outputData) => {
             console.log("PARAGRAPH DATA",outputData);
           }).catch((error) => {
@@ -177,7 +192,8 @@ const Editor = () => {
         if(matches2) {
           matches2.forEach((match) => {
             const word = match.slice(1);
-            savedText = savedText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`);
+            console.log("COLOR", color);
+            savedText = savedText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white; background-color: ${colorDefined};"><span style="display: none;">#</span>${word}</span>`);
           })
         }
         paraElement.innerHTML = savedText;
@@ -185,6 +201,10 @@ const Editor = () => {
       }
 
     },[]);
+
+    // useEffect(() => {
+    //   colorRef.current.value = color
+    // },[color])
 
     const insertBlock = (opt: any) => {
       var blockTypes = Object.keys(editor2?.current?.configuration?.tools);
@@ -216,6 +236,35 @@ const Editor = () => {
         cursorRect.current = activeElement?.getBoundingClientRect();
         console.log("POSITION OF CURSOR", cursorRect?.current?.left)
       })
+
+      useEffect(() => {
+        const paraElement = document.querySelector(".ce-paragraph");
+        if(paraElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = paraElement?.textContent;
+        let savedText = text
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        console.log("MATCHES", matches)
+        console.log(text);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            console.log(`Found @${word}`);
+            // Apply styling to the matched text
+            savedText = savedText?.replace(match, `<span style="color: white;">@${word}</span>`); 
+          });
+        }
+        if(matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`);
+          })
+        }
+        paraElement.innerHTML = savedText;
+      }
+      },[color])
 
 
 
