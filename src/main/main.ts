@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain , screen} from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 
@@ -32,10 +32,10 @@ let mainWindow: BrowserWindow | null = null;
 //   event.reply('ipc-example', msgTemplate('pong'));
 // });
 
-if (process.env.NODE_ENV === 'production') {
-  const sourceMapSupport = require('source-map-support');
-  sourceMapSupport.install();
-}
+// if (process.env.NODE_ENV === 'production') {
+//   const sourceMapSupport = require('source-map-support');
+//   sourceMapSupport.install();
+// }
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
@@ -66,6 +66,8 @@ const createWindow = async () => {
     await installExtensions();
   }
 
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
   const RESOURCES_PATH = app.isPackaged
     ? path.join(process.resourcesPath, 'assets')
     : path.join(__dirname, '../../assets');
@@ -77,15 +79,15 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     show: false,
     minHeight: 728,
-    minWidth: 900,
-    height: 728,
-    width: 1000,
+    minWidth: 1200,
+    height: 850,
+    width: 1400,
     transparent: true,
     visualEffectState: 'active',
     vibrancy: 'under-window',
     icon: getAssetPath('logo.png'),
     titleBarStyle: isMacOS() ? 'hiddenInset' : 'default',
-    trafficLightPosition: { x: 20, y: 18 },
+    trafficLightPosition: { x: 10, y: 10 },
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,

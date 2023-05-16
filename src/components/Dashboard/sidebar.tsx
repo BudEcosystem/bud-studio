@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { Layout, Menu, Modal, Space } from 'antd';
 import { Link, Route, Routes, To, useNavigate } from 'react-router-dom';
 import classes from './dashboard.module.css';
 import ContentView from './content';
 import { changeColor } from 'redux/slices/workspace';
 import { useDispatch } from 'react-redux';
+import WorkspaceMenuItem from './components/WorkspaceMenuItem';
 
 const { Sider } = Layout;
 interface SideBarProps {
@@ -123,20 +124,34 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     setShowAddWorkspace(false);
   }, [isCollapsed]);
 
-  const addWorkspace = (event: any) => {
-    if (event.key != 'Enter') return;
-    if (event.target.value.trim() == '') return;
+  // const addWorkspace = (event: any) => {
+  //   if (event.key != 'Enter') return;
+  //   if (event.target.value.trim() == '') return;
 
-    let space = {
-      name: event.target.value,
-      color: hex_code,
-    };
-    workspaces.push(space);
-    setWorkspaces(workspaces);
-    setHex_code('#ffffff');
-    setShowAddWorkspace(!showAddWorkspace);
+  //   let space = {
+  //     name: event.target.value,
+  //     color: hex_code,
+  //   };
+  //   workspaces.push(space);
+  //   setWorkspaces(workspaces);
+  //   setHex_code('#ffffff');
+  //   setShowAddWorkspace(!showAddWorkspace);
+  // };
+
+  const updateWorkspace = (e: any) => {
+    const { value, index }: any = e;
+    const workspacesTemp = workspaces;
+    workspacesTemp[index] = value;
+    setWorkspaces([...workspacesTemp]);
   };
-
+  const addNewWorkSpace = (e:any) => {
+    if (!!e.value.name) {
+      const workspacesTemp = workspaces;
+      workspacesTemp.push(e.value);
+      setWorkspaces([...workspacesTemp]);
+      setShowAddWorkspace(false);
+    }
+  }
   return (
     <>
       <Sider
@@ -222,12 +237,12 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                         }}
                         className={classes['sidebar-work-spaces-box-p']}
                       >
-                        {showAddWorkspace ? 'X' : 'New +'}
+                        {showAddWorkspace ? 'New -' : 'New +'}
                       </p>
                     )}
                   </div>
                 </Menu.Item>
-                {showAddWorkspace && (
+                {/* {showAddWorkspace && (
                   <div className={classes['workspace-add']}>
                     <input
                       className={classes['workspace-add-color']}
@@ -244,7 +259,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       onKeyUp={(event) => addWorkspace(event)}
                     />
                   </div>
-                )}
+                )} */}
                 <Menu.Item
                   className={`${classes['sidebar-ws-fvrt']}`}
                   icon={
@@ -267,61 +282,32 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 <div className={`${classes['main-sidebar-menu-ws-box']}`}>
                   {workspaces.length > 0 &&
                     workspaces.map((menu: any, i: any) => (
-                      <Menu.Item
-                        className={`${
-                          classes[
-                            `${
-                              i === +activeClassNameColor
-                                ? 'sidebar-workspaces-items-active'
-                                : 'sidebar-workspaces-items'
-                            }`
-                          ]
-                        }`}
-                        key={i}
-                        style={boxStyle}
-                        icon={
-                          !isCollapsed ? (
-                            <svg
-                              style={{ marginLeft: '22px' }}
-                              width="14"
-                              height="14"
-                              viewBox="0 0 14 14"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <rect
-                                width="14"
-                                height="14"
-                                rx="4"
-                                fill={menu.color}
-                              />
-                            </svg>
-                          ) : (
-                            <svg
-                              style={{ marginLeft: '10px' }}
-                              width="14"
-                              height="14"
-                              viewBox="0 0 14 14"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <rect
-                                width="14"
-                                height="14"
-                                rx="4"
-                                fill={menu.color}
-                              />
-                            </svg>
-                          )
-                        }
-                        onClick={(e) => handlerColor(menu.color, menu.name, i)}
-                        onMouseEnter={() => setHoverColorHandler(menu.color)}
-                        onMouseLeave={() => setHoverColorOnLeave(menu.color)}
-                      >
-                        {/* <Link href={menu.link}>{menu.label}</Link> */}
-                        <p>{menu.name}</p>
-                      </Menu.Item>
+                      <WorkspaceMenuItem
+                        key={`wkp${i}`}
+                        updateWorkspace={updateWorkspace}
+                        menu={menu}
+                        i={i}
+                        isCollapsed={isCollapsed}
+                        activeClassNameColor={activeClassNameColor}
+                        boxStyle={boxStyle}
+                        handlerColor={handlerColor}
+                        setHoverColorHandler={setHoverColorHandler}
+                        setHoverColorOnLeave={setHoverColorOnLeave}
+                      />
                     ))}
+                  {showAddWorkspace && (
+                  <WorkspaceMenuItem
+                    updateWorkspace={addNewWorkSpace}
+                    menu={{ name: '', color: hex_code }}
+                    isCollapsed={isCollapsed}
+                    newWorkSpace
+                    activeClassNameColor={activeClassNameColor}
+                    boxStyle={boxStyle}
+                    handlerColor={handlerColor}
+                    setHoverColorHandler={setHoverColorHandler}
+                    setHoverColorOnLeave={setHoverColorOnLeave}
+                  />
+                   ) }
                 </div>
               </Menu>
 
@@ -432,9 +418,9 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
         setWorkspaceModal={setWorkspaceModal}
       >
         <Routes>
-          <Route path="/" element={<div>hello ******</div>} />
-          <Route path="/menuTwo" element={<div>hello there</div>} />
-          <Route path="/menuThree" element={<div>hello there</div>} />
+          <Route path="/" element={<div></div>} />
+          <Route path="/menuTwo" element={<div></div>} />
+          <Route path="/menuThree" element={<div></div>} />
         </Routes>
       </ContentView>
     </>
