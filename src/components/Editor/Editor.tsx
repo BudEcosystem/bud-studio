@@ -389,6 +389,10 @@ const Editor = () => {
              </div>
              </div>
 
+             <div contentEditable className='editorjsSubHeading'>
+                  Philosophy, life, misc
+             </div>
+
             <div className='editorParaDiv'>
             <div className='editorjsPara' id="editorjs2">
             </div>
