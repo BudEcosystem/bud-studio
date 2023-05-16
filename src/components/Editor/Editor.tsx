@@ -197,6 +197,34 @@ const Editor = () => {
         }
         paraElement.innerHTML = savedText;
       }
+
+      const headerElements = document.querySelectorAll(".ce-header");
+      headerElements.forEach(headerElement => {
+       if(headerElement) {
+       const regex = /@(\w+)/g;
+       const regex2 = /#(\w+)/g;
+       const text = headerElement?.textContent;
+       let savedText = text
+       const matches = text?.match(regex);
+       const matches2 = text?.match(regex2);
+       console.log("MATCHES", matches)
+       console.log(text);
+       if (matches) {
+         matches.forEach((match) => {
+           const word = match.slice(1); // Remove the "@" symbol
+           console.log(`Found @${word}`);
+           // Apply styling to the matched text
+           savedText = savedText?.replace(match, `<span style="color: white;">@${word}</span>`); 
+         });
+       }
+       if(matches2) {
+         matches2.forEach((match) => {
+           const word = match.slice(1);
+           savedText = savedText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`);
+         })
+       }
+       headerElement.innerHTML = savedText;
+     }})
       }
 
     },[]);
@@ -266,6 +294,35 @@ const Editor = () => {
           })
         }
         paraElement.innerHTML = savedText;
+      }})
+
+
+       const headerElements = document.querySelectorAll(".ce-header");
+       headerElements.forEach(headerElement => {
+        if(headerElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = headerElement?.textContent;
+        let savedText = text
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        console.log("MATCHES", matches)
+        console.log(text);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            console.log(`Found @${word}`);
+            // Apply styling to the matched text
+            savedText = savedText?.replace(match, `<span style="color: white;">@${word}</span>`); 
+          });
+        }
+        if(matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`);
+          })
+        }
+        headerElement.innerHTML = savedText;
       }})
       },[color])
 
