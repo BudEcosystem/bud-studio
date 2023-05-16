@@ -19,6 +19,7 @@ function ContentView({
   workspaceModal,
   setWorkspaceModal,
   children,
+  workSpaceIndex
 }: any) {
   const { Content } = Layout;
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ function ContentView({
         <Launcher />
         {workspaceModal && (
           <WorkspaceModal
+          idx={workSpaceIndex}
             name={workspaceName}
             setWorkspaceModal={setWorkspaceModal}
             workspaceModal={workspaceModal}
