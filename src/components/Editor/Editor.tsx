@@ -400,7 +400,7 @@ const Editor = () => {
               <div onClick={(e) => setShowEditorOptionsBlock(!showEditorOptionsBlock)} style={{marginTop: "2px", cursor:"pointer",marginRight: "20px"}}><Plus/></div>  Press “<div style={{color: "white"}}>@</div>” for bud , “<div style={{color: "white"}}>/</div>”  for editor blocks.
 
                 {showEditorOptionsBlock && 
-                <div style={{top: `${coverUrlAvailable ? cursorRect.current.bottom > 650 ? "580": cursorRect?.current?.bottom - 140 : cursorRect.current.bottom > 650 ? "360" : cursorRect?.current?.bottom - 140 }px`, right: `${cursorRect?.current?.bottom > 650 ? undefined: "120" }px`}} className={`EditorOptionsBlock ${render ? 'show' : undefined}`}>
+                <div style={{top: `${coverUrlAvailable ? cursorRect.current.bottom > 750 ? "580": cursorRect?.current?.bottom - 140 : cursorRect.current.bottom > 650 ? "360" : cursorRect?.current?.bottom - 140 }px`, right: `${cursorRect?.current?.bottom > 650 ? undefined: "120" }px`}} className={`EditorOptionsBlock ${render ? 'show' : undefined}`}>
                   <div style={{marginLeft: "5px", marginBottom: "20px", marginTop: "5px", overflow:"auto"}}>Editor Block</div>
                   
                   <div className='editorOptionDiv'>
