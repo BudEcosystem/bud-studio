@@ -5,7 +5,7 @@ import CircularImageComponent from './CircularImageComponent';
 
 const data = ['', ''];
 
-const HeaderSubComp = () => {
+const HeaderSubComp = ({name}) => {
   return (
     <div className="flexVerticalCenter HeaderSubCompParent">
       <div className="flexVerticalCenter">
@@ -22,7 +22,7 @@ const HeaderSubComp = () => {
           <CheckList />
         </div>
         <div style={{ marginLeft: '2px' }}>
-          <span>2</span>/<span>6</span>
+          <span>2</span>/<span>{name}</span>
         </div>
       </div>
       <div className="flexVerticalCenter">

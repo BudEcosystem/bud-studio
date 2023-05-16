@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Draggable from 'react-draggable';
+import { Spin } from 'antd';
 import {
   Pin,
   Dots,
@@ -14,15 +15,20 @@ import {
   Plus,
   RightArrow,
 } from './WorkspaceIcons';
+import { duplicateWorkspaceItem, createWorkspaces, editWorkspaceItem } from 'redux/slices/workspace';
 import TreeView from './TreeView/TreeView';
 import './WorkspaceModal.css';
 
-const WorkspaceModal = ({ name, setWorkspaceModal, workspaceModal }: any) => {
+const WorkspaceModal = ({ idx, name, setWorkspaceModal, workspaceModal }: any) => {
   const [showColorPin, setShowColorPin] = useState(false);
   const [showColorDots, setShowColorDots] = useState(false);
   const [render, setRender] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [isRename, setIsRename] = useState(false)
+  const [newName, setNewName] = useState("");
+  const dispatch = useDispatch();
   const { workspace }: any = useSelector((state) => state);
-  let { color } = workspace;
+  let { color, workSpaceItems } = workspace;
 
   useEffect(() => {
     if (workspaceModal) {
@@ -80,7 +86,43 @@ const WorkspaceModal = ({ name, setWorkspaceModal, workspaceModal }: any) => {
     optionModalRef
   );
 
+  const loaderStyle = {
+    "--loaderColor": color
+  }
+  const duplicateHandler = () => {
+    setIsLoading(true)
+    setTimeout(() => {
+      setIsLoading(false)
+      dispatch(createWorkspaces({name: workSpaceItems[idx].name, color}))
+    }, 2000);
+    // console.log("clicked duplicate")
+  }
+
+  const renameHandler = () => {
+    setIsRename(!isRename)
+  }
+
+  const workSpaceNameInputHandler = (e: any) => {
+    setNewName((prev: any) => {
+      console.log(prev)
+      return e.target.value
+    });
+  };
+
+  const workSpaceNameChangeHandler = (e: any) => {
+    if (e.key === 'Enter' && !!e.target.value) {
+      dispatch(editWorkspaceItem({index:idx, value: newName}))
+      setIsRename(false)
+      // console.log(workSpaceItems)
+      setNewName("")
+    }
+  };
+
   return (
+   <>
+   <div className='loader' style={loaderStyle}>
+    {isLoading && <Spin size="large"/>}
+   </div>
     <div
       className="box"
       style={{
@@ -129,7 +171,7 @@ const WorkspaceModal = ({ name, setWorkspaceModal, workspaceModal }: any) => {
                   fontSize: '14px',
                 }}
               >
-                {name}
+                {workSpaceItems[idx].name}
               </div>
             </div>
 
@@ -219,7 +261,7 @@ const WorkspaceModal = ({ name, setWorkspaceModal, workspaceModal }: any) => {
                       <RightArrow />
                     </div>
                   </div>
-                  <div className="secondWorkspaceOption">
+                  <div className="secondWorkspaceOption" onClick={renameHandler}>
                     <Edit />
                     <h3
                       style={{
@@ -235,10 +277,13 @@ const WorkspaceModal = ({ name, setWorkspaceModal, workspaceModal }: any) => {
                       <RightArrow />
                     </div>
                   </div>
+                  <div>
+                    {isRename && <input type='text' value={newName}  onKeyUp={workSpaceNameChangeHandler} onInput={workSpaceNameInputHandler} />}
+                  </div>
                 </div>
 
                 <div style={{ marginBottom: '20px' }}>
-                  <div className="secondWorkspaceOption">
+                  <div className="secondWorkspaceOption" onClick={duplicateHandler}>
                     <Duplicate />
                     <h3
                       style={{
@@ -312,6 +357,7 @@ const WorkspaceModal = ({ name, setWorkspaceModal, workspaceModal }: any) => {
         </Draggable>
       )}
     </div>
+   </>
   );
 };
 

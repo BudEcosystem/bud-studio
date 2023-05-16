@@ -1,3 +1,7 @@
+:root {
+  --loaderColor: "white"
+}
+
 .WorkspaceModal {
   background: #0c0c0c;
   min-height: 420px;
@@ -15,6 +19,15 @@
   transition: all 0.1s ease;
   pointer-events: auto;
   z-index: 9;
+}
+.loader{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.loader .ant-spin-dot-item{
+  background-color: var(--loaderColor);
 }
 .show{
   opacity: 1;
