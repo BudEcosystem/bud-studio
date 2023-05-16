@@ -240,7 +240,8 @@ const Editor = () => {
       })
 
       useEffect(() => {
-        const paraElement = document.querySelector(".ce-paragraph");
+        const paraElements = document.querySelectorAll(".ce-paragraph");
+        paraElements.forEach(paraElement => {
         if(paraElement) {
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
@@ -265,7 +266,7 @@ const Editor = () => {
           })
         }
         paraElement.innerHTML = savedText;
-      }
+      }})
       },[color])
 
 
