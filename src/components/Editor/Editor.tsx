@@ -14,6 +14,9 @@ import Embed from '@editorjs/embed';
 import Strikethrough from '@sotaproject/strikethrough';
 import { AddCover, AddIcon, TextIcon, ListIcon, Plus, TableIcon, CheckListIcon, HeadingIcon, ParagraphIcon  } from './EditorIcons';
 import { useSelector } from 'react-redux';
+import TextAlign from "@canburaks/text-align-editorjs"
+import Header from '@editorjs/header'; 
+
 
 const Editor = () => {
     const [coverUrl, setCoverUrl] = useState();
@@ -22,7 +25,7 @@ const Editor = () => {
     const { workspace }: any = useSelector((state) => state);
     const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false)
     let { color } = workspace;
-    const Header = require("editorjs-header-with-alignment");
+    // const Header = require("editorjs-header-with-alignment");
     const editor1 = useRef<EditorJS>()
     const editor2 = useRef<EditorJS>()
     const [render,setRender] = useState(false)
@@ -104,6 +107,7 @@ const Editor = () => {
               },
               strikethrough: Strikethrough,
               underline: Underline,
+              textAlign:TextAlign
         },
         data: {
             blocks: [
@@ -153,6 +157,7 @@ const Editor = () => {
             code: Code,
             embed: Embed,
             strikethrough: Strikethrough,
+            textAlign:TextAlign
         },
         data: {
             time: 1552744582955,
