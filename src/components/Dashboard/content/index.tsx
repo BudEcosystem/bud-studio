@@ -45,7 +45,7 @@ function ContentView({
           />
         )}
         {/* <Editor /> */}
-        <ListView />
+        {/* <ListView /> */}
         <Hamburger />
       </Content>
       <OmniSearch />

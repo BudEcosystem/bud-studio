@@ -1,11 +1,12 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Layout, Menu, Modal, Space } from 'antd';
 import { Link, Route, Routes, To, useNavigate } from 'react-router-dom';
-import classes from './dashboard.module.css';
-import ContentView from './content';
 import { changeColor } from 'redux/slices/workspace';
 import { useDispatch } from 'react-redux';
+import classes from './dashboard.module.css';
+import ContentView from './content';
 import WorkspaceMenuItem from './components/WorkspaceMenuItem';
+import Kanban from 'components/KanbanNew';
 
 const { Sider } = Layout;
 interface SideBarProps {
@@ -46,6 +47,19 @@ const sidebarOptions = [
     label: 'Notifications',
     link: '/menuThree',
   },
+  {
+    key: '4',
+    icon: (
+      <img
+        src="/images/other/notificationIcon.png"
+        alt="#"
+        width={18}
+        height={18}
+      />
+    ),
+    label: 'Kanban',
+    link: '/kanban',
+  },
 ];
 
 function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
@@ -68,6 +82,13 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     setActiveClassName(e.key);
     navigate(link);
     setActiveClassNameColor(-1);
+  };
+
+  const showWorkspaceModal = (colorPassed: any, name: any) => {
+    setWorkspaceModal(!workspaceModal);
+    console.log('WORKSPACE PRESSED', workspaceModal);
+    setWorkspaceColor(colorPassed);
+    setWorkspaceName(name);
   };
 
   const handlerColor = (menuColor: any, menuName: any, i: any) => {
@@ -113,13 +134,6 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     };
   }, []);
 
-  const showWorkspaceModal = (color: any, name: any) => {
-    setWorkspaceModal(!workspaceModal);
-    console.log('WORKSPACE PRESSED', workspaceModal);
-    setWorkspaceColor(color);
-    setWorkspaceName(name);
-  };
-
   useEffect(() => {
     setShowAddWorkspace(false);
   }, [isCollapsed]);
@@ -144,14 +158,14 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     workspacesTemp[index] = value;
     setWorkspaces([...workspacesTemp]);
   };
-  const addNewWorkSpace = (e:any) => {
-    if (!!e.value.name) {
+  const addNewWorkSpace = (e: any) => {
+    if (e.value.name) {
       const workspacesTemp = workspaces;
       workspacesTemp.push(e.value);
       setWorkspaces([...workspacesTemp]);
       setShowAddWorkspace(false);
     }
-  }
+  };
   return (
     <>
       <Sider
@@ -161,7 +175,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
         collapsible
         collapsed={isCollapsed}
       >
-        <div className={classes['sideBarItems']}>
+        <div className={classes.sideBarItems}>
           <div className={classes.logo}>
             <img
               src="/images/logo/logo.png"
@@ -182,7 +196,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
               )}
             </p>
           </div>
-          <div className={classes['sidebarMenu']}>
+          <div className={classes.sidebarMenu}>
             <Menu
               className={classes['main-sidebar-menu-1']}
               theme="dark"
@@ -208,7 +222,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 </Menu.Item>
               ))}
             </Menu>
-            <div className={classes['sidebarMenuTop']}>
+            <div className={classes.sidebarMenuTop}>
               <Menu
                 className={classes['main-sidebar-menu-2']}
                 theme="dark"
@@ -264,8 +278,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                   className={`${classes['sidebar-ws-fvrt']}`}
                   icon={
                     <img
-                      src={'/images/other/favourite-icon.png'}
-                      alt={'#'}
+                      src="/images/other/favourite-icon.png"
+                      alt="#"
                       width={14}
                       height={14}
                     />
@@ -296,18 +310,18 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       />
                     ))}
                   {showAddWorkspace && (
-                  <WorkspaceMenuItem
-                    updateWorkspace={addNewWorkSpace}
-                    menu={{ name: '', color: hex_code }}
-                    isCollapsed={isCollapsed}
-                    newWorkSpace
-                    activeClassNameColor={activeClassNameColor}
-                    boxStyle={boxStyle}
-                    handlerColor={handlerColor}
-                    setHoverColorHandler={setHoverColorHandler}
-                    setHoverColorOnLeave={setHoverColorOnLeave}
-                  />
-                   ) }
+                    <WorkspaceMenuItem
+                      updateWorkspace={addNewWorkSpace}
+                      menu={{ name: '', color: hex_code }}
+                      isCollapsed={isCollapsed}
+                      newWorkSpace
+                      activeClassNameColor={activeClassNameColor}
+                      boxStyle={boxStyle}
+                      handlerColor={handlerColor}
+                      setHoverColorHandler={setHoverColorHandler}
+                      setHoverColorOnLeave={setHoverColorOnLeave}
+                    />
+                  )}
                 </div>
               </Menu>
 
@@ -325,8 +339,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                         className={`${classes['sidebar-menu-userprofile-profile']}`}
                       >
                         <img
-                          src={'/images/other/test-user.png'}
-                          alt={'#'}
+                          src="/images/other/test-user.png"
+                          alt="#"
                           width={25}
                           height={25}
                         />
@@ -346,16 +360,16 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                         <img
                           style={{ marginLeft: '10px' }}
                           className="hover-effect"
-                          src={'/images/other/settings-icon.png'}
-                          alt={'#'}
+                          src="/images/other/settings-icon.png"
+                          alt="#"
                           width={15}
                           height={15}
                         />
                       ) : (
                         <img
                           className="hover-effect"
-                          src={'/images/other/settings-icon.png'}
-                          alt={'#'}
+                          src="/images/other/settings-icon.png"
+                          alt="#"
                           width={15}
                           height={15}
                         />
@@ -376,8 +390,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                         className={`${classes['sidebar-menu-userprofile-profile']}`}
                       >
                         <img
-                          src={'/images/other/test-user.png'}
-                          alt={'#'}
+                          src="/images/other/test-user.png"
+                          alt="#"
                           width={25}
                           height={25}
                         />
@@ -396,8 +410,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
 
                       <img
                         className="hover-effect"
-                        src={'/images/other/settings-icon.png'}
-                        alt={'#'}
+                        src="/images/other/settings-icon.png"
+                        alt="#"
                         width={15}
                         height={15}
                       />
@@ -418,9 +432,10 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
         setWorkspaceModal={setWorkspaceModal}
       >
         <Routes>
-          <Route path="/" element={<div></div>} />
-          <Route path="/menuTwo" element={<div></div>} />
-          <Route path="/menuThree" element={<div></div>} />
+          <Route path="/" element={<div />} />
+          <Route path="/menuTwo" element={<div />} />
+          <Route path="/menuThree" element={<div />} />
+          <Route path="/kanban" element={<Kanban />} />
         </Routes>
       </ContentView>
     </>
