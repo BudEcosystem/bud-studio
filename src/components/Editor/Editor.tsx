@@ -162,7 +162,7 @@ const Editor = () => {
               {
                 type: "paragraph",
                 "data": {
-                    "text": "Lorem @govind ipsum dolor @alicia sit amet, #consectetur adipiscing elit, sed do eiusmod @rahul tempor #incididunt ut labore et dolore magna aliqua. ",
+                    "text": "Lorem ipsum dolor @govind sit amet, #consectetur adipiscing elit, sed @rahul do eiusmod tempor #incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation. ",
                   }
               }
             ],
