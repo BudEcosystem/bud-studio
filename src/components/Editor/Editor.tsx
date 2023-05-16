@@ -22,20 +22,14 @@ const Editor = () => {
     const { workspace }: any = useSelector((state) => state);
     const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false)
     let { color } = workspace;
-    const [colorDefined,setColor] = useState('#9068fd')
-    const colorRef =  useRef<any>()
     const Header = require("editorjs-header-with-alignment");
     const editor1 = useRef<EditorJS>()
     const editor2 = useRef<EditorJS>()
     const [render,setRender] = useState(false)
     const cursorRect = useRef<DOMRect>()
     const refHoverBar = useRef();
-    useEffect(()=>{
-      if(workspace){
-        let {color:colorFromRedux} = workspace
-        setColor(colorFromRedux)
-      }
-    },[workspace])
+    const colorRef = useRef<any>("#9068fd")
+
     const [editorOptions,setEditorOptions] = useState([
       {
         key: "header",
@@ -88,6 +82,10 @@ const Editor = () => {
     },])
 
     useEffect(() => {
+      colorRef.current = color;
+    }, [color])
+
+    useEffect(() => {
 
       editor1.current = new EditorJS({
         holder: 'editorjs',
@@ -128,7 +126,7 @@ const Editor = () => {
           Array.from(blockElements).forEach(blockElement => {
             blockElement.addEventListener('focusout', () => {
               // User finished editing the block
-              console.log('Block editing finished');
+              console.log("COLOR:", color);
               checkForMentions()
             });
           });},
@@ -194,7 +192,7 @@ const Editor = () => {
           matches2.forEach((match) => {
             const word = match.slice(1);
             console.log("COLOR", color);
-            savedText = savedText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white; background-color: ${colorDefined};"><span style="display: none;">#</span>${word}</span>`);
+            savedText = savedText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white; background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`);
           })
         }
         paraElement.innerHTML = savedText;
