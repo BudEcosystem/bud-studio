@@ -290,6 +290,14 @@
 .editorjsPara .ce-toolbar__settings-btn svg {
     color: white;
 }
+
+.editorjsPara .tc-popover {
+    background-color: black;
+}
+
+.editorjsPara .tc-popover__item-icon {
+    color: black; 
+}
 .editorMoreOptions {
     color: #696969;
     margin-top: 40px;
