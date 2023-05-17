@@ -187,13 +187,13 @@ const Editor = () => {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
             // Apply styling to the matched text
-            savedText = savedText?.replace(match, `<span style="color: white;">@${word}</span>`); 
+            savedText = savedText?.replaceAll(match, `<span style="color: white;">@${word}</span>`); 
           });
         }
         if(matches2) {
           matches2.forEach((match) => {
             const word = match.slice(1);
-            savedText = savedText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`);
+            savedText = savedText?.replaceAll(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`);
           })
         }
         paraElement.innerHTML = savedText;
@@ -213,13 +213,13 @@ const Editor = () => {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
             // Apply styling to the matched text
-            savedText = savedText?.replace(match, `<span style="color: white;">@${word}</span>`); 
+            savedText = savedText?.replaceAll(match, `<span style="color: white;">@${word}</span>`); 
           });
         }
         if(matches2) {
           matches2.forEach((match) => {
             const word = match.slice(1);
-            savedText = savedText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`);
+            savedText = savedText?.replaceAll(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`);
           })
         }
         headerElement.innerHTML = savedText;
@@ -279,13 +279,13 @@ const Editor = () => {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
             // Apply styling to the matched text
-            savedText = savedText?.replace(match, `<span style="color: white;">@${word}</span>`); 
+            savedText = savedText?.replaceAll(match, `<span style="color: white;">@${word}</span>`); 
           });
         }
         if(matches2) {
           matches2.forEach((match) => {
             const word = match.slice(1);
-            savedText = savedText?.replace(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`);
+            savedText = savedText?.replaceAll(match, `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`);
           })
         }
         paraElement.innerHTML = savedText;
