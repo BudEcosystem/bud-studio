@@ -11,6 +11,7 @@ import Hamburger from 'components/Hamburger/Hamburger';
 import ListView from 'components/ListView/ListView';
 import { useDispatch } from 'react-redux';
 import { setContentRef } from 'redux/slices/content';
+import TimeLine from 'components/TimeLine';
 
 function ContentView({
   setCollapsed,
@@ -47,7 +48,8 @@ function ContentView({
           />
         )}
         {/* <Editor /> */}
-        <ListView />
+        {/* <ListView /> */}
+        <TimeLine />
         <Hamburger />
       </Content>
       <OmniSearch />

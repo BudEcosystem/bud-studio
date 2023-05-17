@@ -1,0 +1,33 @@
+.gantt-wrapper{
+    .rows rect{
+        fill: #28272C;
+    }
+    .calendar{
+        rect{
+            stroke: #28272C;
+            fill: #28272C;
+        }
+        text{
+            stroke: #BBBBBB;
+        }
+    }
+    .rowLines line{
+        stroke: #28272C;
+    }
+    .ticks line{
+        stroke:#2F2F2F
+    }
+    .today rect{
+        fill:rgba(60, 60, 73, 0.2);
+    }
+    // .bar{
+    //     rect{
+    //         fill: #3C3C49
+    //     }
+    // }
+    .handleGroup{
+        rect{
+            fill:#939AFF
+        }
+    }
+}

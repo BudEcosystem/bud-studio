@@ -119,6 +119,7 @@
     "electron-log": "^4.4.8",
     "electron-updater": "^5.3.0",
     "electron-window-state": "^5.0.3",
+    "gantt-task-react": "^0.3.9",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
