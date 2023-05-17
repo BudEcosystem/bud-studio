@@ -32,7 +32,7 @@ const Editor = () => {
     const cursorRect = useRef<DOMRect>()
     const refHoverBar = useRef();
     const colorRef = useRef<any>("#9068fd")
-
+    const [subHeadingContent,setSubHeadingContent] = useState("Philosophy, Life, Misc")
     const [editorOptions,setEditorOptions] = useState([
       {
         key: "header",
@@ -92,7 +92,7 @@ const Editor = () => {
 
       editor1.current = new EditorJS({
         holder: 'editorjs',
-        onReady: () => {console.log('Editor.js is ready to work!')},
+        onReady: () => {},
         onChange: () => {
           editor1.current?.save().then((outputData) => {
             console.log("HEADING DATA",outputData);
@@ -105,8 +105,8 @@ const Editor = () => {
                 class: Header,
                 inlineToolbar: true,
               },
-              strikethrough: Strikethrough,
               underline: Underline,
+              strikethrough: Strikethrough,
               textAlign:TextAlign
         },
         data: {
@@ -126,11 +126,9 @@ const Editor = () => {
         autofocus: true,
         onReady: () => {checkForMentions()
           const blockElements = document.getElementsByClassName('editorjsPara');
-          console.log(blockElements)
           Array.from(blockElements).forEach(blockElement => {
             blockElement.addEventListener('focusout', () => {
               // User finished editing the block
-              console.log("COLOR:", color);
               checkForMentions()
             });
           });},
@@ -185,12 +183,9 @@ const Editor = () => {
         let savedText = text
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
-        console.log("MATCHES", matches)
-        console.log(text);
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
-            console.log(`Found @${word}`);
             // Apply styling to the matched text
             savedText = savedText?.replace(match, `<span style="color: white;">@${word}</span>`); 
           });
@@ -214,12 +209,9 @@ const Editor = () => {
         let savedText = text
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
-        console.log("MATCHES", matches)
-        console.log(text);
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
-            console.log(`Found @${word}`);
             // Apply styling to the matched text
             savedText = savedText?.replace(match, `<span style="color: white;">@${word}</span>`); 
           });
@@ -271,7 +263,6 @@ const Editor = () => {
       editor2.current?.isReady.then(() => {
         const activeElement = document.activeElement;
         cursorRect.current = activeElement?.getBoundingClientRect();
-        console.log("POSITION OF CURSOR", cursorRect?.current?.left)
       })
 
       useEffect(() => {
@@ -284,12 +275,9 @@ const Editor = () => {
         let savedText = text
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
-        console.log("MATCHES", matches)
-        console.log(text);
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
-            console.log(`Found @${word}`);
             // Apply styling to the matched text
             savedText = savedText?.replace(match, `<span style="color: white;">@${word}</span>`); 
           });
@@ -313,12 +301,9 @@ const Editor = () => {
         let savedText = text
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
-        console.log("MATCHES", matches)
-        console.log(text);
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
-            console.log(`Found @${word}`);
             // Apply styling to the matched text
             savedText = savedText?.replace(match, `<span style="color: white;">@${word}</span>`); 
           });
@@ -358,6 +343,10 @@ const Editor = () => {
       )
     }
 
+    const handleSubHeadingChange = (event: any) => {
+      setSubHeadingContent(event.target.innerHTML);
+    };
+
     const style = {'--bg-color': color}
     
 
@@ -394,8 +383,7 @@ const Editor = () => {
              </div>
              </div>
 
-             <div contentEditable className='editorjsSubHeading'>
-                  Philosophy, life, misc
+             <div onBlur={handleSubHeadingChange} dangerouslySetInnerHTML={{ __html: subHeadingContent }} contentEditable className='editorjsSubHeading'>
              </div>
 
             <div className='editorParaDiv'>

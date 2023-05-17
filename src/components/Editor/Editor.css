@@ -58,6 +58,7 @@
 
 .editorjsHeading .ce-inline-toolbar__toggler-and-button-wrapper {
     background-color: black;
+    border-radius: 4px;
 }
 
 .editorjsHeading .ce-inline-tool:hover {
@@ -103,6 +104,8 @@
 .editorjsHeading .ce-inline-toolbar {
     border-color: black;
     top: -30px !important;
+    width: fit-content;
+    min-height: 30px;
 }
 
 .editorjsHeading .ce-inline-toolbar__dropdown {
@@ -113,16 +116,25 @@
     background-color: #1F1E22 !important;
 }
 
-.editorjsHeading .ce-inline-tool--bold:hover {
-    background-color: #1F1E22 !important;
+.editorjsHeading .ce-inline-tool--bold {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    margin-right: 0px !important;
 }
 
-.editorjsHeading .ce-inline-tool--italic:hover {
-    background-color: #1F1E22 !important;
+.editorjsHeading .ce-inline-tool--italic {
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    margin-right: 10px;
 }
 
-.editorjsHeading .ce-inline-tool--link:hover {
-    background-color: #1F1E22 !important;
+.editorjsHeading .ce-inline-tool--link {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+.editorjsHeading .ce-inline-tool--align-text {
+    margin-right: 0px !important;
 }
 
 .editorjsHeading .ce-conversion-toolbar {
@@ -165,12 +177,21 @@
 }
 
 .editorjsHeading .ce-inline-toolbar__buttons {
-    background-color: #1F1E22;
+    background-color: black;
     border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
 }
 
 .editorjsHeading .ce-block--selected::selection {
     background-color: #696969 !important;
+}
+
+.editorjsHeading .ce-inline-tool  {
+    background-color: #1F1E22;
+    border-radius: 3px;
+    padding: 5px;
+    margin-right: 10px;
 }
 
 .editorParaDiv {
@@ -198,11 +219,21 @@
 
 .editorjsPara .ce-inline-toolbar__toggler-and-button-wrapper {
     background-color: black;
+    border-radius: 4px;
 }
 
 .editorjsPara .ce-inline-toolbar {
     border-color: black;
 }
+
+.editorjsPara .ce-conversion-tool--focused {
+    background-color: black !important;
+}
+
+.editorjsPara .ce-inline-tool:hover {
+    background-color: #1F1E22;
+}
+
 
 .editorjsPara .ce-inline-tool--active:hover {
     background-color: #1F1E22 !important;
@@ -224,6 +255,9 @@
     background-color: black !important;
 }
 
+.editorjsPara .ce-conversion-tool {
+    background-color: black;
+}
 .editorjsPara .ce-conversion-tool__icon svg {
     color: black;
 }
