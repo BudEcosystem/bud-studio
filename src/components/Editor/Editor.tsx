@@ -50,12 +50,14 @@ const Editor = () => {
       icon: <TextIcon/>,
       title: "Quote",
       subTitle: 'Write a quote.'
-    },{
-      key: "link",
-      icon: <TextIcon/>,
-      title: "Link",
-      subTitle: "Write a text as hyperlink."
-    },{
+     }
+    //,{
+    //   key: "link",
+    //   icon: <TextIcon/>,
+    //   title: "Link",
+    //   subTitle: "Write a text as hyperlink."
+    // }
+    ,{
       key: "checklist",
       icon: <CheckListIcon/>,
       title: "Checklist",
@@ -95,7 +97,7 @@ const Editor = () => {
         holder: 'editorjs',
         onReady: () => {},
         onChange: () => {
-          editor1.current?.save().then((outputData) => {
+          editor1?.current?.save().then((outputData) => {
             console.log("HEADING DATA",outputData);
           }).catch((error) => {
             console.error('Error while saving data:', error);
