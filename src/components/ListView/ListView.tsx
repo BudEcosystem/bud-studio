@@ -9,8 +9,6 @@ const ListView = () => {
   const { content }: any = useSelector((state) => state);
   let { contentRef } = content;
   const kabuniRef = useRef(null);
-  // const contentRef = useRef(null);
-
   const [isSticky, setIsSticky] = useState(false);
   useEffect(() => {
     var handleScroll = () => {
