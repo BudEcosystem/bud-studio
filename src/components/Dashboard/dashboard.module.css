@@ -78,6 +78,7 @@
   margin-left: -35px;
   cursor: pointer;
   transition: all 0.3s;
+  position: absolute;
 }
 
 .slide-arrow-active {

@@ -16,16 +16,6 @@ interface HeaderProps {
   isCollapsed: boolean;
 }
 
-const  SliderIcon = () => {
-  return (
-    <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M1 1L1 8.51821" stroke="#7B8388" stroke-width="1.62894" stroke-linecap="round"/>
-<path d="M12.1228 4.39268H5.16016M5.16016 4.39268L7.846 1.69748M5.16016 4.39268L7.846 7.08789" stroke="#7B8388" stroke-width="1.25303" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-  );
-  }
-
 function SliderArrow({ slideFn, isCollapsed }: HeaderProps) {
   return (
     <div className={classes['slider-box']}>
@@ -168,14 +158,16 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
     <Header className={classes['site-layout-header']}>
       <SliderArrow slideFn={slideFn} isCollapsed={isCollapsed} />
       <Space split={' '} align="center" className={classes['arrow-box']}>
+        <div style={{display: "grid", placeItems: "center", width: "28px", height: "28px", backgroundColor: "#25272B", borderRadius: "13.8292px"}}>
         <img
-          style={{ marginTop: '28px' }}
+          style={{ }}
           className="hover-effect"
           src="/images/other/arrow-left.png"
           alt="#"
           width={10}
           height={15}
         />
+        </div>
       </Space>
 
       <div className={classes['controls-box']}>
