@@ -75,7 +75,7 @@
 .slide-arrow,
 .slide-arrow-active {
   z-index: 10;
-  margin-left: -35px;
+  margin-left: -32px;
   cursor: pointer;
   transition: all 0.3s;
   position: absolute;

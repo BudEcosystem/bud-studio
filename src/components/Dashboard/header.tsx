@@ -216,8 +216,8 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
             width={15}
             height={15}
           />
-          <p>Share</p>
-          <p>View mode</p>
+          <p style={{cursor: "pointer"}}>Share</p>
+          <p style={{cursor: "pointer"}}>View mode</p>
           <img
             className="hover-effect"
             src="/images/other/more.png"
