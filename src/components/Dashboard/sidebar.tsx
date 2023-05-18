@@ -168,7 +168,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   return (
     <>
       <Sider
-        width={240}
+        width={225}
         className={classes['main-sidebar']}
         trigger={null}
         collapsible
