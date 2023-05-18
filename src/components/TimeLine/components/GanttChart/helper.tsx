@@ -3,16 +3,6 @@ export function initTasks() {
   const tasks: any[] = [
     {
       start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
-      end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 15),
-      name: "Some Project",
-      id: "ProjectSample",
-      progress: 25,
-      type: "project",
-      hideChildren: false,
-      displayOrder: 1,
-    },
-    {
-      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
       end: new Date(
         currentDate.getFullYear(),
         currentDate.getMonth(),
@@ -24,7 +14,6 @@ export function initTasks() {
       id: "Task 0",
       progress: 45,
       type: "task",
-      project: "ProjectSample",
       displayOrder: 2,
     },
     {
@@ -35,7 +24,6 @@ export function initTasks() {
       progress: 25,
       dependencies: ["Task 0"],
       type: "task",
-      project: "ProjectSample",
       displayOrder: 3,
     },
     {
@@ -46,7 +34,6 @@ export function initTasks() {
       progress: 10,
       dependencies: ["Task 1"],
       type: "task",
-      project: "ProjectSample",
       displayOrder: 4,
     },
     {
@@ -57,7 +44,6 @@ export function initTasks() {
       progress: 2,
       dependencies: ["Task 2"],
       type: "task",
-      project: "ProjectSample",
       displayOrder: 5,
     },
     {
@@ -68,29 +54,8 @@ export function initTasks() {
       type: "task",
       progress: 70,
       dependencies: ["Task 2"],
-      project: "ProjectSample",
       displayOrder: 6,
-    },
-    {
-      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 15),
-      end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 15),
-      name: "Release",
-      id: "Task 6",
-      progress: currentDate.getMonth(),
-      type: "milestone",
-      dependencies: ["Task 4"],
-      project: "ProjectSample",
-      displayOrder: 7,
-    },
-    {
-      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 18),
-      end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 19),
-      name: "Party Time",
-      id: "Task 9",
-      progress: 0,
-      isDisabled: true,
-      type: "task",
-    },
+    }
   ];
   return tasks;
 }

@@ -17,6 +17,7 @@
         color: #BBBBBB;
         cursor: pointer;
         background: transparent;
+        transition: .3s ease;
         &.active{
             background: #3C3C49;
         }
