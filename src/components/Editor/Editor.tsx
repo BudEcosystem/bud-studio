@@ -57,12 +57,13 @@ const Editor = () => {
     //   title: "Link",
     //   subTitle: "Write a text as hyperlink."
     // }
-    ,{
-      key: "checklist",
-      icon: <CheckListIcon/>,
-      title: "Checklist",
-      subTitle: "Start a checklist."
-    },{
+    // ,{
+    //   key: "checklist",
+    //   icon: <CheckListIcon/>,
+    //   title: "Checklist",
+    //   subTitle: "Start a checklist."
+    //  }
+     ,{
       key: "table",
       icon: <TableIcon/>,
       title: "Simple Table",
