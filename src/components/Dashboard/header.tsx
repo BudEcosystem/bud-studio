@@ -23,7 +23,7 @@ function SliderArrow({ slideFn, isCollapsed }: HeaderProps) {
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <img
           className={classes['slide-arrow-active']}
-          src="/images/other/slideArrowIcon.png"
+          src="/images/other/CollapseIcon.svg"
           alt="#"
           width={30}
           height={30}
@@ -35,7 +35,7 @@ function SliderArrow({ slideFn, isCollapsed }: HeaderProps) {
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <img
           className={classes['slide-arrow']}
-          src="/images/other/slideArrowIcon.png"
+          src="/images/other/CollapseIcon.svg"
           alt="#"
           width={30}
           height={30}
@@ -157,17 +157,15 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
   return (
     <Header className={classes['site-layout-header']}>
       <SliderArrow slideFn={slideFn} isCollapsed={isCollapsed} />
-      <Space split={' '} align="center" className={classes['arrow-box']}>
-        <div style={{display: "grid", placeItems: "center", width: "28px", height: "28px", backgroundColor: "#25272B", borderRadius: "13.8292px"}}>
+      <Space split={' '} className={classes['arrow-box']}>
         <img
-          style={{ }}
+          style={{display: "grid" }}
           className="hover-effect"
-          src="/images/other/arrow-left.png"
+          src="/images/other/BackArrow.svg"
           alt="#"
-          width={10}
-          height={15}
+          width={36}
+          height={36}
         />
-        </div>
       </Space>
 
       <div className={classes['controls-box']}>
