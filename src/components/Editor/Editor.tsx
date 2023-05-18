@@ -161,7 +161,6 @@ const Editor = () => {
             textAlign:TextAlign
         },
         data: {
-            time: 1552744582955,
             blocks: [
               {
                 type: "paragraph",
