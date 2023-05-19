@@ -110,6 +110,7 @@
     "@editorjs/paragraph": "^2.9.0",
     "@editorjs/table": "^2.2.1",
     "@editorjs/underline": "^1.1.0",
+    "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@sotaproject/strikethrough": "^1.0.1",
@@ -201,8 +202,8 @@
     "webpack-merge": "^5.8.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "Bud Studio",
+    "appId": "studio.bud.app",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
