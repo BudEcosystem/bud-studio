@@ -36,6 +36,12 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
       >
         Month
       </button>
+      <button
+        className={`${activeVmde === ViewMode.Year? 'active':''}`}
+        onClick={() => viewModeChangeHandler(ViewMode.Year)}
+      >
+        Year
+      </button>      
         </div>
     </div>
   );

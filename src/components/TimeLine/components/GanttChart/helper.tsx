@@ -37,7 +37,7 @@ export function initTasks() {
       displayOrder: 4,
     },
     {
-      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 8),
+      start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 7),
       end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 9, 0, 0),
       name: "Developing",
       id: "Task 3",
@@ -60,7 +60,7 @@ export function initTasks() {
   return tasks;
 }
 
-export function getStartEndDateForProject(tasks: Task[], projectId: string) {
+export function getStartEndDateForProject(tasks: any[], projectId: string) {
   const projectTasks = tasks.filter(t => t.project === projectId);
   let start = projectTasks[0].start;
   let end = projectTasks[0].end;
