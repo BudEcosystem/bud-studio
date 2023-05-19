@@ -22,9 +22,22 @@ jobs:
 
     - name: build
       run: pnpm run package
-    - name: Publish releases
+      
+    - name: Release
+      uses: softprops/action-gh-release@v1
       env:
-        # This is used for uploading release assets to github
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        npm exec electron-builder -- --publish always --win --mac --linux
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        files: |
+          release/build/*.deb
+          release/build/*.dmg
+          release/build/*.exe
+          release/build/*.rpm
+          release/build/*.zip
+          
+#     - name: Publish releases
+#       env:
+#         # This is used for uploading release assets to github
+#         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       run: |
+#         npm exec electron-builder -- --publish always --win --mac --linux
