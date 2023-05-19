@@ -16,16 +16,6 @@ interface HeaderProps {
   isCollapsed: boolean;
 }
 
-const  SliderIcon = () => {
-  return (
-    <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M1 1L1 8.51821" stroke="#7B8388" stroke-width="1.62894" stroke-linecap="round"/>
-<path d="M12.1228 4.39268H5.16016M5.16016 4.39268L7.846 1.69748M5.16016 4.39268L7.846 7.08789" stroke="#7B8388" stroke-width="1.25303" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-  );
-  }
-
 function SliderArrow({ slideFn, isCollapsed }: HeaderProps) {
   return (
     <div className={classes['slider-box']}>
@@ -33,7 +23,7 @@ function SliderArrow({ slideFn, isCollapsed }: HeaderProps) {
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <img
           className={classes['slide-arrow-active']}
-          src="/images/other/slideArrowIcon.png"
+          src="/images/other/CollapseIcon.svg"
           alt="#"
           width={30}
           height={30}
@@ -45,7 +35,7 @@ function SliderArrow({ slideFn, isCollapsed }: HeaderProps) {
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <img
           className={classes['slide-arrow']}
-          src="/images/other/slideArrowIcon.png"
+          src="/images/other/CollapseIcon.svg"
           alt="#"
           width={30}
           height={30}
@@ -167,14 +157,14 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
   return (
     <Header className={classes['site-layout-header']}>
       <SliderArrow slideFn={slideFn} isCollapsed={isCollapsed} />
-      <Space split={' '} align="center" className={classes['arrow-box']}>
+      <Space split={' '} className={classes['arrow-box']}>
         <img
-          style={{ marginTop: '28px' }}
+          style={{display: "grid" }}
           className="hover-effect"
-          src="/images/other/arrow-left.png"
+          src="/images/other/BackArrow.svg"
           alt="#"
-          width={10}
-          height={15}
+          width={36}
+          height={36}
         />
       </Space>
 
@@ -226,8 +216,8 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
             width={15}
             height={15}
           />
-          <p>Share</p>
-          <p>View mode</p>
+          <p style={{cursor: "pointer"}}>Share</p>
+          <p style={{cursor: "pointer"}}>View mode</p>
           <img
             className="hover-effect"
             src="/images/other/more.png"

@@ -39,6 +39,7 @@ const WorkspaceModal = ({ idx, name, setWorkspaceModal, workspaceModal }: any) =
       setRender(false);
     }
   }, [workspaceModal]);
+  
   const wrapperRef = useRef(null);
   const optionModalRef = useRef(null);
 

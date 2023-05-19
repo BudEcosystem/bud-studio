@@ -46,8 +46,8 @@ function ContentView({
             workspaceModal={workspaceModal}
           />
         )}
-        {/* <Editor /> */}
-        <ListView />
+        <Editor />
+        {/* <ListView /> */}
         <Hamburger />
       </Content>
       <OmniSearch />
