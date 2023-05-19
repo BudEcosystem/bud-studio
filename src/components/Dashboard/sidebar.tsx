@@ -5,7 +5,7 @@ import classes from './dashboard.module.css';
 import ContentView from './content';
 import { changeColor, createWorkspaces, editWorkspaceItem } from 'redux/slices/workspace';
 import { useDispatch, useSelector } from 'react-redux';
-import WorkspaceMenuItem from './components/WorkspaceMenuItem';
+import WorkspaceMenuItem, { MenuWorkSpaceInput } from './components/WorkspaceMenuItem';
 
 const { Sider } = Layout;
 interface SideBarProps {
@@ -120,6 +120,9 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   }, []);
 
   const showWorkspaceModal = (color: any, name: any) => {
+    if(workspaceModal === true){
+      return 
+    }
     setWorkspaceModal(!workspaceModal);
     console.log('WORKSPACE PRESSED', workspaceModal);
     setWorkspaceColor(color);
@@ -161,6 +164,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
       console.log(...workSpaceItems)
     }
   }
+
+  
   return (
     <>
       <Sider
@@ -292,17 +297,17 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                   {workSpaceItems.length > 0 &&
                     workSpaceItems.map((menu: any, i: any) => (
                       <WorkspaceMenuItem
-                        key={`wkp${i}`}
-                        updateWorkspace={updateWorkspace}
-                        menu={menu}
-                        i={i}
-                        isCollapsed={isCollapsed}
-                        activeClassNameColor={activeClassNameColor}
-                        boxStyle={boxStyle}
-                        handlerColor={handlerColor}
-                        setHoverColorHandler={setHoverColorHandler}
-                        setHoverColorOnLeave={setHoverColorOnLeave}
-                      />
+                      key={`wkp${i}`}
+                      updateWorkspace={updateWorkspace}
+                      menu={menu}
+                      i={i}
+                      isCollapsed={isCollapsed}
+                      activeClassNameColor={activeClassNameColor}
+                      boxStyle={boxStyle}
+                      handlerColor={handlerColor}
+                      setHoverColorHandler={setHoverColorHandler}
+                      setHoverColorOnLeave={setHoverColorOnLeave}
+                    /> 
                     ))}
                   {showAddWorkspace && (
                   <WorkspaceMenuItem

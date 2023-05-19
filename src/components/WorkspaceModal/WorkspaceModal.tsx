@@ -92,7 +92,7 @@ const WorkspaceModal = ({ idx, name, setWorkspaceModal, workspaceModal }: any) =
     setIsLoading(true)
     setTimeout(() => {
       setIsLoading(false)
-      dispatch(createWorkspaces({name: workSpaceItems[idx].name, color}))
+      dispatch(createWorkspaces({name: `${workSpaceItems[idx].name}[copy]`, color, idx}))
     }, 2000);
     // console.log("clicked duplicate")
   }
@@ -231,7 +231,7 @@ const WorkspaceModal = ({ idx, name, setWorkspaceModal, workspaceModal }: any) =
             />
           </div>
 
-          <TreeView />
+          <TreeView idx={idx}/>
         </div>
       </Draggable>
       {showColorDots && (
