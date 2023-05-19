@@ -20,9 +20,6 @@ jobs:
     - name: Install dependencies
       run: pnpm -r install
 
-    - name: Post Install 
-      run: pnpm -r postinstall
-
     - name: build
       run: pnpm run package
     - name: Publish releases
