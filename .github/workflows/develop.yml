@@ -2,45 +2,26 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  build_on_linux:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
+    - uses: actions/setup-node@v2
       with:
         node-version: 16
+
     - name: Install pnpm
       run: npm install -g pnpm
+
     - name: Install dependencies
       run: pnpm -r install
-    - name: build
-      run: pnpm run package
 
-  build_on_mac:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
-      with:
-        node-version: 16
-    - name: Install pnpm
-      run: npm install -g pnpm
-    - name: Install dependencies
-      run: pnpm -r install
-    - name: build
-      run: pnpm run package
+    - name: Post Install 
+      run: pnpm -r postinstall
 
-
-  build_on_win:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
-      with:
-        node-version: 16
-    - name: Install pnpm
-      run: npm install -g pnpm
-    - name: Install dependencies
-      run: pnpm -r install
     - name: build
       run: pnpm run package
