@@ -1,35 +1,46 @@
-name: Build Electron App
-
-on:
-  push:
-    branches:
-      - develop  # Replace with your branch name if necessary
+name: Build
+on: [push, pull_request]
 
 jobs:
-  build:
+  build_on_linux:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@master
+      with:
+        node-version: 16
+    - name: Install pnpm
+      run: npm install -g pnpm
+    - name: Install dependencies
+      run: pnpm -r install
+    - name: build
+      run: pnpm run package
 
-      - name: Set up macOS
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16
-          platform: 'darwin'
-          
-      - name: Install pnpm
-        run: npm install -g pnpm
+  build_on_mac:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@master
+      with:
+        node-version: 16
+    - name: Install pnpm
+      run: npm install -g pnpm
+    - name: Install dependencies
+      run: pnpm -r install
+    - name: build
+      run: pnpm run package
 
-      - name: Install dependencies
-        run: pnpm -r install
-        
-      - name: Build Electron app for macOS
-        run: pnpm run package
 
-      - name: Archive macOS artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: built-app-mac
-          path: release/build/mac
+  build_on_win:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@master
+      with:
+        node-version: 16
+    - name: Install pnpm
+      run: npm install -g pnpm
+    - name: Install dependencies
+      run: pnpm -r install
+    - name: build
+      run: pnpm run package
