@@ -4,7 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 const getObj = (i) => {
   let obj = {
     key: '0',
-    label: `Human Resources ${i+1}`,
+    label: `Human Resources ${i + 1}`,
     isParent: true,
     children: [
       {
@@ -23,9 +23,9 @@ const getObj = (i) => {
         ],
       },
     ],
-  }
-   return obj
-}
+  };
+  return obj;
+};
 
 const initialState: any = {
   props: {},
@@ -42,29 +42,31 @@ export const workspaceSlice = createSlice({
       state.color = action.payload;
     },
     createWorkspaces: (state, action: PayloadAction<any>) => {
-      console.log('cd', action.payload);
-      if(action.payload.idx != undefined) {
+      console.log('create:', action.payload);
+      if (action.payload.idx != undefined) {
         state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
-  
-          console.log(JSON.stringify(state.workspaceFolders[action.payload.idx]))
-          // state.workspaceFolders.push()
-        }
-        else{
-        state.workspaceFolders.push(getObj(state.workSpaceItems.length));
 
-        }
+        console.log(JSON.stringify(state.workspaceFolders[action.payload.idx]));
+        // state.workspaceFolders.push()
+      } else {
+        state.workspaceFolders.push(getObj(state.workSpaceItems.length));
+      }
       state.workSpaceItems.push(action.payload);
       console.log('dsf', [...state.workSpaceItems]);
       // console.log(getObj(state.workSpaceItems.length))
-      
-      console.log([...state.workspaceFolders])
+
+      console.log([...state.workspaceFolders]);
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
       console.log('cja');
-      console.log('cd', action.payload);
+      console.log('edit:', action.payload);
       const arr = [...state.workSpaceItems];
       console.log('Asdf', arr, [...state.workSpaceItems]);
-      arr[action.payload.index].name = action.payload.value;
+      if (action.payload.value.name) {
+        arr[action.payload.index].name = action.payload.value.name;
+      } else {
+        arr[action.payload.index].name = action.payload.value;
+      }
       console.log('h', arr[0]);
     },
     // duplicateWorkspaceItem: (state, action: PayloadAction<any>) => {

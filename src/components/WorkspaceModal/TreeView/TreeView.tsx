@@ -94,8 +94,7 @@ function TreeView({ idx }) {
   // const {workspace}:any = useSelector(state=>state)
   // var { workspaceFolders } = workspace
   treeData = [workspaceFolders[idx]];
-  console.log(treeData)
-
+  console.log(treeData);
 
   // console.log(workspaceFolders[idx][`workspace${idx+1}`])
   return (
