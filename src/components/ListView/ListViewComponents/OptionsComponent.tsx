@@ -7,20 +7,18 @@ import { useSelector } from 'react-redux';
 
 const imagesArray: Array<any> = ['', '', ''];
 
-const OptionsComponent = ({ isSticky }) => {
+function OptionsComponent({ isSticky }) {
   const { content }: any = useSelector((state) => state);
-  let { contentRef } = content;
+  const { contentRef } = content;
   const kabuniRef = useRef(null);
   // const contentRef = useRef(null);
 
   const [isSticky2, setIsSticky] = useState(false);
   useEffect(() => {
-    var handleScroll = () => {
+    const handleScroll = () => {
       const containerTop = contentRef.getBoundingClientRect().top;
       const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
       setIsSticky(kabuniTop <= 95);
-      console.log(kabuniTop);
-      console.log(kabuniRef.current);
     };
 
     contentRef?.addEventListener('scroll', handleScroll);
@@ -46,6 +44,6 @@ const OptionsComponent = ({ isSticky }) => {
       </div>
     </div>
   );
-};
+}
 
 export default OptionsComponent;
