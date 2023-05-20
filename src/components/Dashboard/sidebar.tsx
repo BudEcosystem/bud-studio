@@ -95,7 +95,6 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
 
   const showWorkspaceModal = (colorPassed: any, name: any) => {
     setWorkspaceModal(!workspaceModal);
-    console.log('WORKSPACE PRESSED', workspaceModal);
     setWorkspaceColor(colorPassed);
     setWorkspaceName(name);
   };
@@ -176,7 +175,6 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
       // setWorkspaces([...workspacesTemp]);
       dispatch(createWorkspaces(e.value));
       setShowAddWorkspace(false);
-      console.log(...workSpaceItems);
     }
   };
   return (

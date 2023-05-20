@@ -48,7 +48,7 @@ const panelArr = [
   },
 ];
 
-const MainListComponent = () => {
+function MainListComponent() {
   const [activePanel, setActivePanel] = useState([true, false, false, false]);
   const panelStyle = {
     marginBottom: 18,
@@ -59,7 +59,6 @@ const MainListComponent = () => {
   };
   const handlePanelChange = (index) => {
     const newActivePanel = [...activePanel];
-    console.log(index);
     newActivePanel[index] = !newActivePanel[index];
     setActivePanel(newActivePanel);
   };
@@ -69,7 +68,7 @@ const MainListComponent = () => {
       style={{ justifyContent: 'space-between' }}
     >
       <div className="flexVerticalCenter">
-        <div className="textIcon" style={{ background: col }}></div>
+        <div className="textIcon" style={{ background: col }} />
         <span style={{ marginLeft: '8px' }}>{text}</span>
       </div>
       {activePanel[index] && (
@@ -114,6 +113,6 @@ const MainListComponent = () => {
       </Collapse>
     </div>
   );
-};
+}
 
 export default MainListComponent;

@@ -2,22 +2,14 @@ import { useEffect } from 'react';
 import KanbanSections from './sections';
 
 export default function KanbanMain() {
-  // const count = useSelector((state: RootState) => state.counter);
-  // useEffect(() => {
-  //   console.log(count);
-  // }, [count]);
-
   const draggables = document.querySelectorAll('.draggable');
   const containers = document.querySelectorAll(
     '.kanban-each-section-body-cards'
   );
-  // console.log("45",draggables);
-  // console.log("45",containers);
   function getDragAfterElement(container: any, y: any) {
     const draggableElements = [
       ...container.querySelectorAll('.draggable:not(.dragging)'),
     ];
-    console.log('45', draggableElements);
     return draggableElements.reduce(
       (closest, child) => {
         const box = child.getBoundingClientRect();
