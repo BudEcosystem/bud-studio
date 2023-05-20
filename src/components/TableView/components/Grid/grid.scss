@@ -1,0 +1,32 @@
+.grid{
+    &-container{
+        max-height: 60vh;
+        overflow: auto;
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 6px;
+            th{
+                position: sticky;
+                top: 0;
+                min-width: 100px;
+            }
+            td{
+                background-color: #28272C;
+                border: 1px solid #2F2F2F;
+            }
+            th,td:first-child{
+                background-color: #1B1C1E;
+            }
+            td,th{
+                text-align: left;
+                padding: 12px;
+            }
+            th:first-child,
+            td:first-child{
+                width: 42px !important;
+                text-align: center;
+            }
+        }
+    }
+}
