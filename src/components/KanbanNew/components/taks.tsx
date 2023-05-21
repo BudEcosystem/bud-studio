@@ -17,6 +17,7 @@ const TaskContainer = styled.div`
   flex-direction: column;
 `;
 const TaskHeader = styled.div`
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -27,7 +28,10 @@ const TaskHeader = styled.div`
   justify-content: space-between;
 `;
 const TaskHeading = styled.div`
-  text-transform: capitalize;
+  width: 119px;
+  &:first-letter {
+    text-transform: uppercase;
+  }
 `;
 const TaskProgressBar = styled.div`
   width: 94px;
@@ -39,15 +43,29 @@ const TaskProgressBar = styled.div`
   background: #0f0f0f;
   border-radius: 21px;
 `;
+const TaskProgress = styled.div`
+  width: 64px;
+  height: 4px;
+  background: #939aff;
+  border-radius: 21px;
+`;
 const TaskUserUI = styled.div`
   display: flex;
   flex-direction: row;
+  position: relative;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  > *:not(:first-child) {
+    left: 10px;
+  }
 `;
 const TaskUser = styled.div`
   border-radius: 50%;
   background: grey;
   width: 18px;
   height: 18px;
+  position: absolute;
+  border: 0.5px solid #fbf3f3;
 `;
 
 const TaskDescription = styled.span`
@@ -57,23 +75,27 @@ const TaskDescription = styled.span`
   line-height: 130%;
   letter-spacing: -0.02em;
   color: #bbbbbb;
-  margin-top: 13px;
+  // margin-top: 13px;
   margin-bottom: 20px;
 `;
 
 const TaskFooterSection = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   > *:not(:first-child) {
     margin-left: 10px;
   }
 `;
 
-const TaskFooterTags = styled.div`
-  width: 51.71px;
+const TaskFooterTagsWrapper = styled.div`
+  // width: 51.71px;
   height: 24px;
   background: #1b1c1e;
   border-radius: 7.03826px;
+  display: flex;
+  align-items: center;
+  padding: 3.5px 7px 3.5px 7px;
 `;
 
 const TaskFooterDueDetails = styled.span`
@@ -82,11 +104,67 @@ const TaskFooterDueDetails = styled.span`
   font-size: 12px;
   line-height: 16px;
   text-align: right;
+  color: #c6c6c6;
+`;
+
+const TaskBrancDetailsWrapper = styled.div`
+  height: 17px;
+  display: flex;
+  align-items: center;
+`;
+const TaskBranchImage = styled.img``;
+const TaskBranchCount = styled.span`
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 17px;
+  /* identical to box height, or 170% */
+  letter-spacing: -0.0848362px;
+  color: #ffffff;
+  margin-left: 3.5px;
+`;
+const TaskBrancDetailsSeperator = styled.div`
+  width: 7.64px;
+  height: 0px;
+  left: 32.88px;
+  border: 0.848362px solid rgba(255, 255, 255, 0.25);
+  transform: rotate(90deg);
+  margin-left: 7px;
+`;
+const TaskImageSection = styled.div`
+  width: 184px;
+  height: 120px;
+  background: url(${(props: any) => props.image});
+  border-radius: 6px;
+  margin-top: 14px;
+`;
+
+const TaskType = styled.div`
+  width: 59px;
+  height: 18px;
+  left: 832px;
+  top: 480px;
+  background: #3d4047;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: 7px;
+`;
+const TaskTypeSpan = styled.span`
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 100%;
+  /* identical to box height, or 10px */
 
   color: #c6c6c6;
 `;
 function Tasks(props: any) {
-  // console.log("Draggable",props)
+  console.log('Draggable', props);
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
       {(provided) => {
@@ -98,7 +176,9 @@ function Tasks(props: any) {
           >
             <TaskHeader>
               {' '}
-              <TaskHeading>{props?.task?.content}</TaskHeading>
+              {props?.task?.heading && (
+                <TaskHeading>{props?.task?.content}</TaskHeading>
+              )}
               <svg
                 width="9"
                 height="13"
@@ -112,20 +192,60 @@ function Tasks(props: any) {
                 />
               </svg>
             </TaskHeader>
-            <TaskProgressBar />
-            <TaskUserUI>
-              <TaskUser />
-              <TaskUser />
-              <TaskUser />
-            </TaskUserUI>
-            <TaskDescription>
-              Make note of any appointments or meetings.
-            </TaskDescription>
-            <TaskFooterSection>
-              <TaskFooterTags />
-              <TaskFooterTags />
-              <TaskFooterDueDetails />
-            </TaskFooterSection>
+            {props?.task?.image && (
+              <TaskImageSection image="/images/other/sampleImage.svg" />
+            )}
+            {props?.task?.progress && (
+              <TaskProgressBar>
+                <TaskProgress />
+              </TaskProgressBar>
+            )}
+            {props.task.user && (
+              <TaskUserUI>
+                <TaskUser />
+                <TaskUser />
+                <TaskUser style={{ left: '20px' }} />
+              </TaskUserUI>
+            )}
+            {props.task.description && (
+              <TaskDescription>
+                Make note of any appointments or meetings.
+              </TaskDescription>
+            )}
+            {props.task.type && (
+              <TaskType>
+                <TaskTypeSpan>Recurring</TaskTypeSpan>
+              </TaskType>
+            )}
+            {props.task.footer && (
+              <TaskFooterSection>
+                <TaskFooterTagsWrapper>
+                  <TaskBrancDetailsWrapper>
+                    <TaskBranchImage
+                      src="/images/other/SubBranchesIcon.svg"
+                      alt="#"
+                    />
+                    <TaskBranchCount>2</TaskBranchCount>
+                    <TaskBrancDetailsSeperator />
+                    <TaskBranchImage
+                      src="/images/other/SubTaskPlus.svg"
+                      alt="#"
+                      style={{ marginLeft: '5px', marginTop: '1px' }}
+                    />
+                  </TaskBrancDetailsWrapper>
+                </TaskFooterTagsWrapper>
+                <TaskFooterTagsWrapper>
+                  <TaskBrancDetailsWrapper>
+                    <TaskBranchImage
+                      src="/images/other/CheckBoxTask.svg"
+                      alt="#"
+                    />
+                    <TaskBranchCount>2/6</TaskBranchCount>
+                  </TaskBrancDetailsWrapper>
+                </TaskFooterTagsWrapper>
+                <TaskFooterDueDetails>Due Today</TaskFooterDueDetails>
+              </TaskFooterSection>
+            )}
           </TaskContainer>
         );
       }}

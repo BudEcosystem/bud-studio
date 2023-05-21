@@ -3,6 +3,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import workspaceReducer from './slices/workspace';
 import contentReducer from './slices/content';
+import kanbanReducer from './slices/kanban';
 
 const persistConfig = {
   key: 'root',
@@ -11,6 +12,7 @@ const persistConfig = {
 const reducer = combineReducers({
   workspace: workspaceReducer,
   content: contentReducer,
+  kanban: kanbanReducer,
 });
 const persistedReducer = persistReducer(persistConfig, reducer);
 

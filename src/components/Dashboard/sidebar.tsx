@@ -8,10 +8,12 @@ import {
   editWorkspaceItem,
 } from 'redux/slices/workspace';
 import { useDispatch, useSelector } from 'react-redux';
+import Kanban from 'components/KanbanNew/kanbanBoard';
+import KanbanUI from 'components/KanbanNew';
+import KanbanMain from 'components/Kanaban/KanbanMain';
 import classes from './dashboard.module.css';
 import ContentView from './content';
 import WorkspaceMenuItem from './components/WorkspaceMenuItem';
-import Kanban from 'components/KanbanNew';
 
 const { Sider } = Layout;
 interface SideBarProps {
@@ -64,6 +66,19 @@ const sidebarOptions = [
     ),
     label: 'Kanban',
     link: '/kanban',
+  },
+  {
+    key: '4',
+    icon: (
+      <img
+        src="/images/other/notificationIcon.png"
+        alt="#"
+        width={18}
+        height={18}
+      />
+    ),
+    label: 'Kanban2',
+    link: '/kanban2',
   },
 ];
 
@@ -447,7 +462,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
           <Route path="/" element={<div />} />
           <Route path="/menuTwo" element={<div />} />
           <Route path="/menuThree" element={<div />} />
-          <Route path="/kanban" element={<Kanban />} />
+          <Route path="/kanban" element={<KanbanUI />} />
+          <Route path="/kanban2" element={<KanbanMain />} />
         </Routes>
       </ContentView>
     </>
