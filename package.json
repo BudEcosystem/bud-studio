@@ -128,6 +128,7 @@
     "react-draggable": "^4.4.5",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.1",
+    "styled-components": "6.0.0-rc.1",
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {

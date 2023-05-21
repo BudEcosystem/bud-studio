@@ -30,7 +30,7 @@
   --primary-bgc: #000000;
   --primary-bgc-2: #1a1a20;
   --primary-bgc-3: #000000;
-  --primary-bgc-light: #1b1c1e;
+  --primary-bgc-light: #101010;
   --white-color: #fff;
   --light-gray: #565262a4;
   /* --light-gray: #565262; */
@@ -62,4 +62,15 @@
 .hover-effect:hover {
   opacity: 1;
   cursor: pointer;
+}
+:where(.css-dev-only-do-not-override-k9tb46).ant-popover .ant-popover-inner{
+  background-color:#0c0c0c;
+  padding:0px;
+}
+.ant-popover-arrow{
+  display: none !important;
+}
+.ant-popover{
+  background: transparent !important;
+  margin-left:100px !important
 }

@@ -2,15 +2,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-const idb =
-  window.indexedDB ||
-  window.mozIndexedDB ||
-  window.webkitIndexedDB ||
-  window.msIndexedDB ||
-  window.shimIndexedDB;
-const DBName = 'budelectron';
-const DBVersion = 1;
-const DBRequest = idb.open(DBName, DBVersion);
 const generateInitialState = (): any => {
   const initialState: any = {
     props: {},

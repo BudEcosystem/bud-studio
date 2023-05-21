@@ -8,6 +8,9 @@ import {
   editWorkspaceItem,
 } from 'redux/slices/workspace';
 import { useDispatch, useSelector } from 'react-redux';
+import Kanban from 'components/KanbanNew/kanbanBoard';
+import KanbanUI from 'components/KanbanNew';
+import KanbanMain from 'components/Kanaban/KanbanMain';
 import classes from './dashboard.module.css';
 import ContentView from './content';
 import WorkspaceMenuItem from './components/WorkspaceMenuItem';
@@ -79,6 +82,12 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     setActiveClassNameColor(-1);
   };
 
+  const showWorkspaceModal = (colorPassed: any, name: any) => {
+    setWorkspaceModal(!workspaceModal);
+    setWorkspaceColor(colorPassed);
+    setWorkspaceName(name);
+  };
+
   const handlerColor = (menuColor: any, menuName: any, i: any) => {
     try {
       setActiveClassNameColor(i);
@@ -122,12 +131,6 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
       document.body.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
-
-  const showWorkspaceModal = (color: any, name: any) => {
-    setWorkspaceModal(!workspaceModal);
-    setWorkspaceColor(color);
-    setWorkspaceName(name);
-  };
 
   useEffect(() => {
     setShowAddWorkspace(false);
@@ -433,6 +436,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
           <Route path="/" element={<div />} />
           <Route path="/menuTwo" element={<div />} />
           <Route path="/menuThree" element={<div />} />
+          <Route path="/kanban" element={<KanbanUI />} />
+          <Route path="/kanban2" element={<KanbanMain />} />
         </Routes>
       </ContentView>
     </>
