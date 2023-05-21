@@ -60,7 +60,7 @@ const generateInitialState = (): any => {
       type: false,
     },
     'task-6': {
-      id: 'task-5',
+      id: 'task-6',
       content: 'go for a swim and walk',
       heading: true,
       progress: true,
@@ -73,18 +73,18 @@ const generateInitialState = (): any => {
   };
 
   const columns: { [key: string]: object } = {
-    'column-1': {
-      id: 'column-1',
+    'column-0': {
+      id: 'column-0',
       title: 'To-do',
       taskIds: ['task-1', 'task-2'],
     },
-    'column-2': {
-      id: 'column-2',
+    'column-1': {
+      id: 'column-1',
       title: 'In-Progress',
       taskIds: ['task-3', 'task-4', 'task-5'],
     },
-    'column-3': {
-      id: 'column-3',
+    'column-2': {
+      id: 'column-2',
       title: 'Done',
       taskIds: ['task-6'],
     },
@@ -96,7 +96,7 @@ const generateInitialState = (): any => {
   } = {
     tasks,
     columns,
-    columnOrder: ['column-1', 'column-2', 'column-3'],
+    columnOrder: ['column-0', 'column-1', 'column-2'],
   };
   return initialData;
 };
@@ -107,8 +107,40 @@ export const kanbanSlice = createSlice({
     updateCardPosition: (state, action: PayloadAction<any>) => {
       state.columnOrder = action.payload;
     },
+    updateColumnPosition: (state, action: PayloadAction<any>) => {
+      const oldColumnOrder = state.columnOrder;
+      const { draggableId, destination, source } = action.payload;
+      if (destination) {
+        if (destination.droppableId === 'all-columns') {
+          const updatedColumns = oldColumnOrder.filter(
+            (data: any) => data !== draggableId
+          );
+          updatedColumns.splice(destination.index, 0, draggableId);
+          state.columnOrder = updatedColumns;
+        } else {
+          const { index, droppableId } = source;
+          const {
+            index: destinationIndex,
+            droppableId: destinationDroppableId,
+          } = destination;
+          const oldColumnsData = { ...state.columns };
+          const proxyFilteredData: { [key: string]: any } = {};
+          Object.keys(oldColumnsData).forEach((data) => {
+            const processedData = { ...oldColumnsData[data] };
+            const taskIds = [...processedData.taskIds];
+            proxyFilteredData[data] = {
+              ...processedData,
+              taskIds,
+            };
+          });
+          proxyFilteredData[destinationDroppableId].taskIds.push(draggableId);
+          proxyFilteredData[droppableId].taskIds.splice(index, 1);
+          state.columns = proxyFilteredData;
+        }
+      }
+    },
   },
 });
 
-export const { updateCardPosition } = kanbanSlice.actions;
+export const { updateCardPosition, updateColumnPosition } = kanbanSlice.actions;
 export default kanbanSlice.reducer;

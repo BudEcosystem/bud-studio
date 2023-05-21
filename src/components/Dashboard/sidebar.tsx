@@ -54,32 +54,6 @@ const sidebarOptions = [
     label: 'Notifications',
     link: '/menuThree',
   },
-  {
-    key: '4',
-    icon: (
-      <img
-        src="/images/other/notificationIcon.png"
-        alt="#"
-        width={18}
-        height={18}
-      />
-    ),
-    label: 'Kanban',
-    link: '/kanban',
-  },
-  {
-    key: '4',
-    icon: (
-      <img
-        src="/images/other/notificationIcon.png"
-        alt="#"
-        width={18}
-        height={18}
-      />
-    ),
-    label: 'Kanban2',
-    link: '/kanban2',
-  },
 ];
 
 function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {

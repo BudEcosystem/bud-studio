@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { styled } from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-
+import { Popover } from 'antd';
 const TaskContainer = styled.div`
   height: 30px;
   padding: 10px;
@@ -163,21 +163,105 @@ const TaskTypeSpan = styled.span`
 
   color: #c6c6c6;
 `;
+const PopOverWrapper = styled.div`
+  width: 221.18px;
+  height: 249.04px;
+  background: #0c0c0c;
+  border: 0.87078px solid #1d1d1d;
+  backdrop-filter: blur(40.4912px);
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 12px;
+  display flex;
+  flex-direction:column;
+`;
+const PopOveSearchWrapper = styled.div`
+  width: 192.33px;
+  height: 31.93px;
+  left: calc(50% - 192.33px / 2 - 297.03px);
+  top: 319.8px;
+  background: #171718;
+  border: 0.87078px solid #1d1d1d;
+  border-radius: 10.4494px;
+  margin: 0px auto;
+  margin-top: 14.8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+const PopOverSearchIcon = styled.img`
+  margin-left: 15px;
+`;
+const PopOverSearchInput = styled.input`
+  width: 100px;
+  margin-left: 15px;
+  background: #171718;
+  border: none;
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  /* identical to box height, or 12px */
+  /* Shortcut */
+  color: #7b8388;
+  outline: none;
+  text-align: left;
+  &::placeholder,
+  &::-webkit-input-placeholder {
+    text-align: left;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 100%;
+  }
+  &:-ms-input-placeholder {
+    text-align: left;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 100%;
+  }
+`;
+const PopOverSearchKeybordCommandWrapper = styled.div`
+  width: 20px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 15.59px;
+`;
+const PopOverSearchKeybordCommand = styled.img``;
+function PopOverSearch() {
+  return (
+    <PopOverWrapper>
+      <PopOveSearchWrapper>
+        <PopOverSearchIcon src="/images/other/SearchIconPopOver.svg" alt="#" />
+        <PopOverSearchInput placeholder="Search" />
+        <PopOverSearchKeybordCommandWrapper>
+          <PopOverSearchKeybordCommand
+            src="/images/other/KeyboardS.svg"
+            alt="#"
+          />
+        </PopOverSearchKeybordCommandWrapper>
+      </PopOveSearchWrapper>
+    </PopOverWrapper>
+  );
+}
 function Tasks(props: any) {
   console.log('Draggable', props);
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
       {(provided) => {
         return (
-          <TaskContainer
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            ref={provided.innerRef}
-          >
+          <TaskContainer {...provided.draggableProps} ref={provided.innerRef}>
             <TaskHeader>
               {' '}
               {props?.task?.heading && (
-                <TaskHeading>{props?.task?.content}</TaskHeading>
+                <TaskHeading {...provided.dragHandleProps}>
+                  {props?.task?.content}
+                </TaskHeading>
               )}
               <svg
                 width="9"
@@ -204,7 +288,13 @@ function Tasks(props: any) {
               <TaskUserUI>
                 <TaskUser />
                 <TaskUser />
-                <TaskUser style={{ left: '20px' }} />
+                <Popover
+                  placement="bottom"
+                  content={PopOverSearch}
+                  trigger="click"
+                >
+                  <TaskUser style={{ left: '20px' }} />
+                </Popover>
               </TaskUserUI>
             )}
             {props.task.description && (

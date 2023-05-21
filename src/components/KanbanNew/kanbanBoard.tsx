@@ -3,21 +3,23 @@
 import { useEffect, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { styled } from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import initialData from './data/initial-data';
 import Column from './components/column';
+import { updateColumnPosition } from 'redux/slices/kanban';
 
 function Kanban() {
-  // const [stateData, setStateData] = useState(initialData);
+  const dispatch = useDispatch();
   // useEffect(() => {
   // setStateData(initialData);
   // }, []);
-  const reduxState = useSelector((state) => state);
+  const reduxState: any = useSelector((state) => state);
   console.log('reduxState', reduxState);
   const { kanban } = reduxState;
   const { tasks, columns, columnOrder } = kanban;
   const onDragEnd = (result: any) => {
-    console.log(result);
+    console.log('dragresult', result);
+    dispatch(updateColumnPosition(result));
     // structure
     //   {
     //     "draggableId": "task-1",
@@ -34,7 +36,7 @@ function Kanban() {
     //     },
     //     "combine": null
     // }
-    // let { destination, source, draggableId } = result;
+    // const { destination, source, draggableId } = result;
     // if (!destination) {
     //   return;
     // }
@@ -44,8 +46,8 @@ function Kanban() {
     // ) {
     //   return;
     // }
-    // let { columns } = stateData;
-    // let column = columns[source.droppableId];
+    // const { columns } = stateData;
+    // const column = columns[source.droppableId];
     // const newTaskIds = Array.from(column.taskIds);
     // newTaskIds.splice(source.index, 1);
     // newTaskIds.splice(destination.index, 0, draggableId);
