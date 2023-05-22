@@ -34,12 +34,14 @@ const sidebarOptions = [
     ),
     label: 'Dashboard',
     link: '/menuOne',
+    keyCombination: '/images/other/KeyN.svg',
   },
   {
     key: '2',
     icon: <img src="/images/other/search.png" alt="#" width={14} height={14} />,
     label: 'Search',
     link: '/menuTwo',
+    keyCombination: '/images/other/KeyF.svg',
   },
   {
     key: '3',
@@ -47,8 +49,8 @@ const sidebarOptions = [
       <img
         src="/images/other/notificationIcon.png"
         alt="#"
-        width={18}
-        height={18}
+        width={14}
+        height={14}
       />
     ),
     label: 'Notifications',
@@ -113,6 +115,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     '--menuColor': color,
     '--menuHoverColor': hoverColor,
     '--menuHoverColorOnLeave': hoverColorOnLeave,
+    'border-radius': '0px',
   };
 
   useEffect(() => {
@@ -218,7 +221,19 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                   icon={menu.icon}
                   onClick={(e) => navigateContent(e, menu.link)}
                 >
-                  {menu.label}
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'flex-start',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <div style={{ width: '130px' }}>{menu.label}</div>
+                    {menu.keyCombination && (
+                      <img src={menu.keyCombination} alt="#" />
+                    )}
+                  </div>
                 </Menu.Item>
               ))}
             </Menu>
@@ -287,8 +302,11 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 >
                   <div className={`${classes['sidebar-inline-box']}`}>
                     <label>Favourites</label>
+                    <div className={`${classes['sidebar-inline-box-count']}`}>
+                      <span>08</span>
+                    </div>
                     {isCollapsed ? null : (
-                      <p style={{ marginLeft: '70px' }}>⌘ L</p>
+                      <p style={{ marginLeft: '60px' }}>⌘L</p>
                     )}
                   </div>
                 </Menu.Item>
