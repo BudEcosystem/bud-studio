@@ -287,8 +287,11 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 >
                   <div className={`${classes['sidebar-inline-box']}`}>
                     <label>Favourites</label>
+                    <div className={`${classes['sidebar-inline-box-count']}`}>
+                      <span>08</span>
+                    </div>
                     {isCollapsed ? null : (
-                      <p style={{ marginLeft: '70px' }}>⌘ L</p>
+                      <p style={{ marginLeft: '60px' }}>⌘L</p>
                     )}
                   </div>
                 </Menu.Item>
