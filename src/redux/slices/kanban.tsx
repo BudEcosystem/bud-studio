@@ -186,6 +186,32 @@ export const kanbanSlice = createSlice({
       state.tasks = proxyIterData;
       state.triggerTaskCreation = false;
     },
+    createNewColumn: (state, action: PayloadAction<any>) => {
+      console.log('action.payload', action.payload);
+      let { name } = action.payload;
+      const sampleData = {
+        id: `column-${Object.keys(state.columns).length + 1}`,
+        title: `${name}`,
+        taskIds: [],
+      };
+      const oldColumnOrder = state.columnOrder;
+      const oldColumnsData = { ...state.columns };
+      const proxyFilteredData: { [key: string]: any } = {};
+      Object.keys(oldColumnsData).forEach((data) => {
+        const processedData = { ...oldColumnsData[data] };
+        const taskIds = [...processedData.taskIds];
+        proxyFilteredData[data] = {
+          ...processedData,
+          taskIds,
+        };
+      });
+      proxyFilteredData[`column-${Object.keys(state.columns).length + 1}`] =
+        sampleData;
+      console.log(proxyFilteredData);
+      oldColumnOrder.push(`column-${Object.keys(state.columns).length + 1}`);
+      state.columnOrder = oldColumnOrder;
+      state.columns = proxyFilteredData;
+    },
   },
 });
 
@@ -194,5 +220,6 @@ export const {
   updateColumnPosition,
   triggerDefaultNewTask,
   createNewTaskOnEnter,
+  createNewColumn,
 } = kanbanSlice.actions;
 export default kanbanSlice.reducer;
