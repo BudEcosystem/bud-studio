@@ -4,7 +4,10 @@
 /* eslint-disable react/destructuring-assignment */
 import { styled } from 'styled-components';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Tasks from './taks';
+import { createNewTaskOnEnter } from 'redux/slices/kanban';
 
 const Container = styled.div`
   margin: 10px;
@@ -69,7 +72,57 @@ const TitleHeaderPlusIcon = styled.img``;
 const TaskList = styled.div`
   padding: 10px;
 `;
-// TaskColumnPlusIcon
+const AddNewTaskWrapper = styled.div`
+  width: 214px;
+  height: 44px;
+  background: #141414;
+  border: 0.5px dashed #2f2f2f;
+  border-radius: 8px;
+  margin: 0px auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+const AddNewTaskColoredBorderLeft = styled.div`
+  width: 0px;
+  height: 17.64px;
+  border: 1.25336px solid #f9d45d;
+  border-radius: 0.313339px;
+  margin-left: 14px;
+`;
+const AddNewTaskinput = styled.input`
+  width: 105px;
+  height: 21px;
+  left: 331px;
+  top: 327px;
+  background: rgba(217, 217, 217, 0.05);
+  border-radius: 2px;
+  text-align: left;
+  color: #bbbbbb;
+  outline: none;
+  border: none;
+  margin-left: 5px;
+  &::placeholder,
+  &::-webkit-input-placeholder {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 154.5%;
+    /* identical to box height, or 22px */
+
+    color: #bbbbbb;
+  }
+  &:-ms-input-placeholder {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 154.5%;
+    /* identical to box height, or 22px */
+    color: #bbbbbb;
+  }
+`;
 interface Task {
   index: any;
   id: any;
@@ -84,6 +137,31 @@ interface Task {
 }
 function Column(props: any) {
   //   console.log(props);
+  const [showNewTaskUI, setNewTaskUI] = useState(false);
+  const { kanban } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (props.index === 0) {
+      const { triggerTaskCreation } = kanban;
+      setNewTaskUI(triggerTaskCreation);
+    }
+  }, [props.index, kanban]);
+  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  useEffect(() => {
+    const input = document.getElementById('newtaskinput');
+    input?.addEventListener('keypress', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        console.log('Enter clikcked', inputRef.current?.value);
+        if (inputRef.current?.value) {
+          console.log('Enter clikcked', inputRef.current?.value);
+          dispatch(
+            createNewTaskOnEnter({ task: inputRef.current?.value, props })
+          );
+        }
+      }
+    });
+  });
   return (
     <Draggable draggableId={props.id} index={props.index}>
       {(provided) => (
@@ -111,6 +189,12 @@ function Column(props: any) {
               />
             </TitleHeaderSecond>
           </TitleHeader>
+          {showNewTaskUI && (
+            <AddNewTaskWrapper>
+              <AddNewTaskColoredBorderLeft />
+              <AddNewTaskinput ref={inputRef} id="newtaskinput" />
+            </AddNewTaskWrapper>
+          )}
           <Droppable droppableId={props.id} type="task">
             {(provided) => (
               <TaskList ref={provided.innerRef} {...provided.droppableProps}>
