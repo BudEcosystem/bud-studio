@@ -76,6 +76,11 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   const [hoverColor, setHoverColor] = useState('#ffffff');
   const [hoverColorOnLeave, setHoverColoronLeave] = useState('#ffffff');
   const [workSpaceIndex, setWorkSpaceIndex] = useState(-1);
+  const [showMore, setShowMore] = useState(false);
+
+  const showMoreWorkspaces = () => {
+    setShowMore(!showMore);
+  };
 
   const navigate = useNavigate();
   const navigateContent = (e: any, link: To) => {
@@ -116,6 +121,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     '--menuHoverColor': hoverColor,
     '--menuHoverColorOnLeave': hoverColorOnLeave,
     'border-radius': '0px',
+    'min-height': '36px',
   };
 
   useEffect(() => {
@@ -312,7 +318,26 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 </Menu.Item>
 
                 <div className={`${classes['main-sidebar-menu-ws-box']}`}>
-                  {workSpaceItems.length > 0 &&
+                  {!showMore &&
+                    workSpaceItems
+                      .slice(0, 3)
+                      .map((menu: any, i: any) => (
+                        <WorkspaceMenuItem
+                          key={`wkp${i}`}
+                          updateWorkspace={updateWorkspace}
+                          menu={menu}
+                          i={i}
+                          isCollapsed={isCollapsed}
+                          activeClassNameColor={activeClassNameColor}
+                          boxStyle={boxStyle}
+                          handlerColor={handlerColor}
+                          setHoverColorHandler={setHoverColorHandler}
+                          setHoverColorOnLeave={setHoverColorOnLeave}
+                        />
+                      ))}
+
+                  {showMore &&
+                    workSpaceItems.length > 0 &&
                     workSpaceItems.map((menu: any, i: any) => (
                       <WorkspaceMenuItem
                         key={`wkp${i}`}
@@ -339,6 +364,40 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       setHoverColorHandler={setHoverColorHandler}
                       setHoverColorOnLeave={setHoverColorOnLeave}
                     />
+                  )}
+                  {workSpaceItems.length > 3 && !showMore && (
+                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+                    <div
+                      className={`${classes['view-more']}`}
+                      onClick={showMoreWorkspaces}
+                    >
+                      <svg
+                        width="12"
+                        height="3"
+                        viewBox="0 0 12 3"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="1.38462"
+                          cy="1.38462"
+                          r="1.38462"
+                          fill="#666468"
+                        />
+                        <circle
+                          cx="6.00034"
+                          cy="1.38462"
+                          r="1.38462"
+                          fill="#666468"
+                        />
+                        <circle
+                          cx="10.6156"
+                          cy="1.38462"
+                          r="1.38462"
+                          fill="#666468"
+                        />
+                      </svg>
+                    </div>
                   )}
                 </div>
               </Menu>

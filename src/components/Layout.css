@@ -21,4 +21,5 @@
 }
 .ant-menu-item{
   margin-left: 0 !important;
+  width: calc(100%) !important;
 }
