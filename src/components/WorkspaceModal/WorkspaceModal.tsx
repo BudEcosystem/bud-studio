@@ -35,6 +35,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
   const dispatch = useDispatch();
   const { workspace }: any = useSelector((state) => state);
   const { color, workSpaceItems } = workspace;
+  const [createPopup,setCreatePopup] = useState(false)
 
   useEffect(() => {
     if (workspaceModal) {
@@ -134,6 +135,17 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
   const filterNode = (e:any) => {
     setFilterText(e.target.value)
   }
+
+  const showCreatePopup = () => {
+    setCreatePopup(!createPopup)
+  }
+
+  const CreatePopupModal = () => {
+    return (
+      <div className='createPopupModal'></div>
+    )
+  }
+
   return (
     <>
       <div className="loader" style={loaderStyle}>
@@ -265,7 +277,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
 
                 <div className="secondWorkspaceOptions">
                   <div style={{ marginBottom: '20px' }}>
-                    <div className="secondWorkspaceOption">
+                    <div className="secondWorkspaceOption" onClick={showCreatePopup}>
                       <Plus />
                       <h3
                         style={{
@@ -281,6 +293,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                         <RightArrow />
                       </div>
                     </div>
+                    {createPopup && <CreatePopupModal/>}
                     <div
                       className="secondWorkspaceOption"
                       onClick={renameHandler}
@@ -392,7 +405,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
 
 {!showColorDots && showDocumentOptions && (
         <Draggable bounds="parent" handle=".drag">
-          <div ref={docOptionModalRef} className="optionsModal">
+          <div ref={docOptionModalRef} className="docOptionsModal">
             <div className="secondWorkspaceModal">
               <div className="drag">
                 <Drag />
@@ -400,7 +413,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
 
               <div className="secondWorkspaceOptions">
                 <div style={{ marginBottom: '20px' }}>
-                  <div className="secondWorkspaceOption">
+                  <div className="secondWorkspaceOption" onClick={showCreatePopup}>
                     <Plus />
                     <h3
                       style={{
@@ -416,6 +429,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                       <RightArrow />
                     </div>
                   </div>
+                  {createPopup && <CreatePopupModal/>}
                   <div className="secondWorkspaceOption" onClick={renameHandler}>
                     <Edit />
                     <h3

@@ -100,6 +100,14 @@
   z-index: 10;
 }
 
+.docOptionsModal {
+  position: absolute;
+  top: 38%;
+  left: 260px;
+  pointer-events: auto;
+  z-index: 10;
+}
+
 .handle, .drag{
   cursor: grab;
 }
@@ -138,4 +146,15 @@
   position: absolute;
   margin-left: 80%;
   display: none;
+}
+
+.createPopupModal {
+  width: 200px;
+  height: 40px;
+  background-color: #0c0c0c;
+  border: 1px solid #1d1d1d;
+  position: absolute;
+  left: 210px;
+  bottom: 190px;
+  border-radius: 5px;
 }

@@ -151,6 +151,7 @@ function Editor() {
     editor2.current = new EditorJS({
       holder: 'editorjs2',
       autofocus: true,
+      placeholder: 'Add a new block...',
       onReady: () => {
         checkForMentions();
         const blockElements = document.getElementsByClassName('editorjsPara');
