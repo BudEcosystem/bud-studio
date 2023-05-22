@@ -195,12 +195,16 @@
 
 .editorParaDiv {
     margin-top: 30px;
-    margin-right: 355px;
+    margin-left: 40px;
     height: 150px;
-    width: 840px;
+    width: 1300px;
 }
 
 .editorjsPara {
+}
+
+.editorjsPara .ce-block__content {
+    max-width: 80%;
 }
 
 .editorjsPara .ce-paragraph {
@@ -285,6 +289,8 @@
 
 .editorjsPara .ce-toolbar__settings-btn {
     background-color: transparent;
+    position: relative;
+    right: 200px;
 }
 
 .editorjsPara .ce-toolbar__settings-btn svg {
@@ -302,7 +308,7 @@
     color: #696969;
     margin-top: 40px;
     display: flex;
-    margin-left: 62px;
+    margin-left: 95px;
     width: fit-content;
 }
 
