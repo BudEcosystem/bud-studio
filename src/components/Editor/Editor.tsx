@@ -43,9 +43,18 @@ function Editor() {
   const refHoverBar = useRef();
   const colorRef = useRef<any>('#9068fd');
   const [subHeadingContent, setSubHeadingContent] = useState(
-    'Philosophy, Life, Misc'
+    'Edit Subheading here...'
   );
+  const [showDatabaseOptions, setShowDatabaseOptions] = useState(false)
+  const [addNewEditorData, setAddNewEditorData] = useState("Untitled...")
+  
   const [editorOptions, setEditorOptions] = useState([
+    {
+      key: 'database',
+      icon: <TableIcon />,
+      title: 'Database',
+      subTitle: 'Add List, Kanban or Gantt Chart',
+    },
     {
       key: 'header',
       icon: <HeadingIcon />,
@@ -134,7 +143,7 @@ function Editor() {
           {
             type: 'header',
             data: {
-              text: 'How to evolve into a super human with your digital mind place',
+              text: `${addNewEditorData}`,
             },
           },
         ],
@@ -144,6 +153,7 @@ function Editor() {
     editor2.current = new EditorJS({
       holder: 'editorjs2',
       autofocus: true,
+      placeholder: 'Add a new block...',
       onReady: () => {
         checkForMentions();
         const blockElements = document.getElementsByClassName('editorjsPara');
@@ -364,14 +374,126 @@ function Editor() {
   //   colorRef.current.value = color
   // },[color])
 
+
+  const customBlock =  {
+    type: 'customBlockType',
+    data: {
+      text: '',
+      placeholder: 'Enter your text here...'
+    }
+  };
+
+
   const insertBlock = (opt: any) => {
     const blockTypes = Object.keys(editor2?.current?.configuration?.tools);
     const currentBlockIndex = editor2?.current?.blocks.getCurrentBlockIndex();
-    if (opt && blockTypes.includes(opt) && currentBlockIndex) {
-      editor2?.current?.blocks.insert(opt, currentBlockIndex + 3);
+    console.log("CURRENT BLOCK INDEX", currentBlockIndex)
+    if (opt && blockTypes.includes(opt) && currentBlockIndex!=-1) {
+      editor2?.current?.blocks.insert(opt, currentBlockIndex+1);
       setShowEditorOptionsBlock(false);
     }
+    if (opt && blockTypes.includes(opt) && currentBlockIndex==-1) {
+      editor2?.current?.isReady.then(() => {
+        editor2?.current?.saver.save().then(savedData => {
+          const blockCount = savedData.blocks.length;
+          console.log('Number of blocks:', blockCount);
+          editor2?.current?.blocks.insert(opt, blockCount+2);
+          setShowEditorOptionsBlock(false);
+        }).catch(error => {
+          console.error('Error getting block count:', error);
+        });
+      });
+    }
+    if(opt=="database") {
+      setEditorOptions([
+        {
+          key: 'listview',
+          icon: <HeadingIcon />,
+          title: 'List View',
+          subTitle: 'Choose List View',
+        },
+        {
+          key: 'kanban',
+          icon: <ParagraphIcon />,
+          title: 'Kanban View',
+          subTitle: 'Choose Kanban View',
+        },
+        {
+          key: 'gantt',
+          icon: <TextIcon />,
+          title: 'Gantt Chart',
+          subTitle: 'Choose Gantt Chart',
+        },])
+        setShowDatabaseOptions(true)
+    }
   };
+
+  useEffect(() => {
+    if(showDatabaseOptions==false) {
+      setEditorOptions([
+        {
+          key: 'database',
+          icon: <TableIcon />,
+          title: 'Database',
+          subTitle: 'Add List, Kanban or Gantt Chart',
+        },
+        {
+          key: 'header',
+          icon: <HeadingIcon />,
+          title: 'Heading',
+          subTitle: 'Write a heading.',
+        },
+        {
+          key: 'paragraph',
+          icon: <ParagraphIcon />,
+          title: 'Paragraph',
+          subTitle: 'Write your words in paragraph.',
+        },
+        {
+          key: 'quote',
+          icon: <TextIcon />,
+          title: 'Quote',
+          subTitle: 'Write a quote.',
+        },
+        // ,{
+        //   key: "link",
+        //   icon: <TextIcon/>,
+        //   title: "Link",
+        //   subTitle: "Write a text as hyperlink."
+        // }
+        // ,{
+        //   key: "checklist",
+        //   icon: <CheckListIcon/>,
+        //   title: "Checklist",
+        //   subTitle: "Start a checklist."
+        //  }
+        {
+          key: 'table',
+          icon: <TableIcon />,
+          title: 'Simple Table',
+          subTitle: 'Start a clean table.',
+        },
+        {
+          key: 'list',
+          icon: <ListIcon />,
+          title: 'List',
+          subTitle: 'Jot down a list.',
+        },
+        {
+          key: 'raw',
+          icon: <TextIcon />,
+          title: 'Raw HTML',
+          subTitle: 'Write down some raw HTML code.',
+        },
+        {
+          key: 'code',
+          icon: <TextIcon />,
+          title: 'Code',
+          subTitle: 'Write some code in a block.',
+        },
+      ])
+    }
+  }, [showDatabaseOptions])
 
   const handleKeyDown = (event: any) => {
     if (
@@ -615,6 +737,10 @@ function Editor() {
     setSubHeadingContent(event.target.innerHTML);
   };
 
+  const addNewEditorBlock = () => {
+    setAddNewEditorData("Untitled...")
+  }
+
   const style = { '--bg-color': color };
 
   return (
@@ -672,6 +798,7 @@ function Editor() {
             >
               Change Cover
             </div>
+            {/* <div onClick={addNewEditorBlock} style={{cursor: "pointer", marginLeft: "100px"}}>Add New</div> */}
           </div>
         </div>
       ) : (
@@ -700,7 +827,7 @@ function Editor() {
             <img src={iconUrl} />
           </div>
         ) : (
-          <div style={{ top: '10px' }} className="editorIcon">
+          <div style={{ top: '10px', marginRight: "933px", marginBottom: "20px" }} className="editorIcon">
             <img src={iconUrl} />
           </div>
         )
@@ -752,28 +879,39 @@ function Editor() {
                 top: `${
                   coverUrlAvailable
                     ? cursorRect.current.bottom > 750
-                      ? '580'
+                      ? '300'
                       : cursorRect?.current?.bottom - 140
                     : cursorRect.current.bottom > 650
                     ? '360'
                     : cursorRect?.current?.bottom - 140
                 }px`,
                 right: `${
-                  cursorRect?.current?.bottom > 650 ? undefined : '120'
+                  cursorRect?.current?.bottom > 650 ? '160' : '120'
                 }px`,
               }}
               className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
             >
-              <div
+              {!showDatabaseOptions ? (<div
                 style={{
                   marginLeft: '5px',
-                  marginBottom: '20px',
+                  marginBottom: '10px',
                   marginTop: '5px',
                   overflow: 'auto',
                 }}
               >
                 Editor Block
-              </div>
+              </div>) : (<div
+                style={{
+                  marginLeft: '5px',
+                  marginBottom: '10px',
+                  marginTop: '5px',
+                  overflow: 'auto',
+                  cursor: "pointer"
+                }}
+                onClick={() => setShowDatabaseOptions(false)}
+              >
+                Go Back
+              </div>)} 
 
               <div className="editorOptionDiv">
                 <div className="hoverMovement" ref={refHoverBar} />

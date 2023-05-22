@@ -1,10 +1,14 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/destructuring-assignment */
 import { styled } from 'styled-components';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Tasks from './taks';
+import { createNewTaskOnEnter } from 'redux/slices/kanban';
 
 const Container = styled.div`
   margin: 10px;
@@ -62,6 +66,7 @@ const TitleHeaderPlusIconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   // margin-left: 107px;
 `;
 const TitleHeaderPlusIcon = styled.img``;
@@ -69,7 +74,57 @@ const TitleHeaderPlusIcon = styled.img``;
 const TaskList = styled.div`
   padding: 10px;
 `;
-// TaskColumnPlusIcon
+const AddNewTaskWrapper = styled.div`
+  width: 214px;
+  height: 44px;
+  background: #141414;
+  border: 0.5px dashed #2f2f2f;
+  border-radius: 8px;
+  margin: 0px auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+const AddNewTaskColoredBorderLeft = styled.div`
+  width: 0px;
+  height: 17.64px;
+  border: 1.25336px solid #f9d45d;
+  border-radius: 0.313339px;
+  margin-left: 14px;
+`;
+const AddNewTaskinput = styled.input`
+  width: 105px;
+  height: 21px;
+  left: 331px;
+  top: 327px;
+  background: rgba(217, 217, 217, 0.05);
+  border-radius: 2px;
+  text-align: left;
+  color: #bbbbbb;
+  outline: none;
+  border: none;
+  margin-left: 5px;
+  &::placeholder,
+  &::-webkit-input-placeholder {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 154.5%;
+    /* identical to box height, or 22px */
+
+    color: #bbbbbb;
+  }
+  &:-ms-input-placeholder {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 154.5%;
+    /* identical to box height, or 22px */
+    color: #bbbbbb;
+  }
+`;
 interface Task {
   index: any;
   id: any;
@@ -84,6 +139,36 @@ interface Task {
 }
 function Column(props: any) {
   //   console.log(props);
+  const [showNewTaskUI, setNewTaskUI] = useState(false);
+  const { kanban } = useSelector((state) => state);
+  const [addButtonClickedFromColumn, SetAddButtonClickedFromColumn] =
+    useState(false);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (props.index === 0) {
+      const { triggerTaskCreation } = kanban;
+      setNewTaskUI(triggerTaskCreation);
+    }
+  }, [props.index, kanban]);
+  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  useEffect(() => {
+    const input = document.getElementById(`newtaskinput${props.id}`);
+    input?.addEventListener('keypress', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        console.log('Enter clikcked', inputRef.current?.value);
+        if (inputRef.current?.value) {
+          console.log('Enter clikcked', inputRef.current?.value);
+          dispatch(
+            createNewTaskOnEnter({ task: inputRef.current?.value, props })
+          );
+        }
+      }
+    });
+  });
+  const addTaskButtonClicked = (flag) => {
+    SetAddButtonClickedFromColumn(flag);
+  };
   return (
     <Draggable draggableId={props.id} index={props.index}>
       {(provided) => (
@@ -99,7 +184,9 @@ function Column(props: any) {
               <Title>{props.title}</Title>
             </TitleHeaderFirst>
             <TitleHeaderSecond>
-              <TitleHeaderPlusIconWrapper>
+              <TitleHeaderPlusIconWrapper
+                onClick={() => addTaskButtonClicked(true)}
+              >
                 <TitleHeaderPlusIcon
                   src="/images/other/TaskColumnPlusIcon.svg"
                   alt="#"
@@ -111,6 +198,16 @@ function Column(props: any) {
               />
             </TitleHeaderSecond>
           </TitleHeader>
+          {(showNewTaskUI || addButtonClickedFromColumn) && (
+            <AddNewTaskWrapper>
+              <AddNewTaskColoredBorderLeft />
+              <AddNewTaskinput
+                placeholder="Enter new task"
+                ref={inputRef}
+                id={`newtaskinput${props.id}`}
+              />
+            </AddNewTaskWrapper>
+          )}
           <Droppable droppableId={props.id} type="task">
             {(provided) => (
               <TaskList ref={provided.innerRef} {...provided.droppableProps}>
