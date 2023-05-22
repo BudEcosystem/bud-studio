@@ -1,16 +1,16 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState } from 'react';
 import { Layout } from 'antd';
+import Hamburger from 'components/Hamburger/Hamburger';
+import ListView from 'components/ListView/ListView';
+import { useDispatch } from 'react-redux';
+import { setContentRef } from 'redux/slices/content';
 import HeaderComp from '../header';
 import classes from '../dashboard.module.css';
 import Launcher from '../../Launcher/Launcher';
 import OmniSearch from '../../OmniSearch/OmniSearch';
 import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 import Editor from '../../Editor/Editor';
-import Hamburger from 'components/Hamburger/Hamburger';
-import ListView from 'components/ListView/ListView';
-import { useDispatch } from 'react-redux';
-import { setContentRef } from 'redux/slices/content';
+import KanbanUI from 'components/KanbanNew';
 
 function ContentView({
   setCollapsed,
@@ -19,7 +19,7 @@ function ContentView({
   workspaceModal,
   setWorkspaceModal,
   children,
-  workSpaceIndex
+  workSpaceIndex,
 }: any) {
   const { Content } = Layout;
   const dispatch = useDispatch();
@@ -40,14 +40,15 @@ function ContentView({
         <Launcher />
         {workspaceModal && (
           <WorkspaceModal
-          idx={workSpaceIndex}
+            idx={workSpaceIndex}
             name={workspaceName}
             setWorkspaceModal={setWorkspaceModal}
             workspaceModal={workspaceModal}
           />
         )}
         {/* <Editor /> */}
-        <ListView />
+        {/* <ListView /> */}
+        <KanbanUI />
         <Hamburger />
       </Content>
       <OmniSearch />

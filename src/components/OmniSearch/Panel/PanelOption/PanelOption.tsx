@@ -8,7 +8,6 @@ function PanelOption({ active, item, setSelected, setHovered }) {
       className={`panelParent ${active ? 'active' : ''}`}
       onClick={() => {
         setSelected(item);
-        console.log('CLICKED', item);
       }}
       onMouseEnter={() => setHovered(item)}
       onMouseLeave={() => setHovered(undefined)}

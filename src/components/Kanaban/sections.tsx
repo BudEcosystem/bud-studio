@@ -1,13 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import type { RootState } from '../../redux/store';
 import KanbanCards from './cards';
 
 export default function KanbanSections() {
-  const count = useSelector((state: RootState) => state.counter);
-  useEffect(() => {
-    console.log(count);
-  }, [count]);
   return (
     <div className="kanban-main">
       <div className="kanban-each-section-div">
