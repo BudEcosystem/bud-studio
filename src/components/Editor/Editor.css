@@ -8,6 +8,9 @@
     align-items: center;
     flex-direction: column;
     overflow: auto;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
 }
 
 .editor::-webkit-scrollbar {
@@ -39,11 +42,14 @@
 .editorjsSubHeading {
     margin-top: 20px;
     margin-right: 300px;
-    font-size: 16px;
+    font-size: 14px;
     border: none;
     outline: none;
     min-width: 700px;
     max-width: 700px;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
 }
 
 .editorjsHeading {
@@ -67,7 +73,7 @@
 }
 
 .editorjsHeading .ce-header {
-    font-size: 30px;
+    font-size: 26px;
 }
 
 .editorjsHeading .cdx-settings-button {
@@ -208,8 +214,11 @@
 }
 
 .editorjsPara .ce-paragraph {
-    font-size: 18px;
+    font-size: 14px;
     color: #BBBBBB;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
 }
 
 .editorjsPara .ce-popover {
@@ -302,7 +311,7 @@
 }
 
 .editorjsPara .tc-popover__item-icon {
-    color: black; 
+    color: black;
 }
 .editorMoreOptions {
     color: #696969;
@@ -345,7 +354,7 @@
 .editorOptionDiv::-webkit-scrollbar {
     display: none;
   }
-  
+
   /* Hide scrollbar for IE, Edge and Firefox */
   .editorOptionDiv{
     -ms-overflow-style: none;  /* IE and Edge */
