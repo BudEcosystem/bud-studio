@@ -21,8 +21,10 @@ export const workspaceSlice = createSlice({
       state.workSpaceItems.push(action.payload);
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
+      console.log('edit workspace', action.payload);
       const arr = [...state.workSpaceItems];
-      arr[action.payload.index].name = action.payload.value;
+      arr[action.payload.index].name = action.payload.value.name;
+      arr[action.payload.index].color = action.payload.value.color;
     },
     duplicateWorkspaceItem: (state, action: PayloadAction<any>) => {
       state.workSpaceItems[action.payload.index] = action.payload.value;
