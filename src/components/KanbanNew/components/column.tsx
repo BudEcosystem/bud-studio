@@ -7,8 +7,10 @@ import { styled } from 'styled-components';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Popover } from 'antd';
+import { EnterOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
+import { createNewTaskOnEnter, editColumnName } from 'redux/slices/kanban';
 import Tasks from './taks';
-import { createNewTaskOnEnter } from 'redux/slices/kanban';
 
 const Container = styled.div`
   margin: 10px;
@@ -125,6 +127,83 @@ const AddNewTaskinput = styled.input`
     color: #bbbbbb;
   }
 `;
+const ColumnMenuWrapper = styled.div`
+  width: 100px;
+  background: #101010;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 5px;
+  padding-bottom: 5px;
+`;
+const ColumnMenuItems = styled.div`
+  height: 25px;
+  width: 100px;
+  // background: #2c2b30;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+`;
+const ColumnMenuLabel = styled.span`
+  width: 70px;
+  margin-left: 5px;
+`;
+const EditColumnWrapper = styled.div`
+  width: auto;
+  height: 22px;
+  // background: red;
+  margin-top: 15px;
+  border: 0.5px dashed #2f2f2f;
+  padding-right: 5px;
+  margin-left: 5px;
+`;
+const EditColumnNameInput = styled.input`
+  // margin-top: -25px;
+  width: 90px;
+  height: 20px;
+  background: #101010;
+  border-radius: 2px;
+  text-align: left;
+  color: #bbbbbb;
+  outline: none;
+  border: none;
+  margin-left: 15px;
+  // padding-left: 10px;
+  // border-top: 0.5px dashed #2f2f2f;
+  &::placeholder,
+  &::-webkit-input-placeholder {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 154.5%;
+    /* identical to box height, or 22px */
+    text-align: left;
+    color: #bbbbbb;
+  }
+  &:-ms-input-placeholder {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 154.5%;
+    /* identical to box height, or 22px */
+    color: #bbbbbb;
+  }
+`;
 interface Task {
   index: any;
   id: any;
@@ -137,6 +216,7 @@ interface Task {
   image: any;
   type: any;
 }
+
 function Column(props: any) {
   //   console.log(props);
   const [showNewTaskUI, setNewTaskUI] = useState(false);
@@ -151,27 +231,64 @@ function Column(props: any) {
     }
   }, [props.index, kanban]);
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const inputRefForColumnEdit =
+    useRef() as React.MutableRefObject<HTMLInputElement>;
   useEffect(() => {
     const input = document.getElementById(`newtaskinput${props.id}`);
+    const inputNameEdit = document.getElementById(`columnNameEdit-${props.id}`);
     input?.addEventListener('keypress', function (event) {
       if (event.key === 'Enter') {
         event.preventDefault();
-        console.log('Enter clikcked', inputRef.current?.value);
         if (inputRef.current?.value) {
-          console.log('Enter clikcked', inputRef.current?.value);
           dispatch(
             createNewTaskOnEnter({ task: inputRef.current?.value, props })
           );
         }
       }
     });
+    inputNameEdit?.addEventListener('keypress', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        if (inputRefForColumnEdit.current?.value) {
+          dispatch(
+            editColumnName({
+              name: inputRefForColumnEdit.current?.value,
+              props,
+            })
+          );
+        }
+      }
+    });
   });
-  const addTaskButtonClicked = (flag) => {
+  const addTaskButtonClicked = (flag: any) => {
     SetAddButtonClickedFromColumn(flag);
+  };
+  const [nameEditable, setNameEditable] = useState(false);
+  const [open, setOpen] = useState(false);
+  const hide = () => {
+    setNameEditable(true);
+    setOpen(false);
+  };
+  const handleOpenChange = (newOpen: boolean) => {
+    setNameEditable(false);
+    setOpen(newOpen);
+  };
+  const columnMenu = () => {
+    return (
+      <ColumnMenuWrapper>
+        <ColumnMenuItems onClick={hide}>
+          <ColumnMenuLabel>Edit</ColumnMenuLabel> <EditFilled rev={undefined} />
+        </ColumnMenuItems>
+        <ColumnMenuItems style={{ cursor: 'not-allowed', color: 'grey' }}>
+          <ColumnMenuLabel>Delete</ColumnMenuLabel>
+          <DeleteFilled rev={undefined} />
+        </ColumnMenuItems>
+      </ColumnMenuWrapper>
+    );
   };
   return (
     <Draggable draggableId={props.id} index={props.index}>
-      {(provided) => (
+      {(provided: any) => (
         <Container {...provided.draggableProps} ref={provided.innerRef}>
           <TitleHeader>
             <TitleHeaderFirst>
@@ -181,7 +298,17 @@ function Column(props: any) {
                 alt="#"
               />
               <TitleHeaderColoured />
-              <Title>{props.title}</Title>
+              {nameEditable ? (
+                <EditColumnWrapper>
+                  <EditColumnNameInput
+                    id={`columnNameEdit-${props.id}`}
+                    ref={inputRefForColumnEdit}
+                  />
+                  <EnterOutlined rev={undefined} />
+                </EditColumnWrapper>
+              ) : (
+                <Title>{props.title}</Title>
+              )}
             </TitleHeaderFirst>
             <TitleHeaderSecond>
               <TitleHeaderPlusIconWrapper
@@ -192,10 +319,21 @@ function Column(props: any) {
                   alt="#"
                 />
               </TitleHeaderPlusIconWrapper>
-              <TitleHeaderThreedot
-                src="/images/other/TaskMenuIcon.svg"
-                alt="#"
-              />
+              <Popover
+                content={columnMenu}
+                trigger="click"
+                placement="bottom"
+                open={open}
+                onOpenChange={handleOpenChange}
+              >
+                <>
+                  {' '}
+                  <TitleHeaderThreedot
+                    src="/images/other/TaskMenuIcon.svg"
+                    alt="#"
+                  />
+                </>
+              </Popover>
             </TitleHeaderSecond>
           </TitleHeader>
           {(showNewTaskUI || addButtonClickedFromColumn) && (
