@@ -37,8 +37,8 @@ const TitleHeaderSecond = styled.div`
   flex-direction: row;
   align-items: center;
 `;
-const TitleHeaderDragable = styled.img``;
-const TitleHeaderThreedot = styled.img`
+const TitleHeaderDragable = styled.div``;
+const TitleHeaderThreedot = styled.div`
   margin-left: 13px;
   margin-right: 13px;
 `;
@@ -71,7 +71,7 @@ const TitleHeaderPlusIconWrapper = styled.div`
   cursor: pointer;
   // margin-left: 107px;
 `;
-const TitleHeaderPlusIcon = styled.img``;
+const TitleHeaderPlusIcon = styled.div``;
 
 const TaskList = styled.div`
   padding: 10px;
@@ -292,11 +292,44 @@ function Column(props: any) {
         <Container {...provided.draggableProps} ref={provided.innerRef}>
           <TitleHeader>
             <TitleHeaderFirst>
-              <TitleHeaderDragable
-                {...provided.dragHandleProps}
-                src="/images/other/DragIconKanban.svg"
-                alt="#"
-              />
+              <TitleHeaderDragable {...provided.dragHandleProps}>
+                <svg
+                  width="9"
+                  height="9"
+                  viewBox="0 0 9 9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="1.5"
+                    cy="1.5"
+                    r="1.5"
+                    transform="rotate(-90 1.5 1.5)"
+                    fill="#242424"
+                  />
+                  <circle
+                    cx="7.5"
+                    cy="1.5"
+                    r="1.5"
+                    transform="rotate(-90 7.5 1.5)"
+                    fill="#242424"
+                  />
+                  <circle
+                    cx="1.5"
+                    cy="7.5"
+                    r="1.5"
+                    transform="rotate(-90 1.5 7.5)"
+                    fill="#242424"
+                  />
+                  <circle
+                    cx="7.5"
+                    cy="7.5"
+                    r="1.5"
+                    transform="rotate(-90 7.5 7.5)"
+                    fill="#242424"
+                  />
+                </svg>
+              </TitleHeaderDragable>
               <TitleHeaderColoured />
               {nameEditable ? (
                 <EditColumnWrapper>
@@ -314,10 +347,28 @@ function Column(props: any) {
               <TitleHeaderPlusIconWrapper
                 onClick={() => addTaskButtonClicked(true)}
               >
-                <TitleHeaderPlusIcon
-                  src="/images/other/TaskColumnPlusIcon.svg"
-                  alt="#"
-                />
+                <TitleHeaderPlusIcon>
+                  <svg
+                    width="11"
+                    height="11"
+                    viewBox="0 0 11 11"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5.35547 1.09678V9.61291"
+                      stroke="#7B8388"
+                      stroke-width="1.41935"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M9.61328 5.35484L1.09715 5.35484"
+                      stroke="#7B8388"
+                      stroke-width="1.41935"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </TitleHeaderPlusIcon>
               </TitleHeaderPlusIconWrapper>
               <Popover
                 content={columnMenu}
@@ -328,10 +379,37 @@ function Column(props: any) {
               >
                 <>
                   {' '}
-                  <TitleHeaderThreedot
-                    src="/images/other/TaskMenuIcon.svg"
-                    alt="#"
-                  />
+                  <TitleHeaderThreedot>
+                    <svg
+                      width="4"
+                      height="15"
+                      viewBox="0 0 4 15"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="2.19976"
+                        cy="13.6"
+                        r="1.39996"
+                        transform="rotate(-90 2.19976 13.6)"
+                        fill="#7B8388"
+                      />
+                      <circle
+                        cx="2.19976"
+                        cy="7.80012"
+                        r="1.39996"
+                        transform="rotate(-90 2.19976 7.80012)"
+                        fill="#7B8388"
+                      />
+                      <circle
+                        cx="2.19976"
+                        cy="2.00019"
+                        r="1.39996"
+                        transform="rotate(-90 2.19976 2.00019)"
+                        fill="#7B8388"
+                      />
+                    </svg>
+                  </TitleHeaderThreedot>
                 </>
               </Popover>
             </TitleHeaderSecond>
