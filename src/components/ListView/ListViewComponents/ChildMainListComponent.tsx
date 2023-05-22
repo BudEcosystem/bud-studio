@@ -200,7 +200,7 @@ const ChildMainListComponent = () => {
         className="draggable"
         draggable={true}
       >
-        <p>{text}</p>
+        {/* <p>{text}</p> */}
       </Panel>
       <Panel
         header={<HeaderSubComp name={3} />}
