@@ -174,7 +174,6 @@ function TreeView({
         };
         item.children.push(nodeObj);
       }
-      console.log(item);
       setTreeDataState(temp);
     },
     [treeDataState]
@@ -182,9 +181,6 @@ function TreeView({
   useEffect(() => {
     filterTreeData(filter);
   }, [filter]);
-  useEffect(() => {
-    console.log(treeDataState);
-  }, [treeDataState]);
   return (
     <div className="tree">
       <Tree

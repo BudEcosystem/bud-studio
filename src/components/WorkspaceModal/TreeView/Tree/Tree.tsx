@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { UpArrow } from '../../../OmniSearch/Panel/PanelOption/PanelSvgIcons';
 import { Folder, WhiteFolder, Page } from './TreeSvgIcons';
 import './Tree.css';
+import FlyoutMenu from 'components/WorkspaceModal/FlyoutMenu';
 
 function Tree({
   data = [],
@@ -60,6 +61,7 @@ function TreeNode({
   const hasChild = !!node.children;
   const [editMode, setEditMode] = useState(false);
   const [addMode, setAddMode] = useState(false);
+  const [addItemConfig, setAddItemConfig] = useState({type:'folder'});
   const isParentStyle = {
     background: `linear-gradient(90.28deg, ${`${color}20`} 4.88%, rgba(17, 21, 18, 0) 91.54%)`,
     borderRadius: '10px',
@@ -76,24 +78,38 @@ function TreeNode({
     setShowDocumentOptions(!showDocumentOptions);
     setShowColorDots(false);
   };
+  const [toggleFlyout,setToggleFlyout] = useState(false);
   const addNewMenu = (node: any, newNode: any) => {
-    if (addedNode) {
+    if (addedNode && !!newNode.label) {
       addedNode(node, newNode);
     }
     setAddMode(false);
   };
   const activateAddmode = (e) => {
     e.stopPropagation();
-    setAddMode(true);
+    setToggleFlyout((prev) => !prev)
   };
   const newMenuAddHandler = (newNode: any) => {
     if (addNewMenu) {
       addNewMenu(node, newNode);
     }
+    setAddMode(false);
   };
+  const addNewItem = (type:any) => {
+    setAddItemConfig({type})
+    setAddMode(true);
+    setToggleFlyout(false)
+    setChildVisiblity(true)
+  }
   return (
     isVisible && (
       <li className="treeLiItem">
+        {toggleFlyout && (
+          <FlyoutMenu
+            createNewFolderClickHandler={() => addNewItem('folder')}
+            createNewFileClickHandler={() => addNewItem('file')}
+          />
+        )}
         <div
           className={`treeList${isFirst ? ' first' : ''} tree-header`}
           style={node.isParent && childVisible ? isParentStyle : {}}
@@ -169,7 +185,7 @@ function TreeNode({
                     <ListItem
                       color={color}
                       label=""
-                      isFolder={node.type === 'folder'}
+                      isFolder={addItemConfig.type === 'folder'}
                       childVisible={false}
                       isParent={false}
                       onNewMenuAdd={newMenuAddHandler}
@@ -196,6 +212,7 @@ function ListItem({
   onNewMenuAdd,
 }) {
   const [newLabel, setNewLabel] = useState('');
+  const inputBox = useRef();
   useEffect(() => {
     setNewLabel(label);
   }, [label]);
@@ -203,18 +220,28 @@ function ListItem({
     const { value } = e.target;
     setNewLabel(value);
   };
-  const createNewItem = (e) => {
-    if (e.key === 'Enter') {
+  const updateNewValue = (e) => {
+    const { value } = e.target;
       if (onNewMenuAdd) {
-        const { value } = e.target;
         const obj = {
           label: value,
-          type: isFolder ? 'Folder' : 'file',
+          type: isFolder ? 'folder' : 'file',
         };
         onNewMenuAdd(obj);
       }
+  };
+  const createNewItem = (e) => {
+    if (e.key === 'Enter') {
+      updateNewValue(e)
     }
   };
+  useEffect(() => {
+    if(isEdit){
+     setTimeout(() => {
+      inputBox.current.focus();
+     });
+    }
+  }),[isEdit]
   return (
     <div className="item-wrapper">
       <div className="item-collaps-arrow">
@@ -231,10 +258,12 @@ function ListItem({
       <div className="item-label-wrapper">
         {isEdit ? (
           <input
+          ref={inputBox}
             type="text"
             className="item-label-input"
             value={newLabel}
             onInput={updateLabelHandler}
+            onBlur={updateNewValue}
             onKeyUp={createNewItem}
           />
         ) : (
