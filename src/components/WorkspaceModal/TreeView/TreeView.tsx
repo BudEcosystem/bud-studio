@@ -78,7 +78,7 @@ const treeData = [
   },
 ];
 
-function TreeView({filter}) {
+function TreeView({filter, setShowColorDots, showDocumentOptions, setShowDocumentOptions}) {
   const [treeDataState, setTreeDataState] = useState(treeData);
   const filterTreeData = (filter:string) => {
     if(!!filter){
@@ -132,7 +132,7 @@ function TreeView({filter}) {
   }, [filter]);
   return (
     <div className="tree">
-      <Tree data={treeDataState} />
+      <Tree data={treeDataState} setShowColorDots={setShowColorDots} showDocumentOptions={showDocumentOptions} setShowDocumentOptions={setShowDocumentOptions} />
     </div>
   );
 }

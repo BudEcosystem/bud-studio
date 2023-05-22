@@ -4,7 +4,7 @@ import { UpArrow } from "../../../OmniSearch/Panel/PanelOption/PanelSvgIcons";
 import { Folder, WhiteFolder, Page } from "./TreeSvgIcons";
 import "./Tree.css"
 
-function Tree({ data = []}) {
+function Tree({ data = [], setShowColorDots, showDocumentOptions, setShowDocumentOptions}: any) {
   const [activeNode, setActiveNode] = useState(null);
 
   const handleNodeClick = (node) => {
@@ -26,6 +26,9 @@ function Tree({ data = []}) {
             isActive={activeNode === tree}
             onClick={handleNodeClick}
             activeNode
+            showDocumentOptions={showDocumentOptions}
+            setShowDocumentOptions={setShowDocumentOptions}
+            setShowColorDots={setShowColorDots}
           />
         ))}
       </ul>
@@ -33,7 +36,7 @@ function Tree({ data = []}) {
   );
 }
 
-function TreeNode({ node, isFirst, isActive, onClick, activeNode,isVisible }) {
+function TreeNode({ node, isFirst, isActive, onClick, activeNode,isVisible, showDocumentOptions, setShowDocumentOptions, setShowColorDots }: any) {
   const [childVisible, setChildVisiblity] = useState(!node.isParent);
   const {workspace}:any = useSelector(state=>state)
   let { color } = workspace
@@ -49,6 +52,12 @@ function TreeNode({ node, isFirst, isActive, onClick, activeNode,isVisible }) {
     node.isParent ? setChildVisiblity((v) => !v) : setChildVisiblity(true);
     onClick(node);
   };
+
+  const showFlyOut = (e: any) => {
+    e.stopPropagation()
+    setShowDocumentOptions(!showDocumentOptions);
+    setShowColorDots(false)
+  }
   return (
     isVisible && (    <li className="treeLiItem">
       <div
@@ -73,7 +82,7 @@ function TreeNode({ node, isFirst, isActive, onClick, activeNode,isVisible }) {
 
         <div className="treeLabel">{node.label}</div>
 
-        {childVisible && node.isParent && <div className="plus">+</div>}
+        {childVisible && node.isParent && <div onClick={showFlyOut} className="plus">+</div>}
       </div>
       {hasChild && childVisible && (
         <div className={`treeChildLabel${childVisible ? ' show' : ''}`}>
@@ -88,6 +97,9 @@ function TreeNode({ node, isFirst, isActive, onClick, activeNode,isVisible }) {
                 isActive={activeNode === child}
                 onClick={onClick}
                 activeNode
+                showDocumentOptions={showDocumentOptions}
+                setShowDocumentOptions={setShowDocumentOptions}
+                setShowColorDots={setShowColorDots}
               />
             ))}
           </ul>
