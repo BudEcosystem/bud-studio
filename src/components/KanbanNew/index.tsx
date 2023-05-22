@@ -1,7 +1,8 @@
 import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
 import Kanban from './kanbanBoard';
-
+import { useDispatch } from 'react-redux';
+import { triggerDefaultNewTask } from 'redux/slices/kanban';
 const KanbanSection = styled.div`
   height: auto;
   padding: 47px;
@@ -121,6 +122,7 @@ const NewTaskButtonWrap = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 `;
 
 const NewTaskButtonIconWrap = styled.div`
@@ -161,6 +163,10 @@ function HeaderButtons({ label, icon }: any) {
 function KanbanUI() {
   const [date, setDate] = useState<String>('');
   useEffect(() => setDate('13 June 2022'), []);
+  const dispatch = useDispatch();
+  const onNewTaskButtonClicked = () => {
+    dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
+  };
   return (
     <KanbanSection>
       <KanbanHeader>
@@ -197,7 +203,7 @@ function KanbanUI() {
             <HeaderButtons label="Sort" icon="SortIcon" />
             <HeaderButtons label="Group By" icon="GroupByIcon" />
             <HeaderButtons label="Views" icon="ViewIcon" />
-            <NewTaskButtonWrap>
+            <NewTaskButtonWrap onClick={onNewTaskButtonClicked}>
               <NewTaskButtonIconWrap>
                 <NewTaskButtonIcon
                   src="/images/other/NewPlusIcon.svg"
