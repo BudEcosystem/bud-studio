@@ -17,11 +17,12 @@ function Tree({ data = []}) {
   return (
     <div className="treeViewContainer">
       <ul className="treeViewList">
-        {data.map((tree, i) => (
+        {data.map((tree: any, i) => (
           <TreeNode
             key={tree.id}
             node={tree}
             isFirst={i === i}
+            isVisible = {tree.filterApplied ? tree.searchMatch : true}
             isActive={activeNode === tree}
             onClick={handleNodeClick}
             activeNode
@@ -32,7 +33,7 @@ function Tree({ data = []}) {
   );
 }
 
-function TreeNode({ node, isFirst, isActive, onClick, activeNode }) {
+function TreeNode({ node, isFirst, isActive, onClick, activeNode,isVisible }) {
   const [childVisible, setChildVisiblity] = useState(!node.isParent);
   const {workspace}:any = useSelector(state=>state)
   let { color } = workspace
@@ -49,7 +50,7 @@ function TreeNode({ node, isFirst, isActive, onClick, activeNode }) {
     onClick(node);
   };
   return (
-    <li className="treeLiItem">
+    isVisible && (    <li className="treeLiItem">
       <div
         className={`treeList${isFirst ? ' first' : ''}`}
         style={node.isParent && childVisible ? isParentStyle : {}}
@@ -83,6 +84,7 @@ function TreeNode({ node, isFirst, isActive, onClick, activeNode }) {
                 key={child.id}
                 node={child}
                 isFirst=""
+                isVisible = {child.filterApplied ? child.searchMatch : true}
                 isActive={activeNode === child}
                 onClick={onClick}
                 activeNode
@@ -91,7 +93,7 @@ function TreeNode({ node, isFirst, isActive, onClick, activeNode }) {
           </ul>
         </div>
       )}
-    </li>
+    </li>)
   );
 }
 

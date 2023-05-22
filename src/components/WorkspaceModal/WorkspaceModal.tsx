@@ -24,6 +24,7 @@ import TreeView from './TreeView/TreeView';
 import './WorkspaceModal.css';
 
 function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
+  const [filterText, setFilterText] = useState(null);
   const [showColorPin, setShowColorPin] = useState(false);
   const [showColorDots, setShowColorDots] = useState(false);
   const [render, setRender] = useState(false);
@@ -118,7 +119,9 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
       setNewName('');
     }
   };
-
+  const filterNode = (e:any) => {
+    setFilterText(e.target.value)
+  }
   return (
     <>
       <div className="loader" style={loaderStyle}>
@@ -230,10 +233,11 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                 className="WorkspaceSearchInput"
                 type="text"
                 placeholder="Search"
+                onInput={filterNode}
               />
             </div>
 
-            <TreeView />
+            <TreeView filter={filterText} />
           </div>
         </Draggable>
         {showColorDots && (
