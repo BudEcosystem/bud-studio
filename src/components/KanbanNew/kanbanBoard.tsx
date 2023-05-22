@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { styled } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { updateColumnPosition } from 'redux/slices/kanban';
 import initialData from './data/initial-data';
 import Column from './components/column';
-import { updateColumnPosition } from 'redux/slices/kanban';
 
 function Kanban() {
   const dispatch = useDispatch();
