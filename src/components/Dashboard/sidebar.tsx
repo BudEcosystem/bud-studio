@@ -47,8 +47,8 @@ const sidebarOptions = [
       <img
         src="/images/other/notificationIcon.png"
         alt="#"
-        width={18}
-        height={18}
+        width={14}
+        height={14}
       />
     ),
     label: 'Notifications',
