@@ -393,8 +393,16 @@ function Editor() {
       setShowEditorOptionsBlock(false);
     }
     if (opt && blockTypes.includes(opt) && currentBlockIndex==-1) {
-      editor2?.current?.blocks.insert(opt, 2);
-      setShowEditorOptionsBlock(false);
+      editor2?.current?.isReady.then(() => {
+        editor2?.current?.saver.save().then(savedData => {
+          const blockCount = savedData.blocks.length;
+          console.log('Number of blocks:', blockCount);
+          editor2?.current?.blocks.insert(opt, blockCount+2);
+          setShowEditorOptionsBlock(false);
+        }).catch(error => {
+          console.error('Error getting block count:', error);
+        });
+      });
     }
     if(opt=="database") {
       setEditorOptions([
