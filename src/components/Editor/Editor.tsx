@@ -45,7 +45,14 @@ function Editor() {
   const [subHeadingContent, setSubHeadingContent] = useState(
     'Philosophy, Life, Misc'
   );
+  const [showDatabaseOptions, setShowDatabaseOptions] = useState(false)
   const [editorOptions, setEditorOptions] = useState([
+    {
+      key: 'database',
+      icon: <TableIcon />,
+      title: 'Database',
+      subTitle: 'Add List, Kanban or Gantt Chart',
+    },
     {
       key: 'header',
       icon: <HeadingIcon />,
@@ -371,7 +378,96 @@ function Editor() {
       editor2?.current?.blocks.insert(opt, currentBlockIndex + 3);
       setShowEditorOptionsBlock(false);
     }
+    if(opt=="database") {
+      setEditorOptions([
+        {
+          key: 'listview',
+          icon: <HeadingIcon />,
+          title: 'List View',
+          subTitle: 'Choose List View',
+        },
+        {
+          key: 'kanban',
+          icon: <ParagraphIcon />,
+          title: 'Kanban View',
+          subTitle: 'Choose Kanban View',
+        },
+        {
+          key: 'gantt',
+          icon: <TextIcon />,
+          title: 'Gantt Chart',
+          subTitle: 'Choose Gantt Chart',
+        },])
+        setShowDatabaseOptions(true)
+    }
   };
+
+  useEffect(() => {
+    if(showDatabaseOptions==false) {
+      setEditorOptions([
+        {
+          key: 'database',
+          icon: <TableIcon />,
+          title: 'Database',
+          subTitle: 'Add List, Kanban or Gantt Chart',
+        },
+        {
+          key: 'header',
+          icon: <HeadingIcon />,
+          title: 'Heading',
+          subTitle: 'Write a heading.',
+        },
+        {
+          key: 'paragraph',
+          icon: <ParagraphIcon />,
+          title: 'Paragraph',
+          subTitle: 'Write your words in paragraph.',
+        },
+        {
+          key: 'quote',
+          icon: <TextIcon />,
+          title: 'Quote',
+          subTitle: 'Write a quote.',
+        },
+        // ,{
+        //   key: "link",
+        //   icon: <TextIcon/>,
+        //   title: "Link",
+        //   subTitle: "Write a text as hyperlink."
+        // }
+        // ,{
+        //   key: "checklist",
+        //   icon: <CheckListIcon/>,
+        //   title: "Checklist",
+        //   subTitle: "Start a checklist."
+        //  }
+        {
+          key: 'table',
+          icon: <TableIcon />,
+          title: 'Simple Table',
+          subTitle: 'Start a clean table.',
+        },
+        {
+          key: 'list',
+          icon: <ListIcon />,
+          title: 'List',
+          subTitle: 'Jot down a list.',
+        },
+        {
+          key: 'raw',
+          icon: <TextIcon />,
+          title: 'Raw HTML',
+          subTitle: 'Write down some raw HTML code.',
+        },
+        {
+          key: 'code',
+          icon: <TextIcon />,
+          title: 'Code',
+          subTitle: 'Write some code in a block.',
+        },
+      ])
+    }
+  }, [showDatabaseOptions])
 
   const handleKeyDown = (event: any) => {
     if (
@@ -752,28 +848,39 @@ function Editor() {
                 top: `${
                   coverUrlAvailable
                     ? cursorRect.current.bottom > 750
-                      ? '580'
+                      ? '300'
                       : cursorRect?.current?.bottom - 140
                     : cursorRect.current.bottom > 650
                     ? '360'
                     : cursorRect?.current?.bottom - 140
                 }px`,
                 right: `${
-                  cursorRect?.current?.bottom > 650 ? undefined : '120'
+                  cursorRect?.current?.bottom > 650 ? '160' : '120'
                 }px`,
               }}
               className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
             >
-              <div
+              {!showDatabaseOptions ? (<div
                 style={{
                   marginLeft: '5px',
-                  marginBottom: '20px',
+                  marginBottom: '10px',
                   marginTop: '5px',
                   overflow: 'auto',
                 }}
               >
                 Editor Block
-              </div>
+              </div>) : (<div
+                style={{
+                  marginLeft: '5px',
+                  marginBottom: '10px',
+                  marginTop: '5px',
+                  overflow: 'auto',
+                  cursor: "pointer"
+                }}
+                onClick={() => setShowDatabaseOptions(false)}
+              >
+                Go Back
+              </div>)} 
 
               <div className="editorOptionDiv">
                 <div className="hoverMovement" ref={refHoverBar} />

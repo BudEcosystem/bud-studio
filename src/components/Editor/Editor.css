@@ -388,6 +388,7 @@
 }
 .editorOptionDiv{
     position: relative;
+    height: 300px;
 }
 .EditorOptionComponent{
     z-index: 2;
