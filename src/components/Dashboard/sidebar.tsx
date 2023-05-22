@@ -2,12 +2,6 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Layout, Menu, Modal, Space } from 'antd';
 import { Link, Route, Routes, To, useNavigate } from 'react-router-dom';
-import {
-  changeColor,
-  createWorkspaces,
-  editWorkspaceItem,
-} from 'redux/slices/workspace';
-import { useDispatch, useSelector } from 'react-redux';
 import Kanban from 'components/KanbanNew/kanbanBoard';
 import KanbanUI from 'components/KanbanNew';
 import KanbanMain from 'components/Kanaban/KanbanMain';
@@ -90,11 +84,11 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     setActiveClassNameColor(-1);
   };
 
-  const showWorkspaceModal = (colorPassed: any, name: any) => {
-    setWorkspaceModal(!workspaceModal);
-    setWorkspaceColor(colorPassed);
-    setWorkspaceName(name);
-  };
+  // const showWorkspaceModal = (colorPassed: any, name: any) => {
+  //   setWorkspaceModal(!workspaceModal);
+  //   setWorkspaceColor(colorPassed);
+  //   setWorkspaceName(name);
+  // };
 
   const handlerColor = (menuColor: any, menuName: any, i: any) => {
     try {
@@ -320,7 +314,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 <div className={`${classes['main-sidebar-menu-ws-box']}`}>
                   {workSpaceItems.length > 0 &&
                     workSpaceItems
-                      .slice(0, expandWorkspaces ? workSpaceItems.length : 4)
+                      .slice(0, expandWorkspaces ? workSpaceItems.length : 3)
                       .map((menu: any, i: any) => (
                         <WorkspaceMenuItem
                           key={`wkp${i}`}
@@ -335,7 +329,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                           setHoverColorOnLeave={setHoverColorOnLeave}
                         />
                       ))}
-                  {workSpaceItems.length > 4 && !expandWorkspaces && (
+                  {workSpaceItems.length > 3 && !expandWorkspaces && (
                     <div
                       className={`${classes['sidebar-workspaces-expand']}`}
                       onClick={() => setExpandWorkspaces(!expandWorkspaces)}
@@ -346,18 +340,6 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                     </div>
                   )}
                   {showAddWorkspace && (
-                    <WorkspaceMenuItem
-                      updateWorkspace={addNewWorkSpace}
-                      menu={{ name: '', color: hex_code }}
-                      isCollapsed={isCollapsed}
-                      newWorkSpace
-                      activeClassNameColor={activeClassNameColor}
-                      boxStyle={boxStyle}
-                      handlerColor={handlerColor}
-                      setHoverColorHandler={setHoverColorHandler}
-                      setHoverColorOnLeave={setHoverColorOnLeave}
-                    />
-                  )}
                     <WorkspaceMenuItem
                       updateWorkspace={addNewWorkSpace}
                       menu={{ name: '', color: hex_code }}

@@ -36,7 +36,7 @@ const initialState: any = {
 };
 export const workspaceSlice = createSlice({
   name: 'workspace',
-  initialState: generateInitialState,
+  initialState: initialState,
   reducers: {
     changeColor: (state, action: PayloadAction<any>) => {
       state.color = action.payload;
