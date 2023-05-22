@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable react/jsx-props-no-spreading */
@@ -151,7 +152,7 @@ function Column(props: any) {
   }, [props.index, kanban]);
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   useEffect(() => {
-    const input = document.getElementById('newtaskinput');
+    const input = document.getElementById(`newtaskinput${props.id}`);
     input?.addEventListener('keypress', function (event) {
       if (event.key === 'Enter') {
         event.preventDefault();
@@ -200,7 +201,11 @@ function Column(props: any) {
           {(showNewTaskUI || addButtonClickedFromColumn) && (
             <AddNewTaskWrapper>
               <AddNewTaskColoredBorderLeft />
-              <AddNewTaskinput ref={inputRef} id="newtaskinput" />
+              <AddNewTaskinput
+                placeholder="Enter new task"
+                ref={inputRef}
+                id={`newtaskinput${props.id}`}
+              />
             </AddNewTaskWrapper>
           )}
           <Droppable droppableId={props.id} type="task">
