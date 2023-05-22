@@ -113,6 +113,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     '--menuColor': color,
     '--menuHoverColor': hoverColor,
     '--menuHoverColorOnLeave': hoverColorOnLeave,
+    'border-radius': '0px',
   };
 
   useEffect(() => {
