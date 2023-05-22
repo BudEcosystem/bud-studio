@@ -72,6 +72,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   const [hoverColor, setHoverColor] = useState('#ffffff');
   const [hoverColorOnLeave, setHoverColoronLeave] = useState('#ffffff');
   const [workSpaceIndex, setWorkSpaceIndex] = useState(-1);
+  const [expandWorkspaces, setExpandWorkspaces] = useState(false);
 
   const navigate = useNavigate();
   const navigateContent = (e: any, link: To) => {
@@ -299,20 +300,32 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
 
                 <div className={`${classes['main-sidebar-menu-ws-box']}`}>
                   {workSpaceItems.length > 0 &&
-                    workSpaceItems.map((menu: any, i: any) => (
-                      <WorkspaceMenuItem
-                        key={`wkp${i}`}
-                        updateWorkspace={updateWorkspace}
-                        menu={menu}
-                        i={i}
-                        isCollapsed={isCollapsed}
-                        activeClassNameColor={activeClassNameColor}
-                        boxStyle={boxStyle}
-                        handlerColor={handlerColor}
-                        setHoverColorHandler={setHoverColorHandler}
-                        setHoverColorOnLeave={setHoverColorOnLeave}
-                      />
-                    ))}
+                    workSpaceItems
+                      .slice(0, expandWorkspaces ? workSpaceItems.length : 4)
+                      .map((menu: any, i: any) => (
+                        <WorkspaceMenuItem
+                          key={`wkp${i}`}
+                          updateWorkspace={updateWorkspace}
+                          menu={menu}
+                          i={i}
+                          isCollapsed={isCollapsed}
+                          activeClassNameColor={activeClassNameColor}
+                          boxStyle={boxStyle}
+                          handlerColor={handlerColor}
+                          setHoverColorHandler={setHoverColorHandler}
+                          setHoverColorOnLeave={setHoverColorOnLeave}
+                        />
+                      ))}
+                  {workSpaceItems.length > 4 && !expandWorkspaces && (
+                    <div
+                      className={`${classes['sidebar-workspaces-expand']}`}
+                      onClick={() => setExpandWorkspaces(!expandWorkspaces)}
+                    >
+                      <div className={`${classes['dots']}`} />
+                      <div className={`${classes['dots']}`} />
+                      <div className={`${classes['dots']}`} />
+                    </div>
+                  )}
                   {showAddWorkspace && (
                     <WorkspaceMenuItem
                       updateWorkspace={addNewWorkSpace}

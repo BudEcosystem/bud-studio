@@ -5,6 +5,17 @@ import { createRef, useEffect, useState } from 'react';
 import classes from '../../dashboard.module.css';
 import classWrksps from './workspaceMenuItem.module.css';
 
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  console.log(color, "asdasfd")
+  return color;
+}
+
+
 function WorkspaceMenuItem({
   menu,
   i,
@@ -128,8 +139,10 @@ function MenuWorkSpaceItem({
 
 function MenuWorkSpaceInput({ menu, updateWorkspace, index }: any) {
   const [workSpace, setWorkSpace] = useState({ name: '', color: '' });
+  const [randCol, setRandCol] = useState(getRandomColor());
+  console.log(workSpace.color)
   useEffect(() => {
-    setWorkSpace(menu);
+    setWorkSpace({name: menu.name, color: randCol});
   }, [menu]);
   const workSpaceNameInputHandler = (e: any) => {
     setWorkSpace((prev: any) => {
@@ -140,6 +153,7 @@ function MenuWorkSpaceInput({ menu, updateWorkspace, index }: any) {
     });
   };
   const workSpaceColorInputHandler = (e: any) => {
+    setRandCol(e.target.value)
     setWorkSpace((prev: any) => {
       return {
         ...prev,
@@ -167,15 +181,15 @@ function MenuWorkSpaceInput({ menu, updateWorkspace, index }: any) {
             width="14"
             height="14"
             viewBox="0 0 14 14"
-            fill="none"
+            fill={workSpace.color}
             xmlns="http://www.w3.org/2000/svg"
           >
-            <rect width="14" height="14" rx="4" fill={workSpace.color} />
+            <rect width="14" height="14" rx="4" fill={randCol} />
           </svg>
           <input
             type="color"
             name="hex_code"
-            value={workSpace.color}
+            value={randCol}
             onChange={workSpaceColorInputHandler}
             onBlur={onBlurHandler}
             className={classWrksps.colorInput}

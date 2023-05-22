@@ -271,6 +271,8 @@ align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+ /* height: 400px;
+  overflow: scroll; */
 }
 
 .sidebar-work-spaces {
@@ -493,4 +495,24 @@ border-color: #161616;
   font-size: 12px;
   font-weight: 400;
   color: var(--bud-secondary-text-color);
+}
+
+.sidebar-workspaces-expand{
+display: flex;
+width: 28px;
+height: 17px;
+/* justify-content: center; */
+/* align-items: center; */
+padding: 7px 8px;
+background: #121213;
+border-radius: 3px;
+margin-left: 23px;
+}
+
+.dots{
+  width: 3px;
+  height: 3px;
+  background: #666468;
+  margin-right: 2px;
+  border-radius: 50%;
 }
