@@ -4,6 +4,9 @@ import { CaretRightOutlined } from '@ant-design/icons';
 import { Collapse, theme } from 'antd';
 import { Arrow } from '../ListViewIcons';
 import ChildMainListComponent from './ChildMainListComponent';
+import { useSelector, useDispatch } from 'react-redux';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { addPanelItems } from 'redux/slices/list';
 
 const { Panel } = Collapse;
 
@@ -29,27 +32,9 @@ const text = `
   it can be found as a welcome guest in many households across the world.
 `;
 
-const panelArr = [
-  {
-    headerText: 'To-do',
-    colorIcon: '#939AFF',
-  },
-  {
-    headerText: 'In-progress',
-    colorIcon: '#FFD976',
-  },
-  {
-    headerText: 'In-review',
-    colorIcon: '#4184E9',
-  },
-  {
-    headerText: 'Completed',
-    colorIcon: '#36D95A',
-  },
-];
-
 function MainListComponent() {
   const [activePanel, setActivePanel] = useState([true, false, false, false]);
+  const panelArray = useSelector((state) => state.list.panelArray);
   const panelStyle = {
     marginBottom: 18,
     background: '#101010',
@@ -97,7 +82,7 @@ function MainListComponent() {
         style={{ background: 'var(--primary-bgc-light)' }}
         // onChange={handlePanelChange}
       >
-        {panelArr.map((item, i) => (
+        {panelArray?.map((item, i) => (
           <Panel
             header={panelHeader(item.headerText, item.colorIcon, i)}
             key={i}

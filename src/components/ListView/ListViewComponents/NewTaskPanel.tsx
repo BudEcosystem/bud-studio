@@ -1,5 +1,7 @@
 import React from 'react'
 import { GroupBy, Sort, ThreeDots, Union, Views } from '../ListViewIcons'
+import { useDispatch, useSelector } from 'react-redux';
+import { addPanelItems } from 'redux/slices/list';
 
 const nameAndLogoArray = [
     {
@@ -21,6 +23,10 @@ const nameAndLogoArray = [
 ]
 
 const NewTaskPanel = () => {
+    const dispatch = useDispatch();
+    const newTaskHandler = () => {
+        dispatch(addPanelItems({headerText: "text", colorIcon: "#fff"}))
+    }
   return (
     <div className='flexCenter'>
         {nameAndLogoArray.map((item, i) => (
@@ -30,7 +36,7 @@ const NewTaskPanel = () => {
                 {i === nameAndLogoArray.length-1 ? undefined : (<div className='verticalLine'>|</div>)}
             </div>
         ))}
-        <div className='newTaskContainer'>
+        <div className='newTaskContainer' onClick={newTaskHandler}>
             <div className='plusContainer flexCenter'>+</div>
             <div className='newTaskText'>New Task</div>
         </div>

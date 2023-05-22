@@ -6,6 +6,7 @@ import { DownArrow, FourDots } from '../ListViewIcons';
 import HeaderSubComp from './HeaderSubComp';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 
 const { Panel } = Collapse;
 
@@ -147,7 +148,7 @@ const ChildMainListComponent = () => {
       expandIcon={expandIcon}
       style={{ background: '#101010' }}
       className="panelHeader draggableContainer"
-    >
+    > 
       <Panel
         header={<HeaderSubComp name={1} />}
         key="1"
@@ -171,7 +172,7 @@ const ChildMainListComponent = () => {
                 style={panelStyle}
                 onMouseDown={handleMouseDown}
               >
-                <p>{text}</p>
+                {/* <p>{text}</p> */}
               </Panel>
             </Collapse>
             <Collapse
@@ -186,7 +187,7 @@ const ChildMainListComponent = () => {
                 key="2"
                 style={panelStyle}
               >
-                <p>{text}</p>
+                {/* <p>{text}</p> */}
               </Panel>
             </Collapse>
           </div>
@@ -208,7 +209,7 @@ const ChildMainListComponent = () => {
         className="draggable"
         draggable={true}
       >
-        <p>{text}</p>
+        {/* <p>{text}</p> */}
       </Panel>
     </Collapse>
   );
