@@ -6,7 +6,12 @@ const generateInitialState = (): any => {
   const initialState: any = {
     props: {},
     color: '#939AFF',
-    workSpaceItems: [],
+    workSpaceItems: [
+      {
+        name: 'Private',
+        color: '#343434',
+      },
+    ],
   };
   return initialState;
 };
