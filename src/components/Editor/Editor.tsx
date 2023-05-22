@@ -827,7 +827,7 @@ function Editor() {
             <img src={iconUrl} />
           </div>
         ) : (
-          <div style={{ top: '10px' }} className="editorIcon">
+          <div style={{ top: '10px', marginRight: "933px", marginBottom: "20px" }} className="editorIcon">
             <img src={iconUrl} />
           </div>
         )
