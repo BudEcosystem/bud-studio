@@ -34,12 +34,14 @@ const sidebarOptions = [
     ),
     label: 'Dashboard',
     link: '/menuOne',
+    keyCombination: '/images/other/KeyN.svg',
   },
   {
     key: '2',
     icon: <img src="/images/other/search.png" alt="#" width={14} height={14} />,
     label: 'Search',
     link: '/menuTwo',
+    keyCombination: '/images/other/KeyF.svg',
   },
   {
     key: '3',
@@ -219,7 +221,19 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                   icon={menu.icon}
                   onClick={(e) => navigateContent(e, menu.link)}
                 >
-                  {menu.label}
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'flex-start',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <div style={{ width: '130px' }}>{menu.label}</div>
+                    {menu.keyCombination && (
+                      <img src={menu.keyCombination} alt="#" />
+                    )}
+                  </div>
                 </Menu.Item>
               ))}
             </Menu>
