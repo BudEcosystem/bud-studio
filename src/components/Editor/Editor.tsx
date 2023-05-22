@@ -629,8 +629,8 @@ function Editor() {
           <img src={coverUrl} />
           <div
             style={{
-              position: 'absolute',
-              left: '69%',
+              position: 'relative',
+              left: '82%',
               display: 'flex',
               width: '150px',
               alignItems: 'center',
