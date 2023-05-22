@@ -317,6 +317,15 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                   </div>
                 </Menu.Item>
 
+                <Menu.Item
+                  className={`${classes['sidebar-ws-fvrt']}`}
+                >
+                  <div className={`${classes['sidebar-inline-box']}`}>
+                    <label>New Doc (Testing)</label>
+
+                  </div>
+                </Menu.Item>
+
                 <div className={`${classes['main-sidebar-menu-ws-box']}`}>
                   {!showMore &&
                     workSpaceItems
@@ -424,14 +433,16 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       </div>
                     }
                   >
+
                     <div
                       className={`${classes['sidebar-menu-userprofile-box']}`}
                     >
+
                       <span
                         className={`${classes['sidebar-menu-userprofile-details']}`}
                       >
-                        <h1>Mark Louis</h1>
-                        <p>@mark.ls</p>
+                        <h1>Bud User</h1>
+                        <p>@bud</p>
                       </span>
                       {isCollapsed ? (
                         <img
@@ -481,8 +492,8 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       <span
                         className={`${classes['sidebar-menu-userprofile-details']}`}
                       >
-                        <h1>Mark Louis</h1>
-                        <p>@mark.ls</p>
+                        <h1>Open Buddy</h1>
+                        <p>@bud</p>
                       </span>
 
                       <img
