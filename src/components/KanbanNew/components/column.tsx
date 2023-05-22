@@ -65,6 +65,7 @@ const TitleHeaderPlusIconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   // margin-left: 107px;
 `;
 const TitleHeaderPlusIcon = styled.img``;
@@ -139,6 +140,8 @@ function Column(props: any) {
   //   console.log(props);
   const [showNewTaskUI, setNewTaskUI] = useState(false);
   const { kanban } = useSelector((state) => state);
+  const [addButtonClickedFromColumn, SetAddButtonClickedFromColumn] =
+    useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     if (props.index === 0) {
@@ -162,6 +165,9 @@ function Column(props: any) {
       }
     });
   });
+  const addTaskButtonClicked = (flag) => {
+    SetAddButtonClickedFromColumn(flag);
+  };
   return (
     <Draggable draggableId={props.id} index={props.index}>
       {(provided) => (
@@ -177,7 +183,9 @@ function Column(props: any) {
               <Title>{props.title}</Title>
             </TitleHeaderFirst>
             <TitleHeaderSecond>
-              <TitleHeaderPlusIconWrapper>
+              <TitleHeaderPlusIconWrapper
+                onClick={() => addTaskButtonClicked(true)}
+              >
                 <TitleHeaderPlusIcon
                   src="/images/other/TaskColumnPlusIcon.svg"
                   alt="#"
@@ -189,7 +197,7 @@ function Column(props: any) {
               />
             </TitleHeaderSecond>
           </TitleHeader>
-          {showNewTaskUI && (
+          {(showNewTaskUI || addButtonClickedFromColumn) && (
             <AddNewTaskWrapper>
               <AddNewTaskColoredBorderLeft />
               <AddNewTaskinput ref={inputRef} id="newtaskinput" />
