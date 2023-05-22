@@ -43,9 +43,11 @@ function Editor() {
   const refHoverBar = useRef();
   const colorRef = useRef<any>('#9068fd');
   const [subHeadingContent, setSubHeadingContent] = useState(
-    'Philosophy, Life, Misc'
+    'Edit Subheading here...'
   );
   const [showDatabaseOptions, setShowDatabaseOptions] = useState(false)
+  const [addNewEditorData, setAddNewEditorData] = useState("Untitled...")
+  
   const [editorOptions, setEditorOptions] = useState([
     {
       key: 'database',
@@ -141,7 +143,7 @@ function Editor() {
           {
             type: 'header',
             data: {
-              text: 'How to evolve into a super human with your digital mind place',
+              text: `${addNewEditorData}`,
             },
           },
         ],
@@ -372,11 +374,26 @@ function Editor() {
   //   colorRef.current.value = color
   // },[color])
 
+
+  const customBlock =  {
+    type: 'customBlockType',
+    data: {
+      text: '',
+      placeholder: 'Enter your text here...'
+    }
+  };
+
+
   const insertBlock = (opt: any) => {
     const blockTypes = Object.keys(editor2?.current?.configuration?.tools);
     const currentBlockIndex = editor2?.current?.blocks.getCurrentBlockIndex();
-    if (opt && blockTypes.includes(opt) && currentBlockIndex) {
-      editor2?.current?.blocks.insert(opt, currentBlockIndex + 3);
+    console.log("CURRENT BLOCK INDEX", currentBlockIndex)
+    if (opt && blockTypes.includes(opt) && currentBlockIndex!=-1) {
+      editor2?.current?.blocks.insert(opt, currentBlockIndex+1);
+      setShowEditorOptionsBlock(false);
+    }
+    if (opt && blockTypes.includes(opt) && currentBlockIndex==-1) {
+      editor2?.current?.blocks.insert(opt, 2);
       setShowEditorOptionsBlock(false);
     }
     if(opt=="database") {
@@ -712,6 +729,10 @@ function Editor() {
     setSubHeadingContent(event.target.innerHTML);
   };
 
+  const addNewEditorBlock = () => {
+    setAddNewEditorData("Untitled...")
+  }
+
   const style = { '--bg-color': color };
 
   return (
@@ -769,6 +790,7 @@ function Editor() {
             >
               Change Cover
             </div>
+            {/* <div onClick={addNewEditorBlock} style={{cursor: "pointer", marginLeft: "100px"}}>Add New</div> */}
           </div>
         </div>
       ) : (
