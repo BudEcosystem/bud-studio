@@ -6,6 +6,8 @@ const generateInitialState = (): any => {
   const initialState: any = {
     props: {},
     color: '#939AFF',
+    currentWorkspace: null,
+    currentSelectedDocId: null,
     workSpaceItems: [
       {
         name: 'Private',
@@ -31,27 +33,62 @@ const generateInitialState = (): any => {
         ],
       },
     ],
-    workspaceFolders: [],
+    workspaceFolders: [
+      {
+        name: 'folderName1',
+        key: 'folderName1',
+        workSPaceId: 'Private',
+        type: 'folder',
+      },
+      {
+        name: 'folderName2',
+        key: 'folderName2',
+        workSPaceId: 'Private',
+        type: 'folder',
+      },
+    ],
+    workSpaceDocs: [
+      {
+        name: 'DocName1',
+        childOf: 'folderName1',
+        workSPaceId: 'Private',
+        type: 'doc',
+      },
+      {
+        name: 'DocName2',
+        childOf: 'folderName1',
+        workSPaceId: 'Private',
+        type: 'doc',
+      },
+      {
+        name: 'DocName3',
+        childOf: 'folderName1',
+        workSPaceId: 'Private',
+        type: 'doc',
+      },
+      {
+        name: 'DocName4',
+        childOf: null,
+        workSPaceId: 'Private',
+        type: 'doc',
+      },
+    ],
+    applicationData: [],
   };
   return initialState;
 };
 
-const initialState: any = {
-  props: {},
-  color: '#939AFF',
-  workSpaceItems: [],
-  workspaceFolders: [],
-};
 export const workspaceSlice = createSlice({
   name: 'workspace',
   initialState: generateInitialState,
   reducers: {
-    changeColor: (state, action: PayloadAction<any>) => {
-      state.color = action.payload;
+    changeColorAndSetName: (state, action: PayloadAction<any>) => {
+      state.color = action.payload.color;
+      state.currentWorkspace = action.payload.name;
     },
     createWorkspaces: (state, action: PayloadAction<any>) => {
       console.log('create:', action.payload);
-      if (action.payload.idx != undefined) {
+      if (action.payload.idx !== undefined) {
         state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
 
         console.log(JSON.stringify(state.workspaceFolders[action.payload.idx]));
@@ -60,10 +97,10 @@ export const workspaceSlice = createSlice({
         // state.workspaceFolders.push(getObj(state.workSpaceItems.length));
       }
       state.workSpaceItems.push(action.payload);
-      console.log('dsf', [...state.workSpaceItems]);
+      // console.log('dsf', [...state.workSpaceItems]);
       // console.log(getObj(state.workSpaceItems.length))
 
-      console.log([...state.workspaceFolders]);
+      // console.log([...state.workspaceFolders]);
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
       console.log('cja');
@@ -85,15 +122,82 @@ export const workspaceSlice = createSlice({
       state.color = action.payload.color;
       state.workSpaceItems = action.payload.workSpaceItems;
     },
+    createFolder: (state, action: PayloadAction<any>) => {
+      console.log('action.payload', action.payload);
+      const copyFolderStructure = state.workspaceFolders;
+      const { name, workSpaceDetails } = action.payload;
+      const filteredArray = copyFolderStructure.filter(
+        (data: any) => data.key === name
+      );
+      if (filteredArray.length === 0) {
+        const newObject = {
+          name,
+          key: name,
+          workSPaceId: workSpaceDetails.name,
+          type: 'folder',
+        };
+        copyFolderStructure.push(newObject);
+        state.workspaceFolders = copyFolderStructure;
+      }
+    },
+    createDoc: (state, action: PayloadAction<any>) => {
+      console.log('action.payload', action.payload);
+      const copyDocStructure = state.workSpaceDocs;
+      const { name, workSpaceDetails } = action.payload;
+      const filteredArray = copyDocStructure.filter(
+        (data: any) => data.key === name
+      );
+      if (filteredArray.length === 0) {
+        const newObject = {
+          name,
+          childOf: null,
+          key: name,
+          workSPaceId: workSpaceDetails.name,
+          type: 'doc',
+        };
+        copyDocStructure.push(newObject);
+        state.workSpaceDocs = copyDocStructure;
+      }
+    },
+    createSubChild: (state, action: PayloadAction<any>) => {
+      console.log('action.payload-createSubChild', action.payload);
+      const { name, type, parentDetails } = action.payload;
+      if (type === 'folder') {
+        const newSampleFolderData = {
+          name: 'folderName1',
+          key: 'folderName1',
+          workSPaceId: 'Private',
+          type: 'folder',
+        };
+      } else {
+        const copyOfworkSpaceDocs = state.workSpaceDocs;
+        const sampleDocData = {
+          name,
+          childOf: parentDetails.label,
+          workSPaceId: parentDetails.workSpaceName,
+          type: 'doc',
+        };
+        copyOfworkSpaceDocs.push(sampleDocData);
+        state.workSpaceDocs = copyOfworkSpaceDocs;
+      }
+    },
+    setCurrentSelectedDocument: (state, action: PayloadAction<any>) => {
+      console.log('action.payload-createSubChild', action.payload);
+      state.currentSelectedDocId = action.payload.id;
+    },
   },
 });
 
 export const {
-  changeColor,
+  changeColorAndSetName,
   createWorkspaces,
   editWorkspaceItem,
   duplicateWorkspaceItem,
   changeWorkSpacePropereties,
   recoverWorkspacedata,
+  createFolder,
+  createDoc,
+  createSubChild,
+  setCurrentSelectedDocument,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
