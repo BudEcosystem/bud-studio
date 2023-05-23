@@ -7,6 +7,8 @@ import HeaderSubComp from './HeaderSubComp';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
+import HeaderSubCompInput from './HeaderSubCompInput';
+import { useSelector } from 'react-redux';
 
 const { Panel } = Collapse;
 
@@ -14,9 +16,10 @@ const text = `
 Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.
 `;
 
-const ChildMainListComponent = () => {
+const ChildMainListComponent = ({ childItems, activepanel }) => {
   const { token } = theme.useToken();
-
+  const { list }: any = useSelector((state) => state);
+  const { newTaskClicked } = list;
   const panelStyle = {
     marginBottom: 6,
     background: '#1B1C1E',
@@ -148,69 +151,62 @@ const ChildMainListComponent = () => {
       expandIcon={expandIcon}
       style={{ background: '#101010' }}
       className="panelHeader draggableContainer"
-    > 
-      <Panel
-        header={<HeaderSubComp name={1} />}
-        key="1"
-        style={panelStyle}
-        className="draggable"
-        draggable={true}
-      >
-        <div className="innerCollapseContainer">
-          <p className="panelText">{text}</p>
-          <div className="mgtop">
-            <Collapse
-              bordered={false}
-              defaultActiveKey={['1']}
-              expandIcon={expandIcon1}
-              style={{ background: '#101010', marginLeft: '25px' }}
-              className="innerCollapse"
-            >
-              <Panel
-                header={<HeaderSubComp name={6} />}
-                key="2"
-                style={panelStyle}
-                onMouseDown={handleMouseDown}
-              >
-                {/* <p>{text}</p> */}
-              </Panel>
-            </Collapse>
-            <Collapse
-              bordered={false}
-              defaultActiveKey={['1']}
-              expandIcon={expandIcon1}
-              style={{ background: '#101010', marginLeft: '25px' }}
-              className="innerCollapse"
-            >
-              <Panel
-                header={<HeaderSubComp name={9} />}
-                key="2"
-                style={panelStyle}
-              >
-                {/* <p>{text}</p> */}
-              </Panel>
-            </Collapse>
+    >
+      {childItems.map((item, i) => (
+        <Panel
+          header={
+            <HeaderSubComp
+              title={item.title}
+              siconNum={item.siconValue}
+              checkList={item.checklist}
+            />
+          }
+          key={i + 1}
+          style={panelStyle}
+          className="draggable"
+          draggable={true}
+        >
+          <div className="innerCollapseContainer">
+            <p className="panelText">{item.description}</p>
+            <div className="mgtop">
+              {item.childs.map((childItemObj, j) => (
+                <Collapse
+                  bordered={false}
+                  defaultActiveKey={['1']}
+                  expandIcon={expandIcon1}
+                  style={{ background: '#101010', marginLeft: '25px' }}
+                  className="innerCollapse"
+                >
+                  <Panel
+                    header={
+                      <HeaderSubComp
+                        title={childItemObj.title}
+                        siconNum={childItemObj.siconValue}
+                        checkList={childItemObj.checklist}
+                      />
+                    }
+                    key="2"
+                    style={panelStyle}
+                    onMouseDown={handleMouseDown}
+                  >
+                    <p className="panelText">{childItemObj.description}</p>
+                  </Panel>
+                </Collapse>
+              ))}
+            </div>
           </div>
-        </div>
-      </Panel>
-      <Panel
-        header={<HeaderSubComp name={2} />}
-        key="2"
-        style={panelStyle}
-        className="draggable"
-        draggable={true}
-      >
-        {/* <p>{text}</p> */}
-      </Panel>
-      <Panel
-        header={<HeaderSubComp name={3} />}
-        key="3"
-        style={panelStyle}
-        className="draggable"
-        draggable={true}
-      >
-        {/* <p>{text}</p> */}
-      </Panel>
+        </Panel>
+      ))}
+      {newTaskClicked && (<Panel
+            header={<HeaderSubCompInput />}
+            key="4"
+            style={panelStyle}
+            className="draggable"
+            draggable={true}
+            collapsible="disabled"
+          >
+            {/* <p>{text}</p> */}
+          </Panel>)}
     </Collapse>
   );
 };

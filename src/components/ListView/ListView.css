@@ -280,6 +280,13 @@
     border-radius: 4px;
     margin-left: 12px;
 }
+.textIcon22 {
+    width: 12px;
+    height: 12px;
+    border: 0.8px solid #FFFFFF;
+    border-radius: 4px;
+    margin-left: 8px;
+}
 
 .insideCollapse .ant-collapse-content-box {
     padding: 10px !important;
@@ -341,7 +348,62 @@
 
 .draggable.dragging {
     opacity: 1;
-  }
-  .fourDots{
+}
+
+.fourDots {
     cursor: grab;
-  }
+}
+
+.headerComponentInputParent {
+    display: flex;
+    justify-content: space-between;
+}
+
+.workspaceTextBox {
+    background-color: rgba(217, 217, 217, 0.05);
+    border: none;
+    caret-color: #F9D45D;
+    color: #C6C6C6;
+    border-radius: 2px;
+    height: 20px;
+    outline: none;
+    font-weight: 400;
+    font-size: 14px;
+    width: 20%;
+}
+
+.workspaceTextBox::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #585A5B;
+    text-align: left;
+    opacity: 1;
+    /* Firefox */
+}
+
+.roundedBorder {
+    border: 1px dashed #3D4047;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.rightSideOptions {
+    display: flex;
+    align-items: center;
+}
+
+.saveText{
+    width: 34px;
+height: 18px;
+background: #FFC556;
+border-radius: 6px;
+color: black;
+margin-left: 20px;
+}
+
+.cross{
+    margin-left: 20px;
+    cursor: pointer;
+}

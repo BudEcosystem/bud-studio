@@ -11,19 +11,44 @@ import { addPanelItems } from 'redux/slices/list';
 const { Panel } = Collapse;
 
 function MainListComponent() {
-  const [activePanel, setActivePanel] = useState([true, false, false, false]);
+  const [activePanel, setActivePanel] = useState(['0']);
   const panelArray = useSelector((state) => state.list.panelArray);
-  const panelStyle = {
-    marginBottom: 18,
-    background: '#101010',
-    border: ' 0.5px dashed #2F2F2F',
-    borderRadius: '12px',
-    color: 'white',
+  const {workspace}:any = useSelector(state=>state)
+  let { color } = workspace
+  // const panelStyle = {
+  //   marginBottom: 18,
+  //   background: '#101010',
+  //   border: `0.5px dashed #2F2F2F`,
+  //   borderRadius: '12px',
+  //   color: 'white',
+  // };
+  const getPanelStyle = (index) => {
+    if(activePanel === index){
+      return {
+        marginBottom: 18,
+        background: '#101010',
+        border: `0.5px dashed ${color}`,
+        borderRadius: '12px',
+        color: 'white',
+      };
+    }else{
+      return {
+        marginBottom: 18,
+        background: '#101010',
+        border: `0.5px dashed #2F2F2F`,
+        borderRadius: '12px',
+        color: 'white',
+      };
+    }
+    
   };
-  const handlePanelChange = (index) => {
-    const newActivePanel = [...activePanel];
-    newActivePanel[index] = !newActivePanel[index];
-    setActivePanel(newActivePanel);
+  const handlePanelChange = (panelIndex) => {
+    const selectedPanel = activePanel === panelIndex ? activePanel : panelIndex;
+    setActivePanel(selectedPanel);
+    // const updatedActivePanel = [...activePanel];
+    // updatedActivePanel[panelIndex] = !updatedActivePanel[panelIndex];
+    // setActivePanel(updatedActivePanel);
+    console.log(activePanel)
   };
   const panelHeader = (text, col, index) => (
     <div
@@ -34,18 +59,18 @@ function MainListComponent() {
         <div className="textIcon" style={{ background: col }} />
         <span style={{ marginLeft: '8px' }}>{text}</span>
       </div>
-      {activePanel[index] && (
+      {/* {activePanel[index] && (
         <div style={{ marginRight: '14px' }}>
           <p>New Task +</p>
         </div>
-      )}
+      )} */}
     </div>
   );
   return (
     <div className="mainListContainer">
       <Collapse
-        bordered={false}
-        defaultActiveKey={['0']}
+        bordered={false} 
+        defaultActiveKey={activePanel}
         expandIcon={({ isActive }) => (
           <div
             style={{
@@ -59,17 +84,18 @@ function MainListComponent() {
         className="customCollapse"
         style={{ background: 'var(--primary-bgc-light)' }}
         // onChange={handlePanelChange}
+        // onChange={(expandedPanels) => setActivePanel(expandedPanels)}
       >
         {panelArray?.map((item, i) => (
           <Panel
             header={panelHeader(item.headerText, item.colorIcon, i)}
             key={i}
-            style={panelStyle}
-            onClick={(e) => handlePanelChange(i)}
+            style={getPanelStyle(i)}
+            onClick={() => handlePanelChange(i)}
             className="insideCollapse"
           >
             <div className="hello">
-              <ChildMainListComponent />
+              <ChildMainListComponent childItems={item.items} activepanel={activePanel}/>
             </div>
           </Panel>
         ))}

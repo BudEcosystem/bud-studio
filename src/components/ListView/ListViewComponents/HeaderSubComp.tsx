@@ -1,19 +1,29 @@
 import React from 'react';
-import { CheckList, Flag, FoldedCard, Sicon } from '../ListViewIcons';
+import { CheckList, DownArrow, Flag, FoldedCard, FourDots, Sicon } from '../ListViewIcons';
 import SkillBar from './SkillBar';
 import CircularImageComponent from './CircularImageComponent';
 
 const data = ['', ''];
 
-const HeaderSubComp = ({name}) => {
+const HeaderSubComp = ({title, siconNum, checkList}) => {
+  let isActive = false
   return (
     <div className="flexVerticalCenter HeaderSubCompParent">
       <div className="flexVerticalCenter">
-        <p>Check for any appointments or meetings</p>
+        <div className='iconsContainer'>
+          <div><FourDots /></div>
+          <div style={{
+          transform: !isActive ? 'rotate(-90deg)' : '',
+          transition: 'all 0.2s ease',
+          marginLeft: '5px',
+        }}><DownArrow /></div>
+          <div className="textIcon22"></div>
+        </div>
+        <p style={{marginLeft: "16px"}}>{title}</p>
         <div className="flexVerticalCenter" style={{ marginLeft: '16px' }}>
           <Sicon />
         </div>
-        <div style={{ marginLeft: '8px' }}>2</div>
+        <div style={{ marginLeft: '8px' }}>{siconNum}</div>
         <div style={{ marginLeft: '8px', color: 'rgba(123, 131, 136, 0.25)' }}>
           |
         </div>
@@ -22,12 +32,12 @@ const HeaderSubComp = ({name}) => {
           <CheckList />
         </div>
         <div style={{ marginLeft: '2px' }}>
-          <span>2</span>/<span>{name}</span>
+          <span>{checkList?.checked}</span>/<span>{checkList?.total}</span>
         </div>
       </div>
       <div className="flexVerticalCenter">
         <div style={{ marginRight: '40px' }}>
-          <SkillBar />
+          <SkillBar percentage={(checkList?.checked/checkList?.total)*100}/>
         </div>
         <div style={{ marginRight: '40px' }}>
           <CircularImageComponent images={data} />

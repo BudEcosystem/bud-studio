@@ -1,9 +1,9 @@
 import React from 'react'
 
-const SkillBar = () => {
+const SkillBar = ({percentage}) => {
   return (
     <div className='skillBar'>
-        <div style={{width: "50%", height: "100%", background: "#939AFF", borderRadius: "21px"}}></div>
+        <div style={{width: `${percentage}%`, height: "100%", background: "#939AFF", borderRadius: "21px"}}></div>
     </div>
   )
 }

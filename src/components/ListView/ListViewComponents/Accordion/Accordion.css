@@ -1,0 +1,47 @@
+.accordionParent {
+    width: 92%;
+    /* background-color: aqua; */
+}
+
+.statusParent {
+    background: #101010;
+    border: 0.5px dashed #2F2F2F;
+    border-radius: 12px;
+    margin-bottom: 18px;
+}
+
+.titleContainerParent {
+    /* border: 2px solid green; */
+    margin: 12px 0px 12px 10px;
+}
+
+.titleContainer {
+    display: flex;
+    align-items: center;
+}
+
+.arrowAndTitleContainer {
+    display: flex;
+    margin-left: 8px;
+}
+.subAccordionContainer{
+    /* background: #1B1C1E; */
+    border-radius: 8px;
+    margin-right: 10px;
+    margin-top: 12px;
+}
+/* .headerSubComponentContainer{
+} */
+.subAccordionParent{
+    margin-bottom: 10px;
+    background: #1B1C1E;
+    border-radius: 8px;
+    padding: 10px 9px;
+    /* background-color: rebeccapurple; */
+}
+
+.iconsContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
