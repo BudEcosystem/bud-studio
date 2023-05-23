@@ -10,6 +10,25 @@ const generateInitialState = (): any => {
       {
         name: 'Private',
         color: '#343434',
+        id: 'wsp-1',
+        childs: [
+          {
+            type: 'folder',
+            title: 'Welcome To Bud',
+            id: 'fld-1',
+            childs: [
+              {
+                type: 'document',
+                title: 'Welcome To Bud',
+                id: 'doc-1',
+              },
+            ],
+          },
+          {
+            type: 'document',
+            title: 'Welcome To Bud',
+          },
+        ],
       },
     ],
   };
@@ -26,7 +45,6 @@ export const workspaceSlice = createSlice({
       state.workSpaceItems.push(action.payload);
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
-      console.log('edit workspace', action.payload);
       const arr = [...state.workSpaceItems];
       arr[action.payload.index].name = action.payload.value.name;
       arr[action.payload.index].color = action.payload.value.color;
