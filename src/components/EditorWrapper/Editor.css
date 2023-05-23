@@ -84,6 +84,48 @@
   margin-right: 10px;
 }
 
+.editorjsDiv .cdx-search-field {
+  background-color: white;
+}
+
+.editorjsDiv .ce-popover__item:hover {
+  background-color: rgb(31, 31, 31);
+}
+
+.editorjsDiv .ce-popover__item-icon svg {
+  color: black;
+}
+
+.editorjsDiv .tc-add-column:hover {
+  background-color: rgb(31, 31, 31);
+}
+
+.editorjsDiv .tc-add-row:hover {
+  background-color: rgb(31, 31, 31);
+}
+
+.editorjsDiv .tc-popover {
+  background-color: black;
+}
+
+.editorjsDiv .tc-popover__item-icon svg {
+  color: black;
+}
+
+.editorjsDiv .ce-inline-toolbar {
+  background-color: black;
+}
+
+.editorjsDiv .ce-inline-toolbar__dropdown:hover {
+  background-color: rgb(31, 31, 31);
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+}
+
+.editorjsDiv .ce-inline-toolbar__buttons button:hover {
+  background-color: rgb(31, 31, 31);
+}
+
 .editorCover {
   width: 1000px;
   height: 200px;
