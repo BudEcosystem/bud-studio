@@ -61,7 +61,7 @@ function TreeNode({
   const hasChild = !!node.children;
   const [editMode, setEditMode] = useState(false);
   const [addMode, setAddMode] = useState(false);
-  const [addItemConfig, setAddItemConfig] = useState({type:'folder'});
+  const [addItemConfig, setAddItemConfig] = useState({ type: 'folder' });
   const isParentStyle = {
     background: `linear-gradient(90.28deg, ${`${color}20`} 4.88%, rgba(17, 21, 18, 0) 91.54%)`,
     borderRadius: '10px',
@@ -78,7 +78,7 @@ function TreeNode({
     setShowDocumentOptions(!showDocumentOptions);
     setShowColorDots(false);
   };
-  const [toggleFlyout,setToggleFlyout] = useState(false);
+  const [toggleFlyout, setToggleFlyout] = useState(false);
   const addNewMenu = (node: any, newNode: any) => {
     if (addedNode && !!newNode.label) {
       addedNode(node, newNode);
@@ -87,7 +87,7 @@ function TreeNode({
   };
   const activateAddmode = (e) => {
     e.stopPropagation();
-    setToggleFlyout((prev) => !prev)
+    setToggleFlyout((prev) => !prev);
   };
   const newMenuAddHandler = (newNode: any) => {
     if (addNewMenu) {
@@ -95,20 +95,16 @@ function TreeNode({
     }
     setAddMode(false);
   };
-  const addNewItem = (type:any) => {
-    setAddItemConfig({type})
+  const addNewItem = (type: any) => {
+    setAddItemConfig({ type });
     setAddMode(true);
-    setToggleFlyout(false)
-    setChildVisiblity(true)
-  }
+    setToggleFlyout(false);
+    setChildVisiblity(true);
+  };
   return (
     isVisible && (
       <li className="treeLiItem">
-        {toggleFlyout && (
-          <FlyoutMenu
-          createNewClickHandler={addNewItem}
-          />
-        )}
+        {toggleFlyout && <FlyoutMenu createNewClickHandler={addNewItem} />}
         <div
           className={`treeList${isFirst ? ' first' : ''} tree-header`}
           style={node.isParent && childVisible ? isParentStyle : {}}
@@ -221,26 +217,27 @@ function ListItem({
   };
   const updateNewValue = (e) => {
     const { value } = e.target;
-      if (onNewMenuAdd) {
-        const obj = {
-          label: value,
-          type: isFolder ? 'folder' : 'file',
-        };
-        onNewMenuAdd(obj);
-      }
+    if (onNewMenuAdd) {
+      const obj = {
+        label: value,
+        type: isFolder ? 'folder' : 'file',
+      };
+      onNewMenuAdd(obj);
+    }
   };
   const createNewItem = (e) => {
     if (e.key === 'Enter') {
-      updateNewValue(e)
+      updateNewValue(e);
     }
   };
   useEffect(() => {
-    if(isEdit){
-     setTimeout(() => {
-      inputBox.current.focus();
-     });
+    if (isEdit) {
+      setTimeout(() => {
+        inputBox.current.focus();
+      });
     }
-  }),[isEdit]
+  }),
+    [isEdit];
   return (
     <div className="item-wrapper">
       <div className="item-collaps-arrow">
@@ -257,7 +254,7 @@ function ListItem({
       <div className="item-label-wrapper">
         {isEdit ? (
           <input
-          ref={inputBox}
+            ref={inputBox}
             type="text"
             className="item-label-input"
             value={newLabel}

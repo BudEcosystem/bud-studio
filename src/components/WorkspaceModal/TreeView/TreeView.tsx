@@ -102,7 +102,7 @@ function TreeView({
   setShowColorDots,
   showDocumentOptions,
   setShowDocumentOptions,
-}) {
+}: any) {
   const [treeDataState, setTreeDataState] = useState(getInitData(treeData));
   const filterTreeData = (filter: string) => {
     if (!!filter) {

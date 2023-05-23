@@ -6,7 +6,6 @@ import contentReducer from './slices/content';
 import kanbanReducer from './slices/kanban';
 import listReducer from './slices/list';
 
-
 const persistConfig = {
   key: 'root',
   storage,
@@ -15,7 +14,7 @@ const reducer = combineReducers({
   workspace: workspaceReducer,
   content: contentReducer,
   kanban: kanbanReducer,
-  list: listReducer
+  list: listReducer,
 });
 const persistedReducer = persistReducer(persistConfig, reducer);
 

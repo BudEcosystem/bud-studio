@@ -32,7 +32,7 @@ export const workspaceSlice = createSlice({
     },
     createWorkspaces: (state, action: PayloadAction<any>) => {
       console.log('create:', action.payload);
-      if (action.payload.idx != undefined) {
+      if (action.payload.idx !== undefined) {
         state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
 
         console.log(JSON.stringify(state.workspaceFolders[action.payload.idx]));
@@ -41,10 +41,10 @@ export const workspaceSlice = createSlice({
         // state.workspaceFolders.push(getObj(state.workSpaceItems.length));
       }
       state.workSpaceItems.push(action.payload);
-      console.log('dsf', [...state.workSpaceItems]);
+      // console.log('dsf', [...state.workSpaceItems]);
       // console.log(getObj(state.workSpaceItems.length))
 
-      console.log([...state.workspaceFolders]);
+      // console.log([...state.workspaceFolders]);
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
       console.log('cja');

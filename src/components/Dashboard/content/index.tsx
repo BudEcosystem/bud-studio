@@ -47,8 +47,8 @@ function ContentView({
           />
         )}
         {/* <Editor /> */}
-        <ListView />
-        {/* <KanbanUI /> */}
+        {/* <ListView /> */}
+        <KanbanUI />
         <Hamburger />
       </Content>
       <OmniSearch />
