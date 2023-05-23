@@ -12,8 +12,16 @@ const generateInitialState = (): any => {
         color: '#343434',
       },
     ],
+    workspaceFolders: [],
   };
   return initialState;
+};
+
+const initialState: any = {
+  props: {},
+  color: '#939AFF',
+  workSpaceItems: [],
+  workspaceFolders: [],
 };
 export const workspaceSlice = createSlice({
   name: 'workspace',
@@ -23,16 +31,32 @@ export const workspaceSlice = createSlice({
       state.color = action.payload;
     },
     createWorkspaces: (state, action: PayloadAction<any>) => {
+      console.log('create:', action.payload);
+      if (action.payload.idx != undefined) {
+        state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
+
+        console.log(JSON.stringify(state.workspaceFolders[action.payload.idx]));
+        // state.workspaceFolders.push()
+      } else {
+        // state.workspaceFolders.push(getObj(state.workSpaceItems.length));
+      }
       state.workSpaceItems.push(action.payload);
+      console.log('dsf', [...state.workSpaceItems]);
+      // console.log(getObj(state.workSpaceItems.length))
+
+      console.log([...state.workspaceFolders]);
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
-      console.log('edit workspace', action.payload);
+      console.log('cja');
+      console.log('edit:', action.payload);
       const arr = [...state.workSpaceItems];
-      arr[action.payload.index].name = action.payload.value.name;
-      arr[action.payload.index].color = action.payload.value.color;
-    },
-    duplicateWorkspaceItem: (state, action: PayloadAction<any>) => {
-      state.workSpaceItems[action.payload.index] = action.payload.value;
+      console.log('Asdf', arr, [...state.workSpaceItems]);
+      if (action.payload.value.name) {
+        arr[action.payload.index].name = action.payload.value.name;
+      } else {
+        arr[action.payload.index].name = action.payload.value;
+      }
+      console.log('h', arr[0]);
     },
     changeWorkSpacePropereties: (state, action: PayloadAction<any>) => {
       state.props = { ...state.props, ...action.payload };

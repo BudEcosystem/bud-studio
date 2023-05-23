@@ -2,12 +2,20 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Layout, Menu, Modal, Space } from 'antd';
 import { Link, Route, Routes, To, useNavigate } from 'react-router-dom';
+import Kanban from 'components/KanbanNew/kanbanBoard';
+import KanbanUI from 'components/KanbanNew';
+import KanbanMain from 'components/Kanaban/KanbanMain';
+import classes from './dashboard.module.css';
+import ContentView from './content';
 import {
   changeColor,
   createWorkspaces,
   editWorkspaceItem,
 } from 'redux/slices/workspace';
 import { useDispatch, useSelector } from 'react-redux';
+import WorkspaceMenuItem, {
+  MenuWorkSpaceInput,
+} from './components/WorkspaceMenuItem';
 import Kanban from 'components/KanbanNew/kanbanBoard';
 import KanbanUI from 'components/KanbanNew';
 import KanbanMain from 'components/Kanaban/KanbanMain';
@@ -15,6 +23,7 @@ import classes from './dashboard.module.css';
 import ContentView from './content';
 import WorkspaceMenuItem from './components/WorkspaceMenuItem';
 import BudLogoSidebar from './components/Logo/BudLogo';
+
 
 const { Sider } = Layout;
 interface SideBarProps {
@@ -160,7 +169,7 @@ const sidebarOptions = [
 function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   const dispatch = useDispatch();
   const { workspace }: any = useSelector((state) => state);
-  const { workSpaceItems } = workspace;
+  let { workSpaceItems } = workspace;
   const [activeClassName, setActiveClassName] = useState('0');
   const [activeClassNameColor, setActiveClassNameColor] = useState(-1);
   const addWorkspaceInput = useRef(null);
@@ -168,19 +177,19 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   const [showAddWorkspace, setShowAddWorkspace] = useState(false);
   // const [workspaces, setWorkspaces] = useState([] as any);
   const [workspaceModal, setWorkspaceModal] = useState(false);
-  const [workspaceID, setWorkspaceID] = useState(-1);
+  const [workspaceID, setWorkspaceID] = useState(-1);;
   const [workspaceColor, setWorkspaceColor] = useState();
   const [workspaceName, setWorkspaceName] = useState();
   const [color, setColor] = useState('red');
   const [hoverColor, setHoverColor] = useState('#ffffff');
   const [hoverColorOnLeave, setHoverColoronLeave] = useState('#ffffff');
   const [workSpaceIndex, setWorkSpaceIndex] = useState(-1);
+
   const [showMore, setShowMore] = useState(false);
 
   const showMoreWorkspaces = () => {
     setShowMore(!showMore);
   };
-
   const navigate = useNavigate();
   const navigateContent = (e: any, link: To) => {
     setActiveClassName(e.key);
@@ -188,18 +197,18 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     setActiveClassNameColor(-1);
   };
 
-  const showWorkspaceModal = (colorPassed: any, name: any) => {
-    setWorkspaceModal(!workspaceModal);
-    setWorkspaceColor(colorPassed);
-    setWorkspaceName(name);
-  };
+  // const showWorkspaceModal = (colorPassed: any, name: any) => {
+  //   setWorkspaceModal(!workspaceModal);
+  //   setWorkspaceColor(colorPassed);
+  //   setWorkspaceName(name);
+  // };
 
   const handlerColor = (menuColor: any, menuName: any, i: any) => {
     try {
       setActiveClassNameColor(i);
       setActiveClassName('-1');
       setColor(menuColor);
-      setWorkSpaceIndex(i);
+      setWorkSpaceIndex(i);;
       showWorkspaceModal(menuColor, menuName);
       dispatch(changeColor(menuColor));
     } catch (err) {
@@ -240,6 +249,16 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     };
   }, []);
 
+  const showWorkspaceModal = (color: any, name: any) => {
+    if (workspaceModal === true) {
+      return;
+    }
+    setWorkspaceModal(!workspaceModal);
+    console.log('WORKSPACE PRESSED', workspaceModal);
+    setWorkspaceColor(color);
+    setWorkspaceName(name);
+  };
+
   useEffect(() => {
     setShowAddWorkspace(false);
   }, [isCollapsed]);
@@ -263,17 +282,19 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     // const workspacesTemp = workspaces;
     // workspacesTemp[index] = value;
     // setWorkspaces([...workspacesTemp]);
-    dispatch(editWorkspaceItem({ index, value }));
+    dispatch(editWorkspaceItem({  index, value  }));;
   };
-  const addNewWorkSpace = (e: any) => {
+  const addNewWorkSpace = (e:  any) => {
     if (e.value.name) {
       // const workspacesTemp = workspaces;
       // workspacesTemp.push(e.value);
       // setWorkspaces([...workspacesTemp]);
-      dispatch(createWorkspaces(e.value));
+      dispatch(createWorkspaces(e.value));;
       setShowAddWorkspace(false);
+      console.log(...workSpaceItems);
     }
   };
+;
   return (
     <>
       <Sider

@@ -4,6 +4,7 @@ import './ListView.css';
 import OptionsComponent from './ListViewComponents/OptionsComponent';
 import MainListComponent from './ListViewComponents/MainListComponent';
 import { useSelector } from 'react-redux';
+import Accordion from './ListViewComponents/Accordion/Accordion';
 
 function ListView() {
   const { content }: any = useSelector((state) => state);
@@ -69,7 +70,8 @@ function ListView() {
         <div className="borderCurveLine" />
       </div>
       <div className="mainListComponentContainer mgLeft">
-        <MainListComponent />
+        {/* <MainListComponent /> */}
+        <Accordion />
       </div>
     </>
   );

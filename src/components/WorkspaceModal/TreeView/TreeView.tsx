@@ -1,5 +1,11 @@
 import { useEffect, useState, useCallback } from 'react';
 import Tree from './Tree/Tree';
+import {
+  changeColor,
+  createWorkspaces,
+  editWorkspaceItem,
+} from 'redux/slices/workspace';
+import { useDispatch, useSelector } from 'react-redux';
 import './TreeView.css';
 import { v4 as uuidv4 } from 'uuid';
 
