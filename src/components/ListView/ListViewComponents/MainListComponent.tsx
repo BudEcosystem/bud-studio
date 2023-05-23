@@ -4,63 +4,51 @@ import { CaretRightOutlined } from '@ant-design/icons';
 import { Collapse, theme } from 'antd';
 import { Arrow } from '../ListViewIcons';
 import ChildMainListComponent from './ChildMainListComponent';
+import { useSelector, useDispatch } from 'react-redux';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { addPanelItems } from 'redux/slices/list';
 
 const { Panel } = Collapse;
 
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-  it can be found as a welcome guest in many households across the world.
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
-
-const panelArr = [
-  {
-    headerText: 'To-do',
-    colorIcon: '#939AFF',
-  },
-  {
-    headerText: 'In-progress',
-    colorIcon: '#FFD976',
-  },
-  {
-    headerText: 'In-review',
-    colorIcon: '#4184E9',
-  },
-  {
-    headerText: 'Completed',
-    colorIcon: '#36D95A',
-  },
-];
-
 function MainListComponent() {
-  const [activePanel, setActivePanel] = useState([true, false, false, false]);
-  const panelStyle = {
-    marginBottom: 18,
-    background: '#101010',
-    border: ' 0.5px dashed #2F2F2F',
-    borderRadius: '12px',
-    color: 'white',
+  const [activePanel, setActivePanel] = useState(['0']);
+  const panelArray = useSelector((state) => state.list.panelArray);
+  const {workspace}:any = useSelector(state=>state)
+  let { color } = workspace
+  // const panelStyle = {
+  //   marginBottom: 18,
+  //   background: '#101010',
+  //   border: `0.5px dashed #2F2F2F`,
+  //   borderRadius: '12px',
+  //   color: 'white',
+  // };
+  const getPanelStyle = (index) => {
+    if(activePanel === index){
+      return {
+        marginBottom: 18,
+        background: '#101010',
+        border: `0.5px dashed ${color}`,
+        borderRadius: '12px',
+        color: 'white',
+      };
+    }else{
+      return {
+        marginBottom: 18,
+        background: '#101010',
+        border: `0.5px dashed #2F2F2F`,
+        borderRadius: '12px',
+        color: 'white',
+      };
+    }
+    
   };
-  const handlePanelChange = (index) => {
-    const newActivePanel = [...activePanel];
-    newActivePanel[index] = !newActivePanel[index];
-    setActivePanel(newActivePanel);
+  const handlePanelChange = (panelIndex) => {
+    const selectedPanel = activePanel === panelIndex ? activePanel : panelIndex;
+    setActivePanel(selectedPanel);
+    // const updatedActivePanel = [...activePanel];
+    // updatedActivePanel[panelIndex] = !updatedActivePanel[panelIndex];
+    // setActivePanel(updatedActivePanel);
+    console.log(activePanel)
   };
   const panelHeader = (text, col, index) => (
     <div
@@ -71,18 +59,18 @@ function MainListComponent() {
         <div className="textIcon" style={{ background: col }} />
         <span style={{ marginLeft: '8px' }}>{text}</span>
       </div>
-      {activePanel[index] && (
+      {/* {activePanel[index] && (
         <div style={{ marginRight: '14px' }}>
           <p>New Task +</p>
         </div>
-      )}
+      )} */}
     </div>
   );
   return (
     <div className="mainListContainer">
       <Collapse
-        bordered={false}
-        defaultActiveKey={['0']}
+        bordered={false} 
+        defaultActiveKey={activePanel}
         expandIcon={({ isActive }) => (
           <div
             style={{
@@ -96,17 +84,18 @@ function MainListComponent() {
         className="customCollapse"
         style={{ background: 'var(--primary-bgc-light)' }}
         // onChange={handlePanelChange}
+        // onChange={(expandedPanels) => setActivePanel(expandedPanels)}
       >
-        {panelArr.map((item, i) => (
+        {panelArray?.map((item, i) => (
           <Panel
             header={panelHeader(item.headerText, item.colorIcon, i)}
             key={i}
-            style={panelStyle}
-            onClick={(e) => handlePanelChange(i)}
+            style={getPanelStyle(i)}
+            onClick={() => handlePanelChange(i)}
             className="insideCollapse"
           >
             <div className="hello">
-              <ChildMainListComponent />
+              <ChildMainListComponent childItems={item.items} activepanel={activePanel}/>
             </div>
           </Panel>
         ))}

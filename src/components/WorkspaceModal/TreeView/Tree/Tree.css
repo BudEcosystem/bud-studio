@@ -86,3 +86,53 @@
 }
 .treeChildLabel.show {
 }
+.addNew{
+  visibility: hidden;
+}
+.item-wrapper:hover .addNew{
+  visibility: visible;
+}
+.item-wrapper{
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+.item-label-wrapper{
+  margin-left: 10px;
+}
+.item-action-wrapper{
+  margin-left: auto;
+}
+.item-collaps-arrow{
+  min-width: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  margin-left: 10px;
+}
+.item-action-wrapper{
+  padding-left: 10px;
+}
+.addNew{
+  background-color: transparent;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  font-size: 20px;
+}
+
+.item-label-input{
+  background-color: rgba(217, 217, 217, 0.05);
+  border: none;
+  caret-color: #F9D45D;
+  color: #C6C6C6;
+  border-radius: 2px;
+  height: 20px;
+  outline: none;
+  font-weight: 400;
+  font-size: 14px;
+  width: 100%;
+}

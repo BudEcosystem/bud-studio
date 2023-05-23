@@ -47,12 +47,9 @@ function ContentView({
             workspaceModal={workspaceModal}
           />
         )}
-
-        <EditorJsWrapper data={{}} />
-
-            {/* <Editor /> */}
-           {/* <ListView />
-        <KanbanUI /> */}
+        {/* <Editor /> */}
+        <ListView />
+        {/* <KanbanUI /> */}
         <Hamburger />
       </Content>
       <OmniSearch />

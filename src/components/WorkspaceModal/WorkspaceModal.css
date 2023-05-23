@@ -147,14 +147,21 @@
   margin-left: 80%;
   display: none;
 }
-
-.createPopupModal {
-  width: 200px;
-  height: 40px;
-  background-color: #0c0c0c;
-  border: 1px solid #1d1d1d;
+.secondWorkspaceOptions .subMenu{
   position: absolute;
-  left: 210px;
-  bottom: 190px;
-  border-radius: 5px;
+  left: 100%;
+  width: max-content;
+  background: #0c0c0c;
+  border: 1px solid #1d1d1d;
+  border-radius: 14px;
+  padding: 15px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  visibility: hidden;
+  transition: all 1s ease ;
+}
+.secondWorkspaceOption:hover .subMenu{
+  visibility: visible;
 }
