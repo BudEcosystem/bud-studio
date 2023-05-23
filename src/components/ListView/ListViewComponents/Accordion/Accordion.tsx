@@ -1,85 +1,131 @@
 import React, { useState } from 'react';
 import './Accordion.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { useSelector } from 'react-redux';
-import { Arrow } from 'components/ListView/ListViewIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import { Arrow, DownArrow, FourDots } from 'components/ListView/ListViewIcons';
 import SubAccordion from './SubAccordion';
+import HeaderSubCompInput from '../HeaderSubCompInput';
+import { updatePosition } from 'redux/slices/list';
 
 const Accordion = () => {
-  const panelArray = useSelector((state) => state.list.panelArray);
+  const dispatch = useDispatch()
+  const { panelArray, newTaskClicked } = useSelector((state) => state.list);
   const [expandedItems, setExpandedItems] = useState([]);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  const { workspace }: any = useSelector((state) => state);
+  let { color } = workspace;
 
   const toggleAccordion = (index) => {
     const updatedItems = [...expandedItems];
     if (updatedItems.includes(index)) {
-      // Item is already expanded, so remove it from the array
       updatedItems.splice(updatedItems.indexOf(index), 1);
     } else {
-      // Item is collapsed, so add it to the array
       updatedItems.push(index);
     }
     setExpandedItems(updatedItems);
   };
+
+  const selectItem = (index) => {
+    setSelectedItemIndex(index);
+  };
+
   const onDragEnd = (result) => {
-   console.log("drag")
+    dispatch(updatePosition(result))
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-    <div className="accordionParent">
-      {panelArray?.map((item, i) => (
-        <Droppable droppableId={`droppable${i}`} key={i}>
-          {(provided, snapshot) => (
-            <div
-              className="statusParent"
-              key={i}
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              <div className="titleContainerParent">
-                <div className="arrowAndTitleContainer">
-                  <div
-                    className="arrowContainer"
-                    onClick={() => toggleAccordion(i)}
-                  >
-                    <Arrow />
-                  </div>
-                  <div className="titleContainer">
+      <div className="accordionParent">
+        {panelArray?.map((item, i) => (
+          <Droppable droppableId={item.status} key={i}>
+            {(provided, snapshot) => (
+              <div
+                className="statusParent"
+                key={i}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                onClick={() => selectItem(i)}
+                style={{
+                  border:
+                    selectedItemIndex === i
+                      ? `0.5px dashed ${color}`
+                      : `0.5px dashed #2F2F2F`,
+                }}
+              >
+                <div className="titleContainerParent">
+                  <div className="arrowAndTitleContainer">
                     <div
-                      className="textIcon"
-                      style={{ background: item.colorIcon }}
-                    />
-                    <p style={{ marginLeft: '8px' }}>{item.headerText}</p>
+                      className="arrowContainer"
+                      onClick={() => toggleAccordion(i)}
+                      style={{
+                        transform: expandedItems.includes(i)
+                          ? ''
+                          : 'rotate(-90deg)',
+                      }}
+                    >
+                      <Arrow />
+                    </div>
+                    <div className="titleContainer">
+                      <div
+                        className="textIcon"
+                        style={{ background: item.colorIcon }}
+                      />
+                      <p style={{ marginLeft: '8px' }}>{item.headerText}</p>
+                    </div>
                   </div>
-                </div>
-                {expandedItems.includes(i) && (
-                  <div className="subAccordionContainer">
-                    {item.items.map((subItems, j) => (
+                  {expandedItems.includes(i) && (
+                    <div className="subAccordionContainer">
+                      {item.items.map((subItems, j) => (
+                        <Draggable
+                          key={j}
+                          draggableId={`draggable${i}${j}`}
+                          index={j}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                            >
+                              <SubAccordion
+                                data={subItems}
+                                provided={provided}
+                                index={i}
+                                selectedDiv={selectItem}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
                       <Draggable
-                        key={j}
-                        draggableId={`draggable${i}${j}`}
-                        index={j}
+                        key={10}
+                        draggableId={`draggable33`}
+                        index={10}
                       >
                         {(provided, snapshot) => (
                           <div
                             ref={provided.innerRef}
                             {...provided.draggableProps}
-                            {...provided.dragHandleProps}
                           >
-                            <SubAccordion data={subItems} />
+                            {newTaskClicked && i === selectedItemIndex && (
+                              <div className="subAccordionParent">
+                                <HeaderSubCompInput
+                                  provided={provided}
+                                  selectedItem={selectedItemIndex}
+                                />
+                              </div>
+                            )}
                           </div>
                         )}
                       </Draggable>
-                    ))}
-                  </div>
-                )}
+                    </div>
+                  )}
+                </div>
+                {provided.placeholder}
               </div>
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      ))}
-    </div>
-  </DragDropContext>
+            )}
+          </Droppable>
+        ))}
+      </div>
+    </DragDropContext>
   );
 };
 

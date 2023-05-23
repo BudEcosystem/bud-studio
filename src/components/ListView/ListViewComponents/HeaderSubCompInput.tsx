@@ -6,12 +6,14 @@ import {
   Sicon,
   BoxArrow,
   Cross,
+  DownArrow,
+  FourDots,
 } from '../ListViewIcons';
 import CircularBorder from './CircularBorder';
 import { useSelector, useDispatch } from 'react-redux';
-import { setNewTaskClicked } from 'redux/slices/list';
+import { setNewTaskClicked, createNewTask } from 'redux/slices/list';
 
-const HeaderSubCompInput = () => {
+const HeaderSubCompInput = ({ provided, selectedItem }) => {
   const dispatch = useDispatch();
   const [titleInput, setTitleInput] = useState('');
   const crossClickHandler = () => {
@@ -22,20 +24,33 @@ const HeaderSubCompInput = () => {
   };
   const titleChangeHandler = (e: any) => {
     if (e.key === 'Enter' && !!e.target.value) {
-      // dispatch()
+      dispatch(createNewTask({ selectedItem, titleInput }));
+      crossClickHandler();
+      setTitleInput('');
     }
   };
   return (
     <div className="headerComponentInputParent">
-      <input
-        type="text"
-        placeholder="Enter new Task"
-        // onBlur={onBlurHandler}
-        value={titleInput}
-        onKeyUp={titleChangeHandler}
-        onInput={titleInputHandler}
-        className="workspaceTextBox"
-      />
+      <div className="flex">
+        <div className="iconsContainer">
+          <div {...provided.dragHandleProps}>
+            <FourDots />
+          </div>
+          <div style={{ marginLeft: '6px', transform: 'rotate(-90deg)' }}>
+            <DownArrow />
+          </div>
+          <div className="textIcon22"></div>
+        </div>
+        <input
+          type="text"
+          placeholder="Enter new Task"
+          // onBlur={onBlurHandler}
+          value={titleInput}
+          onKeyUp={titleChangeHandler}
+          onInput={titleInputHandler}
+          className="workspaceTextBox"
+        />
+      </div>
       <div className="rightSideOptions">
         <CircularBorder icon={<CheckList />} />
         <CircularBorder icon={<Sicon />} />
