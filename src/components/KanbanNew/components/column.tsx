@@ -7,8 +7,10 @@ import { styled } from 'styled-components';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Popover } from 'antd';
+import { EnterOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
+import { createNewTaskOnEnter, editColumnName } from 'redux/slices/kanban';
 import Tasks from './taks';
-import { createNewTaskOnEnter } from 'redux/slices/kanban';
 
 const Container = styled.div`
   margin: 10px;
@@ -35,8 +37,8 @@ const TitleHeaderSecond = styled.div`
   flex-direction: row;
   align-items: center;
 `;
-const TitleHeaderDragable = styled.img``;
-const TitleHeaderThreedot = styled.img`
+const TitleHeaderDragable = styled.div``;
+const TitleHeaderThreedot = styled.div`
   margin-left: 13px;
   margin-right: 13px;
 `;
@@ -69,7 +71,7 @@ const TitleHeaderPlusIconWrapper = styled.div`
   cursor: pointer;
   // margin-left: 107px;
 `;
-const TitleHeaderPlusIcon = styled.img``;
+const TitleHeaderPlusIcon = styled.div``;
 
 const TaskList = styled.div`
   padding: 10px;
@@ -125,6 +127,83 @@ const AddNewTaskinput = styled.input`
     color: #bbbbbb;
   }
 `;
+const ColumnMenuWrapper = styled.div`
+  width: 100px;
+  background: #101010;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 5px;
+  padding-bottom: 5px;
+`;
+const ColumnMenuItems = styled.div`
+  height: 25px;
+  width: 100px;
+  // background: #2c2b30;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+`;
+const ColumnMenuLabel = styled.span`
+  width: 70px;
+  margin-left: 5px;
+`;
+const EditColumnWrapper = styled.div`
+  width: auto;
+  height: 22px;
+  // background: red;
+  margin-top: 15px;
+  border: 0.5px dashed #2f2f2f;
+  padding-right: 5px;
+  margin-left: 5px;
+`;
+const EditColumnNameInput = styled.input`
+  // margin-top: -25px;
+  width: 90px;
+  height: 20px;
+  background: #101010;
+  border-radius: 2px;
+  text-align: left;
+  color: #bbbbbb;
+  outline: none;
+  border: none;
+  margin-left: 15px;
+  // padding-left: 10px;
+  // border-top: 0.5px dashed #2f2f2f;
+  &::placeholder,
+  &::-webkit-input-placeholder {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 154.5%;
+    /* identical to box height, or 22px */
+    text-align: left;
+    color: #bbbbbb;
+  }
+  &:-ms-input-placeholder {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 154.5%;
+    /* identical to box height, or 22px */
+    color: #bbbbbb;
+  }
+`;
 interface Task {
   index: any;
   id: any;
@@ -137,6 +216,7 @@ interface Task {
   image: any;
   type: any;
 }
+
 function Column(props: any) {
   //   console.log(props);
   const [showNewTaskUI, setNewTaskUI] = useState(false);
@@ -151,51 +231,187 @@ function Column(props: any) {
     }
   }, [props.index, kanban]);
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const inputRefForColumnEdit =
+    useRef() as React.MutableRefObject<HTMLInputElement>;
   useEffect(() => {
     const input = document.getElementById(`newtaskinput${props.id}`);
+    const inputNameEdit = document.getElementById(`columnNameEdit-${props.id}`);
     input?.addEventListener('keypress', function (event) {
       if (event.key === 'Enter') {
         event.preventDefault();
-        console.log('Enter clikcked', inputRef.current?.value);
         if (inputRef.current?.value) {
-          console.log('Enter clikcked', inputRef.current?.value);
           dispatch(
             createNewTaskOnEnter({ task: inputRef.current?.value, props })
           );
         }
       }
     });
+    inputNameEdit?.addEventListener('keypress', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        if (inputRefForColumnEdit.current?.value) {
+          dispatch(
+            editColumnName({
+              name: inputRefForColumnEdit.current?.value,
+              props,
+            })
+          );
+        }
+      }
+    });
   });
-  const addTaskButtonClicked = (flag) => {
+  const addTaskButtonClicked = (flag: any) => {
     SetAddButtonClickedFromColumn(flag);
+  };
+  const [nameEditable, setNameEditable] = useState(false);
+  const [open, setOpen] = useState(false);
+  const hide = () => {
+    setNameEditable(true);
+    setOpen(false);
+  };
+  const handleOpenChange = (newOpen: boolean) => {
+    setNameEditable(false);
+    setOpen(newOpen);
+  };
+  const columnMenu = () => {
+    return (
+      <ColumnMenuWrapper>
+        <ColumnMenuItems onClick={hide}>
+          <ColumnMenuLabel>Edit</ColumnMenuLabel> <EditFilled rev={undefined} />
+        </ColumnMenuItems>
+        <ColumnMenuItems style={{ cursor: 'not-allowed', color: 'grey' }}>
+          <ColumnMenuLabel>Delete</ColumnMenuLabel>
+          <DeleteFilled rev={undefined} />
+        </ColumnMenuItems>
+      </ColumnMenuWrapper>
+    );
   };
   return (
     <Draggable draggableId={props.id} index={props.index}>
-      {(provided) => (
+      {(provided: any) => (
         <Container {...provided.draggableProps} ref={provided.innerRef}>
           <TitleHeader>
             <TitleHeaderFirst>
-              <TitleHeaderDragable
-                {...provided.dragHandleProps}
-                src="/images/other/DragIconKanban.svg"
-                alt="#"
-              />
+              <TitleHeaderDragable {...provided.dragHandleProps}>
+                <svg
+                  width="9"
+                  height="9"
+                  viewBox="0 0 9 9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="1.5"
+                    cy="1.5"
+                    r="1.5"
+                    transform="rotate(-90 1.5 1.5)"
+                    fill="#242424"
+                  />
+                  <circle
+                    cx="7.5"
+                    cy="1.5"
+                    r="1.5"
+                    transform="rotate(-90 7.5 1.5)"
+                    fill="#242424"
+                  />
+                  <circle
+                    cx="1.5"
+                    cy="7.5"
+                    r="1.5"
+                    transform="rotate(-90 1.5 7.5)"
+                    fill="#242424"
+                  />
+                  <circle
+                    cx="7.5"
+                    cy="7.5"
+                    r="1.5"
+                    transform="rotate(-90 7.5 7.5)"
+                    fill="#242424"
+                  />
+                </svg>
+              </TitleHeaderDragable>
               <TitleHeaderColoured />
-              <Title>{props.title}</Title>
+              {nameEditable ? (
+                <EditColumnWrapper>
+                  <EditColumnNameInput
+                    id={`columnNameEdit-${props.id}`}
+                    ref={inputRefForColumnEdit}
+                  />
+                  <EnterOutlined rev={undefined} />
+                </EditColumnWrapper>
+              ) : (
+                <Title>{props.title}</Title>
+              )}
             </TitleHeaderFirst>
             <TitleHeaderSecond>
               <TitleHeaderPlusIconWrapper
                 onClick={() => addTaskButtonClicked(true)}
               >
-                <TitleHeaderPlusIcon
-                  src="/images/other/TaskColumnPlusIcon.svg"
-                  alt="#"
-                />
+                <TitleHeaderPlusIcon>
+                  <svg
+                    width="11"
+                    height="11"
+                    viewBox="0 0 11 11"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5.35547 1.09678V9.61291"
+                      stroke="#7B8388"
+                      stroke-width="1.41935"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M9.61328 5.35484L1.09715 5.35484"
+                      stroke="#7B8388"
+                      stroke-width="1.41935"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </TitleHeaderPlusIcon>
               </TitleHeaderPlusIconWrapper>
-              <TitleHeaderThreedot
-                src="/images/other/TaskMenuIcon.svg"
-                alt="#"
-              />
+              <Popover
+                content={columnMenu}
+                trigger="click"
+                placement="bottom"
+                open={open}
+                onOpenChange={handleOpenChange}
+              >
+                <>
+                  {' '}
+                  <TitleHeaderThreedot>
+                    <svg
+                      width="4"
+                      height="15"
+                      viewBox="0 0 4 15"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="2.19976"
+                        cy="13.6"
+                        r="1.39996"
+                        transform="rotate(-90 2.19976 13.6)"
+                        fill="#7B8388"
+                      />
+                      <circle
+                        cx="2.19976"
+                        cy="7.80012"
+                        r="1.39996"
+                        transform="rotate(-90 2.19976 7.80012)"
+                        fill="#7B8388"
+                      />
+                      <circle
+                        cx="2.19976"
+                        cy="2.00019"
+                        r="1.39996"
+                        transform="rotate(-90 2.19976 2.00019)"
+                        fill="#7B8388"
+                      />
+                    </svg>
+                  </TitleHeaderThreedot>
+                </>
+              </Popover>
             </TitleHeaderSecond>
           </TitleHeader>
           {(showNewTaskUI || addButtonClickedFromColumn) && (

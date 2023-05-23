@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -145,7 +146,6 @@ export const kanbanSlice = createSlice({
       state.triggerTaskCreation = action.payload.triggerTaskCreation;
     },
     createNewTaskOnEnter: (state, action: PayloadAction<any>) => {
-      console.log('redd', action.payload);
       const { task: value, props } = action.payload;
       const { id } = props;
       const newTask = {
@@ -168,7 +168,6 @@ export const kanbanSlice = createSlice({
         };
       });
       proxyIterData[`task-${Object.keys(state.tasks).length + 1}`] = newTask;
-      console.log('oldTasks', proxyIterData);
       const oldColumnsData = { ...state.columns };
       const proxyFilteredData: { [key: string]: any } = {};
       Object.keys(oldColumnsData).forEach((data) => {
@@ -187,8 +186,7 @@ export const kanbanSlice = createSlice({
       state.triggerTaskCreation = false;
     },
     createNewColumn: (state, action: PayloadAction<any>) => {
-      console.log('action.payload', action.payload);
-      let { name } = action.payload;
+      const { name } = action.payload;
       const sampleData = {
         id: `column-${Object.keys(state.columns).length + 1}`,
         title: `${name}`,
@@ -212,6 +210,22 @@ export const kanbanSlice = createSlice({
       state.columnOrder = oldColumnOrder;
       state.columns = proxyFilteredData;
     },
+    editColumnName: (state, action: PayloadAction<any>) => {
+      const { name, props } = action.payload;
+      const { id } = props;
+      const oldColumnsData = { ...state.columns };
+      const proxyFilteredData: { [key: string]: any } = {};
+      Object.keys(oldColumnsData).forEach((data) => {
+        const processedData = { ...oldColumnsData[data] };
+        const taskIds = [...processedData.taskIds];
+        proxyFilteredData[data] = {
+          ...processedData,
+          taskIds,
+        };
+      });
+      proxyFilteredData[id].title = name;
+      state.columns = proxyFilteredData;
+    },
   },
 });
 
@@ -221,5 +235,6 @@ export const {
   triggerDefaultNewTask,
   createNewTaskOnEnter,
   createNewColumn,
+  editColumnName,
 } = kanbanSlice.actions;
 export default kanbanSlice.reducer;

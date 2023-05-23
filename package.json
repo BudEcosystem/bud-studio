@@ -104,6 +104,7 @@
     }
   },
   "dependencies": {
+    "@ant-design/icons": "^5.1.0",
     "@canburaks/text-align-editorjs": "^1.1.0",
     "@editorjs/editorjs": "^2.26.5",
     "@editorjs/embed": "^2.5.3",
