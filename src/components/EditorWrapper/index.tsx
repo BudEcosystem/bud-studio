@@ -342,7 +342,7 @@ function EditorWrapper(props) {
             const word = match.slice(1);
             savedText = savedText?.replaceAll(
               match,
-              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color}75;"><span style="display: none;">#</span>${word}</span>`
             );
           });
         }
@@ -374,7 +374,7 @@ function EditorWrapper(props) {
             const word = match.slice(1);
             savedText = savedText?.replace(
               match,
-              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color}75;"><span style="display: none;">#</span>${word}</span>`
             );
           });
         }
@@ -482,7 +482,7 @@ function EditorWrapper(props) {
   }, [color]);
 
   useEffect(() => {
-    colorRef.current = color;
+    colorRef.current = `${color}75`;
   }, [color]);
 
   const insertBlock = (opt: any) => {
