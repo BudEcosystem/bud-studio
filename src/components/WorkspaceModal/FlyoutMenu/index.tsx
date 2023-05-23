@@ -14,7 +14,7 @@ import {
 function FlyoutMenu({createNewFolderClickHandler,createNewFileClickHandler}) {
   const optionModalRef = useRef(null);
   return (
-    <Draggable bounds="parent" handle=".drag">
+    <Draggable bounds="body" handle=".drag">
       <div ref={optionModalRef} className="optionsModal">
         <div className="secondWorkspaceModal">
           <div className="drag">
