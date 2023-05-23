@@ -370,19 +370,6 @@ function Editor() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   colorRef.current.value = color
-  // },[color])
-
-
-  const customBlock =  {
-    type: 'customBlockType',
-    data: {
-      text: '',
-      placeholder: 'Enter your text here...'
-    }
-  };
-
 
   const insertBlock = (opt: any) => {
     const blockTypes = Object.keys(editor2?.current?.configuration?.tools);

@@ -10,6 +10,7 @@ import Launcher from '../../Launcher/Launcher';
 import OmniSearch from '../../OmniSearch/OmniSearch';
 import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 import Editor from '../../Editor/Editor';
+import EditorJsWrapper from '../../EditorWrapper';
 import KanbanUI from 'components/KanbanNew';
 
 function ContentView({
@@ -47,8 +48,9 @@ function ContentView({
           />
         )}
         {/* <Editor /> */}
-        <ListView />
+        {/* <ListView /> */}
         {/* <KanbanUI /> */}
+        <EditorJsWrapper data={{}} />
         <Hamburger />
       </Content>
       <OmniSearch />

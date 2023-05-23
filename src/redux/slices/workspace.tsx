@@ -10,6 +10,25 @@ const generateInitialState = (): any => {
       {
         name: 'Private',
         color: '#343434',
+        id: 'wsp-1',
+        childs: [
+          {
+            type: 'folder',
+            title: 'Welcome To Bud',
+            id: 'fld-1',
+            childs: [
+              {
+                type: 'document',
+                title: 'Welcome To Bud',
+                id: 'doc-1',
+              },
+            ],
+          },
+          {
+            type: 'document',
+            title: 'Welcome To Bud',
+          },
+        ],
       },
     ],
     workspaceFolders: [],
