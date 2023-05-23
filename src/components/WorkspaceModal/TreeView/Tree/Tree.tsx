@@ -106,8 +106,7 @@ function TreeNode({
       <li className="treeLiItem">
         {toggleFlyout && (
           <FlyoutMenu
-            createNewFolderClickHandler={() => addNewItem('folder')}
-            createNewFileClickHandler={() => addNewItem('file')}
+          createNewClickHandler={addNewItem}
           />
         )}
         <div
