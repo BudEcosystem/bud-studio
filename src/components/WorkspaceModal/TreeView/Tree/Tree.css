@@ -86,24 +86,24 @@
 }
 .treeChildLabel.show {
 }
-.addNew{
+.addNew {
   visibility: hidden;
 }
-.item-wrapper:hover .addNew{
+.item-wrapper:hover .addNew {
   visibility: visible;
 }
-.item-wrapper{
+.item-wrapper {
   display: flex;
   align-items: center;
   flex: 1;
 }
-.item-label-wrapper{
+.item-label-wrapper {
   margin-left: 10px;
 }
-.item-action-wrapper{
+.item-action-wrapper {
   margin-left: auto;
 }
-.item-collaps-arrow{
+.item-collaps-arrow {
   min-width: 14px;
   display: flex;
   align-items: center;
@@ -111,10 +111,10 @@
   line-height: 0;
   margin-left: 10px;
 }
-.item-action-wrapper{
+.item-action-wrapper {
   padding-left: 10px;
 }
-.addNew{
+.addNew {
   background-color: transparent;
   color: #fff;
   border: 0;
@@ -124,15 +124,36 @@
   font-size: 20px;
 }
 
-.item-label-input{
+.item-label-input {
   background-color: rgba(217, 217, 217, 0.05);
   border: none;
-  caret-color: #F9D45D;
-  color: #C6C6C6;
+  caret-color: #f9d45d;
+  color: #c6c6c6;
   border-radius: 2px;
   height: 20px;
   outline: none;
   font-weight: 400;
   font-size: 14px;
   width: 100%;
+}
+.treeViewContainerDocInputWrapper {
+  width: 180px;
+  height: 30px;
+  /* background: red; */
+  margin: 0px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.treeViewContainerDocInput {
+  width: 120px;
+  height: 20px;
+  background: #101010;
+  border-radius: 2px;
+  text-align: left;
+  color: #bbbbbb;
+  outline: none;
+  border: none;
+  margin-left: 15px;
 }

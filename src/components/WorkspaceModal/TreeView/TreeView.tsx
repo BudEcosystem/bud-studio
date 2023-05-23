@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect, useState, useCallback } from 'react';
 import Tree from './Tree/Tree';
 import {
@@ -9,81 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import './TreeView.css';
 import { v4 as uuidv4 } from 'uuid';
 
-const treeData = [
-  {
-    key: '0',
-    label: 'Human Resources',
-    isParent: true,
-    children: [
-      {
-        key: '0-0',
-        label: 'Employee detail',
-      },
-      {
-        key: '0-1',
-        label: 'Salary Details',
-        children: [
-          {
-            key: '0-1-0',
-            label: 'Information',
-            isSecondChild: true,
-            children: [
-              {
-                key: '0-1-0',
-                label: 'Information',
-                isSecondChild: true,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    key: '0',
-    label: 'Human Resources',
-    isParent: true,
-    children: [
-      {
-        key: '0-0',
-        label: 'Employee detail',
-      },
-      {
-        key: '0-1',
-        label: 'Salary Details',
-        children: [
-          {
-            key: '0-1-0',
-            label: 'Information',
-            isSecondChild: true,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    key: '0',
-    label: 'Human Resources',
-    isParent: true,
-    children: [
-      {
-        key: '0-0',
-        label: 'Employee detail',
-      },
-      {
-        key: '0-1',
-        label: 'Salary Details',
-        children: [
-          {
-            key: '0-1-0',
-            label: 'Information',
-            isSecondChild: true,
-          },
-        ],
-      },
-    ],
-  },
-];
+const treeData = [];
+
 const getInitData = (list: any[]) => {
   return list.map((x) => {
     let children = x.children ?? [];
@@ -97,15 +25,93 @@ const getInitData = (list: any[]) => {
     };
   });
 };
+
 function TreeView({
   filter,
   setShowColorDots,
   showDocumentOptions,
   setShowDocumentOptions,
+  workSpaceDetails,
 }: any) {
-  const [treeDataState, setTreeDataState] = useState(getInitData(treeData));
+  const { tree, workspace } = useSelector((state) => state);
+  const [treeDataState, setTreeDataState] = useState([]);
+  const [treeDataStateCopy, setTreeDataStateCopy] = useState([]);
+  console.log('treeDataState', treeDataStateCopy);
+  useEffect(() => {
+    if (tree) {
+      console.log(tree);
+    }
+    if (workspace) {
+      console.log('workSpaceFolderDetails', workSpaceDetails, workspace);
+      const treeStructureObject: any = [];
+      const { workspaceFolders, workSpaceDocs } = workspace;
+      const { name } = workSpaceDetails;
+      const workSpaceFolderDetails = workspaceFolders.filter(
+        (data: any) => data.workSPaceId === name
+      );
+      const workSpaceDOcDetails = workSpaceDocs.filter(
+        (data: any) => data.workSPaceId === name && data.childOf === null
+      );
+
+      console.log('workSpaceFolderDetails', workSpaceFolderDetails);
+      if (workSpaceFolderDetails.length > 0) {
+        workSpaceFolderDetails.forEach((folderData: any, folderIndex: any) => {
+          const { key } = folderData;
+          const workSpaceDocsDetails = workSpaceDocs.filter(
+            (data: any) => data.childOf === key && data.workSPaceId === name
+          );
+          console.log(
+            'workSpaceFolderDetails - workSpaceDocsDetailswww',
+            workSpaceDocsDetails
+          );
+          const childData: any = [];
+          const newSampleTreeObject: {
+            key: any;
+            label: any;
+            isParent: any;
+            children: any;
+            type: any;
+          } = {
+            key: `${folderIndex}`,
+            label: folderData.name,
+            isParent: workSpaceDocsDetails.length > 0,
+            children: [],
+            type: 'folder',
+          };
+          workSpaceDocsDetails.forEach((docData: any, docIndex: any) => {
+            const sampleChildObject = {
+              key: `${folderIndex}-${docIndex}`,
+              label: docData.name,
+            };
+            childData.push(sampleChildObject);
+          });
+          newSampleTreeObject.children = childData;
+          console.log(
+            'workSpaceFolderDetails - newSampleTreeObject',
+            newSampleTreeObject
+          );
+          treeStructureObject.push(newSampleTreeObject);
+        });
+      }
+      console.log(
+        'workSpaceFolderDetails - treeStructureObject',
+        treeStructureObject
+      );
+      if (workSpaceDOcDetails.length > 0) {
+        const newDocData = {
+          children: [],
+          isParent: false,
+          key: treeStructureObject.length + 1,
+          label: workSpaceDOcDetails[0].name,
+          type: 'doc',
+        };
+        treeStructureObject.push(newDocData);
+      }
+      setTreeDataStateCopy(treeStructureObject);
+    }
+  }, [tree, workspace, workSpaceDetails, setTreeDataState]);
   const filterTreeData = (filter: string) => {
-    if (!!filter) {
+    if (filter) {
       const filterTree = (text: string, list: any[]) => {
         return list.map((t) => {
           let searchMatch = false;
@@ -157,10 +163,8 @@ function TreeView({
       list.map((t) => {
         if (t.tId === id) {
           item = t;
-        } else {
-          if (t.children.length) {
-            getArrayItem(t.children ?? []);
-          }
+        } else if (t.children.length) {
+          getArrayItem(t.children ?? []);
         }
       });
     };
@@ -190,11 +194,12 @@ function TreeView({
   return (
     <div className="tree">
       <Tree
-        data={treeDataState}
+        data={treeDataStateCopy}
         addedNode={addedNode}
         setShowColorDots={setShowColorDots}
         showDocumentOptions={showDocumentOptions}
         setShowDocumentOptions={setShowDocumentOptions}
+        workSpaceDetails={workSpaceDetails}
       />
     </div>
   );
