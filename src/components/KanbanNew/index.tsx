@@ -90,14 +90,16 @@ const KanbanHeaderBottomSection = styled.div`
   width: 100%;
   height: 20px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 const KanbanHeaderBottomSectionFirstHalf = styled.div`
-  width: 50%;
+  width: auto;
   height: 20px;
   display: flex;
 `;
 const KanbanHeaderBottomSectionSecondHalf = styled.div`
-  width: 50%;
+  width: auto;
   height: 20px;
   display: flex;
   justify-content: flex-end;
