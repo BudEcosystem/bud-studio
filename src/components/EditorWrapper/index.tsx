@@ -52,7 +52,7 @@ function EditorWrapper(props) {
   );
   const [showDatabaseOptions, setShowDatabaseOptions] = useState(false)
   const [addNewEditorData, setAddNewEditorData] = useState("Untitled...")
-  
+
   const [editorOptions, setEditorOptions] = useState([
     {
       key: 'database',
@@ -152,7 +152,7 @@ function EditorWrapper(props) {
             const word = match.slice(1);
             savedText = savedText?.replaceAll(
               match,
-              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current}75;"><span style="display: none;">#</span>${word}</span>`
             );
           });
         }
@@ -581,6 +581,7 @@ function EditorWrapper(props) {
   };
 
   const handleKeyDown = (event: any) => {
+    setShowEditorOptionsBlock(false);
     if (
       event.code === 'Slash' &&
       !event.shiftKey &&
@@ -822,7 +823,7 @@ function EditorWrapper(props) {
                 onClick={() => setShowDatabaseOptions(false)}
               >
                 Go Back
-              </div>)} 
+              </div>)}
 
               <div className="editorOptionDiv">
                 <div className="hoverMovement" ref={refHoverBar} />

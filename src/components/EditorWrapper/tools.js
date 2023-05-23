@@ -2,7 +2,7 @@
 // tools.js
 import Embed from '@editorjs/embed';
 import Table from '@editorjs/table';
-//import Paragraph from '@editorjs/paragraph';
+import Paragraph from '@editorjs/paragraph';
 import List from '@editorjs/list';
 import Warning from '@editorjs/warning';
 import Code from '@editorjs/code';
@@ -16,7 +16,7 @@ import CheckList from '@editorjs/checklist';
 import Delimiter from '@editorjs/delimiter';
 import InlineCode from '@editorjs/inline-code';
 import SimpleImage from '@editorjs/simple-image';
-import BudEditorParagraph from './packages/BudEditorParagraph/tool';
+//import BudEditorParagraph from './packages/BudEditorParagraph/tool';
 
 export const EDITOR_JS_TOOLS = {
   // NOTE: Paragraph is default tool. Declare only when you want to change paragraph option.
@@ -36,11 +36,18 @@ export const EDITOR_JS_TOOLS = {
   delimiter: Delimiter,
   inlineCode: InlineCode,
   simpleImage: SimpleImage,
-  paragraph: {
-    class: BudEditorParagraph,
-    inlineToolbar: true,
+  Paragraph: {
+    class: Paragraph,
+    placeholder: 'Tell your story...',
     config: {
-      placeholder: 'Tell your story...'
-    }
-  },
+      placeholder: 'Tell your story...',
+    },
+  }
+  // paragraph: {
+  //   class: BudEditorParagraph,
+  //   inlineToolbar: true,
+  //   config: {
+  //     placeholder: 'Tell your story...'
+  //   }
+  // },
 };
