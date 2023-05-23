@@ -11,10 +11,10 @@ import {
   RightArrow,
 } from '../WorkspaceIcons';
 
-function FlyoutMenu({createNewFolderClickHandler,createNewFileClickHandler}) {
+function FlyoutMenu({ createNewClickHandler }: any) {
   const optionModalRef = useRef(null);
   return (
-    <Draggable bounds="parent" handle=".drag">
+    <Draggable bounds="body" handle=".drag">
       <div ref={optionModalRef} className="optionsModal">
         <div className="secondWorkspaceModal">
           <div className="drag">
@@ -38,9 +38,13 @@ function FlyoutMenu({createNewFolderClickHandler,createNewFileClickHandler}) {
                 <div className="secondWorkspaceRightArrow">
                   <RightArrow />
                 </div>
-                <ul className='subMenu'>
-                    <li onClick={createNewFolderClickHandler}>Create Folder</li>
-                    <li onClick={createNewFileClickHandler}>Create File</li>
+                <ul className="subMenu">
+                  <li onClick={() => createNewClickHandler('folder')}>
+                    Create Folder
+                  </li>
+                  <li onClick={() => createNewClickHandler('file')}>
+                    Create File
+                  </li>
                 </ul>
               </div>
               <div className="secondWorkspaceOption">
