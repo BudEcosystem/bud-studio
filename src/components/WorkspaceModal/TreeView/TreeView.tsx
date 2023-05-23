@@ -33,7 +33,8 @@ function TreeView({
   setShowDocumentOptions,
   workSpaceDetails,
 }: any) {
-  const { tree, workspace } = useSelector((state) => state);
+  const { tree, workspace }: any = useSelector((state) => state);
+  console.log('action.payload - redux', workspace);
   const [treeDataState, setTreeDataState] = useState([]);
   const [treeDataStateCopy, setTreeDataStateCopy] = useState([]);
   console.log('treeDataState', treeDataStateCopy);
@@ -98,14 +99,16 @@ function TreeView({
         treeStructureObject
       );
       if (workSpaceDOcDetails.length > 0) {
-        const newDocData = {
-          children: [],
-          isParent: false,
-          key: treeStructureObject.length + 1,
-          label: workSpaceDOcDetails[0].name,
-          type: 'doc',
-        };
-        treeStructureObject.push(newDocData);
+        workSpaceDOcDetails.forEach((eachDoc: any) => {
+          const newDocData = {
+            children: [],
+            isParent: false,
+            key: treeStructureObject.length + 1,
+            label: eachDoc.name,
+            type: 'doc',
+          };
+          treeStructureObject.push(newDocData);
+        });
       }
       setTreeDataStateCopy(treeStructureObject);
     }

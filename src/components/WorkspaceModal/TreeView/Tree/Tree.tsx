@@ -4,6 +4,7 @@ import {
   createDoc,
   createFolder,
   createSubChild,
+  setCurrentSelectedDocument,
 } from 'redux/slices/workspace';
 import { disableCreateNewTreeNode } from 'redux/slices/tree';
 import FlyoutMenu from 'components/WorkspaceModal/FlyoutMenu';
@@ -349,29 +350,16 @@ function ListItem({
       });
     }
   }, [isEdit]);
-
-  // const inputRefFolder = useRef() as React.MutableRefObject<HTMLInputElement>;
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   const inputFolder = document.getElementById(`newTreeFolderInput`);
-  //   inputFolder?.addEventListener('keypress', function (event) {
-  //     if (event.key === 'Enter') {
-  //       if (inputRefFolder.current?.value) {
-  //         event.preventDefault();
-  //         console.log(inputRefFolder.current?.value, 'Folder');
-  //         dispatch(
-  //           createFolder({
-  //             workSpaceDetails,
-  //             name: inputRefFolder.current?.value,
-  //           })
-  //         );
-  //         dispatch(disableCreateNewTreeNode({ type: 'folder' }));
-  //       }
-  //     }
-  //   });
-  // });
+  const onDocumentClicked = () => {
+    dispatch(setCurrentSelectedDocument({ id: label }));
+  };
   return (
-    <div className="item-wrapper">
+    <div
+      className="item-wrapper"
+      onClick={() => {
+        !isFolder && onDocumentClicked();
+      }}
+    >
       <div className="item-collaps-arrow">
         {isParent && (
           <div className={`arrow ${childVisible ? 'active' : ''}`}>

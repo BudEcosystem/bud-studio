@@ -7,6 +7,7 @@ const generateInitialState = (): any => {
     props: {},
     color: '#939AFF',
     currentWorkspace: null,
+    currentSelectedDocId: null,
     workSpaceItems: [
       {
         name: 'Private',
@@ -133,7 +134,7 @@ export const workspaceSlice = createSlice({
           childOf: null,
           key: name,
           workSPaceId: workSpaceDetails.name,
-          type: 'folder',
+          type: 'doc',
         };
         copyDocStructure.push(newObject);
         state.workSpaceDocs = copyDocStructure;
@@ -161,6 +162,10 @@ export const workspaceSlice = createSlice({
         state.workSpaceDocs = copyOfworkSpaceDocs;
       }
     },
+    setCurrentSelectedDocument: (state, action: PayloadAction<any>) => {
+      console.log('action.payload-createSubChild', action.payload);
+      state.currentSelectedDocId = action.payload.id;
+    },
   },
 });
 
@@ -174,5 +179,6 @@ export const {
   createFolder,
   createDoc,
   createSubChild,
+  setCurrentSelectedDocument,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
