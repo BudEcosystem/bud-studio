@@ -130,7 +130,7 @@ export default class BudEditorParagraph {
     const onDataChange = (newData) => {
       console.log("----", "Changing Data",newData);
 
-      this.data.text = newData;
+      // this.data.text = newData;
     };
 
 
