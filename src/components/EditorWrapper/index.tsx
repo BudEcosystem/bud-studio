@@ -127,6 +127,170 @@ function EditorWrapper(props) {
     };
   }, []);
 
+  const checkForMentions = () => {
+    const paraElements = document.querySelectorAll('.ce-paragraph');
+    paraElements.forEach((paraElement) => {
+      if (paraElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = paraElement?.textContent;
+        let savedText = text;
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            // Apply styling to the matched text
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="color: white;">@${word}</span>`
+            );
+          });
+        }
+        if (matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        paraElement.innerHTML = savedText;
+      }
+    });
+
+    const headerElements = document.querySelectorAll('.ce-header');
+    headerElements.forEach((headerElement) => {
+      if (headerElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = headerElement?.textContent;
+        let savedText = text;
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            // Apply styling to the matched text
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="color: white;">@${word}</span>`
+            );
+          });
+        }
+        if (matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        headerElement.innerHTML = savedText;
+      }
+    });
+
+    const listElements = document.querySelectorAll('.cdx-list__item');
+    listElements.forEach((listElement) => {
+      if (listElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = listElement?.textContent;
+        let savedText = text;
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            // Apply styling to the matched text
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="color: white;">@${word}</span>`
+            );
+          });
+        }
+        if (matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        listElement.innerHTML = savedText;
+      }
+    });
+
+    const quoteElements = document.querySelectorAll('.cdx-quote__text');
+    quoteElements.forEach((quoteElement) => {
+      if (quoteElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = quoteElement?.textContent;
+        let savedText = text;
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            // Apply styling to the matched text
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="color: white;">@${word}</span>`
+            );
+          });
+        }
+        if (matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        quoteElement.innerHTML = savedText;
+      }
+    });
+
+    const checkListElements = document.querySelectorAll(
+      '.cdx-checklist__item-text'
+    );
+    checkListElements.forEach((checkListElement) => {
+      if (checkListElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = checkListElement?.textContent;
+        let savedText = text;
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            // Apply styling to the matched text
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="color: white;">@${word}</span>`
+            );
+          });
+        }
+        if (matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        checkListElement.innerHTML = savedText;
+      }
+    });
+  };
+
   const initEditor = () => {
     const editor = new EditorJS({
       holder: EDITTOR_HOLDER_ID,
@@ -134,6 +298,14 @@ function EditorWrapper(props) {
       data: editorData,
       onReady: () => {
         ejInstance.current = editor;
+        checkForMentions();
+        const blockElements = document.getElementsByClassName('editorjsDiv');
+        Array.from(blockElements).forEach((blockElement) => {
+          blockElement.addEventListener('focusout', () => {
+            // User finished editing the block
+            checkForMentions();
+          });
+        });
       },
       onChange: async () => {
         const content = await ejInstance.current.saver.save();
@@ -144,6 +316,174 @@ function EditorWrapper(props) {
       tools: EDITOR_JS_TOOLS,
     });
   };
+
+  useEffect(() => {
+    const paraElements = document.querySelectorAll('.ce-paragraph');
+    paraElements.forEach((paraElement) => {
+      if (paraElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = paraElement?.textContent;
+        let savedText = text;
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            // Apply styling to the matched text
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="color: white;">@${word}</span>`
+            );
+          });
+        }
+        if (matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        paraElement.innerHTML = savedText;
+      }
+    });
+
+    const headerElements = document.querySelectorAll('.ce-header');
+    headerElements.forEach((headerElement) => {
+      if (headerElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = headerElement?.textContent;
+        let savedText = text;
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            // Apply styling to the matched text
+            savedText = savedText?.replace(
+              match,
+              `<span style="color: white;">@${word}</span>`
+            );
+          });
+        }
+        if (matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replace(
+              match,
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color};"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        headerElement.innerHTML = savedText;
+      }
+    });
+
+    const listElements = document.querySelectorAll('.cdx-list__item');
+    listElements.forEach((listElement) => {
+      if (listElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = listElement?.textContent;
+        let savedText = text;
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            // Apply styling to the matched text
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="color: white;">@${word}</span>`
+            );
+          });
+        }
+        if (matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        listElement.innerHTML = savedText;
+      }
+    });
+
+    const quoteElements = document.querySelectorAll('.cdx-quote__text');
+    quoteElements.forEach((quoteElement) => {
+      if (quoteElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = quoteElement?.textContent;
+        let savedText = text;
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            // Apply styling to the matched text
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="color: white;">@${word}</span>`
+            );
+          });
+        }
+        if (matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        quoteElement.innerHTML = savedText;
+      }
+    });
+
+    const checkListElements = document.querySelectorAll(
+      '.cdx-checklist__item-text'
+    );
+    checkListElements.forEach((checkListElement) => {
+      if (checkListElement) {
+        const regex = /@(\w+)/g;
+        const regex2 = /#(\w+)/g;
+        const text = checkListElement?.textContent;
+        let savedText = text;
+        const matches = text?.match(regex);
+        const matches2 = text?.match(regex2);
+        if (matches) {
+          matches.forEach((match) => {
+            const word = match.slice(1); // Remove the "@" symbol
+            // Apply styling to the matched text
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="color: white;">@${word}</span>`
+            );
+          });
+        }
+        if (matches2) {
+          matches2.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        checkListElement.innerHTML = savedText;
+      }
+    });
+  }, [color]);
+
+  useEffect(() => {
+    colorRef.current = color;
+  }, [color]);
 
   const insertBlock = (opt: any) => {
     const blockTypes = Object.keys(ejInstance?.current?.configuration?.tools);

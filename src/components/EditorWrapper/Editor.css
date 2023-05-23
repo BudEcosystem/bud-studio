@@ -71,6 +71,18 @@
   height: 270px;
 }
 
+.editorjsDiv .ce-toolbar__settings-btn svg {
+  color: white;
+}
+
+.editorjsDiv .ce-toolbar__settings-btn:hover {
+  background-color: transparent;
+}
+
+.editorjsDiv .ce-toolbar__actions {
+  margin-right: 10px;
+}
+
 .editorCover {
   width: 1000px;
   height: 200px;
