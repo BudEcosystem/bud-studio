@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -93,10 +94,12 @@ const generateInitialState = (): any => {
     tasks: { [key: string]: any };
     columns: { [key: string]: any };
     columnOrder: Array<String>;
+    triggerTaskCreation: boolean;
   } = {
     tasks,
     columns,
     columnOrder: ['column-0', 'column-1', 'column-2'],
+    triggerTaskCreation: false,
   };
   return initialData;
 };
@@ -139,8 +142,99 @@ export const kanbanSlice = createSlice({
         }
       }
     },
+    triggerDefaultNewTask: (state, action: PayloadAction<any>) => {
+      state.triggerTaskCreation = action.payload.triggerTaskCreation;
+    },
+    createNewTaskOnEnter: (state, action: PayloadAction<any>) => {
+      const { task: value, props } = action.payload;
+      const { id } = props;
+      const newTask = {
+        id: `task-${Object.keys(state.tasks).length + 1}`,
+        content: value,
+        heading: true,
+        progress: false,
+        user: false,
+        description: false,
+        footer: false,
+        image: false,
+        type: false,
+      };
+      const oldTasks = { ...state.tasks };
+      const proxyIterData: { [key: string]: object } = {};
+      Object.keys(oldTasks).forEach((data) => {
+        const processedData = { ...oldTasks[data] };
+        proxyIterData[data] = {
+          ...processedData,
+        };
+      });
+      proxyIterData[`task-${Object.keys(state.tasks).length + 1}`] = newTask;
+      const oldColumnsData = { ...state.columns };
+      const proxyFilteredData: { [key: string]: any } = {};
+      Object.keys(oldColumnsData).forEach((data) => {
+        const processedData = { ...oldColumnsData[data] };
+        const taskIds = [...processedData.taskIds];
+        proxyFilteredData[data] = {
+          ...processedData,
+          taskIds,
+        };
+      });
+      proxyFilteredData[id].taskIds.push(
+        `task-${Object.keys(state.tasks).length + 1}`
+      );
+      state.columns = proxyFilteredData;
+      state.tasks = proxyIterData;
+      state.triggerTaskCreation = false;
+    },
+    createNewColumn: (state, action: PayloadAction<any>) => {
+      const { name } = action.payload;
+      const sampleData = {
+        id: `column-${Object.keys(state.columns).length + 1}`,
+        title: `${name}`,
+        taskIds: [],
+      };
+      const oldColumnOrder = state.columnOrder;
+      const oldColumnsData = { ...state.columns };
+      const proxyFilteredData: { [key: string]: any } = {};
+      Object.keys(oldColumnsData).forEach((data) => {
+        const processedData = { ...oldColumnsData[data] };
+        const taskIds = [...processedData.taskIds];
+        proxyFilteredData[data] = {
+          ...processedData,
+          taskIds,
+        };
+      });
+      proxyFilteredData[`column-${Object.keys(state.columns).length + 1}`] =
+        sampleData;
+      console.log(proxyFilteredData);
+      oldColumnOrder.push(`column-${Object.keys(state.columns).length + 1}`);
+      state.columnOrder = oldColumnOrder;
+      state.columns = proxyFilteredData;
+    },
+    editColumnName: (state, action: PayloadAction<any>) => {
+      const { name, props } = action.payload;
+      const { id } = props;
+      const oldColumnsData = { ...state.columns };
+      const proxyFilteredData: { [key: string]: any } = {};
+      Object.keys(oldColumnsData).forEach((data) => {
+        const processedData = { ...oldColumnsData[data] };
+        const taskIds = [...processedData.taskIds];
+        proxyFilteredData[data] = {
+          ...processedData,
+          taskIds,
+        };
+      });
+      proxyFilteredData[id].title = name;
+      state.columns = proxyFilteredData;
+    },
   },
 });
 
-export const { updateCardPosition, updateColumnPosition } = kanbanSlice.actions;
+export const {
+  updateCardPosition,
+  updateColumnPosition,
+  triggerDefaultNewTask,
+  createNewTaskOnEnter,
+  createNewColumn,
+  editColumnName,
+} = kanbanSlice.actions;
 export default kanbanSlice.reducer;

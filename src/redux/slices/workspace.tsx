@@ -2,30 +2,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-const getObj = (i) => {
-  let obj = {
-    key: '0',
-    label: `Human Resources ${i + 1}`,
-    isParent: true,
-    children: [
+const generateInitialState = (): any => {
+  const initialState: any = {
+    props: {},
+    color: '#939AFF',
+    workSpaceItems: [
       {
-        key: '0-0',
-        label: 'Employee detail',
-      },
-      {
-        key: '0-1',
-        label: 'Salary Details',
-        children: [
-          {
-            key: '0-1-0',
-            label: 'Information',
-            isSecondChild: true,
-          },
-        ],
+        name: 'Private',
+        color: '#343434',
       },
     ],
+    workspaceFolders: [],
   };
-  return obj;
+  return initialState;
 };
 
 const initialState: any = {
@@ -36,7 +25,7 @@ const initialState: any = {
 };
 export const workspaceSlice = createSlice({
   name: 'workspace',
-  initialState: initialState,
+  initialState: generateInitialState,
   reducers: {
     changeColor: (state, action: PayloadAction<any>) => {
       state.color = action.payload;
@@ -49,7 +38,7 @@ export const workspaceSlice = createSlice({
         console.log(JSON.stringify(state.workspaceFolders[action.payload.idx]));
         // state.workspaceFolders.push()
       } else {
-        state.workspaceFolders.push(getObj(state.workSpaceItems.length));
+        // state.workspaceFolders.push(getObj(state.workSpaceItems.length));
       }
       state.workSpaceItems.push(action.payload);
       console.log('dsf', [...state.workSpaceItems]);

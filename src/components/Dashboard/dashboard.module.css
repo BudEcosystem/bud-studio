@@ -9,7 +9,7 @@
   background: var(--primary-bgc-light) !important;
   border-radius: 30px;
   box-shadow: 0 0 0 1px var(--light-gray);
-  margin: 20px;
+  margin: 20px 20px 20px 1px;
 }
 
 .ant-layout-sider-children {
@@ -269,13 +269,44 @@
   margin-top: 10px;
 }
 
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+
 .main-sidebar-menu-ws-box {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
- /* height: 400px;
-  overflow: scroll; */
+  max-height: 350px;
+  overflow: scroll;
+  animation: fadeIn .5s;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+  border-radius: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(37, 39, 43);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
 
 .sidebar-work-spaces {
   background: #060507;
@@ -295,6 +326,7 @@
 
 .sidebar-workspaces-items {
   border-left: 3px solid transparent !important;
+  min-height: 36px !important;
 }
 
 .sidebar-workspaces-items-active {
@@ -519,22 +551,20 @@
   color: var(--bud-secondary-text-color);
 }
 
-.sidebar-workspaces-expand{
-display: flex;
-width: 28px;
-height: 17px;
-/* justify-content: center; */
-/* align-items: center; */
-padding: 7px 8px;
-background: #121213;
-border-radius: 3px;
-margin-left: 23px;
+.view-more {
+  background: #121213;
+  border-radius: 3px;
+  width: 30px;
+  height: 16.77px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition-duration: .5s;
+  margin-left: 24px;
+  margin-top: 20px;
 }
 
-.dots{
-  width: 3px;
-  height: 3px;
-  background: #666468;
-  margin-right: 2px;
-  border-radius: 50%;
+.view-more:hover {
+  background: #25272b;
 }

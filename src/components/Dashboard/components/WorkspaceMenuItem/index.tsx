@@ -59,6 +59,8 @@ function WorkspaceMenuItem({
   useEffect(() => {
     setIsEditMode(newWorkSpace);
   }, [newWorkSpace]);
+
+
   return isEditMode ? (
     <MenuWorkSpaceInput
       menu={menu}

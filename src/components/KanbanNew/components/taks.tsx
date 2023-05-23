@@ -112,7 +112,7 @@ const TaskBrancDetailsWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
-const TaskBranchImage = styled.img``;
+const TaskBranchImage = styled.div``;
 const TaskBranchCount = styled.span`
   font-family: 'Noto Sans';
   font-style: normal;
@@ -311,25 +311,81 @@ function Tasks(props: any) {
               <TaskFooterSection>
                 <TaskFooterTagsWrapper>
                   <TaskBrancDetailsWrapper>
-                    <TaskBranchImage
-                      src="/images/other/SubBranchesIcon.svg"
-                      alt="#"
-                    />
+                    <TaskBranchImage>
+                      <svg
+                        width="11"
+                        height="11"
+                        viewBox="0 0 11 11"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="2.72627"
+                          cy="2.19811"
+                          r="1.55356"
+                          stroke="#C6C6C6"
+                          stroke-width="0.848362"
+                        />
+                        <circle
+                          cx="8.95088"
+                          cy="8.65032"
+                          r="1.55356"
+                          stroke="#C6C6C6"
+                          stroke-width="0.848362"
+                        />
+                        <path
+                          d="M4.57421 2.44681V2.44681C5.19988 2.44681 5.70707 2.95401 5.70707 3.57967V7.25411C5.70707 8.02513 6.33211 8.65017 7.10313 8.65017V8.65017"
+                          stroke="#C6C6C6"
+                          stroke-width="0.848362"
+                        />
+                      </svg>
+                    </TaskBranchImage>
                     <TaskBranchCount>2</TaskBranchCount>
                     <TaskBrancDetailsSeperator />
                     <TaskBranchImage
-                      src="/images/other/SubTaskPlus.svg"
-                      alt="#"
-                      style={{ marginLeft: '5px', marginTop: '1px' }}
-                    />
+                      style={{ marginLeft: '5px', marginTop: '-2px' }}
+                    >
+                      <svg
+                        width="7"
+                        height="7"
+                        viewBox="0 0 7 7"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M3.16943 0.5V5.59017"
+                          stroke="white"
+                          stroke-width="0.848362"
+                          stroke-linecap="round"
+                        />
+                        <path
+                          d="M5.71484 3.0451L0.624672 3.0451"
+                          stroke="white"
+                          stroke-width="0.848362"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    </TaskBranchImage>
                   </TaskBrancDetailsWrapper>
                 </TaskFooterTagsWrapper>
                 <TaskFooterTagsWrapper>
                   <TaskBrancDetailsWrapper>
-                    <TaskBranchImage
-                      src="/images/other/CheckBoxTask.svg"
-                      alt="#"
-                    />
+                    <TaskBranchImage>
+                      <svg
+                        width="12"
+                        height="10"
+                        viewBox="0 0 12 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M4.88107 6.52048C4.98199 6.62147 5.11439 6.67197 5.24679 6.67197L5.24662 6.67193C5.37894 6.67193 5.51151 6.62143 5.61226 6.52052L11.089 1.04396C11.2911 0.841914 11.2911 0.514536 11.089 0.312469C10.8871 0.110647 10.5594 0.110647 10.3576 0.312469L5.24694 5.42335L3.69534 3.87175C3.49343 3.66993 3.16567 3.66993 2.96393 3.87175C2.76186 4.0738 2.76186 4.40118 2.96393 4.60324L4.88107 6.52048ZM1.23213 9.8389H9.6368C9.92238 9.8389 10.1542 9.6073 10.1544 9.32161V5.11917C10.1544 4.83348 9.92278 4.60188 9.63709 4.60188C9.3514 4.60188 9.1198 4.83357 9.1198 5.11917L9.11972 8.80432H1.74942V1.43402H7.02633C7.31202 1.43402 7.54362 1.20242 7.54362 0.916734C7.54362 0.631044 7.31194 0.399444 7.02633 0.399444H1.23213C0.946444 0.399444 0.714844 0.631128 0.714844 0.916734V9.32161C0.714844 9.6073 0.946444 9.8389 1.23213 9.8389Z"
+                          fill="#C6C6C6"
+                        />
+                      </svg>
+                    </TaskBranchImage>
                     <TaskBranchCount>2/6</TaskBranchCount>
                   </TaskBrancDetailsWrapper>
                 </TaskFooterTagsWrapper>
