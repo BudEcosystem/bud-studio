@@ -1,25 +1,31 @@
 import React, { useState } from 'react';
 import './Accordion.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { useSelector } from 'react-redux';
-import { Arrow } from 'components/ListView/ListViewIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import { Arrow, DownArrow, FourDots } from 'components/ListView/ListViewIcons';
+import { updatePosition } from 'redux/slices/list';
 import SubAccordion from './SubAccordion';
+import HeaderSubCompInput from '../HeaderSubCompInput';
 
 function Accordion() {
   const panelArray = useSelector((state) => state.list.panelArray);
   const [expandedItems, setExpandedItems] = useState([]);
-
+  const { list }: any = useSelector((state) => state);
+  const { newTaskClicked } = list;
   const toggleAccordion = (index) => {
     const updatedItems = [...expandedItems];
     if (updatedItems.includes(index)) {
-      // Item is already expanded, so remove it from the array
       updatedItems.splice(updatedItems.indexOf(index), 1);
     } else {
-      // Item is collapsed, so add it to the array
       updatedItems.push(index);
     }
     setExpandedItems(updatedItems);
   };
+
+  const selectItem = (index) => {
+    setSelectedItemIndex(index);
+  };
+
   const onDragEnd = (result) => {
     console.log('drag');
   };
@@ -70,6 +76,23 @@ function Accordion() {
                           )}
                         </Draggable>
                       ))}
+                      <Draggable key={10} draggableId="draggable33" index={10}>
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                          >
+                            {newTaskClicked && i === selectedItemIndex && (
+                              <div className="subAccordionParent">
+                                <HeaderSubCompInput
+                                  provided={provided}
+                                  selectedItem={selectedItemIndex}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </Draggable>
                     </div>
                   )}
                 </div>

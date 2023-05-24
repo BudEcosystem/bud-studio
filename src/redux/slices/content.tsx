@@ -5,7 +5,7 @@ export const contentSlice = createSlice({
   initialState: { contentRef: '' },
   reducers: {
     setContentRef: (state, action) => {
-      state.contentRef = ``;
+      state.contentRef = action.payload;
     },
   },
 });

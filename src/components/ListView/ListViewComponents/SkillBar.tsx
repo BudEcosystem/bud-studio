@@ -1,9 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 const SkillBar = ({percentage}) => {
-  return (
+  const {workspace}:any = useSelector(state=>state)
+  let { color } = workspace
+  return ( 
     <div className='skillBar'>
-        <div style={{width: `${percentage}%`, height: "100%", background: "#939AFF", borderRadius: "21px"}}></div>
+        <div style={{width: `${percentage}%`, height: "100%", background: color, borderRadius: "21px"}}></div>
     </div>
   )
 }

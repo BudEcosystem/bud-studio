@@ -57,7 +57,7 @@ function ContentView({
         )}
         {/* <Editor /> */}
         {(selectedDoc && currentSelectedUI === '')&&<EditorJsWrapper data={{}} setCurrentSelectedUI={setCurrentSelectedUI} />}
-        {currentSelectedUI === 'listview' && <ListView />}
+        {currentSelectedUI === 'listview' && <ListView contentRef={contentRef} />}
         {currentSelectedUI === 'kanban' && <KanbanUI />}
         <Hamburger />
       </Content>
