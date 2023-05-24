@@ -3,25 +3,65 @@ import { AddCover } from './ListViewIcons';
 import './ListView.css';
 import OptionsComponent from './ListViewComponents/OptionsComponent';
 import MainListComponent from './ListViewComponents/MainListComponent';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Accordion from './ListViewComponents/Accordion/Accordion';
+import { editListTitle, editListDescription } from 'redux/slices/list';
 
 function ListView({ contentRef }) {
-  // const { content }: any = useSelector((state) => state);
-  // const { contentRef } = content;
+  const dispatch = useDispatch();
+  const { content, list }: any = useSelector((state) => state);
+  // // const { contentRef } = content;
+  const { title, description } = list.listTitleAndDesc;
   const kabuniRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
-  useEffect(() => {
-    // const handleScroll = () => {
-    //   const containerTop = contentRef.getBoundingClientRect().top;
-    //   const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
-    //   setIsSticky(kabuniTop <= 95);
-    // };
-    // contentRef?.addEventListener('scroll', handleScroll);
-    // return () => {
-    //   contentRef?.removeEventListener('scroll', handleScroll);
-    // };
-  }, [contentRef, kabuniRef]);
+
+  const [editing, setEditing] = useState(false);
+  const [newTitle, setNewTitle] = useState('');
+
+  const [editingDesc, setEditingDesc] = useState(false);
+  const [newDesc, setNewDesc] = useState('');
+
+  const handleDoubleClick = () => {
+    setEditing(true);
+  };
+  const handleDoubleClickDesc = () => {
+    setEditingDesc(true);
+  };
+  const handleChange = (event) => {
+    setNewTitle(event.target.value);
+  };
+  const handleChangeDesc = (event) => {
+    setNewDesc(event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      dispatch(editListTitle({ newTitle }));
+      setEditing(false);
+      setNewTitle('');
+    }
+  };
+  const handleKeyPressDesc = (event) => {
+    if (event.key === 'Enter') {
+      dispatch(editListDescription({ newDesc }));
+      setEditingDesc(false);
+      setNewDesc('');
+    }
+  };
+
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const containerTop = contentRef.getBoundingClientRect().top;
+  //     const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
+  //     setIsSticky(kabuniTop <= 95);
+  //   };
+
+  //   contentRef?.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     contentRef?.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, [contentRef, kabuniRef]);
+
   return (
     <>
       <div className="listViewContainer" ref={kabuniRef}>
@@ -49,17 +89,40 @@ function ListView({ contentRef }) {
                 <span className={`tick ${isSticky ? 'tickStick' : ''}`}>L</span>
                 <span className={`tick ${isSticky ? 'tickStick' : ''}`}>L</span>
               </div>
-              <p
-                className="kabuniText"
-                style={{ fontSize: isSticky ? '18px' : '' }}
-              >
-                Kabuni
-              </p>
+              {editing ? (
+                <input
+                  className="titleInput"
+                  type="text"
+                  value={newTitle}
+                  onChange={handleChange}
+                  onKeyPress={handleKeyPress}
+                  onBlur={() => setEditing(false)}
+                />
+              ) : (
+                <p
+                  className="kabuniText"
+                  style={{ fontSize: isSticky ? '18px' : '' }}
+                  onDoubleClick={handleDoubleClick}
+                >
+                  {title}
+                </p>
+              )}
             </div>
           </div>
-          <p className="kabuniBottomText">
-            Make note of any appointments or meetings.
-          </p>
+          {editingDesc ? (
+            <input
+              className="titleInputDesc"
+              type="text"
+              value={newDesc}
+              onChange={handleChangeDesc}
+              onKeyPress={handleKeyPressDesc}
+              onBlur={() => setEditingDesc(false)}
+            />
+          ) : (
+            <p className="kabuniBottomText" onDoubleClick={handleDoubleClickDesc}>
+              {description}
+            </p>
+          )}
         </div>
         <div className="optionsComponentContainer mgLeft">
           <OptionsComponent isSticky={isSticky} contentRef={contentRef} />

@@ -1,4 +1,4 @@
-:root{
+:root {
     --border-Color: #2F2F2F;
 }
 
@@ -74,7 +74,7 @@
     color: #BBBBBB;
 }
 
-.flex{
+.flex {
     display: flex;
     align-items: center;
 }

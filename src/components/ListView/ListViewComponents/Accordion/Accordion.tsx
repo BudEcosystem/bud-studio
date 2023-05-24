@@ -7,11 +7,14 @@ import { updatePosition } from 'redux/slices/list';
 import SubAccordion from './SubAccordion';
 import HeaderSubCompInput from '../HeaderSubCompInput';
 
-function Accordion() {
-  const panelArray = useSelector((state) => state.list.panelArray);
-  const [expandedItems, setExpandedItems] = useState([]);
-  const { list }: any = useSelector((state) => state);
-  const { newTaskClicked } = list;
+const Accordion = () => {
+  const dispatch = useDispatch()
+  const { panelArray, newTaskClicked } = useSelector((state) => state.list);
+  const [expandedItems, setExpandedItems] = useState([0]);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const { workspace }: any = useSelector((state) => state);
+  let { color } = workspace;
+
   const toggleAccordion = (index) => {
     const updatedItems = [...expandedItems];
     if (updatedItems.includes(index)) {
@@ -27,25 +30,37 @@ function Accordion() {
   };
 
   const onDragEnd = (result) => {
-    console.log('drag');
+    dispatch(updatePosition(result))
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="accordionParent">
         {panelArray?.map((item, i) => (
-          <Droppable droppableId={`droppable${i}`} key={i}>
+          <Droppable droppableId={item.status} key={i}>
             {(provided, snapshot) => (
               <div
                 className="statusParent"
                 key={i}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
+                onClick={() => selectItem(i)}
+                style={{
+                  border:
+                    selectedItemIndex === i
+                      ? `0.5px dashed ${color}`
+                      : `0.5px dashed #2F2F2F`,
+                }}
               >
                 <div className="titleContainerParent">
                   <div className="arrowAndTitleContainer">
                     <div
                       className="arrowContainer"
                       onClick={() => toggleAccordion(i)}
+                      style={{
+                        transform: expandedItems.includes(i)
+                          ? ''
+                          : 'rotate(-90deg)',
+                      }}
                     >
                       <Arrow />
                     </div>
@@ -69,14 +84,22 @@ function Accordion() {
                             <div
                               ref={provided.innerRef}
                               {...provided.draggableProps}
-                              {...provided.dragHandleProps}
                             >
-                              <SubAccordion data={subItems} />
+                              <SubAccordion
+                                status={item.status}
+                                data={subItems}
+                                provided={provided}
+                                index={j}
+                              />
                             </div>
                           )}
                         </Draggable>
                       ))}
-                      <Draggable key={10} draggableId="draggable33" index={10}>
+                      <Draggable
+                        key={10}
+                        draggableId={`draggable33`}
+                        index={10}
+                      >
                         {(provided, snapshot) => (
                           <div
                             ref={provided.innerRef}

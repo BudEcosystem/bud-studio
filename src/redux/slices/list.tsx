@@ -321,11 +321,15 @@ const generateInitialState = (): any => {
       ],
     },
   ];
-
   const newTaskClicked = false;
+  const listTitleAndDesc = {
+    title: 'Title',
+    description: 'Enter the description.',
+  };
   const initialData = {
     panelArray,
     newTaskClicked,
+    listTitleAndDesc,
   };
   return initialData;
 };
@@ -373,9 +377,35 @@ export const listSlice = createSlice({
       const updatedPanelArray = [...state.panelArray];
       state.panelArray = updatedPanelArray;
     },
+    editTitle: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
+      const mapping = { todo: 0, inprogress: 1, inreview: 2, completed: 3 };
+      if (action.payload.childIndex != undefined) {
+        state.panelArray[mapping[action.payload.status]].items[
+          action.payload.index
+        ].childs[action.payload.childIndex].title = action.payload.newTitle;
+      } else {
+        state.panelArray[mapping[action.payload.status]].items[
+          action.payload.index
+        ].title = action.payload.newTitle;
+      }
+    },
+    editListTitle: (state, action: PayloadAction<any>) => {
+      state.listTitleAndDesc.title = action.payload.newTitle;
+    },
+    editListDescription: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
+      state.listTitleAndDesc.description = action.payload.newDesc;
+    },
   },
 });
 
-export const { setNewTaskClicked, createNewTask, updatePosition } =
-  listSlice.actions;
+export const {
+  setNewTaskClicked,
+  createNewTask,
+  updatePosition,
+  editTitle,
+  editListTitle,
+  editListDescription,
+} = listSlice.actions;
 export default listSlice.reducer;
