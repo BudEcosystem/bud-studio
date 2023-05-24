@@ -154,12 +154,20 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
   };
   const createNewClickHandler = (type: any) => {
     dispatch(enableCreateNewTreeNode({ type }));
+    setShowColorDots(false);
   };
   console.log(
     'createNewClickHandler - workSpaceItems[idx]',
     workSpaceItems[idx],
     idx
   );
+  useEffect(() => {
+    const flyOutMenu = document.getElementById('optionsModal');
+    flyOutMenu?.addEventListener('mouseleave', function (event) {
+      console.log('mouseout', event);
+      setShowColorDots(false);
+    });
+  });
   return (
     <>
       <div className="loader" style={loaderStyle}>
@@ -287,7 +295,11 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
         </Draggable>
         {showColorDots && (
           <Draggable bounds="parent" handle=".drag">
-            <div ref={optionModalRef} className="optionsModal">
+            <div
+              ref={optionModalRef}
+              id="optionsModal"
+              className="optionsModal"
+            >
               <div className="secondWorkspaceModal">
                 <div className="drag">
                   <Drag />

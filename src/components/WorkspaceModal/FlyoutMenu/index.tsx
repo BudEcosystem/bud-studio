@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import Draggable from 'react-draggable';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Copy,
   Delete,
@@ -11,11 +12,18 @@ import {
   RightArrow,
 } from '../WorkspaceIcons';
 
-function FlyoutMenu({ createNewClickHandler }: any) {
+function FlyoutMenu({ createNewClickHandler, id, setToggleFlyout }: any) {
   const optionModalRef = useRef(null);
+  useEffect(() => {
+    const flyOutMenu = document.getElementById('flyOutMenu');
+    flyOutMenu?.addEventListener('mouseleave', function (event) {
+      console.log('mouseout', event);
+      setToggleFlyout(false);
+    });
+  });
   return (
     <Draggable bounds="body" handle=".drag">
-      <div ref={optionModalRef} className="optionsModal">
+      <div ref={optionModalRef} className="optionsModal" id="flyOutMenu">
         <div className="secondWorkspaceModal">
           <div className="drag">
             <Drag />
