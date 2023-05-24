@@ -59,7 +59,6 @@ function ContentView({
         {(selectedDoc && currentSelectedUI === '')&&<EditorJsWrapper data={{}} setCurrentSelectedUI={setCurrentSelectedUI} />}
         {currentSelectedUI === 'listview' && <ListView />}
         {currentSelectedUI === 'kanban' && <KanbanUI />}
-        {/* <KanbanUI /> */}
         <Hamburger />
       </Content>
       <OmniSearch />

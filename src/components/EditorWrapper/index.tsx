@@ -51,7 +51,7 @@ function EditorWrapper({data, setCurrentSelectedUI}: any) {
     'Edit Subheading here...'
   );
   const [showDatabaseOptions, setShowDatabaseOptions] = useState(false)
-  const [addNewEditorData, setAddNewEditorData] = useState("Untitled...")
+  const [showFirstOptions,setShowFirstOptions] = useState(true);
 
   const [editorOptions, setEditorOptions] = useState([
     {
@@ -59,6 +59,12 @@ function EditorWrapper({data, setCurrentSelectedUI}: any) {
       icon: <TableIcon />,
       title: 'Database',
       subTitle: 'Add List, Kanban or Gantt Chart',
+    },
+    {
+      key: 'document',
+      icon: <ListIcon />,
+      title: 'Link Document',
+      subTitle: 'Link to another document',
     },
     {
       key: 'header',
@@ -532,6 +538,10 @@ function EditorWrapper({data, setCurrentSelectedUI}: any) {
           subTitle: 'Coming soon',
         },])
         setShowDatabaseOptions(true)
+        setShowFirstOptions(false)
+    }
+    if(opt=="document") {
+      
     }
   };
 
@@ -613,13 +623,19 @@ function EditorWrapper({data, setCurrentSelectedUI}: any) {
     cursorRect.current = activeElement?.getBoundingClientRect();
 
     useEffect(() => {
-      if(showDatabaseOptions==false) {
+      if(showFirstOptions==true) {
         setEditorOptions([
           {
             key: 'database',
             icon: <TableIcon />,
             title: 'Database',
             subTitle: 'Add List, Kanban or Gantt Chart',
+          },
+          {
+            key: 'document',
+            icon: <ListIcon />,
+            title: 'Link Document',
+            subTitle: 'Link to another document',
           },
           {
             key: 'header',
@@ -677,7 +693,7 @@ function EditorWrapper({data, setCurrentSelectedUI}: any) {
           },
         ])
       }
-    }, [showDatabaseOptions])
+    }, [showFirstOptions])
 
 
   return (
@@ -809,7 +825,7 @@ function EditorWrapper({data, setCurrentSelectedUI}: any) {
               }}
               className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
             >
-              {!showDatabaseOptions ? (<div
+              {showFirstOptions ? (<div
                 style={{
                   marginLeft: '5px',
                   marginBottom: '10px',
@@ -826,7 +842,7 @@ function EditorWrapper({data, setCurrentSelectedUI}: any) {
                   overflow: 'auto',
                   cursor: "pointer"
                 }}
-                onClick={() => setShowDatabaseOptions(false)}
+                onClick={() => setShowFirstOptions(true)}
               >
                 Go Back
               </div>)}
