@@ -86,6 +86,7 @@ const Accordion = () => {
                               {...provided.draggableProps}
                             >
                               <SubAccordion
+                                status={item.status}
                                 data={subItems}
                                 provided={provided}
                                 index={j}

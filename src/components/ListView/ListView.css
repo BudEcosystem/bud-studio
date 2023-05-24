@@ -280,6 +280,7 @@
     border-radius: 4px;
     margin-left: 12px;
 }
+
 .textIcon22 {
     width: 12px;
     height: 12px;
@@ -395,16 +396,50 @@
     align-items: center;
 }
 
-.saveText{
+.saveText {
     width: 34px;
-height: 18px;
-background: #FFC556;
-border-radius: 6px;
-color: black;
-margin-left: 20px;
+    height: 18px;
+    background: #FFC556;
+    border-radius: 6px;
+    color: black;
+    margin-left: 20px;
 }
 
-.cross{
+.cross {
     margin-left: 20px;
     cursor: pointer;
+}
+
+.titleInput {
+    background-color: rgba(217, 217, 217, 0.05);
+    border: none;
+    caret-color: #F9D45D;
+    color: #C6C6C6;
+    border-radius: 2px;
+    height: 20px;
+    outline: none;
+    font-weight: 400;
+    font-size: 14px;
+    width: 100%;
+    margin-left: 16px;
+}
+
+.titleInput::placeholder {
+    color: #585A5B;
+    text-align: left;
+    opacity: 1;
+}
+
+.titleInputDesc{
+    background-color: rgba(217, 217, 217, 0.05);
+    border: none;
+    caret-color: #F9D45D;
+    color: #C6C6C6;
+    border-radius: 2px;
+    height: 20px;
+    outline: none;
+    font-weight: 400;
+    font-size: 14px;
+    width: 40%;
+    /* margin-left: 16px; */
 }
