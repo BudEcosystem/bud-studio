@@ -202,7 +202,12 @@ function MenuWorkSpaceInput({
             fill={workSpace.color}
             xmlns="http://www.w3.org/2000/svg"
           >
-            <rect width="14" height="14" rx="4" fill={randCol} />
+            {/* <rect width="14" height="14" rx="4" fill={randCol} /> */}
+            {menu.name ? (
+              <rect width="14" height="14" rx="4" fill={menu.color} />
+            ) : (
+              <rect width="14" height="14" rx="4" fill={randCol} />
+            )}
           </svg>
           <input
             type="color"
