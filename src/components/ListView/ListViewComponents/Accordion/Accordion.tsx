@@ -10,7 +10,8 @@ import HeaderSubCompInput from '../HeaderSubCompInput';
 function Accordion() {
   const panelArray = useSelector((state) => state.list.panelArray);
   const [expandedItems, setExpandedItems] = useState([]);
-
+  const { list }: any = useSelector((state) => state);
+  const { newTaskClicked } = list;
   const toggleAccordion = (index) => {
     const updatedItems = [...expandedItems];
     if (updatedItems.includes(index)) {
