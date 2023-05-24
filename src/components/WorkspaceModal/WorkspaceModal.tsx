@@ -202,7 +202,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                 )}
                 <div
                   style={{
-                    backgroundColor: `${color}`,
+                    backgroundColor: `${workSpaceItems[idx].color}`,
                     width: '12px',
                     height: '12px',
                     borderRadius: '4px',
@@ -326,10 +326,10 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                       </h3>
                       <ul className="subMenu">
                         <li onClick={() => createNewClickHandler('folder')}>
-                          Create Folder
+                          Folder
                         </li>
                         <li onClick={() => createNewClickHandler('doc')}>
-                          Create File
+                          Document
                         </li>
                       </ul>
                       <div className="secondWorkspaceRightArrow">

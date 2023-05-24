@@ -21,7 +21,7 @@
 .treeChildLabelUl {
   position: relative;
   list-style: none;
-  margin-top: 21px;
+  margin-top: 5px;
 }
 
 .treeChildLabelUl::before {
@@ -97,6 +97,7 @@
   margin-left: 30px;
 }
 .treeChildLabel.show {
+  margin-top: 24px;
 }
 .addNew {
   visibility: hidden;
