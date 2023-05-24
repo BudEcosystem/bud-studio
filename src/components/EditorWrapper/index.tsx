@@ -15,6 +15,8 @@ import {
   ParagraphIcon,
 } from './EditorIcons';
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux';
+import { setApplicationData } from 'redux/slices/workspace';
 
 const DEFAULT_INITIAL_DATA = () => {
   return {
@@ -23,7 +25,7 @@ const DEFAULT_INITIAL_DATA = () => {
       {
         type: 'header',
         data: {
-          text: 'This is my awesome editor!',
+          text: 'Untitled...',
           level: 1,
         },
       },
@@ -36,21 +38,44 @@ const EDITTOR_HOLDER_ID = 'editorjs';
 function EditorWrapper({data, setCurrentSelectedUI}: any) {
   const ejInstance = useRef();
   const editor1 = useRef<EditorJS>();
-  const [editorData, setEditorData] = React.useState(DEFAULT_INITIAL_DATA);
+  const [editorData, setEditorData] = useState({
+    "time": 1684913629838,
+    "blocks": [
+        {
+            "id": "jwuVeIIzBE",
+            "type": "header",
+            "data": {
+                "text": "Untitled..",
+                "level": 1
+            }
+        },
+        {
+            "id": "0gt7Aj-Yk1",
+            "type": "paragraph",
+            "data": {
+                "text": "Hello world"
+            }
+        }
+    ],
+    "version": "2.27.0"
+});
   const [coverUrl, setCoverUrl] = useState();
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
   const [iconUrl, setIconUrl] = useState();
-  const { workspace }: any = useSelector((state) => state);
+  const {tree, workspace }: any = useSelector((state) => state);
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
-  const { color } = workspace;
+  console.log("workspace -------------------",workspace)
+  const { color,currentWorkspace,currentSelectedDocId } = workspace;
   const [render, setRender] = useState(false);
   const cursorRect = useRef<DOMRect>();
   const refHoverBar = useRef();
   const colorRef = useRef<any>('#9068fd');
+  const dispatch = useDispatch()
   const [subHeadingContent, setSubHeadingContent] = useState(
     'Edit Subheading here...'
   );
   const [showDatabaseOptions, setShowDatabaseOptions] = useState(false)
+  const [showDocumentOptions, setShowDocumentOptions] = useState(false)
   const [showFirstOptions,setShowFirstOptions] = useState(true);
 
   const [editorOptions, setEditorOptions] = useState([
@@ -297,6 +322,9 @@ function EditorWrapper({data, setCurrentSelectedUI}: any) {
     });
   };
 
+  console.log("TREE", tree)
+  console.log("WORSPACE EDITOR", workspace)
+
   const initEditor = () => {
     const editor = new EditorJS({
       holder: EDITTOR_HOLDER_ID,
@@ -314,9 +342,16 @@ function EditorWrapper({data, setCurrentSelectedUI}: any) {
         });
       },
       onChange: async () => {
-        const content = await ejInstance.current.saver.save();
-        // Put your logic here to save this data to your DB
-        setEditorData(content);
+        ejInstance?.current
+          ?.save()
+          .then((outputData: any) => {
+            console.log('HEADING DATA', outputData);
+            setEditorData(outputData);
+            dispatch(setApplicationData({workSpaceId:currentWorkspace,docId:currentSelectedDocId,type:'editor',editorObject:outputData}))
+          })
+          .catch((error: any) => {
+            console.error('Error while saving data:', error);
+          });
       },
       autofocus: true,
       tools: EDITOR_JS_TOOLS,
@@ -541,7 +576,27 @@ function EditorWrapper({data, setCurrentSelectedUI}: any) {
         setShowFirstOptions(false)
     }
     if(opt=="document") {
-      
+      setEditorOptions([
+        {
+          key: 'listview',
+          icon: <HeadingIcon />,
+          title: 'List View',
+          subTitle: 'Choose List View',
+        },
+        {
+          key: 'kanban',
+          icon: <ParagraphIcon />,
+          title: 'Kanban View',
+          subTitle: 'Choose Kanban View',
+        },
+        {
+          key: 'gantt',
+          icon: <TextIcon />,
+          title: 'Gantt Chart',
+          subTitle: 'Coming soon',
+        },])
+        setShowDocumentOptions(true)
+        setShowFirstOptions(false)
     }
   };
 

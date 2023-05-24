@@ -74,11 +74,12 @@ const generateInitialState = (): any => {
       },
     ],
     applicationData: [
-      {
-        id: 'folderName',
-        type: 'kanban / list',
-        applicationSpecificicData: {},
-      },
+      //structure
+      // {
+      //   id: 'folderName',
+      //   type: 'kanban / list',
+      //   applicationSpecificicData: {},
+      // },
     ],
   };
   return initialState;
@@ -191,6 +192,33 @@ export const workspaceSlice = createSlice({
       console.log('action.payload-createSubChild', action.payload);
       state.currentSelectedDocId = action.payload.id;
     },
+    setApplicationData:(state,action: PayloadAction<any>)=>{
+      console.log("workspace ------------------- action",action.payload)
+
+      // structure
+      // {
+      //   workSpaceId: 'id',
+      //   docId:'id'
+      //   type: 'kanban / list',
+      //   applicationSpecificicData: {},
+      // },
+      let {editorData} = action.payload
+      let {workSpaceId,docId,type,editorObject} = editorData
+      let oldApplicationData = state.applicationData
+      let filteredApplicationData = oldApplicationData.filter((data:any)=>(data.id === workSpaceId && data.type === type))
+      if(filteredApplicationData.length >0 ){
+        filteredApplicationData[0].applicationSpecificicData = editorObject;
+      }else {
+        const newObject = {
+          workSpaceId: workSpaceId,
+          docId:docId,
+          type: 'editor',
+          applicationSpecificicData: editorObject,
+        }
+        oldApplicationData.push(newObject)
+      }
+      state.applicationData = oldApplicationData
+    }
   },
 });
 
@@ -205,5 +233,6 @@ export const {
   createDoc,
   createSubChild,
   setCurrentSelectedDocument,
+  setApplicationData
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
