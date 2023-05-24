@@ -15,37 +15,20 @@ function ListView({ contentRef }) {
   const kabuniRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
 
-  const [editing, setEditing] = useState(false);
-  const [newTitle, setNewTitle] = useState('');
-
-  const [editingDesc, setEditingDesc] = useState(false);
-  const [newDesc, setNewDesc] = useState('');
-
-  const handleDoubleClick = () => {
-    setEditing(true);
-  };
-  const handleDoubleClickDesc = () => {
-    setEditingDesc(true);
-  };
-  const handleChange = (event) => {
-    setNewTitle(event.target.value);
-  };
-  const handleChangeDesc = (event) => {
-    setNewDesc(event.target.value);
-  };
-
-  const handleKeyPress = (event) => {
+  const keyHandler = (event) => {
     if (event.key === 'Enter') {
-      dispatch(editListTitle({ newTitle }));
-      setEditing(false);
-      setNewTitle('');
+      event.preventDefault();
+      dispatch(editListTitle({ newTitle: event.target.innerText }));
+      const heading = document.getElementById('editableTitle');
+      heading?.blur();
     }
   };
-  const handleKeyPressDesc = (event) => {
+  const keyHandler2 = (event) => {
     if (event.key === 'Enter') {
-      dispatch(editListDescription({ newDesc }));
-      setEditingDesc(false);
-      setNewDesc('');
+      event.preventDefault();
+      dispatch(editListDescription({ newDesc: event.target.innerText }));
+      const heading = document.getElementById('editableDesc');
+      heading?.blur();
     }
   };
   return (
@@ -75,43 +58,29 @@ function ListView({ contentRef }) {
                 <span className={`tick ${isSticky ? 'tickStick' : ''}`}>L</span>
                 <span className={`tick ${isSticky ? 'tickStick' : ''}`}>L</span>
               </div>
-              {editing ? (
-                <input
-                  className="titleInput"
-                  type="text"
-                  value={newTitle}
-                  onChange={handleChange}
-                  onKeyPress={handleKeyPress}
-                  onBlur={() => setEditing(false)}
-                />
-              ) : (
-                <p
-                  className="kabuniText"
-                  style={{ fontSize: isSticky ? '18px' : '' }}
-                  onDoubleClick={handleDoubleClick}
-                >
-                  {title}
-                </p>
-              )}
+              <p
+                className="kabuniText"
+                id="editableTitle"
+                style={{
+                  fontSize: isSticky ? '18px' : '',
+                  border: 'none',
+                  outline: 'none',
+                }}
+                contentEditable={true}
+                onKeyDown={keyHandler}
+              >
+                {title}
+              </p>
             </div>
           </div>
-          {editingDesc ? (
-            <input
-              className="titleInputDesc"
-              type="text"
-              value={newDesc}
-              onChange={handleChangeDesc}
-              onKeyPress={handleKeyPressDesc}
-              onBlur={() => setEditingDesc(false)}
-            />
-          ) : (
-            <p
-              className="kabuniBottomText"
-              onDoubleClick={handleDoubleClickDesc}
-            >
-              {description}
-            </p>
-          )}
+          <p
+            id="editableDesc"
+            className="kabuniBottomText"
+            contentEditable={true}
+            onKeyDown={keyHandler2}
+          >
+            {description}
+          </p>
         </div>
         <div className="optionsComponentContainer mgLeft">
           <OptionsComponent isSticky={isSticky} contentRef={contentRef} />
