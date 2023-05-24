@@ -135,7 +135,7 @@ function MenuWorkSpaceItem({
       onMouseEnter={() => setHoverColorHandler(menu.color)}
       onMouseLeave={() => setHoverColorOnLeave(menu.color)}
     >
-      <p className={classWrksps.workspaceInputLabel}>{menu.name}d</p>
+      <p className={classWrksps.workspaceInputLabel}>{menu.name}</p>
     </Menu.Item>
   );
 }
