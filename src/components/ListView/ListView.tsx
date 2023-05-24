@@ -10,7 +10,7 @@ import { editListTitle, editListDescription } from 'redux/slices/list';
 function ListView() {
   const dispatch = useDispatch();
   const { content, list }: any = useSelector((state) => state);
-  const { contentRef } = content;
+  // const { contentRef } = content;
   const { title, description } = list.listTitleAndDesc;
   const kabuniRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
@@ -49,18 +49,18 @@ function ListView() {
     }
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const containerTop = contentRef.getBoundingClientRect().top;
-      const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
-      setIsSticky(kabuniTop <= 95);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const containerTop = contentRef.getBoundingClientRect().top;
+  //     const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
+  //     setIsSticky(kabuniTop <= 95);
+  //   };
 
-    contentRef?.addEventListener('scroll', handleScroll);
-    return () => {
-      contentRef?.removeEventListener('scroll', handleScroll);
-    };
-  }, [contentRef, kabuniRef]);
+  //   contentRef?.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     contentRef?.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, [contentRef, kabuniRef]);
 
   return (
     <>
