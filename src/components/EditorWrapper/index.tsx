@@ -20,6 +20,7 @@ import {
   CheckListIcon,
   HeadingIcon,
   ParagraphIcon,
+  FileIcon
 } from './EditorIcons';
 
 const DEFAULT_INITIAL_DATA = () => {
@@ -61,6 +62,8 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
   const [showDatabaseOptions, setShowDatabaseOptions] = useState(false);
   const [showDocumentOptions, setShowDocumentOptions] = useState(false);
   const [showFirstOptions, setShowFirstOptions] = useState(true);
+  const [workspaceFiles,setWorkspaceFiles] = useState(workspace.workSpaceDocs)
+  const [currentFileName, setCurrentFileName] = useState(workspace.currentSelectedDocId)
 
   const [editorOptions, setEditorOptions] = useState([
     {
@@ -173,6 +176,8 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       ejInstance.current?.destroy();
       ejInstance.current = null;
     }
+    setCurrentFileName(workspace.currentSelectedDocId);
+    setWorkspaceFiles(workspace.workSpaceDocs)
   }, [workspace, ejInstance]);
 
   // This will run only once
@@ -563,7 +568,21 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
     colorRef.current = `${color}75`;
   }, [color]);
 
-  const insertBlock = (opt: any) => {
+  const addHyperLink = (ele: any, title: any) => {
+    let childDiv = document.createElement('span');
+    childDiv.textContent = `${title} `;
+    childDiv.style.backgroundColor = `${colorRef.current}`;
+    childDiv.style.color = 'white';
+    childDiv.style.textDecoration = 'underline';
+    childDiv.style.cursor = 'pointer';
+    const x = ele.innerHTML;
+    console.log("INNER HTML", x)
+    let targetElement = ele.querySelector('h2, p');
+    targetElement.appendChild(childDiv)
+
+    }
+
+  const insertBlock = (opt: any, title: any) => {
     const blockTypes = Object.keys(ejInstance?.current?.configuration?.tools);
     const currentBlockIndex =
       ejInstance?.current?.blocks.getCurrentBlockIndex();
@@ -572,21 +591,22 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       ejInstance?.current?.blocks.insert(opt, currentBlockIndex + 1);
       setShowEditorOptionsBlock(false);
     }
-    if (opt && blockTypes.includes(opt) && currentBlockIndex == -1) {
-      ejInstance?.current?.isReady.then(() => {
-        ejInstance?.current?.saver
-          .save()
-          .then((savedData) => {
-            const blockCount = savedData.blocks.length;
-            console.log('Number of blocks:', blockCount);
-            ejInstance?.current?.blocks.insert(opt, blockCount + 2);
-            setShowEditorOptionsBlock(false);
-          })
-          .catch((error) => {
-            console.error('Error getting block count:', error);
-          });
-      });
-    }
+    // if (opt && blockTypes.includes(opt) && currentBlockIndex == -1) {
+    //   ejInstance?.current?.isReady.then(() => {
+    //     ejInstance?.current?.saver
+    //       .save()
+    //       .then((savedData) => {
+    //         const blockCount = savedData.blocks.length;
+    //         console.log('Number of blocks:', blockCount);
+    //         ejInstance?.current?.blocks.insert(opt, blockCount + 2);
+    //         setShowEditorOptionsBlock(false);
+    //       })
+    //       .catch((error) => {
+    //         console.error('Error getting block count:', error);
+    //       });
+    //   });
+    // }
+
     if (opt == 'listview') {
       setCurrentSelectedUI('listview');
     }
@@ -617,33 +637,45 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       setShowDatabaseOptions(true);
       setShowFirstOptions(false);
     }
-    if (opt == 'document') {
-      setEditorOptions([
-        {
-          key: 'listview',
-          icon: <HeadingIcon />,
-          title: 'List View',
-          subTitle: 'Choose List View',
-        },
-        {
-          key: 'kanban',
-          icon: <ParagraphIcon />,
-          title: 'Kanban View',
-          subTitle: 'Choose Kanban View',
-        },
-        {
-          key: 'gantt',
-          icon: <TextIcon />,
-          title: 'Gantt Chart',
-          subTitle: 'Coming soon',
-        },
-      ]);
-      setShowDocumentOptions(true);
-      setShowFirstOptions(false);
+      if(opt=="document") {
+        const listofFiles:any = []
+        workspaceFiles.map((file: any) => {
+          console.log(file.name)
+          let obj = {key: 'file', icon: <FileIcon/>,title: file.name, subTitle: `Link ${file.name} to this block`}
+          listofFiles.push(obj)
+        })
+          setEditorOptions(listofFiles)
+          setShowDocumentOptions(true)
+          setShowFirstOptions(false)
+      }
+
+    if(opt=="file") {
+      const blockElements = document.getElementsByClassName('editorjsDiv');
+      Array.from(blockElements).forEach((blockElement) => {
+        blockElement.addEventListener('mousedown', (event) => {
+          const ele = event?.target?.closest('.ce-block');
+          if (ele) {
+            addHyperLink(ele, title)
+          }
+        });
+      });
     }
   };
 
+  function handleClickOutside(event) {
+    const targetDiv = document.getElementById('editorOptionsBlockID');
+    const clickedElement = event.target;
+
+    if(showEditorOptionsBlock) {
+    if (targetDiv && !targetDiv.contains(clickedElement)) {
+      // The click is outside the target div
+      setShowEditorOptionsBlock(false)
+      // Call your function here or perform any desired action
+    }
+  }}
+
   const style = { '--bg-color': color };
+  document.addEventListener('click', handleClickOutside);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -662,7 +694,7 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
     return (
       <div
         style={style}
-        onClick={(e) => insertBlock(opt)}
+        onClick={(e) => insertBlock(opt, title)}
         className="EditorOptionComponent"
         onMouseEnter={onItemsMouseEnter}
       >
@@ -901,10 +933,13 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
         </div>
       )}
 
+        {coverUrlAvailable ? 
+      (<div style={{fontSize: "23px", fontWeight: "400", position: "relative", bottom: "65px"}}>{currentFileName}</div>) : <div style={{fontSize: "23px", fontWeight: "400", position: "relative", bottom: "65px"}}>{currentFileName}</div> }
+
       <div className="editorjsDiv" id={EDITTOR_HOLDER_ID} />
 
       {showEditorOptionsBlock && (
-        <div
+        <div id="editorOptionsBlockID"
           style={{
             top: `${
               coverUrlAvailable
