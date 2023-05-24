@@ -284,6 +284,8 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
               />
             </div>
 
+
+
             <TreeView
               filter={filterText}
               setShowColorDots={setShowColorDots}
