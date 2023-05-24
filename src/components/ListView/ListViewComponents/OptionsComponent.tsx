@@ -26,6 +26,13 @@ function OptionsComponent({ isSticky, contentRef }: any) {
   //     contentRef?.removeEventListener('scroll', handleScroll);
   //   };
   // }, [contentRef, kabuniRef]);
+
+  const currentDate = new Date();
+  const formattedDate = currentDate.toLocaleDateString(undefined, {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
   return (
     <div className="optionsComponentParentContainer" ref={kabuniRef}>
       <div className="optionsComponentParent">
@@ -33,7 +40,7 @@ function OptionsComponent({ isSticky, contentRef }: any) {
           <div className="flexCenter">
             <DateLogo />
           </div>
-          <p className="dateText">13 June 2023</p>
+          <p className="dateText">{formattedDate}</p>
         </div>
         <div className="circularImageComponentContainer">
           <CircularImageComponent images={imagesArray} />
