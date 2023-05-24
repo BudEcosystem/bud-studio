@@ -119,7 +119,10 @@ function ListView({ contentRef }) {
               onBlur={() => setEditingDesc(false)}
             />
           ) : (
-            <p className="kabuniBottomText" onDoubleClick={handleDoubleClickDesc}>
+            <p
+              className="kabuniBottomText"
+              onDoubleClick={handleDoubleClickDesc}
+            >
               {description}
             </p>
           )}

@@ -108,18 +108,28 @@ const HeaderSubComp = ({
           {data?.imagesData?.length > 0 ? (
             <CircularImageComponent images={data.imagesData} />
           ) : (
-            <CircularBorder icon={<User />} />
+            <div style={{ marginRight: '14px' }}>
+              <CircularBorder icon={<User />} />
+            </div>
           )}
         </div>
         <div className="flexCenter" style={{ marginRight: '40px' }}>
           {data.page ? (
             <FoldedCard />
           ) : (
-            <CircularBorder icon={<FoldedCard />} />
+            <div style={{ marginRight: '-22px' }}>
+              <CircularBorder icon={<FoldedCard />} />
+            </div>
           )}
         </div>
         <div className="flexCenter" style={{ marginRight: '40px' }}>
-          {data.flag ? <Flag /> : <CircularBorder icon={<SmallerFlag />} />}
+          {data.flag ? (
+            <Flag />
+          ) : (
+            <div style={{ marginRight: '15px' }}>
+              <CircularBorder icon={<SmallerFlag />} />
+            </div>
+          )}
         </div>
 
         {data.recurring ? (
@@ -130,6 +140,6 @@ const HeaderSubComp = ({
       </div>
     </div>
   );
-}
+};
 
 export default HeaderSubComp;
