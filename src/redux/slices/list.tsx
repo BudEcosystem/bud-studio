@@ -9,78 +9,78 @@ const generateInitialState = (): any => {
       headerText: 'To-do',
       colorIcon: '#939AFF',
       items: [
-        {
-          title: 'Check for meetings 1',
-          description:
-            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-          siconValue: 2,
-          checklist: {
-            checked: 2,
-            total: 6,
-          },
-          imagesData: ['', ''],
-          page: true,
-          flag: true,
-          recurring: true,
-          childs: [
-            {
-              title: 'Check for sub-meetings 1',
-              description: '',
-              siconValue: 2,
-              checklist: {
-                checked: 2,
-                total: 6,
-              },
-              imagesData: ['', ''],
-              page: true,
-              flag: true,
-              recurring: true,
-            },
-            {
-              title: 'Check for sub-meetings 2',
-              description: '',
-              siconValue: 2,
-              checklist: {
-                checked: 2,
-                total: 6,
-              },
-              imagesData: ['', ''],
-              page: true,
-              flag: true,
-              recurring: true,
-            },
-          ],
-        },
-        {
-          title: 'Check for meetings 2',
-          description:
-            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-          siconValue: 1,
-          checklist: {
-            checked: 4,
-            total: 6,
-          },
-          imagesData: ['', ''],
-          page: true,
-          flag: true,
-          recurring: true,
-          childs: [],
-        },
-        {
-          title: 'Check for meetings 3',
-          description:
-            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-          siconValue: 3,
-          checklist: {
-            checked: 3,
-            total: 6,
-          },
-          imagesData: ['', ''],
-          page: true,
-          flag: true,
-          recurring: true,
-          childs: [],
-        },
+        // {
+        //   title: 'Check for meetings 1',
+        //   description:
+        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+        //   siconValue: 2,
+        //   checklist: {
+        //     checked: 2,
+        //     total: 6,
+        //   },
+        //   imagesData: ['', ''],
+        //   page: true,
+        //   flag: true,
+        //   recurring: true,
+        //   childs: [
+        //     {
+        //       title: 'Check for sub-meetings 1',
+        //       description: '',
+        //       siconValue: 2,
+        //       checklist: {
+        //         checked: 2,
+        //         total: 6,
+        //       },
+        //       imagesData: ['', ''],
+        //       page: true,
+        //       flag: true,
+        //       recurring: true,
+        //     },
+        //     {
+        //       title: 'Check for sub-meetings 2',
+        //       description: '',
+        //       siconValue: 2,
+        //       checklist: {
+        //         checked: 2,
+        //         total: 6,
+        //       },
+        //       imagesData: ['', ''],
+        //       page: true,
+        //       flag: true,
+        //       recurring: true,
+        //     },
+        //   ],
+        // },
+        // {
+        //   title: 'Check for meetings 2',
+        //   description:
+        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+        //   siconValue: 1,
+        //   checklist: {
+        //     checked: 4,
+        //     total: 6,
+        //   },
+        //   imagesData: ['', ''],
+        //   page: true,
+        //   flag: true,
+        //   recurring: true,
+        //   childs: [],
+        // },
+        // {
+        //   title: 'Check for meetings 3',
+        //   description:
+        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+        //   siconValue: 3,
+        //   checklist: {
+        //     checked: 3,
+        //     total: 6,
+        //   },
+        //   imagesData: ['', ''],
+        //   page: true,
+        //   flag: true,
+        //   recurring: true,
+        //   childs: [],
+        // },
       ],
     },
     {
@@ -88,78 +88,78 @@ const generateInitialState = (): any => {
       headerText: 'In-progress',
       colorIcon: '#FFD976',
       items: [
-        {
-          title: 'In progress meetings 1',
-          description:
-            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-          siconValue: 2,
-          checklist: {
-            checked: 2,
-            total: 6,
-          },
-          imagesData: ['', ''],
-          page: true,
-          flag: true,
-          recurring: true,
-          childs: [
-            {
-              title: 'In progress sub-meetings 1',
-              description: '',
-              siconValue: 2,
-              checklist: {
-                checked: 2,
-                total: 6,
-              },
-              imagesData: ['', ''],
-              page: true,
-              flag: true,
-              recurring: true,
-            },
-            {
-              title: 'In progress sub-meetings 2',
-              description: '',
-              siconValue: 2,
-              checklist: {
-                checked: 2,
-                total: 6,
-              },
-              imagesData: ['', ''],
-              page: true,
-              flag: true,
-              recurring: true,
-            },
-          ],
-        },
-        {
-          title: 'In progress meetings 2',
-          description:
-            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-          siconValue: 1,
-          checklist: {
-            checked: 4,
-            total: 6,
-          },
-          imagesData: ['', ''],
-          page: true,
-          flag: true,
-          recurring: true,
-          childs: [],
-        },
-        {
-          title: 'In progress meetings 3',
-          description:
-            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-          siconValue: 3,
-          checklist: {
-            checked: 3,
-            total: 6,
-          },
-          imagesData: ['', ''],
-          page: true,
-          flag: true,
-          recurring: true,
-          childs: [],
-        },
+        // {
+        //   title: 'In progress meetings 1',
+        //   description:
+        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+        //   siconValue: 2,
+        //   checklist: {
+        //     checked: 2,
+        //     total: 6,
+        //   },
+        //   imagesData: ['', ''],
+        //   page: true,
+        //   flag: true,
+        //   recurring: true,
+        //   childs: [
+        //     {
+        //       title: 'In progress sub-meetings 1',
+        //       description: '',
+        //       siconValue: 2,
+        //       checklist: {
+        //         checked: 2,
+        //         total: 6,
+        //       },
+        //       imagesData: ['', ''],
+        //       page: true,
+        //       flag: true,
+        //       recurring: true,
+        //     },
+        //     {
+        //       title: 'In progress sub-meetings 2',
+        //       description: '',
+        //       siconValue: 2,
+        //       checklist: {
+        //         checked: 2,
+        //         total: 6,
+        //       },
+        //       imagesData: ['', ''],
+        //       page: true,
+        //       flag: true,
+        //       recurring: true,
+        //     },
+        //   ],
+        // },
+        // {
+        //   title: 'In progress meetings 2',
+        //   description:
+        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+        //   siconValue: 1,
+        //   checklist: {
+        //     checked: 4,
+        //     total: 6,
+        //   },
+        //   imagesData: ['', ''],
+        //   page: true,
+        //   flag: true,
+        //   recurring: true,
+        //   childs: [],
+        // },
+        // {
+        //   title: 'In progress meetings 3',
+        //   description:
+        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+        //   siconValue: 3,
+        //   checklist: {
+        //     checked: 3,
+        //     total: 6,
+        //   },
+        //   imagesData: ['', ''],
+        //   page: true,
+        //   flag: true,
+        //   recurring: true,
+        //   childs: [],
+        // },
       ],
     },
     {
@@ -167,78 +167,78 @@ const generateInitialState = (): any => {
       headerText: 'In-review',
       colorIcon: '#4184E9',
       items: [
-        {
-          title: 'In-review meetings 1',
-          description:
-            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-          siconValue: 2,
-          checklist: {
-            checked: 2,
-            total: 6,
-          },
-          imagesData: ['', ''],
-          page: true,
-          flag: true,
-          recurring: true,
-          childs: [
-            {
-              title: 'In-review sub-meetings 1',
-              description: '',
-              siconValue: 2,
-              checklist: {
-                checked: 2,
-                total: 6,
-              },
-              imagesData: ['', ''],
-              page: true,
-              flag: true,
-              recurring: true,
-            },
-            {
-              title: 'In-review sub-meetings 2',
-              description: '',
-              siconValue: 2,
-              checklist: {
-                checked: 2,
-                total: 6,
-              },
-              imagesData: ['', ''],
-              page: true,
-              flag: true,
-              recurring: true,
-            },
-          ],
-        },
-        {
-          title: 'In-review meetings 2',
-          description:
-            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-          siconValue: 1,
-          checklist: {
-            checked: 4,
-            total: 6,
-          },
-          imagesData: ['', ''],
-          page: true,
-          flag: true,
-          recurring: true,
-          childs: [],
-        },
-        {
-          title: 'In-review meetings 3',
-          description:
-            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-          siconValue: 3,
-          checklist: {
-            checked: 3,
-            total: 6,
-          },
-          imagesData: ['', ''],
-          page: true,
-          flag: true,
-          recurring: true,
-          childs: [],
-        },
+        // {
+        //   title: 'In-review meetings 1',
+        //   description:
+        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+        //   siconValue: 2,
+        //   checklist: {
+        //     checked: 2,
+        //     total: 6,
+        //   },
+        //   imagesData: ['', ''],
+        //   page: true,
+        //   flag: true,
+        //   recurring: true,
+        //   childs: [
+        //     {
+        //       title: 'In-review sub-meetings 1',
+        //       description: '',
+        //       siconValue: 2,
+        //       checklist: {
+        //         checked: 2,
+        //         total: 6,
+        //       },
+        //       imagesData: ['', ''],
+        //       page: true,
+        //       flag: true,
+        //       recurring: true,
+        //     },
+        //     {
+        //       title: 'In-review sub-meetings 2',
+        //       description: '',
+        //       siconValue: 2,
+        //       checklist: {
+        //         checked: 2,
+        //         total: 6,
+        //       },
+        //       imagesData: ['', ''],
+        //       page: true,
+        //       flag: true,
+        //       recurring: true,
+        //     },
+        //   ],
+        // },
+        // {
+        //   title: 'In-review meetings 2',
+        //   description:
+        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+        //   siconValue: 1,
+        //   checklist: {
+        //     checked: 4,
+        //     total: 6,
+        //   },
+        //   imagesData: ['', ''],
+        //   page: true,
+        //   flag: true,
+        //   recurring: true,
+        //   childs: [],
+        // },
+        // {
+        //   title: 'In-review meetings 3',
+        //   description:
+        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+        //   siconValue: 3,
+        //   checklist: {
+        //     checked: 3,
+        //     total: 6,
+        //   },
+        //   imagesData: ['', ''],
+        //   page: true,
+        //   flag: true,
+        //   recurring: true,
+        //   childs: [],
+        // },
       ],
     },
     {
@@ -246,78 +246,78 @@ const generateInitialState = (): any => {
       headerText: 'Completed',
       colorIcon: '#36D95A',
       items: [
-        {
-          title: 'Completed meetings 1',
-          description:
-            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-          siconValue: 2,
-          checklist: {
-            checked: 2,
-            total: 6,
-          },
-          imagesData: ['', ''],
-          page: true,
-          flag: true,
-          recurring: true,
-          childs: [
-            {
-              title: 'Completed sub-meetings 1',
-              description: '',
-              siconValue: 2,
-              checklist: {
-                checked: 2,
-                total: 6,
-              },
-              imagesData: ['', ''],
-              page: true,
-              flag: true,
-              recurring: true,
-            },
-            {
-              title: 'Completed sub-meetings 2',
-              description: '',
-              siconValue: 2,
-              checklist: {
-                checked: 2,
-                total: 6,
-              },
-              imagesData: ['', ''],
-              page: true,
-              flag: true,
-              recurring: true,
-            },
-          ],
-        },
-        {
-          title: 'Completed meetings 2',
-          description:
-            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-          siconValue: 1,
-          checklist: {
-            checked: 4,
-            total: 6,
-          },
-          imagesData: ['', ''],
-          page: true,
-          flag: true,
-          recurring: true,
-          childs: [],
-        },
-        {
-          title: 'Completed meetings 3',
-          description:
-            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-          siconValue: 3,
-          checklist: {
-            checked: 3,
-            total: 6,
-          },
-          imagesData: ['', ''],
-          page: true,
-          flag: true,
-          recurring: true,
-          childs: [],
-        },
+        // {
+        //   title: 'Completed meetings 1',
+        //   description:
+        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+        //   siconValue: 2,
+        //   checklist: {
+        //     checked: 2,
+        //     total: 6,
+        //   },
+        //   imagesData: ['', ''],
+        //   page: true,
+        //   flag: true,
+        //   recurring: true,
+        //   childs: [
+        //     {
+        //       title: 'Completed sub-meetings 1',
+        //       description: '',
+        //       siconValue: 2,
+        //       checklist: {
+        //         checked: 2,
+        //         total: 6,
+        //       },
+        //       imagesData: ['', ''],
+        //       page: true,
+        //       flag: true,
+        //       recurring: true,
+        //     },
+        //     {
+        //       title: 'Completed sub-meetings 2',
+        //       description: '',
+        //       siconValue: 2,
+        //       checklist: {
+        //         checked: 2,
+        //         total: 6,
+        //       },
+        //       imagesData: ['', ''],
+        //       page: true,
+        //       flag: true,
+        //       recurring: true,
+        //     },
+        //   ],
+        // },
+        // {
+        //   title: 'Completed meetings 2',
+        //   description:
+        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+        //   siconValue: 1,
+        //   checklist: {
+        //     checked: 4,
+        //     total: 6,
+        //   },
+        //   imagesData: ['', ''],
+        //   page: true,
+        //   flag: true,
+        //   recurring: true,
+        //   childs: [],
+        // },
+        // {
+        //   title: 'Completed meetings 3',
+        //   description:
+        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+        //   siconValue: 3,
+        //   checklist: {
+        //     checked: 3,
+        //     total: 6,
+        //   },
+        //   imagesData: ['', ''],
+        //   page: true,
+        //   flag: true,
+        //   recurring: true,
+        //   childs: [],
+        // },
       ],
     },
   ];
