@@ -35,40 +35,16 @@ const generateInitialState = (): any => {
     ],
     workspaceFolders: [
       {
-        name: 'folderName1',
-        key: 'folderName1',
-        workSPaceId: 'Private',
-        type: 'folder',
-      },
-      {
-        name: 'folderName2',
-        key: 'folderName2',
+        name: 'Welcome',
+        key: 'welcome',
         workSPaceId: 'Private',
         type: 'folder',
       },
     ],
     workSpaceDocs: [
       {
-        name: 'DocName1',
-        childOf: 'folderName1',
-        workSPaceId: 'Private',
-        type: 'doc',
-      },
-      {
-        name: 'DocName2',
-        childOf: 'folderName1',
-        workSPaceId: 'Private',
-        type: 'doc',
-      },
-      {
-        name: 'DocName3',
-        childOf: 'folderName1',
-        workSPaceId: 'Private',
-        type: 'doc',
-      },
-      {
-        name: 'DocName4',
-        childOf: null,
+        name: 'Welcome To Bud',
+        childOf: 'welcome',
         workSPaceId: 'Private',
         type: 'doc',
       },

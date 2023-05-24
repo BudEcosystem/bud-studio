@@ -48,10 +48,10 @@ function FlyoutMenu({ createNewClickHandler, id, setToggleFlyout }: any) {
                 </div>
                 <ul className="subMenu">
                   <li onClick={() => createNewClickHandler('folder')}>
-                    Create Folder
+                    Folder
                   </li>
                   <li onClick={() => createNewClickHandler('file')}>
-                    Create File
+                    Document
                   </li>
                 </ul>
               </div>

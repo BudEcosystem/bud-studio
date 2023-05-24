@@ -102,7 +102,10 @@ function Tree({
     <div className="treeViewContainer">
       {isFolderCreateVisible && (
         <div className="treeViewContainerDocInputWrapper">
-          <FolderIcon />
+          <Folder
+            fill={workSpaceDetails.color}
+            stroke={workSpaceDetails.color}
+          />
           <input
             onKeyDown={onEscapeButtonPressed}
             className="treeViewContainerDocInput"
@@ -139,6 +142,7 @@ function Tree({
             showDocumentOptions={showDocumentOptions}
             setShowDocumentOptions={setShowDocumentOptions}
             setShowColorDots={setShowColorDots}
+            workSpaceDetails={workSpaceDetails}
           />
         ))}
       </ul>
@@ -157,6 +161,7 @@ function TreeNode({
   setShowDocumentOptions,
   setShowColorDots,
   addedNode,
+  workSpaceDetails,
 }: any) {
   const [childVisible, setChildVisiblity] = useState(!node.isParent);
   const { workspace }: any = useSelector((state) => state);
@@ -193,6 +198,8 @@ function TreeNode({
     setToggleFlyout((prev) => !prev);
   };
   const newMenuAddHandler = (newNode: any) => {
+
+    console.log("Add New Menu",newNode)
     if (addNewMenu) {
       addNewMenu(node, newNode);
     }
@@ -248,6 +255,7 @@ function TreeNode({
               childVisible={childVisible}
               isParent={node.isParent}
               isEdit={editMode}
+              workSpaceDetails={workSpaceDetails}
             />
           ) : (
             <ListItem
@@ -257,6 +265,7 @@ function TreeNode({
               childVisible={childVisible}
               isParent={node.isParent}
               addNewItem={activateAddmode}
+              workSpaceDetails={workSpaceDetails}
             />
           )}
         </div>
@@ -296,6 +305,7 @@ function TreeNode({
                       isEdit={addMode}
                       node={node}
                       setAddMode={setAddMode}
+                      workSpaceDetails={workSpaceDetails}
                     />
                   </div>
                 </li>
@@ -318,12 +328,14 @@ function ListItem({
   onNewMenuAdd,
   node,
   setAddMode,
+  workSpaceDetails,
 }: any) {
   const [newLabel, setNewLabel] = useState('');
   const inputBox = useRef() as React.MutableRefObject<HTMLInputElement>;
   const dispatch = useDispatch();
   const { workspace } = useSelector((state) => state);
   console.log('workspace', workspace);
+  console.log('&&&', workSpaceDetails);
   useEffect(() => {
     setNewLabel(label);
   }, [label]);
@@ -346,7 +358,7 @@ function ListItem({
       dispatch(
         createSubChild({
           name: inputBox.current.value,
-          parentDetails: { ...node, workSpaceName: workspace.currentWorkspace },
+          parentDetails: { ...node, workSpaceName: workSpaceDetails.name },
           type: `${isFolder ? 'folder' : 'doc'}`,
         })
       );
@@ -387,7 +399,12 @@ function ListItem({
         )}
       </div>
       <div className="item-Icon-wrapper">
-        {isFolder && <Folder fill={color} stroke={color} />}
+        {isFolder && (
+          <Folder
+            fill={workSpaceDetails.color}
+            stroke={workSpaceDetails.color}
+          />
+        )}
         {!isFolder && <Page />}
       </div>
       <div className="item-label-wrapper">
