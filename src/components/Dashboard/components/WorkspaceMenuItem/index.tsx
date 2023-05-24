@@ -11,10 +11,9 @@ function getRandomColor() {
   for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
-  console.log(color, "asdasfd")
+  console.log(color, 'asdasfd');
   return color;
 }
-
 
 function WorkspaceMenuItem({
   menu,
@@ -27,6 +26,7 @@ function WorkspaceMenuItem({
   setHoverColorOnLeave,
   updateWorkspace,
   newWorkSpace,
+  setShowAddWorkspace,
 }: any): JSX.Element {
   const clickListnRef: any = createRef();
   const [isEditMode, setIsEditMode] = useState(false);
@@ -60,12 +60,13 @@ function WorkspaceMenuItem({
     setIsEditMode(newWorkSpace);
   }, [newWorkSpace]);
 
-
   return isEditMode ? (
     <MenuWorkSpaceInput
       menu={menu}
       updateWorkspace={onUpdateWorkspace}
       index={i}
+      setIsEditMode={setIsEditMode}
+      setShowAddWorkspace={setShowAddWorkspace}
     />
   ) : (
     <MenuWorkSpaceItem
@@ -134,17 +135,25 @@ function MenuWorkSpaceItem({
       onMouseEnter={() => setHoverColorHandler(menu.color)}
       onMouseLeave={() => setHoverColorOnLeave(menu.color)}
     >
-      <p className={classWrksps.workspaceInputLabel}>{menu.name}</p>
+      <p className={classWrksps.workspaceInputLabel}>{menu.name}d</p>
     </Menu.Item>
   );
 }
 
-function MenuWorkSpaceInput({ menu, updateWorkspace, index }: any) {
+function MenuWorkSpaceInput({
+  menu,
+  updateWorkspace,
+  index,
+  setIsEditMode,
+  setShowAddWorkspace,
+}: any) {
   const [workSpace, setWorkSpace] = useState({ name: '', color: '' });
   const [randCol, setRandCol] = useState(getRandomColor());
-  console.log(workSpace.color)
   useEffect(() => {
-    setWorkSpace({name: menu.name, color: randCol});
+    document.getElementById('workspace-create-input')?.focus();
+  }, []);
+  useEffect(() => {
+    setWorkSpace({ name: menu.name, color: randCol });
   }, [menu]);
   const workSpaceNameInputHandler = (e: any) => {
     setWorkSpace((prev: any) => {
@@ -155,7 +164,7 @@ function MenuWorkSpaceInput({ menu, updateWorkspace, index }: any) {
     });
   };
   const workSpaceColorInputHandler = (e: any) => {
-    setRandCol(e.target.value)
+    setRandCol(e.target.value);
     setWorkSpace((prev: any) => {
       return {
         ...prev,
@@ -173,6 +182,13 @@ function MenuWorkSpaceInput({ menu, updateWorkspace, index }: any) {
   };
   const onBlurHandler = () => {
     updateWorkspace({ value: workSpace, index });
+  };
+  const onEscapeButtonPressed = (event) => {
+    console.log('event', event);
+    if (event.code === 'Escape') {
+      setIsEditMode(false);
+      setShowAddWorkspace(false);
+    }
   };
   return (
     <Menu.Item
@@ -200,6 +216,8 @@ function MenuWorkSpaceInput({ menu, updateWorkspace, index }: any) {
       }
     >
       <input
+        onKeyDown={onEscapeButtonPressed}
+        id="workspace-create-input"
         type="text"
         placeholder="Enter space name"
         onBlur={onBlurHandler}
