@@ -48,7 +48,7 @@
 
 .editorjsDiv {
   margin-right: 270px;
-  width: 1000px;
+  width: fit-content;
 }
 
 .editorjsDiv .ce-toolbar__plus {

@@ -1,8 +1,15 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-use-before-define */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { default as React, useEffect, useRef, useState } from 'react';
 import EditorJS from '@editorjs/editorjs';
 import { EDITOR_JS_TOOLS } from './tools';
 import './Editor.css';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setApplicationData,
+  setEditorInitialised,
+} from 'redux/slices/workspace';
 import {
   AddCover,
   AddIcon,
@@ -13,8 +20,8 @@ import {
   CheckListIcon,
   HeadingIcon,
   ParagraphIcon,
+  FileIcon
 } from './EditorIcons';
-import { useSelector } from 'react-redux'
 
 const DEFAULT_INITIAL_DATA = () => {
   return {
@@ -23,7 +30,7 @@ const DEFAULT_INITIAL_DATA = () => {
       {
         type: 'header',
         data: {
-          text: 'This is my awesome editor!',
+          text: 'Untitled...',
           level: 1,
         },
       },
@@ -33,25 +40,30 @@ const DEFAULT_INITIAL_DATA = () => {
 
 const EDITTOR_HOLDER_ID = 'editorjs';
 
-function EditorWrapper(props) {
+function EditorWrapper({ data, setCurrentSelectedUI }: any) {
   const ejInstance = useRef();
   const editor1 = useRef<EditorJS>();
-  const [editorData, setEditorData] = React.useState(DEFAULT_INITIAL_DATA);
+  const [editorData, setEditorData] = useState(null);
   const [coverUrl, setCoverUrl] = useState();
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
   const [iconUrl, setIconUrl] = useState();
-  const { workspace }: any = useSelector((state) => state);
+  const { tree, workspace }: any = useSelector((state) => state);
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
-  const { color } = workspace;
+  console.log('###################################', workspace);
+  const { color, currentWorkspace, currentSelectedDocId } = workspace;
   const [render, setRender] = useState(false);
   const cursorRect = useRef<DOMRect>();
   const refHoverBar = useRef();
   const colorRef = useRef<any>('#9068fd');
+  const dispatch = useDispatch();
   const [subHeadingContent, setSubHeadingContent] = useState(
     'Edit Subheading here...'
   );
-  const [showDatabaseOptions, setShowDatabaseOptions] = useState(false)
-  const [addNewEditorData, setAddNewEditorData] = useState("Untitled...")
+  const [showDatabaseOptions, setShowDatabaseOptions] = useState(false);
+  const [showDocumentOptions, setShowDocumentOptions] = useState(false);
+  const [showFirstOptions, setShowFirstOptions] = useState(true);
+  const [workspaceFiles,setWorkspaceFiles] = useState(workspace.workSpaceDocs)
+  const [currentFileName, setCurrentFileName] = useState(workspace.currentSelectedDocId)
 
   const [editorOptions, setEditorOptions] = useState([
     {
@@ -59,6 +71,12 @@ function EditorWrapper(props) {
       icon: <TableIcon />,
       title: 'Database',
       subTitle: 'Add List, Kanban or Gantt Chart',
+    },
+    {
+      key: 'document',
+      icon: <ListIcon />,
+      title: 'Link Document',
+      subTitle: 'Link to another document',
     },
     {
       key: 'header',
@@ -115,17 +133,63 @@ function EditorWrapper(props) {
       subTitle: 'Write some code in a block.',
     },
   ]);
+  // for checking if the particular editor has somedata
+  useEffect(() => {
+    const {
+      currentWorkspace: copycurrentWorkspace,
+      currentSelectedDocId: copycurrentSelectedDocId,
+      applicationData,
+      editorInitialised,
+    } = workspace;
+    const currentApplicationData = applicationData.filter(
+      (application: any) =>
+        application.docId === copycurrentSelectedDocId &&
+        application.workSpaceId === copycurrentWorkspace
+    );
+    console.log(
+      '################################### - outer',
+      currentApplicationData
+    );
+    if (currentApplicationData.length > 0) {
+      console.log(
+        '################################### - else',
+        currentApplicationData
+      );
+      setEditorData(currentApplicationData[0].applicationSpecificicData);
+      !editorInitialised &&
+        initEditor(currentApplicationData[0].applicationSpecificicData);
+      dispatch(setEditorInitialised());
+    } else {
+      // setEditorData(null);
+      !editorInitialised &&
+        initEditor({
+          id: 'Ef0oiN-VMW',
+          type: 'paragraph',
+          data: {
+            text: 'SampleData',
+          },
+        });
+      dispatch(setEditorInitialised());
+    }
+    if (!currentSelectedDocId) {
+      initEditor(null);
+      ejInstance.current?.destroy();
+      ejInstance.current = null;
+    }
+    setCurrentFileName(workspace.currentSelectedDocId);
+    setWorkspaceFiles(workspace.workSpaceDocs)
+  }, [workspace, ejInstance]);
 
   // This will run only once
-  useEffect(() => {
-    if (!ejInstance.current) {
-      initEditor();
-    }
-    return () => {
-      ejInstance.current.destroy();
-      ejInstance.current = null;
-    };
-  }, []);
+  // useEffect(() => {
+  //   if (!ejInstance.current) {
+  //     initEditor();
+  //   }
+  //   return () => {
+  //     ejInstance.current?.destroy();
+  //     ejInstance.current = null;
+  //   };
+  // }, []);
 
   const checkForMentions = () => {
     const paraElements = document.querySelectorAll('.ce-paragraph');
@@ -291,11 +355,15 @@ function EditorWrapper(props) {
     });
   };
 
-  const initEditor = () => {
+  console.log('TREE', tree);
+  console.log('WORSPACE EDITOR', workspace);
+
+  const initEditor = (dataPassed) => {
+    console.log('###################################- initEditoe', editorData);
     const editor = new EditorJS({
       holder: EDITTOR_HOLDER_ID,
       logLevel: 'ERROR',
-      data: editorData,
+      data: dataPassed,
       onReady: () => {
         ejInstance.current = editor;
         checkForMentions();
@@ -308,9 +376,24 @@ function EditorWrapper(props) {
         });
       },
       onChange: async () => {
-        const content = await ejInstance.current.saver.save();
-        // Put your logic here to save this data to your DB
-        setEditorData(content);
+        ejInstance?.current
+          ?.save()
+          .then((outputData: any) => {
+            console.log('HEADING DATA', outputData);
+            setEditorData(outputData);
+            dispatch(
+              setApplicationData({
+                workSpaceId: currentWorkspace,
+                docId: currentSelectedDocId,
+                type: 'editor',
+                editorObject: outputData,
+              })
+            );
+            return true;
+          })
+          .catch((error: any) => {
+            console.error('Error while saving data:', error);
+          });
       },
       autofocus: true,
       tools: EDITOR_JS_TOOLS,
@@ -485,27 +568,52 @@ function EditorWrapper(props) {
     colorRef.current = `${color}75`;
   }, [color]);
 
-  const insertBlock = (opt: any) => {
+  const addHyperLink = (ele: any, title: any) => {
+    let childDiv = document.createElement('span');
+    childDiv.textContent = `${title} `;
+    childDiv.style.backgroundColor = `${colorRef.current}`;
+    childDiv.style.color = 'white';
+    childDiv.style.textDecoration = 'underline';
+    childDiv.style.cursor = 'pointer';
+    const x = ele.innerHTML;
+    console.log("INNER HTML", x)
+    let targetElement = ele.querySelector('h2, p');
+    targetElement.appendChild(childDiv)
+
+    }
+
+  const insertBlock = (opt: any, title: any) => {
     const blockTypes = Object.keys(ejInstance?.current?.configuration?.tools);
-    const currentBlockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
-    console.log("CURRENT BLOCK INDEX", currentBlockIndex)
-    if (opt && blockTypes.includes(opt) && currentBlockIndex!=-1) {
-      ejInstance?.current?.blocks.insert(opt, currentBlockIndex+1);
+    const currentBlockIndex =
+      ejInstance?.current?.blocks.getCurrentBlockIndex();
+    console.log('CURRENT BLOCK INDEX', currentBlockIndex);
+    if (opt && blockTypes.includes(opt) && currentBlockIndex != -1) {
+      ejInstance?.current?.blocks.insert(opt, currentBlockIndex + 1);
       setShowEditorOptionsBlock(false);
     }
-    if (opt && blockTypes.includes(opt) && currentBlockIndex==-1) {
-      ejInstance?.current?.isReady.then(() => {
-        ejInstance?.current?.saver.save().then(savedData => {
-          const blockCount = savedData.blocks.length;
-          console.log('Number of blocks:', blockCount);
-          ejInstance?.current?.blocks.insert(opt, blockCount+2);
-          setShowEditorOptionsBlock(false);
-        }).catch(error => {
-          console.error('Error getting block count:', error);
-        });
-      });
+    // if (opt && blockTypes.includes(opt) && currentBlockIndex == -1) {
+    //   ejInstance?.current?.isReady.then(() => {
+    //     ejInstance?.current?.saver
+    //       .save()
+    //       .then((savedData) => {
+    //         const blockCount = savedData.blocks.length;
+    //         console.log('Number of blocks:', blockCount);
+    //         ejInstance?.current?.blocks.insert(opt, blockCount + 2);
+    //         setShowEditorOptionsBlock(false);
+    //       })
+    //       .catch((error) => {
+    //         console.error('Error getting block count:', error);
+    //       });
+    //   });
+    // }
+
+    if (opt == 'listview') {
+      setCurrentSelectedUI('listview');
     }
-    if(opt=="database") {
+    if (opt == 'kanban') {
+      setCurrentSelectedUI('kanban');
+    }
+    if (opt == 'database') {
       setEditorOptions([
         {
           key: 'listview',
@@ -523,13 +631,51 @@ function EditorWrapper(props) {
           key: 'gantt',
           icon: <TextIcon />,
           title: 'Gantt Chart',
-          subTitle: 'Choose Gantt Chart',
-        },])
-        setShowDatabaseOptions(true)
+          subTitle: 'Coming soon',
+        },
+      ]);
+      setShowDatabaseOptions(true);
+      setShowFirstOptions(false);
+    }
+      if(opt=="document") {
+        const listofFiles:any = []
+        workspaceFiles.map((file: any) => {
+          console.log(file.name)
+          let obj = {key: 'file', icon: <FileIcon/>,title: file.name, subTitle: `Link ${file.name} to this block`}
+          listofFiles.push(obj)
+        })
+          setEditorOptions(listofFiles)
+          setShowDocumentOptions(true)
+          setShowFirstOptions(false)
+      }
+
+    if(opt=="file") {
+      const blockElements = document.getElementsByClassName('editorjsDiv');
+      Array.from(blockElements).forEach((blockElement) => {
+        blockElement.addEventListener('mousedown', (event) => {
+          const ele = event?.target?.closest('.ce-block');
+          if (ele) {
+            addHyperLink(ele, title)
+          }
+        });
+      });
     }
   };
 
+  function handleClickOutside(event) {
+    const targetDiv = document.getElementById('editorOptionsBlockID');
+    const clickedElement = event.target;
+
+    if(showEditorOptionsBlock) {
+    if (targetDiv && !targetDiv.contains(clickedElement)) {
+      // The click is outside the target div
+      setShowEditorOptionsBlock(false)
+      // Call your function here or perform any desired action
+    }
+  }}
+
   const style = { '--bg-color': color };
+  document.addEventListener('click', handleClickOutside);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -548,7 +694,7 @@ function EditorWrapper(props) {
     return (
       <div
         style={style}
-        onClick={(e) => insertBlock(opt)}
+        onClick={(e) => insertBlock(opt, title)}
         className="EditorOptionComponent"
         onMouseEnter={onItemsMouseEnter}
       >
@@ -603,81 +749,85 @@ function EditorWrapper(props) {
     }
   }, [showEditorOptionsBlock]);
 
-    const { activeElement } = document;
-    cursorRect.current = activeElement?.getBoundingClientRect();
+  const { activeElement } = document;
+  cursorRect.current = activeElement?.getBoundingClientRect();
 
-    useEffect(() => {
-      if(showDatabaseOptions==false) {
-        setEditorOptions([
-          {
-            key: 'database',
-            icon: <TableIcon />,
-            title: 'Database',
-            subTitle: 'Add List, Kanban or Gantt Chart',
-          },
-          {
-            key: 'header',
-            icon: <HeadingIcon />,
-            title: 'Heading',
-            subTitle: 'Write a heading.',
-          },
-          {
-            key: 'paragraph',
-            icon: <ParagraphIcon />,
-            title: 'Paragraph',
-            subTitle: 'Write your words in paragraph.',
-          },
-          {
-            key: 'quote',
-            icon: <TextIcon />,
-            title: 'Quote',
-            subTitle: 'Write a quote.',
-          },
-          // ,{
-          //   key: "link",
-          //   icon: <TextIcon/>,
-          //   title: "Link",
-          //   subTitle: "Write a text as hyperlink."
-          // }
-          // ,{
-          //   key: "checklist",
-          //   icon: <CheckListIcon/>,
-          //   title: "Checklist",
-          //   subTitle: "Start a checklist."
-          //  }
-          {
-            key: 'table',
-            icon: <TableIcon />,
-            title: 'Simple Table',
-            subTitle: 'Start a clean table.',
-          },
-          {
-            key: 'list',
-            icon: <ListIcon />,
-            title: 'List',
-            subTitle: 'Jot down a list.',
-          },
-          {
-            key: 'raw',
-            icon: <TextIcon />,
-            title: 'Raw HTML',
-            subTitle: 'Write down some raw HTML code.',
-          },
-          {
-            key: 'code',
-            icon: <TextIcon />,
-            title: 'Code',
-            subTitle: 'Write some code in a block.',
-          },
-        ])
-      }
-    }, [showDatabaseOptions])
-
+  useEffect(() => {
+    if (showFirstOptions == true) {
+      setEditorOptions([
+        {
+          key: 'database',
+          icon: <TableIcon />,
+          title: 'Database',
+          subTitle: 'Add List, Kanban or Gantt Chart',
+        },
+        {
+          key: 'document',
+          icon: <ListIcon />,
+          title: 'Link Document',
+          subTitle: 'Link to another document',
+        },
+        {
+          key: 'header',
+          icon: <HeadingIcon />,
+          title: 'Heading',
+          subTitle: 'Write a heading.',
+        },
+        {
+          key: 'paragraph',
+          icon: <ParagraphIcon />,
+          title: 'Paragraph',
+          subTitle: 'Write your words in paragraph.',
+        },
+        {
+          key: 'quote',
+          icon: <TextIcon />,
+          title: 'Quote',
+          subTitle: 'Write a quote.',
+        },
+        // ,{
+        //   key: "link",
+        //   icon: <TextIcon/>,
+        //   title: "Link",
+        //   subTitle: "Write a text as hyperlink."
+        // }
+        // ,{
+        //   key: "checklist",
+        //   icon: <CheckListIcon/>,
+        //   title: "Checklist",
+        //   subTitle: "Start a checklist."
+        //  }
+        {
+          key: 'table',
+          icon: <TableIcon />,
+          title: 'Simple Table',
+          subTitle: 'Start a clean table.',
+        },
+        {
+          key: 'list',
+          icon: <ListIcon />,
+          title: 'List',
+          subTitle: 'Jot down a list.',
+        },
+        {
+          key: 'raw',
+          icon: <TextIcon />,
+          title: 'Raw HTML',
+          subTitle: 'Write down some raw HTML code.',
+        },
+        {
+          key: 'code',
+          icon: <TextIcon />,
+          title: 'Code',
+          subTitle: 'Write some code in a block.',
+        },
+      ]);
+    }
+  }, [showFirstOptions]);
 
   return (
-
-  <div className='editor'>
-    {coverUrlAvailable ? (
+    <div className="editor">
+      {coverUrlAvailable ? (
         <div
           style={{
             backgroundImage: `linear-gradient(to bottom right, ${color}, white)`,
@@ -759,7 +909,7 @@ function EditorWrapper(props) {
             <img src={iconUrl} />
           </div>
         ) : (
-          <div style={{ top: '10px', marginRight: "933px", marginBottom: "20px" }} className="editorIcon">
+          <div style={{ top: '10px', marginRight: "850px", marginBottom: "20px" }} className="editorIcon">
             <img src={iconUrl} />
           </div>
         )
@@ -783,65 +933,68 @@ function EditorWrapper(props) {
         </div>
       )}
 
-    <div className='editorjsDiv' id={EDITTOR_HOLDER_ID}></div>
+        {coverUrlAvailable ? 
+      (<div style={{fontSize: "23px", fontWeight: "400", position: "relative", bottom: "65px"}}>{currentFileName}</div>) : <div style={{fontSize: "23px", fontWeight: "400", position: "relative", bottom: "65px"}}>{currentFileName}</div> }
 
-    {showEditorOptionsBlock && (
+      <div className="editorjsDiv" id={EDITTOR_HOLDER_ID} />
+
+      {showEditorOptionsBlock && (
+        <div id="editorOptionsBlockID"
+          style={{
+            top: `${
+              coverUrlAvailable
+                ? cursorRect.current.bottom > 750
+                  ? '300'
+                  : cursorRect?.current?.bottom - 140
+                : cursorRect.current.bottom > 650
+                ? '360'
+                : cursorRect?.current?.bottom - 140
+            }px`,
+            right: `${cursorRect?.current?.bottom > 650 ? '160' : '120'}px`,
+          }}
+          className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
+        >
+          {showFirstOptions ? (
             <div
               style={{
-                top: `${
-                  coverUrlAvailable
-                    ? cursorRect.current.bottom > 750
-                      ? '300'
-                      : cursorRect?.current?.bottom - 140
-                    : cursorRect.current.bottom > 650
-                    ? '360'
-                    : cursorRect?.current?.bottom - 140
-                }px`,
-                right: `${
-                  cursorRect?.current?.bottom > 650 ? '160' : '120'
-                }px`,
+                marginLeft: '5px',
+                marginBottom: '10px',
+                marginTop: '5px',
+                overflow: 'auto',
               }}
-              className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
             >
-              {!showDatabaseOptions ? (<div
-                style={{
-                  marginLeft: '5px',
-                  marginBottom: '10px',
-                  marginTop: '5px',
-                  overflow: 'auto',
-                }}
-              >
-                Editor Block
-              </div>) : (<div
-                style={{
-                  marginLeft: '5px',
-                  marginBottom: '10px',
-                  marginTop: '5px',
-                  overflow: 'auto',
-                  cursor: "pointer"
-                }}
-                onClick={() => setShowDatabaseOptions(false)}
-              >
-                Go Back
-              </div>)}
-
-              <div className="editorOptionDiv">
-                <div className="hoverMovement" ref={refHoverBar} />
-                {editorOptions.map((option) => (
-                  <EditorOptionComponent
-                    opt={option.key}
-                    icon={option.icon}
-                    title={option.title}
-                    subTitle={option.subTitle}
-                    onItemsMouseEnter={onItemsMouseEnter}
-                  />
-                ))}
-              </div>
+              Editor Block
+            </div>
+          ) : (
+            <div
+              style={{
+                marginLeft: '5px',
+                marginBottom: '10px',
+                marginTop: '5px',
+                overflow: 'auto',
+                cursor: 'pointer',
+              }}
+              onClick={() => setShowFirstOptions(true)}
+            >
+              Go Back
             </div>
           )}
-  </div>
 
-
-  )
+          <div className="editorOptionDiv">
+            <div className="hoverMovement" ref={refHoverBar} />
+            {editorOptions.map((option) => (
+              <EditorOptionComponent
+                opt={option.key}
+                icon={option.icon}
+                title={option.title}
+                subTitle={option.subTitle}
+                onItemsMouseEnter={onItemsMouseEnter}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 export default EditorWrapper;

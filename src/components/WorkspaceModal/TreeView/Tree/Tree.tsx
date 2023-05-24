@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  changeColorAndSetName,
   createDoc,
   createFolder,
   createSubChild,
@@ -351,7 +352,17 @@ function ListItem({
     }
   }, [isEdit]);
   const onDocumentClicked = () => {
-    dispatch(setCurrentSelectedDocument({ id: label }));
+    // dispatch(changeColorAndSetName({ color: null, name: null }));
+    // dispatch(
+    //   changeColorAndSetName({
+    //     color: workspace.color,
+    //     name: workspace.currentWorkspace,
+    //   })
+    // );
+    dispatch(setCurrentSelectedDocument({ id: null }));
+    setTimeout(() => {
+      dispatch(setCurrentSelectedDocument({ id: label }));
+    }, 1000);
   };
   return (
     <div

@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { Layout } from 'antd';
 import Hamburger from 'components/Hamburger/Hamburger';
 import ListView from 'components/ListView/ListView';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setContentRef } from 'redux/slices/content';
+import KanbanUI from 'components/KanbanNew';
 import HeaderComp from '../header';
 import classes from '../dashboard.module.css';
 import Launcher from '../../Launcher/Launcher';
@@ -11,7 +12,6 @@ import OmniSearch from '../../OmniSearch/OmniSearch';
 import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 import Editor from '../../Editor/Editor';
 import EditorJsWrapper from '../../EditorWrapper';
-import KanbanUI from 'components/KanbanNew';
 
 function ContentView({
   setCollapsed,
@@ -30,6 +30,13 @@ function ContentView({
   useEffect(() => {
     dispatch(setContentRef(`${contentRef.current}`));
   }, [contentRef, dispatch]);
+  const [selectedDoc, setSelectedDoc] = useState();
+  const [currentSelectedUI, setCurrentSelectedUI] = useState('');
+  const { workspace } = useSelector((state) => state);
+  useEffect(() => {
+    const { currentWorkspace, currentSelectedDocId } = workspace;
+    setSelectedDoc(currentSelectedDocId);
+  }, [workspace]);
   return (
     <Layout className={classes['site-layout']}>
       <HeaderComp
@@ -48,9 +55,16 @@ function ContentView({
           />
         )}
         {/* <Editor /> */}
-        <ListView contentRef={contentRef} />
-        {/* <KanbanUI /> */}
-        {/* <EditorJsWrapper data={{}} /> */}
+        {selectedDoc && currentSelectedUI === '' && (
+          <EditorJsWrapper
+            data={{}}
+            setCurrentSelectedUI={setCurrentSelectedUI}
+          />
+        )}
+        {currentSelectedUI === 'listview' && (
+          <ListView contentRef={contentRef} />
+        )}
+        {currentSelectedUI === 'kanban' && <KanbanUI />}
         <Hamburger />
       </Content>
       <OmniSearch />
