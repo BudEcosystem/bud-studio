@@ -7,24 +7,24 @@ import { useSelector } from 'react-redux';
 
 const imagesArray: Array<any> = ['', '', ''];
 
-function OptionsComponent({ isSticky }) {
-  const { content }: any = useSelector((state) => state);
-  const { contentRef } = content;
+function OptionsComponent({ isSticky, contentRef }: any) {
+  // const { content }: any = useSelector((state) => state);
+  // const { contentRef } = content;
   const kabuniRef = useRef(null);
   // const contentRef = useRef(null);
 
   const [isSticky2, setIsSticky] = useState(false);
   useEffect(() => {
-    const handleScroll = () => {
-      const containerTop = contentRef.getBoundingClientRect().top;
-      const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
-      setIsSticky(kabuniTop <= 95);
-    };
-
-    contentRef?.addEventListener('scroll', handleScroll);
-    return () => {
-      contentRef?.removeEventListener('scroll', handleScroll);
-    };
+    // console.log('contentRef', contentRef);
+    // const handleScroll = () => {
+    //   const containerTop = contentRef.getBoundingClientRect().top;
+    //   const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
+    //   setIsSticky(kabuniTop <= 95);
+    // };
+    // contentRef?.addEventListener('scroll', handleScroll);
+    // return () => {
+    //   contentRef?.removeEventListener('scroll', handleScroll);
+    // };
   }, [contentRef, kabuniRef]);
   return (
     <div className="optionsComponentParentContainer" ref={kabuniRef}>

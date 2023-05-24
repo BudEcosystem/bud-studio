@@ -73,7 +73,13 @@ const generateInitialState = (): any => {
         type: 'doc',
       },
     ],
-    applicationData: [],
+    applicationData: [
+      {
+        id: 'folderName',
+        type: 'kanban / list',
+        applicationSpecificicData: {},
+      },
+    ],
   };
   return initialState;
 };

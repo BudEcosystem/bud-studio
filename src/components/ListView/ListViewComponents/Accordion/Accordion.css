@@ -1,3 +1,7 @@
+:root{
+    --border-Color: #2F2F2F;
+}
+
 .accordionParent {
     width: 92%;
     /* background-color: aqua; */
@@ -5,7 +9,7 @@
 
 .statusParent {
     background: #101010;
-    border: 0.5px dashed #2F2F2F;
+    border: 0.5px dashed var(--border-Color);
     border-radius: 12px;
     margin-bottom: 18px;
 }
@@ -24,15 +28,21 @@
     display: flex;
     margin-left: 8px;
 }
-.subAccordionContainer{
+
+.subAccordionContainer {
     /* background: #1B1C1E; */
     border-radius: 8px;
     margin-right: 10px;
     margin-top: 12px;
 }
+
 /* .headerSubComponentContainer{
 } */
-.subAccordionParent{
+.arrowContainer {
+    padding: 5px;
+}
+
+.subAccordionParent {
     margin-bottom: 10px;
     background: #1B1C1E;
     border-radius: 8px;
@@ -40,8 +50,31 @@
     /* background-color: rebeccapurple; */
 }
 
-.iconsContainer{
+.iconsContainer {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.subChildComponent {
+    margin-left: 40px;
+}
+
+.description {
+    margin-left: 20px;
+    margin-top: 12px;
+    margin-bottom: 23px;
+    width: 40%;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 150%;
+    letter-spacing: -0.02em;
+    color: #BBBBBB;
+}
+
+.flex{
+    display: flex;
+    align-items: center;
 }

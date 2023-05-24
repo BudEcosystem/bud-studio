@@ -369,7 +369,8 @@
     outline: none;
     font-weight: 400;
     font-size: 14px;
-    width: 20%;
+    width: 100%;
+    margin-left: 16px;
 }
 
 .workspaceTextBox::placeholder {
