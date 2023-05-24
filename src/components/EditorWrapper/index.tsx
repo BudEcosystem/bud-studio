@@ -662,20 +662,20 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
     }
   };
 
-  function handleClickOutside(event) {
-    const targetDiv = document.getElementById('editorOptionsBlockID');
-    const clickedElement = event.target;
+  // function handleClickOutside(event) {
+  //   const targetDiv = document.getElementById('editorOptionsBlockID');
+  //   const clickedElement = event.target;
 
-    if(showEditorOptionsBlock) {
-    if (targetDiv && !targetDiv.contains(clickedElement)) {
-      // The click is outside the target div
-      setShowEditorOptionsBlock(false)
-      // Call your function here or perform any desired action
-    }
-  }}
+  //   if(showEditorOptionsBlock) {
+  //   // if (targetDiv && !targetDiv.contains(clickedElement)) {
+  //   //   // The click is outside the target div
+  //   //   setShowEditorOptionsBlock(false)
+  //   //   // Call your function here or perform any desired action
+  //   // }
+  // }}
 
   const style = { '--bg-color': color };
-  document.addEventListener('click', handleClickOutside);
+  // document.addEventListener('click', handleClickOutside);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -880,7 +880,6 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
             >
               Change Cover
             </div>
-            {/* <div onClick={addNewEditorBlock} style={{cursor: "pointer", marginLeft: "100px"}}>Add New</div> */}
           </div>
         </div>
       ) : (
@@ -939,7 +938,7 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       <div className="editorjsDiv" id={EDITTOR_HOLDER_ID} />
 
       {showEditorOptionsBlock && (
-        <div id="editorOptionsBlockID"
+        <div
           style={{
             top: `${
               coverUrlAvailable
