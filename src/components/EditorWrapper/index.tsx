@@ -33,7 +33,7 @@ const DEFAULT_INITIAL_DATA = () => {
 
 const EDITTOR_HOLDER_ID = 'editorjs';
 
-function EditorWrapper(props) {
+function EditorWrapper({data, setCurrentSelectedUI}: any) {
   const ejInstance = useRef();
   const editor1 = useRef<EditorJS>();
   const [editorData, setEditorData] = React.useState(DEFAULT_INITIAL_DATA);
@@ -505,6 +505,12 @@ function EditorWrapper(props) {
         });
       });
     }
+    if(opt=="listview") {
+      setCurrentSelectedUI("listview")
+    }
+    if(opt=="kanban") {
+      setCurrentSelectedUI("kanban")
+    }
     if(opt=="database") {
       setEditorOptions([
         {
@@ -523,7 +529,7 @@ function EditorWrapper(props) {
           key: 'gantt',
           icon: <TextIcon />,
           title: 'Gantt Chart',
-          subTitle: 'Choose Gantt Chart',
+          subTitle: 'Coming soon',
         },])
         setShowDatabaseOptions(true)
     }
