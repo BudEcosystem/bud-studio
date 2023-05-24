@@ -28,7 +28,7 @@ function ContentView({
   const contentRef = useRef(null);
 
   useEffect(() => {
-    dispatch(setContentRef(contentRef.current));
+    dispatch(setContentRef(`${contentRef.current}`));
   }, [contentRef, dispatch]);
   return (
     <Layout className={classes['site-layout']}>
