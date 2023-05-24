@@ -122,6 +122,9 @@ function Tree({
           />
         </div>
       )}
+      {treeData.length === 0 && (
+        <div className="no-items">Start by creating new doc</div>
+      )}
       <ul className="treeViewList">
         {treeData.map((tree: any, i) => (
           <TreeNode

@@ -205,13 +205,13 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
 
   const handlerColor = (menuColor: any, menuName: any, i: any) => {
     try {
-      setActiveClassNameColor(i);
+      //setActiveClassNameColor(i);
       setActiveClassName('-1');
-      setColor(menuColor);
+      //setColor(menuColor);
       setWorkSpaceIndex(i);
       showWorkspaceModal(menuColor, menuName);
-      dispatch(changeColorAndSetName({ color: null, name: null }));
-      dispatch(changeColorAndSetName({ color: menuColor, name: menuName }));
+      //dispatch(changeColorAndSetName({ color: null, name: null }));
+      //dispatch(changeColorAndSetName({ color: menuColor, name: menuName }));
     } catch (err) {
       console.log(err);
     }
