@@ -86,12 +86,25 @@ function Tree({
       }
     });
   });
+  useEffect(() => {
+    document.getElementById('newTreeFolderInput')?.focus();
+    document.getElementById('newTreeDocInput')?.focus();
+  });
+  const onEscapeButtonPressed = (event) => {
+    if (event.code === 'Escape') {
+      setIsFolderCreateVisible(false);
+      setIsDocCreateVisible(false);
+      dispatch(disableCreateNewTreeNode({ type: 'doc' }));
+      dispatch(disableCreateNewTreeNode({ type: 'folder' }));
+    }
+  };
   return (
     <div className="treeViewContainer">
       {isFolderCreateVisible && (
         <div className="treeViewContainerDocInputWrapper">
           <FolderIcon />
           <input
+            onKeyDown={onEscapeButtonPressed}
             className="treeViewContainerDocInput"
             ref={inputRefFolder}
             id="newTreeFolderInput"
@@ -102,6 +115,7 @@ function Tree({
         <div className="treeViewContainerDocInputWrapper">
           <DocIcon />
           <input
+            onKeyDown={onEscapeButtonPressed}
             className="treeViewContainerDocInput"
             ref={inputRefDoc}
             id="newTreeDocInput"
@@ -187,21 +201,14 @@ function TreeNode({
     setToggleFlyout(false);
     setChildVisiblity(true);
   };
-  useEffect(() => {
-    const flyOutMenu = document.getElementById('flyOutMenu');
-    flyOutMenu?.addEventListener('focusout', (event: any) => {
-      console.log('mouseout', event);
-      setToggleFlyout(false);
-    });
-  });
+
   return (
     isVisible && (
       <li className="treeLiItem">
         {toggleFlyout && (
           <FlyoutMenu
             createNewClickHandler={addNewItem}
-            id="flyOutMenu"
-            onMouseOut={() => setToggleFlyout(false)}
+            setToggleFlyout={setToggleFlyout}
           />
         )}
         <div
@@ -352,17 +359,15 @@ function ListItem({
     }
   }, [isEdit]);
   const onDocumentClicked = () => {
-    // dispatch(changeColorAndSetName({ color: null, name: null }));
-    // dispatch(
-    //   changeColorAndSetName({
-    //     color: workspace.color,
-    //     name: workspace.currentWorkspace,
-    //   })
-    // );
     dispatch(setCurrentSelectedDocument({ id: null }));
     setTimeout(() => {
       dispatch(setCurrentSelectedDocument({ id: label }));
     }, 1000);
+  };
+  const onEscapeButtonPressed = (event: any) => {
+    if (event.code === 'Escape') {
+      setAddMode(false);
+    }
   };
   return (
     <div
@@ -385,6 +390,7 @@ function ListItem({
       <div className="item-label-wrapper">
         {isEdit ? (
           <input
+            onKeyDown={onEscapeButtonPressed}
             id="newSubTreeInput"
             ref={inputBox}
             type="text"
