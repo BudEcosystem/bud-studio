@@ -527,6 +527,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       handlerColor={handlerColor}
                       setHoverColorHandler={setHoverColorHandler}
                       setHoverColorOnLeave={setHoverColorOnLeave}
+                      setShowAddWorkspace={setShowAddWorkspace}
                     />
                   )}
                   {workSpaceItems.length > 3 && !showMore && (
