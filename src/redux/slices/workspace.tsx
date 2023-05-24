@@ -73,14 +73,8 @@ const generateInitialState = (): any => {
         type: 'doc',
       },
     ],
-    applicationData: [
-      //structure
-      // {
-      //   id: 'folderName',
-      //   type: 'kanban / list',
-      //   applicationSpecificicData: {},
-      // },
-    ],
+    applicationData: [],
+    editorInitialised: false,
   };
   return initialState;
 };
@@ -92,34 +86,25 @@ export const workspaceSlice = createSlice({
     changeColorAndSetName: (state, action: PayloadAction<any>) => {
       state.color = action.payload.color;
       state.currentWorkspace = action.payload.name;
+      state.editorInitialised = false;
+      state.currentSelectedDocId = null;
     },
     createWorkspaces: (state, action: PayloadAction<any>) => {
-      console.log('create:', action.payload);
       if (action.payload.idx !== undefined) {
         state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
-
-        console.log(JSON.stringify(state.workspaceFolders[action.payload.idx]));
         // state.workspaceFolders.push()
       } else {
         // state.workspaceFolders.push(getObj(state.workSpaceItems.length));
       }
       state.workSpaceItems.push(action.payload);
-      // console.log('dsf', [...state.workSpaceItems]);
-      // console.log(getObj(state.workSpaceItems.length))
-
-      // console.log([...state.workspaceFolders]);
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
-      console.log('cja');
-      console.log('edit:', action.payload);
       const arr = [...state.workSpaceItems];
-      console.log('Asdf', arr, [...state.workSpaceItems]);
       if (action.payload.value.name) {
         arr[action.payload.index].name = action.payload.value.name;
       } else {
         arr[action.payload.index].name = action.payload.value;
       }
-      console.log('h', arr[0]);
     },
     changeWorkSpacePropereties: (state, action: PayloadAction<any>) => {
       state.props = { ...state.props, ...action.payload };
@@ -130,7 +115,6 @@ export const workspaceSlice = createSlice({
       state.workSpaceItems = action.payload.workSpaceItems;
     },
     createFolder: (state, action: PayloadAction<any>) => {
-      console.log('action.payload', action.payload);
       const copyFolderStructure = state.workspaceFolders;
       const { name, workSpaceDetails } = action.payload;
       const filteredArray = copyFolderStructure.filter(
@@ -148,7 +132,6 @@ export const workspaceSlice = createSlice({
       }
     },
     createDoc: (state, action: PayloadAction<any>) => {
-      console.log('action.payload', action.payload);
       const copyDocStructure = state.workSpaceDocs;
       const { name, workSpaceDetails } = action.payload;
       const filteredArray = copyDocStructure.filter(
@@ -167,7 +150,6 @@ export const workspaceSlice = createSlice({
       }
     },
     createSubChild: (state, action: PayloadAction<any>) => {
-      console.log('action.payload-createSubChild', action.payload);
       const { name, type, parentDetails } = action.payload;
       if (type === 'folder') {
         const newSampleFolderData = {
@@ -189,36 +171,35 @@ export const workspaceSlice = createSlice({
       }
     },
     setCurrentSelectedDocument: (state, action: PayloadAction<any>) => {
-      console.log('action.payload-createSubChild', action.payload);
       state.currentSelectedDocId = action.payload.id;
+      state.editorInitialised = false;
     },
-    setApplicationData:(state,action: PayloadAction<any>)=>{
-      console.log("workspace ------------------- action",action.payload)
-
-      // structure
-      // {
-      //   workSpaceId: 'id',
-      //   docId:'id'
-      //   type: 'kanban / list',
-      //   applicationSpecificicData: {},
-      // },
-      let {editorData} = action.payload
-      let {workSpaceId,docId,type,editorObject} = editorData
-      let oldApplicationData = state.applicationData
-      let filteredApplicationData = oldApplicationData.filter((data:any)=>(data.id === workSpaceId && data.type === type))
-      if(filteredApplicationData.length >0 ){
+    setApplicationData: (state, action: PayloadAction<any>) => {
+      const { workSpaceId, docId, editorObject } = action.payload;
+      const oldApplicationData: any = [];
+      const { applicationData } = state;
+      applicationData.forEach((data: any) => {
+        oldApplicationData.push({ ...data });
+      });
+      const filteredApplicationData = oldApplicationData.filter(
+        (data: any) => data.workSpaceId === workSpaceId && data.docId === docId
+      );
+      if (filteredApplicationData.length > 0) {
         filteredApplicationData[0].applicationSpecificicData = editorObject;
-      }else {
+      } else {
         const newObject = {
-          workSpaceId: workSpaceId,
-          docId:docId,
+          workSpaceId,
+          docId,
           type: 'editor',
           applicationSpecificicData: editorObject,
-        }
-        oldApplicationData.push(newObject)
+        };
+        oldApplicationData.push(newObject);
       }
-      state.applicationData = oldApplicationData
-    }
+      state.applicationData = oldApplicationData;
+    },
+    setEditorInitialised: (state) => {
+      state.editorInitialised = true;
+    },
   },
 });
 
@@ -233,6 +214,7 @@ export const {
   createDoc,
   createSubChild,
   setCurrentSelectedDocument,
-  setApplicationData
+  setApplicationData,
+  setEditorInitialised,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

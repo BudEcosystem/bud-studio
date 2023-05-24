@@ -210,6 +210,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
       setColor(menuColor);
       setWorkSpaceIndex(i);
       showWorkspaceModal(menuColor, menuName);
+      dispatch(changeColorAndSetName({ color: null, name: null }));
       dispatch(changeColorAndSetName({ color: menuColor, name: menuName }));
     } catch (err) {
       console.log(err);
@@ -479,7 +480,6 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                     )}
                   </div>
                 </Menu.Item>
-
 
                 <div className={`${classes['main-sidebar-menu-ws-box']}`}>
                   {!showMore &&
