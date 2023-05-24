@@ -10,8 +10,8 @@ import { editListTitle, editListDescription } from 'redux/slices/list';
 function ListView({ contentRef }) {
   const dispatch = useDispatch();
   const { content, list }: any = useSelector((state) => state);
-  // // const { contentRef } = content;
-  const { title, description } = list.listTitleAndDesc;
+  const { listTitleAndDesc } = list;
+  const { title, description } = listTitleAndDesc;
   const kabuniRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
 
@@ -48,20 +48,6 @@ function ListView({ contentRef }) {
       setNewDesc('');
     }
   };
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const containerTop = contentRef.getBoundingClientRect().top;
-  //     const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
-  //     setIsSticky(kabuniTop <= 95);
-  //   };
-
-  //   contentRef?.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     contentRef?.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, [contentRef, kabuniRef]);
-
   return (
     <>
       <div className="listViewContainer" ref={kabuniRef}>
@@ -119,7 +105,10 @@ function ListView({ contentRef }) {
               onBlur={() => setEditingDesc(false)}
             />
           ) : (
-            <p className="kabuniBottomText" onDoubleClick={handleDoubleClickDesc}>
+            <p
+              className="kabuniBottomText"
+              onDoubleClick={handleDoubleClickDesc}
+            >
               {description}
             </p>
           )}
