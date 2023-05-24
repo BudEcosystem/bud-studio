@@ -8,7 +8,7 @@ import SubAccordion from './SubAccordion';
 import HeaderSubCompInput from '../HeaderSubCompInput';
 
 const Accordion = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { panelArray, newTaskClicked } = useSelector((state) => state.list);
   const [expandedItems, setExpandedItems] = useState([0]);
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
@@ -30,7 +30,7 @@ const Accordion = () => {
   };
 
   const onDragEnd = (result) => {
-    dispatch(updatePosition(result))
+    dispatch(updatePosition(result));
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -127,6 +127,6 @@ const Accordion = () => {
       </div>
     </DragDropContext>
   );
-}
+};
 
 export default Accordion;
