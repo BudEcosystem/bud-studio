@@ -2,16 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const contentSlice = createSlice({
   name: 'content',
-  initialState: { contentRef: null },
+  initialState: { contentRef: '' },
   reducers: {
     setContentRef: (state, action) => {
-      state.contentRef = action.payload;
+      state.contentRef = ``;
     },
   },
 });
 
 export const { setContentRef } = contentSlice.actions;
-
-export const selectContentRef = (state) => state.content.contentRef;
 
 export default contentSlice.reducer;

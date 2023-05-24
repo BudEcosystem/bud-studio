@@ -9,6 +9,7 @@ import classes from './dashboard.module.css';
 import ContentView from './content';
 import {
   changeColor,
+  changeColorAndSetName,
   createWorkspaces,
   editWorkspaceItem,
 } from 'redux/slices/workspace';
@@ -23,7 +24,6 @@ import classes from './dashboard.module.css';
 import ContentView from './content';
 import WorkspaceMenuItem from './components/WorkspaceMenuItem';
 import BudLogoSidebar from './components/Logo/BudLogo';
-
 
 const { Sider } = Layout;
 interface SideBarProps {
@@ -177,7 +177,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   const [showAddWorkspace, setShowAddWorkspace] = useState(false);
   // const [workspaces, setWorkspaces] = useState([] as any);
   const [workspaceModal, setWorkspaceModal] = useState(false);
-  const [workspaceID, setWorkspaceID] = useState(-1);;
+  const [workspaceID, setWorkspaceID] = useState(-1);
   const [workspaceColor, setWorkspaceColor] = useState();
   const [workspaceName, setWorkspaceName] = useState();
   const [color, setColor] = useState('red');
@@ -208,9 +208,9 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
       setActiveClassNameColor(i);
       setActiveClassName('-1');
       setColor(menuColor);
-      setWorkSpaceIndex(i);;
+      setWorkSpaceIndex(i);
       showWorkspaceModal(menuColor, menuName);
-      dispatch(changeColor(menuColor));
+      dispatch(changeColorAndSetName({ color: menuColor, name: menuName }));
     } catch (err) {
       console.log(err);
     }
@@ -282,19 +282,18 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     // const workspacesTemp = workspaces;
     // workspacesTemp[index] = value;
     // setWorkspaces([...workspacesTemp]);
-    dispatch(editWorkspaceItem({  index, value  }));;
+    dispatch(editWorkspaceItem({ index, value }));
   };
-  const addNewWorkSpace = (e:  any) => {
+  const addNewWorkSpace = (e: any) => {
     if (e.value.name) {
       // const workspacesTemp = workspaces;
       // workspacesTemp.push(e.value);
       // setWorkspaces([...workspacesTemp]);
-      dispatch(createWorkspaces(e.value));;
+      dispatch(createWorkspaces(e.value));
       setShowAddWorkspace(false);
       console.log(...workSpaceItems);
     }
   };
-;
   return (
     <>
       <Sider

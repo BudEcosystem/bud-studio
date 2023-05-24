@@ -10,6 +10,7 @@ import Launcher from '../../Launcher/Launcher';
 import OmniSearch from '../../OmniSearch/OmniSearch';
 import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 import Editor from '../../Editor/Editor';
+import EditorJsWrapper from '../../EditorWrapper';
 import KanbanUI from 'components/KanbanNew';
 
 function ContentView({
@@ -27,7 +28,7 @@ function ContentView({
   const contentRef = useRef(null);
 
   useEffect(() => {
-    dispatch(setContentRef(contentRef.current));
+    dispatch(setContentRef(`${contentRef.current}`));
   }, [contentRef, dispatch]);
   return (
     <Layout className={classes['site-layout']}>
@@ -47,8 +48,9 @@ function ContentView({
           />
         )}
         {/* <Editor /> */}
-        <ListView />
+        {/* <ListView /> */}
         {/* <KanbanUI /> */}
+        <EditorJsWrapper data={{}} />
         <Hamburger />
       </Content>
       <OmniSearch />

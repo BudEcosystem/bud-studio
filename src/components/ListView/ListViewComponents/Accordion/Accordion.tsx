@@ -127,6 +127,6 @@ const Accordion = () => {
       </div>
     </DragDropContext>
   );
-};
+}
 
 export default Accordion;
