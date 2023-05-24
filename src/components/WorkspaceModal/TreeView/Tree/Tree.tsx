@@ -1,9 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { UpArrow } from '../../../OmniSearch/Panel/PanelOption/PanelSvgIcons';
-import { Folder, WhiteFolder, Page } from './TreeSvgIcons';
-import './Tree.css';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createDoc,
+  createFolder,
+  createSubChild,
+  setCurrentSelectedDocument,
+} from 'redux/slices/workspace';
+import { disableCreateNewTreeNode } from 'redux/slices/tree';
 import FlyoutMenu from 'components/WorkspaceModal/FlyoutMenu';
+import { DocIcon, FolderIcon } from 'components/WorkspaceModal/WorkspaceIcons';
+import { UpArrow } from '../../../OmniSearch/Panel/PanelOption/PanelSvgIcons';
+import { Folder, Page } from './TreeSvgIcons';
+
+import './Tree.css';
 
 function Tree({
   data = [],
@@ -11,7 +20,26 @@ function Tree({
   showDocumentOptions,
   setShowDocumentOptions,
   addedNode,
+  workSpaceDetails,
 }: any) {
+  const { tree: treeState }: any = useSelector((state) => state);
+  const [isDocCreateVisible, setIsDocCreateVisible] = useState(false);
+  const [isFolderCreateVisible, setIsFolderCreateVisible] = useState(false);
+  const [treeData, setTreeData] = useState([]);
+  useEffect(() => {
+    if (data) {
+      console.log('inside tree', data);
+      if (data.length > 0) {
+        setTreeData(data);
+      }
+    }
+  }, [data]);
+  useEffect(() => {
+    console.log('createNewClickHandler - hsgvhs', treeState);
+    const { createNewTreeFolder, createNewTreeDocument } = treeState;
+    setIsDocCreateVisible(createNewTreeDocument);
+    setIsFolderCreateVisible(createNewTreeFolder);
+  }, [treeState]);
   const [activeNode, setActiveNode] = useState(null);
   const handleNodeClick = (node) => {
     if (activeNode === node) {
@@ -20,10 +48,67 @@ function Tree({
       setActiveNode(node);
     }
   };
+  const inputRefFolder = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const inputRefDoc = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const inputDoc = document.getElementById(`newTreeDocInput`);
+    const inputFolder = document.getElementById(`newTreeFolderInput`);
+    inputDoc?.addEventListener('keypress', function (event) {
+      if (event.key === 'Enter') {
+        if (inputRefDoc.current?.value) {
+          event.preventDefault();
+          console.log(inputRefDoc.current?.value, 'Doc');
+          dispatch(
+            createDoc({
+              workSpaceDetails,
+              name: inputRefDoc.current?.value,
+            })
+          );
+          dispatch(disableCreateNewTreeNode({ type: 'doc' }));
+        }
+      }
+    });
+    inputFolder?.addEventListener('keypress', function (event) {
+      if (event.key === 'Enter') {
+        if (inputRefFolder.current?.value) {
+          event.preventDefault();
+          console.log(inputRefFolder.current?.value, 'Folder');
+          dispatch(
+            createFolder({
+              workSpaceDetails,
+              name: inputRefFolder.current?.value,
+            })
+          );
+          dispatch(disableCreateNewTreeNode({ type: 'folder' }));
+        }
+      }
+    });
+  });
   return (
     <div className="treeViewContainer">
+      {isFolderCreateVisible && (
+        <div className="treeViewContainerDocInputWrapper">
+          <FolderIcon />
+          <input
+            className="treeViewContainerDocInput"
+            ref={inputRefFolder}
+            id="newTreeFolderInput"
+          />
+        </div>
+      )}
+      {isDocCreateVisible && (
+        <div className="treeViewContainerDocInputWrapper">
+          <DocIcon />
+          <input
+            className="treeViewContainerDocInput"
+            ref={inputRefDoc}
+            id="newTreeDocInput"
+          />
+        </div>
+      )}
       <ul className="treeViewList">
-        {data.map((tree: any, i) => (
+        {treeData.map((tree: any, i) => (
           <TreeNode
             key={tree.tId + i}
             node={tree}
@@ -61,7 +146,7 @@ function TreeNode({
   const hasChild = !!node.children;
   const [editMode, setEditMode] = useState(false);
   const [addMode, setAddMode] = useState(false);
-  const [addItemConfig, setAddItemConfig] = useState({type:'folder'});
+  const [addItemConfig, setAddItemConfig] = useState({ type: 'folder' });
   const isParentStyle = {
     background: `linear-gradient(90.28deg, ${`${color}20`} 4.88%, rgba(17, 21, 18, 0) 91.54%)`,
     borderRadius: '10px',
@@ -78,7 +163,7 @@ function TreeNode({
     setShowDocumentOptions(!showDocumentOptions);
     setShowColorDots(false);
   };
-  const [toggleFlyout,setToggleFlyout] = useState(false);
+  const [toggleFlyout, setToggleFlyout] = useState(false);
   const addNewMenu = (node: any, newNode: any) => {
     if (addedNode && !!newNode.label) {
       addedNode(node, newNode);
@@ -87,7 +172,7 @@ function TreeNode({
   };
   const activateAddmode = (e) => {
     e.stopPropagation();
-    setToggleFlyout((prev) => !prev)
+    setToggleFlyout((prev) => !prev);
   };
   const newMenuAddHandler = (newNode: any) => {
     if (addNewMenu) {
@@ -95,18 +180,27 @@ function TreeNode({
     }
     setAddMode(false);
   };
-  const addNewItem = (type:any) => {
-    setAddItemConfig({type})
+  const addNewItem = (type: any) => {
+    setAddItemConfig({ type });
     setAddMode(true);
-    setToggleFlyout(false)
-    setChildVisiblity(true)
-  }
+    setToggleFlyout(false);
+    setChildVisiblity(true);
+  };
+  useEffect(() => {
+    const flyOutMenu = document.getElementById('flyOutMenu');
+    flyOutMenu?.addEventListener('focusout', (event: any) => {
+      console.log('mouseout', event);
+      setToggleFlyout(false);
+    });
+  });
   return (
     isVisible && (
       <li className="treeLiItem">
         {toggleFlyout && (
           <FlyoutMenu
-          createNewClickHandler={addNewItem}
+            createNewClickHandler={addNewItem}
+            id="flyOutMenu"
+            onMouseOut={() => setToggleFlyout(false)}
           />
         )}
         <div
@@ -188,7 +282,9 @@ function TreeNode({
                       childVisible={false}
                       isParent={false}
                       onNewMenuAdd={newMenuAddHandler}
-                      isEdit
+                      isEdit={addMode}
+                      node={node}
+                      setAddMode={setAddMode}
                     />
                   </div>
                 </li>
@@ -209,9 +305,14 @@ function ListItem({
   childVisible,
   isParent,
   onNewMenuAdd,
-}) {
+  node,
+  setAddMode,
+}: any) {
   const [newLabel, setNewLabel] = useState('');
-  const inputBox = useRef();
+  const inputBox = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const dispatch = useDispatch();
+  const { workspace } = useSelector((state) => state);
+  console.log('workspace', workspace);
   useEffect(() => {
     setNewLabel(label);
   }, [label]);
@@ -221,28 +322,44 @@ function ListItem({
   };
   const updateNewValue = (e) => {
     const { value } = e.target;
-      if (onNewMenuAdd) {
-        const obj = {
-          label: value,
-          type: isFolder ? 'folder' : 'file',
-        };
-        onNewMenuAdd(obj);
-      }
+    if (onNewMenuAdd) {
+      const obj = {
+        label: value,
+        type: isFolder ? 'folder' : 'file',
+      };
+      onNewMenuAdd(obj);
+    }
   };
   const createNewItem = (e) => {
     if (e.key === 'Enter') {
-      updateNewValue(e)
+      dispatch(
+        createSubChild({
+          name: inputBox.current.value,
+          parentDetails: { ...node, workSpaceName: workspace.currentWorkspace },
+          type: `${isFolder ? 'folder' : 'doc'}`,
+        })
+      );
+      setAddMode && setAddMode(false);
+      // updateNewValue(e);
     }
   };
   useEffect(() => {
-    if(isEdit){
-     setTimeout(() => {
-      inputBox.current.focus();
-     });
+    if (isEdit) {
+      setTimeout(() => {
+        inputBox?.current?.focus();
+      });
     }
-  }),[isEdit]
+  }, [isEdit]);
+  const onDocumentClicked = () => {
+    dispatch(setCurrentSelectedDocument({ id: label }));
+  };
   return (
-    <div className="item-wrapper">
+    <div
+      className="item-wrapper"
+      onClick={() => {
+        !isFolder && onDocumentClicked();
+      }}
+    >
       <div className="item-collaps-arrow">
         {isParent && (
           <div className={`arrow ${childVisible ? 'active' : ''}`}>
@@ -257,7 +374,8 @@ function ListItem({
       <div className="item-label-wrapper">
         {isEdit ? (
           <input
-          ref={inputBox}
+            id="newSubTreeInput"
+            ref={inputBox}
             type="text"
             className="item-label-input"
             value={newLabel}
@@ -270,7 +388,7 @@ function ListItem({
         )}
       </div>
       <div className="item-action-wrapper">
-        {!isEdit && (
+        {!isEdit && isFolder && (
           <button onClick={addNewItem} type="button" className="addNew">
             +
           </button>

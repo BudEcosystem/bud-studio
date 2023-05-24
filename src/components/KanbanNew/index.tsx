@@ -90,14 +90,16 @@ const KanbanHeaderBottomSection = styled.div`
   width: 100%;
   height: 20px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 const KanbanHeaderBottomSectionFirstHalf = styled.div`
-  width: 50%;
+  width: auto;
   height: 20px;
   display: flex;
 `;
 const KanbanHeaderBottomSectionSecondHalf = styled.div`
-  width: 50%;
+  width: auto;
   height: 20px;
   display: flex;
   justify-content: flex-end;
@@ -195,7 +197,7 @@ const NewTaskButtonLabel = styled.span`
   color: #ffffff;
   margin-left: 6px;
 `;
-const ThreeDotVerticalIcon = styled.img`
+const ThreeDotVerticalIcon = styled.div`
   height: 14.75px;
   margin-left: 25px;
   margin-top: 3px;
@@ -346,10 +348,37 @@ function KanbanUI() {
               </NewTaskButtonIconWrap>
               <NewTaskButtonLabel>New Task</NewTaskButtonLabel>
             </NewTaskButtonWrap>
-            <ThreeDotVerticalIcon
-              src="/images/other/ThreeDotVerticalIcon.svg"
-              alt="#"
-            />
+            <ThreeDotVerticalIcon>
+              <svg
+                width="3"
+                height="15"
+                viewBox="0 0 3 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="1.45882"
+                  cy="1.45882"
+                  r="1.45882"
+                  transform="matrix(-1.74846e-07 -1 -1 1.74846e-07 2.91797 2.91764)"
+                  fill="#BBBBBB"
+                />
+                <circle
+                  cx="1.45882"
+                  cy="1.45882"
+                  r="1.45882"
+                  transform="matrix(-1.74846e-07 -1 -1 1.74846e-07 2.91797 8.83512)"
+                  fill="#BBBBBB"
+                />
+                <circle
+                  cx="1.45882"
+                  cy="1.45882"
+                  r="1.45882"
+                  transform="matrix(-1.74846e-07 -1 -1 1.74846e-07 2.91797 14.7528)"
+                  fill="#BBBBBB"
+                />
+              </svg>
+            </ThreeDotVerticalIcon>
           </KanbanHeaderBottomSectionSecondHalf>
         </KanbanHeaderBottomSection>
       </KanbanHeader>
