@@ -20,6 +20,7 @@ const SubAccordion = ({ status, data, provided, index }) => {
       <div className="headerSubComponentContainer">
         <HeaderSubComp
           index={index}
+          childIndex={null}
           status={status}
           data={data}
           subChild={false}
