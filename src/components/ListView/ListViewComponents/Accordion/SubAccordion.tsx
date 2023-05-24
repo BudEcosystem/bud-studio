@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import HeaderSubComp from '../HeaderSubComp';
 
-const SubAccordion = ({ data, provided, index }) => {
+const SubAccordion = ({ status, data, provided, index }) => {
   const [expanded, setExpanded] = useState(index === 0 ? true : false);
   const [expandedChild, setExpandedChild] = useState(
     Array(data.childs.length).fill(false)
@@ -19,6 +19,8 @@ const SubAccordion = ({ data, provided, index }) => {
     <div className="subAccordionParent">
       <div className="headerSubComponentContainer">
         <HeaderSubComp
+          index={index}
+          status={status}
           data={data}
           subChild={false}
           provided={provided}
@@ -33,6 +35,9 @@ const SubAccordion = ({ data, provided, index }) => {
             data.childs.map((subItem, i) => (
               <div style={{ marginBottom: '16px' }}>
                 <HeaderSubComp
+                  index={index}
+                  childIndex={i}
+                  status={status}
                   data={subItem}
                   subChild={true}
                   provided={provided}

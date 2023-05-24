@@ -14,18 +14,18 @@ function OptionsComponent({ isSticky, contentRef }: any) {
   // const contentRef = useRef(null);
 
   const [isSticky2, setIsSticky] = useState(false);
-  useEffect(() => {
-    // console.log('contentRef', contentRef);
-    // const handleScroll = () => {
-    //   const containerTop = contentRef.getBoundingClientRect().top;
-    //   const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
-    //   setIsSticky(kabuniTop <= 95);
-    // };
-    // contentRef?.addEventListener('scroll', handleScroll);
-    // return () => {
-    //   contentRef?.removeEventListener('scroll', handleScroll);
-    // };
-  }, [contentRef, kabuniRef]);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const containerTop = contentRef.getBoundingClientRect().top;
+  //     const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
+  //     setIsSticky(kabuniTop <= 95);
+  //   };
+
+  //   contentRef?.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     contentRef?.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, [contentRef, kabuniRef]);
   return (
     <div className="optionsComponentParentContainer" ref={kabuniRef}>
       <div className="optionsComponentParent">

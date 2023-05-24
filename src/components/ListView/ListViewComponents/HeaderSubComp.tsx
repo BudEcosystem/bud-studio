@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BoxArrow,
   CheckList,
@@ -13,16 +13,37 @@ import {
 import SkillBar from './SkillBar';
 import CircularImageComponent from './CircularImageComponent';
 import CircularBorder from './CircularBorder';
+import { useDispatch } from 'react-redux';
+import { editTitle } from 'redux/slices/list';
 
 const data = ['', ''];
 
-function HeaderSubComp({
+const HeaderSubComp = ({
+  index,
+  childIndex,
+  status,
   data,
   subChild,
   provided,
   expanded,
   toggleSubAccordion,
-}) {
+}) => {
+  const dispatch = useDispatch();
+  const [editing, setEditing] = useState(false);
+  const [newTitle, setNewTitle] = useState(data.title);
+  const handleDoubleClick = () => {
+    setEditing(true);
+  };
+  const handleChange = (event) => {
+    setNewTitle(event.target.value);
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      dispatch(editTitle({ index, childIndex, newTitle, status }));
+      setEditing(false);
+      setNewTitle('');
+    }
+  };
   return (
     <div className="flexVerticalCenter HeaderSubCompParent">
       <div className="flexVerticalCenter">
@@ -47,7 +68,20 @@ function HeaderSubComp({
           </div>
           <div className="textIcon22" />
         </div>
-        <p style={{ marginLeft: '16px' }}>{data.title}</p>
+        {editing ? (
+          <input
+            className="titleInput"
+            type="text"
+            value={newTitle}
+            onChange={handleChange}
+            onKeyPress={handleKeyPress}
+            onBlur={() => setEditing(false)}
+          />
+        ) : (
+          <p style={{ marginLeft: '16px' }} onDoubleClick={handleDoubleClick}>
+            {data.title}
+          </p>
+        )}
         <div className="flexVerticalCenter" style={{ marginLeft: '16px' }}>
           <Sicon />
         </div>
