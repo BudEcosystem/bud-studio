@@ -77,6 +77,10 @@ function ListView({ contentRef }) {
             id="editableDesc"
             className="kabuniBottomText"
             contentEditable={true}
+            style={{
+              border: 'none',
+              outline: 'none',
+            }}
             onKeyDown={keyHandler2}
           >
             {description}
