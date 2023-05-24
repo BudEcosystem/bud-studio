@@ -197,16 +197,18 @@ const ChildMainListComponent = ({ childItems, activepanel }) => {
           </div>
         </Panel>
       ))}
-      {newTaskClicked && (<Panel
-            header={<HeaderSubCompInput />}
-            key="4"
-            style={panelStyle}
-            className="draggable"
-            draggable={true}
-            collapsible="disabled"
-          >
-            {/* <p>{text}</p> */}
-          </Panel>)}
+      {newTaskClicked && (
+        <Panel
+          header={<HeaderSubCompInput />}
+          key="4"
+          style={panelStyle}
+          className="draggable"
+          draggable={true}
+          collapsible="disabled"
+        >
+          {/* <p>{text}</p> */}
+        </Panel>
+      )}
     </Collapse>
   );
 };

@@ -49,7 +49,7 @@ const HeaderSubComp = ({
       <div className="flexVerticalCenter">
         <div className="iconsContainer">
           <div
-            {...provided.dragHandleProps}
+            {...provided?.dragHandleProps}
             style={{
               display: subChild ? 'none' : '',
             }}
@@ -66,7 +66,7 @@ const HeaderSubComp = ({
           >
             <DownArrow />
           </div>
-          <div className="textIcon22"></div>
+          <div className="textIcon22" />
         </div>
         {editing ? (
           <input
@@ -105,7 +105,7 @@ const HeaderSubComp = ({
           />
         </div>
         <div style={{ marginRight: '40px' }}>
-          {data.imagesData.length > 0 ? (
+          {data?.imagesData?.length > 0 ? (
             <CircularImageComponent images={data.imagesData} />
           ) : (
             <CircularBorder icon={<User />} />
@@ -130,6 +130,6 @@ const HeaderSubComp = ({
       </div>
     </div>
   );
-};
+}
 
 export default HeaderSubComp;

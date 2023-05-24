@@ -7,10 +7,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import Accordion from './ListViewComponents/Accordion/Accordion';
 import { editListTitle, editListDescription } from 'redux/slices/list';
 
-function ListView() {
+function ListView({ contentRef }) {
   const dispatch = useDispatch();
   const { content, list }: any = useSelector((state) => state);
-  // const { contentRef } = content;
+  // // const { contentRef } = content;
   const { title, description } = list.listTitleAndDesc;
   const kabuniRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
@@ -125,7 +125,7 @@ function ListView() {
           )}
         </div>
         <div className="optionsComponentContainer mgLeft">
-          <OptionsComponent isSticky={isSticky} />
+          <OptionsComponent isSticky={isSticky} contentRef={contentRef} />
         </div>
       </div>
       <div className="curveContainer mgLeft">

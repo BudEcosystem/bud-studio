@@ -3,9 +3,9 @@ import './Accordion.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Arrow, DownArrow, FourDots } from 'components/ListView/ListViewIcons';
+import { updatePosition } from 'redux/slices/list';
 import SubAccordion from './SubAccordion';
 import HeaderSubCompInput from '../HeaderSubCompInput';
-import { updatePosition } from 'redux/slices/list';
 
 const Accordion = () => {
   const dispatch = useDispatch()

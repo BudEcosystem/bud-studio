@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 const imagesArray: Array<any> = ['', '', ''];
 
-function OptionsComponent({ isSticky }) {
+function OptionsComponent({ isSticky, contentRef }: any) {
   // const { content }: any = useSelector((state) => state);
   // const { contentRef } = content;
   const kabuniRef = useRef(null);
