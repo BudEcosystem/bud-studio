@@ -10,8 +10,8 @@ import { updatePosition } from 'redux/slices/list';
 const Accordion = () => {
   const dispatch = useDispatch()
   const { panelArray, newTaskClicked } = useSelector((state) => state.list);
-  const [expandedItems, setExpandedItems] = useState([]);
-  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  const [expandedItems, setExpandedItems] = useState([0]);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const { workspace }: any = useSelector((state) => state);
   let { color } = workspace;
 
@@ -88,8 +88,7 @@ const Accordion = () => {
                               <SubAccordion
                                 data={subItems}
                                 provided={provided}
-                                index={i}
-                                selectedDiv={selectItem}
+                                index={j}
                               />
                             </div>
                           )}

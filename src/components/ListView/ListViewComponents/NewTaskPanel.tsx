@@ -8,7 +8,7 @@ const nameAndLogoArray = [
         name: "Search",
         logo: <Union />
     },
-    {
+    { 
         name: "Sort",
         logo: <Sort />
     },
@@ -26,6 +26,8 @@ const NewTaskPanel = () => {
     const dispatch = useDispatch();
     const { list }: any = useSelector((state) => state);
     const {newTaskClicked} = list
+    const {workspace}:any = useSelector(state=>state)
+  let { color } = workspace
     const newTaskHandler = () => {
         dispatch(setNewTaskClicked(!newTaskClicked))
     }
@@ -39,7 +41,7 @@ const NewTaskPanel = () => {
             </div>
         ))}
         <div className='newTaskContainer' onClick={newTaskHandler}>
-            <div className='plusContainer flexCenter'>+</div>
+            <div className='plusContainer flexCenter' style={{color: color}}>+</div>
             <div className='newTaskText'>New Task</div>
         </div>
         <div className='threeDots flexCenter'><ThreeDots /></div>

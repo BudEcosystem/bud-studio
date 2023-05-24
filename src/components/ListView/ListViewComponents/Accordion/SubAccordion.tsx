@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import HeaderSubComp from '../HeaderSubComp';
 
-const SubAccordion = ({ data, provided }) => {
-  const [expanded, setExpanded] = useState(false);
+const SubAccordion = ({ data, provided, index }) => {
+  const [expanded, setExpanded] = useState(index === 0 ? true : false);
   const [expandedChild, setExpandedChild] = useState(
     Array(data.childs.length).fill(false)
   );
