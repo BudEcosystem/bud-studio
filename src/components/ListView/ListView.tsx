@@ -12,16 +12,15 @@ function ListView() {
   const kabuniRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
   useEffect(() => {
-    const handleScroll = () => {
-      const containerTop = contentRef.getBoundingClientRect().top;
-      const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
-      setIsSticky(kabuniTop <= 95);
-    };
-
-    contentRef?.addEventListener('scroll', handleScroll);
-    return () => {
-      contentRef?.removeEventListener('scroll', handleScroll);
-    };
+    // const handleScroll = () => {
+    //   const containerTop = contentRef.getBoundingClientRect().top;
+    //   const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
+    //   setIsSticky(kabuniTop <= 95);
+    // };
+    // contentRef?.addEventListener('scroll', handleScroll);
+    // return () => {
+    //   contentRef?.removeEventListener('scroll', handleScroll);
+    // };
   }, [contentRef, kabuniRef]);
   return (
     <>

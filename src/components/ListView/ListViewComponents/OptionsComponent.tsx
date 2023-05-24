@@ -15,12 +15,12 @@ function OptionsComponent({ isSticky }) {
 
   const [isSticky2, setIsSticky] = useState(false);
   useEffect(() => {
+    console.log('contentRef', JSON.parse(contentRef));
     const handleScroll = () => {
       const containerTop = contentRef.getBoundingClientRect().top;
       const kabuniTop = kabuniRef.current.getBoundingClientRect().top;
       setIsSticky(kabuniTop <= 95);
     };
-
     contentRef?.addEventListener('scroll', handleScroll);
     return () => {
       contentRef?.removeEventListener('scroll', handleScroll);
