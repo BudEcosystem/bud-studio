@@ -480,11 +480,6 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                   </div>
                 </Menu.Item>
 
-                <Menu.Item className={`${classes['sidebar-ws-fvrt']}`}>
-                  <div className={`${classes['sidebar-inline-box']}`}>
-                    <label>New Doc (Testing)</label>
-                  </div>
-                </Menu.Item>
 
                 <div className={`${classes['main-sidebar-menu-ws-box']}`}>
                   {!showMore &&
