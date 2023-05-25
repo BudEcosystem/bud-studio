@@ -6,11 +6,9 @@ import Kanban from './kanbanBoard';
 
 const KanbanSection = styled.div`
   height: auto;
-  padding: 47px;
   display: flex;
   flex-direction: column;
   background: #101010;
-  margin-left: 35px;
 `;
 const KanbanHeader = styled.div`
   width: 100%;
@@ -18,7 +16,6 @@ const KanbanHeader = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 10px;
 `;
 const KanbanBoardHeading = styled.div`
   display: flex;

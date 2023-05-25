@@ -41,13 +41,13 @@ function App() {
           text: '',
         },
       },
-      // {
-      //   id: 'ksCokKAdffhQw',
-      //   type: 'kanban',
-      //   data: {
-      //     text: '',
-      //   },
-      // },
+      {
+        id: 'ksCokKAdffhQw',
+        type: 'kanban',
+        data: {
+          text: '',
+        },
+      },
     ],
   });
   const [x, setX] = useState(30);
