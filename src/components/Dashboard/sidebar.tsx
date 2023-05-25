@@ -171,7 +171,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   const { workspace }: any = useSelector((state) => state);
   let { workSpaceItems } = workspace;
   const [activeClassName, setActiveClassName] = useState('0');
-  const [activeClassNameColor, setActiveClassNameColor] = useState(-1);
+  const [activeClassNameColor, setActiveClassNameColor] = useState(0);
   const addWorkspaceInput = useRef(null);
   const [hex_code, setHex_code] = useState('#ffffff');
   const [showAddWorkspace, setShowAddWorkspace] = useState(false);
@@ -202,7 +202,10 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   //   setWorkspaceColor(colorPassed);
   //   setWorkspaceName(name);
   // };
-
+useEffect(() => {
+  // const {currentSelectedDocId} = workspace;
+  console.log(workspace)
+},[workspace])
   const handlerColor = (menuColor: any, menuName: any, i: any) => {
     try {
       console.log("Active Class Name",i);
@@ -471,9 +474,9 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                     </svg>
                   }
                 >
-                  <div className={`${classes['sidebar-inline-box']}`}>
+                  <div className={`${classes['sidebar-inline-box']}`} style={isCollapsed ? {width: '100px'} : {}}>
                     <label>Favourites</label>
-                    <div className={`${classes['sidebar-inline-box-count']}`}>
+                    <div className={`${classes['sidebar-inline-box-count']}`} style={isCollapsed ? {left: 'unset', right: '5px', top: '10px'} : {}}>
                       <span>08</span>
                     </div>
                     {isCollapsed ? null : (
