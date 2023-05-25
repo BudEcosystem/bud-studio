@@ -8,6 +8,7 @@ import './Editor.css';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setApplicationData,
+  setCurrentSelectedDocument,
   setEditorInitialised,
 } from 'redux/slices/workspace';
 import {
@@ -197,10 +198,12 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       if (paraElement) {
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
+        const regex3 = /!(\w+)/g;
         const text = paraElement?.textContent;
         let savedText = text;
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
+        const matches3 = text?.match(regex3);
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
@@ -220,6 +223,15 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
             );
           });
         }
+        if (matches3) {
+          matches3.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${word}</span>`
+            );
+          });
+        }
         paraElement.innerHTML = savedText;
       }
     });
@@ -229,10 +241,12 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       if (headerElement) {
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
+        const regex3 = /!(\w+)/g;
         const text = headerElement?.textContent;
         let savedText = text;
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
+        const matches3 = text?.match(regex3);
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
@@ -249,6 +263,15 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
             savedText = savedText?.replaceAll(
               match,
               `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        if (matches3) {
+          matches3.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${word}</span>`
             );
           });
         }
@@ -355,10 +378,7 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
     });
   };
 
-  console.log('TREE', tree);
-  console.log('WORSPACE EDITOR', workspace);
-
-  const initEditor = (dataPassed) => {
+  const initEditor = (dataPassed: any) => {
     console.log('###################################- initEditoe', editorData);
     const editor = new EditorJS({
       holder: EDITTOR_HOLDER_ID,
@@ -406,10 +426,12 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       if (paraElement) {
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
+        const regex3 = /!(\w+)/g;
         const text = paraElement?.textContent;
         let savedText = text;
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
+        const matches3 = text?.match(regex3);
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
@@ -426,6 +448,15 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
             savedText = savedText?.replaceAll(
               match,
               `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color}75;"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        if (matches3) {
+          matches3.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${word}</span>`
             );
           });
         }
@@ -438,10 +469,12 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       if (headerElement) {
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
+        const regex3 = /!(\w+)/g;
         const text = headerElement?.textContent;
         let savedText = text;
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
+        const matches3 = text?.match(regex3);
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
@@ -458,6 +491,15 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
             savedText = savedText?.replace(
               match,
               `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${color}75;"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        if (matches3) {
+          matches3.forEach((match) => {
+            const word = match.slice(1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${word}</span>`
             );
           });
         }
@@ -568,24 +610,6 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
     colorRef.current = `${color}75`;
   }, [color]);
 
-  const addHyperLink = (ele: any, title: any) => {
-    let childDiv = document.createElement('span');
-    childDiv.textContent = `${title} `;
-    childDiv.style.backgroundColor = `${colorRef.current}`;
-    childDiv.style.color = 'white';
-    childDiv.style.textDecoration = 'underline';
-    childDiv.style.cursor = 'pointer';
-    const x = ele.innerHTML;
-    console.log("INNER HTML", x)
-    let targetElement = ele.querySelector('h2, p');
-    targetElement.appendChild(childDiv)
-
-    }
-
-    const goToHyperLink = () => {
-
-    }
-
   const insertBlock = (opt: any, title: any) => {
     const blockTypes = Object.keys(ejInstance?.current?.configuration?.tools);
     const currentBlockIndex =
@@ -595,21 +619,6 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       ejInstance?.current?.blocks.insert(opt, currentBlockIndex + 1);
       setShowEditorOptionsBlock(false);
     }
-    // if (opt && blockTypes.includes(opt) && currentBlockIndex == -1) {
-    //   ejInstance?.current?.isReady.then(() => {
-    //     ejInstance?.current?.saver
-    //       .save()
-    //       .then((savedData) => {
-    //         const blockCount = savedData.blocks.length;
-    //         console.log('Number of blocks:', blockCount);
-    //         ejInstance?.current?.blocks.insert(opt, blockCount + 2);
-    //         setShowEditorOptionsBlock(false);
-    //       })
-    //       .catch((error) => {
-    //         console.error('Error getting block count:', error);
-    //       });
-    //   });
-    // }
 
     if (opt == 'listview') {
       setCurrentSelectedUI('listview');
@@ -661,7 +670,7 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
           try {
             const savedData = await ejInstance?.current?.save();
             const currentData = savedData.blocks;
-            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;">${title}</span>`
+            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${title}</span>`
             if (blockIndex >= 0 && blockIndex < currentData.length) {
               const targetBlock = currentData[blockIndex];
               targetBlock.data.text += ` ${hyperlink}`;
@@ -756,6 +765,20 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       setRender(false);
     }
   }, [showEditorOptionsBlock]);
+
+  useEffect(() => {
+    const hyperLinkDiv = document.getElementById('hyperLinkId');
+    if(hyperLinkDiv) {
+      const fileName = hyperLinkDiv.innerText;
+      hyperLinkDiv?.addEventListener('click', (event) => {
+        alert("CLICKED")
+        dispatch(setCurrentSelectedDocument({ id: null }));
+    setTimeout(() => {
+      dispatch(setCurrentSelectedDocument({ id: fileName }));
+    }, 1000);
+      })
+    }
+  });
 
   const { activeElement } = document;
   cursorRect.current = activeElement?.getBoundingClientRect();

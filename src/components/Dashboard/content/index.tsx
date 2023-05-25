@@ -58,11 +58,11 @@ function ContentView({
         )}
         {/* <Editor /> */}
         {selectedDoc && currentSelectedUI === '' && (
-          <BudEditor />
-          // <EditorJsWrapper
-          //   data={{}}
-          //   setCurrentSelectedUI={setCurrentSelectedUI}
-          // />
+          // <BudEditor />
+          <EditorJsWrapper
+            data={{}}
+            setCurrentSelectedUI={setCurrentSelectedUI}
+          />
         )}
         {currentSelectedUI === 'listview' && (
           <ListView contentRef={contentRef} />
