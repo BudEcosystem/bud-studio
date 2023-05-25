@@ -43,6 +43,9 @@ function Tree({
   }, [treeState]);
   const [activeNode, setActiveNode] = useState(null);
   const handleNodeClick = (node) => {
+
+    console.log("Active Node", node);
+
     if (activeNode === node) {
       setActiveNode(null);
     } else {
