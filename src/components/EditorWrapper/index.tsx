@@ -21,7 +21,7 @@ import {
   CheckListIcon,
   HeadingIcon,
   ParagraphIcon,
-  FileIcon
+  FileIcon,
 } from './EditorIcons';
 
 const DEFAULT_INITIAL_DATA = () => {
@@ -40,6 +40,7 @@ const DEFAULT_INITIAL_DATA = () => {
 };
 
 const EDITTOR_HOLDER_ID = 'editorjs';
+let fileMentionedArray: any = [];
 
 function EditorWrapper({ data, setCurrentSelectedUI }: any) {
   const ejInstance = useRef();
@@ -63,8 +64,10 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
   const [showDatabaseOptions, setShowDatabaseOptions] = useState(false);
   const [showDocumentOptions, setShowDocumentOptions] = useState(false);
   const [showFirstOptions, setShowFirstOptions] = useState(true);
-  const [workspaceFiles,setWorkspaceFiles] = useState(workspace.workSpaceDocs)
-  const [currentFileName, setCurrentFileName] = useState(workspace.currentSelectedDocId)
+  const [workspaceFiles, setWorkspaceFiles] = useState(workspace.workSpaceDocs);
+  const [currentFileName, setCurrentFileName] = useState(
+    workspace.currentSelectedDocId
+  );
 
   const [editorOptions, setEditorOptions] = useState([
     {
@@ -153,8 +156,8 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
     );
     if (currentApplicationData.length > 0) {
       console.log(
-        '################################### - else',
-        currentApplicationData
+        '################################### - editorInitialised',
+        editorInitialised
       );
       setEditorData(currentApplicationData[0].applicationSpecificicData);
       !editorInitialised &&
@@ -178,7 +181,7 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       ejInstance.current = null;
     }
     setCurrentFileName(workspace.currentSelectedDocId);
-    setWorkspaceFiles(workspace.workSpaceDocs)
+    setWorkspaceFiles(workspace.workSpaceDocs);
   }, [workspace, ejInstance]);
 
   // This will run only once
@@ -191,7 +194,6 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
   //     ejInstance.current = null;
   //   };
   // }, []);
-
   const checkForMentions = () => {
     const paraElements = document.querySelectorAll('.ce-paragraph');
     paraElements.forEach((paraElement) => {
@@ -200,7 +202,7 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
         const regex2 = /#(\w+)/g;
         const regex3 = /!(\w+)/g;
         const text = paraElement?.textContent;
-        let savedText = text;
+        let savedText: any = text;
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
         const matches3 = text?.match(regex3);
@@ -226,16 +228,17 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
         if (matches3) {
           matches3.forEach((match) => {
             const word = match.slice(1);
+            fileMentionedArray.push(word);
             savedText = savedText?.replaceAll(
               match,
-              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${word}</span>`
+              `<span id=${word} style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${word}</span>`
             );
           });
         }
         paraElement.innerHTML = savedText;
       }
     });
-
+    console.log('fileMentionedArray', fileMentionedArray);
     const headerElements = document.querySelectorAll('.ce-header');
     headerElements.forEach((headerElement) => {
       if (headerElement) {
@@ -456,7 +459,7 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
             const word = match.slice(1);
             savedText = savedText?.replaceAll(
               match,
-              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${word}</span>`
+              `<span id=${word} style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${word}</span>`
             );
           });
         }
@@ -650,33 +653,37 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       setShowDatabaseOptions(true);
       setShowFirstOptions(false);
     }
-      if(opt=="document") {
-        const listofFiles:any = []
-        workspaceFiles.map((file: any) => {
-          console.log(file.name)
-          let obj = {key: 'file', icon: <FileIcon/>,title: file.name, subTitle: `Link ${file.name} to this block`}
-          listofFiles.push(obj)
-        })
-          setEditorOptions(listofFiles)
-          setShowDocumentOptions(true)
-          setShowFirstOptions(false)
-      }
+    if (opt == 'document') {
+      const listofFiles: any = [];
+      workspaceFiles.map((file: any) => {
+        console.log(file.name);
+        let obj = {
+          key: 'file',
+          icon: <FileIcon />,
+          title: file.name,
+          subTitle: `Link ${file.name} to this block`,
+        };
+        listofFiles.push(obj);
+      });
+      setEditorOptions(listofFiles);
+      setShowDocumentOptions(true);
+      setShowFirstOptions(false);
+    }
 
-    if(opt=="file") {
+    if (opt == 'file') {
       const blockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
-      if(blockIndex >=0)
-      {
-        async function appendTextToBlock(blockIndex: any, title:any) {
+      if (blockIndex >= 0) {
+        async function appendTextToBlock(blockIndex: any, title: any) {
           try {
             const savedData = await ejInstance?.current?.save();
             const currentData = savedData.blocks;
-            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${title}</span>`
+            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${title}</span>`;
             if (blockIndex >= 0 && blockIndex < currentData.length) {
               const targetBlock = currentData[blockIndex];
               targetBlock.data.text += ` ${hyperlink}`;
-        
+
               ejInstance?.current?.render({ blocks: currentData });
-              setShowEditorOptionsBlock(false)
+              setShowEditorOptionsBlock(false);
             }
           } catch (error) {
             console.error('Error occurred while appending text:', error);
@@ -767,17 +774,20 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
   }, [showEditorOptionsBlock]);
 
   useEffect(() => {
-    const hyperLinkDiv = document.getElementById('hyperLinkId');
-    if(hyperLinkDiv) {
-      const fileName = hyperLinkDiv.innerText;
-      hyperLinkDiv?.addEventListener('click', (event) => {
-        alert("CLICKED")
-        dispatch(setCurrentSelectedDocument({ id: null }));
-    setTimeout(() => {
-      dispatch(setCurrentSelectedDocument({ id: fileName }));
-    }, 1000);
-      })
-    }
+    fileMentionedArray.forEach((eachWord: any) => {
+      const hyperLinkDiv: any = document.getElementById(`${eachWord}`);
+      const fileName = hyperLinkDiv?.innerText;
+      if (fileName) {
+        hyperLinkDiv?.addEventListener('click', () => {
+          dispatch(setCurrentSelectedDocument({ id: null }));
+          setTimeout(() => {
+            dispatch(setCurrentSelectedDocument({ id: fileName }));
+          }, 1000);
+          fileMentionedArray = [];
+        });
+      }
+    });
+    // }
   });
 
   const { activeElement } = document;
@@ -935,18 +945,53 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
 
       {!iconUrl ? (
         coverUrlAvailable ? (
-          <div style={{position: "relative", bottom:"30px", display: "flex", width: "700px", alignItems: "end", marginRight: "225px"}}>
-          <div className="editorIcon">
-            <img src={iconUrl} />
-          </div>
-          <div style={{fontSize: "23px", fontWeight: "400", height: "fit-content"}}>{currentFileName}</div>
+          <div
+            style={{
+              position: 'relative',
+              bottom: '30px',
+              display: 'flex',
+              width: '700px',
+              alignItems: 'end',
+              marginRight: '225px',
+            }}
+          >
+            <div className="editorIcon">
+              <img src={iconUrl} />
+            </div>
+            <div
+              style={{
+                fontSize: '23px',
+                fontWeight: '400',
+                height: 'fit-content',
+              }}
+            >
+              {currentFileName}
+            </div>
           </div>
         ) : (
-          <div style={{position: "relative", bottom:"0px", display: "flex", width: "700px", alignItems: "center", marginRight: "225px", marginBottom: "40px"}}>
-          <div className="editorIcon">
-            <img src={iconUrl} />
-          </div>
-          <div style={{fontSize: "25px", fontWeight: "400", height: "fit-content"}}>{currentFileName}</div>
+          <div
+            style={{
+              position: 'relative',
+              bottom: '0px',
+              display: 'flex',
+              width: '700px',
+              alignItems: 'center',
+              marginRight: '225px',
+              marginBottom: '40px',
+            }}
+          >
+            <div className="editorIcon">
+              <img src={iconUrl} />
+            </div>
+            <div
+              style={{
+                fontSize: '25px',
+                fontWeight: '400',
+                height: 'fit-content',
+              }}
+            >
+              {currentFileName}
+            </div>
           </div>
         )
       ) : (
@@ -973,7 +1018,7 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
 
       {showEditorOptionsBlock && (
         <div
-        id="editorOptionBlockID"
+          id="editorOptionBlockID"
           style={{
             top: `${
               coverUrlAvailable
