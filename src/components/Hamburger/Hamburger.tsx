@@ -2,16 +2,29 @@ import React, { useState } from 'react';
 import HamburgerItems from './HamburgerItems';
 import './Hamburger.css';
 
-const HamburgerOptions = ['', 'List View', 'Kanban View', '', ''];
+const HamburgerOptions = ['', 'editor', 'List View', 'Kanban View', '', ''];
 
-function Hamburger() {
-  const [selectedOption, setSelectedOption] = useState('Kanban View');
+function Hamburger({
+  setCurrentSelectedUI,
+  selectedOption,
+  setSelectedOption,
+}) {
+  // const [selectedOption, setSelectedOption] = useState('editor');
 
   const handleOptionClick = (option) => {
     if (option === '') {
       return;
     }
     setSelectedOption(option);
+    if (option === 'editor') {
+      setCurrentSelectedUI('');
+    } else if (option === 'List View') {
+      setCurrentSelectedUI('listview');
+    } else if (option === 'Kanban View') {
+      setCurrentSelectedUI('kanban');
+    } else {
+      return;
+    }
   };
 
   return (

@@ -34,6 +34,7 @@ function ContentView({
   }, [contentRef, dispatch]);
   const [selectedDoc, setSelectedDoc] = useState();
   const [currentSelectedUI, setCurrentSelectedUI] = useState('');
+  const [selectedOption, setSelectedOption] = useState('editor');
   const { workspace } = useSelector((state) => state);
   useEffect(() => {
     const { currentWorkspace, currentSelectedDocId } = workspace;
@@ -62,13 +63,21 @@ function ContentView({
           <EditorJsWrapper
             data={{}}
             setCurrentSelectedUI={setCurrentSelectedUI}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
           />
         )}
         {currentSelectedUI === 'listview' && (
           <ListView contentRef={contentRef} workspaceObj={workspace} />
         )}
-        {currentSelectedUI === 'kanban' && <KanbanUI workspaceObj={workspace}/>}
-        <Hamburger />
+        {currentSelectedUI === 'kanban' && (
+          <KanbanUI workspaceObj={workspace} />
+        )}
+        <Hamburger
+          setCurrentSelectedUI={setCurrentSelectedUI}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+        />
       </Content>
       <OmniSearch />
     </Layout>
