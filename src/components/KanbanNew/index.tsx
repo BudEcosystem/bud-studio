@@ -212,7 +212,7 @@ function HeaderButtons({ label, icon }: any) {
     </ButtonGroup>
   );
 }
-function KanbanUI() {
+function KanbanUI({workspaceObj}) {
   const [date, setDate] = useState<String>('');
   useEffect(() => setDate('13 June 2022'), []);
   const dispatch = useDispatch();
@@ -227,7 +227,7 @@ function KanbanUI() {
             <KanbanBoardHeadingLogoWrap>
               <KanbanBoardHeadingLogo />
             </KanbanBoardHeadingLogoWrap>
-            <KanbanBoardHeadingText>Kabuni</KanbanBoardHeadingText>
+            <KanbanBoardHeadingText>{workspaceObj.currentSelectedDocId}</KanbanBoardHeadingText>
           </KanbanBoardHeading>
           <KanbanBoardHeadingSecondarySection>
             <KanbanBoardSecondaryHeadingText>
