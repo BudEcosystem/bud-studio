@@ -40,7 +40,12 @@ const DEFAULT_INITIAL_DATA = () => {
 
 const EDITTOR_HOLDER_ID = 'editorjs';
 
-function EditorWrapper({ data, setCurrentSelectedUI }: any) {
+function EditorWrapper({
+  data,
+  setCurrentSelectedUI,
+  selectedOption,
+  setSelectedOption,
+}: any) {
   const ejInstance = useRef();
   const editor1 = useRef<EditorJS>();
   const [editorData, setEditorData] = useState(null);
@@ -610,9 +615,11 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
 
     if (opt == 'listview') {
       setCurrentSelectedUI('listview');
+      setSelectedOption('List View');
     }
     if (opt == 'kanban') {
       setCurrentSelectedUI('kanban');
+      setSelectedOption('Kanban View');
     }
     if (opt == 'database') {
       setEditorOptions([
@@ -910,6 +917,76 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
 
       {!iconUrl ? (
         coverUrlAvailable ? (
+          <div
+            style={{
+              position: 'relative',
+              bottom: '30px',
+              display: 'flex',
+              width: '700px',
+              alignItems: 'end',
+              marginRight: '225px',
+            }}
+          >
+            <div className="editorIcon">
+              <img src={iconUrl} />
+            </div>
+            <div
+              style={{
+                fontSize: '23px',
+                fontWeight: '400',
+                height: 'fit-content',
+              }}
+            >
+              {currentFileName}
+            </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              position: 'relative',
+              bottom: '0px',
+              display: 'flex',
+              width: '700px',
+              alignItems: 'center',
+              marginRight: '225px',
+              marginBottom: '40px',
+            }}
+          >
+            <div className="editorIcon">
+              <img src={iconUrl} />
+            </div>
+            <div
+              style={{
+                fontSize: '25px',
+                fontWeight: '400',
+                height: 'fit-content',
+              }}
+            >
+              {currentFileName}
+            </div>
+          </div>
+        )
+      ) : (
+        <div
+          style={{
+            fontSize: '14px',
+            fontWeight: '500',
+            marginRight: '910px',
+            marginTop: '120px',
+            display: 'flex',
+            width: 'fit-content',
+            color: '#333539',
+            cursor: 'pointer',
+          }}
+        >
+          <div style={{ marginRight: '10px' }}>
+            <AddIcon />
+          </div>
+          Add Icon
+        </div>
+      )}
+      {/* {!iconUrl ? (
+        coverUrlAvailable ? (
           <div className="editorIcon">
             <img src={iconUrl} />
           </div>
@@ -939,35 +1016,7 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
           </div>
           Add Icon
         </div>
-      )}
-
-      {coverUrlAvailable ? (
-        <div
-          style={{
-            fontSize: '23px',
-            fontWeight: '400',
-            // marginTop: '-65px',
-            // marginRight: '55%'
-            position: 'relative',
-            bottom: '65px',
-          }}
-        >
-          {currentFileName}
-        </div>
-      ) : (
-        <div
-          style={{
-            fontSize: '23px',
-            fontWeight: '400',
-            // marginTop: '-65px',
-            // marginRight: '55%',
-            position: 'relative',
-            bottom: '65px',
-          }}
-        >
-          {currentFileName}
-        </div>
-      )}
+      )} */}
 
       <div className="editorjsDiv" id={EDITTOR_HOLDER_ID} />
 
