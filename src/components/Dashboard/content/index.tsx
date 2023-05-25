@@ -58,16 +58,16 @@ function ContentView({
         )}
         {/* <Editor /> */}
         {selectedDoc && currentSelectedUI === '' && (
-          <BudEditor />
-          // <EditorJsWrapper
-          //   data={{}}
-          //   setCurrentSelectedUI={setCurrentSelectedUI}
-          // />
+          // <BudEditor />
+          <EditorJsWrapper
+            data={{}}
+            setCurrentSelectedUI={setCurrentSelectedUI}
+          />
         )}
         {currentSelectedUI === 'listview' && (
-          <ListView contentRef={contentRef} />
+          <ListView contentRef={contentRef} workspaceObj={workspace} />
         )}
-        {currentSelectedUI === 'kanban' && <KanbanUI />}
+        {currentSelectedUI === 'kanban' && <KanbanUI workspaceObj={workspace}/>}
         <Hamburger />
       </Content>
       <OmniSearch />

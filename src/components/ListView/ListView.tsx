@@ -7,13 +7,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import Accordion from './ListViewComponents/Accordion/Accordion';
 import { editListTitle, editListDescription } from 'redux/slices/list';
 
-function ListView({ contentRef }) {
+function ListView({ contentRef, workspaceObj }) {
   const dispatch = useDispatch();
   const { content, list }: any = useSelector((state) => state);
   const { listTitleAndDesc } = list;
   const { title, description } = listTitleAndDesc;
   const kabuniRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    dispatch(editListTitle({newTitle: workspaceObj.currentSelectedDocId}))
+  }, [])
 
   const keyHandler = (event) => {
     if (event.key === 'Enter') {
