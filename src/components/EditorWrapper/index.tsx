@@ -904,12 +904,18 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
 
       {!iconUrl ? (
         coverUrlAvailable ? (
+          <div style={{position: "relative", bottom:"30px", display: "flex", width: "700px", alignItems: "end", marginRight: "225px"}}>
           <div className="editorIcon">
             <img src={iconUrl} />
           </div>
+          <div style={{fontSize: "23px", fontWeight: "400", height: "fit-content"}}>{currentFileName}</div>
+          </div>
         ) : (
-          <div style={{ top: '10px', marginRight: "850px", marginBottom: "20px" }} className="editorIcon">
+          <div style={{position: "relative", bottom:"0px", display: "flex", width: "700px", alignItems: "center", marginRight: "225px", marginBottom: "40px"}}>
+          <div className="editorIcon">
             <img src={iconUrl} />
+          </div>
+          <div style={{fontSize: "25px", fontWeight: "400", height: "fit-content"}}>{currentFileName}</div>
           </div>
         )
       ) : (
@@ -931,9 +937,6 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
           Add Icon
         </div>
       )}
-
-        {coverUrlAvailable ? 
-      (<div style={{fontSize: "23px", fontWeight: "400", position: "relative", bottom: "65px"}}>{currentFileName}</div>) : <div style={{fontSize: "23px", fontWeight: "400", position: "relative", bottom: "65px"}}>{currentFileName}</div> }
 
       <div className="editorjsDiv" id={EDITTOR_HOLDER_ID} />
 

@@ -145,9 +145,7 @@
   height: 72px;
   border-radius: 10px;
   background-color: blue;
-  margin-right: 850px;
-  position: relative;
-  bottom: 30px;
+  margin-right: 20px;
 }
 
 .EditorOptionsBlock {
