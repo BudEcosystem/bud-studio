@@ -20,7 +20,7 @@ import {
   CheckListIcon,
   HeadingIcon,
   ParagraphIcon,
-  FileIcon
+  FileIcon,
 } from './EditorIcons';
 
 const DEFAULT_INITIAL_DATA = () => {
@@ -62,8 +62,10 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
   const [showDatabaseOptions, setShowDatabaseOptions] = useState(false);
   const [showDocumentOptions, setShowDocumentOptions] = useState(false);
   const [showFirstOptions, setShowFirstOptions] = useState(true);
-  const [workspaceFiles,setWorkspaceFiles] = useState(workspace.workSpaceDocs)
-  const [currentFileName, setCurrentFileName] = useState(workspace.currentSelectedDocId)
+  const [workspaceFiles, setWorkspaceFiles] = useState(workspace.workSpaceDocs);
+  const [currentFileName, setCurrentFileName] = useState(
+    workspace.currentSelectedDocId
+  );
 
   const [editorOptions, setEditorOptions] = useState([
     {
@@ -177,7 +179,7 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       ejInstance.current = null;
     }
     setCurrentFileName(workspace.currentSelectedDocId);
-    setWorkspaceFiles(workspace.workSpaceDocs)
+    setWorkspaceFiles(workspace.workSpaceDocs);
   }, [workspace, ejInstance]);
 
   // This will run only once
@@ -576,11 +578,10 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
     childDiv.style.textDecoration = 'underline';
     childDiv.style.cursor = 'pointer';
     const x = ele.innerHTML;
-    console.log("INNER HTML", x)
+    console.log('INNER HTML', x);
     let targetElement = ele.querySelector('h2, p');
-    targetElement.appendChild(childDiv)
-
-    }
+    targetElement.appendChild(childDiv);
+  };
 
   const insertBlock = (opt: any, title: any) => {
     const blockTypes = Object.keys(ejInstance?.current?.configuration?.tools);
@@ -637,25 +638,30 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       setShowDatabaseOptions(true);
       setShowFirstOptions(false);
     }
-      if(opt=="document") {
-        const listofFiles:any = []
-        workspaceFiles.map((file: any) => {
-          console.log(file.name)
-          let obj = {key: 'file', icon: <FileIcon/>,title: file.name, subTitle: `Link ${file.name} to this block`}
-          listofFiles.push(obj)
-        })
-          setEditorOptions(listofFiles)
-          setShowDocumentOptions(true)
-          setShowFirstOptions(false)
-      }
+    if (opt == 'document') {
+      const listofFiles: any = [];
+      workspaceFiles.map((file: any) => {
+        console.log(file.name);
+        let obj = {
+          key: 'file',
+          icon: <FileIcon />,
+          title: file.name,
+          subTitle: `Link ${file.name} to this block`,
+        };
+        listofFiles.push(obj);
+      });
+      setEditorOptions(listofFiles);
+      setShowDocumentOptions(true);
+      setShowFirstOptions(false);
+    }
 
-    if(opt=="file") {
+    if (opt == 'file') {
       const blockElements = document.getElementsByClassName('editorjsDiv');
       Array.from(blockElements).forEach((blockElement) => {
         blockElement.addEventListener('mousedown', (event) => {
           const ele = event?.target?.closest('.ce-block');
           if (ele) {
-            addHyperLink(ele, title)
+            addHyperLink(ele, title);
           }
         });
       });
@@ -908,7 +914,10 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
             <img src={iconUrl} />
           </div>
         ) : (
-          <div style={{ top: '10px', marginRight: "850px", marginBottom: "20px" }} className="editorIcon">
+          <div
+            style={{ top: '10px', marginRight: '850px', marginBottom: '20px' }}
+            className="editorIcon"
+          >
             <img src={iconUrl} />
           </div>
         )
@@ -932,8 +941,33 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
         </div>
       )}
 
-        {coverUrlAvailable ? 
-      (<div style={{fontSize: "23px", fontWeight: "400", position: "relative", bottom: "65px"}}>{currentFileName}</div>) : <div style={{fontSize: "23px", fontWeight: "400", position: "relative", bottom: "65px"}}>{currentFileName}</div> }
+      {coverUrlAvailable ? (
+        <div
+          style={{
+            fontSize: '23px',
+            fontWeight: '400',
+            marginTop: '-65px',
+            marginRight: '55%'
+            // position: 'relative',
+            // bottom: '65px',
+          }}
+        >
+          {currentFileName}
+        </div>
+      ) : (
+        <div
+          style={{
+            fontSize: '23px',
+            fontWeight: '400',
+            marginTop: '-65px',
+            marginRight: '55%'
+            // position: 'relative',
+            // bottom: '65px',
+          }}
+        >
+          {currentFileName}
+        </div>
+      )}
 
       <div className="editorjsDiv" id={EDITTOR_HOLDER_ID} />
 
