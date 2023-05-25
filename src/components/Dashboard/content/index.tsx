@@ -13,6 +13,8 @@ import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 import Editor from '../../Editor/Editor';
 import EditorJsWrapper from '../../EditorWrapper';
 
+import BudEditor from '../../BudEditor';
+
 function ContentView({
   setCollapsed,
   isCollapsed,
@@ -56,10 +58,11 @@ function ContentView({
         )}
         {/* <Editor /> */}
         {selectedDoc && currentSelectedUI === '' && (
-          <EditorJsWrapper
-            data={{}}
-            setCurrentSelectedUI={setCurrentSelectedUI}
-          />
+          <BudEditor />
+          // <EditorJsWrapper
+          //   data={{}}
+          //   setCurrentSelectedUI={setCurrentSelectedUI}
+          // />
         )}
         {currentSelectedUI === 'listview' && (
           <ListView contentRef={contentRef} />
