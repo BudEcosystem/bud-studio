@@ -946,10 +946,10 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
           style={{
             fontSize: '23px',
             fontWeight: '400',
-            marginTop: '-65px',
-            marginRight: '55%'
-            // position: 'relative',
-            // bottom: '65px',
+            // marginTop: '-65px',
+            // marginRight: '55%'
+            position: 'relative',
+            bottom: '65px',
           }}
         >
           {currentFileName}
@@ -959,10 +959,10 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
           style={{
             fontSize: '23px',
             fontWeight: '400',
-            marginTop: '-65px',
-            marginRight: '55%'
-            // position: 'relative',
-            // bottom: '65px',
+            // marginTop: '-65px',
+            // marginRight: '55%',
+            position: 'relative',
+            bottom: '65px',
           }}
         >
           {currentFileName}

@@ -14,8 +14,10 @@ function ListView({ contentRef, workspaceObj }) {
   const { title, description } = listTitleAndDesc;
   const kabuniRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
+  const [oneTime, setOneTime] = useState(true);
 
   useEffect(() => {
+    if(oneTime)
     dispatch(editListTitle({newTitle: workspaceObj.currentSelectedDocId}))
   }, [])
 
@@ -23,6 +25,7 @@ function ListView({ contentRef, workspaceObj }) {
     if (event.key === 'Enter') {
       event.preventDefault();
       dispatch(editListTitle({ newTitle: event.target.innerText }));
+      setOneTime(false)
       const heading = document.getElementById('editableTitle');
       heading?.blur();
     }
