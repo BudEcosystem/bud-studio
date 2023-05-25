@@ -651,28 +651,43 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
 
     if(opt=="file") {
       const blockElements = document.getElementsByClassName('editorjsDiv');
-      Array.from(blockElements).forEach((blockElement) => {
-        blockElement.addEventListener('mousedown', (event) => {
-          const ele = event?.target?.closest('.ce-block');
-          if (ele) {
-            addHyperLink(ele, title)
+      // Array.from(blockElements).forEach((blockElement) => {
+      //   blockElement.addEventListener('focus', (event) => {
+      //     const ele = event?.target?.closest('.ce-block');
+      //     if (ele) {
+      //       addHyperLink(ele, title)
+      //     }
+      //   });
+      // });
+      const blockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
+      if(currentBlockIndex >=0)
+      {
+        async function appendTextToBlock(blockIndex, title) {
+          try {
+            const savedData = await ejInstance?.current?.save();
+            const currentData = savedData.blocks;
+        
+            if (blockIndex >= 0 && blockIndex < currentData.length) {
+              const targetBlock = currentData[blockIndex];
+              targetBlock.data.text += ` ${title}`;
+        
+              ejInstance?.current?.render({ blocks: currentData });
+              setShowEditorOptionsBlock(false)
+            }
+          } catch (error) {
+            console.error('Error occurred while appending text:', error);
           }
-        });
-      });
+        }
+        appendTextToBlock(blockIndex, title);
+      }
     }
   };
 
-  // function handleClickOutside(event) {
-  //   const targetDiv = document.getElementById('editorOptionsBlockID');
-  //   const clickedElement = event.target;
-
-  //   if(showEditorOptionsBlock) {
-  //   // if (targetDiv && !targetDiv.contains(clickedElement)) {
-  //   //   // The click is outside the target div
-  //   //   setShowEditorOptionsBlock(false)
-  //   //   // Call your function here or perform any desired action
-  //   // }
-  // }}
+  useEffect(() => {
+    if(showEditorOptionsBlock) {
+      
+    }
+  }, [showEditorOptionsBlock])
 
   const style = { '--bg-color': color };
   // document.addEventListener('click', handleClickOutside);
@@ -744,6 +759,10 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       setTimeout(() => {
         setRender(true);
       }, 100);
+      const targetDiv = document.getElementById('editorOptionBlockID');
+      targetDiv?.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+      });
     } else {
       setRender(false);
     }
@@ -942,6 +961,7 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
 
       {showEditorOptionsBlock && (
         <div
+        id="editorOptionBlockID"
           style={{
             top: `${
               coverUrlAvailable
