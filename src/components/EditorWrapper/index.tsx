@@ -582,6 +582,10 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
 
     }
 
+    const goToHyperLink = () => {
+        
+    }
+
   const insertBlock = (opt: any, title: any) => {
     const blockTypes = Object.keys(ejInstance?.current?.configuration?.tools);
     const currentBlockIndex =
@@ -666,10 +670,11 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
           try {
             const savedData = await ejInstance?.current?.save();
             const currentData = savedData.blocks;
+            const hyperlink = `<span onClick={${goToHyperLink}} style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;">${title}</span>`
         
             if (blockIndex >= 0 && blockIndex < currentData.length) {
               const targetBlock = currentData[blockIndex];
-              targetBlock.data.text += ` ${title}`;
+              targetBlock.data.text += ` ${hyperlink}`;
         
               ejInstance?.current?.render({ blocks: currentData });
               setShowEditorOptionsBlock(false)
