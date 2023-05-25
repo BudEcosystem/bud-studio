@@ -31,23 +31,23 @@ function App() {
         id: 'ksCokKAhQw',
         type: 'paragraph',
         data: {
-          text: "Classic WYSIWYG editors produce raw HTML-markup with both content data and content appearance. On the contrary, <mark class='cdx-marker'>Editor.js outputs JSON object</mark> with data of each Block.",
+          text: 'Classic WYSIWYG editors produce raw HTML-markup with both content data and content appearance. On the contrary, with data of each Block.',
         },
       },
       {
         id: 'ksCokKAfhQw',
         type: 'paragraph',
         data: {
-          text: "",
+          text: '',
         },
       },
-      {
-        id: 'ksCokKAdffhQw',
-        type: 'kanban',
-        data: {
-          text: "",
-        },
-      },
+      // {
+      //   id: 'ksCokKAdffhQw',
+      //   type: 'kanban',
+      //   data: {
+      //     text: '',
+      //   },
+      // },
     ],
   });
   const [x, setX] = useState(30);
@@ -89,20 +89,56 @@ function App() {
     return { x, y };
   };
 
+  const deepCopy = (obj) => {
+    if (typeof obj !== 'object' || obj === null) {
+      return obj;
+    }
+
+    let copy;
+
+    if (Array.isArray(obj)) {
+      copy = [];
+      for (let i = 0; i < obj.length; i++) {
+        copy[i] = deepCopy(obj[i]);
+      }
+    } else {
+      copy = {};
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          copy[key] = deepCopy(obj[key]);
+        }
+      }
+    }
+
+    return copy;
+  };
+
   const addBlock = () => {
-    const tempState = html;
+    const tempState = { ...html };
 
     tempState.blocks.push({
-      html: '<b>Hello <i>World</i></b>',
-      uuid: html.blocks.length,
+      id: Math.random().toString(36).substr(2, 9),
+      type: 'paragraph',
+      data: {
+        text: '',
+      },
     });
+
+    console.log('New State', tempState);
+
+    // tempState.blocks.push({
+    //   html: '<b>Hello <i>World</i></b>',
+    //   uuid: html.blocks.length,
+    // });
 
     // const updatedData = updateBlockHtml(tempState.blocks, uuid, value);
     setHtml(tempState);
+    console.log('New State 2', html);
   };
 
   const handleKeyDown = (e) => {
     setShowPop(false);
+    e.preventDefault();
 
     // Enter -> New Block
 
