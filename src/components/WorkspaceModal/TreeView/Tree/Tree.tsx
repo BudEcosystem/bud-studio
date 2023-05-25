@@ -254,6 +254,7 @@ function TreeNode({
             <ListItem
               color={color}
               label={node.label}
+              uuid = {node.uuid}
               isFolder={node.type === 'folder'}
               childVisible={childVisible}
               isParent={node.isParent}
@@ -263,6 +264,7 @@ function TreeNode({
           ) : (
             <ListItem
               color={color}
+              uuid = {node.uuid}
               label={node.label}
               isFolder={node.type === 'folder'}
               childVisible={childVisible}
@@ -324,6 +326,7 @@ function ListItem({
   color,
   isFolder,
   label,
+  uuid,
   isEdit,
   addNewItem,
   childVisible,
@@ -361,7 +364,7 @@ function ListItem({
       dispatch(
         createSubChild({
           name: inputBox.current.value,
-          parentDetails: { ...node, workSpaceName: workSpaceDetails.name },
+          parentDetails: { ...node, workSpaceName: workSpaceDetails.name,workSpaceUUID: workSpaceDetails.uuid },
           type: `${isFolder ? 'folder' : 'doc'}`,
         })
       );
@@ -379,7 +382,8 @@ function ListItem({
   const onDocumentClicked = () => {
     dispatch(setCurrentSelectedDocument({ id: null }));
     setTimeout(() => {
-      dispatch(setCurrentSelectedDocument({ id: label }));
+      const workSpaceUUID = workSpaceDetails?.uuid;
+      dispatch(setCurrentSelectedDocument({ id: label,uuid,workSpaceUUID }));
     }, 1000);
   };
   const onEscapeButtonPressed = (event: any) => {

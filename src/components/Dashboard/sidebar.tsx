@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/no-array-index-key */
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Layout, Menu, Modal, Space } from 'antd';
@@ -204,7 +205,12 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   // };
 useEffect(() => {
   // const {currentSelectedDocId} = workspace;
-  console.log(workspace)
+  const{currentSelectedItem:{workSpace}, workSpaceItems:list,color:menuColorStore} = workspace;
+  const foundIndex = list.findIndex(x => x.uuid === workSpace);
+  const menuColor = foundIndex !== -1 ? list[foundIndex].color: menuColorStore
+  setColor(menuColor ?? menuColorStore);
+  setActiveClassNameColor(foundIndex)
+  // setActiveClassName(foundIndex)
 },[workspace])
   const handlerColor = (menuColor: any, menuName: any, i: any) => {
     try {
