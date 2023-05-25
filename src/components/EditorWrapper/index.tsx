@@ -583,7 +583,7 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
     }
 
     const goToHyperLink = () => {
-        
+
     }
 
   const insertBlock = (opt: any, title: any) => {
@@ -654,24 +654,14 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       }
 
     if(opt=="file") {
-      const blockElements = document.getElementsByClassName('editorjsDiv');
-      // Array.from(blockElements).forEach((blockElement) => {
-      //   blockElement.addEventListener('focus', (event) => {
-      //     const ele = event?.target?.closest('.ce-block');
-      //     if (ele) {
-      //       addHyperLink(ele, title)
-      //     }
-      //   });
-      // });
       const blockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
-      if(currentBlockIndex >=0)
+      if(blockIndex >=0)
       {
-        async function appendTextToBlock(blockIndex, title) {
+        async function appendTextToBlock(blockIndex: any, title:any) {
           try {
             const savedData = await ejInstance?.current?.save();
             const currentData = savedData.blocks;
-            const hyperlink = `<span onClick={${goToHyperLink}} style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;">${title}</span>`
-        
+            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;">${title}</span>`
             if (blockIndex >= 0 && blockIndex < currentData.length) {
               const targetBlock = currentData[blockIndex];
               targetBlock.data.text += ` ${hyperlink}`;
@@ -687,12 +677,6 @@ function EditorWrapper({ data, setCurrentSelectedUI }: any) {
       }
     }
   };
-
-  useEffect(() => {
-    if(showEditorOptionsBlock) {
-      
-    }
-  }, [showEditorOptionsBlock])
 
   const style = { '--bg-color': color };
   // document.addEventListener('click', handleClickOutside);
