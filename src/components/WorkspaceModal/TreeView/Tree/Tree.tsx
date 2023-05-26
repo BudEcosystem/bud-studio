@@ -235,6 +235,7 @@ function TreeNode({
             createNewClickHandler={addNewItem}
             setToggleFlyout={setToggleFlyout}
             onDeleteHandler = {onDeleteHandler}
+            isFolder = {node.type === 'folder'}
           />
         )}
         <div
@@ -452,9 +453,9 @@ function ListItem({
         )}
       </div>
       <div className="item-action-wrapper">
-        {!isEdit && isFolder && (
+        {!isEdit  && (
           <button onClick={addNewItem} type="button" className="addNew">
-            +
+            {isFolder ? '+': <span className='threeDotsIcon'><svg width="13" height="3" viewBox="0 0 13 3" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="1.5" cy="1.5" r="1.5" fill="#C6C6C6"></circle><circle cx="6.5" cy="1.5" r="1.5" fill="#C6C6C6"></circle><circle cx="11.5" cy="1.5" r="1.5" fill="#C6C6C6"></circle></svg></span>}
           </button>
         )}
       </div>

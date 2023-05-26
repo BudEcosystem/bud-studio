@@ -138,6 +138,11 @@
   width: 26px;
   height: 26px;
   font-size: 20px;
+  align-items: center;
+  justify-content: center;
+}
+.threeDotsIcon{
+  display: flex;
 }
 
 .item-label-input {
