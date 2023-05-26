@@ -34,7 +34,7 @@ function ContentView({
   }, [contentRef, dispatch]);
   const [selectedDoc, setSelectedDoc] = useState();
   const [currentSelectedUI, setCurrentSelectedUI] = useState('');
-  const [selectedOption, setSelectedOption] = useState('editor');
+  const [selectedOption, setSelectedOption] = useState('Editor');
   const { workspace } = useSelector((state) => state);
   useEffect(() => {
     const { currentWorkspace, currentSelectedDocId } = workspace;

@@ -433,7 +433,7 @@ function EditorWrapper({
   };
 
   useEffect(() => {
-    checkForMentions()
+    checkForMentions();
   }, [color]);
 
   useEffect(() => {
@@ -522,7 +522,6 @@ function EditorWrapper({
       }
     }
   };
-
 
   const style = { '--bg-color': color };
 
@@ -846,7 +845,7 @@ function EditorWrapper({
 
       {showEditorOptionsBlock && (
         <div
-        id="editorOptionBlockID"
+          id="editorOptionBlockID"
           style={{
             top: `${
               coverUrlAvailable

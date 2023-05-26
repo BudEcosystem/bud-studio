@@ -3,13 +3,19 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 const generateInitialState = (): any => {
-  const initialState: any = {};
+  const initialState: any = {
+    currentSelectedUI: '',
+  };
   return initialState;
 };
 export const activestateSlice = createSlice({
   name: 'activestate',
   initialState: generateInitialState,
-  reducers: {},
+  reducers: {
+    setCurrentSelectedUI: (state, action: PayloadAction<any>) => {
+      state.currentSelectedUI = action.payload;
+    },
+  },
 });
-export const {} = activestateSlice.actions;
+export const { setCurrentSelectedUI } = activestateSlice.actions;
 export default activestateSlice.reducer;
