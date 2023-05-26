@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import HamburgerItems from './HamburgerItems';
 import './Hamburger.css';
 
-const HamburgerOptions = ['', 'editor', 'List View', 'Kanban View', '', ''];
+const HamburgerOptions = ['', 'Editor', 'List View', 'Kanban View', '', ''];
 
 function Hamburger({
   setCurrentSelectedUI,
