@@ -63,16 +63,10 @@ function EditorWrapper({
   const refHoverBar = useRef();
   const colorRef = useRef<any>('#9068fd');
   const dispatch = useDispatch();
-  const [subHeadingContent, setSubHeadingContent] = useState(
-    'Edit Subheading here...'
-  );
   const [showDatabaseOptions, setShowDatabaseOptions] = useState(false);
   const [showDocumentOptions, setShowDocumentOptions] = useState(false);
   const [showFirstOptions, setShowFirstOptions] = useState(true);
   const [workspaceFiles, setWorkspaceFiles] = useState(workspace.workSpaceDocs);
-  const [currentFileName, setCurrentFileName] = useState(
-    workspace.currentSelectedDocId
-  );
 
   const [editorOptions, setEditorOptions] = useState([
     {
@@ -185,8 +179,6 @@ function EditorWrapper({
       ejInstance.current?.destroy();
       ejInstance.current = null;
     }
-    setCurrentFileName(workspace.currentSelectedDocId);
-    setWorkspaceFiles(workspace.workSpaceDocs);
   }, [workspace, ejInstance]);
 
   // This will run only once
@@ -445,7 +437,7 @@ function EditorWrapper({
     const currentBlockIndex =
       ejInstance?.current?.blocks.getCurrentBlockIndex();
     console.log('CURRENT BLOCK INDEX', currentBlockIndex);
-    if (opt && blockTypes.includes(opt) && currentBlockIndex != -1) {
+    if (opt && blockTypes.includes(opt) && currentBlockIndex) {
       ejInstance?.current?.blocks.insert(opt, currentBlockIndex + 1);
       setShowEditorOptionsBlock(false);
     }
@@ -580,7 +572,7 @@ function EditorWrapper({
     if (
       event.code === 'Slash' &&
       !event.shiftKey &&
-      !event.ctrlKey &&
+      event.ctrlKey &&
       !event.altKey &&
       !event.metaKey
     ) {
@@ -793,7 +785,7 @@ function EditorWrapper({
                 height: 'fit-content',
               }}
             >
-              {currentFileName}
+              {workspace.currentSelectedDocId}
             </div>
           </div>
         ) : (
@@ -818,7 +810,7 @@ function EditorWrapper({
                 height: 'fit-content',
               }}
             >
-              {currentFileName}
+              {workspace.currentSelectedDocId}
             </div>
           </div>
         )
