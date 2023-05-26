@@ -2,21 +2,21 @@ import React, { useState } from 'react';
 import HamburgerItems from './HamburgerItems';
 import './Hamburger.css';
 
-const HamburgerOptions = ['', 'editor', 'List View', 'Kanban View', '', ''];
+const HamburgerOptions = ['', 'Editor', 'List View', 'Kanban View', '', ''];
 
 function Hamburger({
   setCurrentSelectedUI,
   selectedOption,
   setSelectedOption,
-}) {
+}:any) {
   // const [selectedOption, setSelectedOption] = useState('editor');
 
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option:any) => {
     if (option === '') {
       return;
     }
     setSelectedOption(option);
-    if (option === 'editor') {
+    if (option === 'Editor') {
       setCurrentSelectedUI('');
     } else if (option === 'List View') {
       setCurrentSelectedUI('listview');
