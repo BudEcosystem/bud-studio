@@ -5,6 +5,8 @@ import {
   createDoc,
   createFolder,
   createSubChild,
+  deleteItem,
+  renameItem,
   setCurrentSelectedDocument,
 } from 'redux/slices/workspace';
 import { disableCreateNewTreeNode } from 'redux/slices/tree';
@@ -170,6 +172,7 @@ function TreeNode({
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const hasChild = !!node.children;
+  const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
   const [addMode, setAddMode] = useState(false);
   const [addItemConfig, setAddItemConfig] = useState({ type: 'folder' });
@@ -214,14 +217,24 @@ function TreeNode({
     setToggleFlyout(false);
     setChildVisiblity(true);
   };
-
+  const onRenameHandler = () => {
+    setEditMode(true)
+    console.log(node,'LOGGSSS')
+  }
+  const onDeleteHandler = () => {
+    const {uuid, type} = node;
+    dispatch(deleteItem({ uuid, isFolder: type === 'folder'}));
+    console.log(node, 'LOGGSSS')
+  }
   return (
     isVisible && (
       <li className="treeLiItem">
         {toggleFlyout && (
           <FlyoutMenu
+          onRenameHandler = {onRenameHandler}
             createNewClickHandler={addNewItem}
             setToggleFlyout={setToggleFlyout}
+            onDeleteHandler = {onDeleteHandler}
           />
         )}
         <div
@@ -259,6 +272,7 @@ function TreeNode({
               childVisible={childVisible}
               isParent={node.isParent}
               isEdit={editMode}
+              setIsEditMode = {(e) => setEditMode(e)}
               workSpaceDetails={workSpaceDetails}
             />
           ) : (
@@ -328,6 +342,7 @@ function ListItem({
   label,
   uuid,
   isEdit,
+  setIsEditMode,
   addNewItem,
   childVisible,
   isParent,
@@ -361,14 +376,19 @@ function ListItem({
   };
   const createNewItem = (e) => {
     if (e.key === 'Enter') {
-      dispatch(
-        createSubChild({
-          name: inputBox.current.value,
-          parentDetails: { ...node, workSpaceName: workSpaceDetails.name,workSpaceUUID: workSpaceDetails.uuid },
-          type: `${isFolder ? 'folder' : 'doc'}`,
-        })
-      );
-      setAddMode && setAddMode(false);
+      if (label) {
+        dispatch(renameItem({ uuid, isFolder, name: inputBox.current.value }));
+        setIsEditMode && setIsEditMode(false)
+      } else {
+        dispatch(
+          createSubChild({
+            name: inputBox.current.value,
+            parentDetails: { ...node, workSpaceName: workSpaceDetails.name,workSpaceUUID: workSpaceDetails.uuid },
+            type: `${isFolder ? 'folder' : 'doc'}`,
+          })
+        );
+        setAddMode && setAddMode(false);
+      }
       // updateNewValue(e);
     }
   };
