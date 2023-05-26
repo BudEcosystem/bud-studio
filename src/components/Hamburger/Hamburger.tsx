@@ -8,15 +8,15 @@ function Hamburger({
   setCurrentSelectedUI,
   selectedOption,
   setSelectedOption,
-}) {
+}:any) {
   // const [selectedOption, setSelectedOption] = useState('editor');
 
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option:any) => {
     if (option === '') {
       return;
     }
     setSelectedOption(option);
-    if (option === 'editor') {
+    if (option === 'Editor') {
       setCurrentSelectedUI('');
     } else if (option === 'List View') {
       setCurrentSelectedUI('listview');
