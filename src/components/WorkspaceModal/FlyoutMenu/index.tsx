@@ -76,22 +76,6 @@ function FlyoutMenu({ createNewClickHandler, id, setToggleFlyout,onRenameHandler
 
             <div style={{ marginBottom: '20px' }}>
               <div className="secondWorkspaceOption">
-                <Duplicate />
-                <h3
-                  style={{
-                    marginLeft: '20px',
-                    color: 'white',
-                    fontWeight: '400',
-                    fontSize: '14px',
-                  }}
-                >
-                  Duplicate Space
-                </h3>
-                <div className="secondWorkspaceRightArrow">
-                  <RightArrow />
-                </div>
-              </div>
-              <div className="secondWorkspaceOption">
                 <Copy />
                 <h3
                   style={{
