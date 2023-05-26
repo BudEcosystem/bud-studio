@@ -25,7 +25,7 @@ export const activestateSlice = createSlice({
       state.selectedOption = action.payload;
     },
     setNodeIDs: (state, action: PayloadAction<any>) => {
-      state.selectedOption = action.payload;
+      state.nodeIDs = action.payload;
     },
   },
 });
