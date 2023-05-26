@@ -12,7 +12,7 @@ import {
   RightArrow,
 } from '../WorkspaceIcons';
 
-function FlyoutMenu({ createNewClickHandler, id, setToggleFlyout,onRenameHandler,onDeleteHandler }: any) {
+function FlyoutMenu({isFolder, createNewClickHandler, id, setToggleFlyout,onRenameHandler,onDeleteHandler }: any) {
   const optionModalRef = useRef(null);
   useEffect(() => {
     const flyOutMenu = document.getElementById('flyOutMenu');
@@ -31,7 +31,7 @@ function FlyoutMenu({ createNewClickHandler, id, setToggleFlyout,onRenameHandler
 
           <div className="secondWorkspaceOptions">
             <div style={{ marginBottom: '20px' }}>
-              <div className="secondWorkspaceOption">
+              {isFolder && <div className="secondWorkspaceOption">
                 <Plus />
                 <h3
                   style={{
@@ -54,7 +54,7 @@ function FlyoutMenu({ createNewClickHandler, id, setToggleFlyout,onRenameHandler
                     Document
                   </li>
                 </ul>
-              </div>
+              </div>}
               <div className="secondWorkspaceOption" onClick={onRenameHandler}>
                 <Edit />
                 <h3
