@@ -26,6 +26,7 @@ import {
 import TreeView from './TreeView/TreeView';
 import './WorkspaceModal.css';
 import { enableCreateNewTreeNode } from 'redux/slices/tree';
+import { v4 as uuidv4 } from 'uuid';
 
 function CreatePopupModal() {
   return <div className="createPopupModal" />;
@@ -123,6 +124,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
           name: `${workSpaceItems[idx].name}[copy]`,
           color,
           idx,
+          uuid: uuidv4(),
         })
       );
     }, 2000);

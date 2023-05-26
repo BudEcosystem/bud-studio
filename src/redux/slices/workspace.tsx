@@ -1,18 +1,26 @@
 /* eslint-disable no-console */
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 
+//temp private workspace id
+const wrkUUID = uuidv4();
 const generateInitialState = (): any => {
   const initialState: any = {
     props: {},
     color: '#939AFF',
     currentWorkspace: null,
     currentSelectedDocId: null,
+    currentSelectedItem: {
+      workSpace: null,
+      doc: null,
+    },
     workSpaceItems: [
       {
         name: 'Private',
         color: '#343434',
         id: 'wsp-1',
+        uuid: wrkUUID,
         childs: [
           {
             type: 'folder',
@@ -39,6 +47,8 @@ const generateInitialState = (): any => {
         key: 'welcome',
         workSPaceId: 'Private',
         type: 'folder',
+        uuid: uuidv4(),
+        workSpaceUUID: wrkUUID,
       },
     ],
     workSpaceDocs: [
@@ -47,6 +57,8 @@ const generateInitialState = (): any => {
         childOf: 'welcome',
         workSPaceId: 'Private',
         type: 'doc',
+        uuid: uuidv4(),
+        workSpaceUUID: wrkUUID,
       },
     ],
     applicationData: [],
@@ -72,7 +84,7 @@ export const workspaceSlice = createSlice({
       } else {
         // state.workspaceFolders.push(getObj(state.workSpaceItems.length));
       }
-      state.workSpaceItems.push(action.payload);
+      state.workSpaceItems.push({ ...action.payload, uuid: uuidv4() });
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
       const arr = [...state.workSpaceItems];
@@ -102,6 +114,7 @@ export const workspaceSlice = createSlice({
           key: name,
           workSPaceId: workSpaceDetails.name,
           type: 'folder',
+          uuid: uuidv4(),
         };
         copyFolderStructure.push(newObject);
         state.workspaceFolders = copyFolderStructure;
@@ -120,6 +133,8 @@ export const workspaceSlice = createSlice({
           key: name,
           workSPaceId: workSpaceDetails.name,
           type: 'doc',
+          uuid: uuidv4(),
+          workSpaceUUID: workSpaceDetails.uuid,
         };
         copyDocStructure.push(newObject);
         state.workSpaceDocs = copyDocStructure;
@@ -127,12 +142,14 @@ export const workspaceSlice = createSlice({
     },
     createSubChild: (state, action: PayloadAction<any>) => {
       const { name, type, parentDetails } = action.payload;
+      console.log(parentDetails);
       if (type === 'folder') {
         const newSampleFolderData = {
           name: 'folderName1',
           key: 'folderName1',
           workSPaceId: 'Private',
           type: 'folder',
+          uuid: uuidv4(),
         };
       } else {
         const copyOfworkSpaceDocs = state.workSpaceDocs;
@@ -141,12 +158,23 @@ export const workspaceSlice = createSlice({
           childOf: parentDetails.label,
           workSPaceId: parentDetails.workSpaceName,
           type: 'doc',
+          uuid: uuidv4(),
+          workSpaceUUID: parentDetails.workSpaceUUID,
         };
         copyOfworkSpaceDocs.push(sampleDocData);
         state.workSpaceDocs = copyOfworkSpaceDocs;
       }
     },
     setCurrentSelectedDocument: (state, action: PayloadAction<any>) => {
+      let { uuid: docUUID, workSpaceUUID } = action.payload;
+      if (!workSpaceUUID) {
+        const found = state.workSpaceDocs.find((x) => x.uuid === docUUID);
+        if (found) {
+          workSpaceUUID = found?.workSpaceUUID;
+        }
+      }
+      state.currentSelectedItem.doc = docUUID;
+      state.currentSelectedItem.workSpace = workSpaceUUID;
       state.currentSelectedDocId = action.payload.id;
       state.editorInitialised = false;
     },
@@ -176,6 +204,34 @@ export const workspaceSlice = createSlice({
     setEditorInitialised: (state) => {
       state.editorInitialised = true;
     },
+    renameItem: (state, action) => {
+      const { isFolder, uuid, name } = action.payload;
+      const rename = (list: any[], id: string) => {
+        const found = list.find((f) => f.uuid === id);
+        if (found) {
+          found.name = name;
+        }
+      };
+      if (isFolder) {
+        rename(state.workspaceFolders, uuid);
+      } else {
+        rename(state.workSpaceDocs, uuid);
+      }
+    },
+    deleteItem: (state, action) => {
+      const { isFolder, uuid } = action.payload;
+      const deleteNode = (list: any[], id: string) => {
+        const foundIndex = list.findIndex((f) => f.uuid === id);
+        if (foundIndex !== -1) {
+          list.splice(foundIndex, 1);
+        }
+      };
+      if (isFolder) {
+        deleteNode(state.workspaceFolders, uuid);
+      } else {
+        deleteNode(state.workSpaceDocs, uuid);
+      }
+    },
   },
 });
 
@@ -192,5 +248,7 @@ export const {
   setCurrentSelectedDocument,
   setApplicationData,
   setEditorInitialised,
+  renameItem,
+  deleteItem,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
