@@ -14,7 +14,11 @@ import FlyoutMenu from 'components/WorkspaceModal/FlyoutMenu';
 import { DocIcon, FolderIcon } from 'components/WorkspaceModal/WorkspaceIcons';
 import { UpArrow } from '../../../OmniSearch/Panel/PanelOption/PanelSvgIcons';
 import { Folder, Page } from './TreeSvgIcons';
-import { setCurrentSelectedUI, setSelectedOption } from 'redux/slices/activestate';
+import {
+  setCurrentSelectedUI,
+  setNodeIDs,
+  setSelectedOption,
+} from 'redux/slices/activestate';
 
 import './Tree.css';
 
@@ -406,8 +410,9 @@ function ListItem({
     setTimeout(() => {
       const workSpaceUUID = workSpaceDetails?.uuid;
       dispatch(setCurrentSelectedDocument({ id: label, uuid, workSpaceUUID }));
-      dispatch(setCurrentSelectedUI(''))
-      dispatch(setSelectedOption('Editor'))
+      dispatch(setNodeIDs({ id: label, uuid, workSpaceUUID }));
+      dispatch(setCurrentSelectedUI(''));
+      dispatch(setSelectedOption('Editor'));
     }, 1000);
   };
   const onEscapeButtonPressed = (event: any) => {

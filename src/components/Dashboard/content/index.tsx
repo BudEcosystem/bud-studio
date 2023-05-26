@@ -35,7 +35,7 @@ function ContentView({
   const [selectedDoc, setSelectedDoc] = useState();
   const [selectedption, setSelectedOption] = useState('Editor');
   const { workspace, activestate } = useSelector((state) => state);
-  const {currentSelectedUI, selectedOption} = activestate
+  const { currentSelectedUI, selectedOption } = activestate;
   // console.log(activestate, "sdfsd")
   useEffect(() => {
     const { currentWorkspace, currentSelectedDocId } = workspace;
@@ -74,8 +74,8 @@ function ContentView({
           <KanbanUI workspaceObj={workspace} />
         )}
         <Hamburger
-          // selectedOption={selectedOption}
-          // setSelectedOption={setSelectedOption}
+        // selectedOption={selectedOption}
+        // setSelectedOption={setSelectedOption}
         />
       </Content>
       <OmniSearch />

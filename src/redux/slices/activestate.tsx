@@ -5,7 +5,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 const generateInitialState = (): any => {
   const initialState: any = {
     currentSelectedUI: '',
-    selectedOption: 'Editor'
+    selectedOption: 'Editor',
+    nodeIDs: {
+      id: null,
+      uuid: null,
+      workSpaceUUID: null,
+    },
   };
   return initialState;
 };
@@ -19,7 +24,11 @@ export const activestateSlice = createSlice({
     setSelectedOption: (state, action: PayloadAction<any>) => {
       state.selectedOption = action.payload;
     },
+    setNodeIDs: (state, action: PayloadAction<any>) => {
+      state.selectedOption = action.payload;
+    },
   },
 });
-export const { setCurrentSelectedUI, setSelectedOption } = activestateSlice.actions;
+export const { setCurrentSelectedUI, setSelectedOption, setNodeIDs } =
+  activestateSlice.actions;
 export default activestateSlice.reducer;

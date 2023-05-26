@@ -24,7 +24,10 @@ import {
   FileIcon,
 } from './EditorIcons';
 
-import { setCurrentSelectedUI, setSelectedOption } from 'redux/slices/activestate';
+import {
+  setCurrentSelectedUI,
+  setSelectedOption,
+} from 'redux/slices/activestate';
 
 const DEFAULT_INITIAL_DATA = () => {
   return {
@@ -46,9 +49,9 @@ let fileMentionedArray: any = [];
 
 function EditorWrapper({
   data,
-  // selectedOption,
-  // setSelectedOption,
-}: any) {
+}: // selectedOption,
+// setSelectedOption,
+any) {
   const ejInstance = useRef();
   const editor1 = useRef<EditorJS>();
   const [editorData, setEditorData] = useState(null);
@@ -59,7 +62,7 @@ function EditorWrapper({
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
   console.log('###################################', workspace);
   const { color, currentWorkspace, currentSelectedDocId } = workspace;
-  const {selectedOption} = activestate
+  const { selectedOption } = activestate;
   const [render, setRender] = useState(false);
   const cursorRect = useRef<DOMRect>();
   const refHoverBar = useRef();
