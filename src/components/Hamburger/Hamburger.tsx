@@ -24,7 +24,6 @@ function Hamburger({}: any) {
     if (option === 'Editor') {
       dispatch(setCurrentSelectedUI(''));
       dispatch(setCurrentSelectedDocument(nodeIDs));
-      console.log(nodeIDs);
     } else if (option === 'List View') {
       dispatch(setCurrentSelectedUI('listview'));
     } else if (option === 'Kanban View') {
