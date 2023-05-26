@@ -219,12 +219,10 @@ function TreeNode({
   };
   const onRenameHandler = () => {
     setEditMode(true)
-    console.log(node,'LOGGSSS')
   }
   const onDeleteHandler = () => {
     const {uuid, type} = node;
     dispatch(deleteItem({ uuid, isFolder: type === 'folder'}));
-    console.log(node, 'LOGGSSS')
   }
   return (
     isVisible && (
