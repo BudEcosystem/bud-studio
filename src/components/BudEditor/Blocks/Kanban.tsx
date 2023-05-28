@@ -9,15 +9,11 @@ import ListView from 'components/ListView/ListView';
 // import Header from './Blocks/H1';
 
 function Kanban({ data, handleChange, handleKeyDown }) {
-  const { workspace } = useSelector((state) => state);
-  useEffect(() => {
-    console.log("Sdasas", data);
-  }, []);
-
+  const { workspace }: any = useSelector((state) => state);
   return (
     <>
-    <KanbanUI workspaceObj={workspace}/>
-    <ListView workspaceObj={workspace} contentRef={undefined}/>
+      <KanbanUI workspaceObj={workspace} />
+      <ListView workspaceObj={workspace} contentRef={undefined} />
     </>
     // <ContentEditable
     //   html={`<h${data.data.level}>${data.data.text}</h${data.data.level}>`} // innerHTML of the editable div

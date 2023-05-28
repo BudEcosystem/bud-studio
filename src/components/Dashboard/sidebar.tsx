@@ -203,18 +203,22 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   //   setWorkspaceColor(colorPassed);
   //   setWorkspaceName(name);
   // };
-useEffect(() => {
-  // const {currentSelectedDocId} = workspace;
-  const{currentSelectedItem:{workSpace}, workSpaceItems:list,color:menuColorStore} = workspace;
-  const foundIndex = list.findIndex(x => x.uuid === workSpace);
-  const menuColor = foundIndex !== -1 ? list[foundIndex].color: menuColorStore
-  setColor(menuColor ?? menuColorStore);
-  setActiveClassNameColor(foundIndex)
-  // setActiveClassName(foundIndex)
-},[workspace])
+  useEffect(() => {
+    // const {currentSelectedDocId} = workspace;
+    const {
+      currentSelectedItem: { workSpace },
+      workSpaceItems: list,
+      color: menuColorStore,
+    } = workspace;
+    const foundIndex = list.findIndex((x) => x.uuid === workSpace);
+    const menuColor =
+      foundIndex !== -1 ? list[foundIndex].color : menuColorStore;
+    setColor(menuColor ?? menuColorStore);
+    setActiveClassNameColor(foundIndex);
+    // setActiveClassName(foundIndex)
+  }, [workspace]);
   const handlerColor = (menuColor: any, menuName: any, i: any) => {
     try {
-      console.log("Active Class Name",i);
       //setActiveClassNameColor(i);
       setActiveClassName('-1');
       //setColor(menuColor);
@@ -265,7 +269,6 @@ useEffect(() => {
       return;
     }
     setWorkspaceModal(!workspaceModal);
-    console.log('WORKSPACE PRESSED', workspaceModal);
     setWorkspaceColor(color);
     setWorkspaceName(name);
   };
@@ -302,7 +305,6 @@ useEffect(() => {
       // setWorkspaces([...workspacesTemp]);
       dispatch(createWorkspaces(e.value));
       setShowAddWorkspace(false);
-      console.log(...workSpaceItems);
     }
   };
   return (
@@ -480,9 +482,19 @@ useEffect(() => {
                     </svg>
                   }
                 >
-                  <div className={`${classes['sidebar-inline-box']}`} style={isCollapsed ? {width: '100px'} : {}}>
+                  <div
+                    className={`${classes['sidebar-inline-box']}`}
+                    style={isCollapsed ? { width: '100px' } : {}}
+                  >
                     <label>Favourites</label>
-                    <div className={`${classes['sidebar-inline-box-count']}`} style={isCollapsed ? {left: 'unset', right: '5px', top: '10px'} : {}}>
+                    <div
+                      className={`${classes['sidebar-inline-box-count']}`}
+                      style={
+                        isCollapsed
+                          ? { left: 'unset', right: '5px', top: '10px' }
+                          : {}
+                      }
+                    >
                       <span>08</span>
                     </div>
                     {isCollapsed ? null : (

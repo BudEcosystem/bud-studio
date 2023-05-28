@@ -56,7 +56,6 @@ function EditorWrapper({
   const [iconUrl, setIconUrl] = useState();
   const { tree, workspace }: any = useSelector((state) => state);
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
-  console.log('###################################', workspace);
   const { color, currentWorkspace, currentSelectedDocId } = workspace;
   const [render, setRender] = useState(false);
   const cursorRect = useRef<DOMRect>();
@@ -155,15 +154,7 @@ function EditorWrapper({
         application.docId === copycurrentSelectedDocId &&
         application.workSpaceId === copycurrentWorkspace
     );
-    console.log(
-      '################################### - outer',
-      currentApplicationData
-    );
     if (currentApplicationData.length > 0) {
-      console.log(
-        '################################### - else',
-        currentApplicationData
-      );
       setEditorData(currentApplicationData[0].applicationSpecificicData);
       !editorInitialised &&
         initEditor(currentApplicationData[0].applicationSpecificicData);
@@ -387,11 +378,7 @@ function EditorWrapper({
     });
   };
 
-  console.log('TREE', tree);
-  console.log('WORSPACE EDITOR', workspace);
-
   const initEditor = (dataPassed: any) => {
-    console.log('###################################- initEditoe', editorData);
     const editor = new EditorJS({
       holder: EDITTOR_HOLDER_ID,
       logLevel: 'ERROR',
@@ -411,7 +398,6 @@ function EditorWrapper({
         ejInstance?.current
           ?.save()
           .then((outputData: any) => {
-            console.log('HEADING DATA', outputData);
             setEditorData(outputData);
             dispatch(
               setApplicationData({
@@ -433,7 +419,7 @@ function EditorWrapper({
   };
 
   useEffect(() => {
-    checkForMentions()
+    checkForMentions();
   }, [color]);
 
   useEffect(() => {
@@ -444,7 +430,6 @@ function EditorWrapper({
     const blockTypes = Object.keys(ejInstance?.current?.configuration?.tools);
     const currentBlockIndex =
       ejInstance?.current?.blocks.getCurrentBlockIndex();
-    console.log('CURRENT BLOCK INDEX', currentBlockIndex);
     if (opt && blockTypes.includes(opt) && currentBlockIndex != -1) {
       ejInstance?.current?.blocks.insert(opt, currentBlockIndex + 1);
       setShowEditorOptionsBlock(false);
@@ -485,7 +470,6 @@ function EditorWrapper({
     if (opt == 'document') {
       const listofFiles: any = [];
       workspaceFiles.map((file: any) => {
-        console.log(file.name);
         let obj = {
           key: 'file',
           icon: <FileIcon />,
@@ -522,7 +506,6 @@ function EditorWrapper({
       }
     }
   };
-
 
   const style = { '--bg-color': color };
 
@@ -846,7 +829,7 @@ function EditorWrapper({
 
       {showEditorOptionsBlock && (
         <div
-        id="editorOptionBlockID"
+          id="editorOptionBlockID"
           style={{
             top: `${
               coverUrlAvailable

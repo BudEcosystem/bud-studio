@@ -12,12 +12,18 @@ import {
   RightArrow,
 } from '../WorkspaceIcons';
 
-function FlyoutMenu({isFolder, createNewClickHandler, id, setToggleFlyout,onRenameHandler,onDeleteHandler }: any) {
+function FlyoutMenu({
+  isFolder,
+  createNewClickHandler,
+  id,
+  setToggleFlyout,
+  onRenameHandler,
+  onDeleteHandler,
+}: any) {
   const optionModalRef = useRef(null);
   useEffect(() => {
     const flyOutMenu = document.getElementById('flyOutMenu');
     flyOutMenu?.addEventListener('mouseleave', function (event) {
-      console.log('mouseout', event);
       setToggleFlyout(false);
     });
   });
@@ -31,30 +37,32 @@ function FlyoutMenu({isFolder, createNewClickHandler, id, setToggleFlyout,onRena
 
           <div className="secondWorkspaceOptions">
             <div style={{ marginBottom: '20px' }}>
-              {isFolder && <div className="secondWorkspaceOption">
-                <Plus />
-                <h3
-                  style={{
-                    marginLeft: '20px',
-                    color: 'white',
-                    fontWeight: '400',
-                    fontSize: '14px',
-                  }}
-                >
-                  Create New
-                </h3>
-                <div className="secondWorkspaceRightArrow">
-                  <RightArrow />
+              {isFolder && (
+                <div className="secondWorkspaceOption">
+                  <Plus />
+                  <h3
+                    style={{
+                      marginLeft: '20px',
+                      color: 'white',
+                      fontWeight: '400',
+                      fontSize: '14px',
+                    }}
+                  >
+                    Create New
+                  </h3>
+                  <div className="secondWorkspaceRightArrow">
+                    <RightArrow />
+                  </div>
+                  <ul className="subMenu">
+                    <li onClick={() => createNewClickHandler('folder')}>
+                      Folder
+                    </li>
+                    <li onClick={() => createNewClickHandler('file')}>
+                      Document
+                    </li>
+                  </ul>
                 </div>
-                <ul className="subMenu">
-                  <li onClick={() => createNewClickHandler('folder')}>
-                    Folder
-                  </li>
-                  <li onClick={() => createNewClickHandler('file')}>
-                    Document
-                  </li>
-                </ul>
-              </div>}
+              )}
               <div className="secondWorkspaceOption" onClick={onRenameHandler}>
                 <Edit />
                 <h3

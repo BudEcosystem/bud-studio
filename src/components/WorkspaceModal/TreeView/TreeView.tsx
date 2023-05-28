@@ -10,22 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import './TreeView.css';
 import { v4 as uuidv4 } from 'uuid';
 
-const treeData = [];
-
-const getInitData = (list: any[]) => {
-  return list.map((x) => {
-    let children = x.children ?? [];
-    if (children.length) {
-      children = getInitData(children);
-    }
-    return {
-      ...x,
-      tId: uuidv4(),
-      children,
-    };
-  });
-};
-
 function TreeView({
   filter,
   setShowColorDots,
@@ -34,19 +18,17 @@ function TreeView({
   workSpaceDetails,
 }: any) {
   const { tree, workspace }: any = useSelector((state) => state);
-  console.log('action.payload - redux', workspace);
+  console.log('workspace', workspace);
   const [treeDataState, setTreeDataState] = useState([]);
   const [treeDataStateCopy, setTreeDataStateCopy] = useState([]);
-  console.log('treeDataState', treeDataStateCopy);
   useEffect(() => {
     if (tree) {
       console.log(tree);
     }
     if (workspace) {
-      console.log('workSpaceFolderDetails', workSpaceDetails, workspace);
       const treeStructureObject: any = [];
       const { workspaceFolders, workSpaceDocs } = workspace;
-      const { name } = workSpaceDetails;
+      const { uuid: name } = workSpaceDetails;
       const workSpaceFolderDetails = workspaceFolders.filter(
         (data: any) => data.workSPaceId === name
       );
@@ -54,16 +36,11 @@ function TreeView({
         (data: any) => data.workSPaceId === name && data.childOf === null
       );
 
-      console.log('workSpaceFolderDetails', workSpaceFolderDetails);
       if (workSpaceFolderDetails.length > 0) {
         workSpaceFolderDetails.forEach((folderData: any, folderIndex: any) => {
           const { key } = folderData;
           const workSpaceDocsDetails = workSpaceDocs.filter(
             (data: any) => data.childOf === key && data.workSPaceId === name
-          );
-          console.log(
-            'workSpaceFolderDetails - workSpaceDocsDetailswww',
-            workSpaceDocsDetails
           );
           const childData: any = [];
           const newSampleTreeObject: {
@@ -78,28 +55,20 @@ function TreeView({
             isParent: workSpaceDocsDetails.length > 0,
             children: [],
             type: 'folder',
-            uuid:folderData.uuid,
+            uuid: folderData.uuid,
           };
           workSpaceDocsDetails.forEach((docData: any, docIndex: any) => {
             const sampleChildObject = {
               key: `${folderIndex}-${docIndex}`,
               label: docData.name,
-              uuid:docData.uuid,
+              uuid: docData.uuid,
             };
             childData.push(sampleChildObject);
           });
           newSampleTreeObject.children = childData;
-          console.log(
-            'workSpaceFolderDetails - newSampleTreeObject',
-            newSampleTreeObject
-          );
           treeStructureObject.push(newSampleTreeObject);
         });
       }
-      console.log(
-        'workSpaceFolderDetails - treeStructureObject',
-        treeStructureObject
-      );
       if (workSpaceDOcDetails.length > 0) {
         workSpaceDOcDetails.forEach((eachDoc: any) => {
           const newDocData = {
@@ -108,12 +77,13 @@ function TreeView({
             key: treeStructureObject.length + 1,
             label: eachDoc.name,
             type: 'doc',
-            uuid:eachDoc.uuid,
+            uuid: eachDoc.uuid,
           };
           treeStructureObject.push(newDocData);
         });
       }
       setTreeDataStateCopy(treeStructureObject);
+      console.log('workspace - treeStructureObject', treeStructureObject);
     }
   }, [tree, workspace, workSpaceDetails, setTreeDataState]);
   const filterTreeData = (filter: string) => {

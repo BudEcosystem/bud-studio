@@ -342,7 +342,6 @@ export const listSlice = createSlice({
       state.newTaskClicked = action.payload;
     },
     createNewTask: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       const tempObj = {
         title: action.payload.titleInput,
         description: '',
@@ -378,7 +377,6 @@ export const listSlice = createSlice({
       state.panelArray = updatedPanelArray;
     },
     editTitle: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       const mapping = { todo: 0, inprogress: 1, inreview: 2, completed: 3 };
       if (action.payload.childIndex != undefined) {
         state.panelArray[mapping[action.payload.status]].items[
@@ -394,7 +392,6 @@ export const listSlice = createSlice({
       state.listTitleAndDesc.title = action.payload.newTitle;
     },
     editListDescription: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       state.listTitleAndDesc.description = action.payload.newDesc;
     },
   },

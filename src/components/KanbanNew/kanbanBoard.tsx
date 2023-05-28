@@ -13,7 +13,6 @@ function Kanban() {
   // setStateData(initialData);
   // }, []);
   const reduxState: any = useSelector((state) => state);
-  console.log('reduxState', reduxState);
   const { kanban } = reduxState;
   const { tasks, columns, columnOrder } = kanban;
   const onDragEnd = (result: any) => {
@@ -99,9 +98,7 @@ function Kanban() {
     input?.addEventListener('keypress', function (event) {
       if (event.key === 'Enter') {
         event.preventDefault();
-        console.log('Enter clikcked', inputRef.current?.value);
         if (inputRef.current?.value) {
-          console.log('Enter clikcked', inputRef.current?.value);
           dispatch(createNewColumn({ name: inputRef.current?.value }));
         }
       }

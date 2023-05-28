@@ -27,6 +27,7 @@ import TreeView from './TreeView/TreeView';
 import './WorkspaceModal.css';
 import { enableCreateNewTreeNode } from 'redux/slices/tree';
 import { v4 as uuidv4 } from 'uuid';
+import TreeStructure from './TreeView/TreeANTD';
 
 function CreatePopupModal() {
   return <div className="createPopupModal" />;
@@ -44,6 +45,8 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color, workSpaceItems } = workspace;
   const [createPopup, setCreatePopup] = useState(false);
+  const [createFolderFlag, setCreateFolderFlag] = useState(false);
+  const [createDocFlag, setCreateDocFlag] = useState(false);
 
   useEffect(() => {
     if (workspaceModal) {
@@ -89,7 +92,6 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
         ) {
           setWorkspaceModal(false);
           setIsDrag(false);
-        } else {
         }
       }
 
@@ -155,18 +157,22 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
     setCreatePopup(!createPopup);
   };
   const createNewClickHandler = (type: any) => {
+    if (type === 'doc') {
+      setCreateDocFlag(true);
+    }
+    if (type === 'folder') {
+      setCreateFolderFlag(true);
+    }
     dispatch(enableCreateNewTreeNode({ type }));
     setShowColorDots(false);
   };
-  console.log(
-    'createNewClickHandler - workSpaceItems[idx]',
-    workSpaceItems[idx],
-    idx
-  );
+  const callbackForCreate = () => {
+    setCreateDocFlag(false);
+    setCreateFolderFlag(false);
+  };
   useEffect(() => {
     const flyOutMenu = document.getElementById('optionsModal');
     flyOutMenu?.addEventListener('mouseleave', function (event) {
-      console.log('mouseout', event);
       setShowColorDots(false);
     });
   });
@@ -267,7 +273,6 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                 </div>
               </div>
             </div>
-
             <div className="WorkspaceSearchBar">
               <div
                 style={{
@@ -286,14 +291,20 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
               />
             </div>
 
-
-
-            <TreeView
+            {/* <TreeView
               filter={filterText}
               setShowColorDots={setShowColorDots}
               showDocumentOptions={showDocumentOptions}
               setShowDocumentOptions={setShowDocumentOptions}
               workSpaceDetails={workSpaceItems[idx]}
+            /> */}
+            <TreeStructure
+              color={workSpaceItems[idx].color}
+              name={workSpaceItems[idx].name}
+              workspaceDetails={workSpaceItems[idx]}
+              createFolderFlag={createFolderFlag}
+              createDocFlag={createDocFlag}
+              callbackForCreate={callbackForCreate}
             />
           </div>
         </Draggable>
@@ -448,7 +459,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
           </Draggable>
         )}
 
-        {!showColorDots && showDocumentOptions && (
+        {/* {!showColorDots && showDocumentOptions && (
           <Draggable bounds="parent" handle=".drag">
             <div ref={docOptionModalRef} className="docOptionsModal">
               <div className="secondWorkspaceModal">
@@ -585,7 +596,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
               </div>
             </div>
           </Draggable>
-        )}
+        )} */}
       </div>
     </>
   );

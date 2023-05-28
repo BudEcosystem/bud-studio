@@ -6,9 +6,9 @@ import { useEffect } from 'react';
 // import Header from './Blocks/H1';
 
 function Header({ data, handleChange, handleKeyDown }) {
-  useEffect(() => {
-    console.log(data);
-  }, []);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, []);
 
   return (
     <ContentEditable

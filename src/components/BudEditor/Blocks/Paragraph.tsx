@@ -6,10 +6,6 @@ import { useEffect } from 'react';
 // import Header from './Blocks/H1';
 
 function Paragraph({ data, handleChange, handleKeyDown }) {
-  useEffect(() => {
-    console.log(data);
-  }, []);
-
   return (
     <ContentEditable
       html={`${data.data.text}`} // innerHTML of the editable div

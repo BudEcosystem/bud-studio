@@ -13,8 +13,8 @@ const { Panel } = Collapse;
 function MainListComponent() {
   const [activePanel, setActivePanel] = useState(['0']);
   const panelArray = useSelector((state) => state.list.panelArray);
-  const {workspace}:any = useSelector(state=>state)
-  let { color } = workspace
+  const { workspace }: any = useSelector((state) => state);
+  let { color } = workspace;
   // const panelStyle = {
   //   marginBottom: 18,
   //   background: '#101010',
@@ -23,7 +23,7 @@ function MainListComponent() {
   //   color: 'white',
   // };
   const getPanelStyle = (index) => {
-    if(activePanel === index){
+    if (activePanel === index) {
       return {
         marginBottom: 18,
         background: '#101010',
@@ -31,7 +31,7 @@ function MainListComponent() {
         borderRadius: '12px',
         color: 'white',
       };
-    }else{
+    } else {
       return {
         marginBottom: 18,
         background: '#101010',
@@ -40,7 +40,6 @@ function MainListComponent() {
         color: 'white',
       };
     }
-    
   };
   const handlePanelChange = (panelIndex) => {
     const selectedPanel = activePanel === panelIndex ? activePanel : panelIndex;
@@ -48,7 +47,6 @@ function MainListComponent() {
     // const updatedActivePanel = [...activePanel];
     // updatedActivePanel[panelIndex] = !updatedActivePanel[panelIndex];
     // setActivePanel(updatedActivePanel);
-    console.log(activePanel)
   };
   const panelHeader = (text, col, index) => (
     <div
@@ -69,7 +67,7 @@ function MainListComponent() {
   return (
     <div className="mainListContainer">
       <Collapse
-        bordered={false} 
+        bordered={false}
         defaultActiveKey={activePanel}
         expandIcon={({ isActive }) => (
           <div
@@ -95,7 +93,10 @@ function MainListComponent() {
             className="insideCollapse"
           >
             <div className="hello">
-              <ChildMainListComponent childItems={item.items} activepanel={activePanel}/>
+              <ChildMainListComponent
+                childItems={item.items}
+                activepanel={activePanel}
+              />
             </div>
           </Panel>
         ))}

@@ -20,45 +20,56 @@ const generateInitialState = (): any => {
         name: 'Private',
         color: '#343434',
         id: 'wsp-1',
-        uuid: wrkUUID,
-        childs: [
-          {
-            type: 'folder',
-            title: 'Welcome To Bud',
-            id: 'fld-1',
-            childs: [
-              {
-                type: 'document',
-                title: 'Welcome To Bud',
-                id: 'doc-1',
-              },
-            ],
-          },
-          {
-            type: 'document',
-            title: 'Welcome To Bud',
-          },
-        ],
+        uuid: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        childs: [],
       },
     ],
     workspaceFolders: [
+      {
+        name: 'Welcome Aprent',
+        key: 'welcome',
+        workSPaceId: 'Private',
+        type: 'folder',
+        uuid: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        childOf: null,
+      },
+      {
+        name: 'Welcome1',
+        key: 'welcome1',
+        workSPaceId: 'Private',
+        type: 'folder',
+        uuid: uuidv4(),
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        childOf: null,
+      },
+      {
+        name: 'child',
+        key: 'tested',
+        workSPaceId: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        type: 'folder',
+        uuid: '1a7aea77-2dc6-4aa2-9757-19c536e1f133',
+        childOf: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
+      },
       {
         name: 'Welcome',
         key: 'welcome',
         workSPaceId: 'Private',
         type: 'folder',
-        uuid: uuidv4(),
-        workSpaceUUID: wrkUUID,
+        uuid: 'b25bcec6-6ed7-47f5-9b9d-1673da80c860',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        childOf: null,
       },
     ],
     workSpaceDocs: [
       {
         name: 'Welcome To Bud',
-        childOf: 'welcome',
+        childOf: null,
         workSPaceId: 'Private',
         type: 'doc',
         uuid: uuidv4(),
-        workSpaceUUID: wrkUUID,
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
       },
     ],
     applicationData: [],
@@ -105,44 +116,46 @@ export const workspaceSlice = createSlice({
     createFolder: (state, action: PayloadAction<any>) => {
       const copyFolderStructure = state.workspaceFolders;
       const { name, workSpaceDetails } = action.payload;
-      const filteredArray = copyFolderStructure.filter(
-        (data: any) => data.key === name
-      );
-      if (filteredArray.length === 0) {
-        const newObject = {
-          name,
-          key: name,
-          workSPaceId: workSpaceDetails.name,
-          type: 'folder',
-          uuid: uuidv4(),
-        };
-        copyFolderStructure.push(newObject);
-        state.workspaceFolders = copyFolderStructure;
-      }
+      console.log(workSpaceDetails);
+      // const filteredArray = copyFolderStructure.filter(
+      //   (data: any) => data.key === name
+      // );
+      // if (filteredArray.length === 0) {
+      const newObject = {
+        name,
+        key: name,
+        workSPaceId: workSpaceDetails.uuid,
+        workSpaceUUID: workSpaceDetails.uuid,
+        type: 'folder',
+        uuid: uuidv4(),
+        childOf: null,
+      };
+      copyFolderStructure.push(newObject);
+      state.workspaceFolders = copyFolderStructure;
+      // }
     },
     createDoc: (state, action: PayloadAction<any>) => {
       const copyDocStructure = state.workSpaceDocs;
       const { name, workSpaceDetails } = action.payload;
-      const filteredArray = copyDocStructure.filter(
-        (data: any) => data.key === name
-      );
-      if (filteredArray.length === 0) {
-        const newObject = {
-          name,
-          childOf: null,
-          key: name,
-          workSPaceId: workSpaceDetails.name,
-          type: 'doc',
-          uuid: uuidv4(),
-          workSpaceUUID: workSpaceDetails.uuid,
-        };
-        copyDocStructure.push(newObject);
-        state.workSpaceDocs = copyDocStructure;
-      }
+      // const filteredArray = copyDocStructure.filter(
+      // (data: any) => data.key === name
+      // );
+      // if (filteredArray.length === 0) {
+      const newObject = {
+        name,
+        childOf: null,
+        key: name,
+        workSPaceId: workSpaceDetails.name,
+        type: 'doc',
+        uuid: uuidv4(),
+        workSpaceUUID: workSpaceDetails.uuid,
+      };
+      copyDocStructure.push(newObject);
+      state.workSpaceDocs = copyDocStructure;
+      // }
     },
     createSubChild: (state, action: PayloadAction<any>) => {
       const { name, type, parentDetails } = action.payload;
-      console.log(parentDetails);
       if (type === 'folder') {
         const newSampleFolderData = {
           name: 'folderName1',
@@ -156,7 +169,7 @@ export const workspaceSlice = createSlice({
         const sampleDocData = {
           name,
           childOf: parentDetails.label,
-          workSPaceId: parentDetails.workSpaceName,
+          workSPaceId: parentDetails.uuid,
           type: 'doc',
           uuid: uuidv4(),
           workSpaceUUID: parentDetails.workSpaceUUID,
