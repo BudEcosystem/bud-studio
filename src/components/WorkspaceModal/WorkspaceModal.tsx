@@ -29,7 +29,7 @@ import { enableCreateNewTreeNode } from 'redux/slices/tree';
 import { v4 as uuidv4 } from 'uuid';
 import TreeStructure from './TreeView/TreeANTD';
 
-function CreatePopupModal() {
+export function CreatePopupModal() {
   return <div className="createPopupModal" />;
 }
 function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
@@ -65,41 +65,41 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
   function useOutsideAlerter(ref: any, optionRef: any, docOptionModalRef: any) {
     const [isDrag, setIsDrag] = useState(true);
 
-    useEffect(() => {
-      function handleClickOutside(event: any) {
-        if (showColorDots) {
-          if (
-            optionRef.current &&
-            !optionRef.current.contains(event.target) &&
-            ref.current &&
-            !ref.current.contains(event.target)
-          ) {
-            setShowColorDots(false);
-          }
-        } else if (showDocumentOptions) {
-          if (
-            docOptionModalRef.current &&
-            !docOptionModalRef.current.contains(event.target) &&
-            ref.current &&
-            !ref.current.contains(event.target)
-          ) {
-            setShowDocumentOptions(false);
-          }
-        } else if (
-          ref.current &&
-          !ref.current.contains(event.target) &&
-          isDrag
-        ) {
-          setWorkspaceModal(false);
-          setIsDrag(false);
-        }
-      }
+    // useEffect(() => {
+    //   function handleClickOutside(event: any) {
+    //     console.log(event);
+    //     console.log(ref);
+    //     if (showColorDots) {
+    //       if (
+    //         optionRef.current &&
+    //         !optionRef.current.contains(event.target) &&
+    //         ref.current &&
+    //         !ref.current.contains(event.target)
+    //       ) {
+    //         setShowColorDots(false);
+    //       }
+    //     }
+    //     // else if (showDocumentOptions) {
+    //     //   if (
+    //     //     docOptionModalRef.current &&
+    //     //     !docOptionModalRef.current.contains(event.target) &&
+    //     //     ref.current &&
+    //     //     !ref.current.contains(event.target)
+    //     //   ) {
+    //     //     setShowDocumentOptions(false);
+    //     //   }
+    //     // }
+    //     else if (ref.current && !ref.current.contains(event.target) && isDrag) {
+    //       setWorkspaceModal(false);
+    //       setIsDrag(false);
+    //     }
+    //   }
 
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }, [ref, isDrag, setWorkspaceModal, showColorDots, showDocumentOptions]);
+    //   document.addEventListener('mousedown', handleClickOutside);
+    //   return () => {
+    //     document.removeEventListener('mousedown', handleClickOutside);
+    //   };
+    // }, [ref, isDrag, setWorkspaceModal, showColorDots, showDocumentOptions]);
 
     function handleIsDrag() {
       setIsDrag(!isDrag);
@@ -305,6 +305,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
               createFolderFlag={createFolderFlag}
               createDocFlag={createDocFlag}
               callbackForCreate={callbackForCreate}
+              optionModalRef={docOptionModalRef}
             />
           </div>
         </Draggable>
@@ -349,7 +350,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                         <RightArrow />
                       </div>
                     </div>
-                    {createPopup && <CreatePopupModal />}
+                    {/* {createPopup && <CreatePopupModal />} */}
                     <div
                       className="secondWorkspaceOption"
                       onClick={renameHandler}

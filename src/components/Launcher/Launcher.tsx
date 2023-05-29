@@ -15,7 +15,7 @@ function Launcher() {
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.getElementById('inputTag').focus();
+      document?.getElementById('inputTag')?.focus();
     };
   }, [showLauncher]);
 
@@ -33,7 +33,7 @@ function Launcher() {
 
   return (
     <Modal
-      style={{ top: "88%" }}
+      style={{ top: '88%' }}
       className="Modal"
       open={showLauncher}
       onOk={handleOk}

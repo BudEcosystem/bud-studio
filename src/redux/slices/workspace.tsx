@@ -53,6 +53,15 @@ const generateInitialState = (): any => {
         childOf: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
       },
       {
+        name: 'child-test',
+        key: 'tested',
+        workSPaceId: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        type: 'folder',
+        uuid: '1a7aea77-2dc6-4aa2-9757-19c536vb1f133',
+        childOf: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
+      },
+      {
         name: 'Welcome',
         key: 'welcome',
         workSPaceId: 'Private',
@@ -61,6 +70,15 @@ const generateInitialState = (): any => {
         workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
         childOf: null,
       },
+      {
+        name: 'child-test-3',
+        key: 'tested',
+        workSPaceId: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        type: 'folder',
+        uuid: '1a7aea77-2dc6-4aa2-9757-19c536vb1x133',
+        childOf: '1a7aea77-2dc6-4aa2-9757-19c536vb1f133',
+      },
     ],
     workSpaceDocs: [
       {
@@ -68,7 +86,15 @@ const generateInitialState = (): any => {
         childOf: null,
         workSPaceId: 'Private',
         type: 'doc',
-        uuid: uuidv4(),
+        uuid: '8fbac4d2-7bd0-482f-9880-c645bddd6eac5',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+      },
+      {
+        name: 'Welcome To Bud',
+        childOf: '1a7aea77-2dc6-4aa2-9757-19c536vb1x133',
+        workSPaceId: 'Private',
+        type: 'doc',
+        uuid: '8fbac4d2-7bd0-482f-9880-c645b426eac5',
         workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
       },
     ],
@@ -155,6 +181,7 @@ export const workspaceSlice = createSlice({
       // }
     },
     createSubChild: (state, action: PayloadAction<any>) => {
+      console.log('action.payload', action.payload);
       const { name, type, parentDetails } = action.payload;
       if (type === 'folder') {
         const newSampleFolderData = {
@@ -165,17 +192,26 @@ export const workspaceSlice = createSlice({
           uuid: uuidv4(),
         };
       } else {
-        const copyOfworkSpaceDocs = state.workSpaceDocs;
+        const copyOfworkSpaceDocs = [...state.workSpaceDocs];
+        const proxyFilteredArray = [];
+        copyOfworkSpaceDocs.forEach((data: any) => {
+          console.log({ ...data });
+          proxyFilteredArray.push({ ...data });
+        });
+        // console.log('action.payload', copyOfworkSpaceDocs);
+
         const sampleDocData = {
           name,
-          childOf: parentDetails.label,
+          childOf: parentDetails.key,
           workSPaceId: parentDetails.uuid,
           type: 'doc',
           uuid: uuidv4(),
-          workSpaceUUID: parentDetails.workSpaceUUID,
+          workSpaceUUID: parentDetails.workspaceDetails.uuid,
         };
-        copyOfworkSpaceDocs.push(sampleDocData);
-        state.workSpaceDocs = copyOfworkSpaceDocs;
+        // console.log('action.payload', sampleDocData);
+        proxyFilteredArray.push(sampleDocData);
+        // console.log('action.payload', copyOfworkSpaceDocs);
+        state.workSpaceDocs = proxyFilteredArray;
       }
     },
     setCurrentSelectedDocument: (state, action: PayloadAction<any>) => {

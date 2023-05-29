@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -27,13 +28,13 @@ function TreeStructure({
   createFolderFlag,
   createDocFlag,
   callbackForCreate,
+  optionModalRef,
 }: any) {
   const dispatch = useDispatch();
   const reduxState: any = useSelector((state) => state);
   const [treeDataProcessed, setTreeData] = useState<DataNode[]>();
+  const [expandedKeys, setExpandedKeys] = useState<any[]>([]);
   const { workspace } = reduxState;
-  console.log('workspace', color, name, workspaceDetails);
-  console.log('workspace', reduxState);
   useEffect(() => {
     const { workSpaceDocs, workspaceFolders } = workspace;
     const WorkSpaceTreeData: any = [];
@@ -70,11 +71,8 @@ function TreeStructure({
       };
       WorkSpaceTreeData.push(sampleObjectDoc);
     });
-    console.log('WorkSpaceTreeData', WorkSpaceTreeData);
     setTreeData(WorkSpaceTreeData);
-  }, [workspace]);
-
-  console.log('setTreeData', treeDataProcessed);
+  }, [color, workspace, workspaceDetails]);
 
   // child render function
   const inputRefFolder = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -113,56 +111,25 @@ function TreeStructure({
   useEffect(() => {
     document.getElementById('newTreeFolderInput')?.focus();
     document.getElementById('newTreeDocInput')?.focus();
-  });
+  }, [createFolderFlag, createDocFlag]);
   const callbackFunctionForModTree = (treeData: any) => {
-    // console.log('updatedNode nodeToUpdate', nodeToUpdate);
-    // console.log('updatedNode child filtered', WorkSpaceTreeData);
     // let oldTreeStateObject = treeDataProcessed;
-    // console.log('updatedNode oldTreeStateObject', oldTreeStateObject);
     setTreeData(treeData);
   };
-  const customRenderer = (node: any) => {
-    return (
-      <RenderChild
-        node={node}
-        callbackFunctionForModTree={callbackFunctionForModTree}
-        treeData={treeDataProcessed}
-      />
-    );
-  };
-  // const onExpand = (node) => {
-  //   console.log('node expander', node);
-  //   console.log('node expander', treeDataProcessed);
-  //   const { workSpaceDocs, workspaceFolders } = workspace;
-  //   const WorkSpaceTreeData: any = [];
-  //   const rootLevelFolders = workspaceFolders.filter((folderData: any) => {
-  //     return (
-  //       folderData?.workSpaceUUID === currentNode?.workspaceDetails?.uuid &&
-  //       folderData?.childOf === node.key
-  //     );
-  //   });
-  // };
-  // const renameKey = (obj: any, targetId: any, newObject: any) => {
-  //   if (obj.key === targetId) {
-  //     const oldChildren = obj.children;
-  //     oldChildren.push(newObject);
-  //     obj.children = oldChildren;
-  //   }
 
-  //   if (obj.children && obj.children.length > 0) {
-  //     obj.children.forEach((child) => {
-  //       renameKey(child, targetId, newObject);
-  //     });
-  //   }
-  // };
   function addChildObject(obj: any, targetKey: any, newObject: any) {
     if (obj.key === targetKey) {
       const copyOfChildrenArray = obj.children || [];
       // obj.children.push(newObject);
-      obj.children = [...copyOfChildrenArray, ...newObject];
+      const filteredArray = copyOfChildrenArray.filter((data: any) => {
+        const idArray = newObject.map((objectData: any) => objectData.key);
+        return idArray.includes(data.key);
+      });
+      if (filteredArray.length === 0) {
+        obj.children = [...copyOfChildrenArray, ...newObject];
+      }
       return;
     }
-
     if (obj.children && obj.children.length > 0) {
       obj.children.forEach((child: any) => {
         addChildObject(child, targetKey, newObject);
@@ -174,48 +141,127 @@ function TreeStructure({
     }
   }
   const nodeSelected = (node: any) => {
-    const { workSpaceDocs, workspaceFolders } = workspace;
-    console.log('WorkSpaceTreeData - node selected', node);
-    const WorkSpaceTreeData: any = [];
-    console.log('WorkSpaceTreeData - node selected', workspaceFolders);
-    const selectedFolder = workspaceFolders.filter((folderData: any) => {
-      return folderData?.uuid === node.key;
+    return new Promise((resolve) => {
+      const { workSpaceDocs, workspaceFolders } = workspace;
+      const WorkSpaceTreeData: any = [];
+      const selectedFolder = workspaceFolders.filter((folderData: any) => {
+        return folderData?.uuid === node.key;
+      });
+      const rootLevelFolders = workspaceFolders.filter((folderData: any) => {
+        return folderData?.childOf === node.key;
+      });
+      const rootLevelDocuments = workSpaceDocs.filter(
+        (docData: any) => docData.childOf === node.key
+      );
+      rootLevelFolders.forEach((data: any) => {
+        const sampleObjectFolder = {
+          title: data.name,
+          key: data.uuid,
+          children: [],
+          color: node.color,
+          isLeaf: false,
+          folderInput: false,
+        };
+        WorkSpaceTreeData.push(sampleObjectFolder);
+      });
+      const copyOftreeDataProcessed = treeDataProcessed;
+      rootLevelDocuments.forEach((data: any) => {
+        const sampleObjectDoc = {
+          title: data.name,
+          key: data.uuid,
+          isLeaf: true,
+          color: node.color,
+          docInput: false,
+        };
+        WorkSpaceTreeData.push(sampleObjectDoc);
+      });
+      console.log('WorkSpaceTreeData', WorkSpaceTreeData);
+      addChildObject(copyOftreeDataProcessed, node.key, WorkSpaceTreeData);
+      function findLevels(objects: any, level = 0) {
+        objects &&
+          objects.forEach((obj: any) => {
+            obj.level = level;
+            if (obj.children.length > 0) {
+              findLevels(obj.children, level + 1);
+            }
+          });
+      }
+      const copyOfTreeData = copyOftreeDataProcessed;
+      findLevels(copyOfTreeData);
+      setTreeData(copyOfTreeData);
+      resolve(true);
     });
-    const rootLevelFolders = workspaceFolders.filter((folderData: any) => {
-      return folderData?.childOf === node.key;
-    });
-    const rootLevelDocuments = workSpaceDocs.filter(
-      (docData: any) => docData.childOf === node.key
-    );
-    console.log('WorkSpaceTreeData - node selected', selectedFolder);
-
-    rootLevelFolders.forEach((data: any) => {
-      const sampleObjectFolder = {
-        title: data.name,
-        key: data.uuid,
-        children: [],
-        color: node.color,
-        isLeaf: false,
-      };
-      WorkSpaceTreeData.push(sampleObjectFolder);
-    });
-    const copyOftreeDataProcessed = treeDataProcessed;
-    rootLevelDocuments.forEach((data: any) => {
-      const sampleObjectDoc = {
-        title: data.name,
-        key: data.uuid,
-        isLeaf: true,
-        color: node.color,
-      };
-      WorkSpaceTreeData.push(sampleObjectDoc);
-    });
-    console.log('WorkSpaceTreeData - node selected', WorkSpaceTreeData);
-    addChildObject(copyOftreeDataProcessed, node.key, WorkSpaceTreeData);
-    console.log('WorkSpaceTreeData - node selected', copyOftreeDataProcessed);
-    setTreeData(copyOftreeDataProcessed);
   };
 
-  useEffect(() => {}, [treeDataProcessed]);
+  const onNodeExpand = (key: any) => {
+    setExpandedKeys(key);
+  };
+
+  const addInputField = (target: any, type: any) => {
+    console.log('target', target);
+    const copyOftreeDataProcessed = treeDataProcessed;
+    const arrayToPush = [];
+    if (type === 'doc') {
+      const objectToadd = {
+        key: 'inputField-doc',
+        isLeaf: true,
+        color: '',
+        docInput: true,
+        parent: target,
+      };
+      arrayToPush.push(objectToadd);
+    }
+    if (type === 'folder') {
+      const objectToadd = {
+        key: 'inputField-folder',
+        isLeaf: true,
+        color: '',
+        docInput: true,
+        parent: target,
+      };
+      arrayToPush.push(objectToadd);
+    }
+    addChildObject(copyOftreeDataProcessed, target.key, arrayToPush);
+    const copyOfTreeData = copyOftreeDataProcessed;
+    function findLevels(objects: any, level = 0) {
+      objects &&
+        objects.forEach((obj: any) => {
+          obj.level = level;
+          if (obj?.children?.length > 0) {
+            findLevels(obj.children, level + 1);
+          }
+        });
+    }
+    console.log('copyOfTreeData', copyOfTreeData);
+    findLevels(copyOftreeDataProcessed);
+    setTreeData([]);
+    setTimeout(() => {
+      setTreeData(copyOfTreeData);
+    }, 100);
+    // nodeSelected(target);
+  };
+  const customRenderer = (node: any) => {
+    const { level } = node;
+    return (
+      <div
+        style={{
+          marginLeft: `${level ? level * 30 : 0}px`,
+          // background: 'red',
+          // pointerEvents: 'none',
+        }}
+      >
+        <RenderChild
+          node={node}
+          callbackFunctionForModTree={callbackFunctionForModTree}
+          treeData={treeDataProcessed}
+          optionModalRef={optionModalRef}
+          setTreeData={setTreeData}
+          expandedKeys={expandedKeys}
+          addInputField={addInputField}
+        />
+      </div>
+    );
+  };
   return (
     <div style={{ background: '#0c0c0c', color: 'white', paddingTop: '20px' }}>
       {createFolderFlag && (
@@ -256,21 +302,27 @@ function TreeStructure({
       )}
       <DirectoryTree
         style={{ background: '#0c0c0c', color: 'white' }}
-        switcherIcon={
-          <div style={{ height: '36px', display: 'flex', marginLeft: '10px' }}>
-            <DownOutlined rev={undefined} style={{}} />
-          </div>
-        }
-        showLine
-        // showIcon={false}
+        switcherIcon={(node) => {
+          const { level } = node;
+          return (
+            <div
+              style={{
+                height: '36px',
+                display: 'flex',
+                marginLeft: `${level ? (level + 1) * 20 : 10}px`,
+              }}
+            >
+              <DownOutlined rev={undefined} style={{}} />
+            </div>
+          );
+        }}
         multiple={false}
-        // defaultExpandAll
-        // onSelect={onSelect}
-        // onExpand={onExpand}
         treeData={treeDataProcessed}
         selectable={false}
         titleRender={customRenderer}
-        onExpand={nodeSelected}
+        // loadData={nodeSelected}
+        onExpand={onNodeExpand}
+        // expandedKeys={expandedKeys.length > 0 ? expandedKeys : undefined}
       />
     </div>
   );

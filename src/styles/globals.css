@@ -129,3 +129,14 @@
   /* visibility: hidden; */
   z-index: -1 !important;
 }
+/* .ant-tree-treenode-leaf-last {
+  margin-left: 30px;
+} */
+
+.ant-tree-treenode {
+  /* border: 5px solid white; */
+  /* z-index: 0; */
+}
+.ant-tree-title {
+  /* border-radius: 5px solid white; */
+}

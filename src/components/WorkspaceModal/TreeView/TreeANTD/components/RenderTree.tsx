@@ -168,7 +168,7 @@ function RenderTree() {
     <Tree
       showLine
       selectable={false}
-      loadData={onLoadData}
+      loadData={nodeSelected}
       treeData={treeData}
     />
   );

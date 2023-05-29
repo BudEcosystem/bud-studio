@@ -205,16 +205,16 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   // };
   useEffect(() => {
     // const {currentSelectedDocId} = workspace;
-    const {
-      currentSelectedItem: { workSpace },
-      workSpaceItems: list,
-      color: menuColorStore,
-    } = workspace;
-    const foundIndex = list.findIndex((x) => x.uuid === workSpace);
-    const menuColor =
-      foundIndex !== -1 ? list[foundIndex].color : menuColorStore;
-    setColor(menuColor ?? menuColorStore);
-    setActiveClassNameColor(foundIndex);
+    // const {
+    //   currentSelectedItem: { workSpace },
+    //   workSpaceItems: list,
+    //   color: menuColorStore,
+    // } = workspace;
+    // const foundIndex = list.findIndex((x) => x.uuid === workSpace);
+    // const menuColor =
+    //   foundIndex !== -1 ? list[foundIndex].color : menuColorStore;
+    // setColor(menuColor ?? menuColorStore);
+    // setActiveClassNameColor(foundIndex);
     // setActiveClassName(foundIndex)
   }, [workspace]);
   const handlerColor = (menuColor: any, menuName: any, i: any) => {
