@@ -14,6 +14,7 @@ import Editor from '../../Editor/Editor';
 import EditorJsWrapper from '../../EditorWrapper';
 
 import BudEditor from '../../BudEditor';
+import { setCurrentSelectedDocument } from 'redux/slices/workspace';
 
 function ContentView({
   setCollapsed,
@@ -35,12 +36,14 @@ function ContentView({
   const [selectedDoc, setSelectedDoc] = useState();
   const [selectedption, setSelectedOption] = useState('Editor');
   const { workspace, activestate } = useSelector((state) => state);
-  const { currentSelectedUI, selectedOption } = activestate;
-  // console.log(activestate, "sdfsd")
+  const { currentSelectedUI, selectedOption, nodeIDs } = activestate;
   useEffect(() => {
     const { currentWorkspace, currentSelectedDocId } = workspace;
     setSelectedDoc(currentSelectedDocId);
   }, [workspace]);
+  useEffect(() => {
+    dispatch(setCurrentSelectedDocument(nodeIDs));
+  }, []);
   return (
     <Layout className={classes['site-layout']}>
       <HeaderComp
