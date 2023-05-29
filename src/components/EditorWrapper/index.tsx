@@ -192,7 +192,7 @@ function EditorWrapper({
   // }, []);
 
   const checkForMentions = () => {
-    const paraElements = document.querySelectorAll('.ce-paragraph');
+    const paraElements = document.querySelectorAll('.cdx-block');
     paraElements.forEach((paraElement) => {
       if (paraElement) {
         const regex = /@(\w+)/g;
