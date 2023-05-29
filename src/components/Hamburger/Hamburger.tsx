@@ -15,6 +15,8 @@ function Hamburger({}: any) {
   const dispatch = useDispatch();
   const { activestate }: any = useSelector((state) => state);
   let { selectedOption, nodeIDs } = activestate;
+  const { tree, workspace }: any = useSelector((state) => state);
+  const { color, currentWorkspace, currentSelectedDocId, applicationData } = workspace;
 
   const handleOptionClick = (option: any) => {
     if (option === '') {
@@ -34,7 +36,9 @@ function Hamburger({}: any) {
   };
 
   return (
-    <div className="hamBurgerParent">
+    <>
+    {currentSelectedDocId && 
+    (<div className="hamBurgerParent">
       {HamburgerOptions.map((option, i) => (
         <HamburgerItems
           key={i}
@@ -43,7 +47,8 @@ function Hamburger({}: any) {
           onClick={() => handleOptionClick(option)}
         />
       ))}
-    </div>
+    </div>)}
+    </>
   );
 }
 
