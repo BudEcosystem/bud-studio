@@ -40,7 +40,6 @@ const DEFAULT_INITIAL_DATA = () => {
 };
 
 const EDITTOR_HOLDER_ID = 'editorjs';
-let fileMentionedArray: any = [];
 
 function EditorWrapper({
   data,
@@ -192,17 +191,6 @@ function EditorWrapper({
     }
   }, [workspace, ejInstance]);
 
-  // This will run only once
-  // useEffect(() => {
-  //   if (!ejInstance.current) {
-  //     initEditor();
-  //   }
-  //   return () => {
-  //     ejInstance.current?.destroy();
-  //     ejInstance.current = null;
-  //   };
-  // }, []);
-
   const checkForMentions = () => {
     const paraElements = document.querySelectorAll('.ce-paragraph');
     paraElements.forEach((paraElement) => {
@@ -210,7 +198,7 @@ function EditorWrapper({
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
         const regex3 = /!(\w+)/g;
-        const idRegex = /linkId="([^"]+)"/;
+        const idRegex = /<span\s+id="([^"]+)"/;
         const text = paraElement?.textContent;
         const htmlText = paraElement?.innerHTML;
         console.log("HTML TEXT", htmlText)
@@ -239,16 +227,6 @@ function EditorWrapper({
             );
           });
         }
-        if (matches3) {
-          matches3.forEach((match) => {
-            const word = match.slice(1);
-            fileMentionedArray.push(word);
-            savedText = savedText?.replaceAll(
-              match,
-              `<span id="hyperLinkDiv" linkId="${id}" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">${id}</span><span style="display: none;">!</span>${word} </span>`
-            );
-          });
-        }
         paraElement.innerHTML = savedText;
       }
     });
@@ -259,7 +237,7 @@ function EditorWrapper({
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
         const regex3 = /!(\w+)/g;
-        const idRegex = /linkId="([^"]+)"/;
+        const idRegex = /<span\s+id="([^"]+)"/;
         const text = headerElement?.textContent;
         const htmlText = headerElement?.innerHTML;
         console.log("HTML CONTENT para", htmlText)
@@ -286,15 +264,6 @@ function EditorWrapper({
             savedText = savedText?.replaceAll(
               match,
               `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
-            );
-          });
-        }
-        if (matches3) {
-          matches3.forEach((match) => {
-            const word = match.slice(1);
-            savedText = savedText?.replaceAll(
-              match,
-              `<span id="hyperLinkDiv" linkId="${id}" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">${id}</span><span style="display: none;">!</span>${word} </span>`
             );
           });
         }
@@ -401,7 +370,6 @@ function EditorWrapper({
     });
   };
 
-  console.log('TREE', tree);
   console.log('WORSPACE EDITOR', workspace);
 
   const initEditor = (dataPassed: any) => {
@@ -416,7 +384,6 @@ function EditorWrapper({
         const blockElements = document.getElementsByClassName('editorjsDiv');
         Array.from(blockElements).forEach((blockElement) => {
           blockElement.addEventListener('focusout', () => {
-            // User finished editing the block
             checkForMentions();
           });
         });
@@ -516,45 +483,6 @@ function EditorWrapper({
       setShowDocumentOptions(true);
       setShowFirstOptions(false);
     }
-
-    if (opt == 'file') {
-      const blockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
-      if (blockIndex >= 0) {
-        async function appendTextToBlock(blockIndex: any, title: any, id: any) {
-          try {
-            let hyperlink = `<span id="hyperLinkDiv" linkId="${id}" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">${id}</span>`;
-            const words = title.split(" ") ;
-            words.map((word: any) => {
-              console.log("WORDS", word)
-              const addText = `<span style="display: none;">!</span>${word}`;
-              hyperlink = hyperlink + addText;
-            })
-            const savedData = await ejInstance?.current?.save();
-            const currentData = savedData.blocks;
-            if (blockIndex >= 0 || blockIndex < currentData.length) {
-              const targetBlock = currentData[blockIndex];
-              console.log("TARGET BLOCK DATA", targetBlock.data.text)
-              hyperlink = hyperlink + `</span>`;
-              console.log("HYPERLINK", hyperlink)
-              if (!targetBlock.data.hasOwnProperty('text')) {
-                targetBlock.data.text = `${hyperlink}`;
-              } else {
-                targetBlock.data.text += `${hyperlink}`;
-              }
-
-              ejInstance?.current?.render({ blocks: currentData });
-              setShowEditorOptionsBlock(false);
-              setTimeout(() => {
-                checkForMentions();
-              }, 100);
-            }
-          } catch (error) {
-            console.error('Error occurred while appending text:', error);
-          }
-        }
-        appendTextToBlock(blockIndex, title, id);
-      }
-    }
   };
 
 
@@ -636,26 +564,6 @@ function EditorWrapper({
       setRender(false);
     }
   }, [showEditorOptionsBlock]);
-
-  useEffect(() => {
-      const hyperLinkDiv: any = document.getElementById('hyperLinkDiv');
-      if(hyperLinkDiv) {
-      const htmlText = hyperLinkDiv?.innerHTML;
-      console.log("HYPERNEWLINK", htmlText)
-      const idRegex = /linkId="([^"]+)"/;
-      const matches4 = htmlText.match(idRegex);
-        const fileId = matches4 ? matches4[1] : null;
-        console.log("FILE ID", fileId)
-      if (fileId) {
-        hyperLinkDiv?.addEventListener('click', () => {
-          dispatch(setCurrentSelectedDocument({ id: null }));
-          setTimeout(() => {
-            dispatch(setCurrentSelectedDocument({ id: "93c9d616-4ee6-47fa-a20a-5ad686d18ee5" }));
-          }, 1000);
-        });
-      }
-    }
-    });
 
   const { activeElement } = document;
   cursorRect.current = activeElement?.getBoundingClientRect();
