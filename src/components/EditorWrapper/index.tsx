@@ -199,22 +199,17 @@ any) {
   }, [workspace, ejInstance]);
 
   const checkForMentions = () => {
-    const paraElements = document.querySelectorAll('.ce-paragraph');
+    const paraElements = document.querySelectorAll('.cdx-block');
     paraElements.forEach((paraElement) => {
       if (paraElement) {
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
-        const regex3 = /!(\w+)/g;
-        const idRegex = /<span\s+id="([^"]+)"/;
         const text = paraElement?.textContent;
         const htmlText = paraElement?.innerHTML;
         console.log("HTML TEXT", htmlText)
         let savedText = text;
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
-        const matches3 = text?.match(regex3);
-        const matches4 = htmlText.match(idRegex);
-        const id = matches4 ? matches4[1] : null;
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
@@ -230,31 +225,24 @@ any) {
             const word = match.slice(1);
             savedText = savedText?.replaceAll(
               match,
-              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current}75;"><span style="display: none;">#</span>${word}</span>`
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
             );
           });
         }
         paraElement.innerHTML = savedText;
       }
     });
-
     const headerElements = document.querySelectorAll('.ce-header');
     headerElements.forEach((headerElement) => {
       if (headerElement) {
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
-        const regex3 = /!(\w+)/g;
-        const idRegex = /<span\s+id="([^"]+)"/;
         const text = headerElement?.textContent;
         const htmlText = headerElement?.innerHTML;
         console.log("HTML CONTENT para", htmlText)
         let savedText = text;
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
-        const matches3 = text?.match(regex3);
-        const matches4 = htmlText.match(idRegex);
-        const id = matches4 ? matches4[1] : null;
-        console.log("SPAN ID", id)
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
