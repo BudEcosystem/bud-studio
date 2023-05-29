@@ -24,6 +24,11 @@ import {
   FileIcon,
 } from './EditorIcons';
 
+import {
+  setCurrentSelectedUI,
+  setSelectedOption,
+} from 'redux/slices/activestate';
+
 const DEFAULT_INITIAL_DATA = () => {
   return {
     time: new Date().getTime(),
@@ -43,20 +48,20 @@ const EDITTOR_HOLDER_ID = 'editorjs';
 
 function EditorWrapper({
   data,
-  setCurrentSelectedUI,
-  selectedOption,
-  setSelectedOption,
-}: any) {
+}: // selectedOption,
+// setSelectedOption,
+any) {
   const ejInstance = useRef();
   const editor1 = useRef<EditorJS>();
   const [editorData, setEditorData] = useState(null);
   const [coverUrl, setCoverUrl] = useState();
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
   const [iconUrl, setIconUrl] = useState();
-  const { tree, workspace }: any = useSelector((state) => state);
+  const { tree, workspace, activestate }: any = useSelector((state) => state);
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
   console.log('###################################', workspace);
   const { color, currentWorkspace, currentSelectedDocId } = workspace;
+  const { selectedOption } = activestate;
   const [render, setRender] = useState(false);
   const cursorRect = useRef<DOMRect>();
   const refHoverBar = useRef();
@@ -414,7 +419,7 @@ function EditorWrapper({
   };
 
   useEffect(() => {
-    checkForMentions()
+    checkForMentions();
   }, [color]);
 
   useEffect(() => {
@@ -432,12 +437,12 @@ function EditorWrapper({
     }
 
     if (opt == 'listview') {
-      setCurrentSelectedUI('listview');
-      setSelectedOption('List View');
+      dispatch(setCurrentSelectedUI('listview'));
+      dispatch(setSelectedOption('List View'));
     }
     if (opt == 'kanban') {
-      setCurrentSelectedUI('kanban');
-      setSelectedOption('Kanban View');
+      dispatch(setCurrentSelectedUI('kanban'));
+      dispatch(setSelectedOption('Kanban View'));
     }
     if (opt == 'database') {
       setEditorOptions([
@@ -484,7 +489,6 @@ function EditorWrapper({
       setShowFirstOptions(false);
     }
   };
-
 
   const style = { '--bg-color': color };
 
@@ -802,7 +806,7 @@ function EditorWrapper({
 
       {showEditorOptionsBlock && (
         <div
-        id="editorOptionBlockID"
+          id="editorOptionBlockID"
           style={{
             top: `${
               coverUrlAvailable

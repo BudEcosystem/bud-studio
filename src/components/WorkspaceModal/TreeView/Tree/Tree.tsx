@@ -14,6 +14,11 @@ import FlyoutMenu from 'components/WorkspaceModal/FlyoutMenu';
 import { DocIcon, FolderIcon } from 'components/WorkspaceModal/WorkspaceIcons';
 import { UpArrow } from '../../../OmniSearch/Panel/PanelOption/PanelSvgIcons';
 import { Folder, Page } from './TreeSvgIcons';
+import {
+  setCurrentSelectedUI,
+  setNodeIDs,
+  setSelectedOption,
+} from 'redux/slices/activestate';
 
 import './Tree.css';
 
@@ -45,8 +50,7 @@ function Tree({
   }, [treeState]);
   const [activeNode, setActiveNode] = useState(null);
   const handleNodeClick = (node) => {
-
-    console.log("Active Node", node);
+    console.log('Active Node', node);
 
     if (activeNode === node) {
       setActiveNode(null);
@@ -204,8 +208,7 @@ function TreeNode({
     setToggleFlyout((prev) => !prev);
   };
   const newMenuAddHandler = (newNode: any) => {
-
-    console.log("Add New Menu",newNode)
+    console.log('Add New Menu', newNode);
     if (addNewMenu) {
       addNewMenu(node, newNode);
     }
@@ -218,22 +221,22 @@ function TreeNode({
     setChildVisiblity(true);
   };
   const onRenameHandler = () => {
-    setEditMode(true)
-  }
+    setEditMode(true);
+  };
   const onDeleteHandler = () => {
-    const {uuid, type} = node;
-    dispatch(deleteItem({ uuid, isFolder: type === 'folder'}));
-  }
+    const { uuid, type } = node;
+    dispatch(deleteItem({ uuid, isFolder: type === 'folder' }));
+  };
   return (
     isVisible && (
       <li className="treeLiItem">
         {toggleFlyout && (
           <FlyoutMenu
-          onRenameHandler = {onRenameHandler}
+            onRenameHandler={onRenameHandler}
             createNewClickHandler={addNewItem}
             setToggleFlyout={setToggleFlyout}
-            onDeleteHandler = {onDeleteHandler}
-            isFolder = {node.type === 'folder'}
+            onDeleteHandler={onDeleteHandler}
+            isFolder={node.type === 'folder'}
           />
         )}
         <div
@@ -266,18 +269,18 @@ function TreeNode({
             <ListItem
               color={color}
               label={node.label}
-              uuid = {node.uuid}
+              uuid={node.uuid}
               isFolder={node.type === 'folder'}
               childVisible={childVisible}
               isParent={node.isParent}
               isEdit={editMode}
-              setIsEditMode = {(e) => setEditMode(e)}
+              setIsEditMode={(e) => setEditMode(e)}
               workSpaceDetails={workSpaceDetails}
             />
           ) : (
             <ListItem
               color={color}
-              uuid = {node.uuid}
+              uuid={node.uuid}
               label={node.label}
               isFolder={node.type === 'folder'}
               childVisible={childVisible}
@@ -377,12 +380,16 @@ function ListItem({
     if (e.key === 'Enter') {
       if (label) {
         dispatch(renameItem({ uuid, isFolder, name: inputBox.current.value }));
-        setIsEditMode && setIsEditMode(false)
+        setIsEditMode && setIsEditMode(false);
       } else {
         dispatch(
           createSubChild({
             name: inputBox.current.value,
-            parentDetails: { ...node, workSpaceName: workSpaceDetails.name,workSpaceUUID: workSpaceDetails.uuid },
+            parentDetails: {
+              ...node,
+              workSpaceName: workSpaceDetails.name,
+              workSpaceUUID: workSpaceDetails.uuid,
+            },
             type: `${isFolder ? 'folder' : 'doc'}`,
           })
         );
@@ -402,7 +409,10 @@ function ListItem({
     dispatch(setCurrentSelectedDocument({ id: null }));
     setTimeout(() => {
       const workSpaceUUID = workSpaceDetails?.uuid;
-      dispatch(setCurrentSelectedDocument({ id: label,uuid,workSpaceUUID }));
+      dispatch(setCurrentSelectedDocument({ id: label, uuid, workSpaceUUID }));
+      dispatch(setNodeIDs({ id: label, uuid, workSpaceUUID }));
+      dispatch(setCurrentSelectedUI(''));
+      dispatch(setSelectedOption('Editor'));
     }, 1000);
   };
   const onEscapeButtonPressed = (event: any) => {
@@ -451,9 +461,25 @@ function ListItem({
         )}
       </div>
       <div className="item-action-wrapper">
-        {!isEdit  && (
+        {!isEdit && (
           <button onClick={addNewItem} type="button" className="addNew">
-            {isFolder ? '+': <span className='threeDotsIcon'><svg width="13" height="3" viewBox="0 0 13 3" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="1.5" cy="1.5" r="1.5" fill="#C6C6C6"></circle><circle cx="6.5" cy="1.5" r="1.5" fill="#C6C6C6"></circle><circle cx="11.5" cy="1.5" r="1.5" fill="#C6C6C6"></circle></svg></span>}
+            {isFolder ? (
+              '+'
+            ) : (
+              <span className="threeDotsIcon">
+                <svg
+                  width="13"
+                  height="3"
+                  viewBox="0 0 13 3"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="1.5" cy="1.5" r="1.5" fill="#C6C6C6"></circle>
+                  <circle cx="6.5" cy="1.5" r="1.5" fill="#C6C6C6"></circle>
+                  <circle cx="11.5" cy="1.5" r="1.5" fill="#C6C6C6"></circle>
+                </svg>
+              </span>
+            )}
           </button>
         )}
       </div>

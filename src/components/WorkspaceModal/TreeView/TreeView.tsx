@@ -78,13 +78,13 @@ function TreeView({
             isParent: workSpaceDocsDetails.length > 0,
             children: [],
             type: 'folder',
-            uuid:folderData.uuid,
+            uuid: folderData.uuid,
           };
           workSpaceDocsDetails.forEach((docData: any, docIndex: any) => {
             const sampleChildObject = {
               key: `${folderIndex}-${docIndex}`,
               label: docData.name,
-              uuid:docData.uuid,
+              uuid: docData.uuid,
             };
             childData.push(sampleChildObject);
           });
@@ -108,7 +108,7 @@ function TreeView({
             key: treeStructureObject.length + 1,
             label: eachDoc.name,
             type: 'doc',
-            uuid:eachDoc.uuid,
+            uuid: eachDoc.uuid,
           };
           treeStructureObject.push(newDocData);
         });
