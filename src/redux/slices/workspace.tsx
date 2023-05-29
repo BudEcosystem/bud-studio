@@ -238,7 +238,12 @@ export const workspaceSlice = createSlice({
       const rename = (list: any[], id: string) => {
         const found = list.find((f) => f.uuid === id);
         if (found) {
-          found.name = name;
+          if (found.name === state.currentSelectedDocId) {
+            found.name = name;
+            state.currentSelectedDocId = name;
+          } else {
+            found.name = name;
+          }
         }
       };
       if (isFolder) {
