@@ -60,7 +60,7 @@ any) {
   const { tree, workspace, activestate }: any = useSelector((state) => state);
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
   console.log('###################################', workspace);
-  const { color, currentWorkspace, currentSelectedDocId } = workspace;
+  const { color, currentWorkspace, currentSelectedDocId, applicationData } = workspace;
   const { selectedOption } = activestate;
   const [render, setRender] = useState(false);
   const cursorRect = useRef<DOMRect>();
@@ -152,6 +152,8 @@ any) {
     },
   ]);
   // for checking if the particular editor has somedata
+
+
   useEffect(() => {
     const {
       currentWorkspace: copycurrentWorkspace,
@@ -655,7 +657,10 @@ any) {
   }, [showFirstOptions]);
 
   return (
+    <>
     <div className="editor">
+      {applicationData &&
+      (<>
       {coverUrlAvailable ? (
         <div
           style={{
@@ -801,9 +806,12 @@ any) {
           Add Icon
         </div>
       )}
+      </>)}
 
       <div className="editorjsDiv" id={EDITTOR_HOLDER_ID} />
 
+      {applicationData && 
+      (<>
       {showEditorOptionsBlock && (
         <div
           id="editorOptionBlockID"
@@ -862,7 +870,9 @@ any) {
           </div>
         </div>
       )}
+      </>)}
     </div>
+    </>
   );
 }
 export default EditorWrapper;
