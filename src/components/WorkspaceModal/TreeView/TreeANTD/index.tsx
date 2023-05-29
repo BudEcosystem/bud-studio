@@ -157,7 +157,7 @@ function TreeStructure({
   // };
   function addChildObject(obj: any, targetKey: any, newObject: any) {
     if (obj.key === targetKey) {
-      const copyOfChildrenArray = obj.children;
+      const copyOfChildrenArray = obj.children || [];
       // obj.children.push(newObject);
       obj.children = [...copyOfChildrenArray, ...newObject];
       return;
@@ -179,13 +179,13 @@ function TreeStructure({
     const WorkSpaceTreeData: any = [];
     console.log('WorkSpaceTreeData - node selected', workspaceFolders);
     const selectedFolder = workspaceFolders.filter((folderData: any) => {
-      return folderData?.uuid === node[node.length - 1];
+      return folderData?.uuid === node.key;
     });
     const rootLevelFolders = workspaceFolders.filter((folderData: any) => {
-      return folderData?.childOf === node[node.length - 1];
+      return folderData?.childOf === node.key;
     });
     const rootLevelDocuments = workSpaceDocs.filter(
-      (docData: any) => docData.childOf === node[node.length - 1]
+      (docData: any) => docData.childOf === node.key
     );
     console.log('WorkSpaceTreeData - node selected', selectedFolder);
 
@@ -194,7 +194,7 @@ function TreeStructure({
         title: data.name,
         key: data.uuid,
         children: [],
-        color,
+        color: node.color,
         isLeaf: false,
       };
       WorkSpaceTreeData.push(sampleObjectFolder);
@@ -205,16 +205,12 @@ function TreeStructure({
         title: data.name,
         key: data.uuid,
         isLeaf: true,
-        color,
+        color: node.color,
       };
       WorkSpaceTreeData.push(sampleObjectDoc);
     });
     console.log('WorkSpaceTreeData - node selected', WorkSpaceTreeData);
-    addChildObject(
-      copyOftreeDataProcessed,
-      node[node.length - 1],
-      WorkSpaceTreeData
-    );
+    addChildObject(copyOftreeDataProcessed, node.key, WorkSpaceTreeData);
     console.log('WorkSpaceTreeData - node selected', copyOftreeDataProcessed);
     setTreeData(copyOftreeDataProcessed);
   };
