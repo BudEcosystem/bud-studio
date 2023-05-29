@@ -90,11 +90,36 @@ export const workspaceSlice = createSlice({
       state.workSpaceItems.push({ ...action.payload, uuid: uuidv4() });
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
-      const arr = [...state.workSpaceItems];
-      if (action.payload.value.name) {
-        arr[action.payload.index].name = action.payload.value.name;
-      } else {
-        arr[action.payload.index].name = action.payload.value;
+      console.log(action.payload, 'adSD');
+      const { value, index } = action.payload;
+      const { workSpace } = state.currentSelectedItem;
+      const workspaceItem = state.workSpaceItems.find(
+        (item) => item.uuid === workSpace
+      );
+      const matchingItems = state.workSpaceDocs.filter(
+        (item) => item.workSpaceUUID === workSpace
+      );
+      const matchingFolders = state.workspaceFolders.filter(
+        (item) => item.workSpaceUUID === workSpace
+      );
+      if (workspaceItem) {
+        if (value.name) {
+          workspaceItem.name = value.name;
+          matchingItems.forEach((item) => {
+            item.workSPaceId = value.name;
+          });
+          matchingFolders.forEach((item) => {
+            item.workSPaceId = value.name;
+          });
+        } else {
+          workspaceItem.name = value;
+          matchingItems.forEach((item) => {
+            item.workSPaceId = value;
+          });
+          matchingFolders.forEach((item) => {
+            item.workSPaceId = value;
+          });
+        }
       }
     },
     changeWorkSpacePropereties: (state, action: PayloadAction<any>) => {
@@ -118,6 +143,7 @@ export const workspaceSlice = createSlice({
           workSPaceId: workSpaceDetails.name,
           type: 'folder',
           uuid: uuidv4(),
+          workSpaceUUID: workSpaceDetails.uuid,
         };
         copyFolderStructure.push(newObject);
         state.workspaceFolders = copyFolderStructure;
