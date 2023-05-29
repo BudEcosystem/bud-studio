@@ -8,6 +8,7 @@ import {
   deleteItem,
   renameItem,
   setCurrentSelectedDocument,
+  changeColor
 } from 'redux/slices/workspace';
 import { disableCreateNewTreeNode } from 'redux/slices/tree';
 import FlyoutMenu from 'components/WorkspaceModal/FlyoutMenu';
@@ -99,7 +100,7 @@ function Tree({
     document.getElementById('newTreeFolderInput')?.focus();
     document.getElementById('newTreeDocInput')?.focus();
   });
-  const onEscapeButtonPressed = (event) => {
+  const onEscapeButtonPressed = (event: any) => {
     if (event.code === 'Escape') {
       setIsFolderCreateVisible(false);
       setIsDocCreateVisible(false);
@@ -405,6 +406,7 @@ function ListItem({
       });
     }
   }, [isEdit]);
+
   const onDocumentClicked = () => {
     dispatch(setCurrentSelectedDocument({ id: null }));
     setTimeout(() => {
@@ -413,8 +415,14 @@ function ListItem({
       dispatch(setNodeIDs({ id: label, uuid, workSpaceUUID }));
       dispatch(setCurrentSelectedUI(''));
       dispatch(setSelectedOption('Editor'));
+      if(workSpaceDetails){
+      dispatch(changeColor({color: workSpaceDetails.color}))}
+      else {
+        dispatch(changeColor({color: "#343434"}))
+      }
     }, 1000);
   };
+
   const onEscapeButtonPressed = (event: any) => {
     if (event.code === 'Escape') {
       setAddMode(false);

@@ -77,6 +77,9 @@ export const workspaceSlice = createSlice({
       state.editorInitialised = false;
       state.currentSelectedDocId = null;
     },
+    changeColor: (state, action: PayloadAction<any>) => {
+      state.color = action.payload.color;
+    },
     createWorkspaces: (state, action: PayloadAction<any>) => {
       if (action.payload.idx !== undefined) {
         state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
@@ -240,6 +243,7 @@ export const {
   createWorkspaces,
   editWorkspaceItem,
   duplicateWorkspaceItem,
+  changeColor,
   changeWorkSpacePropereties,
   recoverWorkspacedata,
   createFolder,
