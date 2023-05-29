@@ -859,7 +859,7 @@ function Editor() {
             <Plus />
           </div>{' '}
           Press “<div style={{ color: 'white' }}>@</div>” for bud , “
-          <div style={{ color: 'white' }}>/</div>” for editor blocks.
+          <div style={{ color: 'white' }}>Ctrl + /</div>” for editor blocks.
           {showEditorOptionsBlock && (
             <div
               style={{

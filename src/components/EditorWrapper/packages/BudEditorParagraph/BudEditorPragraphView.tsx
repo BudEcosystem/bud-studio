@@ -64,7 +64,7 @@ function BudEditorPragraphView({
         ref={wrapperRef}
         contentEditable={!readOnly}
         data-placeholder={defaultPlaceholder}
-        placeholder="Press “@” for bud , “/”  for editor blocks"
+        placeholder="Press “@” for bud , “Ctrl + /”  for editor blocks"
         // dangerouslySetInnerHTML={{ __html: text }}
       />
 
