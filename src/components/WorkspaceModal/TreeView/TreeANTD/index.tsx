@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -32,7 +33,7 @@ function TreeStructure({
 }: any) {
   const dispatch = useDispatch();
   const reduxState: any = useSelector((state) => state);
-  const [treeDataProcessed, setTreeData] = useState<DataNode[]>();
+  const [treeDataProcessed, setTreeData] = useState<any[]>([]);
   const [expandedKeys, setExpandedKeys] = useState<any[]>([]);
   const { workspace } = reduxState;
   useEffect(() => {
@@ -72,7 +73,7 @@ function TreeStructure({
       WorkSpaceTreeData.push(sampleObjectDoc);
     });
     setTreeData(WorkSpaceTreeData);
-  }, [color, workspace, workspaceDetails]);
+  }, [workspace]);
 
   // child render function
   const inputRefFolder = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -118,6 +119,7 @@ function TreeStructure({
   };
 
   function addChildObject(obj: any, targetKey: any, newObject: any) {
+    console.log('sdcjbdjcbdcbh', obj, targetKey, newObject);
     if (obj.key === targetKey) {
       const copyOfChildrenArray = obj.children || [];
       // obj.children.push(newObject);
@@ -181,7 +183,7 @@ function TreeStructure({
         objects &&
           objects.forEach((obj: any) => {
             obj.level = level;
-            if (obj.children.length > 0) {
+            if (obj?.children?.length > 0) {
               findLevels(obj.children, level + 1);
             }
           });
@@ -194,12 +196,16 @@ function TreeStructure({
   };
 
   const onNodeExpand = (key: any) => {
+    console.log('hahahahah');
     setExpandedKeys(key);
   };
 
   const addInputField = (target: any, type: any) => {
     console.log('target', target);
+    console.log('target', type);
     const copyOftreeDataProcessed = treeDataProcessed;
+    console.log('copyOftreeDataProcessed', copyOftreeDataProcessed);
+
     const arrayToPush = [];
     if (type === 'doc') {
       const objectToadd = {
@@ -207,34 +213,38 @@ function TreeStructure({
         isLeaf: true,
         color: '',
         docInput: true,
-        parent: target,
+        parent: { ...target, workspaceDetails },
+        level: target.level,
       };
       arrayToPush.push(objectToadd);
     }
     if (type === 'folder') {
       const objectToadd = {
         key: 'inputField-folder',
-        isLeaf: true,
+        isLeaf: false,
         color: '',
-        docInput: true,
-        parent: target,
+        folderInput: true,
+        parent: { ...target, workspaceDetails },
+        level: target.level,
       };
       arrayToPush.push(objectToadd);
     }
-    addChildObject(copyOftreeDataProcessed, target.key, arrayToPush);
-    const copyOfTreeData = copyOftreeDataProcessed;
-    function findLevels(objects: any, level = 0) {
-      objects &&
-        objects.forEach((obj: any) => {
-          obj.level = level;
-          if (obj?.children?.length > 0) {
-            findLevels(obj.children, level + 1);
-          }
-        });
-    }
-    console.log('copyOfTreeData', copyOfTreeData);
-    findLevels(copyOftreeDataProcessed);
-    setTreeData([]);
+    // addChildObject(copyOftreeDataProcessed, target.key, arrayToPush);
+    const copyOfTreeData = arrayToPush.concat(copyOftreeDataProcessed);
+    console.log('copyOftreeDataProcessed', copyOfTreeData);
+
+    // function findLevels(objects: any, level = 0) {
+    //   objects &&
+    //     objects.forEach((obj: any) => {
+    //       obj.level = level;
+    //       if (obj?.children?.length > 0) {
+    //         findLevels(obj.children, level + 1);
+    //       }
+    //     });
+    // }
+    // console.log('copyOfTreeData', copyOfTreeData);
+    // findLevels(copyOftreeDataProcessed);
+    // setTreeData([]);
     setTimeout(() => {
       setTreeData(copyOfTreeData);
     }, 100);
@@ -244,6 +254,7 @@ function TreeStructure({
     const { level } = node;
     return (
       <div
+        onClick={() => nodeSelected(node)}
         style={{
           marginLeft: `${level ? level * 30 : 0}px`,
           // background: 'red',
@@ -258,10 +269,20 @@ function TreeStructure({
           setTreeData={setTreeData}
           expandedKeys={expandedKeys}
           addInputField={addInputField}
+          setExpandedKeys={setExpandedKeys}
+          workspaceDetails={workspaceDetails}
         />
       </div>
     );
   };
+  const conditionalProps = () => {
+    const sampleObjectProps: any = {};
+    if (expandedKeys.length > 0) {
+      sampleObjectProps.expandedKeys = expandedKeys;
+    }
+    return sampleObjectProps;
+  };
+  const propsGenerated: any = conditionalProps();
   return (
     <div style={{ background: '#0c0c0c', color: 'white', paddingTop: '20px' }}>
       {createFolderFlag && (
@@ -322,7 +343,7 @@ function TreeStructure({
         titleRender={customRenderer}
         // loadData={nodeSelected}
         onExpand={onNodeExpand}
-        // expandedKeys={expandedKeys.length > 0 ? expandedKeys : undefined}
+        {...propsGenerated}
       />
     </div>
   );

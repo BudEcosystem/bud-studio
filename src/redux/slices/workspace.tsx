@@ -184,13 +184,27 @@ export const workspaceSlice = createSlice({
       console.log('action.payload', action.payload);
       const { name, type, parentDetails } = action.payload;
       if (type === 'folder') {
-        const newSampleFolderData = {
-          name: 'folderName1',
-          key: 'folderName1',
-          workSPaceId: 'Private',
+        const copyOfworkSpaceFolders = [...state.workspaceFolders];
+        const proxyFilteredArray = [];
+        copyOfworkSpaceFolders.forEach((data: any) => {
+          console.log({ ...data });
+          proxyFilteredArray.push({ ...data });
+        });
+        // console.log('action.payload', copyOfworkSpaceDocs);
+
+        const sampleDocData = {
+          name,
+          childOf: parentDetails.key,
           type: 'folder',
           uuid: uuidv4(),
+          key: uuidv4(),
+          workSpaceUUID: parentDetails.workspaceDetails.uuid,
+          workSPaceId: parentDetails.workspaceDetails.uuid,
         };
+        // console.log('action.payload', sampleDocData);
+        proxyFilteredArray.push(sampleDocData);
+        // console.log('action.payload', copyOfworkSpaceDocs);
+        state.workspaceFolders = proxyFilteredArray;
       } else {
         const copyOfworkSpaceDocs = [...state.workSpaceDocs];
         const proxyFilteredArray = [];

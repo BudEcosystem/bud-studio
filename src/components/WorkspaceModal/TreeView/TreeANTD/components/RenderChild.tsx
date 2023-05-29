@@ -23,6 +23,8 @@ function RenderChild({
   optionModalRef,
   expandedKeys,
   addInputField,
+  setExpandedKeys,
+  workspaceDetails,
 }: any) {
   const [currentNode, setCurrentNode] = useState<any>();
   const getParentIds = (
@@ -50,7 +52,7 @@ function RenderChild({
     return [];
   };
   const createNewClickHandler = (e, type: any, node) => {
-    e.stopPropagation();
+    e.preventDefault();
     const { key } = node;
     addInputField(node, type);
     // if (type === 'doc') {
@@ -240,7 +242,7 @@ function RenderChild({
           parentDetails: currentNode.parent,
         })
       );
-
+      setTimeout(setExpandedKeys([]));
       console.log(inputRefFolder.current.value, currentNode);
     }
   };
@@ -294,17 +296,16 @@ function RenderChild({
             </span>
           </div>
         )}
-        {currentNode?.folderInput ||
-          (currentNode?.docInput && (
-            <div style={{ display: 'flex' }}>
-              <input
-                onKeyDown={onEnterInput}
-                className="treeViewContainerDocInput"
-                id="newTreeChildInput"
-                ref={inputRefFolder}
-              />
-            </div>
-          ))}
+        {(currentNode?.folderInput || currentNode?.docInput) && (
+          <div style={{ display: 'flex' }}>
+            <input
+              onKeyDown={onEnterInput}
+              className="treeViewContainerDocInput"
+              id="newTreeChildInput"
+              ref={inputRefFolder}
+            />
+          </div>
+        )}
       </div>
       {!currentNode?.isLeaf && expandedKeys.includes(node.key) && (
         <Popover trigger="hover" placement="rightTop" content={content} arrow>
