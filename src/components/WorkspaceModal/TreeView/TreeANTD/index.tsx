@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-plusplus */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-unstable-nested-components */
@@ -37,7 +39,7 @@ function TreeStructure({
   const [treeDataProcessed, setTreeData] = useState<any[]>([]);
   const [expandedKeys, setExpandedKeys] = useState<any[]>([]);
   const { workspace } = reduxState;
-  useEffect(() => {
+  const initData = () => {
     const { workSpaceDocs, workspaceFolders } = workspace;
     const WorkSpaceTreeData: any = [];
     const rootLevelFolders = workspaceFolders.filter((folderData: any) => {
@@ -74,6 +76,9 @@ function TreeStructure({
       WorkSpaceTreeData.push(sampleObjectDoc);
     });
     setTreeData(WorkSpaceTreeData);
+  };
+  useEffect(() => {
+    initData();
   }, [workspace]);
 
   // child render function
@@ -233,7 +238,6 @@ function TreeStructure({
     // addChildObject(copyOftreeDataProcessed, target.key, arrayToPush);
     const copyOfTreeData = arrayToPush.concat(copyOftreeDataProcessed);
     console.log('copyOftreeDataProcessed', copyOfTreeData);
-
     // function findLevels(objects: any, level = 0) {
     //   objects &&
     //     objects.forEach((obj: any) => {
@@ -285,6 +289,63 @@ function TreeStructure({
     return sampleObjectProps;
   };
   const propsGenerated: any = conditionalProps();
+  console.log('treeDataProcessed', treeDataProcessed);
+  console.log('treeDataProcessed', workspace);
+  const onSearchInput = (value: string) => {
+    if (value.length === 0) {
+      initData();
+      return;
+    }
+    const { workSpaceDocs, workspaceFolders } = workspace;
+    const WorkSpaceTreeData: any = [];
+    const rootLevelFolders = workspaceFolders.filter((folderData: any) => {
+      return (
+        folderData?.workSpaceUUID === workspaceDetails.uuid &&
+        folderData.name.includes(value)
+      );
+    });
+    const rootLevelDocuments = workSpaceDocs.filter(
+      (docData: any) =>
+        docData.workSpaceUUID === workspaceDetails.uuid &&
+        docData.name.includes(value)
+    );
+    rootLevelFolders.forEach((data: any) => {
+      const sampleObjectFolder = {
+        title: data.name,
+        key: data.uuid,
+        children: [],
+        color,
+        isLeaf: false,
+        workspaceDetails,
+      };
+      WorkSpaceTreeData.push(sampleObjectFolder);
+    });
+    rootLevelDocuments.forEach((data: any) => {
+      const sampleObjectDoc = {
+        title: data.name,
+        key: data.uuid,
+        isLeaf: true,
+        color,
+        workspaceDetails,
+        children: [],
+      };
+      WorkSpaceTreeData.push(sampleObjectDoc);
+    });
+    setTreeData(WorkSpaceTreeData);
+  };
+  useEffect(() => {
+    let timerInput: any;
+    const searchSkills = document?.getElementById(
+      'searchFlyout'
+    ) as HTMLInputElement;
+    searchSkills?.addEventListener('keyup', () => {
+      clearTimeout(timerInput);
+      timerInput = setTimeout(() => {
+        // alert(searchSkills.value);
+        onSearchInput(searchSkills.value);
+      }, 1300);
+    });
+  }, []);
   return (
     <div style={{ background: '#0c0c0c', color: 'white', paddingTop: '20px' }}>
       {createFolderFlag && (
