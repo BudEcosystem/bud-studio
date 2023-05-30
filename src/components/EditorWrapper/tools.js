@@ -20,7 +20,7 @@ import SimpleImage from '@editorjs/simple-image';
 
 export const EDITOR_JS_TOOLS = {
   // NOTE: Paragraph is default tool. Declare only when you want to change paragraph option.
-  // paragraph: Paragraph,
+  paragraph: Paragraph,
   embed: Embed,
   table: Table,
   list: List,
@@ -36,13 +36,13 @@ export const EDITOR_JS_TOOLS = {
   delimiter: Delimiter,
   inlineCode: InlineCode,
   simpleImage: SimpleImage,
-  Paragraph: {
-    class: Paragraph,
-    placeholder: 'Tell your story...',
-    config: {
-      placeholder: 'Tell your story...',
-    },
-  }
+  // paragraph: {
+  //   class: Paragraph,
+  //   placeholder: 'Tell your story...',
+  //   config: {
+  //     placeholder: 'Tell your story...',
+  //   },
+  // }
   // paragraph: {
   //   class: BudEditorParagraph,
   //   inlineToolbar: true,

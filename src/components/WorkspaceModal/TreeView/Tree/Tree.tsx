@@ -8,12 +8,18 @@ import {
   deleteItem,
   renameItem,
   setCurrentSelectedDocument,
+  changeColor
 } from 'redux/slices/workspace';
 import { disableCreateNewTreeNode } from 'redux/slices/tree';
 import FlyoutMenu from 'components/WorkspaceModal/FlyoutMenu';
 import { DocIcon, FolderIcon } from 'components/WorkspaceModal/WorkspaceIcons';
 import { UpArrow } from '../../../OmniSearch/Panel/PanelOption/PanelSvgIcons';
 import { Folder, Page } from './TreeSvgIcons';
+import {
+  setCurrentSelectedUI,
+  setNodeIDs,
+  setSelectedOption,
+} from 'redux/slices/activestate';
 
 import './Tree.css';
 
@@ -88,7 +94,7 @@ function Tree({
     document.getElementById('newTreeFolderInput')?.focus();
     document.getElementById('newTreeDocInput')?.focus();
   });
-  const onEscapeButtonPressed = (event) => {
+  const onEscapeButtonPressed = (event: any) => {
     if (event.code === 'Escape') {
       setIsFolderCreateVisible(false);
       setIsDocCreateVisible(false);
@@ -391,13 +397,23 @@ function ListItem({
       });
     }
   }, [isEdit]);
+
   const onDocumentClicked = () => {
     dispatch(setCurrentSelectedDocument({ id: null }));
     setTimeout(() => {
       const workSpaceUUID = workSpaceDetails?.uuid;
       dispatch(setCurrentSelectedDocument({ id: label, uuid, workSpaceUUID }));
+      dispatch(setNodeIDs({ id: label, uuid, workSpaceUUID }));
+      dispatch(setCurrentSelectedUI(''));
+      dispatch(setSelectedOption('Editor'));
+      if(workSpaceDetails){
+      dispatch(changeColor({color: workSpaceDetails.color}))}
+      else {
+        dispatch(changeColor({color: "#343434"}))
+      }
     }, 1000);
   };
+
   const onEscapeButtonPressed = (event: any) => {
     if (event.code === 'Escape') {
       setAddMode(false);
@@ -445,7 +461,25 @@ function ListItem({
       </div>
       <div className="item-action-wrapper">
         {!isEdit && (
+        {!isEdit && (
           <button onClick={addNewItem} type="button" className="addNew">
+            {isFolder ? (
+              '+'
+            ) : (
+              <span className="threeDotsIcon">
+                <svg
+                  width="13"
+                  height="3"
+                  viewBox="0 0 13 3"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="1.5" cy="1.5" r="1.5" fill="#C6C6C6"></circle>
+                  <circle cx="6.5" cy="1.5" r="1.5" fill="#C6C6C6"></circle>
+                  <circle cx="11.5" cy="1.5" r="1.5" fill="#C6C6C6"></circle>
+                </svg>
+              </span>
+            )}
             {isFolder ? (
               '+'
             ) : (

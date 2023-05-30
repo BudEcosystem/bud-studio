@@ -14,6 +14,7 @@ import Editor from '../../Editor/Editor';
 import EditorJsWrapper from '../../EditorWrapper';
 
 import BudEditor from '../../BudEditor';
+import { setCurrentSelectedDocument } from 'redux/slices/workspace';
 
 function ContentView({
   setCollapsed,
@@ -33,13 +34,16 @@ function ContentView({
     dispatch(setContentRef(`${contentRef.current}`));
   }, [contentRef, dispatch]);
   const [selectedDoc, setSelectedDoc] = useState();
-  const [currentSelectedUI, setCurrentSelectedUI] = useState('');
-  const [selectedOption, setSelectedOption] = useState('editor');
-  const { workspace } = useSelector((state) => state);
+  const [selectedption, setSelectedOption] = useState('Editor');
+  const { workspace, activestate } = useSelector((state) => state);
+  const { currentSelectedUI, selectedOption, nodeIDs } = activestate;
   useEffect(() => {
     const { currentWorkspace, currentSelectedDocId } = workspace;
     setSelectedDoc(currentSelectedDocId);
   }, [workspace]);
+  useEffect(() => {
+    dispatch(setCurrentSelectedDocument(nodeIDs));
+  }, []);
   return (
     <Layout className={classes['site-layout']}>
       <HeaderComp
@@ -62,9 +66,8 @@ function ContentView({
           // <BudEditor />
           <EditorJsWrapper
             data={{}}
-            setCurrentSelectedUI={setCurrentSelectedUI}
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
+            // selectedOption={selectedOption}
+            // setSelectedOption={setSelectedOption}
           />
         )}
         {currentSelectedUI === 'listview' && (
@@ -74,9 +77,8 @@ function ContentView({
           <KanbanUI workspaceObj={workspace} />
         )}
         <Hamburger
-          setCurrentSelectedUI={setCurrentSelectedUI}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
+        // selectedOption={selectedOption}
+        // setSelectedOption={setSelectedOption}
         />
       </Content>
       <OmniSearch />

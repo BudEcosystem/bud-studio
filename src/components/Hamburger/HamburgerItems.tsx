@@ -3,7 +3,7 @@ import './Hamburger.css';
 import { useSelector } from 'react-redux';
 
 
-const HamburgerItems = ({ title, selected, onClick }) => {
+const HamburgerItems = ({ title, selected, onClick }: any) => {
   const {workspace}:any = useSelector(state=>state)
   let { color } = workspace
   return (
