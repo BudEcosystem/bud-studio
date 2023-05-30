@@ -1,34 +1,44 @@
 import React, { useState } from 'react';
 import HamburgerItems from './HamburgerItems';
 import './Hamburger.css';
+import {
+  setCurrentSelectedUI,
+  setSelectedOption,
+} from 'redux/slices/activestate';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentSelectedDocument } from 'redux/slices/workspace';
 
 const HamburgerOptions = ['', 'Editor', 'List View', 'Kanban View', '', ''];
 
-function Hamburger({
-  setCurrentSelectedUI,
-  selectedOption,
-  setSelectedOption,
-}:any) {
+function Hamburger({}: any) {
   // const [selectedOption, setSelectedOption] = useState('editor');
+  const dispatch = useDispatch();
+  const { activestate }: any = useSelector((state) => state);
+  let { selectedOption, nodeIDs } = activestate;
+  const { tree, workspace }: any = useSelector((state) => state);
+  const { color, currentWorkspace, currentSelectedDocId, applicationData } = workspace;
 
-  const handleOptionClick = (option:any) => {
+  const handleOptionClick = (option: any) => {
     if (option === '') {
       return;
     }
-    setSelectedOption(option);
+    dispatch(setSelectedOption(option));
     if (option === 'Editor') {
-      setCurrentSelectedUI('');
+      dispatch(setCurrentSelectedUI(''));
+      dispatch(setCurrentSelectedDocument(nodeIDs));
     } else if (option === 'List View') {
-      setCurrentSelectedUI('listview');
+      dispatch(setCurrentSelectedUI('listview'));
     } else if (option === 'Kanban View') {
-      setCurrentSelectedUI('kanban');
+      dispatch(setCurrentSelectedUI('kanban'));
     } else {
       return;
     }
   };
 
   return (
-    <div className="hamBurgerParent">
+    <>
+    {currentSelectedDocId && 
+    (<div className="hamBurgerParent">
       {HamburgerOptions.map((option, i) => (
         <HamburgerItems
           key={i}
@@ -37,7 +47,8 @@ function Hamburger({
           onClick={() => handleOptionClick(option)}
         />
       ))}
-    </div>
+    </div>)}
+    </>
   );
 }
 
