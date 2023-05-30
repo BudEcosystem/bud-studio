@@ -36,15 +36,20 @@ function ContentView({
   const [selectedDoc, setSelectedDoc] = useState();
   // const [currentSelectedUI, setCurrentSelectedUI] = useState('');
   const [selecteOption, setSelectedOption] = useState('Editor');
-  const { workspace, activestate  } = useSelector((state) => state);
+  const { workspace, activestate } = useSelector((state) => state);
   const { currentSelectedUI, selectedOption, nodeIDs } = activestate;
   useEffect(() => {
     const { currentWorkspace, currentSelectedDocId } = workspace;
     setSelectedDoc(currentSelectedDocId);
   }, [workspace]);
-  useEffect(() => {
-    dispatch(setCurrentSelectedDocument(nodeIDs));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(
+  //     setCurrentSelectedDocument({
+  //       uuid: nodeIDs,
+  //       workSpaceUUID: workSpaceIndex,
+  //     })
+  //   );
+  // }, []);
   return (
     <Layout className={classes['site-layout']}>
       <HeaderComp
@@ -79,9 +84,9 @@ function ContentView({
           <KanbanUI workspaceObj={workspace} />
         )}
         <Hamburger
-          // setCurrentSelectedUI={setCurrentSelectedUI}
-          // selectedOption={selectedOption}
-          // setSelectedOption={setSelectedOption}
+        // setCurrentSelectedUI={setCurrentSelectedUI}
+        // selectedOption={selectedOption}
+        // setSelectedOption={setSelectedOption}
         />
       </Content>
       <OmniSearch />

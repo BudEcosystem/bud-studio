@@ -4,6 +4,7 @@ import { Menu } from 'antd';
 import { createRef, useEffect, useState } from 'react';
 import classes from '../../dashboard.module.css';
 import classWrksps from './workspaceMenuItem.module.css';
+import { useSelector } from 'react-redux';
 
 function getRandomColor() {
   const letters = '0123456789ABCDEF';
@@ -92,12 +93,15 @@ function MenuWorkSpaceItem({
   setHoverColorHandler,
   setHoverColorOnLeave,
 }: any): JSX.Element {
+  console.log('menu', menu);
+  let { workspace } = useSelector((state) => state);
+  let { currentWorkspace } = workspace;
   return (
     <Menu.Item
       className={`${
         classes[
           `${
-            i === +activeClassNameColor
+            menu.uuid === currentWorkspace
               ? 'sidebar-workspaces-items-active'
               : 'sidebar-workspaces-items'
           }`

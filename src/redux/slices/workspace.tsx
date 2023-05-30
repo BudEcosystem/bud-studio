@@ -239,9 +239,10 @@ export const workspaceSlice = createSlice({
           workSpaceUUID = found?.workSpaceUUID;
         }
       }
-      state.currentSelectedItem.doc = docUUID;
-      state.currentSelectedItem.workSpace = workSpaceUUID;
-      state.currentSelectedDocId = action.payload.id;
+      // state.currentSelectedItem.doc = docUUID;
+      // state.currentSelectedItem.workSpace = workSpaceUUID;
+      state.currentSelectedDocId = docUUID;
+      state.currentWorkspace = workSpaceUUID;
       state.editorInitialised = false;
     },
     setApplicationData: (state, action: PayloadAction<any>) => {

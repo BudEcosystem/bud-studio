@@ -216,9 +216,18 @@ function KanbanUI({workspaceObj}) {
   const [date, setDate] = useState<String>('');
   useEffect(() => setDate('13 June 2022'), []);
   const dispatch = useDispatch();
+  const [currentFileName, setCurrentFileName] = useState("")
   const onNewTaskButtonClicked = () => {
     dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
   };
+
+  useEffect(() => {
+    workspaceObj.workSpaceDocs.map((doc: any) => {
+      if(workspaceObj.currentSelectedDocId == doc.uuid){
+        setCurrentFileName(doc.name)
+      }
+    })
+  }, [workspaceObj])
   return (
     <KanbanSection>
       <KanbanHeader>
@@ -227,7 +236,7 @@ function KanbanUI({workspaceObj}) {
             <KanbanBoardHeadingLogoWrap>
               <KanbanBoardHeadingLogo />
             </KanbanBoardHeadingLogoWrap>
-            <KanbanBoardHeadingText>{workspaceObj.currentSelectedDocId}</KanbanBoardHeadingText>
+            <KanbanBoardHeadingText>{currentFileName}</KanbanBoardHeadingText>
           </KanbanBoardHeading>
           <KanbanBoardHeadingSecondarySection>
             <KanbanBoardSecondaryHeadingText>

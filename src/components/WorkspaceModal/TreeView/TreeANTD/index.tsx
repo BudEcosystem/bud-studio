@@ -32,13 +32,16 @@ function TreeStructure({
   createDocFlag,
   callbackForCreate,
   optionModalRef,
-  setShowDocumentOptions
+  setShowDocumentOptions,
 }: any) {
   const dispatch = useDispatch();
   const reduxState: any = useSelector((state) => state);
   const [treeDataProcessed, setTreeData] = useState<any[]>([]);
   const [expandedKeys, setExpandedKeys] = useState<any[]>([]);
   const { workspace } = reduxState;
+  console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+  console.log(workspace);
+  console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
   const initData = () => {
     const { workSpaceDocs, workspaceFolders } = workspace;
     const WorkSpaceTreeData: any = [];
