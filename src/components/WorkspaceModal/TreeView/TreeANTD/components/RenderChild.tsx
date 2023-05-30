@@ -278,12 +278,13 @@ function RenderChild({
         dispatch(setNodeIDs({ id: node.title, uuid: node.key, workSpaceUUID }));
         dispatch(setCurrentSelectedUI(''));
         dispatch(setSelectedOption('Editor'));
-        if(node.workspaceDetails){
-          console.log("sdfds", node.workspaceDetails)
-        dispatch(changeColor({color: node.workspaceDetails.color}))}
-        else {
-          dispatch(changeColor({color: "#343434"}))
-        }
+        dispatch(changeColor({color: node.color}))
+        // if(node.workspaceDetails){
+        //   console.log("sdfds", node.workspaceDetails)
+        // dispatch(changeColor({color: node.workspaceDetails.color}))}
+        // else {
+        //   dispatch(changeColor({color: "#343434"}))
+        // }
       }, 1000);
     }
   };
