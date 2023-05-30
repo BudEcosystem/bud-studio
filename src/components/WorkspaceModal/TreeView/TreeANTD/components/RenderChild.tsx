@@ -15,7 +15,10 @@ import {
   Plus,
   RightArrow,
 } from 'components/WorkspaceModal/WorkspaceIcons';
-import { createSubChild } from 'redux/slices/workspace';
+import {
+  createSubChild,
+  setCurrentSelectedDocument,
+} from 'redux/slices/workspace';
 
 function RenderChild({
   node,
@@ -246,6 +249,22 @@ function RenderChild({
       console.log(inputRefFolder.current.value, currentNode);
     }
   };
+
+  const childNodeClickHandler = (event) => {
+    if (node.isLeaf) {
+      dispatch(setCurrentSelectedDocument({ id: null }));
+      setTimeout(() => {
+        const workSpaceUUID = node.workSpaceDetails?.uuid;
+        dispatch(
+          setCurrentSelectedDocument({
+            id: node.title,
+            uuid: node.key,
+            workSpaceUUID,
+          })
+        );
+      }, 1000);
+    }
+  };
   return (
     <div
       className="eachsection"
@@ -284,7 +303,7 @@ function RenderChild({
           />
         )}{' '}
         {!currentNode?.folderInput && !currentNode?.docInput && (
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex' }} onClick={childNodeClickHandler}>
             <span
               style={{
                 marginLeft: '10px',
