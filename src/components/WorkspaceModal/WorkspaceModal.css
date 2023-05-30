@@ -107,7 +107,9 @@
   font-size: 14px;
   font-weight: 400;
 }
-
+.WorkspaceSearchInput::placeholder{
+  text-align: left;
+}
 .optionsModal {
   position: absolute;
   top: 32%;
