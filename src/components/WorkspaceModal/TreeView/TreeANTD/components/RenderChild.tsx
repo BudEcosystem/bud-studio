@@ -101,7 +101,7 @@ function RenderChild({
               </div>
             </div>
             {/* {createPopup && <CreatePopupModal />} */}
-            <div className="secondWorkspaceOption" onClick={() => {}}>
+            <div className="secondWorkspaceOption" onClick={(e) => {e.stopPropagation();}}>
               <Edit />
               <h3
                 style={{
