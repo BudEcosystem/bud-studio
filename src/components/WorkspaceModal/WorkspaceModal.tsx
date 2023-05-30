@@ -245,7 +245,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                     marginRight: '6px',
                     background: `${
                       showColorPin
-                        ? `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, ${color} 57.81%, rgba(175, 147, 218, 0.05) 100%)`
+                        ? `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, ${workSpaceItems[idx].color} 57.81%, rgba(175, 147, 218, 0.05) 100%)`
                         : ''
                     }`,
                   }}
@@ -264,7 +264,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                   style={{
                     background: `${
                       showColorDots
-                        ? `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, ${color} 57.81%, rgba(175, 147, 218, 0.05) 100%)`
+                        ? `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, ${workSpaceItems[idx].color} 57.81%, rgba(175, 147, 218, 0.05) 100%)`
                         : ''
                     }`,
                   }}

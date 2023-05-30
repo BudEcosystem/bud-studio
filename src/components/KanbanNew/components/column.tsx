@@ -12,7 +12,38 @@ import { EnterOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
 import { createNewTaskOnEnter, editColumnName } from 'redux/slices/kanban';
 import Tasks from './taks';
 
-const Container = styled.div`
+interface Task {
+  index: any;
+  id: any;
+  content: any;
+  heading: any;
+  progress: any;
+  user: any;
+  description: any;
+  footer: any;
+  image: any;
+  type: any;
+}
+
+function Column(props: any) {
+  const [showNewTaskUI, setNewTaskUI] = useState(false);
+  const { kanban } = useSelector((state) => state);
+  const { workspace }: any = useSelector((state) => state);
+  const { color } = workspace;
+  const [addButtonClickedFromColumn, SetAddButtonClickedFromColumn] =
+    useState(false);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (props.index === 0) {
+      const { triggerTaskCreation } = kanban;
+      setNewTaskUI(triggerTaskCreation);
+    }
+  }, [props.index, kanban]);
+  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const inputRefForColumnEdit =
+    useRef() as React.MutableRefObject<HTMLInputElement>;
+
+    const Container = styled.div`
   margin: 10px;
   border-radius: 5px;
   border: 0.5px dashed #2f2f2f;
@@ -46,7 +77,7 @@ const TitleHeaderThreedot = styled.div`
 const TitleHeaderColoured = styled.div`
   width: 12px;
   height: 12px;
-  background: #939aff;
+  background: ${color};
   border-radius: 4px;
   margin-left: 7px;
 `;
@@ -204,34 +235,7 @@ const EditColumnNameInput = styled.input`
     color: #bbbbbb;
   }
 `;
-interface Task {
-  index: any;
-  id: any;
-  content: any;
-  heading: any;
-  progress: any;
-  user: any;
-  description: any;
-  footer: any;
-  image: any;
-  type: any;
-}
 
-function Column(props: any) {
-  const [showNewTaskUI, setNewTaskUI] = useState(false);
-  const { kanban } = useSelector((state) => state);
-  const [addButtonClickedFromColumn, SetAddButtonClickedFromColumn] =
-    useState(false);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (props.index === 0) {
-      const { triggerTaskCreation } = kanban;
-      setNewTaskUI(triggerTaskCreation);
-    }
-  }, [props.index, kanban]);
-  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
-  const inputRefForColumnEdit =
-    useRef() as React.MutableRefObject<HTMLInputElement>;
   useEffect(() => {
     const input = document.getElementById(`newtaskinput${props.id}`);
     const inputNameEdit = document.getElementById(`columnNameEdit-${props.id}`);

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { triggerDefaultNewTask } from 'redux/slices/kanban';
 import Kanban from './kanbanBoard';
+import { useSelector } from 'react-redux';
 
 const KanbanSection = styled.div`
   height: auto;
@@ -216,6 +217,8 @@ function KanbanUI({workspaceObj}) {
   const [date, setDate] = useState<String>('');
   useEffect(() => setDate('13 June 2022'), []);
   const dispatch = useDispatch();
+  const { workspace }: any = useSelector((state) => state);
+  const { color } = workspace;
   const [currentFileName, setCurrentFileName] = useState("")
   const onNewTaskButtonClicked = () => {
     dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
@@ -342,13 +345,13 @@ function KanbanUI({workspaceObj}) {
                   >
                     <path
                       d="M5.09424 1V9.66667"
-                      stroke="#939AFF"
+                      stroke={`${color}`}
                       stroke-width="1.5"
                       stroke-linecap="round"
                     />
                     <path
                       d="M9.42725 5.33347L0.760579 5.33347"
-                      stroke="#939AFF"
+                      stroke={`${color}`}
                       stroke-width="1.5"
                       stroke-linecap="round"
                     />
