@@ -15,7 +15,16 @@ import {
   Plus,
   RightArrow,
 } from 'components/WorkspaceModal/WorkspaceIcons';
-import { createSubChild } from 'redux/slices/workspace';
+import {
+  changeColor,
+  createSubChild,
+  setCurrentSelectedDocument,
+} from 'redux/slices/workspace';
+import {
+  setCurrentSelectedUI,
+  setNodeIDs,
+  setSelectedOption,
+} from 'redux/slices/activestate';
 
 function RenderChild({
   node,
@@ -25,7 +34,7 @@ function RenderChild({
   addInputField,
   setExpandedKeys,
   workspaceDetails,
-  setShowDocumentOptions
+  setShowDocumentOptions,
 }: any) {
   const [currentNode, setCurrentNode] = useState<any>();
   const getParentIds = (
@@ -56,7 +65,7 @@ function RenderChild({
     e.preventDefault();
     const { key } = node;
     addInputField(node, type);
-    setShowDocumentOptions(false)
+    setShowDocumentOptions(false);
     // if (type === 'doc') {
     //   setCreateDocFlag(true);
     // }
@@ -101,7 +110,12 @@ function RenderChild({
               </div>
             </div>
             {/* {createPopup && <CreatePopupModal />} */}
-            <div className="secondWorkspaceOption" onClick={(e) => {e.stopPropagation();}}>
+            <div
+              className="secondWorkspaceOption"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
               <Edit />
               <h3
                 style={{
@@ -219,7 +233,7 @@ function RenderChild({
   const { workspace } = reduxState;
   const plusButtonClicked = (e: any) => {
     e.stopPropagation();
-    setShowDocumentOptions(true)
+    setShowDocumentOptions(true);
     // const { key } = node;
     // const idArray = getParentIds(treeData, key);
     // console.log(idArray);
@@ -249,6 +263,30 @@ function RenderChild({
       console.log(inputRefFolder.current.value, currentNode);
     }
   };
+  const clickHandler = () => {
+    if (node.isLeaf && !currentNode?.folderInput && !currentNode?.docInput) {
+      dispatch(setCurrentSelectedDocument({ id: null }));
+      setTimeout(() => {
+        const workSpaceUUID = node.workspaceDetails?.uuid;
+        dispatch(
+          setCurrentSelectedDocument({
+            id: node.title,
+            uuid: node.key,
+            workSpaceUUID,
+          })
+        );
+        dispatch(setNodeIDs({ id: node.title, uuid: node.key, workSpaceUUID }));
+        dispatch(setCurrentSelectedUI(''));
+        dispatch(setSelectedOption('Editor'));
+        if(node.workspaceDetails){
+          console.log("sdfds", node.workspaceDetails)
+        dispatch(changeColor({color: node.workspaceDetails.color}))}
+        else {
+          dispatch(changeColor({color: "#343434"}))
+        }
+      }, 1000);
+    }
+  };
   return (
     <div
       className="eachsection"
@@ -265,6 +303,7 @@ function RenderChild({
         background: deterMineColor(),
         // background: 'red',
       }}
+      onClick={clickHandler}
     >
       <div style={{ display: 'flex' }}>
         {currentNode?.isLeaf ? (

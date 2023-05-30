@@ -6,6 +6,7 @@ import contentReducer from './slices/content';
 import kanbanReducer from './slices/kanban';
 import listReducer from './slices/list';
 import treeReducer from './slices/tree';
+import activestateReducer from './slices/activestate'
 
 const persistConfig = {
   key: 'root',
@@ -17,6 +18,7 @@ const reducer = combineReducers({
   kanban: kanbanReducer,
   list: listReducer,
   tree: treeReducer,
+  activestate: activestateReducer 
 });
 const persistedReducer = persistReducer(persistConfig, reducer);
 

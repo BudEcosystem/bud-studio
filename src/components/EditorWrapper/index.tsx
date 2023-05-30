@@ -23,6 +23,7 @@ import {
   ParagraphIcon,
   FileIcon,
 } from './EditorIcons';
+import { setCurrentSelectedUI, setSelectedOption } from 'redux/slices/activestate';
 
 const DEFAULT_INITIAL_DATA = () => {
   return {
@@ -44,9 +45,9 @@ let fileMentionedArray: any = [];
 
 function EditorWrapper({
   data,
-  setCurrentSelectedUI,
-  selectedOption,
-  setSelectedOption,
+  // setCurrentSelectedUI,
+  // selectedOption,
+  // setSelectedOption,
 }: any) {
   const ejInstance = useRef();
   const editor1 = useRef<EditorJS>();
@@ -436,12 +437,12 @@ function EditorWrapper({
     }
 
     if (opt == 'listview') {
-      setCurrentSelectedUI('listview');
-      setSelectedOption('List View');
+      dispatch(setCurrentSelectedUI('listview'));
+      dispatch(setSelectedOption('List View'));
     }
     if (opt == 'kanban') {
-      setCurrentSelectedUI('kanban');
-      setSelectedOption('Kanban View');
+      dispatch(setCurrentSelectedUI('kanban'));
+      dispatch(setSelectedOption('Kanban View'));
     }
     if (opt == 'database') {
       setEditorOptions([
