@@ -42,7 +42,7 @@ function WorkspaceMenuItem({
       if (e.domEvent.detail === 2) {
         setIsEditMode(true);
       } else {
-        handlerColor(color, name, index);
+        handlerColor(menu.color, name, index);
       }
     }, 300);
   };
