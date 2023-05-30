@@ -19,6 +19,7 @@ import {
   createSubChild,
   setCurrentSelectedDocument,
 } from 'redux/slices/workspace';
+import { setCurrentSelectedUI, setNodeIDs, setSelectedOption } from 'redux/slices/activestate';
 
 function RenderChild({
   node,
@@ -253,16 +254,18 @@ function RenderChild({
   const childNodeClickHandler = (event) => {
     if (node.isLeaf) {
       dispatch(setCurrentSelectedDocument({ id: null }));
-      setTimeout(() => {
-        const workSpaceUUID = node.workSpaceDetails?.uuid;
-        dispatch(
-          setCurrentSelectedDocument({
-            id: node.title,
-            uuid: node.key,
-            workSpaceUUID,
-          })
-        );
-      }, 1000);
+    setTimeout(() => {
+      const workSpaceUUID = node.workSpaceDetails?.uuid;
+      dispatch(setCurrentSelectedDocument({ id: node.title, uuid: node.uuid, workSpaceUUID }));
+      dispatch(setNodeIDs({  id: node.title, uuid: node.uuid, workSpaceUUID  }));
+      dispatch(setCurrentSelectedUI(''));
+      dispatch(setSelectedOption('Editor'));
+      // if(workSpaceDetails){
+      // dispatch(changeColor({color: workSpaceDetails.color}))}
+      // else {
+      //   dispatch(changeColor({color: "#343434"}))
+      // }
+    }, 1000);
     }
   };
   return (
