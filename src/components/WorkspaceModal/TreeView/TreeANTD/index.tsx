@@ -30,6 +30,7 @@ function TreeStructure({
   createDocFlag,
   callbackForCreate,
   optionModalRef,
+  setShowDocumentOptions
 }: any) {
   const dispatch = useDispatch();
   const reduxState: any = useSelector((state) => state);
@@ -271,6 +272,7 @@ function TreeStructure({
           addInputField={addInputField}
           setExpandedKeys={setExpandedKeys}
           workspaceDetails={workspaceDetails}
+          setShowDocumentOptions={setShowDocumentOptions}
         />
       </div>
     );

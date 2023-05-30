@@ -25,6 +25,7 @@ function RenderChild({
   addInputField,
   setExpandedKeys,
   workspaceDetails,
+  setShowDocumentOptions
 }: any) {
   const [currentNode, setCurrentNode] = useState<any>();
   const getParentIds = (
@@ -51,10 +52,11 @@ function RenderChild({
     }
     return [];
   };
-  const createNewClickHandler = (e, type: any, node) => {
+  const createNewClickHandler = (e: any, type: any, node: any) => {
     e.preventDefault();
     const { key } = node;
     addInputField(node, type);
+    setShowDocumentOptions(false)
     // if (type === 'doc') {
     //   setCreateDocFlag(true);
     // }
@@ -215,8 +217,9 @@ function RenderChild({
   };
   const reduxState: any = useSelector((state) => state);
   const { workspace } = reduxState;
-  const plusButtonClicked = (e) => {
+  const plusButtonClicked = (e: any) => {
     e.stopPropagation();
+    setShowDocumentOptions(true)
     // const { key } = node;
     // const idArray = getParentIds(treeData, key);
     // console.log(idArray);
@@ -308,7 +311,7 @@ function RenderChild({
         )}
       </div>
       {!currentNode?.isLeaf && expandedKeys.includes(node.key) && (
-        <Popover trigger="hover" placement="rightTop" content={content} arrow>
+        <Popover trigger="click" placement="rightTop" content={content} arrow>
           <div
             onClick={plusButtonClicked}
             style={{

@@ -65,41 +65,41 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
   function useOutsideAlerter(ref: any, optionRef: any, docOptionModalRef: any) {
     const [isDrag, setIsDrag] = useState(true);
 
-    // useEffect(() => {
-    //   function handleClickOutside(event: any) {
-    //     console.log(event);
-    //     console.log(ref);
-    //     if (showColorDots) {
-    //       if (
-    //         optionRef.current &&
-    //         !optionRef.current.contains(event.target) &&
-    //         ref.current &&
-    //         !ref.current.contains(event.target)
-    //       ) {
-    //         setShowColorDots(false);
-    //       }
-    //     }
-    //     // else if (showDocumentOptions) {
-    //     //   if (
-    //     //     docOptionModalRef.current &&
-    //     //     !docOptionModalRef.current.contains(event.target) &&
-    //     //     ref.current &&
-    //     //     !ref.current.contains(event.target)
-    //     //   ) {
-    //     //     setShowDocumentOptions(false);
-    //     //   }
-    //     // }
-    //     else if (ref.current && !ref.current.contains(event.target) && isDrag) {
-    //       setWorkspaceModal(false);
-    //       setIsDrag(false);
-    //     }
-    //   }
+    useEffect(() => {
+      function handleClickOutside(event: any) {
+        console.log(event);
+        console.log(ref);
+        if (showColorDots) {
+          if (
+            optionRef.current &&
+            !optionRef.current.contains(event.target) &&
+            ref.current &&
+            !ref.current.contains(event.target)
+          ) {
+            setShowColorDots(false);
+          }
+        }
+        else if (showDocumentOptions) {
+          if (
+            docOptionModalRef.current &&
+            !docOptionModalRef.current.contains(event.target) &&
+            ref.current &&
+            !ref.current.contains(event.target)
+          ) {
+            setShowDocumentOptions(false);
+          }
+        }
+        else if (ref.current && !ref.current.contains(event.target) && isDrag) {
+          setWorkspaceModal(false);
+          setIsDrag(false);
+        }
+      }
 
-    //   document.addEventListener('mousedown', handleClickOutside);
-    //   return () => {
-    //     document.removeEventListener('mousedown', handleClickOutside);
-    //   };
-    // }, [ref, isDrag, setWorkspaceModal, showColorDots, showDocumentOptions]);
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [ref, isDrag, setWorkspaceModal, showColorDots, showDocumentOptions]);
 
     function handleIsDrag() {
       setIsDrag(!isDrag);
@@ -306,6 +306,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
               createDocFlag={createDocFlag}
               callbackForCreate={callbackForCreate}
               optionModalRef={docOptionModalRef}
+              setShowDocumentOptions={setShowDocumentOptions}
             />
           </div>
         </Draggable>
