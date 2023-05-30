@@ -270,7 +270,6 @@ function RenderChild({
         const workSpaceUUID = node.workspaceDetails?.uuid;
         dispatch(
           setCurrentSelectedDocument({
-            id: node.title,
             uuid: node.key,
             workSpaceUUID,
           })
@@ -278,7 +277,7 @@ function RenderChild({
         dispatch(setNodeIDs({ id: node.title, uuid: node.key, workSpaceUUID }));
         dispatch(setCurrentSelectedUI(''));
         dispatch(setSelectedOption('Editor'));
-        dispatch(changeColor({color: node.color}))
+        dispatch(changeColor({ color: node.color }));
         // if(node.workspaceDetails){
         //   console.log("sdfds", node.workspaceDetails)
         // dispatch(changeColor({color: node.workspaceDetails.color}))}
