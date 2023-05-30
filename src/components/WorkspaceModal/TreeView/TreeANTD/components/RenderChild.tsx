@@ -274,7 +274,7 @@ function RenderChild({
             workSpaceUUID,
           })
         );
-        dispatch(setNodeIDs({ id: node.title, uuid: node.key, workSpaceUUID }));
+        dispatch(setNodeIDs({ uuid: node.key, workSpaceUUID }));
         dispatch(setCurrentSelectedUI(''));
         dispatch(setSelectedOption('Editor'));
         dispatch(changeColor({ color: node.color }));
