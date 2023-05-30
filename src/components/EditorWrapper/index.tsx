@@ -70,9 +70,7 @@ function EditorWrapper({
   const [showDocumentOptions, setShowDocumentOptions] = useState(false);
   const [showFirstOptions, setShowFirstOptions] = useState(true);
   const [workspaceFiles, setWorkspaceFiles] = useState(workspace.workSpaceDocs);
-  const [currentFileName, setCurrentFileName] = useState(
-    workspace.currentSelectedDocId
-  );
+  const [currentFileName, setCurrentFileName] = useState("");
 
   const [editorOptions, setEditorOptions] = useState([
     {
@@ -177,7 +175,11 @@ function EditorWrapper({
       ejInstance.current?.destroy();
       ejInstance.current = null;
     }
-    setCurrentFileName(workspace.currentSelectedDocId);
+    workspace.workSpaceDocs.map((doc: any) => {
+      if(workspace.currentSelectedDocId == doc.uuid){
+        setCurrentFileName(doc.name)
+      }
+    })
     setWorkspaceFiles(workspace.workSpaceDocs);
   }, [workspace, ejInstance]);
 

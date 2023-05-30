@@ -17,10 +17,19 @@ function ListView({ contentRef, workspaceObj }: any) {
   const [oneTime, setOneTime] = useState(true);
   const { tree, workspace }: any = useSelector((state) => state);
   const { color } = workspace;
+  const [currentFileName, setCurrentFileName] = useState("")
+
+  useEffect(() => {
+    workspace.workSpaceDocs.map((doc: any) => {
+      if(workspace.currentSelectedDocId == doc.uuid){
+        setCurrentFileName(doc.name)
+      }
+    })
+  }, [workspace])
 
   useEffect(() => {
     if(oneTime)
-    dispatch(editListTitle({newTitle: workspaceObj.currentSelectedDocId}))
+    dispatch(editListTitle({newTitle: currentFileName}))
   }, [])
 
   const keyHandler = (event: any) => {
@@ -79,7 +88,7 @@ function ListView({ contentRef, workspaceObj }: any) {
                 contentEditable={true}
                 onKeyDown={keyHandler}
               >
-                {title}
+                {currentFileName}
               </p>
             </div>
           </div>
