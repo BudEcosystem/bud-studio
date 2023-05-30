@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Accordion from './ListViewComponents/Accordion/Accordion';
 import { editListTitle, editListDescription } from 'redux/slices/list';
 
-function ListView({ contentRef, workspaceObj }) {
+function ListView({ contentRef, workspaceObj }: any) {
   const dispatch = useDispatch();
   const { content, list }: any = useSelector((state) => state);
   const { listTitleAndDesc } = list;
@@ -15,13 +15,15 @@ function ListView({ contentRef, workspaceObj }) {
   const kabuniRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
   const [oneTime, setOneTime] = useState(true);
+  const { tree, workspace }: any = useSelector((state) => state);
+  const { color } = workspace;
 
   useEffect(() => {
     if(oneTime)
     dispatch(editListTitle({newTitle: workspaceObj.currentSelectedDocId}))
   }, [])
 
-  const keyHandler = (event) => {
+  const keyHandler = (event: any) => {
     if (event.key === 'Enter') {
       event.preventDefault();
       dispatch(editListTitle({ newTitle: event.target.innerText }));
@@ -30,7 +32,7 @@ function ListView({ contentRef, workspaceObj }) {
       heading?.blur();
     }
   };
-  const keyHandler2 = (event) => {
+  const keyHandler2 = (event: any) => {
     if (event.key === 'Enter') {
       event.preventDefault();
       dispatch(editListDescription({ newDesc: event.target.innerText }));
@@ -59,6 +61,7 @@ function ListView({ contentRef, workspaceObj }) {
                   fontSize: isSticky ? '10px' : '',
                   width: isSticky ? '14px' : '',
                   height: isSticky ? '14px' : '',
+                  background: `${color}`
                 }}
               >
                 <span className={`tick ${isSticky ? 'tickStick' : ''}`}>L</span>

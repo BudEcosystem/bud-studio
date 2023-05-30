@@ -219,17 +219,7 @@ function EditorWrapper({
             const word = match.slice(1);
             savedText = savedText?.replaceAll(
               match,
-              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current}75;"><span style="display: none;">#</span>${word}</span>`
-            );
-          });
-        }
-        if (matches3) {
-          matches3.forEach((match) => {
-            const word = match.slice(1);
-            fileMentionedArray.push(word);
-            savedText = savedText?.replaceAll(
-              match,
-              `<span id=${word} style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${word}</span>`
+              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
             );
           });
         }
@@ -264,15 +254,6 @@ function EditorWrapper({
             savedText = savedText?.replaceAll(
               match,
               `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
-            );
-          });
-        }
-        if (matches3) {
-          matches3.forEach((match) => {
-            const word = match.slice(1);
-            savedText = savedText?.replaceAll(
-              match,
-              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${word}</span>`
             );
           });
         }
@@ -431,7 +412,7 @@ function EditorWrapper({
     const blockTypes = Object.keys(ejInstance?.current?.configuration?.tools);
     const currentBlockIndex =
       ejInstance?.current?.blocks.getCurrentBlockIndex();
-    if (opt && blockTypes.includes(opt) && currentBlockIndex != -1) {
+    if (opt && blockTypes.includes(opt) && currentBlockIndex <= -1) {
       ejInstance?.current?.blocks.insert(opt, currentBlockIndex + 1);
       setShowEditorOptionsBlock(false);
     }
@@ -484,28 +465,28 @@ function EditorWrapper({
       setShowFirstOptions(false);
     }
 
-    if (opt == 'file') {
-      const blockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
-      if (blockIndex >= 0) {
-        async function appendTextToBlock(blockIndex: any, title: any) {
-          try {
-            const savedData = await ejInstance?.current?.save();
-            const currentData = savedData.blocks;
-            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${title}</span>`;
-            if (blockIndex >= 0 && blockIndex < currentData.length) {
-              const targetBlock = currentData[blockIndex];
-              targetBlock.data.text += ` ${hyperlink}`;
+    // if (opt == 'file') {
+    //   const blockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
+    //   if (blockIndex >= 0) {
+    //     async function appendTextToBlock(blockIndex: any, title: any) {
+    //       try {
+    //         const savedData = await ejInstance?.current?.save();
+    //         const currentData = savedData.blocks;
+    //         const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${title}</span>`;
+    //         if (blockIndex >= 0 && blockIndex < currentData.length) {
+    //           const targetBlock = currentData[blockIndex];
+    //           targetBlock.data.text += ` ${hyperlink}`;
 
-              ejInstance?.current?.render({ blocks: currentData });
-              setShowEditorOptionsBlock(false);
-            }
-          } catch (error) {
-            console.error('Error occurred while appending text:', error);
-          }
-        }
-        appendTextToBlock(blockIndex, title);
-      }
-    }
+    //           ejInstance?.current?.render({ blocks: currentData });
+    //           setShowEditorOptionsBlock(false);
+    //         }
+    //       } catch (error) {
+    //         console.error('Error occurred while appending text:', error);
+    //       }
+    //     }
+    //     appendTextToBlock(blockIndex, title);
+    //   }
+    // }
   };
 
   const style = { '--bg-color': color };
@@ -564,7 +545,7 @@ function EditorWrapper({
     if (
       event.code === 'Slash' &&
       !event.shiftKey &&
-      !event.ctrlKey &&
+      event.ctrlKey &&
       !event.altKey &&
       !event.metaKey
     ) {
