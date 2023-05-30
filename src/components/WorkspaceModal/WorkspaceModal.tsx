@@ -176,6 +176,9 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
       setShowColorDots(false);
     });
   });
+  const searchInputFieldRef =
+    useRef() as React.MutableRefObject<HTMLInputElement>;
+
   return (
     <>
       <div className="loader" style={loaderStyle}>
@@ -288,6 +291,8 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                 type="text"
                 placeholder="Search"
                 onInput={filterNode}
+                ref={searchInputFieldRef}
+                id="searchFlyout"
               />
             </div>
 
@@ -306,6 +311,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
               createDocFlag={createDocFlag}
               callbackForCreate={callbackForCreate}
               optionModalRef={docOptionModalRef}
+              serachInputValue
             />
           </div>
         </Draggable>
