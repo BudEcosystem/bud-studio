@@ -144,12 +144,18 @@ export const workspaceSlice = createSlice({
     },
     createFolder: (state, action: PayloadAction<any>) => {
       const copyFolderStructure = state.workspaceFolders;
-      const { name, workSpaceDetails } = action.payload;
+      const { name: passedName, workSpaceDetails } = action.payload;
+      let name = passedName;
       console.log(workSpaceDetails);
-      // const filteredArray = copyFolderStructure.filter(
-      //   (data: any) => data.key === name
-      // );
-      // if (filteredArray.length === 0) {
+      const filteredUnknown = copyFolderStructure.filter(
+        (data: any) =>
+          data.name.includes(name) &&
+          data.childOf === null &&
+          data.workSpaceUUID === workSpaceDetails.uuid
+      );
+      if (name === 'Untitled') {
+        name = `${name}-${filteredUnknown.length + 1}`;
+      }
       const newObject = {
         name,
         key: name,
@@ -165,11 +171,17 @@ export const workspaceSlice = createSlice({
     },
     createDoc: (state, action: PayloadAction<any>) => {
       const copyDocStructure = state.workSpaceDocs;
-      const { name, workSpaceDetails } = action.payload;
-      // const filteredArray = copyDocStructure.filter(
-      // (data: any) => data.key === name
-      // );
-      // if (filteredArray.length === 0) {
+      const { name: passedName, workSpaceDetails } = action.payload;
+      let name = passedName;
+      const filteredUnknown = copyDocStructure.filter(
+        (data: any) =>
+          data.name.includes(name) &&
+          data.childOf === null &&
+          data.workSpaceUUID === workSpaceDetails.uuid
+      );
+      if (name === 'Untitled') {
+        name = `${name}-${filteredUnknown.length + 1}`;
+      }
       const newObject = {
         name,
         childOf: null,
@@ -185,16 +197,24 @@ export const workspaceSlice = createSlice({
     },
     createSubChild: (state, action: PayloadAction<any>) => {
       console.log('action.payload', action.payload);
-      const { name, type, parentDetails } = action.payload;
+      const { name: passedName, type, parentDetails } = action.payload;
+      let name = passedName;
       if (type === 'folder') {
         const copyOfworkSpaceFolders = [...state.workspaceFolders];
-        const proxyFilteredArray = [];
+        const proxyFilteredArray: any = [];
         copyOfworkSpaceFolders.forEach((data: any) => {
           console.log({ ...data });
           proxyFilteredArray.push({ ...data });
         });
-        // console.log('action.payload', copyOfworkSpaceDocs);
-
+        const filteredUnknown = proxyFilteredArray.filter(
+          (data: any) =>
+            data.name.includes(name) &&
+            data.childOf === parentDetails.key &&
+            data.workSpaceUUID === parentDetails.workspaceDetails.uuid
+        );
+        if (name === 'Untitled') {
+          name = `${name}-${filteredUnknown.length + 1}`;
+        }
         const sampleDocData = {
           name,
           childOf: parentDetails.key,
@@ -210,13 +230,21 @@ export const workspaceSlice = createSlice({
         state.workspaceFolders = proxyFilteredArray;
       } else {
         const copyOfworkSpaceDocs = [...state.workSpaceDocs];
-        const proxyFilteredArray = [];
+        const proxyFilteredArray: any = [];
         copyOfworkSpaceDocs.forEach((data: any) => {
           console.log({ ...data });
           proxyFilteredArray.push({ ...data });
         });
         // console.log('action.payload', copyOfworkSpaceDocs);
-
+        const filteredUnknown = proxyFilteredArray.filter(
+          (data: any) =>
+            data.name.includes(name) &&
+            data.childOf === parentDetails.key &&
+            data.workSpaceUUID === parentDetails.workspaceDetails.uuid
+        );
+        if (name === 'Untitled') {
+          name = `${name}-${filteredUnknown.length + 1}`;
+        }
         const sampleDocData = {
           name,
           childOf: parentDetails.key,
@@ -299,6 +327,24 @@ export const workspaceSlice = createSlice({
         deleteNode(state.workSpaceDocs, uuid);
       }
     },
+    duplicateFolder: (state, action: PayloadAction<any>) => {
+      const { id } = action.payload;
+      const copyFolderStructure = state.workspaceFolders;
+      let folderFound = copyFolderStructure.find(
+        (data: any) => data.uuid === id
+      );
+      if (folderFound) {
+        console.log('folderFound', folderFound);
+      }
+    },
+    deleteFolder: (state, action: PayloadAction<any>) => {
+      const { id } = action.payload;
+      const copyFolderStructure = state.workspaceFolders;
+      const filteredFolders = copyFolderStructure.filter(
+        (data: any) => data.uuid !== id
+      );
+      state.workspaceFolders = filteredFolders;
+    },
   },
 });
 
@@ -318,5 +364,7 @@ export const {
   setEditorInitialised,
   renameItem,
   deleteItem,
+  duplicateFolder,
+  deleteFolder,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
