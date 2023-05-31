@@ -10,13 +10,13 @@ const generateInitialState = (): any => {
       uuid: null,
       workSpaceUUID: null,
     },
-    navigationPath: null
+    navigationPathArray: [{}],
   };
   return initialState;
 };
 export const activestateSlice = createSlice({
   name: 'activestate',
-  initialState: generateInitialState,
+  initialState: generateInitialState(),
   reducers: {
     setCurrentSelectedUI: (state, action: PayloadAction<any>) => {
       state.currentSelectedUI = action.payload;
@@ -27,10 +27,23 @@ export const activestateSlice = createSlice({
     setNodeIDs: (state, action: PayloadAction<any>) => {
       state.nodeIDs = action.payload;
     },
-    setNavigationPath:  (state, action: PayloadAction<any>) => {
-      
+    setNavigationPath: (state, action: PayloadAction<any>) => {
+      console.log(action.payload, 'gfhfgh');
+      if (action.payload === null) {
+        state.navigationPathArray = [];
+      } else {
+        state.navigationPathArray?.unshift(action.payload?.name);
+        // state.navigationPathArray?.push(action.payload?.name)
+      }
+      // state.navigationPath = state.navigationPath.concat(action.payload)
+      console.log(JSON.stringify(state.navigationPathArray), 'sdfads');
     },
   },
 });
-export const {setCurrentSelectedUI, setSelectedOption, setNodeIDs, setNavigationPath} = activestateSlice.actions;
+export const {
+  setCurrentSelectedUI,
+  setSelectedOption,
+  setNodeIDs,
+  setNavigationPath,
+} = activestateSlice.actions;
 export default activestateSlice.reducer;

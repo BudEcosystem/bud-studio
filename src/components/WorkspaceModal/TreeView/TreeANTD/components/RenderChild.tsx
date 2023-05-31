@@ -22,6 +22,7 @@ import {
 } from 'redux/slices/workspace';
 import {
   setCurrentSelectedUI,
+  setNavigationPath,
   setNodeIDs,
   setSelectedOption,
 } from 'redux/slices/activestate';
@@ -263,9 +264,34 @@ function RenderChild({
       console.log(inputRefFolder.current.value, currentNode);
     }
   };
+  const findParent = (x) => {
+    const find = workspace.workspaceFolders.find((y) => y?.uuid === x?.parent);
+    // console.log(find, "asdf")
+    return find;
+  };
+  const [navArray, setNavArray] = useState([]);
+  const solveRec = (x) => {
+    if (x?.childOf != null) {
+      const temp = workspace.workspaceFolders.find(
+        (y) => y?.uuid === x?.childOf
+      );
+      console.log('asdfasfsad', temp);
+      dispatch(setNavigationPath(temp));
+      solveRec(temp);
+    }
+  };
+  const navPathHandler = (n) => {
+    const par = findParent(n);
+    dispatch(setNavigationPath(null));
+    dispatch(setNavigationPath({ name: n.title }));
+    dispatch(setNavigationPath(par));
+    solveRec(par);
+  };
   const clickHandler = () => {
+    console.log('Asdfads', node);
     if (node.isLeaf && !currentNode?.folderInput && !currentNode?.docInput) {
       dispatch(setCurrentSelectedDocument({ id: null }));
+      navPathHandler(node);
       setTimeout(() => {
         const workSpaceUUID = node.workspaceDetails?.uuid;
         dispatch(
