@@ -28,7 +28,7 @@ export const activestateSlice = createSlice({
       state.nodeIDs = action.payload;
     },
     setNavigationPath:  (state, action: PayloadAction<any>) => {
-      state.nodeIDs = action.payload;
+      
     },
   },
 });
