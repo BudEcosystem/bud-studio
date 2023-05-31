@@ -7,6 +7,7 @@ import { EDITOR_JS_TOOLS } from './tools';
 import './Editor.css';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  changeColor,
   setApplicationData,
   setCurrentSelectedDocument,
   setEditorInitialised,
@@ -66,6 +67,7 @@ function EditorWrapper({
   const [showDocumentOptions, setShowDocumentOptions] = useState(false);
   const [showFirstOptions, setShowFirstOptions] = useState(true);
   const [workspaceFiles, setWorkspaceFiles] = useState(workspace.workSpaceDocs);
+  const [workspaceItems, setWorkspaceItems] = useState(workspace.workSpaceItems);
   const [currentFileName, setCurrentFileName] = useState("");
 
   const [editorOptions, setEditorOptions] = useState([
@@ -195,6 +197,7 @@ function EditorWrapper({
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
         const regex3 = /\[(.*?)\]/g;
+        const regex4 = /\*\*(.*?)\*\*/;
         const text = paraElement?.textContent;
         let savedText = text;
         const matches = text?.match(regex);
@@ -222,9 +225,16 @@ function EditorWrapper({
         if (matches3) {
           matches3.forEach((match) => {
             const word = match.slice(1, -1);
+            const matches4 = word.match(regex4);
+            const regexnew = /\*\*(.*?)\*\*/g;
+            const textWithoutAsterisks = word.replace(regexnew, '');
+            let textBetweenAsterisks;
+            if (matches4 && matches4.length > 1) {
+              textBetweenAsterisks = matches4[1];
+              console.log("THE ID IS", textBetweenAsterisks)}
             savedText = savedText?.replaceAll(
               match,
-              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span>${word}<span style="display: none;">]</span></span>`
+              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">**${textBetweenAsterisks}**</span>${textWithoutAsterisks}<span style="display: none;">]</span></span>`
             );
           });
         }
@@ -238,11 +248,13 @@ function EditorWrapper({
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
         const regex3 = /\[(.*?)\]/g;
+        const regex4 = /\*\*(.*?)\*\*/;
         const text = headerElement?.textContent;
         let savedText = text;
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
         const matches3 = text?.match(regex3);
+        const matches4 = text?.match(regex4);
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
@@ -316,6 +328,8 @@ function EditorWrapper({
     });
   };
 
+  console.log("WORKSPACEGOCIND", workspace)
+
   useEffect(() => {
     checkForMentions();
   }, [color]);
@@ -376,6 +390,7 @@ function EditorWrapper({
           icon: <FileIcon />,
           title: file.name,
           subTitle: `Link ${file.name} to this block`,
+          id: file.uuid
         };
         listofFiles.push(obj);
       });
@@ -391,7 +406,7 @@ function EditorWrapper({
           try {
             const savedData = await ejInstance?.current?.save();
             const currentData = savedData.blocks;
-            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">!${id}</span>${title}<span style="display: none;">]</span></span>`;
+            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">**${id}**</span>${title}<span style="display: none;">]</span></span>`;
             if (blockIndex >= 0 && blockIndex < currentData.length) {
               const targetBlock = currentData[blockIndex];
               targetBlock.data.text += ` ${hyperlink}`;
@@ -494,20 +509,44 @@ function EditorWrapper({
   }, [showEditorOptionsBlock]);
 
   useEffect(() => {
-    fileMentionedArray.forEach((eachWord: any) => {
-      const hyperLinkDiv: any = document.getElementById(`${eachWord}`);
-      const fileName = hyperLinkDiv?.innerText;
-      if (fileName) {
+      const hyperLinkDiv: any = document.getElementById('hyperLinkId');
+      if(hyperLinkDiv) {
+      const text = hyperLinkDiv?.textContent;
+      const regex4 = /\*\*(.*?)\*\*/;
+      let fileId: any;
+      const matches4 = text.match(regex4);
+      if (matches4 && matches4.length > 1) {
+        fileId = matches4[1];
+        console.log("THE HYPERLINK ID IS", fileId)}
+        let idOfWorkspace: any;
+        let colorofWorkspace: any;
+
+        workspaceFiles.map((file: any) => {
+          if(file.uuid == fileId) {
+            idOfWorkspace = file.workSpaceUUID;
+          }
+        })
+
+        workspaceItems.map((item: any) => {
+          if(idOfWorkspace == item.uuid) {
+            colorofWorkspace = item.color;
+          }
+        })
+
+      console.log("ID OF WORKPPACE =", idOfWorkspace)
+      if (fileId && idOfWorkspace && colorofWorkspace) {
         hyperLinkDiv?.addEventListener('click', () => {
           dispatch(setCurrentSelectedDocument({ id: null }));
           setTimeout(() => {
-            dispatch(setCurrentSelectedDocument({ id: fileName }));
+            dispatch(setCurrentSelectedDocument({ uuid: fileId, workSpaceUUID: idOfWorkspace, }));
+            ejInstance.current?.destroy();
+            ejInstance.current = null;
+            dispatch(changeColor({ color:  colorofWorkspace}));
           }, 1000);
-          fileMentionedArray = [];
         });
       }
+      }
     });
-  });
 
   useEffect(() => {
     if (showFirstOptions == true) {
@@ -754,7 +793,7 @@ function EditorWrapper({
                 ? '360'
                 : cursorRect?.current?.bottom - 140
             }px`,
-            right: `${cursorRect?.current?.right}px`,
+            right: `${cursorRect?.current?.left}px`,
           }}
           className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
         >
