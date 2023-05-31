@@ -185,7 +185,7 @@ function EditorWrapper({
       if (paraElement) {
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
-        const regex3 = /!(\w+)/g;
+        const regex3 = /\[(.*?)\]/g;
         const text = paraElement?.textContent;
         let savedText = text;
         const matches = text?.match(regex);
@@ -210,6 +210,15 @@ function EditorWrapper({
             );
           });
         }
+        if (matches3) {
+          matches3.forEach((match) => {
+            const word = match.slice(1, -1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span>${word}<span style="display: none;">]</span></span>`
+            );
+          });
+        }
         paraElement.innerHTML = savedText;
       }
     });
@@ -219,7 +228,7 @@ function EditorWrapper({
       if (headerElement) {
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
-        const regex3 = /!(\w+)/g;
+        const regex3 = /\[(.*?)\]/g;
         const text = headerElement?.textContent;
         let savedText = text;
         const matches = text?.match(regex);
@@ -241,6 +250,15 @@ function EditorWrapper({
             savedText = savedText?.replaceAll(
               match,
               `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+            );
+          });
+        }
+        if (matches3) {
+          matches3.forEach((match) => {
+            const word = match.slice(1, -1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span>${word}<span style="display: none;">]</span></span>`
             );
           });
         }
@@ -354,28 +372,31 @@ function EditorWrapper({
       setShowFirstOptions(false);
     }
 
-    // if (opt == 'file') {
-    //   const blockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
-    //   if (blockIndex >= 0) {
-    //     async function appendTextToBlock(blockIndex: any, title: any) {
-    //       try {
-    //         const savedData = await ejInstance?.current?.save();
-    //         const currentData = savedData.blocks;
-    //         const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${title}</span>`;
-    //         if (blockIndex >= 0 && blockIndex < currentData.length) {
-    //           const targetBlock = currentData[blockIndex];
-    //           targetBlock.data.text += ` ${hyperlink}`;
+    if (opt == 'file') {
+      const blockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
+      if (blockIndex >= 0) {
+        async function appendTextToBlock(blockIndex: any, title: any) {
+          try {
+            const savedData = await ejInstance?.current?.save();
+            const currentData = savedData.blocks;
+            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;">[${title}]</span>`;
+            if (blockIndex >= 0 && blockIndex < currentData.length) {
+              const targetBlock = currentData[blockIndex];
+              targetBlock.data.text += ` ${hyperlink}`;
 
-    //           ejInstance?.current?.render({ blocks: currentData });
-    //           setShowEditorOptionsBlock(false);
-    //         }
-    //       } catch (error) {
-    //         console.error('Error occurred while appending text:', error);
-    //       }
-    //     }
-    //     appendTextToBlock(blockIndex, title);
-    //   }
-    // }
+              ejInstance?.current?.render({ blocks: currentData });
+              setShowEditorOptionsBlock(false);
+              setTimeout(() => {
+                checkForMentions()
+              }, 500);
+            }
+          } catch (error) {
+            console.error('Error occurred while appending text:', error);
+          }
+        }
+        appendTextToBlock(blockIndex, title);
+      }
+    }
   };
 
   const style = { '--bg-color': color };
@@ -438,7 +459,10 @@ function EditorWrapper({
       !event.altKey &&
       !event.metaKey
     ) {
+      const { activeElement } = document;
+      cursorRect.current = activeElement?.getBoundingClientRect();
       setShowEditorOptionsBlock(!showEditorOptionsBlock);
+
     }
   };
 
@@ -471,9 +495,6 @@ function EditorWrapper({
       }
     });
   });
-
-  const { activeElement } = document;
-  cursorRect.current = activeElement?.getBoundingClientRect();
 
   useEffect(() => {
     if (showFirstOptions == true) {
@@ -704,14 +725,14 @@ function EditorWrapper({
           style={{
             top: `${
               coverUrlAvailable
-                ? cursorRect.current.bottom > 750
+                ? cursorRect?.current.bottom > 750
                   ? '300'
                   : cursorRect?.current?.bottom - 140
                 : cursorRect.current.bottom > 650
                 ? '360'
                 : cursorRect?.current?.bottom - 140
             }px`,
-            right: `${cursorRect?.current?.bottom > 650 ? '160' : '120'}px`,
+            right: `${cursorRect?.current?.right}px`,
           }}
           className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
         >
