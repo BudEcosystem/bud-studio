@@ -50,7 +50,6 @@ function EditorWrapper({
   // setSelectedOption,
 }: any) {
   const ejInstance = useRef();
-  const editor1 = useRef<EditorJS>();
   const [editorData, setEditorData] = useState(null);
   const [coverUrl, setCoverUrl] = useState();
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
@@ -63,9 +62,6 @@ function EditorWrapper({
   const refHoverBar = useRef();
   const colorRef = useRef<any>('#9068fd');
   const dispatch = useDispatch();
-  const [subHeadingContent, setSubHeadingContent] = useState(
-    'Edit Subheading here...'
-  );
   const [showDatabaseOptions, setShowDatabaseOptions] = useState(false);
   const [showDocumentOptions, setShowDocumentOptions] = useState(false);
   const [showFirstOptions, setShowFirstOptions] = useState(true);
