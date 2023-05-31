@@ -230,11 +230,10 @@ function EditorWrapper({
             const textWithoutAsterisks = word.replace(regexnew, '');
             let textBetweenAsterisks;
             if (matches4 && matches4.length > 1) {
-              textBetweenAsterisks = matches4[1];
-              console.log("THE ID IS", textBetweenAsterisks)}
+              textBetweenAsterisks = matches4[1];}
             savedText = savedText?.replaceAll(
               match,
-              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">**${textBetweenAsterisks}**</span>${textWithoutAsterisks}<span style="display: none;">]</span></span>`
+              `<span contenteditable="false" class="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">**${textBetweenAsterisks}**</span>${textWithoutAsterisks}<span style="display: none;">]</span></span>`
             );
           });
         }
@@ -277,9 +276,15 @@ function EditorWrapper({
         if (matches3) {
           matches3.forEach((match) => {
             const word = match.slice(1, -1);
+            const matches4 = word.match(regex4);
+            const regexnew = /\*\*(.*?)\*\*/g;
+            const textWithoutAsterisks = word.replace(regexnew, '');
+            let textBetweenAsterisks;
+            if (matches4 && matches4.length > 1) {
+              textBetweenAsterisks = matches4[1];}
             savedText = savedText?.replaceAll(
               match,
-              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span>${word}<span style="display: none;">]</span></span>`
+              `<span contenteditable="false" class="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">**${textBetweenAsterisks}**</span>${textWithoutAsterisks}<span style="display: none;">]</span></span>`
             );
           });
         }
@@ -328,7 +333,7 @@ function EditorWrapper({
     });
   };
 
-  console.log("WORKSPACEGOCIND", workspace)
+  // console.log("WORKSPACEGOCIND", workspace)
 
   useEffect(() => {
     checkForMentions();
@@ -406,7 +411,7 @@ function EditorWrapper({
           try {
             const savedData = await ejInstance?.current?.save();
             const currentData = savedData.blocks;
-            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">**${id}**</span>${title}<span style="display: none;">]</span></span>`;
+            const hyperlink = `<span contenteditable="false" class="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">**${id}**</span>${title}<span style="display: none;">]</span></span>`;
             if (blockIndex >= 0 && blockIndex < currentData.length) {
               const targetBlock = currentData[blockIndex];
               targetBlock.data.text += ` ${hyperlink}`;
@@ -415,7 +420,7 @@ function EditorWrapper({
               setShowEditorOptionsBlock(false);
               setTimeout(() => {
                 checkForMentions()
-              }, 500);
+              }, 100);
             }
           } catch (error) {
             console.error('Error occurred while appending text:', error);
@@ -509,10 +514,11 @@ function EditorWrapper({
   }, [showEditorOptionsBlock]);
 
   useEffect(() => {
-      const hyperLinkDiv: any = document.getElementById('hyperLinkId');
-      if(hyperLinkDiv) {
-      const text = hyperLinkDiv?.textContent;
+      const hyperLinkDiv: any = document.querySelectorAll('.hyperLinkId');
+      hyperLinkDiv.forEach((linkElement : any) => {
+      if(linkElement) {
       const regex4 = /\*\*(.*?)\*\*/;
+      const text = linkElement?.textContent;
       let fileId: any;
       const matches4 = text.match(regex4);
       if (matches4 && matches4.length > 1) {
@@ -535,17 +541,17 @@ function EditorWrapper({
 
       console.log("ID OF WORKPPACE =", idOfWorkspace)
       if (fileId && idOfWorkspace && colorofWorkspace) {
-        hyperLinkDiv?.addEventListener('click', () => {
+          linkElement?.addEventListener('click', () => {
+          console.log("THE INSIDE TEXT IS", text)
           dispatch(setCurrentSelectedDocument({ id: null }));
           setTimeout(() => {
             dispatch(setCurrentSelectedDocument({ uuid: fileId, workSpaceUUID: idOfWorkspace, }));
-            ejInstance.current?.destroy();
-            ejInstance.current = null;
             dispatch(changeColor({ color:  colorofWorkspace}));
           }, 1000);
         });
       }
       }
+    })
     });
 
   useEffect(() => {
