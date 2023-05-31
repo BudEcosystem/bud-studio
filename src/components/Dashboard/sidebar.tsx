@@ -181,10 +181,11 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   const [workspaceID, setWorkspaceID] = useState(-1);
   const [workspaceColor, setWorkspaceColor] = useState();
   const [workspaceName, setWorkspaceName] = useState();
-  const [color, setColor] = useState('#343434');
+  const [spaceColor, setSpaceColor] = useState('#343434');
   const [hoverColor, setHoverColor] = useState('#ffffff');
   const [hoverColorOnLeave, setHoverColoronLeave] = useState('#ffffff');
   const [workSpaceIndex, setWorkSpaceIndex] = useState(-1);
+  const { color } = workspace;
 
   const [showMore, setShowMore] = useState(false);
 
@@ -221,7 +222,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     try {
       setActiveClassNameColor(i);
       setActiveClassName('-1');
-      setColor(menuColor);
+      setSpaceColor(menuColor);
       setWorkSpaceIndex(i);
       showWorkspaceModal(menuColor, menuName);
       //dispatch(changeColorAndSetName({ color: null, name: null }));
