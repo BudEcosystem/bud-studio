@@ -7,6 +7,7 @@ import { EDITOR_JS_TOOLS } from './tools';
 import './Editor.css';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  changeColor,
   setApplicationData,
   setCurrentSelectedDocument,
   setEditorInitialised,
@@ -66,6 +67,7 @@ function EditorWrapper({
   const [showDocumentOptions, setShowDocumentOptions] = useState(false);
   const [showFirstOptions, setShowFirstOptions] = useState(true);
   const [workspaceFiles, setWorkspaceFiles] = useState(workspace.workSpaceDocs);
+  const [workspaceItems, setWorkspaceItems] = useState(workspace.workSpaceItems);
   const [currentFileName, setCurrentFileName] = useState("");
 
   const [editorOptions, setEditorOptions] = useState([
@@ -74,30 +76,35 @@ function EditorWrapper({
       icon: <TableIcon />,
       title: 'Database',
       subTitle: 'Add List, Kanban or Gantt Chart',
+      id: "",
     },
     {
       key: 'document',
       icon: <ListIcon />,
       title: 'Link Document',
       subTitle: 'Link to another document',
+      id: "",
     },
     {
       key: 'header',
       icon: <HeadingIcon />,
       title: 'Heading',
       subTitle: 'Write a heading.',
+      id: "",
     },
     {
       key: 'paragraph',
       icon: <ParagraphIcon />,
       title: 'Paragraph',
       subTitle: 'Write your words in paragraph.',
+      id: "",
     },
     {
       key: 'quote',
       icon: <TextIcon />,
       title: 'Quote',
       subTitle: 'Write a quote.',
+      id: "",
     },
     // ,{
     //   key: "link",
@@ -116,24 +123,28 @@ function EditorWrapper({
       icon: <TableIcon />,
       title: 'Simple Table',
       subTitle: 'Start a clean table.',
+      id: "",
     },
     {
       key: 'list',
       icon: <ListIcon />,
       title: 'List',
       subTitle: 'Jot down a list.',
+      id: "",
     },
     {
       key: 'raw',
       icon: <TextIcon />,
       title: 'Raw HTML',
       subTitle: 'Write down some raw HTML code.',
+      id: "",
     },
     {
       key: 'code',
       icon: <TextIcon />,
       title: 'Code',
       subTitle: 'Write some code in a block.',
+      id: "",
     },
   ]);
   // for checking if the particular editor has somedata
@@ -186,6 +197,7 @@ function EditorWrapper({
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
         const regex3 = /\[(.*?)\]/g;
+        const regex4 = /\*\*(.*?)\*\*/;
         const text = paraElement?.textContent;
         let savedText = text;
         const matches = text?.match(regex);
@@ -213,9 +225,15 @@ function EditorWrapper({
         if (matches3) {
           matches3.forEach((match) => {
             const word = match.slice(1, -1);
+            const matches4 = word.match(regex4);
+            const regexnew = /\*\*(.*?)\*\*/g;
+            const textWithoutAsterisks = word.replace(regexnew, '');
+            let textBetweenAsterisks;
+            if (matches4 && matches4.length > 1) {
+              textBetweenAsterisks = matches4[1];}
             savedText = savedText?.replaceAll(
               match,
-              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span>${word}<span style="display: none;">]</span></span>`
+              `<span contenteditable="false" class="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">**${textBetweenAsterisks}**</span>${textWithoutAsterisks}<span style="display: none;">]</span></span>`
             );
           });
         }
@@ -229,11 +247,13 @@ function EditorWrapper({
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
         const regex3 = /\[(.*?)\]/g;
+        const regex4 = /\*\*(.*?)\*\*/;
         const text = headerElement?.textContent;
         let savedText = text;
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
         const matches3 = text?.match(regex3);
+        const matches4 = text?.match(regex4);
         if (matches) {
           matches.forEach((match) => {
             const word = match.slice(1); // Remove the "@" symbol
@@ -256,9 +276,15 @@ function EditorWrapper({
         if (matches3) {
           matches3.forEach((match) => {
             const word = match.slice(1, -1);
+            const matches4 = word.match(regex4);
+            const regexnew = /\*\*(.*?)\*\*/g;
+            const textWithoutAsterisks = word.replace(regexnew, '');
+            let textBetweenAsterisks;
+            if (matches4 && matches4.length > 1) {
+              textBetweenAsterisks = matches4[1];}
             savedText = savedText?.replaceAll(
               match,
-              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span>${word}<span style="display: none;">]</span></span>`
+              `<span contenteditable="false" class="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">**${textBetweenAsterisks}**</span>${textWithoutAsterisks}<span style="display: none;">]</span></span>`
             );
           });
         }
@@ -307,6 +333,8 @@ function EditorWrapper({
     });
   };
 
+  // console.log("WORKSPACEGOCIND", workspace)
+
   useEffect(() => {
     checkForMentions();
   }, [color]);
@@ -315,7 +343,7 @@ function EditorWrapper({
     colorRef.current = `${color}75`;
   }, [color]);
 
-  const insertBlock = (opt: any, title: any) => {
+  const insertBlock = (opt: any, title: any, id: any) => {
     const blockTypes = Object.keys(ejInstance?.current?.configuration?.tools);
     const currentBlockIndex =
       ejInstance?.current?.blocks.getCurrentBlockIndex();
@@ -339,18 +367,21 @@ function EditorWrapper({
           icon: <HeadingIcon />,
           title: 'List View',
           subTitle: 'Choose List View',
+          id: "",
         },
         {
           key: 'kanban',
           icon: <ParagraphIcon />,
           title: 'Kanban View',
           subTitle: 'Choose Kanban View',
+          id: "",
         },
         {
           key: 'gantt',
           icon: <TextIcon />,
           title: 'Gantt Chart',
           subTitle: 'Coming soon',
+          id: "",
         },
       ]);
       setShowDatabaseOptions(true);
@@ -364,6 +395,7 @@ function EditorWrapper({
           icon: <FileIcon />,
           title: file.name,
           subTitle: `Link ${file.name} to this block`,
+          id: file.uuid
         };
         listofFiles.push(obj);
       });
@@ -379,7 +411,7 @@ function EditorWrapper({
           try {
             const savedData = await ejInstance?.current?.save();
             const currentData = savedData.blocks;
-            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;">[${title}]</span>`;
+            const hyperlink = `<span contenteditable="false" class="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">**${id}**</span>${title}<span style="display: none;">]</span></span>`;
             if (blockIndex >= 0 && blockIndex < currentData.length) {
               const targetBlock = currentData[blockIndex];
               targetBlock.data.text += ` ${hyperlink}`;
@@ -388,7 +420,7 @@ function EditorWrapper({
               setShowEditorOptionsBlock(false);
               setTimeout(() => {
                 checkForMentions()
-              }, 500);
+              }, 100);
             }
           } catch (error) {
             console.error('Error occurred while appending text:', error);
@@ -413,12 +445,13 @@ function EditorWrapper({
     icon,
     title,
     subTitle,
+    id,
     onItemsMouseEnter,
   }: any) {
     return (
       <div
         style={style}
-        onClick={(e) => insertBlock(opt, title)}
+        onClick={(e) => insertBlock(opt, title, id)}
         className="EditorOptionComponent"
         onMouseEnter={onItemsMouseEnter}
       >
@@ -481,20 +514,45 @@ function EditorWrapper({
   }, [showEditorOptionsBlock]);
 
   useEffect(() => {
-    fileMentionedArray.forEach((eachWord: any) => {
-      const hyperLinkDiv: any = document.getElementById(`${eachWord}`);
-      const fileName = hyperLinkDiv?.innerText;
-      if (fileName) {
-        hyperLinkDiv?.addEventListener('click', () => {
+      const hyperLinkDiv: any = document.querySelectorAll('.hyperLinkId');
+      hyperLinkDiv.forEach((linkElement : any) => {
+      if(linkElement) {
+      const regex4 = /\*\*(.*?)\*\*/;
+      const text = linkElement?.textContent;
+      let fileId: any;
+      const matches4 = text.match(regex4);
+      if (matches4 && matches4.length > 1) {
+        fileId = matches4[1];
+        console.log("THE HYPERLINK ID IS", fileId)}
+        let idOfWorkspace: any;
+        let colorofWorkspace: any;
+
+        workspaceFiles.map((file: any) => {
+          if(file.uuid == fileId) {
+            idOfWorkspace = file.workSpaceUUID;
+          }
+        })
+
+        workspaceItems.map((item: any) => {
+          if(idOfWorkspace == item.uuid) {
+            colorofWorkspace = item.color;
+          }
+        })
+
+      console.log("ID OF WORKPPACE =", idOfWorkspace)
+      if (fileId && idOfWorkspace && colorofWorkspace) {
+          linkElement?.addEventListener('click', () => {
+          console.log("THE INSIDE TEXT IS", text)
           dispatch(setCurrentSelectedDocument({ id: null }));
           setTimeout(() => {
-            dispatch(setCurrentSelectedDocument({ id: fileName }));
+            dispatch(setCurrentSelectedDocument({ uuid: fileId, workSpaceUUID: idOfWorkspace, }));
+            dispatch(changeColor({ color:  colorofWorkspace}));
           }, 1000);
-          fileMentionedArray = [];
         });
       }
+      }
+    })
     });
-  });
 
   useEffect(() => {
     if (showFirstOptions == true) {
@@ -504,30 +562,35 @@ function EditorWrapper({
           icon: <TableIcon />,
           title: 'Database',
           subTitle: 'Add List, Kanban or Gantt Chart',
+          id: "",
         },
         {
           key: 'document',
           icon: <ListIcon />,
           title: 'Link Document',
           subTitle: 'Link to another document',
+          id: "",
         },
         {
           key: 'header',
           icon: <HeadingIcon />,
           title: 'Heading',
           subTitle: 'Write a heading.',
+          id: "",
         },
         {
           key: 'paragraph',
           icon: <ParagraphIcon />,
           title: 'Paragraph',
           subTitle: 'Write your words in paragraph.',
+          id: "",
         },
         {
           key: 'quote',
           icon: <TextIcon />,
           title: 'Quote',
           subTitle: 'Write a quote.',
+          id: "",
         },
         // ,{
         //   key: "link",
@@ -546,24 +609,28 @@ function EditorWrapper({
           icon: <TableIcon />,
           title: 'Simple Table',
           subTitle: 'Start a clean table.',
+          id: "",
         },
         {
           key: 'list',
           icon: <ListIcon />,
           title: 'List',
           subTitle: 'Jot down a list.',
+          id: "",
         },
         {
           key: 'raw',
           icon: <TextIcon />,
           title: 'Raw HTML',
           subTitle: 'Write down some raw HTML code.',
+          id: "",
         },
         {
           key: 'code',
           icon: <TextIcon />,
           title: 'Code',
           subTitle: 'Write some code in a block.',
+          id: "",
         },
       ]);
     }
@@ -732,7 +799,7 @@ function EditorWrapper({
                 ? '360'
                 : cursorRect?.current?.bottom - 140
             }px`,
-            right: `${cursorRect?.current?.right}px`,
+            right: `${cursorRect?.current?.left}px`,
           }}
           className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
         >
@@ -770,6 +837,7 @@ function EditorWrapper({
                 icon={option.icon}
                 title={option.title}
                 subTitle={option.subTitle}
+                id={option.id}
                 onItemsMouseEnter={onItemsMouseEnter}
               />
             ))}
