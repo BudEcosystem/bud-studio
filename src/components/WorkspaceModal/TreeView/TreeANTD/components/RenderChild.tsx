@@ -18,6 +18,7 @@ import {
 import {
   changeColor,
   createSubChild,
+  deleteFolder,
   setCurrentSelectedDocument,
 } from 'redux/slices/workspace';
 import {
@@ -75,6 +76,15 @@ function RenderChild({
     // }
     // dispatch(enableCreateNewTreeNode({ type }));
     // setShowColorDots(false);
+  };
+  const dispatch = useDispatch();
+
+  const onDuplicateFolderClicked = (event: any) => {
+    event.preventDefault();
+  };
+  const onDeleteFolderClicked = (event: any) => {
+    event.preventDefault();
+    dispatch(deleteFolder({ id: node.key }));
   };
   const content = (
     <div className="docOptionsModal" ref={optionModalRef}>
@@ -145,7 +155,10 @@ function RenderChild({
           </div>
 
           <div style={{ marginBottom: '20px' }}>
-            <div className="secondWorkspaceOption" onClick={() => {}}>
+            <div
+              className="secondWorkspaceOption"
+              onClick={onDuplicateFolderClicked}
+            >
               <Duplicate />
               <h3
                 style={{
@@ -195,7 +208,7 @@ function RenderChild({
             </div>
           </div>
 
-          <div className="Delete">
+          <div className="Delete" onClick={onDeleteFolderClicked}>
             <div className="secondWorkspaceOption">
               <Delete />
               <h3
@@ -247,9 +260,20 @@ function RenderChild({
 
   useEffect(() => {
     document.getElementById('newTreeChildInput')?.focus();
-  }, []);
-  const dispatch = useDispatch();
+  });
   const onEnterInput = (event: any) => {
+    if (event.code === 'Escape') {
+      event.preventDefault();
+      console.log(inputRefFolder.current.value, currentNode);
+      dispatch(
+        createSubChild({
+          name: 'Untitled',
+          type: currentNode.isLeaf ? 'doc' : 'folder',
+          parentDetails: currentNode.parent,
+        })
+      );
+      setTimeout(setExpandedKeys([]));
+    }
     if (event.code === 'Enter') {
       event.preventDefault();
       console.log(inputRefFolder.current.value, currentNode);
@@ -332,7 +356,9 @@ function RenderChild({
       onClick={clickHandler}
     >
       <div style={{ display: 'flex' }}>
-        {currentNode?.isLeaf ? (
+        {!currentNode?.folderInput &&
+        !currentNode?.docInput &&
+        currentNode?.isLeaf ? (
           <FileFilled
             style={{
               color: `${currentNode?.color}`,

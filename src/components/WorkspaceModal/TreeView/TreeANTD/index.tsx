@@ -90,10 +90,28 @@ function TreeStructure({
   // child render function
   const inputRefFolder = useRef() as React.MutableRefObject<HTMLInputElement>;
   const inputRefDoc = useRef() as React.MutableRefObject<HTMLInputElement>;
-  const onEscapeButtonPressed = (event: any) => {
+  const onEscapeButtonPressed = (event: any, type: any) => {
     if (event.code === 'Escape') {
-      callbackForCreate(false);
-      callbackForCreate(false);
+      // callbackForCreate(false);
+      // callbackForCreate(false);
+      if (type === 'folder') {
+        dispatch(
+          createFolder({
+            workSpaceDetails: workspaceDetails,
+            name: 'Untitled',
+          })
+        );
+        callbackForCreate();
+      }
+      if (type === 'doc') {
+        dispatch(
+          createDoc({
+            workSpaceDetails: workspaceDetails,
+            name: 'Untitled',
+          })
+        );
+        callbackForCreate();
+      }
       // dispatch(disableCreateNewTreeNode({ type: 'doc' }));
       // dispatch(disableCreateNewTreeNode({ type: 'folder' }));
     }
@@ -372,7 +390,7 @@ function TreeStructure({
             rev={undefined}
           />{' '}
           <input
-            onKeyDown={onEscapeButtonPressed}
+            onKeyDown={(event) => onEscapeButtonPressed(event, 'folder')}
             className="treeViewContainerDocInput"
             ref={inputRefFolder}
             id="newTreeFolderInput"
@@ -390,7 +408,7 @@ function TreeStructure({
             rev={undefined}
           />
           <input
-            onKeyDown={onEscapeButtonPressed}
+            onKeyDown={(event) => onEscapeButtonPressed(event, 'doc')}
             className="treeViewContainerDocInput"
             ref={inputRefDoc}
             id="newTreeDocInput"

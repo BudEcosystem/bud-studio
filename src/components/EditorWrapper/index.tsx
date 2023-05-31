@@ -50,7 +50,6 @@ function EditorWrapper({
   // setSelectedOption,
 }: any) {
   const ejInstance = useRef();
-  const editor1 = useRef<EditorJS>();
   const [editorData, setEditorData] = useState(null);
   const [coverUrl, setCoverUrl] = useState();
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
@@ -63,9 +62,6 @@ function EditorWrapper({
   const refHoverBar = useRef();
   const colorRef = useRef<any>('#9068fd');
   const dispatch = useDispatch();
-  const [subHeadingContent, setSubHeadingContent] = useState(
-    'Edit Subheading here...'
-  );
   const [showDatabaseOptions, setShowDatabaseOptions] = useState(false);
   const [showDocumentOptions, setShowDocumentOptions] = useState(false);
   const [showFirstOptions, setShowFirstOptions] = useState(true);
@@ -183,24 +179,13 @@ function EditorWrapper({
     setWorkspaceFiles(workspace.workSpaceDocs);
   }, [workspace, ejInstance]);
 
-  // This will run only once
-  // useEffect(() => {
-  //   if (!ejInstance.current) {
-  //     initEditor();
-  //   }
-  //   return () => {
-  //     ejInstance.current?.destroy();
-  //     ejInstance.current = null;
-  //   };
-  // }, []);
-
   const checkForMentions = () => {
-    const paraElements = document.querySelectorAll('.cdx-block');
+    const paraElements = document.querySelectorAll('.ce-paragraph');
     paraElements.forEach((paraElement) => {
       if (paraElement) {
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
-        const regex3 = /!(\w+)/g;
+        const regex3 = /\[(.*?)\]/g;
         const text = paraElement?.textContent;
         let savedText = text;
         const matches = text?.match(regex);
@@ -225,6 +210,15 @@ function EditorWrapper({
             );
           });
         }
+        if (matches3) {
+          matches3.forEach((match) => {
+            const word = match.slice(1, -1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span>${word}<span style="display: none;">]</span></span>`
+            );
+          });
+        }
         paraElement.innerHTML = savedText;
       }
     });
@@ -234,7 +228,7 @@ function EditorWrapper({
       if (headerElement) {
         const regex = /@(\w+)/g;
         const regex2 = /#(\w+)/g;
-        const regex3 = /!(\w+)/g;
+        const regex3 = /\[(.*?)\]/g;
         const text = headerElement?.textContent;
         let savedText = text;
         const matches = text?.match(regex);
@@ -259,105 +253,16 @@ function EditorWrapper({
             );
           });
         }
+        if (matches3) {
+          matches3.forEach((match) => {
+            const word = match.slice(1, -1);
+            savedText = savedText?.replaceAll(
+              match,
+              `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span>${word}<span style="display: none;">]</span></span>`
+            );
+          });
+        }
         headerElement.innerHTML = savedText;
-      }
-    });
-
-    const listElements = document.querySelectorAll('.cdx-list__item');
-    listElements.forEach((listElement) => {
-      if (listElement) {
-        const regex = /@(\w+)/g;
-        const regex2 = /#(\w+)/g;
-        const text = listElement?.textContent;
-        let savedText = text;
-        const matches = text?.match(regex);
-        const matches2 = text?.match(regex2);
-        if (matches) {
-          matches.forEach((match) => {
-            const word = match.slice(1); // Remove the "@" symbol
-            // Apply styling to the matched text
-            savedText = savedText?.replaceAll(
-              match,
-              `<span style="color: white;">@${word}</span>`
-            );
-          });
-        }
-        if (matches2) {
-          matches2.forEach((match) => {
-            const word = match.slice(1);
-            savedText = savedText?.replaceAll(
-              match,
-              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
-            );
-          });
-        }
-        listElement.innerHTML = savedText;
-      }
-    });
-
-    const quoteElements = document.querySelectorAll('.cdx-quote__text');
-    quoteElements.forEach((quoteElement) => {
-      if (quoteElement) {
-        const regex = /@(\w+)/g;
-        const regex2 = /#(\w+)/g;
-        const text = quoteElement?.textContent;
-        let savedText = text;
-        const matches = text?.match(regex);
-        const matches2 = text?.match(regex2);
-        if (matches) {
-          matches.forEach((match) => {
-            const word = match.slice(1); // Remove the "@" symbol
-            // Apply styling to the matched text
-            savedText = savedText?.replaceAll(
-              match,
-              `<span style="color: white;">@${word}</span>`
-            );
-          });
-        }
-        if (matches2) {
-          matches2.forEach((match) => {
-            const word = match.slice(1);
-            savedText = savedText?.replaceAll(
-              match,
-              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
-            );
-          });
-        }
-        quoteElement.innerHTML = savedText;
-      }
-    });
-
-    const checkListElements = document.querySelectorAll(
-      '.cdx-checklist__item-text'
-    );
-    checkListElements.forEach((checkListElement) => {
-      if (checkListElement) {
-        const regex = /@(\w+)/g;
-        const regex2 = /#(\w+)/g;
-        const text = checkListElement?.textContent;
-        let savedText = text;
-        const matches = text?.match(regex);
-        const matches2 = text?.match(regex2);
-        if (matches) {
-          matches.forEach((match) => {
-            const word = match.slice(1); // Remove the "@" symbol
-            // Apply styling to the matched text
-            savedText = savedText?.replaceAll(
-              match,
-              `<span style="color: white;">@${word}</span>`
-            );
-          });
-        }
-        if (matches2) {
-          matches2.forEach((match) => {
-            const word = match.slice(1);
-            savedText = savedText?.replaceAll(
-              match,
-              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
-            );
-          });
-        }
-        checkListElement.innerHTML = savedText;
       }
     });
   };
@@ -467,28 +372,31 @@ function EditorWrapper({
       setShowFirstOptions(false);
     }
 
-    // if (opt == 'file') {
-    //   const blockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
-    //   if (blockIndex >= 0) {
-    //     async function appendTextToBlock(blockIndex: any, title: any) {
-    //       try {
-    //         const savedData = await ejInstance?.current?.save();
-    //         const currentData = savedData.blocks;
-    //         const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">!</span>${title}</span>`;
-    //         if (blockIndex >= 0 && blockIndex < currentData.length) {
-    //           const targetBlock = currentData[blockIndex];
-    //           targetBlock.data.text += ` ${hyperlink}`;
+    if (opt == 'file') {
+      const blockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
+      if (blockIndex >= 0) {
+        async function appendTextToBlock(blockIndex: any, title: any) {
+          try {
+            const savedData = await ejInstance?.current?.save();
+            const currentData = savedData.blocks;
+            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;">[${title}]</span>`;
+            if (blockIndex >= 0 && blockIndex < currentData.length) {
+              const targetBlock = currentData[blockIndex];
+              targetBlock.data.text += ` ${hyperlink}`;
 
-    //           ejInstance?.current?.render({ blocks: currentData });
-    //           setShowEditorOptionsBlock(false);
-    //         }
-    //       } catch (error) {
-    //         console.error('Error occurred while appending text:', error);
-    //       }
-    //     }
-    //     appendTextToBlock(blockIndex, title);
-    //   }
-    // }
+              ejInstance?.current?.render({ blocks: currentData });
+              setShowEditorOptionsBlock(false);
+              setTimeout(() => {
+                checkForMentions()
+              }, 500);
+            }
+          } catch (error) {
+            console.error('Error occurred while appending text:', error);
+          }
+        }
+        appendTextToBlock(blockIndex, title);
+      }
+    }
   };
 
   const style = { '--bg-color': color };
@@ -551,7 +459,10 @@ function EditorWrapper({
       !event.altKey &&
       !event.metaKey
     ) {
+      const { activeElement } = document;
+      cursorRect.current = activeElement?.getBoundingClientRect();
       setShowEditorOptionsBlock(!showEditorOptionsBlock);
+
     }
   };
 
@@ -584,9 +495,6 @@ function EditorWrapper({
       }
     });
   });
-
-  const { activeElement } = document;
-  cursorRect.current = activeElement?.getBoundingClientRect();
 
   useEffect(() => {
     if (showFirstOptions == true) {
@@ -817,14 +725,14 @@ function EditorWrapper({
           style={{
             top: `${
               coverUrlAvailable
-                ? cursorRect.current.bottom > 750
+                ? cursorRect?.current.bottom > 750
                   ? '300'
                   : cursorRect?.current?.bottom - 140
                 : cursorRect.current.bottom > 650
                 ? '360'
                 : cursorRect?.current?.bottom - 140
             }px`,
-            right: `${cursorRect?.current?.bottom > 650 ? '160' : '120'}px`,
+            right: `${cursorRect?.current?.right}px`,
           }}
           className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
         >

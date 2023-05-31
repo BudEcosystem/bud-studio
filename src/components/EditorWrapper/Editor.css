@@ -136,7 +136,7 @@
 
 .editorCover {
   width: 1000px;
-  height: 200px;
+  min-height: 200px;
   background-blend-mode: color, normal, normal, normal;
   border-radius: 8px;
 }
