@@ -93,7 +93,6 @@ function MenuWorkSpaceItem({
   setHoverColorHandler,
   setHoverColorOnLeave,
 }: any): JSX.Element {
-  console.log('menu', menu);
   let { workspace } = useSelector((state) => state);
   let { currentWorkspace } = workspace;
   return (
