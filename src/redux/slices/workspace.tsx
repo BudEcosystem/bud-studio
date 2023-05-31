@@ -114,6 +114,9 @@ export const workspaceSlice = createSlice({
       state.editorInitialised = false;
       state.currentSelectedDocId = null;
     },
+    changeColor: (state, action: PayloadAction<any>) => {
+      state.color = action.payload.color;
+    },
     createWorkspaces: (state, action: PayloadAction<any>) => {
       if (action.payload.idx !== undefined) {
         state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
@@ -124,11 +127,36 @@ export const workspaceSlice = createSlice({
       state.workSpaceItems.push({ ...action.payload, uuid: uuidv4() });
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
-      const arr = [...state.workSpaceItems];
-      if (action.payload.value.name) {
-        arr[action.payload.index].name = action.payload.value.name;
-      } else {
-        arr[action.payload.index].name = action.payload.value;
+      console.log(action.payload, 'adSD');
+      const { value, index } = action.payload;
+      const { workSpace } = state.currentSelectedItem;
+      const workspaceItem = state.workSpaceItems.find(
+        (item) => item.uuid === workSpace
+      );
+      const matchingItems = state.workSpaceDocs.filter(
+        (item) => item.workSpaceUUID === workSpace
+      );
+      const matchingFolders = state.workspaceFolders.filter(
+        (item) => item.workSpaceUUID === workSpace
+      );
+      if (workspaceItem) {
+        if (value.name) {
+          workspaceItem.name = value.name;
+          matchingItems.forEach((item) => {
+            item.workSPaceId = value.name;
+          });
+          matchingFolders.forEach((item) => {
+            item.workSPaceId = value.name;
+          });
+        } else {
+          workspaceItem.name = value;
+          matchingItems.forEach((item) => {
+            item.workSPaceId = value;
+          });
+          matchingFolders.forEach((item) => {
+            item.workSPaceId = value;
+          });
+        }
       }
     },
     changeWorkSpacePropereties: (state, action: PayloadAction<any>) => {
@@ -272,7 +300,12 @@ export const workspaceSlice = createSlice({
       const rename = (list: any[], id: string) => {
         const found = list.find((f) => f.uuid === id);
         if (found) {
-          found.name = name;
+          if (found.name === state.currentSelectedDocId) {
+            found.name = name;
+            state.currentSelectedDocId = name;
+          } else {
+            found.name = name;
+          }
         }
       };
       if (isFolder) {
@@ -303,6 +336,7 @@ export const {
   createWorkspaces,
   editWorkspaceItem,
   duplicateWorkspaceItem,
+  changeColor,
   changeWorkSpacePropereties,
   recoverWorkspacedata,
   createFolder,

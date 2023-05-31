@@ -219,6 +219,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   }, [workspace]);
   const handlerColor = (menuColor: any, menuName: any, i: any) => {
     try {
+      console.log('Active Class Name', i);
       //setActiveClassNameColor(i);
       setActiveClassName('-1');
       //setColor(menuColor);
