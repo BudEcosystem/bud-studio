@@ -183,17 +183,6 @@ function EditorWrapper({
     setWorkspaceFiles(workspace.workSpaceDocs);
   }, [workspace, ejInstance]);
 
-  // This will run only once
-  // useEffect(() => {
-  //   if (!ejInstance.current) {
-  //     initEditor();
-  //   }
-  //   return () => {
-  //     ejInstance.current?.destroy();
-  //     ejInstance.current = null;
-  //   };
-  // }, []);
-
   const checkForMentions = () => {
     const paraElements = document.querySelectorAll('.cdx-block');
     paraElements.forEach((paraElement) => {
