@@ -1,0 +1,22 @@
+.treeViewContainerDocInputWrapper {
+  width: 180px;
+  height: 30px;
+  /* background: red; */
+  margin: 0px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.treeViewContainerDocInput {
+  width: 120px;
+  height: 20px;
+  background: #101010;
+  border-radius: 2px;
+  text-align: left;
+  color: #bbbbbb;
+  outline: none;
+  border: none;
+  margin-left: 15px;
+}

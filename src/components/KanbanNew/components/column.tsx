@@ -218,7 +218,6 @@ interface Task {
 }
 
 function Column(props: any) {
-  //   console.log(props);
   const [showNewTaskUI, setNewTaskUI] = useState(false);
   const { kanban } = useSelector((state) => state);
   const [addButtonClickedFromColumn, SetAddButtonClickedFromColumn] =

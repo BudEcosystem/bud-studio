@@ -60,7 +60,8 @@ any) {
   const { tree, workspace, activestate }: any = useSelector((state) => state);
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
   console.log('###################################', workspace);
-  const { color, currentWorkspace, currentSelectedDocId, applicationData } = workspace;
+  const { color, currentWorkspace, currentSelectedDocId, applicationData } =
+    workspace;
   const { selectedOption } = activestate;
   const [render, setRender] = useState(false);
   const cursorRect = useRef<DOMRect>();
@@ -78,35 +79,35 @@ any) {
       icon: <TableIcon />,
       title: 'Database',
       subTitle: 'Add List, Kanban or Gantt Chart',
-      id: ""
+      id: '',
     },
     {
       key: 'document',
       icon: <ListIcon />,
       title: 'Link Document',
       subTitle: 'Link to another document',
-      id: ""
+      id: '',
     },
     {
       key: 'header',
       icon: <HeadingIcon />,
       title: 'Heading',
       subTitle: 'Write a heading.',
-      id: ""
+      id: '',
     },
     {
       key: 'paragraph',
       icon: <ParagraphIcon />,
       title: 'Paragraph',
       subTitle: 'Write your words in paragraph.',
-      id: ""
+      id: '',
     },
     {
       key: 'quote',
       icon: <TextIcon />,
       title: 'Quote',
       subTitle: 'Write a quote.',
-      id: ""
+      id: '',
     },
     // ,{
     //   key: "link",
@@ -120,39 +121,38 @@ any) {
     //   icon: <CheckListIcon/>,
     //   title: "Checklist",
     //   subTitle: "Start a checklist."
-     // id: ""
+    // id: ""
     //  }
     {
       key: 'table',
       icon: <TableIcon />,
       title: 'Simple Table',
       subTitle: 'Start a clean table.',
-      id: ""
+      id: '',
     },
     {
       key: 'list',
       icon: <ListIcon />,
       title: 'List',
       subTitle: 'Jot down a list.',
-      id: ""
+      id: '',
     },
     {
       key: 'raw',
       icon: <TextIcon />,
       title: 'Raw HTML',
       subTitle: 'Write down some raw HTML code.',
-      id: ""
+      id: '',
     },
     {
       key: 'code',
       icon: <TextIcon />,
       title: 'Code',
       subTitle: 'Write some code in a block.',
-      id: ""
+      id: '',
     },
   ]);
   // for checking if the particular editor has somedata
-
 
   useEffect(() => {
     const {
@@ -166,15 +166,7 @@ any) {
         application.docId === copycurrentSelectedDocId &&
         application.workSpaceId === copycurrentWorkspace
     );
-    console.log(
-      '################################### - outer',
-      currentApplicationData
-    );
     if (currentApplicationData.length > 0) {
-      console.log(
-        '################################### - else',
-        currentApplicationData
-      );
       setEditorData(currentApplicationData[0].applicationSpecificicData);
       !editorInitialised &&
         initEditor(currentApplicationData[0].applicationSpecificicData);
@@ -206,7 +198,7 @@ any) {
         const regex2 = /#(\w+)/g;
         const text = paraElement?.textContent;
         const htmlText = paraElement?.innerHTML;
-        console.log("HTML TEXT", htmlText)
+        console.log('HTML TEXT', htmlText);
         let savedText = text;
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
@@ -239,7 +231,7 @@ any) {
         const regex2 = /#(\w+)/g;
         const text = headerElement?.textContent;
         const htmlText = headerElement?.innerHTML;
-        console.log("HTML CONTENT para", htmlText)
+        console.log('HTML CONTENT para', htmlText);
         let savedText = text;
         const matches = text?.match(regex);
         const matches2 = text?.match(regex2);
@@ -365,10 +357,7 @@ any) {
     });
   };
 
-  console.log('WORSPACE EDITOR', workspace);
-
   const initEditor = (dataPassed: any) => {
-    console.log('###################################- initEditoe', editorData);
     const editor = new EditorJS({
       holder: EDITTOR_HOLDER_ID,
       logLevel: 'ERROR',
@@ -387,7 +376,6 @@ any) {
         ejInstance?.current
           ?.save()
           .then((outputData: any) => {
-            console.log('HEADING DATA', outputData);
             setEditorData(outputData);
             dispatch(
               setApplicationData({
@@ -420,9 +408,8 @@ any) {
     const blockTypes = Object.keys(ejInstance?.current?.configuration?.tools);
     const currentBlockIndex =
       ejInstance?.current?.blocks.getCurrentBlockIndex();
-    console.log('CURRENT BLOCK INDEX', currentBlockIndex);
-    if (opt && blockTypes.includes(opt) && currentBlockIndex>=-1) {
-      ejInstance?.current?.blocks.insert(opt, currentBlockIndex+1);
+    if (opt && blockTypes.includes(opt) && currentBlockIndex != -1) {
+      ejInstance?.current?.blocks.insert(opt, currentBlockIndex + 1);
       setShowEditorOptionsBlock(false);
     }
 
@@ -441,21 +428,21 @@ any) {
           icon: <HeadingIcon />,
           title: 'List View',
           subTitle: 'Choose List View',
-          id: ""
+          id: '',
         },
         {
           key: 'kanban',
           icon: <ParagraphIcon />,
           title: 'Kanban View',
           subTitle: 'Choose Kanban View',
-          id: ""
+          id: '',
         },
         {
           key: 'gantt',
           icon: <TextIcon />,
           title: 'Gantt Chart',
           subTitle: 'Coming soon',
-          id: ""
+          id: '',
         },
       ]);
       setShowDatabaseOptions(true);
@@ -463,14 +450,14 @@ any) {
     }
     if (opt == 'document') {
       const listofFiles: any = [];
-      console.log("WORKDPACEFILES",workspaceFiles)
+      console.log('WORKDPACEFILES', workspaceFiles);
       workspaceFiles.map((file: any) => {
         let obj = {
           key: 'file',
           icon: <FileIcon />,
           title: file.name,
           subTitle: `Link ${file.name} to this block`,
-          id: file.uuid
+          id: file.uuid,
         };
         listofFiles.push(obj);
       });
@@ -495,7 +482,7 @@ any) {
     title,
     subTitle,
     onItemsMouseEnter,
-    id
+    id,
   }: any) {
     return (
       <div
@@ -570,35 +557,35 @@ any) {
           icon: <TableIcon />,
           title: 'Database',
           subTitle: 'Add List, Kanban or Gantt Chart',
-          id: ""
+          id: '',
         },
         {
           key: 'document',
           icon: <ListIcon />,
           title: 'Link Document',
           subTitle: 'Link to another document',
-          id: ""
+          id: '',
         },
         {
           key: 'header',
           icon: <HeadingIcon />,
           title: 'Heading',
           subTitle: 'Write a heading.',
-          id: ""
+          id: '',
         },
         {
           key: 'paragraph',
           icon: <ParagraphIcon />,
           title: 'Paragraph',
           subTitle: 'Write your words in paragraph.',
-          id: ""
+          id: '',
         },
         {
           key: 'quote',
           icon: <TextIcon />,
           title: 'Quote',
           subTitle: 'Write a quote.',
-          id: ""
+          id: '',
         },
         // ,{
         //   key: "link",
@@ -617,28 +604,28 @@ any) {
           icon: <TableIcon />,
           title: 'Simple Table',
           subTitle: 'Start a clean table.',
-          id: ""
+          id: '',
         },
         {
           key: 'list',
           icon: <ListIcon />,
           title: 'List',
           subTitle: 'Jot down a list.',
-          id: ""
+          id: '',
         },
         {
           key: 'raw',
           icon: <TextIcon />,
           title: 'Raw HTML',
           subTitle: 'Write down some raw HTML code.',
-          id: ""
+          id: '',
         },
         {
           key: 'code',
           icon: <TextIcon />,
           title: 'Code',
           subTitle: 'Write some code in a block.',
-          id: ""
+          id: '',
         },
       ]);
     }
@@ -646,220 +633,224 @@ any) {
 
   return (
     <>
-    <div className="editor">
-      {applicationData &&
-      (<>
-      {coverUrlAvailable ? (
-        <div
-          style={{
-            backgroundImage: `linear-gradient(to bottom right, ${color}, white)`,
-          }}
-          className="editorCover"
-        >
-          <img src={coverUrl} />
-          <div
-            style={{
-              position: 'relative',
-              left: '82%',
-              display: 'flex',
-              width: '150px',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div
-              onClick={(e) => setCoverUrlAvailable(false)}
-              style={{
-                paddingLeft: '10px',
-                paddingRight: '10px',
-                cursor: 'pointer',
-                width: 'fit-content',
-                height: '22px',
-                background: 'rgba(40, 39, 44, 0.28)',
-                borderRadius: '11px',
-                display: 'grid',
-                placeItems: 'center',
-                fontSize: '10px',
-                fontWeight: '400',
-              }}
-            >
-              Remove
-            </div>
-            <div
-              style={{
-                paddingLeft: '10px',
-                paddingRight: '10px',
-                cursor: 'pointer',
-                width: 'fit-content',
-                height: '22px',
-                background: 'rgba(40, 39, 44, 0.28)',
-                borderRadius: '11px',
-                display: 'grid',
-                placeItems: 'center',
-                fontSize: '10px',
-                fontWeight: '400',
-              }}
-            >
-              Change Cover
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div
-          onClick={(e) => setCoverUrlAvailable(true)}
-          style={{
-            position: 'absolute',
-            display: 'flex',
-            left: '90%',
-            width: 'fit-content',
-            height: 'fit-content',
-            color: '#333539',
-            cursor: 'pointer',
-          }}
-        >
-          <div style={{ marginRight: '10px' }}>
-            <AddCover />
-          </div>
-          Add Cover
-        </div>
-      )}
+      <div className="editor">
+        {applicationData && (
+          <>
+            {coverUrlAvailable ? (
+              <div
+                style={{
+                  backgroundImage: `linear-gradient(to bottom right, ${color}, white)`,
+                }}
+                className="editorCover"
+              >
+                <img src={coverUrl} />
+                <div
+                  style={{
+                    position: 'relative',
+                    left: '82%',
+                    display: 'flex',
+                    width: '150px',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div
+                    onClick={(e) => setCoverUrlAvailable(false)}
+                    style={{
+                      paddingLeft: '10px',
+                      paddingRight: '10px',
+                      cursor: 'pointer',
+                      width: 'fit-content',
+                      height: '22px',
+                      background: 'rgba(40, 39, 44, 0.28)',
+                      borderRadius: '11px',
+                      display: 'grid',
+                      placeItems: 'center',
+                      fontSize: '10px',
+                      fontWeight: '400',
+                    }}
+                  >
+                    Remove
+                  </div>
+                  <div
+                    style={{
+                      paddingLeft: '10px',
+                      paddingRight: '10px',
+                      cursor: 'pointer',
+                      width: 'fit-content',
+                      height: '22px',
+                      background: 'rgba(40, 39, 44, 0.28)',
+                      borderRadius: '11px',
+                      display: 'grid',
+                      placeItems: 'center',
+                      fontSize: '10px',
+                      fontWeight: '400',
+                    }}
+                  >
+                    Change Cover
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div
+                onClick={(e) => setCoverUrlAvailable(true)}
+                style={{
+                  position: 'absolute',
+                  display: 'flex',
+                  left: '90%',
+                  width: 'fit-content',
+                  height: 'fit-content',
+                  color: '#333539',
+                  cursor: 'pointer',
+                }}
+              >
+                <div style={{ marginRight: '10px' }}>
+                  <AddCover />
+                </div>
+                Add Cover
+              </div>
+            )}
 
-      {!iconUrl ? (
-        coverUrlAvailable ? (
-          <div
-            style={{
-              position: 'relative',
-              bottom: '30px',
-              display: 'flex',
-              width: '700px',
-              alignItems: 'end',
-              marginRight: '225px',
-            }}
-          >
-            <div className="editorIcon">
-              <img src={iconUrl} />
-            </div>
-            <div
-              style={{
-                fontSize: '23px',
-                fontWeight: '400',
-                height: 'fit-content',
-              }}
-            >
-              {workspace.currentSelectedDocId}
-            </div>
-          </div>
-        ) : (
-          <div
-            style={{
-              position: 'relative',
-              bottom: '0px',
-              display: 'flex',
-              width: '700px',
-              alignItems: 'center',
-              marginRight: '225px',
-              marginBottom: '40px',
-            }}
-          >
-            <div className="editorIcon">
-              <img src={iconUrl} />
-            </div>
-            <div
-              style={{
-                fontSize: '25px',
-                fontWeight: '400',
-                height: 'fit-content',
-              }}
-            >
-              {workspace.currentSelectedDocId}
-            </div>
-          </div>
-        )
-      ) : (
-        <div
-          style={{
-            fontSize: '14px',
-            fontWeight: '500',
-            marginRight: '910px',
-            marginTop: '120px',
-            display: 'flex',
-            width: 'fit-content',
-            color: '#333539',
-            cursor: 'pointer',
-          }}
-        >
-          <div style={{ marginRight: '10px' }}>
-            <AddIcon />
-          </div>
-          Add Icon
-        </div>
-      )}
-      </>)}
+            {!iconUrl ? (
+              coverUrlAvailable ? (
+                <div
+                  style={{
+                    position: 'relative',
+                    bottom: '30px',
+                    display: 'flex',
+                    width: '700px',
+                    alignItems: 'end',
+                    marginRight: '225px',
+                  }}
+                >
+                  <div className="editorIcon">
+                    <img src={iconUrl} />
+                  </div>
+                  <div
+                    style={{
+                      fontSize: '23px',
+                      fontWeight: '400',
+                      height: 'fit-content',
+                    }}
+                  >
+                    {workspace.currentSelectedDocId}
+                  </div>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    position: 'relative',
+                    bottom: '0px',
+                    display: 'flex',
+                    width: '700px',
+                    alignItems: 'center',
+                    marginRight: '225px',
+                    marginBottom: '40px',
+                  }}
+                >
+                  <div className="editorIcon">
+                    <img src={iconUrl} />
+                  </div>
+                  <div
+                    style={{
+                      fontSize: '25px',
+                      fontWeight: '400',
+                      height: 'fit-content',
+                    }}
+                  >
+                    {workspace.currentSelectedDocId}
+                  </div>
+                </div>
+              )
+            ) : (
+              <div
+                style={{
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  marginRight: '910px',
+                  marginTop: '120px',
+                  display: 'flex',
+                  width: 'fit-content',
+                  color: '#333539',
+                  cursor: 'pointer',
+                }}
+              >
+                <div style={{ marginRight: '10px' }}>
+                  <AddIcon />
+                </div>
+                Add Icon
+              </div>
+            )}
+          </>
+        )}
 
-      <div className="editorjsDiv" id={EDITTOR_HOLDER_ID} />
+        <div className="editorjsDiv" id={EDITTOR_HOLDER_ID} />
 
-      {applicationData && 
-      (<>
-      {showEditorOptionsBlock && (
-        <div
-          id="editorOptionBlockID"
-          style={{
-            top: `${
-              coverUrlAvailable
-                ? cursorRect.current.bottom > 750
-                  ? '300'
-                  : cursorRect?.current?.bottom - 140
-                : cursorRect.current.bottom > 650
-                ? '360'
-                : cursorRect?.current?.bottom - 140
-            }px`,
-            right: `${cursorRect?.current?.bottom > 650 ? '160' : '120'}px`,
-          }}
-          className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
-        >
-          {showFirstOptions ? (
-            <div
-              style={{
-                marginLeft: '5px',
-                marginBottom: '10px',
-                marginTop: '5px',
-                overflow: 'auto',
-              }}
-            >
-              Editor Block
-            </div>
-          ) : (
-            <div
-              style={{
-                marginLeft: '5px',
-                marginBottom: '10px',
-                marginTop: '5px',
-                overflow: 'auto',
-                cursor: 'pointer',
-              }}
-              onClick={() => setShowFirstOptions(true)}
-            >
-              Go Back
-            </div>
-          )}
+        {applicationData && (
+          <>
+            {showEditorOptionsBlock && (
+              <div
+                id="editorOptionBlockID"
+                style={{
+                  top: `${
+                    coverUrlAvailable
+                      ? cursorRect.current.bottom > 750
+                        ? '300'
+                        : cursorRect?.current?.bottom - 140
+                      : cursorRect.current.bottom > 650
+                      ? '360'
+                      : cursorRect?.current?.bottom - 140
+                  }px`,
+                  right: `${
+                    cursorRect?.current?.bottom > 650 ? '160' : '120'
+                  }px`,
+                }}
+                className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
+              >
+                {showFirstOptions ? (
+                  <div
+                    style={{
+                      marginLeft: '5px',
+                      marginBottom: '10px',
+                      marginTop: '5px',
+                      overflow: 'auto',
+                    }}
+                  >
+                    Editor Block
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      marginLeft: '5px',
+                      marginBottom: '10px',
+                      marginTop: '5px',
+                      overflow: 'auto',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => setShowFirstOptions(true)}
+                  >
+                    Go Back
+                  </div>
+                )}
 
-          <div className="editorOptionDiv">
-            <div className="hoverMovement" ref={refHoverBar} />
-            {editorOptions.map((option) => (
-              <EditorOptionComponent
-                opt={option.key}
-                icon={option.icon}
-                title={option.title}
-                subTitle={option.subTitle}
-                onItemsMouseEnter={onItemsMouseEnter}
-                id={option.id}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-      </>)}
-    </div>
+                <div className="editorOptionDiv">
+                  <div className="hoverMovement" ref={refHoverBar} />
+                  {editorOptions.map((option) => (
+                    <EditorOptionComponent
+                      opt={option.key}
+                      icon={option.icon}
+                      title={option.title}
+                      subTitle={option.subTitle}
+                      onItemsMouseEnter={onItemsMouseEnter}
+                      id={option.id}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </>
   );
 }

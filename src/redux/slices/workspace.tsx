@@ -20,45 +20,82 @@ const generateInitialState = (): any => {
         name: 'Private',
         color: '#343434',
         id: 'wsp-1',
-        uuid: wrkUUID,
-        childs: [
-          {
-            type: 'folder',
-            title: 'Welcome To Bud',
-            id: 'fld-1',
-            childs: [
-              {
-                type: 'document',
-                title: 'Welcome To Bud',
-                id: 'doc-1',
-              },
-            ],
-          },
-          {
-            type: 'document',
-            title: 'Welcome To Bud',
-          },
-        ],
+        uuid: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        childs: [],
       },
     ],
     workspaceFolders: [
+      {
+        name: 'Welcome Aprent',
+        key: 'welcome',
+        workSPaceId: 'Private',
+        type: 'folder',
+        uuid: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        childOf: null,
+      },
+      {
+        name: 'Welcome1',
+        key: 'welcome1',
+        workSPaceId: 'Private',
+        type: 'folder',
+        uuid: uuidv4(),
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        childOf: null,
+      },
+      {
+        name: 'child',
+        key: 'tested',
+        workSPaceId: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        type: 'folder',
+        uuid: '1a7aea77-2dc6-4aa2-9757-19c536e1f133',
+        childOf: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
+      },
+      {
+        name: 'child-test',
+        key: 'tested',
+        workSPaceId: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        type: 'folder',
+        uuid: '1a7aea77-2dc6-4aa2-9757-19c536vb1f133',
+        childOf: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
+      },
       {
         name: 'Welcome',
         key: 'welcome',
         workSPaceId: 'Private',
         type: 'folder',
-        uuid: uuidv4(),
-        workSpaceUUID: wrkUUID,
+        uuid: 'b25bcec6-6ed7-47f5-9b9d-1673da80c860',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        childOf: null,
+      },
+      {
+        name: 'child-test-3',
+        key: 'tested',
+        workSPaceId: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        type: 'folder',
+        uuid: '1a7aea77-2dc6-4aa2-9757-19c536vb1x133',
+        childOf: '1a7aea77-2dc6-4aa2-9757-19c536vb1f133',
       },
     ],
     workSpaceDocs: [
       {
         name: 'Welcome To Bud',
-        childOf: 'welcome',
+        childOf: null,
         workSPaceId: 'Private',
         type: 'doc',
-        uuid: uuidv4(),
-        workSpaceUUID: wrkUUID,
+        uuid: '8fbac4d2-7bd0-482f-9880-c645bddd6eac5',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+      },
+      {
+        name: 'Welcome To Bud',
+        childOf: '1a7aea77-2dc6-4aa2-9757-19c536vb1x133',
+        workSPaceId: 'Private',
+        type: 'doc',
+        uuid: '8fbac4d2-7bd0-482f-9880-c645b426eac5',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
       },
     ],
     applicationData: [],
@@ -133,65 +170,90 @@ export const workspaceSlice = createSlice({
     createFolder: (state, action: PayloadAction<any>) => {
       const copyFolderStructure = state.workspaceFolders;
       const { name, workSpaceDetails } = action.payload;
-      const filteredArray = copyFolderStructure.filter(
-        (data: any) => data.key === name
-      );
-      if (filteredArray.length === 0) {
-        const newObject = {
-          name,
-          key: name,
-          workSPaceId: workSpaceDetails.name,
-          type: 'folder',
-          uuid: uuidv4(),
-          workSpaceUUID: workSpaceDetails.uuid,
-        };
-        copyFolderStructure.push(newObject);
-        state.workspaceFolders = copyFolderStructure;
-      }
+      console.log(workSpaceDetails);
+      // const filteredArray = copyFolderStructure.filter(
+      //   (data: any) => data.key === name
+      // );
+      // if (filteredArray.length === 0) {
+      const newObject = {
+        name,
+        key: name,
+        workSPaceId: workSpaceDetails.uuid,
+        workSpaceUUID: workSpaceDetails.uuid,
+        type: 'folder',
+        uuid: uuidv4(),
+        childOf: null,
+      };
+      copyFolderStructure.push(newObject);
+      state.workspaceFolders = copyFolderStructure;
+      // }
     },
     createDoc: (state, action: PayloadAction<any>) => {
       const copyDocStructure = state.workSpaceDocs;
       const { name, workSpaceDetails } = action.payload;
-      const filteredArray = copyDocStructure.filter(
-        (data: any) => data.key === name
-      );
-      if (filteredArray.length === 0) {
-        const newObject = {
-          name,
-          childOf: null,
-          key: name,
-          workSPaceId: workSpaceDetails.name,
-          type: 'doc',
-          uuid: uuidv4(),
-          workSpaceUUID: workSpaceDetails.uuid,
-        };
-        copyDocStructure.push(newObject);
-        state.workSpaceDocs = copyDocStructure;
-      }
+      // const filteredArray = copyDocStructure.filter(
+      // (data: any) => data.key === name
+      // );
+      // if (filteredArray.length === 0) {
+      const newObject = {
+        name,
+        childOf: null,
+        key: name,
+        workSPaceId: workSpaceDetails.name,
+        type: 'doc',
+        uuid: uuidv4(),
+        workSpaceUUID: workSpaceDetails.uuid,
+      };
+      copyDocStructure.push(newObject);
+      state.workSpaceDocs = copyDocStructure;
+      // }
     },
     createSubChild: (state, action: PayloadAction<any>) => {
+      console.log('action.payload', action.payload);
       const { name, type, parentDetails } = action.payload;
-      console.log(parentDetails);
       if (type === 'folder') {
-        const newSampleFolderData = {
-          name: 'folderName1',
-          key: 'folderName1',
-          workSPaceId: 'Private',
-          type: 'folder',
-          uuid: uuidv4(),
-        };
-      } else {
-        const copyOfworkSpaceDocs = state.workSpaceDocs;
+        const copyOfworkSpaceFolders = [...state.workspaceFolders];
+        const proxyFilteredArray = [];
+        copyOfworkSpaceFolders.forEach((data: any) => {
+          console.log({ ...data });
+          proxyFilteredArray.push({ ...data });
+        });
+        // console.log('action.payload', copyOfworkSpaceDocs);
+
         const sampleDocData = {
           name,
-          childOf: parentDetails.label,
-          workSPaceId: parentDetails.workSpaceName,
+          childOf: parentDetails.key,
+          type: 'folder',
+          uuid: uuidv4(),
+          key: uuidv4(),
+          workSpaceUUID: parentDetails.workspaceDetails.uuid,
+          workSPaceId: parentDetails.workspaceDetails.uuid,
+        };
+        // console.log('action.payload', sampleDocData);
+        proxyFilteredArray.push(sampleDocData);
+        // console.log('action.payload', copyOfworkSpaceDocs);
+        state.workspaceFolders = proxyFilteredArray;
+      } else {
+        const copyOfworkSpaceDocs = [...state.workSpaceDocs];
+        const proxyFilteredArray = [];
+        copyOfworkSpaceDocs.forEach((data: any) => {
+          console.log({ ...data });
+          proxyFilteredArray.push({ ...data });
+        });
+        // console.log('action.payload', copyOfworkSpaceDocs);
+
+        const sampleDocData = {
+          name,
+          childOf: parentDetails.key,
+          workSPaceId: parentDetails.uuid,
           type: 'doc',
           uuid: uuidv4(),
-          workSpaceUUID: parentDetails.workSpaceUUID,
+          workSpaceUUID: parentDetails.workspaceDetails.uuid,
         };
-        copyOfworkSpaceDocs.push(sampleDocData);
-        state.workSpaceDocs = copyOfworkSpaceDocs;
+        // console.log('action.payload', sampleDocData);
+        proxyFilteredArray.push(sampleDocData);
+        // console.log('action.payload', copyOfworkSpaceDocs);
+        state.workSpaceDocs = proxyFilteredArray;
       }
     },
     setCurrentSelectedDocument: (state, action: PayloadAction<any>) => {

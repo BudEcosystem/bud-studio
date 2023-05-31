@@ -250,7 +250,6 @@ function PopOverSearch() {
   );
 }
 function Tasks(props: any) {
-  console.log('Draggable', props);
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
       {(provided) => {

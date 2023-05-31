@@ -38,14 +38,14 @@ function App() {
         id: 'ksCokKAfhQw',
         type: 'paragraph',
         data: {
-          text: "",
+          text: '',
         },
       },
       {
         id: 'ksCokKAdffhQw',
         type: 'kanban',
         data: {
-          text: "",
+          text: '',
         },
       },
     ],
@@ -57,9 +57,6 @@ function App() {
   const handleChange = (e, value, uuid) => {
     // e.preventDefault();
     const tempState = html;
-
-    console.log('Request For Update', value, uuid);
-
     // const updatedData = updateBlockHtml(tempState.blocks, uuid, value);
     // setHtml({
     //   blocks: updatedData,
@@ -75,7 +72,6 @@ function App() {
     const isSupported = typeof window.getSelection !== 'undefined';
     if (isSupported) {
       const selection = window.getSelection();
-      console.log('Selection', selection);
       if (selection.rangeCount !== 0) {
         const range = selection.getRangeAt(0).cloneRange();
         range.collapse(!!fromStart);

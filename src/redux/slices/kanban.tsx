@@ -205,7 +205,6 @@ export const kanbanSlice = createSlice({
       });
       proxyFilteredData[`column-${Object.keys(state.columns).length + 1}`] =
         sampleData;
-      console.log(proxyFilteredData);
       oldColumnOrder.push(`column-${Object.keys(state.columns).length + 1}`);
       state.columnOrder = oldColumnOrder;
       state.columns = proxyFilteredData;

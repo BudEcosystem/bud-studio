@@ -45,13 +45,13 @@ export default class BudEditorParagraph {
    * @param {object} params.api - editor.js api
    * @param {boolean} readOnly - read only mode flag
    */
-  constructor({data, config, api, readOnly}) {
+  constructor({ data, config, api, readOnly }) {
     this.api = api;
     this.readOnly = readOnly;
 
     this._CSS = {
       block: this.api.styles.block,
-      wrapper: 'ce-paragraph'
+      wrapper: 'ce-paragraph',
     };
 
     if (!this.readOnly) {
@@ -64,17 +64,19 @@ export default class BudEditorParagraph {
      * Placeholder for paragraph if it is first Block
      * @type {string}
      */
-    this._placeholder = config.placeholder ? config.placeholder : BudEditorParagraph.DEFAULT_PLACEHOLDER;
+    this._placeholder = config.placeholder
+      ? config.placeholder
+      : BudEditorParagraph.DEFAULT_PLACEHOLDER;
     this._data = {};
     this._element = this.drawView();
-    this._preserveBlank = config.preserveBlank !== undefined ? config.preserveBlank : false;
+    this._preserveBlank =
+      config.preserveBlank !== undefined ? config.preserveBlank : false;
 
     this.data = data;
 
     this.nodes = {
       holder: null,
     };
-
   }
 
   /**
@@ -88,7 +90,7 @@ export default class BudEditorParagraph {
       return;
     }
 
-    const {textContent} = this._element;
+    const { textContent } = this._element;
 
     if (textContent === '') {
       this._element.innerHTML = '';
@@ -121,18 +123,14 @@ export default class BudEditorParagraph {
    * @returns {HTMLDivElement}
    */
   render() {
-
-    const rootNode = document.createElement("div");
+    const rootNode = document.createElement('div');
     // rootNode.setAttribute("class", this._CSS.wrapper);
     rootNode.classList.add(this._CSS.wrapper, this._CSS.block);
     this.nodes.holder = rootNode;
 
     const onDataChange = (newData) => {
-      console.log("----", "Changing Data",newData);
-
       // this.data.text = newData;
     };
-
 
     createRoot(rootNode).render(
       <BudEditorPragraphView
@@ -146,7 +144,6 @@ export default class BudEditorParagraph {
     );
     return this.nodes.holder;
 
-
     //return this._element;
   }
 
@@ -158,7 +155,7 @@ export default class BudEditorParagraph {
    */
   merge(data) {
     let newData = {
-      text : this.data.text + data.text
+      text: this.data.text + data.text,
     };
 
     this.data = newData;
@@ -197,7 +194,7 @@ export default class BudEditorParagraph {
    */
   onPaste(event) {
     const data = {
-      text: event.detail.data.innerHTML
+      text: event.detail.data.innerHTML,
     };
 
     this.data = data;
@@ -209,7 +206,7 @@ export default class BudEditorParagraph {
   static get conversionConfig() {
     return {
       export: 'text', // to convert Paragraph to other block, use 'text' property of saved data
-      import: 'text' // to covert other block's exported string to Paragraph, fill 'text' property of tool data
+      import: 'text', // to covert other block's exported string to Paragraph, fill 'text' property of tool data
     };
   }
 
@@ -220,7 +217,7 @@ export default class BudEditorParagraph {
     return {
       text: {
         br: true,
-      }
+      },
     };
   }
 
@@ -268,7 +265,7 @@ export default class BudEditorParagraph {
    */
   static get pasteConfig() {
     return {
-      tags: [ 'P' ]
+      tags: ['P'],
     };
   }
 
@@ -280,7 +277,7 @@ export default class BudEditorParagraph {
   static get toolbox() {
     return {
       icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 15v4H5v-4h14m1-2H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zM7 18.5c-.82 0-1.5-.67-1.5-1.5s.68-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM19 5v4H5V5h14m1-2H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zM7 8.5c-.82 0-1.5-.67-1.5-1.5S6.18 5.5 7 5.5s1.5.68 1.5 1.5S7.83 8.5 7 8.5z"/></svg>',
-      title: 'Text'
+      title: 'Text',
     };
   }
 }

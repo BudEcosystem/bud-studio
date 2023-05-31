@@ -11,7 +11,6 @@ function getRandomColor() {
   for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
-  console.log(color, 'asdasfd');
   return color;
 }
 
@@ -184,7 +183,6 @@ function MenuWorkSpaceInput({
     updateWorkspace({ value: workSpace, index });
   };
   const onEscapeButtonPressed = (event) => {
-    console.log('event', event);
     if (event.code === 'Escape') {
       setIsEditMode(false);
       setShowAddWorkspace(false);

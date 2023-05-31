@@ -8,7 +8,7 @@ import {
   deleteItem,
   renameItem,
   setCurrentSelectedDocument,
-  changeColor
+  changeColor,
 } from 'redux/slices/workspace';
 import { disableCreateNewTreeNode } from 'redux/slices/tree';
 import FlyoutMenu from 'components/WorkspaceModal/FlyoutMenu';
@@ -37,22 +37,18 @@ function Tree({
   const [treeData, setTreeData] = useState([]);
   useEffect(() => {
     if (data) {
-      console.log('inside tree', data);
       if (data.length > 0) {
         setTreeData(data);
       }
     }
   }, [data]);
   useEffect(() => {
-    console.log('createNewClickHandler - hsgvhs', treeState);
     const { createNewTreeFolder, createNewTreeDocument } = treeState;
     setIsDocCreateVisible(createNewTreeDocument);
     setIsFolderCreateVisible(createNewTreeFolder);
   }, [treeState]);
   const [activeNode, setActiveNode] = useState(null);
   const handleNodeClick = (node) => {
-    console.log('Active Node', node);
-
     if (activeNode === node) {
       setActiveNode(null);
     } else {
@@ -69,7 +65,6 @@ function Tree({
       if (event.key === 'Enter') {
         if (inputRefDoc.current?.value) {
           event.preventDefault();
-          console.log(inputRefDoc.current?.value, 'Doc');
           dispatch(
             createDoc({
               workSpaceDetails,
@@ -84,7 +79,6 @@ function Tree({
       if (event.key === 'Enter') {
         if (inputRefFolder.current?.value) {
           event.preventDefault();
-          console.log(inputRefFolder.current?.value, 'Folder');
           dispatch(
             createFolder({
               workSpaceDetails,
@@ -209,7 +203,6 @@ function TreeNode({
     setToggleFlyout((prev) => !prev);
   };
   const newMenuAddHandler = (newNode: any) => {
-    console.log('Add New Menu', newNode);
     if (addNewMenu) {
       addNewMenu(node, newNode);
     }
@@ -358,8 +351,6 @@ function ListItem({
   const inputBox = useRef() as React.MutableRefObject<HTMLInputElement>;
   const dispatch = useDispatch();
   const { workspace } = useSelector((state) => state);
-  console.log('workspace', workspace);
-  console.log('&&&', workSpaceDetails);
   useEffect(() => {
     setNewLabel(label);
   }, [label]);
@@ -412,14 +403,14 @@ function ListItem({
     setTimeout(() => {
       const workSpaceUUID = workSpaceDetails?.uuid;
       dispatch(setCurrentSelectedDocument({ id: label, uuid, workSpaceUUID }));
-      dispatch(setNodeIDs({ id: label, uuid, workSpaceUUID }));
-      dispatch(setCurrentSelectedUI(''));
-      dispatch(setSelectedOption('Editor'));
-      if(workSpaceDetails){
-      dispatch(changeColor({color: workSpaceDetails.color}))}
-      else {
-        dispatch(changeColor({color: "#343434"}))
-      }
+      // dispatch(setNodeIDs({ id: label, uuid, workSpaceUUID }));
+      // dispatch(setCurrentSelectedUI(''));
+      // dispatch(setSelectedOption('Editor'));
+      // if(workSpaceDetails){
+      // dispatch(changeColor({color: workSpaceDetails.color}))}
+      // else {
+      //   dispatch(changeColor({color: "#343434"}))
+      // }
     }, 1000);
   };
 
