@@ -42,14 +42,10 @@ function ContentView({
     const { currentWorkspace, currentSelectedDocId } = workspace;
     setSelectedDoc(currentSelectedDocId);
   }, [workspace]);
-  // useEffect(() => {
-  //   dispatch(
-  //     setCurrentSelectedDocument({
-  //       uuid: nodeIDs,
-  //       workSpaceUUID: workSpaceIndex,
-  //     })
-  //   );
-  // }, []);
+  useEffect(() => {
+    dispatch(setCurrentSelectedDocument(nodeIDs)
+    );
+  }, []);
   return (
     <Layout className={classes['site-layout']}>
       <HeaderComp
