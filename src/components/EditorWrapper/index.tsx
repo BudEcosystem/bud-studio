@@ -74,30 +74,35 @@ function EditorWrapper({
       icon: <TableIcon />,
       title: 'Database',
       subTitle: 'Add List, Kanban or Gantt Chart',
+      id: "",
     },
     {
       key: 'document',
       icon: <ListIcon />,
       title: 'Link Document',
       subTitle: 'Link to another document',
+      id: "",
     },
     {
       key: 'header',
       icon: <HeadingIcon />,
       title: 'Heading',
       subTitle: 'Write a heading.',
+      id: "",
     },
     {
       key: 'paragraph',
       icon: <ParagraphIcon />,
       title: 'Paragraph',
       subTitle: 'Write your words in paragraph.',
+      id: "",
     },
     {
       key: 'quote',
       icon: <TextIcon />,
       title: 'Quote',
       subTitle: 'Write a quote.',
+      id: "",
     },
     // ,{
     //   key: "link",
@@ -116,24 +121,28 @@ function EditorWrapper({
       icon: <TableIcon />,
       title: 'Simple Table',
       subTitle: 'Start a clean table.',
+      id: "",
     },
     {
       key: 'list',
       icon: <ListIcon />,
       title: 'List',
       subTitle: 'Jot down a list.',
+      id: "",
     },
     {
       key: 'raw',
       icon: <TextIcon />,
       title: 'Raw HTML',
       subTitle: 'Write down some raw HTML code.',
+      id: "",
     },
     {
       key: 'code',
       icon: <TextIcon />,
       title: 'Code',
       subTitle: 'Write some code in a block.',
+      id: "",
     },
   ]);
   // for checking if the particular editor has somedata
@@ -315,7 +324,7 @@ function EditorWrapper({
     colorRef.current = `${color}75`;
   }, [color]);
 
-  const insertBlock = (opt: any, title: any) => {
+  const insertBlock = (opt: any, title: any, id: any) => {
     const blockTypes = Object.keys(ejInstance?.current?.configuration?.tools);
     const currentBlockIndex =
       ejInstance?.current?.blocks.getCurrentBlockIndex();
@@ -339,18 +348,21 @@ function EditorWrapper({
           icon: <HeadingIcon />,
           title: 'List View',
           subTitle: 'Choose List View',
+          id: "",
         },
         {
           key: 'kanban',
           icon: <ParagraphIcon />,
           title: 'Kanban View',
           subTitle: 'Choose Kanban View',
+          id: "",
         },
         {
           key: 'gantt',
           icon: <TextIcon />,
           title: 'Gantt Chart',
           subTitle: 'Coming soon',
+          id: "",
         },
       ]);
       setShowDatabaseOptions(true);
@@ -379,7 +391,7 @@ function EditorWrapper({
           try {
             const savedData = await ejInstance?.current?.save();
             const currentData = savedData.blocks;
-            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;">[${title}]</span>`;
+            const hyperlink = `<span id="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">!${id}</span>${title}<span style="display: none;">]</span></span>`;
             if (blockIndex >= 0 && blockIndex < currentData.length) {
               const targetBlock = currentData[blockIndex];
               targetBlock.data.text += ` ${hyperlink}`;
@@ -413,12 +425,13 @@ function EditorWrapper({
     icon,
     title,
     subTitle,
+    id,
     onItemsMouseEnter,
   }: any) {
     return (
       <div
         style={style}
-        onClick={(e) => insertBlock(opt, title)}
+        onClick={(e) => insertBlock(opt, title, id)}
         className="EditorOptionComponent"
         onMouseEnter={onItemsMouseEnter}
       >
@@ -504,30 +517,35 @@ function EditorWrapper({
           icon: <TableIcon />,
           title: 'Database',
           subTitle: 'Add List, Kanban or Gantt Chart',
+          id: "",
         },
         {
           key: 'document',
           icon: <ListIcon />,
           title: 'Link Document',
           subTitle: 'Link to another document',
+          id: "",
         },
         {
           key: 'header',
           icon: <HeadingIcon />,
           title: 'Heading',
           subTitle: 'Write a heading.',
+          id: "",
         },
         {
           key: 'paragraph',
           icon: <ParagraphIcon />,
           title: 'Paragraph',
           subTitle: 'Write your words in paragraph.',
+          id: "",
         },
         {
           key: 'quote',
           icon: <TextIcon />,
           title: 'Quote',
           subTitle: 'Write a quote.',
+          id: "",
         },
         // ,{
         //   key: "link",
@@ -546,24 +564,28 @@ function EditorWrapper({
           icon: <TableIcon />,
           title: 'Simple Table',
           subTitle: 'Start a clean table.',
+          id: "",
         },
         {
           key: 'list',
           icon: <ListIcon />,
           title: 'List',
           subTitle: 'Jot down a list.',
+          id: "",
         },
         {
           key: 'raw',
           icon: <TextIcon />,
           title: 'Raw HTML',
           subTitle: 'Write down some raw HTML code.',
+          id: "",
         },
         {
           key: 'code',
           icon: <TextIcon />,
           title: 'Code',
           subTitle: 'Write some code in a block.',
+          id: "",
         },
       ]);
     }
@@ -770,6 +792,7 @@ function EditorWrapper({
                 icon={option.icon}
                 title={option.title}
                 subTitle={option.subTitle}
+                id={option.id}
                 onItemsMouseEnter={onItemsMouseEnter}
               />
             ))}
