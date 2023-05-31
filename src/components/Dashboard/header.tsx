@@ -139,7 +139,7 @@ const FileIcon = ({ themeColor }: any) => {
 function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
   const [feedtext, setFeedText] = useState('Editor');
   const [switchToggle, setSwitchToggle] = useState(false);
-  const { workspace }: any = useSelector((state) => state);
+  const { workspace, activestate }: any = useSelector((state) => state);
   let { color } = workspace;
   const switchToggled = () => {
     setSwitchToggle(!switchToggle);
@@ -189,6 +189,43 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
     },
   ];
 
+  // [
+  //   {
+  //     title: (
+  //       <>
+  //         <FolderIcon />
+  //         <span>Mobile App UI</span>
+  //       </>
+  //     ),
+  //   },
+  //   {
+  //     title: 'General',
+  //     menu: { items: menuItems },
+  //   },
+  //   {
+  //     title: (
+  //       <>
+  //         <FileIcon themeColor={color} />
+  //         <span style={{ color: color }}>UI/UX Design</span>
+  //       </>
+  //     ),
+  //   },
+  // ]
+  const { navigationPathArray } = activestate;
+  // const arrayHandler = () => {
+  //   const arr = [];
+  //   for (let i = navigationPathArray.length - 1; i >= 0; i--) {
+  //     const obj = {
+  //       title: (
+  //         <>
+  //           <FileIcon themeColor={color} />
+  //           <span style={{ color: color }}>{navigationPathArray[i].name}</span>
+  //         </>
+  //       ),
+  //     };
+  //   }
+  //   return arr;
+  // };
   return (
     <Header className={classes['site-layout-header']}>
       <SliderArrow slideFn={slideFn} isCollapsed={isCollapsed} />
@@ -263,29 +300,25 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
         <div className={classes['controls-box-path']}>
           <Breadcrumb
             className="BreadCrumb"
-            items={[
-              {
-                title: (
-                  <>
-                    <FolderIcon />
-                    <span>Mobile App UI</span>
-                  </>
-                ),
-              },
-              {
-                title: 'General',
-                menu: { items: menuItems },
-              },
-              {
-                title: (
-                  <>
-                    <FileIcon themeColor={color} />
-                    <span style={{ color: color }}>UI/UX Design</span>
-                  </>
-                ),
-              },
-            ]}
-          />
+            // items={}
+          >
+            {navigationPathArray.length > 1 &&
+              navigationPathArray?.map((item, index) => (
+                <Breadcrumb.Item key={index}>
+                  {index === navigationPathArray?.length - 1 ? (
+                    <>
+                      <FileIcon themeColor={color} />
+                      <span style={{ color: color }}>{item}</span>
+                    </>
+                  ) : (
+                    <>
+                      {item && <FolderIcon />}
+                      <span>{item}</span>
+                    </>
+                  )}
+                </Breadcrumb.Item>
+              ))}
+          </Breadcrumb>
         </div>
 
         <div className={classes['controls-switch-box']}>

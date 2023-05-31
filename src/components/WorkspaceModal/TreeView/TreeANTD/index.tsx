@@ -38,6 +38,9 @@ function TreeStructure({
   const reduxState: any = useSelector((state) => state);
   const [treeDataProcessed, setTreeData] = useState<any[]>([]);
   const [expandedKeys, setExpandedKeys] = useState<any[]>([]);
+
+  const [navigationPath, setNavigationPath] = useState<string[]>([]);
+
   const { workspace } = reduxState;
   console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
   console.log(workspace);
@@ -173,6 +176,12 @@ function TreeStructure({
     return new Promise((resolve) => {
       const { workSpaceDocs, workspaceFolders } = workspace;
       const WorkSpaceTreeData: any = [];
+
+      const updatedPath = [...navigationPath, node.title];
+      setNavigationPath(updatedPath);
+
+      console.log(updatedPath, 'sadfads', node);
+
       const selectedFolder = workspaceFolders.filter((folderData: any) => {
         return folderData?.uuid === node.key;
       });
@@ -201,6 +210,7 @@ function TreeStructure({
           isLeaf: true,
           color: node.color,
           docInput: false,
+          parent: data.childOf,
         };
         WorkSpaceTreeData.push(sampleObjectDoc);
       });
