@@ -306,10 +306,14 @@ function RenderChild({
   };
   const navPathHandler = (n) => {
     const par = findParent(n);
-    dispatch(setNavigationPath(null));
+    console.log("asdfasd", par, n)
+    dispatch(setNavigationPath(null)); 
     dispatch(setNavigationPath({ name: n.title }));
-    dispatch(setNavigationPath(par));
-    solveRec(par);
+    if(par){
+      dispatch(setNavigationPath(par));
+      solveRec(par);
+    }
+    dispatch(setNavigationPath({ name: workspaceDetails?.name}))
   };
   const clickHandler = () => {
     console.log('Asdfads', node);
@@ -321,7 +325,7 @@ function RenderChild({
         dispatch(
           setCurrentSelectedDocument({
             uuid: node.key,
-            workSpaceUUID,
+            workSpaceUUID
           })
         );
         dispatch(setNodeIDs({ uuid: node.key, workSpaceUUID }));
