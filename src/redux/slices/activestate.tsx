@@ -7,7 +7,6 @@ const generateInitialState = (): any => {
     currentSelectedUI: '',
     selectedOption: 'Editor',
     nodeIDs: {
-      id: null,
       uuid: null,
       workSpaceUUID: null,
     },
