@@ -10,6 +10,7 @@ const generateInitialState = (): any => {
       uuid: null,
       workSpaceUUID: null,
     },
+    navigationPath: null
   };
   return initialState;
 };
@@ -26,7 +27,10 @@ export const activestateSlice = createSlice({
     setNodeIDs: (state, action: PayloadAction<any>) => {
       state.nodeIDs = action.payload;
     },
+    setNavigationPath:  (state, action: PayloadAction<any>) => {
+      state.nodeIDs = action.payload;
+    },
   },
 });
-export const {setCurrentSelectedUI, setSelectedOption, setNodeIDs} = activestateSlice.actions;
+export const {setCurrentSelectedUI, setSelectedOption, setNodeIDs, setNavigationPath} = activestateSlice.actions;
 export default activestateSlice.reducer;
