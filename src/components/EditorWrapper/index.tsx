@@ -414,7 +414,7 @@ function EditorWrapper({
     const blockTypes = Object.keys(ejInstance?.current?.configuration?.tools);
     const currentBlockIndex =
       ejInstance?.current?.blocks.getCurrentBlockIndex();
-    if (opt && blockTypes.includes(opt) && currentBlockIndex <= -1) {
+    if (opt && blockTypes.includes(opt) && currentBlockIndex >= -1) {
       ejInstance?.current?.blocks.insert(opt, currentBlockIndex + 1);
       setShowEditorOptionsBlock(false);
     }
