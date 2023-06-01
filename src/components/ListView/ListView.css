@@ -379,6 +379,7 @@
     color: #585A5B;
     text-align: left;
     opacity: 1;
+    padding-left: 10px;
     /* Firefox */
 }
 
@@ -402,7 +403,9 @@
     background: #FFC556;
     border-radius: 6px;
     color: black;
+    font-size: 10px;
     margin-left: 20px;
+    cursor: pointer;
 }
 
 .cross {
