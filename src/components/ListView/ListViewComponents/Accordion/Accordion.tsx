@@ -3,30 +3,35 @@ import './Accordion.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Arrow, DownArrow, FourDots } from 'components/ListView/ListViewIcons';
-import { updatePosition } from 'redux/slices/list';
+import {
+  setExpandedItems,
+  setSelectedItemIndex,
+  updatePosition,
+} from 'redux/slices/list';
 import SubAccordion from './SubAccordion';
 import HeaderSubCompInput from '../HeaderSubCompInput';
 
 const Accordion = () => {
   const dispatch = useDispatch();
-  const { panelArray, newTaskClicked } = useSelector((state) => state.list);
-  const [expandedItems, setExpandedItems] = useState([0]);
-  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const { panelArray, newTaskClicked, expandedItems, selectedItemIndex } =
+    useSelector((state) => state.list);
+  // const [expandedItems, setExpandedItems] = useState([0]);
+  // const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const { workspace }: any = useSelector((state) => state);
   let { color } = workspace;
 
   const toggleAccordion = (index) => {
-    const updatedItems = [...expandedItems];
-    if (updatedItems.includes(index)) {
-      updatedItems.splice(updatedItems.indexOf(index), 1);
-    } else {
-      updatedItems.push(index);
-    }
-    setExpandedItems(updatedItems);
+    // const updatedItems = [...expandedItems];
+    // if (updatedItems.includes(index)) {
+    //   updatedItems.splice(updatedItems.indexOf(index), 1);
+    // } else {
+    //   updatedItems.push(index);
+    // }
+    dispatch(setExpandedItems(index));
   };
 
   const selectItem = (index) => {
-    setSelectedItemIndex(index);
+    dispatch(setSelectedItemIndex(index));
   };
 
   const onDragEnd = (result) => {

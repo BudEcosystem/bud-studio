@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   CheckList,
   SmallerFlag,
@@ -16,6 +16,11 @@ import { setNewTaskClicked, createNewTask } from 'redux/slices/list';
 const HeaderSubCompInput = ({ provided, selectedItem }) => {
   const dispatch = useDispatch();
   const [titleInput, setTitleInput] = useState('');
+
+  useEffect(() => {
+    document.getElementById('listInput')?.focus();
+  }, []);
+
   const crossClickHandler = () => {
     dispatch(setNewTaskClicked(false));
   };
@@ -42,6 +47,7 @@ const HeaderSubCompInput = ({ provided, selectedItem }) => {
           <div className="textIcon22"></div>
         </div>
         <input
+          id="listInput"
           type="text"
           placeholder="Enter new Task"
           // onBlur={onBlurHandler}

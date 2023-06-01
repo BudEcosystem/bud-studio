@@ -17,26 +17,25 @@ function ListView({ contentRef, workspaceObj }: any) {
   const [oneTime, setOneTime] = useState(true);
   const { tree, workspace }: any = useSelector((state) => state);
   const { color } = workspace;
-  const [currentFileName, setCurrentFileName] = useState("")
+  const [currentFileName, setCurrentFileName] = useState('');
 
   useEffect(() => {
     workspace.workSpaceDocs.map((doc: any) => {
-      if(workspace.currentSelectedDocId == doc.uuid){
-        setCurrentFileName(doc.name)
+      if (workspace.currentSelectedDocId == doc.uuid) {
+        setCurrentFileName(doc.name);
       }
-    })
-  }, [workspace])
+    });
+  }, [workspace]);
 
   useEffect(() => {
-    if(oneTime)
-    dispatch(editListTitle({newTitle: currentFileName}))
-  }, [])
+    if (oneTime) dispatch(editListTitle({ newTitle: currentFileName }));
+  }, []);
 
   const keyHandler = (event: any) => {
     if (event.key === 'Enter') {
       event.preventDefault();
       dispatch(editListTitle({ newTitle: event.target.innerText }));
-      setOneTime(false)
+      setOneTime(false);
       const heading = document.getElementById('editableTitle');
       heading?.blur();
     }
@@ -70,7 +69,7 @@ function ListView({ contentRef, workspaceObj }: any) {
                   fontSize: isSticky ? '10px' : '',
                   width: isSticky ? '14px' : '',
                   height: isSticky ? '14px' : '',
-                  background: `${color}`
+                  background: `${color}`,
                 }}
               >
                 <span className={`tick ${isSticky ? 'tickStick' : ''}`}>L</span>
@@ -109,10 +108,10 @@ function ListView({ contentRef, workspaceObj }: any) {
           <OptionsComponent isSticky={isSticky} contentRef={contentRef} />
         </div>
       </div>
-      <div className="curveContainer mgLeft">
+      <div className="curveContainer">
         <div className="borderCurveLine" />
       </div>
-      <div className="mainListComponentContainer mgLeft">
+      <div className="mainListComponentContainer">
         {/* <MainListComponent /> */}
         <Accordion />
       </div>
