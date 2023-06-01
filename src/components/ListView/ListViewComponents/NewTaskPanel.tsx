@@ -1,7 +1,11 @@
 import React from 'react';
 import { GroupBy, Sort, ThreeDots, Union, Views } from '../ListViewIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNewTaskClicked } from 'redux/slices/list';
+import {
+  checkToggle,
+  setExpandedItems,
+  setNewTaskClicked,
+} from 'redux/slices/list';
 
 const nameAndLogoArray = [
   {
@@ -25,11 +29,12 @@ const nameAndLogoArray = [
 const NewTaskPanel = () => {
   const dispatch = useDispatch();
   const { list }: any = useSelector((state) => state);
-  const { newTaskClicked } = list;
+  const { newTaskClicked, selectedItemIndex } = list;
   const { workspace }: any = useSelector((state) => state);
   let { color } = workspace;
   const newTaskHandler = () => {
     dispatch(setNewTaskClicked(!newTaskClicked));
+    dispatch(checkToggle(selectedItemIndex));
   };
   return (
     <div className="flexCenter">

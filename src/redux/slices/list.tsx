@@ -326,10 +326,14 @@ const generateInitialState = (): any => {
     title: 'Title',
     description: 'Enter the description.',
   };
+  const expandedItems = [0];
+  const selectedItemIndex = 0;
   const initialData = {
     panelArray,
     newTaskClicked,
     listTitleAndDesc,
+    expandedItems,
+    selectedItemIndex,
   };
   return initialData;
 };
@@ -373,6 +377,15 @@ export const listSlice = createSlice({
       const draggedItem = start.items[source.index];
       start.items.splice(source.index, 1);
       end.items.splice(destination.index, 0, draggedItem);
+
+      const expandedItems = [...state.expandedItems];
+      if (!expandedItems.includes(mapping[source.droppableId])) {
+        expandedItems.push(mapping[source.droppableId]);
+      }
+      if (!expandedItems.includes(mapping[destination.droppableId])) {
+        expandedItems.push(mapping[destination.droppableId]);
+      }
+      state.expandedItems = expandedItems;
       const updatedPanelArray = [...state.panelArray];
       state.panelArray = updatedPanelArray;
     },
@@ -394,6 +407,27 @@ export const listSlice = createSlice({
     editListDescription: (state, action: PayloadAction<any>) => {
       state.listTitleAndDesc.description = action.payload.newDesc;
     },
+    setExpandedItems: (state, action: PayloadAction<any>) => {
+      const updatedItems = [...state.expandedItems];
+      if (updatedItems.includes(action.payload)) {
+        updatedItems.splice(updatedItems.indexOf(action.payload), 1);
+      } else {
+        updatedItems.push(action.payload);
+      }
+      state.expandedItems = updatedItems;
+    },
+    setSelectedItemIndex: (state, action: PayloadAction<any>) => {
+      state.selectedItemIndex = action.payload;
+    },
+    checkToggle: (state, action: PayloadAction<any>) => {
+      const updatedItems = [...state.expandedItems];
+      if (updatedItems.includes(action.payload)) {
+        return;
+      } else {
+        updatedItems.push(action.payload);
+      }
+      state.expandedItems = updatedItems;
+    },
   },
 });
 
@@ -404,5 +438,8 @@ export const {
   editTitle,
   editListTitle,
   editListDescription,
+  setExpandedItems,
+  setSelectedItemIndex,
+  checkToggle,
 } = listSlice.actions;
 export default listSlice.reducer;

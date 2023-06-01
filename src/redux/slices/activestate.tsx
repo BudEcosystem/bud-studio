@@ -28,15 +28,11 @@ export const activestateSlice = createSlice({
       state.nodeIDs = action.payload;
     },
     setNavigationPath: (state, action: PayloadAction<any>) => {
-      console.log(action.payload, 'gfhfgh');
       if (action.payload === null) {
         state.navigationPathArray = [];
       } else {
         state.navigationPathArray?.unshift(action.payload?.name);
-        // state.navigationPathArray?.push(action.payload?.name)
       }
-      // state.navigationPath = state.navigationPath.concat(action.payload)
-      console.log(JSON.stringify(state.navigationPathArray), 'sdfads');
     },
   },
 });
