@@ -55,8 +55,8 @@ function EditorWrapper({
   const [coverUrl, setCoverUrl] = useState();
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
   const [iconUrl, setIconUrl] = useState();
-  const { tree, workspace }: any = useSelector((state) => state);
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
+  const { tree, workspace }: any = useSelector((state) => state);
   const { color, currentWorkspace, currentSelectedDocId } = workspace;
   const [render, setRender] = useState(false);
   const cursorRect = useRef<DOMRect>();
