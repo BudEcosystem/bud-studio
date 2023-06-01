@@ -108,10 +108,10 @@ function ListView({ contentRef, workspaceObj }: any) {
           <OptionsComponent isSticky={isSticky} contentRef={contentRef} />
         </div>
       </div>
-      <div className="curveContainer mgLeft">
+      <div className="curveContainer">
         <div className="borderCurveLine" />
       </div>
-      <div className="mainListComponentContainer mgLeft">
+      <div className="mainListComponentContainer">
         {/* <MainListComponent /> */}
         <Accordion />
       </div>
