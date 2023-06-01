@@ -24,7 +24,11 @@ import {
   ParagraphIcon,
   FileIcon,
 } from './EditorIcons';
-import { setCurrentSelectedUI, setSelectedOption } from 'redux/slices/activestate';
+import {
+  setCurrentSelectedUI,
+  setNodeIDs,
+  setSelectedOption,
+} from 'redux/slices/activestate';
 
 const DEFAULT_INITIAL_DATA = () => {
   return {
@@ -46,10 +50,10 @@ let fileMentionedArray: any = [];
 
 function EditorWrapper({
   data,
-  // setCurrentSelectedUI,
-  // selectedOption,
-  // setSelectedOption,
-}: any) {
+}: // setCurrentSelectedUI,
+// selectedOption,
+// setSelectedOption,
+any) {
   const ejInstance = useRef();
   const [editorData, setEditorData] = useState(null);
   const [coverUrl, setCoverUrl] = useState();
@@ -67,8 +71,10 @@ function EditorWrapper({
   const [showDocumentOptions, setShowDocumentOptions] = useState(false);
   const [showFirstOptions, setShowFirstOptions] = useState(true);
   const [workspaceFiles, setWorkspaceFiles] = useState(workspace.workSpaceDocs);
-  const [workspaceItems, setWorkspaceItems] = useState(workspace.workSpaceItems);
-  const [currentFileName, setCurrentFileName] = useState("");
+  const [workspaceItems, setWorkspaceItems] = useState(
+    workspace.workSpaceItems
+  );
+  const [currentFileName, setCurrentFileName] = useState('');
 
   const [editorOptions, setEditorOptions] = useState([
     {
@@ -76,35 +82,35 @@ function EditorWrapper({
       icon: <TableIcon />,
       title: 'Database',
       subTitle: 'Add List, Kanban or Gantt Chart',
-      id: "",
+      id: '',
     },
     {
       key: 'document',
       icon: <ListIcon />,
       title: 'Link Document',
       subTitle: 'Link to another document',
-      id: "",
+      id: '',
     },
     {
       key: 'header',
       icon: <HeadingIcon />,
       title: 'Heading',
       subTitle: 'Write a heading.',
-      id: "",
+      id: '',
     },
     {
       key: 'paragraph',
       icon: <ParagraphIcon />,
       title: 'Paragraph',
       subTitle: 'Write your words in paragraph.',
-      id: "",
+      id: '',
     },
     {
       key: 'quote',
       icon: <TextIcon />,
       title: 'Quote',
       subTitle: 'Write a quote.',
-      id: "",
+      id: '',
     },
     // ,{
     //   key: "link",
@@ -123,28 +129,28 @@ function EditorWrapper({
       icon: <TableIcon />,
       title: 'Simple Table',
       subTitle: 'Start a clean table.',
-      id: "",
+      id: '',
     },
     {
       key: 'list',
       icon: <ListIcon />,
       title: 'List',
       subTitle: 'Jot down a list.',
-      id: "",
+      id: '',
     },
     {
       key: 'raw',
       icon: <TextIcon />,
       title: 'Raw HTML',
       subTitle: 'Write down some raw HTML code.',
-      id: "",
+      id: '',
     },
     {
       key: 'code',
       icon: <TextIcon />,
       title: 'Code',
       subTitle: 'Write some code in a block.',
-      id: "",
+      id: '',
     },
   ]);
   // for checking if the particular editor has somedata
@@ -183,10 +189,10 @@ function EditorWrapper({
       ejInstance.current = null;
     }
     workspace.workSpaceDocs.map((doc: any) => {
-      if(workspace.currentSelectedDocId == doc.uuid){
-        setCurrentFileName(doc.name)
+      if (workspace.currentSelectedDocId == doc.uuid) {
+        setCurrentFileName(doc.name);
       }
-    })
+    });
     setWorkspaceFiles(workspace.workSpaceDocs);
   }, [workspace, ejInstance]);
 
@@ -230,7 +236,8 @@ function EditorWrapper({
             const textWithoutAsterisks = word.replace(regexnew, '');
             let textBetweenAsterisks;
             if (matches4 && matches4.length > 1) {
-              textBetweenAsterisks = matches4[1];}
+              textBetweenAsterisks = matches4[1];
+            }
             savedText = savedText?.replaceAll(
               match,
               `<span contenteditable="false" class="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">**${textBetweenAsterisks}**</span>${textWithoutAsterisks}<span style="display: none;">]</span></span>`
@@ -281,7 +288,8 @@ function EditorWrapper({
             const textWithoutAsterisks = word.replace(regexnew, '');
             let textBetweenAsterisks;
             if (matches4 && matches4.length > 1) {
-              textBetweenAsterisks = matches4[1];}
+              textBetweenAsterisks = matches4[1];
+            }
             savedText = savedText?.replaceAll(
               match,
               `<span contenteditable="false" class="hyperLinkId" style="font-weight: 400; color: ${colorRef.current}; text-decoration: underline; cursor: pointer;"><span style="display: none;">[</span><span style="display: none;">**${textBetweenAsterisks}**</span>${textWithoutAsterisks}<span style="display: none;">]</span></span>`
@@ -367,21 +375,21 @@ function EditorWrapper({
           icon: <HeadingIcon />,
           title: 'List View',
           subTitle: 'Choose List View',
-          id: "",
+          id: '',
         },
         {
           key: 'kanban',
           icon: <ParagraphIcon />,
           title: 'Kanban View',
           subTitle: 'Choose Kanban View',
-          id: "",
+          id: '',
         },
         {
           key: 'gantt',
           icon: <TextIcon />,
           title: 'Gantt Chart',
           subTitle: 'Coming soon',
-          id: "",
+          id: '',
         },
       ]);
       setShowDatabaseOptions(true);
@@ -395,7 +403,7 @@ function EditorWrapper({
           icon: <FileIcon />,
           title: file.name,
           subTitle: `Link ${file.name} to this block`,
-          id: file.uuid
+          id: file.uuid,
         };
         listofFiles.push(obj);
       });
@@ -419,7 +427,7 @@ function EditorWrapper({
               ejInstance?.current?.render({ blocks: currentData });
               setShowEditorOptionsBlock(false);
               setTimeout(() => {
-                checkForMentions()
+                checkForMentions();
               }, 100);
             }
           } catch (error) {
@@ -495,7 +503,6 @@ function EditorWrapper({
       const { activeElement } = document;
       cursorRect.current = activeElement?.getBoundingClientRect();
       setShowEditorOptionsBlock(!showEditorOptionsBlock);
-
     }
   };
 
@@ -514,45 +521,56 @@ function EditorWrapper({
   }, [showEditorOptionsBlock]);
 
   useEffect(() => {
-      const hyperLinkDiv: any = document.querySelectorAll('.hyperLinkId');
-      hyperLinkDiv.forEach((linkElement : any) => {
-      if(linkElement) {
-      const regex4 = /\*\*(.*?)\*\*/;
-      const text = linkElement?.textContent;
-      let fileId: any;
-      const matches4 = text.match(regex4);
-      if (matches4 && matches4.length > 1) {
-        fileId = matches4[1];
-        console.log("THE HYPERLINK ID IS", fileId)}
+    const hyperLinkDiv: any = document.querySelectorAll('.hyperLinkId');
+    hyperLinkDiv.forEach((linkElement: any) => {
+      if (linkElement) {
+        const regex4 = /\*\*(.*?)\*\*/;
+        const text = linkElement?.textContent;
+        let fileId: any;
+        const matches4 = text.match(regex4);
+        if (matches4 && matches4.length > 1) {
+          fileId = matches4[1];
+          console.log('THE HYPERLINK ID IS', fileId);
+        }
         let idOfWorkspace: any;
         let colorofWorkspace: any;
 
         workspaceFiles.map((file: any) => {
-          if(file.uuid == fileId) {
+          if (file.uuid == fileId) {
             idOfWorkspace = file.workSpaceUUID;
           }
-        })
+        });
 
         workspaceItems.map((item: any) => {
-          if(idOfWorkspace == item.uuid) {
+          if (idOfWorkspace == item.uuid) {
             colorofWorkspace = item.color;
           }
-        })
-
-      console.log("ID OF WORKPPACE =", idOfWorkspace)
-      if (fileId && idOfWorkspace && colorofWorkspace) {
-          linkElement?.addEventListener('click', () => {
-          console.log("THE INSIDE TEXT IS", text)
-          dispatch(setCurrentSelectedDocument({ id: null }));
-          setTimeout(() => {
-            dispatch(setCurrentSelectedDocument({ uuid: fileId, workSpaceUUID: idOfWorkspace, }));
-            dispatch(changeColor({ color:  colorofWorkspace}));
-          }, 1000);
         });
+
+        console.log('ID OF WORKPPACE =', idOfWorkspace);
+        if (fileId && idOfWorkspace && colorofWorkspace) {
+          linkElement?.addEventListener('click', () => {
+            console.log('THE INSIDE TEXT IS', text);
+            dispatch(setCurrentSelectedDocument({ id: null }));
+            setTimeout(() => {
+              dispatch(
+                setCurrentSelectedDocument({
+                  uuid: fileId,
+                  workSpaceUUID: idOfWorkspace,
+                })
+              );
+              dispatch(
+                setNodeIDs({ uuid: fileId, workSpaceUUID: idOfWorkspace })
+              );
+              dispatch(setCurrentSelectedUI(''));
+              dispatch(setSelectedOption('Editor'));
+              dispatch(changeColor({ color: colorofWorkspace }));
+            }, 1000);
+          });
+        }
       }
-      }
-    })
     });
+  });
 
   useEffect(() => {
     if (showFirstOptions == true) {
@@ -562,35 +580,35 @@ function EditorWrapper({
           icon: <TableIcon />,
           title: 'Database',
           subTitle: 'Add List, Kanban or Gantt Chart',
-          id: "",
+          id: '',
         },
         {
           key: 'document',
           icon: <ListIcon />,
           title: 'Link Document',
           subTitle: 'Link to another document',
-          id: "",
+          id: '',
         },
         {
           key: 'header',
           icon: <HeadingIcon />,
           title: 'Heading',
           subTitle: 'Write a heading.',
-          id: "",
+          id: '',
         },
         {
           key: 'paragraph',
           icon: <ParagraphIcon />,
           title: 'Paragraph',
           subTitle: 'Write your words in paragraph.',
-          id: "",
+          id: '',
         },
         {
           key: 'quote',
           icon: <TextIcon />,
           title: 'Quote',
           subTitle: 'Write a quote.',
-          id: "",
+          id: '',
         },
         // ,{
         //   key: "link",
@@ -609,28 +627,28 @@ function EditorWrapper({
           icon: <TableIcon />,
           title: 'Simple Table',
           subTitle: 'Start a clean table.',
-          id: "",
+          id: '',
         },
         {
           key: 'list',
           icon: <ListIcon />,
           title: 'List',
           subTitle: 'Jot down a list.',
-          id: "",
+          id: '',
         },
         {
           key: 'raw',
           icon: <TextIcon />,
           title: 'Raw HTML',
           subTitle: 'Write down some raw HTML code.',
-          id: "",
+          id: '',
         },
         {
           key: 'code',
           icon: <TextIcon />,
           title: 'Code',
           subTitle: 'Write some code in a block.',
-          id: "",
+          id: '',
         },
       ]);
     }
