@@ -308,6 +308,7 @@ function TreeStructure({
           setExpandedKeys={setExpandedKeys}
           workspaceDetails={workspaceDetails}
           setShowDocumentOptions={setShowDocumentOptions}
+          color={color}
         />
       </div>
     );

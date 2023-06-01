@@ -37,6 +37,7 @@ function RenderChild({
   setExpandedKeys,
   workspaceDetails,
   setShowDocumentOptions,
+  color
 }: any) {
   const [currentNode, setCurrentNode] = useState<any>();
   const getParentIds = (
@@ -240,7 +241,7 @@ function RenderChild({
     const flag = currentNode?.level !== 0 || currentNode?.isLeaf;
     const colourDetermined = flag
       ? 'transparent'
-      : 'linear-gradient(90.28deg, rgba(138, 142, 233, 0.16) 4.88%, rgba(17, 21, 18, 0) 91.54%)';
+      : `linear-gradient(90.28deg, ${color}45 4.88%, rgba(17, 21, 18, 0) 91.54%)`;
     return colourDetermined;
   };
   const reduxState: any = useSelector((state) => state);
