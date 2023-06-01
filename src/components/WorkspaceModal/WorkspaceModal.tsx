@@ -22,6 +22,7 @@ import {
   Move,
   Plus,
   RightArrow,
+  SearchIconShortcut
 } from './WorkspaceIcons';
 import TreeView from './TreeView/TreeView';
 import './WorkspaceModal.css';
@@ -294,6 +295,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                 ref={searchInputFieldRef}
                 id="searchFlyout"
               />
+              <SearchIconShortcut/>
             </div>
 
             {/* <TreeView

@@ -1,12 +1,15 @@
 import React from 'react';
 import { SearchIcon } from './SearchIcon';
+import { useSelector } from 'react-redux';
 
-function SearchBar({ themeColor }) {
+function SearchBar() {
+  const { tree, workspace }: any = useSelector((state) => state);
+  const { color, currentWorkspace, currentSelectedDocId } = workspace;
   return (
     <div
       className="SearchBarGradient"
       style={{
-        background: `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, ${themeColor} 57.81%, rgba(175, 147, 218, 0.05) 100%)`,
+        background: `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, ${color} 57.81%, rgba(175, 147, 218, 0.05) 100%)`,
       }}
     >
       <div className="SearchBar">

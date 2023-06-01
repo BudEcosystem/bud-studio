@@ -395,6 +395,7 @@
   color: var(--white-color);
   z-index: 1;
   transition: all 0.3s;
+  margin-right: 5px;
 }
 
 .sidebar-work-spaces-box-p:hover {
