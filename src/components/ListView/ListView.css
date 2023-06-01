@@ -77,7 +77,7 @@
     margin-top: .5px;
 }
 
-.tickAppMode{
+.tickAppMode {
     font-family: arial;
     -ms-transform: scaleX(-1) rotate(-35deg);
     -webkit-transform: scaleX(-1) rotate(-35deg);
@@ -105,7 +105,7 @@
     align-items: center;
 }
 
-.kabuniLogoAppMode{
+.kabuniLogoAppMode {
     width: 14px;
     height: 14px;
     mix-blend-mode: lighten;
@@ -126,7 +126,7 @@
     margin-left: 10px;
 }
 
-.kabuniTextAppMode{
+.kabuniTextAppMode {
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -462,7 +462,7 @@
     opacity: 1;
 }
 
-.titleInputDesc{
+.titleInputDesc {
     background-color: rgba(217, 217, 217, 0.05);
     border: none;
     caret-color: #F9D45D;

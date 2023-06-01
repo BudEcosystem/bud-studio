@@ -328,6 +328,7 @@ const generateInitialState = (): any => {
   };
   const expandedItems = [0];
   const selectedItemIndex = 0;
+  const oneTime = true;
   const initialData = {
     panelArray,
     newTaskClicked,
@@ -402,6 +403,7 @@ export const listSlice = createSlice({
       }
     },
     editListTitle: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
       state.listTitleAndDesc.title = action.payload.newTitle;
     },
     editListDescription: (state, action: PayloadAction<any>) => {
@@ -418,6 +420,9 @@ export const listSlice = createSlice({
     },
     setSelectedItemIndex: (state, action: PayloadAction<any>) => {
       state.selectedItemIndex = action.payload;
+    },
+    setOneTime: (state, action: PayloadAction<any>) => {
+      state.oneTime = action.payload;
     },
     checkToggle: (state, action: PayloadAction<any>) => {
       const updatedItems = [...state.expandedItems];
@@ -441,5 +446,6 @@ export const {
   setExpandedItems,
   setSelectedItemIndex,
   checkToggle,
+  setOneTime,
 } = listSlice.actions;
 export default listSlice.reducer;
