@@ -11,7 +11,7 @@ import {
 import SubAccordion from './SubAccordion';
 import HeaderSubCompInput from '../HeaderSubCompInput';
 
-const Accordion = () => {
+const Accordion = ({isAppMode}) => {
   const dispatch = useDispatch();
   const { panelArray, newTaskClicked, expandedItems, selectedItemIndex } =
     useSelector((state) => state.list);
@@ -39,7 +39,7 @@ const Accordion = () => {
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="accordionParent">
+      <div className="accordionParent" style={{width: `${isAppMode ? '100%': ''}`, marginLeft: `${isAppMode ? '32px': ''}`}}>
         {panelArray?.map((item, i) => (
           <Droppable droppableId={item.status} key={i}>
             {(provided, snapshot) => (

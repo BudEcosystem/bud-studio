@@ -6,6 +6,7 @@ import MainListComponent from './ListViewComponents/MainListComponent';
 import { useSelector, useDispatch } from 'react-redux';
 import Accordion from './ListViewComponents/Accordion/Accordion';
 import { editListTitle, editListDescription } from 'redux/slices/list';
+import AppModeHeader from './ListViewComponents/AppModeHeader';
 
 function ListView({ contentRef, workspaceObj }: any) {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function ListView({ contentRef, workspaceObj }: any) {
   const { tree, workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [currentFileName, setCurrentFileName] = useState('');
-
+  const [isAppMode, setIsAppMode] = useState(true);
   useEffect(() => {
     workspace.workSpaceDocs.map((doc: any) => {
       if (workspace.currentSelectedDocId == doc.uuid) {
@@ -51,69 +52,81 @@ function ListView({ contentRef, workspaceObj }: any) {
   return (
     <>
       <div className="listViewContainer" ref={kabuniRef}>
-        <div className="addCoverContainer">
-          <div className="flexCenter">
-            <AddCover />
-          </div>
-          <p className="addCoverText">Add cover</p>
-        </div>
-        <div className="mgLeft">
-          <div
-            style={{ backgroundColor: 'var(--primary-bgc-light)' }}
-            className={`kabuni ${isSticky ? 'sticky' : ''}`}
-          >
-            <div className="kabuni" style={{}}>
+        {!isAppMode ? (
+          <>
+            <div className="addCoverContainer">
+              <div className="flexCenter">
+                <AddCover />
+              </div>
+              <p className="addCoverText">Add cover</p>
+            </div>
+            <div className="mgLeft">
               <div
-                className="kabuniLogo"
-                style={{
-                  fontSize: isSticky ? '10px' : '',
-                  width: isSticky ? '14px' : '',
-                  height: isSticky ? '14px' : '',
-                  background: `${color}`,
-                }}
+                style={{ backgroundColor: 'var(--primary-bgc-light)' }}
+                className={`kabuni ${isSticky ? 'sticky' : ''}`}
               >
-                <span className={`tick ${isSticky ? 'tickStick' : ''}`}>L</span>
-                <span className={`tick ${isSticky ? 'tickStick' : ''}`}>L</span>
-                <span className={`tick ${isSticky ? 'tickStick' : ''}`}>L</span>
+                <div className="kabuni" style={{}}>
+                  <div
+                    className="kabuniLogo"
+                    style={{
+                      fontSize: isSticky ? '10px' : '',
+                      width: isSticky ? '14px' : '',
+                      height: isSticky ? '14px' : '',
+                      background: `${color}`,
+                    }}
+                  >
+                    <span className={`tick ${isSticky ? 'tickStick' : ''}`}>
+                      L
+                    </span>
+                    <span className={`tick ${isSticky ? 'tickStick' : ''}`}>
+                      L
+                    </span>
+                    <span className={`tick ${isSticky ? 'tickStick' : ''}`}>
+                      L
+                    </span>
+                  </div>
+                  <p
+                    className="kabuniText"
+                    id="editableTitle"
+                    style={{
+                      fontSize: isSticky ? '18px' : '',
+                      border: 'none',
+                      outline: 'none',
+                    }}
+                    contentEditable={true}
+                    onKeyDown={keyHandler}
+                  >
+                    {currentFileName}
+                  </p>
+                </div>
               </div>
               <p
-                className="kabuniText"
-                id="editableTitle"
+                id="editableDesc"
+                className="kabuniBottomText"
+                contentEditable={true}
                 style={{
-                  fontSize: isSticky ? '18px' : '',
                   border: 'none',
                   outline: 'none',
                 }}
-                contentEditable={true}
-                onKeyDown={keyHandler}
+                onKeyDown={keyHandler2}
               >
-                {currentFileName}
+                {description}
               </p>
             </div>
-          </div>
-          <p
-            id="editableDesc"
-            className="kabuniBottomText"
-            contentEditable={true}
-            style={{
-              border: 'none',
-              outline: 'none',
-            }}
-            onKeyDown={keyHandler2}
-          >
-            {description}
-          </p>
-        </div>
-        <div className="optionsComponentContainer mgLeft">
-          <OptionsComponent isSticky={isSticky} contentRef={contentRef} />
-        </div>
+            <div className="optionsComponentContainer mgLeft">
+              <OptionsComponent isSticky={isSticky} contentRef={contentRef} />
+            </div>
+          </>
+        ) : (
+          <AppModeHeader />
+        )}
       </div>
-      <div className="curveContainer">
+      {!isAppMode && <div className="curveContainer">
         <div className="borderCurveLine" />
-      </div>
+      </div>}
       <div className="mainListComponentContainer">
         {/* <MainListComponent /> */}
-        <Accordion />
+        <Accordion isAppMode={isAppMode}/>
       </div>
     </>
   );

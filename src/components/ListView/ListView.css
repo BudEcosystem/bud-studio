@@ -38,7 +38,7 @@
 
 .kabuni {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .sticky {
@@ -77,6 +77,18 @@
     margin-top: .5px;
 }
 
+.tickAppMode{
+    font-family: arial;
+    -ms-transform: scaleX(-1) rotate(-35deg);
+    -webkit-transform: scaleX(-1) rotate(-35deg);
+    transform: scaleX(-1) rotate(-35deg);
+    font-size: 8px;
+    font-weight: bold;
+    line-height: 0.5;
+    margin-left: -5px;
+    /* margin-top: .2px; */
+}
+
 .tickStick {
     font-size: 8px;
     /* margin-left: .1px; */
@@ -93,11 +105,31 @@
     align-items: center;
 }
 
+.kabuniLogoAppMode{
+    width: 14px;
+    height: 14px;
+    mix-blend-mode: lighten;
+    border-radius: 1.99539px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .kabuniText {
     /* font-family: 'Noto Sans'; */
     font-style: normal;
     font-weight: 400;
     font-size: 32px;
+    line-height: 100%;
+    color: #FFFFFF;
+    margin-left: 10px;
+}
+
+.kabuniTextAppMode{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
     line-height: 100%;
     color: #FFFFFF;
     margin-left: 10px;
