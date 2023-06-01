@@ -59,8 +59,8 @@ any) {
   const [coverUrl, setCoverUrl] = useState();
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
   const [iconUrl, setIconUrl] = useState();
-  const { tree, workspace }: any = useSelector((state) => state);
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
+  const { tree, workspace }: any = useSelector((state) => state);
   const { color, currentWorkspace, currentSelectedDocId } = workspace;
   const [render, setRender] = useState(false);
   const cursorRect = useRef<DOMRect>();
@@ -215,7 +215,7 @@ any) {
             // Apply styling to the matched text
             savedText = savedText?.replaceAll(
               match,
-              `<span style="color: white;">@${word}</span>`
+              `<span contenteditable="false" style="color: white;">@${word}</span>`
             );
           });
         }
@@ -224,7 +224,7 @@ any) {
             const word = match.slice(1);
             savedText = savedText?.replaceAll(
               match,
-              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+              `<span contenteditable="false" style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
             );
           });
         }
@@ -267,7 +267,7 @@ any) {
             // Apply styling to the matched text
             savedText = savedText?.replaceAll(
               match,
-              `<span style="color: white;">@${word}</span>`
+              `<span contenteditable="false" style="color: white;">@${word}</span>`
             );
           });
         }
@@ -276,7 +276,7 @@ any) {
             const word = match.slice(1);
             savedText = savedText?.replaceAll(
               match,
-              `<span style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
+              `<span contenteditable="false" style="padding-left: 5px; padding-right: 5px; border-radius: 5px; color: white;background-color: ${colorRef.current};"><span style="display: none;">#</span>${word}</span>`
             );
           });
         }
