@@ -23,7 +23,7 @@ function ListView({ contentRef, workspaceObj }: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [currentFileName, setCurrentFileName] = useState('');
-  const [isAppMode, setIsAppMode] = useState(true);
+  const [isAppMode, setIsAppMode] = useState(false);
 
   useEffect(() => {
     if (oneTime) {
