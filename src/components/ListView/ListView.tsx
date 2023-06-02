@@ -5,37 +5,51 @@ import OptionsComponent from './ListViewComponents/OptionsComponent';
 import MainListComponent from './ListViewComponents/MainListComponent';
 import { useSelector, useDispatch } from 'react-redux';
 import Accordion from './ListViewComponents/Accordion/Accordion';
-import { editListTitle, editListDescription } from 'redux/slices/list';
+import {
+  editListTitle,
+  editListDescription,
+  setOneTime,
+} from 'redux/slices/list';
+import AppModeHeader from './ListViewComponents/AppModeHeader';
 
 function ListView({ contentRef, workspaceObj }: any) {
   const dispatch = useDispatch();
   const { content, list }: any = useSelector((state) => state);
-  const { listTitleAndDesc } = list;
+  const { listTitleAndDesc, oneTime } = list;
   const { title, description } = listTitleAndDesc;
   const kabuniRef = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
-  const [oneTime, setOneTime] = useState(true);
-  const { tree, workspace }: any = useSelector((state) => state);
+  // const [oneTime, setOneTime] = useState(true);
+  const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [currentFileName, setCurrentFileName] = useState('');
+  const [isAppMode, setIsAppMode] = useState(false);
 
   useEffect(() => {
-    workspace.workSpaceDocs.map((doc: any) => {
-      if (workspace.currentSelectedDocId == doc.uuid) {
-        setCurrentFileName(doc.name);
-      }
-    });
-  }, [workspace]);
+    if (oneTime) {
+      setTimeout(() => {
+        workspace.workSpaceDocs.map((doc: any) => {
+          if (workspace.currentSelectedDocId === doc.uuid) {
+            setCurrentFileName(doc.name);
+          }
+        });
+      }, 0);
 
-  useEffect(() => {
-    if (oneTime) dispatch(editListTitle({ newTitle: currentFileName }));
+      dispatch(setOneTime(false));
+    }
   }, []);
+
+  useEffect(() => {
+    if (currentFileName !== '') {
+      dispatch(editListTitle({ newTitle: currentFileName }));
+    }
+  }, [currentFileName]);
 
   const keyHandler = (event: any) => {
     if (event.key === 'Enter') {
       event.preventDefault();
       dispatch(editListTitle({ newTitle: event.target.innerText }));
-      setOneTime(false);
+      dispatch(setOneTime(false));
       const heading = document.getElementById('editableTitle');
       heading?.blur();
     }
@@ -51,69 +65,83 @@ function ListView({ contentRef, workspaceObj }: any) {
   return (
     <>
       <div className="listViewContainer" ref={kabuniRef}>
-        <div className="addCoverContainer">
-          <div className="flexCenter">
-            <AddCover />
-          </div>
-          <p className="addCoverText">Add cover</p>
-        </div>
-        <div className="mgLeft">
-          <div
-            style={{ backgroundColor: 'var(--primary-bgc-light)' }}
-            className={`kabuni ${isSticky ? 'sticky' : ''}`}
-          >
-            <div className="kabuni" style={{}}>
+        {!isAppMode ? (
+          <>
+            <div className="addCoverContainer">
+              <div className="flexCenter">
+                <AddCover />
+              </div>
+              <p className="addCoverText">Add cover</p>
+            </div>
+            <div className="mgLeft">
               <div
-                className="kabuniLogo"
-                style={{
-                  fontSize: isSticky ? '10px' : '',
-                  width: isSticky ? '14px' : '',
-                  height: isSticky ? '14px' : '',
-                  background: `${color}`,
-                }}
+                style={{ backgroundColor: 'var(--primary-bgc-light)' }}
+                className={`kabuni ${isSticky ? 'sticky' : ''}`}
               >
-                <span className={`tick ${isSticky ? 'tickStick' : ''}`}>L</span>
-                <span className={`tick ${isSticky ? 'tickStick' : ''}`}>L</span>
-                <span className={`tick ${isSticky ? 'tickStick' : ''}`}>L</span>
+                <div className="kabuni" style={{}}>
+                  <div
+                    className="kabuniLogo"
+                    style={{
+                      fontSize: isSticky ? '10px' : '',
+                      width: isSticky ? '14px' : '',
+                      height: isSticky ? '14px' : '',
+                      background: `${color}`,
+                    }}
+                  >
+                    <span className={`tick ${isSticky ? 'tickStick' : ''}`}>
+                      L
+                    </span>
+                    <span className={`tick ${isSticky ? 'tickStick' : ''}`}>
+                      L
+                    </span>
+                    <span className={`tick ${isSticky ? 'tickStick' : ''}`}>
+                      L
+                    </span>
+                  </div>
+                  <p
+                    className="kabuniText"
+                    id="editableTitle"
+                    style={{
+                      fontSize: isSticky ? '18px' : '',
+                      border: 'none',
+                      outline: 'none',
+                    }}
+                    contentEditable={true}
+                    onKeyDown={keyHandler}
+                  >
+                    {title}
+                  </p>
+                </div>
               </div>
               <p
-                className="kabuniText"
-                id="editableTitle"
+                id="editableDesc"
+                className="kabuniBottomText"
+                contentEditable={true}
                 style={{
-                  fontSize: isSticky ? '18px' : '',
                   border: 'none',
                   outline: 'none',
                 }}
-                contentEditable={true}
-                onKeyDown={keyHandler}
+                onKeyDown={keyHandler2}
               >
-                {currentFileName}
+                {description}
               </p>
             </div>
-          </div>
-          <p
-            id="editableDesc"
-            className="kabuniBottomText"
-            contentEditable={true}
-            style={{
-              border: 'none',
-              outline: 'none',
-            }}
-            onKeyDown={keyHandler2}
-          >
-            {description}
-          </p>
-        </div>
-        <div className="optionsComponentContainer mgLeft">
-          <OptionsComponent isSticky={isSticky} contentRef={contentRef} />
-        </div>
+            <div className="optionsComponentContainer mgLeft">
+              <OptionsComponent isSticky={isSticky} contentRef={contentRef} />
+            </div>
+          </>
+        ) : (
+          <AppModeHeader />
+        )}
       </div>
-      <div className="curveContainer">
-        <div className="borderCurveLine" />
-      </div>
+      {!isAppMode && (
+        <div className="curveContainer">
+          <div className="borderCurveLine" />
+        </div>
+      )}
       <div className="mainListComponentContainer">
         {/* <MainListComponent /> */}
-        <Accordion />
+        <Accordion isAppMode={isAppMode} />
       </div>
     </>
   );
