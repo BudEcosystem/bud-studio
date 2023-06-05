@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 .listViewContainer {
     /* margin-left: 56px; */
 }
@@ -10,7 +11,7 @@
 .addCoverContainer {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    align-items: baseline;
     margin-right: 4px;
 }
 
@@ -33,7 +34,7 @@
     line-height: 19px;
     letter-spacing: -0.02em;
     color: #333539;
-    /* margin-left: 5px; */
+    margin-left: 5px;
 }
 
 .kabuni {
@@ -229,16 +230,16 @@
     margin-left: 24px;
     display: flex;
     align-items: center;
-    padding: 5px;
+    padding: 3px;
     cursor: pointer;
 }
 
 .plusContainer {
     width: 27px;
-    height: 26px;
+    height: 27px;
     background: #0F0F0F;
     border-radius: 5px;
-    font-size: 25px;
+    font-size: 18px;
     font-weight: 400;
     color: #939AFF;
 }
@@ -477,4 +478,16 @@
     font-size: 14px;
     width: 40%;
     /* margin-left: 16px; */
+}
+
+.datatitleText{
+    font-family: 'Noto Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 154.5%;
+    /* identical to box height, or 22px */
+    
+    
+    color: #FFFFFF;
 }

@@ -51,7 +51,7 @@ const NewTaskPanel = () => {
         <div className="plusContainer flexCenter" style={{ color: color }}>
           +
         </div>
-        <div className="newTaskText">New Task</div>
+        <div className="newTaskText">New list</div>
       </div>
       <div className="threeDots flexCenter">
         <ThreeDots />

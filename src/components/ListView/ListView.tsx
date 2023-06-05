@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AddCover } from './ListViewIcons';
+import { AddCover, KabuniLogo } from './ListViewIcons';
 import './ListView.css';
 import OptionsComponent from './ListViewComponents/OptionsComponent';
 import MainListComponent from './ListViewComponents/MainListComponent';
@@ -88,6 +88,7 @@ function ListView({ contentRef, workspaceObj }: any) {
                       background: `${color}`,
                     }}
                   >
+                    {/* <KabuniLogo /> */}
                     <span className={`tick ${isSticky ? 'tickStick' : ''}`}>
                       L
                     </span>

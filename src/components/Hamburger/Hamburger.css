@@ -37,9 +37,9 @@
 }
 
 .verticalBar {
-    width: 5px;
+    width: 3px;
     height: 80px;
-    margin-left: 4px;
+    margin-left: 5px;
     margin-top: 2px;
     background: linear-gradient(180deg, #939AFF 0%, rgba(147, 154, 255, 0) 100%);
     border-radius: 1.5px 1.5px 0px 14px;

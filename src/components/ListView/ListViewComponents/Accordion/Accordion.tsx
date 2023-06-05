@@ -80,7 +80,7 @@ const Accordion = ({ isAppMode }) => {
                         className="textIcon"
                         style={{ background: item.colorIcon }}
                       />
-                      <p style={{ marginLeft: '8px' }}>{item.headerText}</p>
+                      <p className="textHeader" style={{ marginLeft: '8px' }}>{item.headerText}</p>
                     </div>
                   </div>
                   {expandedItems.includes(i) && (
