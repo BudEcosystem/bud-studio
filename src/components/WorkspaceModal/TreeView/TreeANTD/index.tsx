@@ -42,9 +42,6 @@ function TreeStructure({
   const [navigationPath, setNavigationPath] = useState<string[]>([]);
 
   const { workspace } = reduxState;
-  console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-  console.log(workspace);
-  console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
   const initData = () => {
     const { workSpaceDocs, workspaceFolders } = workspace;
     const WorkSpaceTreeData: any = [];

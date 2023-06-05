@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HamburgerItems from './HamburgerItems';
 import './Hamburger.css';
 import {
@@ -8,16 +8,40 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentSelectedDocument } from 'redux/slices/workspace';
 
-const HamburgerOptions = ['', 'Editor', 'List View', 'Kanban View', '', ''];
+// const HamburgerOptions = ['', 'Editor', 'List View', 'Kanban View', '', ''];
+const HamburgerOptions = [{ title: '' }, { title: 'Editor' }];
 
-function Hamburger({}: any) {
+function Hamburger() {
   // const [selectedOption, setSelectedOption] = useState('editor');
   const dispatch = useDispatch();
   const { activestate }: any = useSelector((state) => state);
-  let { selectedOption, nodeIDs } = activestate;
+  const { selectedOption, nodeIDs } = activestate;
   const { tree, workspace }: any = useSelector((state) => state);
-  const { color, currentWorkspace, currentSelectedDocId, applicationData } = workspace;
-
+  const {
+    color,
+    currentWorkspace,
+    currentSelectedDocId,
+    applicationData,
+    editorApplicationsAdded,
+  } = workspace;
+  useEffect(() => {
+    let { editorApplicationsAdded, currentSelectedDocId } = workspace;
+    let documentApps = editorApplicationsAdded.filter(
+      (data) => data.docId === currentSelectedDocId
+    );
+    console.log('documentApps', documentApps);
+    documentApps.forEach((document: any) => {
+      const filteredArray = HamburgerOptions.filter(
+        (data: any) =>
+          data.docId === currentSelectedDocId &&
+          data.applicatioId === document.applicatioId
+      );
+      if (filteredArray.length === 0) {
+        HamburgerOptions.push(document);
+      }
+    });
+  }, [workspace]);
+  console.log(HamburgerOptions);
   const handleOptionClick = (option: any) => {
     if (option === '') {
       return;
@@ -26,29 +50,28 @@ function Hamburger({}: any) {
     if (option === 'Editor') {
       dispatch(setCurrentSelectedUI(''));
       dispatch(setCurrentSelectedDocument(nodeIDs));
-    } else if (option === 'List View') {
-      dispatch(setCurrentSelectedUI('listview'));
-    } else if (option === 'Kanban View') {
-      dispatch(setCurrentSelectedUI('kanban'));
-    } else {
-      return;
+    } else if (option.includes('listview')) {
+      dispatch(setCurrentSelectedUI(option));
+    } else if (option.includes('kanban')) {
+      dispatch(setCurrentSelectedUI(option));
     }
   };
 
   return (
-    <>
-    {currentSelectedDocId && 
-    (<div className="hamBurgerParent">
-      {HamburgerOptions.map((option, i) => (
-        <HamburgerItems
-          key={i}
-          title={option}
-          selected={option === selectedOption}
-          onClick={() => handleOptionClick(option)}
-        />
-      ))}
-    </div>)}
-    </>
+    <div>
+      {currentSelectedDocId && (
+        <div className="hamBurgerParent">
+          {HamburgerOptions.map(({ title, type }, i) => (
+            <HamburgerItems
+              key={i}
+              title={type}
+              selected={title === selectedOption}
+              onClick={() => handleOptionClick(title)}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

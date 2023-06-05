@@ -43,8 +43,7 @@ function ContentView({
     setSelectedDoc(currentSelectedDocId);
   }, [workspace]);
   useEffect(() => {
-    dispatch(setCurrentSelectedDocument(nodeIDs)
-    );
+    dispatch(setCurrentSelectedDocument(nodeIDs));
   }, []);
   return (
     <Layout className={classes['site-layout']}>
@@ -73,17 +72,17 @@ function ContentView({
             // setSelectedOption={setSelectedOption}
           />
         )}
-        {currentSelectedUI === 'listview' && (
-          <ListView contentRef={contentRef} workspaceObj={workspace} />
+        {currentSelectedUI.includes('listview') && (
+          <ListView
+            contentRef={contentRef}
+            workspaceObj={workspace}
+            uiDetails={currentSelectedUI}
+          />
         )}
-        {currentSelectedUI === 'kanban' && (
-          <KanbanUI workspaceObj={workspace} />
+        {currentSelectedUI.includes('kanban') && (
+          <KanbanUI workspaceObj={workspace} uiDetails={currentSelectedUI} />
         )}
-        <Hamburger
-        // setCurrentSelectedUI={setCurrentSelectedUI}
-        // selectedOption={selectedOption}
-        // setSelectedOption={setSelectedOption}
-        />
+        <Hamburger />
       </Content>
       <OmniSearch />
     </Layout>

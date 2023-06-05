@@ -4,6 +4,11 @@ import { useDispatch } from 'react-redux';
 import { triggerDefaultNewTask } from 'redux/slices/kanban';
 import Kanban from './kanbanBoard';
 import { useSelector } from 'react-redux';
+import {
+  generateInitialKanbanState,
+  updateAppData,
+  updateWholeState,
+} from 'redux/slices/workspace';
 
 const KanbanSection = styled.div`
   height: auto;
@@ -213,24 +218,49 @@ function HeaderButtons({ label, icon }: any) {
     </ButtonGroup>
   );
 }
-function KanbanUI({workspaceObj}) {
+function KanbanUI({ workspaceObj, uiDetails }: any) {
   const [date, setDate] = useState<String>('');
   useEffect(() => setDate('13 June 2022'), []);
   const dispatch = useDispatch();
-  const { workspace }: any = useSelector((state) => state);
+  const { workspace, kanban }: any = useSelector((state) => state);
   const { color } = workspace;
-  const [currentFileName, setCurrentFileName] = useState("")
+  const [currentFileName, setCurrentFileName] = useState('');
   const onNewTaskButtonClicked = () => {
     dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
   };
 
   useEffect(() => {
     workspaceObj.workSpaceDocs.map((doc: any) => {
-      if(workspaceObj.currentSelectedDocId == doc.uuid){
-        setCurrentFileName(doc.name)
+      if (workspaceObj.currentSelectedDocId == doc.uuid) {
+        setCurrentFileName(doc.name);
       }
-    })
-  }, [workspaceObj])
+    });
+  }, [workspaceObj]);
+
+  useEffect(() => {
+    const { editorApplicationsAdded } = workspace;
+    console.log('hahahahahahahahahah', workspace);
+    const currentApplicationId = uiDetails.split('--')[2];
+    const applicationsDataFiltered = editorApplicationsAdded.find(
+      (appData: any) => appData.applicatioId === currentApplicationId
+    );
+    const kanbanEmptyData = generateInitialKanbanState();
+    if (applicationsDataFiltered) {
+      console.log('applicationsDataFiltered', applicationsDataFiltered);
+      let { appData } = applicationsDataFiltered;
+      if (appData) {
+        console.log(appData);
+      } else {
+        dispatch(updateWholeState(kanbanEmptyData));
+      }
+    }
+  }, [dispatch, uiDetails, workspace]);
+  useEffect(() => {
+    // const { editorApplicationsAdded } = workspace;
+    const currentApplicationId = uiDetails.split('--')[2];
+    dispatch(updateAppData({ appID: currentApplicationId, appData: kanban }));
+  }, [dispatch, kanban, uiDetails]);
+  1;
   return (
     <KanbanSection>
       <KanbanHeader>

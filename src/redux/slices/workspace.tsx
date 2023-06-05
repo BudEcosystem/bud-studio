@@ -2,10 +2,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
-
-//temp private workspace id
+import * as dayjs from 'dayjs';
+// temp private workspace id
 const wrkUUID = uuidv4();
-const generateInitialState = (): any => {
+export const generateInitialKanbanState = (): any => {
   const initialState: any = {
     props: {},
     color: '#939AFF',
@@ -100,13 +100,14 @@ const generateInitialState = (): any => {
     ],
     applicationData: [],
     editorInitialised: false,
+    editorApplicationsAdded: [],
   };
   return initialState;
 };
 
 export const workspaceSlice = createSlice({
   name: 'workspace',
-  initialState: generateInitialState,
+  initialState: generateInitialKanbanState,
   reducers: {
     changeColorAndSetName: (state, action: PayloadAction<any>) => {
       state.color = action.payload.color;
@@ -330,7 +331,7 @@ export const workspaceSlice = createSlice({
     duplicateFolder: (state, action: PayloadAction<any>) => {
       const { id } = action.payload;
       const copyFolderStructure = state.workspaceFolders;
-      let folderFound = copyFolderStructure.find(
+      const folderFound = copyFolderStructure.find(
         (data: any) => data.uuid === id
       );
       if (folderFound) {
@@ -344,6 +345,47 @@ export const workspaceSlice = createSlice({
         (data: any) => data.uuid !== id
       );
       state.workspaceFolders = filteredFolders;
+    },
+    addWorkSpaceApplications: (state, action: PayloadAction<any>) => {
+      console.log('newApplicationObject', action.payload);
+      const { workspace, type } = action.payload;
+      const { currentSelectedDocId: currentSelectedDoc } = workspace;
+      const newId = uuidv4();
+      const newApplicationObject = {
+        title: `${type}--${currentSelectedDoc}--${newId}`,
+        docId: currentSelectedDoc,
+        type,
+        applicatioId: newId,
+        createdAt: dayjs.default().unix(),
+        appData: null,
+      };
+
+      console.log('newApplicationObject', newApplicationObject);
+      console.log('newApplicationObject', state.editorApplicationsAdded);
+      const oldApplicationData: any = [];
+      const { editorApplicationsAdded: applicationData } = state;
+      applicationData.forEach((data: any) => {
+        oldApplicationData.push({ ...data });
+      });
+      oldApplicationData.push(newApplicationObject);
+      state.editorApplicationsAdded = oldApplicationData;
+    },
+    updateWholeState: (state, action: PayloadAction<any>) => {
+      return action.payload;
+    },
+    updateAppData: (state, action: PayloadAction<any>) => {
+      const { appID, appData } = action.payload;
+      console.log('updateAppData', action.payload);
+      console.log('updateAppData', state);
+      const copyOfEditorApplicationsAdded = [...state.editorApplicationsAdded];
+      const proxyFilteredArray = [];
+      copyOfEditorApplicationsAdded.forEach((data) => {
+        console.log('ddncjdncjdncjdncj', { ...data });
+        // let currentData = { ...data };
+        // if(currentData.){}
+        proxyFilteredArray.push({ ...data });
+      });
+      console.log('copyOfEditorApplicationsAdded', proxyFilteredArray);
     },
   },
 });
@@ -366,5 +408,8 @@ export const {
   deleteItem,
   duplicateFolder,
   deleteFolder,
+  addWorkSpaceApplications,
+  updateWholeState,
+  updateAppData,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

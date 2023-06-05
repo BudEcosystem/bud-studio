@@ -7,6 +7,7 @@ import { EDITOR_JS_TOOLS } from './tools';
 import './Editor.css';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  addWorkSpaceApplications,
   changeColor,
   setApplicationData,
   setCurrentSelectedDocument,
@@ -360,15 +361,17 @@ any) {
       setShowEditorOptionsBlock(false);
     }
 
-    if (opt == 'listview') {
+    if (opt === 'listview') {
       dispatch(setCurrentSelectedUI('listview'));
       dispatch(setSelectedOption('List View'));
+      dispatch(addWorkSpaceApplications({ workspace, type: 'listview' }));
     }
-    if (opt == 'kanban') {
+    if (opt === 'kanban') {
       dispatch(setCurrentSelectedUI('kanban'));
       dispatch(setSelectedOption('Kanban View'));
+      dispatch(addWorkSpaceApplications({ workspace, type: 'kanban' }));
     }
-    if (opt == 'database') {
+    if (opt === 'database') {
       setEditorOptions([
         {
           key: 'listview',
