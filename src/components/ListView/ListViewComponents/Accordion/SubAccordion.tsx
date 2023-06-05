@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import HeaderSubComp from '../HeaderSubComp';
+import { useSelector } from 'react-redux';
 
 const SubAccordion = ({ status, data, provided, index }) => {
+  const { workspace }: any = useSelector((state) => state);
+  let { color } = workspace;
   const [expanded, setExpanded] = useState(index === 0 ? true : false);
   const [expandedChild, setExpandedChild] = useState(
     Array(data.childs.length).fill(false)
   );
-
+  const [selected, setSelected] = useState(index === 0 ? false : true);
   const toggleSubAccordion = () => {
     setExpanded(!expanded);
+    setSelected(!selected);
   };
   const toggleSubAccordionChild = (index) => {
     const updatedExpandedChild = [...expandedChild];
@@ -16,7 +20,7 @@ const SubAccordion = ({ status, data, provided, index }) => {
     setExpandedChild(updatedExpandedChild);
   };
   return (
-    <div className="subAccordionParent">
+    <div className={`subAccordionParent`} style={{border: selected ? '' : `0.8px solid ${color}`}}>
       <div className="headerSubComponentContainer">
         <HeaderSubComp
           index={index}
