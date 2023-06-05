@@ -336,6 +336,7 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
                 !switchToggle ? `1px solid ${color}` : '1px solid #25272B'
               }`,
               background: `${!switchToggle ? '#1a1a20' : '#25272B'}`,
+              marginRight: "5px"
             }}
             className={classes['controls-switch']}
           >
