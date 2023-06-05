@@ -267,8 +267,10 @@
 }
 
 .borderCurveLine {
-    width: 95%;
+    width: 97%;
     height: 15px;
+    margin-left: 56px;
+    margin-right: 48px;
     border-width: 1px 2px 0px 1px;
     border-style: solid;
     border-color: #252525;

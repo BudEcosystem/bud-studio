@@ -64,24 +64,33 @@ const Accordion = ({ isAppMode }) => {
               >
                 <div className="titleContainerParent">
                   <div className="arrowAndTitleContainer">
-                    <div
-                      className="arrowContainer"
-                      onClick={() => toggleAccordion(i)}
-                      style={{
-                        transform: expandedItems.includes(i)
-                          ? ''
-                          : 'rotate(-90deg)',
-                      }}
-                    >
-                      <Arrow />
-                    </div>
-                    <div className="titleContainer">
+                    <div className="flex">
                       <div
-                        className="textIcon"
-                        style={{ background: item.colorIcon }}
-                      />
-                      <p className="textHeader" style={{ marginLeft: '8px' }}>{item.headerText}</p>
+                        className="arrowContainer"
+                        onClick={() => toggleAccordion(i)}
+                        style={{
+                          transform: expandedItems.includes(i)
+                            ? ''
+                            : 'rotate(-90deg)',
+                        }}
+                      >
+                        <Arrow />
+                      </div>
+                      <div className="titleContainer">
+                        <div
+                          className="textIcon"
+                          style={{ background: item.colorIcon }}
+                        />
+                        <p className="textHeader" style={{ marginLeft: '8px' }}>
+                          {item.headerText}
+                        </p>
+                      </div>
                     </div>
+                    {expandedItems.includes(i) && (
+                      <div className="newTaskText2">
+                        New Task <span style={{ color: '#8A8B8B' }}>+</span>
+                      </div>
+                    )}
                   </div>
                   {expandedItems.includes(i) && (
                     <div className="subAccordionContainer">
