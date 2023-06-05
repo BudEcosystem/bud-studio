@@ -353,7 +353,6 @@ export const {
   changeColor,
   createWorkspaces,
   editWorkspaceItem,
-  duplicateWorkspaceItem,
   changeWorkSpacePropereties,
   recoverWorkspacedata,
   createFolder,
