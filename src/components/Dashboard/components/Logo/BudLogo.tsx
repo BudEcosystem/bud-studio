@@ -6,7 +6,7 @@ function BudLogoSidebar() {
       viewBox="0 0 28 27"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
     >
       <rect width="28" height="27" fill="url(#pattern0)" />
       <defs>
