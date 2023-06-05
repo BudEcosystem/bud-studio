@@ -55,12 +55,12 @@ const Accordion = ({ isAppMode }) => {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 onClick={() => selectItem(i)}
-                style={{
-                  border:
-                    selectedItemIndex === i
-                      ? `0.5px dashed ${color}`
-                      : `0.5px dashed #2F2F2F`,
-                }}
+                // style={{
+                //   border:
+                //     selectedItemIndex === i
+                //       ? `0.5px dashed ${color}`
+                //       : `0.5px dashed #2F2F2F`,
+                // }}
               >
                 <div className="titleContainerParent">
                   <div className="arrowAndTitleContainer">
