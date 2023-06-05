@@ -4,14 +4,13 @@ import { useDispatch } from 'react-redux';
 import { triggerDefaultNewTask } from 'redux/slices/kanban';
 import Kanban from './kanbanBoard';
 import { useSelector } from 'react-redux';
+import HeaderSection from 'components/ListView/HeaderSection';
 
 const KanbanSection = styled.div`
   height: auto;
-  padding: 47px;
   display: flex;
   flex-direction: column;
   background: #101010;
-  margin-left: 35px;
 `;
 const KanbanHeader = styled.div`
   width: 100%;
@@ -213,27 +212,27 @@ function HeaderButtons({ label, icon }: any) {
     </ButtonGroup>
   );
 }
-function KanbanUI({workspaceObj}) {
+function KanbanUI({ workspaceObj }) {
   const [date, setDate] = useState<String>('');
   useEffect(() => setDate('13 June 2022'), []);
   const dispatch = useDispatch();
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
-  const [currentFileName, setCurrentFileName] = useState("")
-  const onNewTaskButtonClicked = () => {
-    dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
-  };
+  const [currentFileName, setCurrentFileName] = useState('');
+  // const onNewTaskButtonClicked = () => {
+  //   dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
+  // };
 
   useEffect(() => {
     workspaceObj.workSpaceDocs.map((doc: any) => {
-      if(workspaceObj.currentSelectedDocId == doc.uuid){
-        setCurrentFileName(doc.name)
+      if (workspaceObj.currentSelectedDocId == doc.uuid) {
+        setCurrentFileName(doc.name);
       }
-    })
-  }, [workspaceObj])
+    });
+  }, [workspaceObj]);
   return (
     <KanbanSection>
-      <KanbanHeader>
+      {/* <KanbanHeader>
         <div>
           <KanbanBoardHeading>
             <KanbanBoardHeadingLogoWrap>
@@ -393,7 +392,8 @@ function KanbanUI({workspaceObj}) {
             </ThreeDotVerticalIcon>
           </KanbanHeaderBottomSectionSecondHalf>
         </KanbanHeaderBottomSection>
-      </KanbanHeader>
+      </KanbanHeader> */}
+      <HeaderSection view="kanban" />
       <Kanban />
     </KanbanSection>
   );

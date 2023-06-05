@@ -1,70 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { AddCover, KabuniLogo } from './ListViewIcons';
+import React, { useState } from 'react';
 import './ListView.css';
-import OptionsComponent from './ListViewComponents/OptionsComponent';
-import MainListComponent from './ListViewComponents/MainListComponent';
-import { useSelector, useDispatch } from 'react-redux';
+
 import Accordion from './ListViewComponents/Accordion/Accordion';
-import {
-  editListTitle,
-  editListDescription,
-  setOneTime,
-} from 'redux/slices/list';
-import AppModeHeader from './ListViewComponents/AppModeHeader';
+import HeaderSection from './HeaderSection';
 
 function ListView({ contentRef, workspaceObj }: any) {
-  const dispatch = useDispatch();
-  const { content, list }: any = useSelector((state) => state);
-  const { listTitleAndDesc, oneTime } = list;
-  const { title, description } = listTitleAndDesc;
-  const kabuniRef = useRef(null);
-  const [isSticky, setIsSticky] = useState(false);
-  // const [oneTime, setOneTime] = useState(true);
-  const { workspace }: any = useSelector((state) => state);
-  const { color } = workspace;
-  const [currentFileName, setCurrentFileName] = useState('');
   const [isAppMode, setIsAppMode] = useState(false);
 
-  useEffect(() => {
-    if (oneTime) {
-      setTimeout(() => {
-        workspace.workSpaceDocs.map((doc: any) => {
-          if (workspace.currentSelectedDocId === doc.uuid) {
-            setCurrentFileName(doc.name);
-          }
-        });
-      }, 0);
-
-      dispatch(setOneTime(false));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (currentFileName !== '') {
-      dispatch(editListTitle({ newTitle: currentFileName }));
-    }
-  }, [currentFileName]);
-
-  const keyHandler = (event: any) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      dispatch(editListTitle({ newTitle: event.target.innerText }));
-      dispatch(setOneTime(false));
-      const heading = document.getElementById('editableTitle');
-      heading?.blur();
-    }
-  };
-  const keyHandler2 = (event: any) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      dispatch(editListDescription({ newDesc: event.target.innerText }));
-      const heading = document.getElementById('editableDesc');
-      heading?.blur();
-    }
-  };
   return (
     <>
-      <div className="listViewContainer" ref={kabuniRef}>
+      {/* <div className="listViewContainer" ref={kabuniRef}>
         {!isAppMode ? (
           <>
             <div className="addCoverContainer">
@@ -88,7 +33,7 @@ function ListView({ contentRef, workspaceObj }: any) {
                       background: `${color}`,
                     }}
                   >
-                    {/* <KabuniLogo /> */}
+                    
                     <span className={`tick ${isSticky ? 'tickStick' : ''}`}>
                       L
                     </span>
@@ -139,7 +84,8 @@ function ListView({ contentRef, workspaceObj }: any) {
         <div className="curveContainer">
           <div className="borderCurveLine" />
         </div>
-      )}
+      )} */}
+      <HeaderSection view="list" />
       <div className="mainListComponentContainer">
         {/* <MainListComponent /> */}
         <Accordion isAppMode={isAppMode} />

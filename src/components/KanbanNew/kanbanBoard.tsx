@@ -25,6 +25,7 @@ function Kanban() {
   const ContainerWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    margin-left: 30px;
   `;
   const ContainerTopBar = styled.div`
     width: 101.5%;
@@ -106,7 +107,6 @@ function Kanban() {
   });
   return (
     <ContainerWrapper>
-      <ContainerTopBar />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
           droppableId="all-columns"
