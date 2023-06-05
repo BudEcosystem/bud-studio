@@ -361,14 +361,14 @@ const EditColumnNameInput = styled.input`
                     <path
                       d="M5.35547 1.09678V9.61291"
                       stroke="#7B8388"
-                      stroke-width="1.41935"
-                      stroke-linecap="round"
+                      strokeWidth="1.41935"
+                      strokeLinecap="round"
                     />
                     <path
                       d="M9.61328 5.35484L1.09715 5.35484"
                       stroke="#7B8388"
-                      stroke-width="1.41935"
-                      stroke-linecap="round"
+                      strokeWidth="1.41935"
+                      strokeLinecap="round"
                     />
                   </svg>
                 </TitleHeaderPlusIcon>
