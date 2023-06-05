@@ -78,7 +78,7 @@ const HeaderSubComp = ({
             onBlur={() => setEditing(false)}
           />
         ) : (
-          <p style={{ marginLeft: '16px' }} onDoubleClick={handleDoubleClick}>
+          <p className="datatitleText" style={{ marginLeft: '16px' }} onDoubleClick={handleDoubleClick}>
             {data.title}
           </p>
         )}

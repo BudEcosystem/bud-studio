@@ -1,9 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
 :root {
     --border-Color: #2F2F2F;
 }
 
 .accordionParent {
-    width: 94%;
+    width: 100%;
+    margin-left: 36px;
+    margin-right: 28px;
     /* background-color: aqua; */
 }
 
@@ -27,6 +31,8 @@
 .arrowAndTitleContainer {
     display: flex;
     margin-left: 8px;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .subAccordionContainer {
@@ -56,6 +62,16 @@
     justify-content: center;
 }
 
+.newTaskText2 {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 154.5%;
+    color: #FFFFFF;
+    margin-right: 16px;
+}
+
 .subChildComponent {
     margin-left: 40px;
 }
@@ -65,7 +81,7 @@
     margin-top: 12px;
     margin-bottom: 23px;
     width: 40%;
-    font-family: 'Noto Sans';
+    font-family: 'Noto Sans', sans-serif;
     font-style: normal;
     font-weight: 300;
     font-size: 12px;
@@ -77,4 +93,13 @@
 .flex {
     display: flex;
     align-items: center;
+}
+
+.textHeader {
+    font-family: 'Noto Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 154.5%;
+    color: #FFFFFF;
 }

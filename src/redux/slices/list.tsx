@@ -9,78 +9,78 @@ const generateInitialState = (): any => {
       headerText: 'To-do',
       colorIcon: '#939AFF',
       items: [
-        // {
-        //   title: 'Check for meetings 1',
-        //   description:
-        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-        //   siconValue: 2,
-        //   checklist: {
-        //     checked: 2,
-        //     total: 6,
-        //   },
-        //   imagesData: ['', ''],
-        //   page: true,
-        //   flag: true,
-        //   recurring: true,
-        //   childs: [
-        //     {
-        //       title: 'Check for sub-meetings 1',
-        //       description: '',
-        //       siconValue: 2,
-        //       checklist: {
-        //         checked: 2,
-        //         total: 6,
-        //       },
-        //       imagesData: ['', ''],
-        //       page: true,
-        //       flag: true,
-        //       recurring: true,
-        //     },
-        //     {
-        //       title: 'Check for sub-meetings 2',
-        //       description: '',
-        //       siconValue: 2,
-        //       checklist: {
-        //         checked: 2,
-        //         total: 6,
-        //       },
-        //       imagesData: ['', ''],
-        //       page: true,
-        //       flag: true,
-        //       recurring: true,
-        //     },
-        //   ],
-        // },
-        // {
-        //   title: 'Check for meetings 2',
-        //   description:
-        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-        //   siconValue: 1,
-        //   checklist: {
-        //     checked: 4,
-        //     total: 6,
-        //   },
-        //   imagesData: ['', ''],
-        //   page: true,
-        //   flag: true,
-        //   recurring: true,
-        //   childs: [],
-        // },
-        // {
-        //   title: 'Check for meetings 3',
-        //   description:
-        //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-        //   siconValue: 3,
-        //   checklist: {
-        //     checked: 3,
-        //     total: 6,
-        //   },
-        //   imagesData: ['', ''],
-        //   page: true,
-        //   flag: true,
-        //   recurring: true,
-        //   childs: [],
-        // },
+        {
+          title: 'Check for meetings 1',
+          description:
+            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+          siconValue: 2,
+          checklist: {
+            checked: 2,
+            total: 6,
+          },
+          imagesData: ['', ''],
+          page: true,
+          flag: true,
+          recurring: true,
+          childs: [
+            {
+              title: 'Check for sub-meetings 1',
+              description: '',
+              siconValue: 2,
+              checklist: {
+                checked: 2,
+                total: 6,
+              },
+              imagesData: ['', ''],
+              page: true,
+              flag: true,
+              recurring: true,
+            },
+            {
+              title: 'Check for sub-meetings 2',
+              description: '',
+              siconValue: 2,
+              checklist: {
+                checked: 2,
+                total: 6,
+              },
+              imagesData: ['', ''],
+              page: true,
+              flag: true,
+              recurring: true,
+            },
+          ],
+        },
+        {
+          title: 'Check for meetings 2',
+          description:
+            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+          siconValue: 1,
+          checklist: {
+            checked: 4,
+            total: 6,
+          },
+          imagesData: ['', ''],
+          page: true,
+          flag: true,
+          recurring: true,
+          childs: [],
+        },
+        {
+          title: 'Check for meetings 3',
+          description:
+            'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
+          siconValue: 3,
+          checklist: {
+            checked: 3,
+            total: 6,
+          },
+          imagesData: ['', ''],
+          page: true,
+          flag: true,
+          recurring: true,
+          childs: [],
+        },
       ],
     },
     {
