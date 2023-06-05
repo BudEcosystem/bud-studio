@@ -319,7 +319,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   return (
     <>
       <Sider
-        width={225}
+        width={250}
         className={classes['main-sidebar']}
         trigger={null}
         collapsible
@@ -397,7 +397,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       alignItems: 'center',
                     }}
                   >
-                    <div style={{ width: '130px' }}>{menu.label}</div>
+                    <div style={{ width: '155px' }}>{menu.label}</div>
                     {menu.keyCombination && <menu.keyCombination />}
                   </div>
                 </Menu.Item>
@@ -507,7 +507,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       <span>08</span>
                     </div>
                     {isCollapsed ? null : (
-                      <div style={{marginLeft: "60px"}}>
+                      <div style={{marginLeft: "85px"}}>
                       <FavouriteShortcutIcon/>
                       </div>
                     )}
