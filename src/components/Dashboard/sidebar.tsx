@@ -515,7 +515,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                 </Menu.Item>
 
                 <div className={`${classes['main-sidebar-menu-ws-box']}`}>
-                  <div style={{position: "absolute", backgroundColor: `${color}50`, filter: "blur(100px)", width: "50%", height:"200px", zIndex: "20", pointerEvents: "none"}}></div>
+                  <div style={{position: "absolute", backgroundColor: `${color}40`, filter: "blur(100px)", width: "50%", height:"200px", zIndex: "20", pointerEvents: "none"}}></div>
                   {!showMore &&
                     workSpaceItems
                       .slice(0, 3)
