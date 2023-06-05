@@ -320,7 +320,7 @@ export function FolderIcon() {
         d="M0 3.72034H11.1851C11.6351 3.72034 12 4.0852 12 4.53529V10.4143C12 10.8644 11.6351 11.2293 11.1851 11.2293H0.814948C0.364865 11.2293 0 10.8644 0 10.4143V3.72034Z"
         fill="#939AFF"
         stroke="#939AFF"
-        stroke-width="2"
+        strokeWidth="2"
         mask="url(#path-2-inside-1_2399_10521)"
       />
     </svg>
@@ -347,12 +347,12 @@ export function DocIcon() {
       <path
         d="M7.34365 10.6616L3.12305 10.6616"
         stroke="#C6C6C6"
-        stroke-linecap="round"
+        strokeLinecap="round"
       />
       <path
         d="M3.12262 8.67456L5.48242 8.67456"
         stroke="#C6C6C6"
-        stroke-linecap="round"
+        strokeLinecap="round"
       />
     </svg>
   );
