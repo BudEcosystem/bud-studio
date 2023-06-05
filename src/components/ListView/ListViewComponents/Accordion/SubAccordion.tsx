@@ -20,7 +20,10 @@ const SubAccordion = ({ status, data, provided, index }) => {
     setExpandedChild(updatedExpandedChild);
   };
   return (
-    <div className={`subAccordionParent`} style={{border: selected ? '' : `0.8px solid ${color}`}}>
+    <div
+      className={`subAccordionParent`}
+      style={{ border: selected ? '' : `0.8px solid ${color}` }}
+    >
       <div className="headerSubComponentContainer">
         <HeaderSubComp
           index={index}
