@@ -6,7 +6,7 @@
 
 .site-layout {
   background: var(--primary-bgc-light) !important;
-  border-radius: 30px;
+  border-radius: 20px;
   box-shadow: 0 0 0 1px var(--light-gray);
   margin: 20px 20px 20px 1px;
 }
@@ -25,8 +25,8 @@
   padding: 20px;
   margin: 0;
   border-radius: 0 !important;
-  border-bottom-right-radius: 30px !important;
-  border-bottom-left-radius: 30px !important;
+  border-bottom-right-radius: 20px !important;
+  border-bottom-left-radius: 20px !important;
   overflow-y: auto;
 }
 
@@ -56,8 +56,8 @@
   gap: 20px;
   padding: 0;
   background: var(--primary-bgc-light);
-  border-top-right-radius: 30px;
-  border-top-left-radius: 30px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
   border-bottom: 1px solid var(--light-gray);
 }
 
