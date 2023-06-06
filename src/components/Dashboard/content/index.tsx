@@ -12,6 +12,7 @@ import OmniSearch from '../../OmniSearch/OmniSearch';
 import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 import Editor from '../../Editor/Editor';
 import EditorJsWrapper from '../../EditorWrapper';
+import TableView from 'components/TableView';
 
 import BudEditor from '../../BudEditor';
 import { setCurrentSelectedDocument } from 'redux/slices/workspace';
@@ -84,6 +85,7 @@ function ContentView({
         // selectedOption={selectedOption}
         // setSelectedOption={setSelectedOption}
         />
+        <TableView/>
       </Content>
       <OmniSearch />
     </Layout>
