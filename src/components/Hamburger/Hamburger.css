@@ -1,6 +1,6 @@
 .hamBurgerParent{
-    position: absolute;
-    top: 73%;
+    position: fixed;
+    top: 65vh;
 }
 
 .hamItemsContainer {
