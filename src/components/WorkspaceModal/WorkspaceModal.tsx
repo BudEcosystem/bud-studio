@@ -188,12 +188,13 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
       <div
         className="box"
         style={{
-          position: 'absolute',
-          top: '0',
-          right: '0',
-          height: '100%',
-          width: '100%',
+          position: 'fixed',
+          top: '80px',
+          left: '260px',
+          height: '90%',
+          width: '85%',
           pointerEvents: 'none',
+          zIndex: "10"
         }}
       >
         <Draggable bounds="parent" handle=".handle">
