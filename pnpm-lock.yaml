@@ -112,6 +112,9 @@ dependencies:
   react-router-dom:
     specifier: ^6.8.1
     version: 6.8.1(react-dom@18.2.0)(react@18.2.0)
+  react-table:
+    specifier: ^7.8.0
+    version: 7.8.0(react@18.2.0)
   redux-persist:
     specifier: ^6.0.0
     version: 6.0.0(react@18.2.0)(redux@4.2.1)
@@ -10584,6 +10587,14 @@ packages:
       react: 18.2.0
       react-is: 18.2.0
     dev: true
+
+  /react-table@7.8.0(react@18.2.0):
+    resolution: {integrity: sha512-hNaz4ygkZO4bESeFfnfOft73iBUj8K5oKi1EcSHPAibEydfsX2MyU6Z8KCr3mv3C9Kqqh71U+DhZkFvibbnPbA==}
+    peerDependencies:
+      react: ^16.8.3 || ^17.0.0-0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /react-test-renderer@18.2.0(react@18.2.0):
     resolution: {integrity: sha512-JWD+aQ0lh2gvh4NM3bBM42Kx+XybOxCpgYK7F8ugAlpaTSnWsX+39Z4XkOykGZAHrjwwTZT3x3KxswVWxHPUqA==}
