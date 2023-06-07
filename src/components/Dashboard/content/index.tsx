@@ -16,6 +16,7 @@ import TableView from 'components/TableView';
 
 import BudEditor from '../../BudEditor';
 import { setCurrentSelectedDocument } from 'redux/slices/workspace';
+import TableviewNew from 'components/TableviewNew/TableviewNew';
 
 function ContentView({
   setCollapsed,
