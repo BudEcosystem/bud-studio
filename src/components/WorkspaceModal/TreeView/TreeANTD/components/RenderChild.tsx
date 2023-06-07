@@ -37,7 +37,7 @@ function RenderChild({
   setExpandedKeys,
   workspaceDetails,
   setShowDocumentOptions,
-  color
+  color,
 }: any) {
   const [currentNode, setCurrentNode] = useState<any>();
   const getParentIds = (
@@ -317,7 +317,6 @@ function RenderChild({
     dispatch(setNavigationPath({ name: workspaceDetails?.name }));
   };
   const clickHandler = () => {
-    console.log('Asdfads', node);
     if (node.isLeaf && !currentNode?.folderInput && !currentNode?.docInput) {
       dispatch(setCurrentSelectedDocument({ id: null }));
       navPathHandler(node);

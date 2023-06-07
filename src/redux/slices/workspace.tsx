@@ -2,10 +2,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
-
-//temp private workspace id
+import * as dayjs from 'dayjs';
+import { useDispatch } from 'react-redux';
+import { setCurrentSelectedUI } from './activestate';
+// temp private workspace id
 const wrkUUID = uuidv4();
-const generateInitialState = (): any => {
+export const generateInitialWorkspaceState = (): any => {
   const initialState: any = {
     props: {},
     color: '#939AFF',
@@ -100,13 +102,14 @@ const generateInitialState = (): any => {
     ],
     applicationData: [],
     editorInitialised: false,
+    editorApplicationsAdded: [],
   };
   return initialState;
 };
 
 export const workspaceSlice = createSlice({
   name: 'workspace',
-  initialState: generateInitialState,
+  initialState: generateInitialWorkspaceState,
   reducers: {
     changeColorAndSetName: (state, action: PayloadAction<any>) => {
       state.color = action.payload.color;
@@ -146,7 +149,6 @@ export const workspaceSlice = createSlice({
       const copyFolderStructure = state.workspaceFolders;
       const { name: passedName, workSpaceDetails } = action.payload;
       let name = passedName;
-      console.log(workSpaceDetails);
       const filteredUnknown = copyFolderStructure.filter(
         (data: any) =>
           data.name.includes(name) &&
@@ -196,14 +198,12 @@ export const workspaceSlice = createSlice({
       // }
     },
     createSubChild: (state, action: PayloadAction<any>) => {
-      console.log('action.payload', action.payload);
       const { name: passedName, type, parentDetails } = action.payload;
       let name = passedName;
       if (type === 'folder') {
         const copyOfworkSpaceFolders = [...state.workspaceFolders];
         const proxyFilteredArray: any = [];
         copyOfworkSpaceFolders.forEach((data: any) => {
-          console.log({ ...data });
           proxyFilteredArray.push({ ...data });
         });
         const filteredUnknown = proxyFilteredArray.filter(
@@ -224,18 +224,14 @@ export const workspaceSlice = createSlice({
           workSpaceUUID: parentDetails.workspaceDetails.uuid,
           workSPaceId: parentDetails.workspaceDetails.uuid,
         };
-        // console.log('action.payload', sampleDocData);
         proxyFilteredArray.push(sampleDocData);
-        // console.log('action.payload', copyOfworkSpaceDocs);
         state.workspaceFolders = proxyFilteredArray;
       } else {
         const copyOfworkSpaceDocs = [...state.workSpaceDocs];
         const proxyFilteredArray: any = [];
         copyOfworkSpaceDocs.forEach((data: any) => {
-          console.log({ ...data });
           proxyFilteredArray.push({ ...data });
         });
-        // console.log('action.payload', copyOfworkSpaceDocs);
         const filteredUnknown = proxyFilteredArray.filter(
           (data: any) =>
             data.name.includes(name) &&
@@ -253,9 +249,7 @@ export const workspaceSlice = createSlice({
           uuid: uuidv4(),
           workSpaceUUID: parentDetails.workspaceDetails.uuid,
         };
-        // console.log('action.payload', sampleDocData);
         proxyFilteredArray.push(sampleDocData);
-        // console.log('action.payload', copyOfworkSpaceDocs);
         state.workSpaceDocs = proxyFilteredArray;
       }
     },
@@ -330,7 +324,7 @@ export const workspaceSlice = createSlice({
     duplicateFolder: (state, action: PayloadAction<any>) => {
       const { id } = action.payload;
       const copyFolderStructure = state.workspaceFolders;
-      let folderFound = copyFolderStructure.find(
+      const folderFound = copyFolderStructure.find(
         (data: any) => data.uuid === id
       );
       if (folderFound) {
@@ -344,6 +338,43 @@ export const workspaceSlice = createSlice({
         (data: any) => data.uuid !== id
       );
       state.workspaceFolders = filteredFolders;
+    },
+    addWorkSpaceApplications: (state, action: PayloadAction<any>) => {
+      const { workspace, type, titleGenerated, newId } = action.payload;
+      const { currentSelectedDocId: currentSelectedDoc } = workspace;
+      const newApplicationObject = {
+        title: titleGenerated,
+        docId: currentSelectedDoc,
+        type,
+        applicatioId: newId,
+        createdAt: dayjs.default().unix(),
+        appData: null,
+      };
+      const oldApplicationData: any = [];
+      const { editorApplicationsAdded: applicationData } = state;
+      applicationData.forEach((data: any) => {
+        oldApplicationData.push({ ...data });
+      });
+      oldApplicationData.push(newApplicationObject);
+      state.editorApplicationsAdded = oldApplicationData;
+    },
+    updateWholeState: (state, action: PayloadAction<any>) => {
+      return action.payload;
+    },
+    updateAppData: (state, action: PayloadAction<any>) => {
+      const { appID, appData } = action.payload;
+      console.log(action.payload);
+      const copyOfEditorApplicationsAdded = [...state.editorApplicationsAdded];
+      const proxyFilteredArray: any = [];
+      copyOfEditorApplicationsAdded.forEach((data): any => {
+        let currentData = { ...data };
+        if (currentData.applicatioId === appID) {
+          currentData = { ...currentData, appData };
+        }
+        proxyFilteredArray.push({ ...currentData });
+      });
+      console.log('copyOfEditorApplicationsAdded', proxyFilteredArray);
+      state.editorApplicationsAdded = proxyFilteredArray;
     },
   },
 });
@@ -365,5 +396,8 @@ export const {
   deleteItem,
   duplicateFolder,
   deleteFolder,
+  addWorkSpaceApplications,
+  updateWholeState,
+  updateAppData,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

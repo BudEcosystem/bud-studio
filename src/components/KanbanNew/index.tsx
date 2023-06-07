@@ -1,9 +1,14 @@
 import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { triggerDefaultNewTask } from 'redux/slices/kanban';
+import {
+  generateKanbanInitialState,
+  triggerDefaultNewTask,
+  updateWholeKanbanState,
+} from 'redux/slices/kanban';
 import Kanban from './kanbanBoard';
 import { useSelector } from 'react-redux';
+import { updateAppData, updateWholeState } from 'redux/slices/workspace';
 import HeaderSection from 'components/ListView/HeaderSection';
 
 const KanbanSection = styled.div`
@@ -212,11 +217,11 @@ function HeaderButtons({ label, icon }: any) {
     </ButtonGroup>
   );
 }
-function KanbanUI({ workspaceObj }) {
+function KanbanUI({ workspaceObj, uiDetails }: any) {
   const [date, setDate] = useState<String>('');
   useEffect(() => setDate('13 June 2022'), []);
   const dispatch = useDispatch();
-  const { workspace }: any = useSelector((state) => state);
+  const { workspace, kanban }: any = useSelector((state) => state);
   const { color } = workspace;
   const [currentFileName, setCurrentFileName] = useState('');
   // const onNewTaskButtonClicked = () => {
@@ -230,169 +235,29 @@ function KanbanUI({ workspaceObj }) {
       }
     });
   }, [workspaceObj]);
+
+  useEffect(() => {
+    const { editorApplicationsAdded } = workspace;
+    const currentApplicationId = uiDetails.split('--')[2];
+    const applicationsDataFiltered = editorApplicationsAdded?.find(
+      (appData: any) => appData.applicatioId === currentApplicationId
+    );
+    const kanbanEmptyData = generateKanbanInitialState();
+    if (applicationsDataFiltered) {
+      const { appData } = applicationsDataFiltered;
+      if (appData) {
+        dispatch(updateWholeKanbanState(appData));
+      } else {
+        dispatch(updateWholeKanbanState(kanbanEmptyData));
+      }
+    }
+  }, []);
+  useEffect(() => {
+    const currentApplicationId = uiDetails.split('--')[2];
+    dispatch(updateAppData({ appID: currentApplicationId, appData: kanban }));
+  }, [kanban]);
   return (
     <KanbanSection>
-      {/* <KanbanHeader>
-        <div>
-          <KanbanBoardHeading>
-            <KanbanBoardHeadingLogoWrap>
-              <KanbanBoardHeadingLogo />
-            </KanbanBoardHeadingLogoWrap>
-            <KanbanBoardHeadingText>{currentFileName}</KanbanBoardHeadingText>
-          </KanbanBoardHeading>
-          <KanbanBoardHeadingSecondarySection>
-            <KanbanBoardSecondaryHeadingText>
-              Make note of any appointments or meetings.
-            </KanbanBoardSecondaryHeadingText>
-          </KanbanBoardHeadingSecondarySection>
-        </div>
-        <KanbanHeaderBottomSection>
-          <KanbanHeaderBottomSectionFirstHalf>
-            <KanbanKanbanHeaderBottomSectionFirstHalfDateIconWrapper>
-              <KanbanKanbanHeaderBottomSectionFirstHalfDateIcon />
-            </KanbanKanbanHeaderBottomSectionFirstHalfDateIconWrapper>
-            <KanbanKanbanHeaderBottomSectionFirstHalfDate>
-              {date}
-            </KanbanKanbanHeaderBottomSectionFirstHalfDate>
-          </KanbanHeaderBottomSectionFirstHalf>
-          <KanbanHeaderBottomSectionSecondHalf>
-            <HeaderButtons
-              label="Search"
-              icon={
-                <svg
-                  width="14"
-                  height="15"
-                  viewBox="0 0 14 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M10.1425 6.21233C10.1425 8.56826 8.20534 10.5066 5.78046 10.5066C3.35557 10.5066 1.41845 8.56826 1.41845 6.21233C1.41845 3.85641 3.35557 1.91809 5.78046 1.91809C8.20534 1.91809 10.1425 3.85641 10.1425 6.21233ZM9.2415 10.7883C8.27665 11.5022 7.07852 11.925 5.78046 11.925C2.588 11.925 0 9.36737 0 6.21233C0 3.0573 2.588 0.499638 5.78046 0.499638C8.97292 0.499638 11.5609 3.0573 11.5609 6.21233C11.5609 7.57621 11.0773 8.82845 10.2703 9.81071L13.7896 13.2865C14.0683 13.5618 14.071 14.0108 13.7958 14.2895C13.5206 14.5682 13.0715 14.571 12.7928 14.2957L9.2415 10.7883Z"
-                    fill="#BBBBBB"
-                  />
-                </svg>
-              }
-            />
-            <HeaderButtons
-              label="Sort"
-              icon={
-                <svg
-                  width="14"
-                  height="11"
-                  viewBox="0 0 14 11"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M4.46716 1.76667H13.0005M4.46716 5.5H13.0005M4.46716 9.23333H13.0005M1.26715 1.76667H1.27213V1.77236H1.26715V1.76667ZM1.53382 1.76667C1.53382 1.83739 1.50573 1.90522 1.45572 1.95523C1.40571 2.00524 1.33788 2.03333 1.26715 2.03333C1.19643 2.03333 1.1286 2.00524 1.07859 1.95523C1.02858 1.90522 1.00049 1.83739 1.00049 1.76667C1.00049 1.69594 1.02858 1.62811 1.07859 1.5781C1.1286 1.5281 1.19643 1.5 1.26715 1.5C1.33788 1.5 1.40571 1.5281 1.45572 1.5781C1.50573 1.62811 1.53382 1.69594 1.53382 1.76667ZM1.26715 5.5H1.27213V5.50569H1.26715V5.5ZM1.53382 5.5C1.53382 5.57072 1.50573 5.63855 1.45572 5.68856C1.40571 5.73857 1.33788 5.76667 1.26715 5.76667C1.19643 5.76667 1.1286 5.73857 1.07859 5.68856C1.02858 5.63855 1.00049 5.57072 1.00049 5.5C1.00049 5.42928 1.02858 5.36145 1.07859 5.31144C1.1286 5.26143 1.19643 5.23333 1.26715 5.23333C1.33788 5.23333 1.40571 5.26143 1.45572 5.31144C1.50573 5.36145 1.53382 5.42928 1.53382 5.5ZM1.26715 9.23333H1.27213V9.23902H1.26715V9.23333ZM1.53382 9.23333C1.53382 9.30406 1.50573 9.37189 1.45572 9.4219C1.40571 9.47191 1.33788 9.5 1.26715 9.5C1.19643 9.5 1.1286 9.47191 1.07859 9.4219C1.02858 9.37189 1.00049 9.30406 1.00049 9.23333C1.00049 9.16261 1.02858 9.09478 1.07859 9.04477C1.1286 8.99476 1.19643 8.96667 1.26715 8.96667C1.33788 8.96667 1.40571 8.99476 1.45572 9.04477C1.50573 9.09478 1.53382 9.16261 1.53382 9.23333Z"
-                    stroke="#BBBBBB"
-                    strokeWidth="1.4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              }
-            />
-            <HeaderButtons
-              label="Group By"
-              icon={
-                <svg
-                  width="13"
-                  height="13"
-                  viewBox="0 0 13 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0.261683 4.56526L6.11 8.02113C6.19326 8.07064 6.28672 8.09512 6.38054 8.09512C6.47419 8.09512 6.56746 8.07046 6.65109 8.02113L12.4994 4.56526C12.6611 4.46976 12.7605 4.29546 12.7605 4.10743C12.7605 3.91941 12.6611 3.74529 12.4994 3.64961L6.65109 0.193737C6.48383 0.0950891 6.2767 0.0950891 6.11016 0.193737L0.261844 3.64961C0.0997764 3.74547 0.000573753 3.91959 0.000573753 4.10762C0.000573753 4.29546 0.0998 4.46958 0.261683 4.56526ZM6.38058 1.26922L11.1836 4.1076L6.38058 6.94579L1.57708 4.1076L6.38058 1.26922ZM12.4995 6.04234L12.2289 5.88268L6.38062 9.33856L0.532301 5.88268L0.261759 6.04271C0.0996909 6.13802 0.000488281 6.31214 0.000488281 6.50016C0.000488281 6.68819 0.0996913 6.86231 0.261574 6.95799L6.10989 10.4139C6.19315 10.4634 6.28661 10.4878 6.38043 10.4878C6.47408 10.4878 6.56735 10.4632 6.65098 10.4139L12.4993 6.95799C12.661 6.86249 12.7604 6.68819 12.7604 6.50016C12.7606 6.31214 12.6612 6.13802 12.4995 6.04234ZM12.4995 8.43493L12.2289 8.27509L6.38062 11.731L0.532301 8.27509L0.261759 8.43511C0.0996909 8.53061 0.000488281 8.70473 0.000488281 8.89257C0.000488281 9.08059 0.0996913 9.25471 0.261574 9.35039L6.10989 12.8063C6.19315 12.8558 6.28661 12.8803 6.38043 12.8803C6.47408 12.8803 6.56735 12.8556 6.65098 12.8063L12.4993 9.35039C12.661 9.2549 12.7604 9.08059 12.7604 8.89257C12.7606 8.70473 12.6612 8.53061 12.4995 8.43493Z"
-                    fill="#BBBBBB"
-                  />
-                </svg>
-              }
-            />
-            <HeaderButtons
-              label="Views"
-              icon={
-                <svg
-                  width="14"
-                  height="13"
-                  viewBox="0 0 14 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M4.76074 1.08333V11.9167M8.76074 1.08333V11.9167M1.51074 11.9167H12.0107C12.4247 11.9167 12.7607 11.5527 12.7607 11.1042V1.89583C12.7607 1.44733 12.4247 1.08333 12.0107 1.08333H1.51074C1.09674 1.08333 0.760742 1.44733 0.760742 1.89583V11.1042C0.760742 11.5527 1.09674 11.9167 1.51074 11.9167Z"
-                    stroke="#BBBBBB"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              }
-            />
-            <NewTaskButtonWrap onClick={onNewTaskButtonClicked}>
-              <NewTaskButtonIconWrap>
-                <NewTaskButtonIcon>
-                  <svg
-                    width="11"
-                    height="11"
-                    viewBox="0 0 11 11"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M5.09424 1V9.66667"
-                      stroke={`${color}`}
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M9.42725 5.33347L0.760579 5.33347"
-                      stroke={`${color}`}
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </NewTaskButtonIcon>
-              </NewTaskButtonIconWrap>
-              <NewTaskButtonLabel>New Task</NewTaskButtonLabel>
-            </NewTaskButtonWrap>
-            <ThreeDotVerticalIcon>
-              <svg
-                width="3"
-                height="15"
-                viewBox="0 0 3 15"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="1.45882"
-                  cy="1.45882"
-                  r="1.45882"
-                  transform="matrix(-1.74846e-07 -1 -1 1.74846e-07 2.91797 2.91764)"
-                  fill="#BBBBBB"
-                />
-                <circle
-                  cx="1.45882"
-                  cy="1.45882"
-                  r="1.45882"
-                  transform="matrix(-1.74846e-07 -1 -1 1.74846e-07 2.91797 8.83512)"
-                  fill="#BBBBBB"
-                />
-                <circle
-                  cx="1.45882"
-                  cy="1.45882"
-                  r="1.45882"
-                  transform="matrix(-1.74846e-07 -1 -1 1.74846e-07 2.91797 14.7528)"
-                  fill="#BBBBBB"
-                />
-              </svg>
-            </ThreeDotVerticalIcon>
-          </KanbanHeaderBottomSectionSecondHalf>
-        </KanbanHeaderBottomSection>
-      </KanbanHeader> */}
       <HeaderSection view="kanban" />
       <Kanban />
     </KanbanSection>
