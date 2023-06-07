@@ -6,6 +6,7 @@ import {
   setExpandedItems,
   setNewTaskClicked,
 } from 'redux/slices/list';
+import { triggerDefaultNewTask } from 'redux/slices/kanban';
 
 const nameAndLogoArray = [
   {
@@ -26,15 +27,19 @@ const nameAndLogoArray = [
   },
 ];
 
-const NewTaskPanel = () => {
+const NewTaskPanel = ({ view }) => {
   const dispatch = useDispatch();
   const { list }: any = useSelector((state) => state);
   const { newTaskClicked, selectedItemIndex } = list;
   const { workspace }: any = useSelector((state) => state);
   let { color } = workspace;
   const newTaskHandler = () => {
-    dispatch(setNewTaskClicked(!newTaskClicked));
-    dispatch(checkToggle(selectedItemIndex));
+    if (view === 'list') {
+      dispatch(setNewTaskClicked(!newTaskClicked));
+      dispatch(checkToggle(selectedItemIndex));
+    } else if (view === 'kanban') {
+      dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
+    }
   };
   return (
     <div className="flexCenter">
@@ -51,7 +56,9 @@ const NewTaskPanel = () => {
         <div className="plusContainer flexCenter" style={{ color: color }}>
           +
         </div>
-        <div className="newTaskText">New list</div>
+        <div className="newTaskText">
+          New {view === 'list' ? 'list' : 'task'}
+        </div>
       </div>
       <div className="threeDots flexCenter">
         <ThreeDots />

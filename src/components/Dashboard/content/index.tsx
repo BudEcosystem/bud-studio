@@ -12,6 +12,7 @@ import OmniSearch from '../../OmniSearch/OmniSearch';
 import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 import Editor from '../../Editor/Editor';
 import EditorJsWrapper from '../../EditorWrapper';
+import TableView from 'components/TableView';
 
 import BudEditor from '../../BudEditor';
 import { setCurrentSelectedDocument } from 'redux/slices/workspace';
@@ -85,7 +86,13 @@ function ContentView({
         {currentSelectedUI?.includes('kanban') && (
           <KanbanUI workspaceObj={workspace} uiDetails={currentSelectedUI} />
         )}
-        {selectedDoc && <Hamburger />}
+        {/* {selectedDoc && <Hamburger />} */}
+        <Hamburger
+        // setCurrentSelectedUI={setCurrentSelectedUI}
+        // selectedOption={selectedOption}
+        // setSelectedOption={setSelectedOption}
+        />
+        {currentSelectedUI?.includes('table') && <TableView />}
       </Content>
       <OmniSearch />
     </Layout>

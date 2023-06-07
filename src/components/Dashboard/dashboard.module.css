@@ -6,7 +6,7 @@
 
 .site-layout {
   background: var(--primary-bgc-light) !important;
-  border-radius: 30px;
+  border-radius: 20px;
   box-shadow: 0 0 0 1px var(--light-gray);
   margin: 20px 20px 20px 1px;
 }
@@ -25,8 +25,8 @@
   padding: 20px;
   margin: 0;
   border-radius: 0 !important;
-  border-bottom-right-radius: 30px !important;
-  border-bottom-left-radius: 30px !important;
+  border-bottom-right-radius: 20px !important;
+  border-bottom-left-radius: 20px !important;
   overflow-y: auto;
 }
 
@@ -56,8 +56,8 @@
   gap: 20px;
   padding: 0;
   background: var(--primary-bgc-light);
-  border-top-right-radius: 30px;
-  border-top-left-radius: 30px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
   border-bottom: 1px solid var(--light-gray);
 }
 
@@ -481,11 +481,11 @@
   margin-bottom: 32px !important;
 }
 
-.sidebar-menu-userprofile-profile {
+/* .sidebar-menu-userprofile-profile {
   border: 1px solid rgba(210, 207, 207, 0.418);
   border-radius: 50px;
   padding: 2px;
-}
+} */
 
 .sidebar-menu-userprofile-box {
   max-width: 120px;
@@ -525,9 +525,9 @@
 }
 
 .sidebar-menu-userprofile-profile {
-  border: 1px solid rgba(210, 207, 207, 0.418);
+  /* border: 1px solid rgba(210, 207, 207, 0.418);
   border-radius: 50px;
-  padding: 2px;
+  padding: 2px; */
 }
 
 .sidebar-menu-userprofile-box {

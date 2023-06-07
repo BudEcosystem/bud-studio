@@ -9,14 +9,13 @@ import {
 import Kanban from './kanbanBoard';
 import { useSelector } from 'react-redux';
 import { updateAppData, updateWholeState } from 'redux/slices/workspace';
+import HeaderSection from 'components/ListView/HeaderSection';
 
 const KanbanSection = styled.div`
   height: auto;
-  padding: 47px;
   display: flex;
   flex-direction: column;
   background: #101010;
-  margin-left: 35px;
 `;
 const KanbanHeader = styled.div`
   width: 100%;
@@ -225,9 +224,9 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
   const { workspace, kanban }: any = useSelector((state) => state);
   const { color } = workspace;
   const [currentFileName, setCurrentFileName] = useState('');
-  const onNewTaskButtonClicked = () => {
-    dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
-  };
+  // const onNewTaskButtonClicked = () => {
+  //   dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
+  // };
 
   useEffect(() => {
     workspaceObj.workSpaceDocs.map((doc: any) => {
@@ -259,7 +258,7 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
   }, [kanban]);
   return (
     <KanbanSection>
-      <KanbanHeader>
+      {/* <KanbanHeader>
         <div>
           <KanbanBoardHeading>
             <KanbanBoardHeadingLogoWrap>
@@ -419,7 +418,8 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
             </ThreeDotVerticalIcon>
           </KanbanHeaderBottomSectionSecondHalf>
         </KanbanHeaderBottomSection>
-      </KanbanHeader>
+      </KanbanHeader> */}
+      <HeaderSection view="kanban" />
       <Kanban />
     </KanbanSection>
   );
