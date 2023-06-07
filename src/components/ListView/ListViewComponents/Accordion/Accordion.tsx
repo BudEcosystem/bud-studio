@@ -11,14 +11,14 @@ import {
 import SubAccordion from './SubAccordion';
 import HeaderSubCompInput from '../HeaderSubCompInput';
 
-const Accordion = ({ isAppMode }) => {
+function Accordion({ isAppMode }) {
   const dispatch = useDispatch();
   const { panelArray, newTaskClicked, expandedItems, selectedItemIndex } =
     useSelector((state) => state.list);
   // const [expandedItems, setExpandedItems] = useState([0]);
   // const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const { workspace }: any = useSelector((state) => state);
-  let { color } = workspace;
+  const { color } = workspace;
 
   const toggleAccordion = (index) => {
     // const updatedItems = [...expandedItems];
@@ -69,7 +69,7 @@ const Accordion = ({ isAppMode }) => {
                         className="arrowContainer"
                         onClick={() => toggleAccordion(i)}
                         style={{
-                          transform: expandedItems.includes(i)
+                          transform: expandedItems?.includes(i)
                             ? ''
                             : 'rotate(-90deg)',
                         }}
@@ -86,13 +86,13 @@ const Accordion = ({ isAppMode }) => {
                         </p>
                       </div>
                     </div>
-                    {expandedItems.includes(i) && (
+                    {expandedItems?.includes(i) && (
                       <div className="newTaskText2">
                         New Task <span style={{ color: '#8A8B8B' }}>+</span>
                       </div>
                     )}
                   </div>
-                  {expandedItems.includes(i) && (
+                  {expandedItems?.includes(i) && (
                     <div className="subAccordionContainer">
                       {item.items.map((subItems, j) => (
                         <Draggable
@@ -115,11 +115,7 @@ const Accordion = ({ isAppMode }) => {
                           )}
                         </Draggable>
                       ))}
-                      <Draggable
-                        key={10}
-                        draggableId={`draggable33`}
-                        index={10}
-                      >
+                      <Draggable key={10} draggableId="draggable33" index={10}>
                         {(provided, snapshot) => (
                           <div
                             ref={provided.innerRef}
@@ -147,6 +143,6 @@ const Accordion = ({ isAppMode }) => {
       </div>
     </DragDropContext>
   );
-};
+}
 
 export default Accordion;

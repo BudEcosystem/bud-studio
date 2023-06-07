@@ -38,16 +38,18 @@ function ContentView({
   const [selectedDoc, setSelectedDoc] = useState();
   // const [currentSelectedUI, setCurrentSelectedUI] = useState('');
   const [selecteOption, setSelectedOption] = useState('Editor');
-  const { workspace, activestate } = useSelector((state) => state);
-  const { currentSelectedUI, selectedOption, nodeIDs } = activestate;
+  const { workspace, activestate }: any = useSelector((state) => state);
+  const [currentSelectedUI, setCurrentSelectedUI] = useState('');
   useEffect(() => {
-    const { currentWorkspace, currentSelectedDocId } = workspace;
+    const { currentSelectedDocId } = workspace;
     setSelectedDoc(currentSelectedDocId);
   }, [workspace]);
   useEffect(() => {
-    dispatch(setCurrentSelectedDocument(nodeIDs)
-    );
-  }, []);
+    const { currentSelectedUI: csUI, nodeIDs } = activestate;
+    console.log('csi', csUI);
+    setCurrentSelectedUI(csUI);
+    dispatch(setCurrentSelectedDocument(nodeIDs));
+  }, [dispatch, activestate]);
   return (
     <Layout className={classes['site-layout']}>
       <HeaderComp
@@ -75,19 +77,18 @@ function ContentView({
             // setSelectedOption={setSelectedOption}
           />
         )}
-        {currentSelectedUI === 'listview' && (
-          <ListView contentRef={contentRef} workspaceObj={workspace} />
+        {currentSelectedUI?.includes('listview') && (
+          <ListView
+            contentRef={contentRef}
+            workspaceObj={workspace}
+            uiDetails={currentSelectedUI}
+          />
         )}
-        {currentSelectedUI === 'kanban' && (
-          <KanbanUI workspaceObj={workspace} />
+        {currentSelectedUI?.includes('kanban') && (
+          <KanbanUI workspaceObj={workspace} uiDetails={currentSelectedUI} />
         )}
-        <Hamburger
-        // setCurrentSelectedUI={setCurrentSelectedUI}
-        // selectedOption={selectedOption}
-        // setSelectedOption={setSelectedOption}
-        />
-        {/* <TableView/> */}
-        <TableviewNew />
+        <Hamburger />
+        {currentSelectedUI?.includes('table') && <TableView />}
       </Content>
       <OmniSearch />
     </Layout>

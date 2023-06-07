@@ -42,9 +42,6 @@ function TreeStructure({
   const [navigationPath, setNavigationPath] = useState<string[]>([]);
 
   const { workspace } = reduxState;
-  console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-  console.log(workspace);
-  console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
   const initData = () => {
     const { workSpaceDocs, workspaceFolders } = workspace;
     const WorkSpaceTreeData: any = [];
@@ -321,8 +318,6 @@ function TreeStructure({
     return sampleObjectProps;
   };
   const propsGenerated: any = conditionalProps();
-  console.log('treeDataProcessed', treeDataProcessed);
-  console.log('treeDataProcessed', workspace);
   const onSearchInput = (value: string) => {
     if (value.length === 0) {
       initData();

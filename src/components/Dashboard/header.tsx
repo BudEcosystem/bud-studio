@@ -305,11 +305,11 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
       <div className={classes['controls-box']}>
         <div className={classes['controls-box-path']}>
           <Breadcrumb
-          separator={<span style={{ color: '#7B8388' }}>/</span>}
+            separator={<span style={{ color: '#7B8388' }}>/</span>}
             className="BreadCrumb"
           >
-            {navigationPathArray.length > 1 &&
-              navigationPathArray?.map((item:any, index:any) => (
+            {navigationPathArray?.length > 1 &&
+              navigationPathArray?.map((item: any, index: any) => (
                 <Breadcrumb.Item key={index}>
                   {index === navigationPathArray?.length - 1 ? (
                     <>
@@ -335,7 +335,7 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
                 !switchToggle ? `0.5px solid ${color}` : '0.5px solid #25272B'
               }`,
               background: `${!switchToggle ? '#1a1a20' : '#25272B'}`,
-              marginRight: "5px"
+              marginRight: '5px',
             }}
             className={classes['controls-switch']}
           >

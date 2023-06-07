@@ -119,7 +119,7 @@ function Kanban() {
             placeholder: any;
           }) => (
             <Container {...provided.droppableProps} ref={provided.innerRef}>
-              {columnOrder.map((columnId, index) => {
+              {columnOrder?.map((columnId, index) => {
                 const column = columns[`${columnId}`];
                 const taskFiltered = column.taskIds.map(
                   (taskId: string) => tasks[`${taskId}`]
