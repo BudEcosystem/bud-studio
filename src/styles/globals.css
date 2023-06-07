@@ -47,7 +47,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
 }
 
 :where(.css-dev-only-do-not-override-b11g6e).ant-menu-dark {
