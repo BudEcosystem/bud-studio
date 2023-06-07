@@ -86,12 +86,7 @@ function ContentView({
         {currentSelectedUI?.includes('kanban') && (
           <KanbanUI workspaceObj={workspace} uiDetails={currentSelectedUI} />
         )}
-        {/* {selectedDoc && <Hamburger />} */}
-        <Hamburger
-        // setCurrentSelectedUI={setCurrentSelectedUI}
-        // selectedOption={selectedOption}
-        // setSelectedOption={setSelectedOption}
-        />
+        <Hamburger />
         {currentSelectedUI?.includes('table') && <TableView />}
       </Content>
       <OmniSearch />
