@@ -318,8 +318,6 @@ function TreeStructure({
     return sampleObjectProps;
   };
   const propsGenerated: any = conditionalProps();
-  console.log('treeDataProcessed', treeDataProcessed);
-  console.log('treeDataProcessed', workspace);
   const onSearchInput = (value: string) => {
     if (value.length === 0) {
       initData();

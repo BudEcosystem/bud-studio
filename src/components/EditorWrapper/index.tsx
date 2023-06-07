@@ -30,6 +30,7 @@ import {
   setNodeIDs,
   setSelectedOption,
 } from 'redux/slices/activestate';
+import { v4 as uuidv4 } from 'uuid';
 
 const DEFAULT_INITIAL_DATA = () => {
   return {
@@ -362,14 +363,40 @@ any) {
     }
 
     if (opt === 'listview') {
-      dispatch(setCurrentSelectedUI('listview'));
-      dispatch(setSelectedOption('List View'));
-      dispatch(addWorkSpaceApplications({ workspace, type: 'listview' }));
+      const newId = uuidv4();
+      const { currentSelectedDocId: currentSelectedDoc } = workspace;
+      const listApptitle = `${opt}--${currentSelectedDoc}--${newId}`;
+      dispatch(setCurrentSelectedUI('null'));
+      setTimeout(() => {
+        dispatch(setCurrentSelectedUI(listApptitle));
+        dispatch(setSelectedOption('List View'));
+        dispatch(
+          addWorkSpaceApplications({
+            workspace,
+            type: 'listview',
+            titleGenerated: listApptitle,
+            newId,
+          })
+        );
+      }, 1500);
     }
     if (opt === 'kanban') {
-      dispatch(setCurrentSelectedUI('kanban'));
-      dispatch(setSelectedOption('Kanban View'));
-      dispatch(addWorkSpaceApplications({ workspace, type: 'kanban' }));
+      const newId = uuidv4();
+      const { currentSelectedDocId: currentSelectedDoc } = workspace;
+      const kanbanApptitle = `${opt}--${currentSelectedDoc}--${newId}`;
+      dispatch(setCurrentSelectedUI(''));
+      setTimeout(() => {
+        dispatch(setCurrentSelectedUI(kanbanApptitle));
+        dispatch(setSelectedOption('Kanban View'));
+        dispatch(
+          addWorkSpaceApplications({
+            workspace,
+            type: 'kanban',
+            titleGenerated: kanbanApptitle,
+            newId,
+          })
+        );
+      }, 1500);
     }
     if (opt === 'database') {
       setEditorOptions([

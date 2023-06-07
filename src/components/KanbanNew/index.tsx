@@ -1,14 +1,14 @@
 import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { triggerDefaultNewTask } from 'redux/slices/kanban';
+import {
+  generateKanbanInitialState,
+  triggerDefaultNewTask,
+  updateWholeKanbanState,
+} from 'redux/slices/kanban';
 import Kanban from './kanbanBoard';
 import { useSelector } from 'react-redux';
-import {
-  generateInitialKanbanState,
-  updateAppData,
-  updateWholeState,
-} from 'redux/slices/workspace';
+import { updateAppData, updateWholeState } from 'redux/slices/workspace';
 
 const KanbanSection = styled.div`
   height: auto;
@@ -239,28 +239,24 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
 
   useEffect(() => {
     const { editorApplicationsAdded } = workspace;
-    console.log('hahahahahahahahahah', workspace);
     const currentApplicationId = uiDetails.split('--')[2];
     const applicationsDataFiltered = editorApplicationsAdded.find(
       (appData: any) => appData.applicatioId === currentApplicationId
     );
-    const kanbanEmptyData = generateInitialKanbanState();
+    const kanbanEmptyData = generateKanbanInitialState();
     if (applicationsDataFiltered) {
-      console.log('applicationsDataFiltered', applicationsDataFiltered);
-      let { appData } = applicationsDataFiltered;
+      const { appData } = applicationsDataFiltered;
       if (appData) {
-        console.log(appData);
+        dispatch(updateWholeKanbanState(appData));
       } else {
-        dispatch(updateWholeState(kanbanEmptyData));
+        dispatch(updateWholeKanbanState(kanbanEmptyData));
       }
     }
-  }, [dispatch, uiDetails, workspace]);
+  }, []);
   useEffect(() => {
-    // const { editorApplicationsAdded } = workspace;
     const currentApplicationId = uiDetails.split('--')[2];
     dispatch(updateAppData({ appID: currentApplicationId, appData: kanban }));
-  }, [dispatch, kanban, uiDetails]);
-  1;
+  }, [kanban]);
   return (
     <KanbanSection>
       <KanbanHeader>

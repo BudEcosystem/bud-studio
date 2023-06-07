@@ -168,6 +168,9 @@ devDependencies:
   '@types/terser-webpack-plugin':
     specifier: ^5.0.4
     version: 5.0.4(webpack-cli@5.0.1)
+  '@types/uuid':
+    specifier: ^9.0.1
+    version: 9.0.1
   '@types/webpack-bundle-analyzer':
     specifier: ^4.6.0
     version: 4.6.0(webpack-cli@5.0.1)
@@ -3251,6 +3254,10 @@ packages:
   /@types/use-sync-external-store@0.0.3:
     resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
     dev: false
+
+  /@types/uuid@9.0.1:
+    resolution: {integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==}
+    dev: true
 
   /@types/verror@1.10.6:
     resolution: {integrity: sha512-NNm+gdePAX1VGvPcGZCDKQZKYSiAWigKhKaz5KF94hG6f2s8de9Ow5+7AbXoeKxL8gavZfk4UquSAygOF2duEQ==}

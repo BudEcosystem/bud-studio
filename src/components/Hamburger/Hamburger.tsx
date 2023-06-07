@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import HamburgerItems from './HamburgerItems';
 import './Hamburger.css';
@@ -8,62 +9,60 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentSelectedDocument } from 'redux/slices/workspace';
 
-// const HamburgerOptions = ['', 'Editor', 'List View', 'Kanban View', '', ''];
-const HamburgerOptions = [{ title: '' }, { title: 'Editor' }];
-
 function Hamburger() {
-  // const [selectedOption, setSelectedOption] = useState('editor');
   const dispatch = useDispatch();
+  const [hamburgerOptions, setHamburgerOptions] = useState([
+    { title: '' },
+    { title: 'Editor' },
+  ]);
   const { activestate }: any = useSelector((state) => state);
   const { selectedOption, nodeIDs } = activestate;
-  const { tree, workspace }: any = useSelector((state) => state);
-  const {
-    color,
-    currentWorkspace,
-    currentSelectedDocId,
-    applicationData,
-    editorApplicationsAdded,
-  } = workspace;
+  const { workspace }: any = useSelector((state) => state);
+  const { currentSelectedDocId } = workspace;
+
   useEffect(() => {
-    let { editorApplicationsAdded, currentSelectedDocId } = workspace;
-    let documentApps = editorApplicationsAdded.filter(
-      (data) => data.docId === currentSelectedDocId
+    const { editorApplicationsAdded, currentSelectedDocId: csdi } = workspace;
+    const documentApps = editorApplicationsAdded.filter(
+      (data: any) => data.docId === csdi
     );
-    console.log('documentApps', documentApps);
+    const copyOfHamburgerOptions = [{ title: '' }, { title: 'Editor' }];
     documentApps.forEach((document: any) => {
-      const filteredArray = HamburgerOptions.filter(
+      const filteredArray = copyOfHamburgerOptions.filter(
         (data: any) =>
-          data.docId === currentSelectedDocId &&
-          data.applicatioId === document.applicatioId
+          data.docId === csdi && data.applicatioId === document.applicatioId
       );
       if (filteredArray.length === 0) {
-        HamburgerOptions.push(document);
+        copyOfHamburgerOptions.push(document);
       }
     });
+    setHamburgerOptions(copyOfHamburgerOptions);
   }, [workspace]);
-  console.log(HamburgerOptions);
   const handleOptionClick = (option: any) => {
     if (option === '') {
       return;
     }
-    dispatch(setSelectedOption(option));
-    if (option === 'Editor') {
-      dispatch(setCurrentSelectedUI(''));
-      dispatch(setCurrentSelectedDocument(nodeIDs));
-    } else if (option.includes('listview')) {
-      dispatch(setCurrentSelectedUI(option));
-    } else if (option.includes('kanban')) {
-      dispatch(setCurrentSelectedUI(option));
-    }
+    dispatch(setCurrentSelectedUI(null));
+    setTimeout(() => {
+      if (option === 'Editor') {
+        dispatch(setCurrentSelectedUI(''));
+        dispatch(setCurrentSelectedDocument(nodeIDs));
+        dispatch(setSelectedOption(option));
+      } else if (option.includes('listview')) {
+        dispatch(setCurrentSelectedUI(option));
+        dispatch(setSelectedOption(option));
+      } else if (option.includes('kanban')) {
+        dispatch(setCurrentSelectedUI(option));
+        dispatch(setSelectedOption(option));
+      }
+    }, 500);
   };
-
   return (
     <div>
       {currentSelectedDocId && (
         <div className="hamBurgerParent">
-          {HamburgerOptions.map(({ title, type }, i) => (
+          {hamburgerOptions.map(({ title, type, applicatioId }: any) => (
             <HamburgerItems
-              key={i}
+              key={applicatioId}
               title={type}
               selected={title === selectedOption}
               onClick={() => handleOptionClick(title)}

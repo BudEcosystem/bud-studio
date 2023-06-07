@@ -140,3 +140,6 @@
 .ant-tree-title {
   /* border-radius: 5px solid white; */
 }
+.ant-tree-iconEle {
+  display: none !important;
+}
