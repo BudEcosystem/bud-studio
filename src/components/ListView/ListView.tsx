@@ -67,7 +67,7 @@ function ListView({ contentRef, workspaceObj, uiDetails }: any) {
   useEffect(() => {
     const { editorApplicationsAdded } = workspace;
     const currentApplicationId = uiDetails.split('--')[2];
-    const applicationsDataFiltered = editorApplicationsAdded.find(
+    const applicationsDataFiltered = editorApplicationsAdded?.find(
       (appData: any) => appData.applicatioId === currentApplicationId
     );
     const ListEmptyData = generateInitialListState();
