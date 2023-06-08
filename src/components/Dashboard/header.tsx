@@ -236,70 +236,72 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
     <Header className={classes['site-layout-header']}>
       <SliderArrow slideFn={slideFn} isCollapsed={isCollapsed} />
       <Space split={' '} className={classes['arrow-box']}>
-        <div style={{ display: 'grid' }} className="hover-effect">
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g filter="url(#filter0_d_2345_3558)">
-              <rect
-                x="2"
-                y="2"
-                width="28"
-                height="28"
-                rx="13.8292"
-                fill="#25272B"
+        {navigationPathArray?.length > 1 && (
+          <div style={{ display: 'grid' }} className="hover-effect">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g filter="url(#filter0_d_2345_3558)">
+                <rect
+                  x="2"
+                  y="2"
+                  width="28"
+                  height="28"
+                  rx="13.8292"
+                  fill="#25272B"
+                />
+              </g>
+              <path
+                d="M18.0512 11L13 16.0512L18.0512 21.1025"
+                stroke="white"
+                strokeWidth="1.72866"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
-            </g>
-            <path
-              d="M18.0512 11L13 16.0512L18.0512 21.1025"
-              stroke="white"
-              strokeWidth="1.72866"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <defs>
-              <filter
-                id="filter0_d_2345_3558"
-                x="0"
-                y="0"
-                width="32"
-                height="32"
-                filterUnits="userSpaceOnUse"
-                colorInterpolationFilters="sRGB"
-              >
-                <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                <feColorMatrix
-                  in="SourceAlpha"
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                  result="hardAlpha"
-                />
-                <feOffset />
-                <feGaussianBlur stdDeviation="1" />
-                <feComposite in2="hardAlpha" operator="out" />
-                <feColorMatrix
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.85 0"
-                />
-                <feBlend
-                  mode="normal"
-                  in2="BackgroundImageFix"
-                  result="effect1_dropShadow_2345_3558"
-                />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="effect1_dropShadow_2345_3558"
-                  result="shape"
-                />
-              </filter>
-            </defs>
-          </svg>
-        </div>
+              <defs>
+                <filter
+                  id="filter0_d_2345_3558"
+                  x="0"
+                  y="0"
+                  width="32"
+                  height="32"
+                  filterUnits="userSpaceOnUse"
+                  colorInterpolationFilters="sRGB"
+                >
+                  <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                  <feColorMatrix
+                    in="SourceAlpha"
+                    type="matrix"
+                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                    result="hardAlpha"
+                  />
+                  <feOffset />
+                  <feGaussianBlur stdDeviation="1" />
+                  <feComposite in2="hardAlpha" operator="out" />
+                  <feColorMatrix
+                    type="matrix"
+                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.85 0"
+                  />
+                  <feBlend
+                    mode="normal"
+                    in2="BackgroundImageFix"
+                    result="effect1_dropShadow_2345_3558"
+                  />
+                  <feBlend
+                    mode="normal"
+                    in="SourceGraphic"
+                    in2="effect1_dropShadow_2345_3558"
+                    result="shape"
+                  />
+                </filter>
+              </defs>
+            </svg>
+          </div>
+        )}
       </Space>
 
       <div className={classes['controls-box']}>
@@ -309,20 +311,46 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
             className="BreadCrumb"
           >
             {navigationPathArray?.length > 1 &&
-              navigationPathArray?.map((item: any, index: any) => (
-                <Breadcrumb.Item key={index}>
-                  {index === navigationPathArray?.length - 1 ? (
-                    <>
-                      <FileIcon themeColor={color} />
-                      <span style={{ color: color }}>{item}</span>
-                    </>
-                  ) : (
-                    <>
-                      {item && <FolderIcon />}
-                      <span style={{ color: '#7B8388' }}>{item}</span>
-                    </>
-                  )}
-                </Breadcrumb.Item>
+              (navigationPathArray?.length > 4 ? (
+                <>
+                  {navigationPathArray?.map((item: any, index: any) => (
+                    <Breadcrumb.Item key={index}>
+                      {index === navigationPathArray?.length - 1 ? (
+                        <>
+                          <FileIcon themeColor={color} />
+                          <span style={{ color: color }}>{item}</span>
+                        </>
+                      ) : index != 0 ? (
+                        <>
+                          <p>..</p>
+                        </>
+                      ) : (
+                        <>
+                          {item && <FolderIcon />}
+                          <span style={{ color: '#7B8388' }}>{item}</span>
+                        </>
+                      )}
+                    </Breadcrumb.Item>
+                  ))}
+                </>
+              ) : (
+                <>
+                  {navigationPathArray?.map((item: any, index: any) => (
+                    <Breadcrumb.Item key={index}>
+                      {index === navigationPathArray?.length - 1 ? (
+                        <>
+                          <FileIcon themeColor={color} />
+                          <span style={{ color: color }}>{item}</span>
+                        </>
+                      ) : (
+                        <>
+                          {item && <FolderIcon />}
+                          <span style={{ color: '#7B8388' }}>{item}</span>
+                        </>
+                      )}
+                    </Breadcrumb.Item>
+                  ))}
+                </>
               ))}
           </Breadcrumb>
         </div>
