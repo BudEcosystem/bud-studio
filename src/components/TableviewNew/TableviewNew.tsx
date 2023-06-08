@@ -58,14 +58,9 @@ const TableviewNew = () => {
     useTable({ columns, data: dummy });
   const handleDragEnd = (result) => {
     if (!result.destination) return;
-
-    // Reorder the data based on the drag and drop result
     const items = Array.from(dummy);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-
-    // Update the data array
-    // Note: You may want to update the state or perform any necessary actions here
     setDummy(items);
     console.log('Updated data:', items);
   };
@@ -116,7 +111,6 @@ const TableviewNew = () => {
                                 ...provided.draggableProps.style,
                                 padding: '0px',
                                 boxSizing: 'border-box',
-                                // Adjust the minimum height as needed
                               }}
                             >
                               {row.cells.map((cell, cellIndex) => (
@@ -129,8 +123,6 @@ const TableviewNew = () => {
                                     ? provided.dragHandleProps
                                     : {})}
                                   style={{
-                                    // Adjust the minimum height as needed
-                                    // minWidth: '100px'
                                     paddingLeft: cellIndex === 0 ? '' : '12px',
                                   }}
                                 >
