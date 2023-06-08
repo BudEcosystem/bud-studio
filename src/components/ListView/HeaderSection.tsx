@@ -70,7 +70,7 @@ const HeaderSection = ({ view }) => {
             </div>
             <div className="mgLeft">
               <div
-                style={{ backgroundColor: 'var(--primary-bgc-light)' }}
+                style={{ backgroundColor: 'var(--bud-container-background)' }}
                 className={`kabuni`}
               >
                 <div className="kabuni" style={{}}>
