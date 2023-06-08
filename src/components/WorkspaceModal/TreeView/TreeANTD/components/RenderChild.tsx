@@ -37,7 +37,7 @@ function RenderChild({
   setExpandedKeys,
   workspaceDetails,
   setShowDocumentOptions,
-  color
+  color,
 }: any) {
   const [currentNode, setCurrentNode] = useState<any>();
   const getParentIds = (
@@ -317,7 +317,6 @@ function RenderChild({
     dispatch(setNavigationPath({ name: workspaceDetails?.name }));
   };
   const clickHandler = () => {
-    console.log('Asdfads', node);
     if (node.isLeaf && !currentNode?.folderInput && !currentNode?.docInput) {
       dispatch(setCurrentSelectedDocument({ id: null }));
       navPathHandler(node);
@@ -326,20 +325,17 @@ function RenderChild({
         dispatch(
           setCurrentSelectedDocument({
             uuid: node.key,
-            workSpaceUUID,
+            workSpaceUUID: workSpaceUUID
           })
         );
-        dispatch(setNodeIDs({ uuid: node.key, workSpaceUUID }));
+        dispatch(setNodeIDs({ uuid: node.key, workSpaceUUID: workSpaceUUID }));
         dispatch(setCurrentSelectedUI(''));
         dispatch(setSelectedOption('Editor'));
         dispatch(changeColor({ color: node.color }));
-        // if(node.workspaceDetails){
-        //   console.log("sdfds", node.workspaceDetails)
-        // dispatch(changeColor({color: node.workspaceDetails.color}))}
-        // else {
-        //   dispatch(changeColor({color: "#343434"}))
-        // }
-      }, 1000);
+      }, 100);
+      setTimeout(() => {
+        window.location.reload();
+      }, 200)
     }
   };
   return (

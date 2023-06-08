@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-const generateInitialState = (): any => {
+export const generateInitialListState = (): any => {
   const panelArray = [
     {
       status: 'todo',
@@ -341,7 +341,7 @@ const generateInitialState = (): any => {
 
 export const listSlice = createSlice({
   name: 'list',
-  initialState: generateInitialState,
+  initialState: generateInitialListState,
   reducers: {
     setNewTaskClicked: (state, action: PayloadAction<any>) => {
       state.newTaskClicked = action.payload;
@@ -433,6 +433,9 @@ export const listSlice = createSlice({
       }
       state.expandedItems = updatedItems;
     },
+    updateWholeListState: (state, action: PayloadAction<any>) => {
+      return action.payload;
+    },
   },
 });
 
@@ -447,5 +450,6 @@ export const {
   setSelectedItemIndex,
   checkToggle,
   setOneTime,
+  updateWholeListState,
 } = listSlice.actions;
 export default listSlice.reducer;
