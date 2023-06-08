@@ -332,7 +332,10 @@ function RenderChild({
         dispatch(setCurrentSelectedUI(''));
         dispatch(setSelectedOption('Editor'));
         dispatch(changeColor({ color: node.color }));
-      }, 1000);
+      }, 100);
+      setTimeout(() => {
+        window.location.reload();
+      }, 200)
     }
   };
   return (
