@@ -323,7 +323,7 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
                   </Breadcrumb.Item>
                   <Breadcrumb.Item>
                     <>
-                      <span style={{ color: color }}>..</span>
+                      <span style={{ color: color }}>......</span>
                     </>
                   </Breadcrumb.Item>
                   <Breadcrumb.Item>
