@@ -313,25 +313,27 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
             {navigationPathArray?.length > 1 &&
               (navigationPathArray?.length > 4 ? (
                 <>
-                  {navigationPathArray?.map((item: any, index: any) => (
-                    <Breadcrumb.Item key={index}>
-                      {index === navigationPathArray?.length - 1 ? (
-                        <>
-                          <FileIcon themeColor={color} />
-                          <span style={{ color: color }}>{item}</span>
-                        </>
-                      ) : index != 0 ? (
-                        <>
-                          <p>..</p>
-                        </>
-                      ) : (
-                        <>
-                          {item && <FolderIcon />}
-                          <span style={{ color: '#7B8388' }}>{item}</span>
-                        </>
-                      )}
-                    </Breadcrumb.Item>
-                  ))}
+                  <Breadcrumb.Item>
+                    <>
+                      {<FolderIcon />}
+                      <span style={{ color: '#7B8388' }}>
+                        {navigationPathArray[0]}
+                      </span>
+                    </>
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item>
+                    <>
+                      <span style={{ color: color }}>..</span>
+                    </>
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item>
+                    <>
+                      <FileIcon themeColor={color} />
+                      <span style={{ color: color }}>
+                        {navigationPathArray[navigationPathArray.length - 1]}
+                      </span>
+                    </>
+                  </Breadcrumb.Item>
                 </>
               ) : (
                 <>
