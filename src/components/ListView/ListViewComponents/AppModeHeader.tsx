@@ -45,7 +45,7 @@ const AppModeHeader = () => {
       <div className="mgLeft" style={{ marginBottom: '20px' }}>
         <div
           style={{
-            backgroundColor: 'var(--primary-bgc-light)',
+            backgroundColor: 'var(--bud-container-backgroundt)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',

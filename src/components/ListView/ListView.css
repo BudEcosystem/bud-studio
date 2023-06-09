@@ -62,7 +62,7 @@
     padding: 0px 0px 10px 0px;
     /* transform: scale(0.5); */
     transition: all 0.5s;
-    background-color: var(--primary-bgc-light);
+    background-color: var(--bud-container-background);
 }
 
 .tick {
