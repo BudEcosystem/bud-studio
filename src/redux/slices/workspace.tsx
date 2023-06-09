@@ -376,6 +376,73 @@ export const workspaceSlice = createSlice({
       console.log('copyOfEditorApplicationsAdded', proxyFilteredArray);
       state.editorApplicationsAdded = proxyFilteredArray;
     },
+    editFolderName: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
+      const { id, name } = action.payload;
+      const copyOfworkSpaceFolders = [...state.workspaceFolders];
+      const proxyFilteredArray: any = [];
+      copyOfworkSpaceFolders.forEach((data: any) => {
+        proxyFilteredArray.push({ ...data });
+      });
+      const newSetOFDataProcessed = proxyFilteredArray.map((data: any) => {
+        if (data.uuid === id) {
+          data.name = name;
+        }
+        return data;
+      });
+      state.workspaceFolders = newSetOFDataProcessed;
+    },
+    addDuplicateFolders: (state, action: PayloadAction<any>) => {
+      console.log(
+        'duplicateFolder - addDuplicateFolders - payload',
+        action.payload
+      );
+      const copyFolderStructure = state.workspaceFolders;
+      const { newObjectArray } = action.payload;
+      const proxyFilteredArray: any = [];
+      copyFolderStructure.forEach((data: any) => {
+        proxyFilteredArray.push({ ...data });
+      });
+      const newArrayGenerated = proxyFilteredArray.concat(newObjectArray);
+      console.log('duplicateFolder - addDuplicateFolders', newArrayGenerated);
+      state.workspaceFolders = newArrayGenerated;
+    },
+    addDuplicateDoc: (state, action: PayloadAction<any>) => {
+      console.log(
+        'duplicateFolder - addDuplicateDoc - payload',
+        action.payload
+      );
+      const copyDocStructure = state.workSpaceDocs;
+      const { newObjectArray } = action.payload;
+      const proxyFilteredArray: any = [];
+      copyDocStructure.forEach((data: any) => {
+        proxyFilteredArray.push({ ...data });
+      });
+      // proxyFilteredArray = [...proxyFilteredArray, ...newObjectArray];
+      copyDocStructure.forEach((data: any) => {
+        proxyFilteredArray.push({ ...data });
+      });
+      const newArrayGenerated = proxyFilteredArray.concat(newObjectArray);
+      console.log('duplicateFolder - addDuplicateDoc', newArrayGenerated);
+      state.workSpaceDocs = newArrayGenerated;
+      // }
+    },
+    addDuplicateEditorApplications: (state, action: PayloadAction<any>) => {
+      console.log(
+        'duplicateFolder - addDuplicateDoc - payload',
+        action.payload
+      );
+      const copyDocStructure = state.editorApplicationsAdded;
+      const { newObjectArray } = action.payload;
+      const proxyFilteredArray: any = [];
+      copyDocStructure.forEach((data: any) => {
+        proxyFilteredArray.push({ ...data });
+      });
+      const newArrayGenerated = proxyFilteredArray.concat(newObjectArray);
+      console.log('duplicateFolder - addDuplicateDoc', newArrayGenerated);
+      state.editorApplicationsAdded = newArrayGenerated;
+      // }
+    },
   },
 });
 
@@ -399,5 +466,9 @@ export const {
   addWorkSpaceApplications,
   updateWholeState,
   updateAppData,
+  editFolderName,
+  addDuplicateFolders,
+  addDuplicateDoc,
+  addDuplicateEditorApplications,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

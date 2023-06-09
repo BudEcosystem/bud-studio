@@ -47,14 +47,14 @@ function TreeStructure({
     const WorkSpaceTreeData: any = [];
     const rootLevelFolders = workspaceFolders.filter((folderData: any) => {
       return (
-        folderData?.workSpaceUUID === workspaceDetails.uuid &&
+        folderData?.workSpaceUUID === workspaceDetails?.uuid &&
         folderData?.childOf === null
       );
     });
     const rootLevelDocuments = workSpaceDocs.filter(
       (docData: any) =>
-        docData.workSpaceUUID === workspaceDetails.uuid &&
-        docData.childOf === null
+        docData?.workSpaceUUID === workspaceDetails?.uuid &&
+        docData?.childOf === null
     );
     rootLevelFolders.forEach((data: any) => {
       const sampleObjectFolder = {
@@ -170,23 +170,24 @@ function TreeStructure({
     }
   }
   const nodeSelected = (node: any) => {
+    console.log('hahahahahahahahahahahahahahah', node);
     return new Promise((resolve) => {
       const { workSpaceDocs, workspaceFolders } = workspace;
       const WorkSpaceTreeData: any = [];
 
-      const updatedPath = [...navigationPath, node.title];
+      const updatedPath = [...navigationPath, node?.title];
       setNavigationPath(updatedPath);
 
       console.log(updatedPath, 'sadfads', node);
 
       const selectedFolder = workspaceFolders.filter((folderData: any) => {
-        return folderData?.uuid === node.key;
+        return folderData?.uuid === node?.key;
       });
       const rootLevelFolders = workspaceFolders.filter((folderData: any) => {
-        return folderData?.childOf === node.key;
+        return folderData?.childOf === node?.key;
       });
       const rootLevelDocuments = workSpaceDocs.filter(
-        (docData: any) => docData.childOf === node.key
+        (docData: any) => docData?.childOf === node?.key
       );
       rootLevelFolders.forEach((data: any) => {
         const sampleObjectFolder = {
@@ -230,7 +231,7 @@ function TreeStructure({
   };
 
   const onNodeExpand = (key: any) => {
-    console.log('hahahahah');
+    console.log(key);
     setExpandedKeys(key);
   };
 
@@ -306,6 +307,7 @@ function TreeStructure({
           workspaceDetails={workspaceDetails}
           setShowDocumentOptions={setShowDocumentOptions}
           color={color}
+          // nodeSelected={nodeSelected}
         />
       </div>
     );

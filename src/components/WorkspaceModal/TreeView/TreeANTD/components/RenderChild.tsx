@@ -5,6 +5,7 @@
 import { FileFilled, FolderFilled, PlusOutlined } from '@ant-design/icons';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import { Popover } from 'antd';
 import {
   Copy,
@@ -16,9 +17,13 @@ import {
   RightArrow,
 } from 'components/WorkspaceModal/WorkspaceIcons';
 import {
+  addDuplicateDoc,
+  addDuplicateEditorApplications,
+  addDuplicateFolders,
   changeColor,
   createSubChild,
   deleteFolder,
+  editFolderName,
   setCurrentSelectedDocument,
 } from 'redux/slices/workspace';
 import {
@@ -38,8 +43,13 @@ function RenderChild({
   workspaceDetails,
   setShowDocumentOptions,
   color,
+  setTreeData,
+  nodeSelected,
 }: any) {
   const [currentNode, setCurrentNode] = useState<any>();
+  const [popOverVisible, setPopOverVisible] = useState(false);
+  const reduxState: any = useSelector((state) => state);
+  const { workspace } = reduxState;
   const getParentIds = (
     arr: any,
     targetId: any,
@@ -69,23 +79,161 @@ function RenderChild({
     const { key } = node;
     addInputField(node, type);
     setShowDocumentOptions(false);
-    // if (type === 'doc') {
-    //   setCreateDocFlag(true);
-    // }
-    // if (type === 'folder') {
-    //   setCreateFolderFlag(true);
-    // }
-    // dispatch(enableCreateNewTreeNode({ type }));
-    // setShowColorDots(false);
   };
   const dispatch = useDispatch();
 
-  const onDuplicateFolderClicked = (event: any) => {
-    event.preventDefault();
-  };
   const onDeleteFolderClicked = (event: any) => {
     event.preventDefault();
     dispatch(deleteFolder({ id: node.key }));
+  };
+
+  const findIndexOfData = (data: Array<any>, id: number) => {
+    return data.findIndex((ArrayData: any) => ArrayData.key === id);
+  };
+
+  const findAndReplaceItem = (index: any, currentTreeData: any) => {
+    let inc = index;
+    const current = currentTreeData;
+    // console.log(expandedKeys);
+    const indexFound = findIndexOfData(current, expandedKeys[inc]);
+    // console.log(indexFound);
+    if (indexFound !== -1) {
+      const newCurrent = current[indexFound];
+      console.log(newCurrent);
+      inc += 1;
+      if (inc === expandedKeys.length) {
+        console.log('last index found', newCurrent);
+        newCurrent.children[0].title = 'renamed';
+      } else {
+        findAndReplaceItem(inc, newCurrent.children);
+      }
+    }
+    return current;
+  };
+  const onRenameClicked = (e: any) => {
+    // console.log(expandedKeys);
+    // e.stopPropagation();
+    // const treeDataCopy = treeData;
+    // findAndReplaceItem(0, treeDataCopy);
+    // setTreeData(treeDataCopy);
+    // setPopOverVisible(false);
+    // setExpandedKeys(expandedKeys);
+    setCurrentNode({ ...node, folderUpdateInput: true });
+  };
+  const checkForChilds = (id: any) => {
+    const { workspaceFolders, workSpaceDocs } = workspace;
+    const childFolders = workspaceFolders.filter(
+      (data: any) => data?.childOf === id
+    );
+    const childDocs = workSpaceDocs.filter((data: any) => data?.childOf === id);
+    return [...childDocs, ...childFolders];
+  };
+  const checkIfCHildrenExistsAndDuplicate = (
+    parentId: any,
+    isParent: boolean,
+    newParentId: any,
+    folderCopy: any,
+    docCopy: any,
+    applicationCopy: any
+  ) => {
+    const { workspaceFolders, workSpaceDocs, editorApplicationsAdded } =
+      workspace;
+    if (isParent) {
+      const parentFolder = workspaceFolders.find(
+        (data: any) => data.uuid === parentId
+      );
+      console.log('duplicateFolder - parentFolder', parentFolder);
+      const newUUID = uuidv4();
+      const newParentFolder = {
+        ...parentFolder,
+        name: `${parentFolder.name}-duplicate`,
+        uuid: newUUID,
+      };
+      console.log('duplicateFolder - newParentFolder', newParentFolder);
+      folderCopy.push(newParentFolder);
+      if (checkForChilds(parentId).length > 0) {
+        checkIfCHildrenExistsAndDuplicate(
+          parentId,
+          false,
+          newUUID,
+          folderCopy,
+          docCopy,
+          applicationCopy
+        );
+      }
+    } else {
+      const childFolders = workspaceFolders.filter(
+        (data: any) => data?.childOf === parentId
+      );
+      const childDocs = workSpaceDocs.filter(
+        (data: any) => data?.childOf === parentId
+      );
+      childDocs.forEach((childDoc: any) => {
+        console.log('duplicateFolder - Doc - child', childDoc);
+        let newId = uuidv4();
+        const newChildDoc = {
+          ...childDoc,
+          uuid: newId,
+          childOf: newParentId,
+        };
+        const filteredApplicationDataForCurrentDOcument =
+          editorApplicationsAdded.filter(
+            (appData: any) => appData.docId === childDoc.uuid
+          );
+        filteredApplicationDataForCurrentDOcument.forEach((each) =>
+          applicationCopy.push({ ...each, docId: newId })
+        );
+        console.log('duplicateFolder - newChildDoc - child', newChildDoc);
+        docCopy.push(newChildDoc);
+      });
+      childFolders.forEach((childFolder: any) => {
+        const newChildUUID = uuidv4();
+        console.log('duplicateFolder - child', childFolder);
+        const newChildFolder = {
+          ...childFolder,
+          uuid: newChildUUID,
+          childOf: newParentId,
+        };
+        console.log('duplicateFolder - new child', newChildFolder);
+        folderCopy.push(newChildFolder);
+        const { uuid } = childFolder;
+        if (checkForChilds(uuid).length > 0) {
+          checkIfCHildrenExistsAndDuplicate(
+            uuid,
+            false,
+            newChildUUID,
+            folderCopy,
+            docCopy,
+            applicationCopy
+          );
+        }
+      });
+    }
+    // nodeSelected(node);
+  };
+  const onDuplicateFolderClicked = (e: any) => {
+    e.stopPropagation();
+    setPopOverVisible(false);
+    // console.log('duplicateFolder', node);
+    const folderCopy: any = [];
+    const docCopy: any = [];
+    const applicationCopy: any = [];
+    checkIfCHildrenExistsAndDuplicate(
+      node.key,
+      true,
+      null,
+      folderCopy,
+      docCopy,
+      applicationCopy
+    );
+    console.log('duplicateFolder - folderCopy', folderCopy);
+    dispatch(addDuplicateFolders({ newObjectArray: folderCopy }));
+    console.log('duplicateFolder - docCopy', docCopy);
+    dispatch(addDuplicateDoc({ newObjectArray: docCopy }));
+    console.log('duplicateFolder - applicationCopy', applicationCopy);
+    dispatch(addDuplicateEditorApplications({ newObjectArray: docCopy }));
+    // let keys = expandedKeys;
+    // setExpandedKeys([]);
   };
   const content = (
     <div className="docOptionsModal" ref={optionModalRef}>
@@ -122,12 +270,7 @@ function RenderChild({
               </div>
             </div>
             {/* {createPopup && <CreatePopupModal />} */}
-            <div
-              className="secondWorkspaceOption"
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            >
+            <div className="secondWorkspaceOption" onClick={onRenameClicked}>
               <Edit />
               <h3
                 style={{
@@ -244,10 +387,11 @@ function RenderChild({
       : `linear-gradient(90.28deg, ${color}45 4.88%, rgba(17, 21, 18, 0) 91.54%)`;
     return colourDetermined;
   };
-  const reduxState: any = useSelector((state) => state);
-  const { workspace } = reduxState;
+
   const plusButtonClicked = (e: any) => {
     e.stopPropagation();
+    const defaultValue = popOverVisible;
+    setPopOverVisible(!defaultValue);
     setShowDocumentOptions(true);
     // const { key } = node;
     // const idArray = getParentIds(treeData, key);
@@ -289,6 +433,34 @@ function RenderChild({
       console.log(inputRefFolder.current.value, currentNode);
     }
   };
+  const onEnterInputForUpdate = (event: any) => {
+    console.log('currentNode', currentNode);
+    if (event.code === 'Escape') {
+      event.preventDefault();
+      console.log(inputRefFolder.current.value, currentNode);
+      dispatch(
+        editFolderName({
+          name: currentNode.title,
+          id: currentNode.key,
+        })
+      );
+      setTimeout(setExpandedKeys([]));
+    }
+    if (event.code === 'Enter') {
+      event.preventDefault();
+      dispatch(
+        editFolderName({
+          name:
+            inputRefFolder.current.value.length > 0
+              ? inputRefFolder.current.value
+              : currentNode.title,
+          id: currentNode.key,
+        })
+      );
+      setTimeout(setExpandedKeys([]));
+      console.log(inputRefFolder.current.value, currentNode);
+    }
+  };
   const findParent = (x) => {
     const find = workspace.workspaceFolders.find((y) => y?.uuid === x?.parent);
     // console.log(find, "asdf")
@@ -307,7 +479,6 @@ function RenderChild({
   };
   const navPathHandler = (n) => {
     const par = findParent(n);
-    console.log('asdfasd', par, n);
     dispatch(setNavigationPath(null));
     dispatch(setNavigationPath({ name: n.title }));
     if (par) {
@@ -359,6 +530,7 @@ function RenderChild({
       <div style={{ display: 'flex' }}>
         {!currentNode?.folderInput &&
         !currentNode?.docInput &&
+        !currentNode?.folderUpdateInput &&
         currentNode?.isLeaf ? (
           <FileFilled
             style={{
@@ -378,19 +550,21 @@ function RenderChild({
             rev={undefined}
           />
         )}{' '}
-        {!currentNode?.folderInput && !currentNode?.docInput && (
-          <div style={{ display: 'flex' }}>
-            <span
-              style={{
-                marginLeft: '10px',
-                width: '150px',
-                minWidth: '150px',
-              }}
-            >
-              {currentNode?.title}
-            </span>
-          </div>
-        )}
+        {!currentNode?.folderInput &&
+          !currentNode?.docInput &&
+          !currentNode?.folderUpdateInput && (
+            <div style={{ display: 'flex' }}>
+              <span
+                style={{
+                  marginLeft: '10px',
+                  width: '150px',
+                  minWidth: '150px',
+                }}
+              >
+                {currentNode?.title}
+              </span>
+            </div>
+          )}
         {(currentNode?.folderInput || currentNode?.docInput) && (
           <div style={{ display: 'flex' }}>
             <input
@@ -401,9 +575,26 @@ function RenderChild({
             />
           </div>
         )}
+        {currentNode?.folderUpdateInput && (
+          <div style={{ display: 'flex' }}>
+            <input
+              onKeyDown={onEnterInputForUpdate}
+              className="treeViewContainerDocInput"
+              id="newTreeChildInput"
+              ref={inputRefFolder}
+            />
+          </div>
+        )}
       </div>
       {!currentNode?.isLeaf && expandedKeys.includes(node.key) && (
-        <Popover trigger="click" placement="rightTop" content={content} arrow>
+        <Popover
+          // popupVisible={false}
+          open={popOverVisible}
+          trigger="click"
+          placement="rightTop"
+          content={content}
+          arrow
+        >
           <div
             onClick={plusButtonClicked}
             style={{

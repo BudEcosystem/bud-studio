@@ -15,7 +15,10 @@ import EditorJsWrapper from '../../EditorWrapper';
 import TableView from 'components/TableView';
 
 import BudEditor from '../../BudEditor';
-import { changeColor, setCurrentSelectedDocument } from 'redux/slices/workspace';
+import {
+  changeColor,
+  setCurrentSelectedDocument,
+} from 'redux/slices/workspace';
 import TableviewNew from 'components/TableviewNew/TableviewNew';
 import { setNodeIDs, setCurrentSelectedUI } from 'redux/slices/activestate';
 
@@ -44,21 +47,26 @@ function ContentView({
     workspace.workSpaceItems
   );
 
-    useEffect(() => {
-      if(workspaceItems.length == 1) {
-        dispatch(setCurrentSelectedDocument({ id: null }));
-            setTimeout(() => {
-              dispatch(
-                setCurrentSelectedDocument({
-                  uuid: '8fbac4d2-7bd0-482f-9880-c645bddd6eac5',
-                  workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-                })
-              );
-              dispatch(setNodeIDs({ uuid: '8fbac4d2-7bd0-482f-9880-c645bddd6eac5', workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc'}));
-              dispatch(changeColor({ color: '#343434' }));
-            }, 1000);
-      }
-    }, [])
+  useEffect(() => {
+    if (workspaceItems.length == 1) {
+      dispatch(setCurrentSelectedDocument({ id: null }));
+      setTimeout(() => {
+        dispatch(
+          setCurrentSelectedDocument({
+            uuid: '8fbac4d2-7bd0-482f-9880-c645bddd6eac5',
+            workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+          })
+        );
+        dispatch(
+          setNodeIDs({
+            uuid: '8fbac4d2-7bd0-482f-9880-c645bddd6eac5',
+            workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+          })
+        );
+        dispatch(changeColor({ color: '#343434' }));
+      }, 1000);
+    }
+  }, []);
 
   useEffect(() => {
     const { currentSelectedDocId } = workspace;
@@ -109,7 +117,6 @@ function ContentView({
         )}
         <Hamburger />
         {currentSelectedUI?.includes('table') && <TableView />}
-        {/* <TableviewNew /> */}
       </Content>
       <OmniSearch />
     </Layout>
