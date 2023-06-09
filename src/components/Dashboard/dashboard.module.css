@@ -5,7 +5,7 @@
 }
 
 .site-layout {
-  background: var(--primary-bgc-light) !important;
+  background: var(--bud-container-background) !important;
   border-radius: 20px;
   box-shadow: 0 0 0 1px var(--light-gray);
   margin: 20px 20px 20px 1px;
@@ -20,7 +20,7 @@
 
 .site-layout-content {
   position: relative;
-  background: var(--primary-bgc-light) !important;
+  background: var(--bud-container-background) !important;
   color: var(--white-color);
   padding: 20px;
   margin: 0;
@@ -55,7 +55,7 @@
   align-items: center;
   gap: 20px;
   padding: 0;
-  background: var(--primary-bgc-light);
+  background: var(--bud-container-background);
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   border-bottom: 1px solid var(--light-gray);
@@ -135,15 +135,10 @@
   height: 28px;
   border-radius: 8px;
   background: #25272b;
-  box-shadow: 0px 0px 3px rgba(255, 255, 255, 0.24);
   display: grid;
   place-items: center;
   cursor: pointer;
   margin-right: 18px;
-}
-
-.controls-switch:hover {
-  background-color: var(--primary-bgc-2) !important;
 }
 
 .controls-switch-name {
@@ -557,8 +552,6 @@
 }
 
 .view-more {
-  background: #121213;
-  border-radius: 3px;
   width: 30px;
   height: 16.77px;
   display: flex;
@@ -568,10 +561,6 @@
   transition-duration: .5s;
   margin-left: 24px;
   margin-top: 20px;
-}
-
-.view-more:hover {
-  background: #25272b;
 }
 
 .pointBox{
