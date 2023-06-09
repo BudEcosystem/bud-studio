@@ -89,7 +89,6 @@ function ContentView({
         )}
         <Hamburger />
         {currentSelectedUI?.includes('table') && <TableView />}
-        <TableviewNew />
       </Content>
       <OmniSearch />
     </Layout>

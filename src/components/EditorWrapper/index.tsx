@@ -191,7 +191,7 @@ any) {
       ejInstance.current = null;
     }
     workspace.workSpaceDocs.map((doc: any) => {
-      if (workspace.currentSelectedDocId == doc.uuid) {
+      if (workspace.currentSelectedDocId == doc?.uuid) {
         setCurrentFileName(doc.name);
       }
     });
