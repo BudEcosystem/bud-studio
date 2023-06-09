@@ -63,7 +63,7 @@ any) {
   const [iconUrl, setIconUrl] = useState();
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
   const { tree, workspace }: any = useSelector((state) => state);
-  const { color, currentWorkspace, currentSelectedDocId } = workspace;
+  const { color, currentWorkspace, currentSelectedDocId, applicationData, editorInitialised } = workspace;
   const [render, setRender] = useState(false);
   const cursorRect = useRef<DOMRect>();
   const refHoverBar = useRef();
@@ -156,47 +156,42 @@ any) {
     },
   ]);
   // for checking if the particular editor has somedata
+
   useEffect(() => {
-    const {
-      currentWorkspace: copycurrentWorkspace,
-      currentSelectedDocId: copycurrentSelectedDocId,
-      applicationData,
-      editorInitialised,
-    } = workspace;
-    const currentApplicationData = applicationData.filter(
-      (application: any) =>
-        application.docId === copycurrentSelectedDocId &&
-        application.workSpaceId === copycurrentWorkspace
-    );
-    if (currentApplicationData.length > 0) {
-      setEditorData(currentApplicationData[0].applicationSpecificicData);
-      !editorInitialised &&
-        initEditor(currentApplicationData[0].applicationSpecificicData);
-      dispatch(setEditorInitialised());
-    } else {
-      // setEditorData(null);
-      !editorInitialised &&
-        initEditor({
-          id: 'Ef0oiN-VMW',
-          type: 'paragraph',
-          data: {
-            text: 'SampleData',
-          },
-        });
-      dispatch(setEditorInitialised());
-    }
+
     if (!currentSelectedDocId) {
       initEditor(null);
-      ejInstance.current?.destroy();
-      ejInstance.current = null;
     }
-    workspace.workSpaceDocs.map((doc: any) => {
-      if (workspace.currentSelectedDocId == doc.uuid) {
-        setCurrentFileName(doc.name);
+    else {
+      const currentApplicationData = applicationData.filter(
+        (application: any) =>
+          application.docId === currentSelectedDocId &&
+          application.workSpaceId === currentWorkspace
+      );
+  
+      if (currentApplicationData.length > 0) {
+        setEditorData(currentApplicationData[0].applicationSpecificicData);
+          initEditor(currentApplicationData[0].applicationSpecificicData);
+        dispatch(setEditorInitialised());
+      } else { 
+          initEditor({
+            id: 'Ef0oiN-VMW',
+            type: 'paragraph',
+            data: {
+              text: 'SampleData',
+            },
+          });
+        dispatch(setEditorInitialised());
       }
-    });
-    setWorkspaceFiles(workspace.workSpaceDocs);
-  }, [workspace, ejInstance]);
+  
+      workspace.workSpaceDocs.map((doc: any) => {
+        if (workspace.currentSelectedDocId == doc.uuid) {
+          setCurrentFileName(doc.name);
+        }
+      });
+      setWorkspaceFiles(workspace.workSpaceDocs);
+  }
+  }, [ejInstance])
 
   const checkForMentions = () => {
     const paraElements = document.querySelectorAll('.ce-paragraph');
@@ -346,11 +341,8 @@ any) {
   // console.log("WORKSPACEGOCIND", workspace)
 
   useEffect(() => {
-    checkForMentions();
-  }, [color]);
-
-  useEffect(() => {
     colorRef.current = `${color}75`;
+    checkForMentions();
   }, [color]);
 
   const insertBlock = (opt: any, title: any, id: any) => {
@@ -560,7 +552,6 @@ any) {
         const matches4 = text.match(regex4);
         if (matches4 && matches4.length > 1) {
           fileId = matches4[1];
-          console.log('THE HYPERLINK ID IS', fileId);
         }
         let idOfWorkspace: any;
         let colorofWorkspace: any;
@@ -577,10 +568,8 @@ any) {
           }
         });
 
-        console.log('ID OF WORKPPACE =', idOfWorkspace);
         if (fileId && idOfWorkspace && colorofWorkspace) {
           linkElement?.addEventListener('click', () => {
-            console.log('THE INSIDE TEXT IS', text);
             dispatch(setCurrentSelectedDocument({ id: null }));
             setTimeout(() => {
               dispatch(
@@ -589,9 +578,7 @@ any) {
                   workSpaceUUID: idOfWorkspace,
                 })
               );
-              dispatch(
-                setNodeIDs({ uuid: fileId, workSpaceUUID: idOfWorkspace })
-              );
+              dispatch(setNodeIDs({ uuid: fileId, workSpaceUUID: idOfWorkspace }));
               dispatch(setCurrentSelectedUI(''));
               dispatch(setSelectedOption('Editor'));
               dispatch(changeColor({ color: colorofWorkspace }));
