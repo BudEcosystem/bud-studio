@@ -526,3 +526,19 @@
     line-height: 1;
     font-weight: 500;
 }
+
+.siconContainer {
+    display: flex;
+    background: #1B1C1E;
+    border-radius: 7.03826px;
+    padding: 3.5px 6px;
+    margin-left: 6px;
+}
+
+.checklistContainer {
+    display: flex;
+    padding: 3.5px 6px;
+    background: #1B1C1E;
+    border-radius: 7.03826px;
+    margin-left: 8px;
+}
