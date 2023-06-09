@@ -10,14 +10,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setColumnOrder,
   setNewColumn,
+  setNewRow,
   setNewTaskClickedtable,
+  setRowOrder,
 } from 'redux/slices/table';
 
 const TableviewNew = () => {
-  const [dummy, setDummy] = useState(data);
+  // const [dummy, setDummy] = useState(data);
   const { table }: any = useSelector((state) => state);
-  const { columnsArray, newTaskClickedtable, addNewRow } = table;
+  const { columnsArray, newTaskClickedtable, addNewRow, rowsInTable } = table;
+  const [addCol, setAddCol] = useState(true);
+  const [newRowValues, setNewRowValues] = useState({});
   const dispatch = useDispatch();
+  console.log(rowsInTable);
   // const columns = React.useMemo(
   //   () => [
   //     {
@@ -83,7 +88,7 @@ const TableviewNew = () => {
   };
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns: columnsArray, data: dummy });
+    useTable({ columns: columnsArray, data: rowsInTable });
   const handleDragEnd = (result) => {
     if (!result.destination) return;
     if (result.type === 'column') {
@@ -93,73 +98,23 @@ const TableviewNew = () => {
       // newColumnOrder.splice(result.destination.index, 0, removed);
       dispatch(setColumnOrder(result));
     } else {
-      const items = Array.from(dummy);
-      const [reorderedItem] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reorderedItem);
-      setDummy(items);
-      console.log('Updated data:', items);
+      dispatch(setRowOrder(result))
+      // const items = Array.from(dummy);
+      // const [reorderedItem] = items.splice(result.source.index, 1);
+      // items.splice(result.destination.index, 0, reorderedItem);
+      // setDummy(items);
+      // console.log('Updated data:', items);
     }
   };
 
-  useEffect(() => {
-    if (addNewRow) {
-      const newRow = {
-        id: 8,
-        account_name: (
-          <input
-            type="text"
-            className="titleInputtable"
-            placeholder="Add Account name"
-          />
-        ),
-        account_id: (
-          <input
-            type="text"
-            className="titleInputtable"
-            placeholder="Add Account name"
-          />
-        ),
-        annual_revenue: (
-          <input
-            type="text"
-            className="titleInputtable"
-            placeholder="Add Account name"
-          />
-        ),
-        score: (
-          <input
-            type="text"
-            className="titleInputtable"
-            placeholder="Add Account name"
-          />
-        ),
-        due_date: (
-          <input
-            type="text"
-            className="titleInputtable"
-            placeholder="Add Account name"
-          />
-        ),
-        assignee: [],
-        priority: (
-          <input
-            type="text"
-            className="titleInputtable"
-            placeholder="Add Account name"
-          />
-        ),
-        tag: (
-          <input
-            type="text"
-            className="titleInputtable"
-            placeholder="Add Account name"
-          />
-        ),
-      };
-      setDummy((prevData) => [...prevData, newRow]);
-      // dispatch(setNewTaskClickedtable(false));
+  const sendRowValues = (e) => {
+    if (e.key === 'Enter') {
+      dispatch(setNewRow(newRowValues))
+      setNewRowValues({})
+      dispatch(setNewTaskClickedtable(false))
     }
-  }, [addNewRow]);
+  }
+
   return (
     <>
       <HeaderSection view="table" />
@@ -204,7 +159,7 @@ const TableviewNew = () => {
                             )}
                           </Draggable>
                         ))}
-                        {newTaskClickedtable && (
+                        {addCol && (
                           <th>
                             <input
                               type="text"
@@ -232,6 +187,33 @@ const TableviewNew = () => {
                   >
                     {rows.map((row, index) => {
                       prepareRow(row);
+                      if (newTaskClickedtable && index === rows.length - 1) {
+                        return (
+                          <tr>
+                            {columnsArray.map((cols, i) => {
+                              if (i === 0) return <td></td>;
+                              return (
+                                <td>
+                                  <input
+                                    type="text"
+                                    className="titleInputtable"
+                                    name={cols.accessor}
+                                    placeholder={`Add ${cols.Header}`}
+                                    value={newRowValues[cols.accessor] || ''}
+                                    onChange={(e) =>
+                                      setNewRowValues((prevValues) => ({
+                                        ...prevValues,
+                                        [cols.accessor]: e.target.value,
+                                      }))
+                                    }
+                                    onKeyPress={sendRowValues}
+                                  />
+                                </td>
+                              );
+                            })}
+                          </tr>
+                        );
+                      }
                       return (
                         <Draggable
                           key={row.id}
@@ -267,7 +249,7 @@ const TableviewNew = () => {
                                     {cell.render('Cell')}
                                   </td>
                                 ))}
-                                {newTaskClickedtable && <td></td>}
+                                {addCol && <td></td>}
                               </tr>
                             </>
                           )}
