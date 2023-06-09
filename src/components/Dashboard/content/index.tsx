@@ -90,6 +90,7 @@ function ContentView({
         <Hamburger />
         {currentSelectedUI?.includes('table') && <TableView />}
         <TableviewNew />
+        {/* <TableView /> */}
       </Content>
       <OmniSearch />
     </Layout>
