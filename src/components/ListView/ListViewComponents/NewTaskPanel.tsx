@@ -7,6 +7,7 @@ import {
   setNewTaskClicked,
 } from 'redux/slices/list';
 import { triggerDefaultNewTask } from 'redux/slices/kanban';
+import { setNewTaskClickedtable } from 'redux/slices/table';
 
 const nameAndLogoArray = [
   {
@@ -29,8 +30,9 @@ const nameAndLogoArray = [
 
 const NewTaskPanel = ({ view }) => {
   const dispatch = useDispatch();
-  const { list }: any = useSelector((state) => state);
+  const { list, table }: any = useSelector((state) => state);
   const { newTaskClicked, selectedItemIndex } = list;
+  const { newTaskClickedtable } = table;
   const { workspace }: any = useSelector((state) => state);
   let { color } = workspace;
   const newTaskHandler = () => {
@@ -39,6 +41,9 @@ const NewTaskPanel = ({ view }) => {
       dispatch(checkToggle(selectedItemIndex));
     } else if (view === 'kanban') {
       dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
+    }
+    else if(view === 'table'){
+      dispatch(setNewTaskClickedtable(!newTaskClickedtable))
     }
   };
   return (

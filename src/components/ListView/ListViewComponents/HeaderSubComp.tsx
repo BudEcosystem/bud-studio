@@ -78,24 +78,34 @@ const HeaderSubComp = ({
             onBlur={() => setEditing(false)}
           />
         ) : (
-          <p className="datatitleText" style={{ marginLeft: '16px' }} onDoubleClick={handleDoubleClick}>
+          <p
+            className="datatitleText"
+            style={{ marginLeft: '16px' }}
+            onDoubleClick={handleDoubleClick}
+          >
             {data.title}
           </p>
         )}
-        <div className="flexVerticalCenter" style={{ marginLeft: '16px' }}>
-          <Sicon />
+        <div className="siconContainer">
+          <div className="flexVerticalCenter" style={{ marginLeft: '0px' }}>
+            <Sicon />
+          </div>
+          <div style={{ marginLeft: '0px' }}>{data.siconValue}</div>
+          <div
+            style={{ marginLeft: '8px', color: 'rgba(123, 131, 136, 0.25)' }}
+          >
+            |
+          </div>
+          <div style={{ marginLeft: '5px' }}>+</div>
         </div>
-        <div style={{ marginLeft: '8px' }}>{data.siconValue}</div>
-        <div style={{ marginLeft: '8px', color: 'rgba(123, 131, 136, 0.25)' }}>
-          |
-        </div>
-        <div style={{ marginLeft: '8px' }}>+</div>
-        <div style={{ marginLeft: '8px' }}>
-          <CheckList />
-        </div>
-        <div style={{ marginLeft: '2px' }}>
-          <span>{data.checklist?.checked}</span>/
-          <span>{data.checklist?.total}</span>
+        <div className="checklistContainer">
+          <div style={{ marginLeft: '0px' }}>
+            <CheckList />
+          </div>
+          <div style={{ marginLeft: '2px' }}>
+            <span>{data.checklist?.checked}</span>/
+            <span>{data.checklist?.total}</span>
+          </div>
         </div>
       </div>
       <div className="flexVerticalCenter">

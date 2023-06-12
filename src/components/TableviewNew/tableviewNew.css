@@ -50,6 +50,10 @@ table td:first-child {
     background-color: #1B1C1E;
 }
 
+/* table td:nth-child(3) {
+    background-color: red;
+} */
+
 /* table tr:hover {background-color: #ddd;} */
 .firstCol1 {
     text-align: center;
@@ -75,4 +79,24 @@ table td:first-child {
 
 .rest {
     padding-left: 20px;
+}
+
+.titleInputtable {
+    background-color: rgba(217, 217, 217, 0.05);
+    border: none;
+    caret-color: #F9D45D;
+    color: #C6C6C6;
+    border-radius: 2px;
+    height: 20px;
+    outline: none;
+    font-weight: 400;
+    font-size: 14px;
+    width: 85px;
+    /* margin-left: 16px; */
+}
+
+.titleInputtable::placeholder {
+    color: #585A5B;
+    text-align: left;
+    opacity: 1;
 }

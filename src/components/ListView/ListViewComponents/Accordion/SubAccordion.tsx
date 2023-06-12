@@ -22,7 +22,10 @@ const SubAccordion = ({ status, data, provided, index }) => {
   return (
     <div
       className={`subAccordionParent`}
-      style={{ border: selected ? '' : `0.8px solid ${color}` }}
+      style={{
+        border: selected ? '' : `0.8px solid ${color}`,
+        background: selected ? `#28272C` : '#1B1C1E',
+      }}
     >
       <div className="headerSubComponentContainer">
         <HeaderSubComp
