@@ -396,7 +396,7 @@ any) {
       }, 1500);
     }
 
-    if (opt === 'table') {
+    if (opt === 'tableview') {
       // const newId = uuidv4();
       // const { currentSelectedDocId: currentSelectedDoc } = workspace;
       // const kanbanApptitle = `${opt}--${currentSelectedDoc}--${newId}`;
@@ -432,7 +432,7 @@ any) {
           id: '',
         },
         {
-          key: 'table',
+          key: 'tableview',
           icon: <TableIcon />,
           title: 'Table View',
           subTitle: 'Choose Table View',

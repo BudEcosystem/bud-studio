@@ -63,7 +63,7 @@ function ContentView({
 }
 
   const findParent = (x: any) => {
-    const find = workspace.workspaceFolders.find((y) => y?.uuid === x?.parent);
+    const find = workspace.workspaceFolders.find((y: any) => y?.uuid === x?.parent);
     return find;
   };
 
@@ -159,7 +159,7 @@ function ContentView({
           <KanbanUI workspaceObj={workspace} uiDetails={currentSelectedUI} />
         )}
         <Hamburger />
-        {currentSelectedUI?.includes('table') && <TableView />}
+        {currentSelectedUI?.includes('tableview') && <TableView />}
       </Content>
       <OmniSearch />
     </Layout>
