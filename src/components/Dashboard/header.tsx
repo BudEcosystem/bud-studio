@@ -20,28 +20,28 @@ function SliderArrow({ slideFn, isCollapsed }: HeaderProps) {
     <div className={classes['slider-box']}>
       {isCollapsed ? (
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-        <img
-          className={classes['slide-arrow-active']}
-          src="/images/other/CollapseIcon.svg"
-          alt="#"
-          width={30}
-          height={30}
-          onClick={slideFn}
-        />
+        <div className={classes['slide-arrow-active']} onClick={slideFn}>
+          <CollapseIcon/>
+        </div>
       ) : (
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-        <img
-          className={classes['slide-arrow']}
-          src="/images/other/CollapseIcon.svg"
-          alt="#"
-          width={30}
-          height={30}
-          onClick={slideFn}
-        />
+        <div className={classes['slide-arrow']} onClick={slideFn}>
+          <CollapseIcon/>
+        </div>
       )}
     </div>
   );
 }
+
+const CollapseIcon = () => {
+  return (
+    <svg width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.5" y="0.5" width="26.1231" height="24.5182" fill="#0F0F0F"/>
+    <path d="M8 9L8 16.5182" stroke="#7B8388" stroke-width="1.62894" stroke-linecap="round"/>
+    <path d="M19.1233 12.3927H12.1606M12.1606 12.3927L14.8465 9.69748M12.1606 12.3927L14.8465 15.0879" stroke="#7B8388" stroke-width="1.25303" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="0.5" y="0.5" width="26.1231" height="24.5182" stroke="#242424"/>
+    </svg>)
+};
 
 const PencilIcon = ({ themeColor }: any) => {
   return (
