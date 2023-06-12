@@ -27,6 +27,7 @@ import {
 } from './EditorIcons';
 import {
   setCurrentSelectedUI,
+  setNavigationPath,
   setNodeIDs,
   setSelectedOption,
 } from 'redux/slices/activestate';
@@ -573,6 +574,17 @@ any) {
     }
   }, [showEditorOptionsBlock]);
 
+  const solveRec = (x) => {
+    if (x?.childOf != null) {
+      const temp = workspace.workspaceFolders.find(
+        (y) => y?.uuid === x?.childOf
+      );
+      console.log('asdfasfsad', temp);
+      dispatch(setNavigationPath(temp));
+      solveRec(temp);
+    }
+  };
+
   useEffect(() => {
     const hyperLinkDiv: any = document.querySelectorAll('.hyperLinkId');
     hyperLinkDiv.forEach((linkElement: any) => {
@@ -586,10 +598,14 @@ any) {
         }
         let idOfWorkspace: any;
         let colorofWorkspace: any;
-
+        let fileName: any;
+        let workspaceName: any;
+        let workFile: any;
         workspaceFiles.map((file: any) => {
           if (file.uuid == fileId) {
             idOfWorkspace = file.workSpaceUUID;
+            fileName = file.name;
+            workFile = file;
           }
         });
 
@@ -598,9 +614,9 @@ any) {
         workspaceItems.map((item: any) => {
           if (idOfWorkspace == item.uuid) {
             colorofWorkspace = item.color;
+            workspaceName = item.name;
           }
         });
-
         if (fileId && idOfWorkspace && colorofWorkspace) {
           linkElement?.addEventListener('click', () => {
             dispatch(setCurrentSelectedDocument({ id: null }));
@@ -617,6 +633,10 @@ any) {
               dispatch(setCurrentSelectedUI(''));
               dispatch(setSelectedOption('Editor'));
               dispatch(changeColor({ color: colorofWorkspace }));
+              dispatch(setNavigationPath(null));
+              dispatch(setNavigationPath({ name: fileName }));
+              solveRec(workFile);
+              dispatch(setNavigationPath({ name: workspaceName }));
             }, 1000);
           });
         }
