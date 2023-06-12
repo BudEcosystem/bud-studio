@@ -402,6 +402,7 @@ function RenderChild({
     // }, 100);
   };
   const inputRefFolder = useRef() as React.MutableRefObject<HTMLInputElement>;
+  console.log(node);
 
   useEffect(() => {
     document.getElementById('newTreeChildInput')?.focus();
@@ -462,12 +463,14 @@ function RenderChild({
     }
   };
   const findParent = (x) => {
+    console.log(x);
     const find = workspace.workspaceFolders.find((y) => y?.uuid === x?.parent);
     // console.log(find, "asdf")
     return find;
   };
   const [navArray, setNavArray] = useState([]);
   const solveRec = (x) => {
+    console.log('asdfasfsad', x);
     if (x?.childOf != null) {
       const temp = workspace.workspaceFolders.find(
         (y) => y?.uuid === x?.childOf
@@ -478,6 +481,7 @@ function RenderChild({
     }
   };
   const navPathHandler = (n) => {
+    console.log('asdfasfsad', n);
     const par = findParent(n);
     dispatch(setNavigationPath(null));
     dispatch(setNavigationPath({ name: n.title }));
@@ -490,13 +494,14 @@ function RenderChild({
   const clickHandler = () => {
     if (node.isLeaf && !currentNode?.folderInput && !currentNode?.docInput) {
       dispatch(setCurrentSelectedDocument({ id: null }));
+      console.log(node);
       navPathHandler(node);
       setTimeout(() => {
         const workSpaceUUID = node.workspaceDetails?.uuid;
         dispatch(
           setCurrentSelectedDocument({
             uuid: node.key,
-            workSpaceUUID: workSpaceUUID
+            workSpaceUUID: workSpaceUUID,
           })
         );
         dispatch(setNodeIDs({ uuid: node.key, workSpaceUUID: workSpaceUUID }));

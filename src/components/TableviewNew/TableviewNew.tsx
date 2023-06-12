@@ -98,7 +98,7 @@ const TableviewNew = () => {
       // newColumnOrder.splice(result.destination.index, 0, removed);
       dispatch(setColumnOrder(result));
     } else {
-      dispatch(setRowOrder(result))
+      dispatch(setRowOrder(result));
       // const items = Array.from(dummy);
       // const [reorderedItem] = items.splice(result.source.index, 1);
       // items.splice(result.destination.index, 0, reorderedItem);
@@ -109,11 +109,11 @@ const TableviewNew = () => {
 
   const sendRowValues = (e) => {
     if (e.key === 'Enter') {
-      dispatch(setNewRow(newRowValues))
-      setNewRowValues({})
-      dispatch(setNewTaskClickedtable(false))
+      dispatch(setNewRow(newRowValues));
+      setNewRowValues({});
+      dispatch(setNewTaskClickedtable(false));
     }
-  }
+  };
 
   return (
     <>
