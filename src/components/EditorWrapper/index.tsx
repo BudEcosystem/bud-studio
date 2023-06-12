@@ -394,6 +394,26 @@ any) {
         );
       }, 1500);
     }
+
+    if (opt === 'table') {
+      // const newId = uuidv4();
+      // const { currentSelectedDocId: currentSelectedDoc } = workspace;
+      // const kanbanApptitle = `${opt}--${currentSelectedDoc}--${newId}`;
+      // dispatch(setCurrentSelectedUI(''));
+      // setTimeout(() => {
+      //   dispatch(setCurrentSelectedUI(kanbanApptitle));
+      //   dispatch(setSelectedOption('Kanban View'));
+      //   dispatch(
+      //     addWorkSpaceApplications({
+      //       workspace,
+      //       type: 'kanban',
+      //       titleGenerated: kanbanApptitle,
+      //       newId,
+      //     })
+      //   );
+      // }, 1500);
+    }
+
     if (opt === 'database') {
       setEditorOptions([
         {
@@ -411,9 +431,16 @@ any) {
           id: '',
         },
         {
-          key: 'gantt',
+          key: 'table',
+          icon: <TableIcon />,
+          title: 'Table View',
+          subTitle: 'Choose Table View',
+          id: '',
+        },
+        {
+          key: 'timeline',
           icon: <TextIcon />,
-          title: 'Gantt Chart',
+          title: 'Timeline View',
           subTitle: 'Coming soon',
           id: '',
         },
@@ -565,6 +592,8 @@ any) {
             idOfWorkspace = file.workSpaceUUID;
           }
         });
+
+        console.log("WORKSPACE ITEMS", workspaceFiles)
 
         workspaceItems.map((item: any) => {
           if (idOfWorkspace == item.uuid) {

@@ -20,7 +20,7 @@ import {
   setCurrentSelectedDocument,
 } from 'redux/slices/workspace';
 import TableviewNew from 'components/TableviewNew/TableviewNew';
-import { setNodeIDs, setCurrentSelectedUI } from 'redux/slices/activestate';
+import { setNodeIDs, setCurrentSelectedUI, setNavigationPath } from 'redux/slices/activestate';
 
 function ContentView({
   setCollapsed,
@@ -47,9 +47,52 @@ function ContentView({
     workspace.workSpaceItems
   );
 
+  const newNode  = {
+    "title": "Welcome To Bud",
+    "key": "8fbac4d2-7bd0-482f-9880-c645bddd6eac5",
+    "isLeaf": true,
+    "color": "#343434",
+    "workspaceDetails": {
+        "name": "Private",
+        "color": "#343434",
+        "id": "wsp-1",
+        "uuid": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc",
+        "childs": []
+    },
+    "children": []
+}
+
+  const findParent = (x: any) => {
+    const find = workspace.workspaceFolders.find((y) => y?.uuid === x?.parent);
+    return find;
+  };
+
+  const solveRec = (x: any) => {
+    if (x?.childOf != null) {
+      const temp = workspace.workspaceFolders.find(
+        (y: any) => y?.uuid === x?.childOf
+      );
+      console.log('asdfasfsad', temp);
+      dispatch(setNavigationPath(temp));
+      solveRec(temp);
+    }
+  };
+
+  const navPathHandler = (n: any) => {
+    const par = findParent(n);
+    dispatch(setNavigationPath(null));
+    dispatch(setNavigationPath({ name: n.title }));
+    if (par) {
+      dispatch(setNavigationPath(par));
+      solveRec(par);
+    }
+    dispatch(setNavigationPath({ name: 'Private' }));
+  };
+
   useEffect(() => {
     if (workspaceItems.length == 1) {
       dispatch(setCurrentSelectedDocument({ id: null }));
+      navPathHandler(newNode);
       setTimeout(() => {
         dispatch(
           setCurrentSelectedDocument({
