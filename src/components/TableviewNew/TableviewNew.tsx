@@ -1,14 +1,13 @@
 import HeaderSection from 'components/ListView/HeaderSection';
 import React, { useEffect, useState } from 'react';
-import { data } from './data';
 import { useTable } from 'react-table';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './tableviewNew.css';
 import './tablecss.scss';
-import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setColumnOrder,
+  setNewCellValueRedux,
   setNewColumn,
   setNewRow,
   setNewTaskClickedtable,
@@ -16,60 +15,14 @@ import {
 } from 'redux/slices/table';
 
 const TableviewNew = () => {
-  // const [dummy, setDummy] = useState(data);
   const { table }: any = useSelector((state) => state);
   const { columnsArray, newTaskClickedtable, addNewRow, rowsInTable } = table;
   const [addCol, setAddCol] = useState(true);
   const [newRowValues, setNewRowValues] = useState({});
-  const dispatch = useDispatch();
-  console.log(rowsInTable);
-  // const columns = React.useMemo(
-  //   () => [
-  //     {
-  //       Header: '#',
-  //       accessor: (row, index) => index + 1,
-  //     },
-  //     {
-  //       Header: 'Account Name',
-  //       accessor: 'account_name',
-  //     },
-  //     {
-  //       Header: 'Account ID',
-  //       accessor: 'account_id',
-  //     },
-  //     {
-  //       Header: 'Annual Revenue',
-  //       accessor: 'annual_revenue',
-  //     },
-  //     {
-  //       Header: 'Score',
-  //       accessor: 'score',
-  //     },
-  //     {
-  //       Header: 'Due Date',
-  //       accessor: 'due_date',
-  //     },
-  //     {
-  //       Header: 'Assignee',
-  //       accessor: 'assignee',
-  //       Cell: ({ value }) => <CircularImageComponent />,
-  //     },
-  //     {
-  //       Header: 'Priority',
-  //       accessor: 'priority',
-  //     },
-  //     {
-  //       Header: 'Tag',
-  //       accessor: 'tag',
-  //     },
-  //   ],
-  //   []
-  // );
-  const [columns, setColumns] = useState(() => {
-    const initialColumns = [...columnsArray];
-    return initialColumns;
-  });
+  const [newCellValues, setNewCellValues] = useState({});
+  const [editingCell, setEditingCell] = useState(null);
 
+  const dispatch = useDispatch();
   const [newColumnInput, setNewColumnInput] = useState('');
   const handleNewColumnInputChange = (e) => {
     setNewColumnInput(e.target.value);
@@ -78,9 +31,8 @@ const TableviewNew = () => {
     if (e.key === 'Enter') {
       const newColumn = {
         accessor: `new_column_${columnsArray.length}`,
-        Header: () => newColumnInput,
+        Header: newColumnInput,
       };
-      // setColumns((prevColumns) => [...prevColumns, newColumn]);
       dispatch(setNewColumn(newColumn));
       setNewColumnInput('');
       dispatch(setNewTaskClickedtable(false));
@@ -92,18 +44,9 @@ const TableviewNew = () => {
   const handleDragEnd = (result) => {
     if (!result.destination) return;
     if (result.type === 'column') {
-      console.log(result);
-      //   const newColumnOrder = Array.from(columnsArray);
-      // const [removed] = newColumnOrder.splice(result.source.index, 1);
-      // newColumnOrder.splice(result.destination.index, 0, removed);
       dispatch(setColumnOrder(result));
     } else {
       dispatch(setRowOrder(result));
-      // const items = Array.from(dummy);
-      // const [reorderedItem] = items.splice(result.source.index, 1);
-      // items.splice(result.destination.index, 0, reorderedItem);
-      // setDummy(items);
-      // console.log('Updated data:', items);
     }
   };
 
@@ -114,9 +57,22 @@ const TableviewNew = () => {
       dispatch(setNewTaskClickedtable(false));
     }
   };
-
+  const sendCellValues = (e, r, c) => {
+    if (e.key === 'Enter') {
+      console.log(newCellValues, r, c);
+      dispatch(
+        setNewCellValueRedux({
+          val: newCellValues['newVal'],
+          row: r,
+          col: c.id,
+        })
+      );
+      setNewCellValues({});
+      setEditingCell(null);
+    }
+  };
   return (
-    <>
+    <div>
       <HeaderSection view="table" />
       <div className="tableContainer">
         <div className="tableParent">
@@ -154,7 +110,6 @@ const TableviewNew = () => {
                                 }}
                               >
                                 {column.render('Header')}
-                                {/* {console.log(column, colIdx)} */}
                               </th>
                             )}
                           </Draggable>
@@ -245,8 +200,35 @@ const TableviewNew = () => {
                                       paddingLeft:
                                         cellIndex === 0 ? '' : '12px',
                                     }}
+                                    onDoubleClick={() =>
+                                      setEditingCell({
+                                        rowIndex: index,
+                                        cellIndex,
+                                      })
+                                    }
                                   >
-                                    {cell.render('Cell')}
+                                    {editingCell?.rowIndex === index &&
+                                    editingCell?.cellIndex === cellIndex ? (
+                                      <input
+                                        type="text"
+                                        className="titleInputtable"
+                                        name={cell.column.accessor}
+                                        placeholder={`Change ${cell.column.Header}`}
+                                        value={newCellValues['newVal'] || ''}
+                                        onChange={(e) =>
+                                          setNewCellValues((prevValues) => ({
+                                            ...prevValues,
+                                            newVal: e.target.value,
+                                          }))
+                                        }
+                                        onKeyPress={(e) =>
+                                          sendCellValues(e, index, cell.column)
+                                        }
+                                        autoFocus
+                                      />
+                                    ) : (
+                                      cell.render('Cell')
+                                    )}
                                   </td>
                                 ))}
                                 {addCol && <td></td>}
@@ -264,7 +246,7 @@ const TableviewNew = () => {
           </DragDropContext>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
