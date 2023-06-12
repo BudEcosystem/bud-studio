@@ -90,7 +90,7 @@ any) {
       key: 'database',
       icon: <TableIcon />,
       title: 'Database',
-      subTitle: 'Add List, Kanban or Gantt Chart',
+      subTitle: 'Add List, Kanban and more...',
       id: '',
     },
     {
@@ -395,6 +395,26 @@ any) {
         );
       }, 1500);
     }
+
+    if (opt === 'tableview') {
+      // const newId = uuidv4();
+      // const { currentSelectedDocId: currentSelectedDoc } = workspace;
+      // const kanbanApptitle = `${opt}--${currentSelectedDoc}--${newId}`;
+      // dispatch(setCurrentSelectedUI(''));
+      // setTimeout(() => {
+      //   dispatch(setCurrentSelectedUI(kanbanApptitle));
+      //   dispatch(setSelectedOption('Kanban View'));
+      //   dispatch(
+      //     addWorkSpaceApplications({
+      //       workspace,
+      //       type: 'kanban',
+      //       titleGenerated: kanbanApptitle,
+      //       newId,
+      //     })
+      //   );
+      // }, 1500);
+    }
+
     if (opt === 'database') {
       setEditorOptions([
         {
@@ -412,9 +432,16 @@ any) {
           id: '',
         },
         {
-          key: 'gantt',
+          key: 'tableview',
+          icon: <TableIcon />,
+          title: 'Table View',
+          subTitle: 'Choose Table View',
+          id: '',
+        },
+        {
+          key: 'timeline',
           icon: <TextIcon />,
-          title: 'Gantt Chart',
+          title: 'Timeline View',
           subTitle: 'Coming soon',
           id: '',
         },
@@ -582,6 +609,8 @@ any) {
           }
         });
 
+        console.log("WORKSPACE ITEMS", workspaceFiles)
+
         workspaceItems.map((item: any) => {
           if (idOfWorkspace == item.uuid) {
             colorofWorkspace = item.color;
@@ -622,7 +651,7 @@ any) {
           key: 'database',
           icon: <TableIcon />,
           title: 'Database',
-          subTitle: 'Add List, Kanban or Gantt Chart',
+          subTitle: 'Add List, Kanban and more...',
           id: '',
         },
         {
