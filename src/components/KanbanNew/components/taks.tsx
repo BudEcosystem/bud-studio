@@ -196,7 +196,7 @@ const PopOverSearchInput = styled.input`
   margin-left: 15px;
   background: #171718;
   border: none;
-  font-family: 'DM Sans';
+  font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -209,7 +209,7 @@ const PopOverSearchInput = styled.input`
   &::placeholder,
   &::-webkit-input-placeholder {
     text-align: left;
-    font-family: 'DM Sans';
+    font-family: 'Noto Sans';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -217,7 +217,7 @@ const PopOverSearchInput = styled.input`
   }
   &:-ms-input-placeholder {
     text-align: left;
-    font-family: 'DM Sans';
+    font-family: 'Noto Sans';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;

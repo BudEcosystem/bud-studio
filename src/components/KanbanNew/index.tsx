@@ -221,6 +221,8 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
   const [date, setDate] = useState<String>('');
   useEffect(() => setDate('13 June 2022'), []);
   const dispatch = useDispatch();
+  const reduxState = useSelector((state) => state);
+  console.log('reduxState', reduxState);
   const { workspace, kanban }: any = useSelector((state) => state);
   const { color } = workspace;
   const [currentFileName, setCurrentFileName] = useState('');

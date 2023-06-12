@@ -15,8 +15,12 @@ import EditorJsWrapper from '../../EditorWrapper';
 import TableView from 'components/TableView';
 
 import BudEditor from '../../BudEditor';
-import { setCurrentSelectedDocument } from 'redux/slices/workspace';
+import {
+  changeColor,
+  setCurrentSelectedDocument,
+} from 'redux/slices/workspace';
 import TableviewNew from 'components/TableviewNew/TableviewNew';
+import { setNodeIDs, setCurrentSelectedUI } from 'redux/slices/activestate';
 
 function ContentView({
   setCollapsed,
@@ -36,10 +40,34 @@ function ContentView({
     dispatch(setContentRef(`${contentRef.current}`));
   }, [contentRef, dispatch]);
   const [selectedDoc, setSelectedDoc] = useState();
-  // const [currentSelectedUI, setCurrentSelectedUI] = useState('');
   const [selecteOption, setSelectedOption] = useState('Editor');
   const { workspace, activestate }: any = useSelector((state) => state);
   const [currentSelectedUI, setCurrentSelectedUI] = useState('');
+  const [workspaceItems, setWorkspaceItems] = useState(
+    workspace.workSpaceItems
+  );
+
+  useEffect(() => {
+    if (workspaceItems.length == 1) {
+      dispatch(setCurrentSelectedDocument({ id: null }));
+      setTimeout(() => {
+        dispatch(
+          setCurrentSelectedDocument({
+            uuid: '8fbac4d2-7bd0-482f-9880-c645bddd6eac5',
+            workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+          })
+        );
+        dispatch(
+          setNodeIDs({
+            uuid: '8fbac4d2-7bd0-482f-9880-c645bddd6eac5',
+            workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+          })
+        );
+        dispatch(changeColor({ color: '#343434' }));
+      }, 1000);
+    }
+  }, []);
+
   useEffect(() => {
     const { currentSelectedDocId } = workspace;
     setSelectedDoc(currentSelectedDocId);
@@ -89,8 +117,6 @@ function ContentView({
         )}
         <Hamburger />
         {currentSelectedUI?.includes('table') && <TableView />}
-        <TableviewNew />
-        {/* <TableView /> */}
       </Content>
       <OmniSearch />
     </Layout>

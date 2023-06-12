@@ -80,7 +80,7 @@ function MainListComponent() {
           </div>
         )}
         className="customCollapse"
-        style={{ background: 'var(--primary-bgc-light)' }}
+        style={{ background: 'var(--bud-container-background)' }}
         // onChange={handlePanelChange}
         // onChange={(expandedPanels) => setActivePanel(expandedPanels)}
       >

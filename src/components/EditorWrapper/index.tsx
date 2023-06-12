@@ -63,7 +63,13 @@ any) {
   const [iconUrl, setIconUrl] = useState();
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
   const { tree, workspace }: any = useSelector((state) => state);
-  const { color, currentWorkspace, currentSelectedDocId, applicationData, editorInitialised } = workspace;
+  const {
+    color,
+    currentWorkspace,
+    currentSelectedDocId,
+    applicationData,
+    editorInitialised,
+  } = workspace;
   const [render, setRender] = useState(false);
   const cursorRect = useRef<DOMRect>();
   const refHoverBar = useRef();
@@ -158,40 +164,38 @@ any) {
   // for checking if the particular editor has somedata
 
   useEffect(() => {
-
     if (!currentSelectedDocId) {
       initEditor(null);
-    }
-    else {
+    } else {
       const currentApplicationData = applicationData.filter(
         (application: any) =>
           application.docId === currentSelectedDocId &&
           application.workSpaceId === currentWorkspace
       );
-  
+
       if (currentApplicationData.length > 0) {
         setEditorData(currentApplicationData[0].applicationSpecificicData);
-          initEditor(currentApplicationData[0].applicationSpecificicData);
+        initEditor(currentApplicationData[0].applicationSpecificicData);
         dispatch(setEditorInitialised());
-      } else { 
-          initEditor({
-            id: 'Ef0oiN-VMW',
-            type: 'paragraph',
-            data: {
-              text: 'SampleData',
-            },
-          });
+      } else {
+        initEditor({
+          id: 'Ef0oiN-VMW',
+          type: 'paragraph',
+          data: {
+            text: 'SampleData',
+          },
+        });
         dispatch(setEditorInitialised());
       }
-  
+
       workspace.workSpaceDocs.map((doc: any) => {
         if (workspace.currentSelectedDocId == doc.uuid) {
           setCurrentFileName(doc.name);
         }
       });
       setWorkspaceFiles(workspace.workSpaceDocs);
-  }
-  }, [ejInstance])
+    }
+  }, [ejInstance]);
 
   const checkForMentions = () => {
     const paraElements = document.querySelectorAll('.ce-paragraph');
@@ -578,7 +582,9 @@ any) {
                   workSpaceUUID: idOfWorkspace,
                 })
               );
-              dispatch(setNodeIDs({ uuid: fileId, workSpaceUUID: idOfWorkspace }));
+              dispatch(
+                setNodeIDs({ uuid: fileId, workSpaceUUID: idOfWorkspace })
+              );
               dispatch(setCurrentSelectedUI(''));
               dispatch(setSelectedOption('Editor'));
               dispatch(changeColor({ color: colorofWorkspace }));
