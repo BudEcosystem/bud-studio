@@ -327,6 +327,14 @@
     margin-left: 8px;
 }
 
+.yellowbar {
+    background: #F9D45D;
+    height: 18.5px;
+    width: 1px;
+    margin-left: 16px;
+    margin-right: 2px;
+}
+
 .insideCollapse .ant-collapse-content-box {
     padding: 10px !important;
 }
@@ -401,7 +409,6 @@
 .workspaceTextBox {
     background-color: rgba(217, 217, 217, 0.05);
     border: none;
-    caret-color: #F9D45D;
     color: #C6C6C6;
     border-radius: 2px;
     height: 20px;
@@ -409,7 +416,6 @@
     font-weight: 400;
     font-size: 14px;
     width: 100%;
-    margin-left: 16px;
 }
 
 .workspaceTextBox::placeholder {
