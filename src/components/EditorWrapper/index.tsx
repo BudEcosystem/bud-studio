@@ -90,7 +90,7 @@ any) {
       key: 'database',
       icon: <TableIcon />,
       title: 'Database',
-      subTitle: 'Add List, Kanban or Gantt Chart',
+      subTitle: 'Add List, Kanban and more...',
       id: '',
     },
     {
@@ -651,7 +651,7 @@ any) {
           key: 'database',
           icon: <TableIcon />,
           title: 'Database',
-          subTitle: 'Add List, Kanban or Gantt Chart',
+          subTitle: 'Add List, Kanban and more...',
           id: '',
         },
         {
