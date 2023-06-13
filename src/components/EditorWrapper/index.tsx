@@ -24,6 +24,7 @@ import {
   HeadingIcon,
   ParagraphIcon,
   FileIcon,
+  BackButton,
 } from './EditorIcons';
 import {
   setCurrentSelectedUI,
@@ -922,7 +923,8 @@ any) {
               }}
               onClick={() => setShowFirstOptions(true)}
             >
-              Go Back
+              <BackButton />
+              <span style={{marginLeft: "5px"}}>Go Back</span>
             </div>
           )}
 
