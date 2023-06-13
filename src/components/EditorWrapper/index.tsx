@@ -843,7 +843,7 @@ any) {
               display: 'flex',
               width: '700px',
               alignItems: 'center',
-              marginRight: '225px',
+              marginRight: '125px',
               marginBottom: '40px',
             }}
           >
