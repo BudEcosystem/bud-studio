@@ -266,7 +266,6 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
     dispatch(updateAppData({ appID: currentApplicationId, appData: kanban }));
   }, [kanban]);
   const updateCurrentTitle = (name) => {
-    alert('hahahah');
     const currentApplicationId = uiDetails.split('--')[2];
     dispatch(updateAppName({ appID: currentApplicationId, titleForDoc: name }));
   };

@@ -207,6 +207,9 @@ export const tableSlice = createSlice({
       // state.rowsInTable[action.payload.row][action.payload.col] =
       //   action.payload.val;
     },
+    updateWholeTableState: (state, action: PayloadAction<any>) => {
+      return action.payload;
+    },
   },
 });
 export const {
@@ -217,5 +220,6 @@ export const {
   setNewRow,
   setNewCellValueRedux,
   setNewHeaderValueRedux,
+  updateWholeTableState,
 } = tableSlice.actions;
 export default tableSlice.reducer;

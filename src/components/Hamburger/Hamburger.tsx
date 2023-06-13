@@ -53,6 +53,9 @@ function Hamburger() {
       } else if (option.includes('kanban')) {
         dispatch(setCurrentSelectedUI(option));
         dispatch(setSelectedOption(option));
+      } else if (option.includes('table')) {
+        dispatch(setCurrentSelectedUI(option));
+        dispatch(setSelectedOption(option));
       }
     }, 500);
   };

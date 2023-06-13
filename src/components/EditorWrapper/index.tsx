@@ -399,22 +399,23 @@ any) {
     }
 
     if (opt === 'tableview') {
-      // const newId = uuidv4();
-      // const { currentSelectedDocId: currentSelectedDoc } = workspace;
-      // const kanbanApptitle = `${opt}--${currentSelectedDoc}--${newId}`;
-      // dispatch(setCurrentSelectedUI(''));
-      // setTimeout(() => {
-      //   dispatch(setCurrentSelectedUI(kanbanApptitle));
-      //   dispatch(setSelectedOption('Kanban View'));
-      //   dispatch(
-      //     addWorkSpaceApplications({
-      //       workspace,
-      //       type: 'kanban',
-      //       titleGenerated: kanbanApptitle,
-      //       newId,
-      //     })
-      //   );
-      // }, 1500);
+      const newId = uuidv4();
+      const { currentSelectedDocId: currentSelectedDoc } = workspace;
+      const TableApptitle = `${opt}--${currentSelectedDoc}--${newId}`;
+      dispatch(setCurrentSelectedUI(''));
+      setTimeout(() => {
+        alert(TableApptitle);
+        dispatch(setCurrentSelectedUI(TableApptitle));
+        dispatch(setSelectedOption('Table View'));
+        dispatch(
+          addWorkSpaceApplications({
+            workspace,
+            type: 'tableview',
+            titleGenerated: TableApptitle,
+            newId,
+          })
+        );
+      }, 1500);
     }
 
     if (opt === 'database') {
@@ -611,7 +612,7 @@ any) {
           }
         });
 
-        console.log("WORKSPACE ITEMS", workspaceFiles)
+        console.log('WORKSPACE ITEMS', workspaceFiles);
 
         workspaceItems.map((item: any) => {
           if (idOfWorkspace == item.uuid) {
@@ -891,7 +892,11 @@ any) {
                 ? '360'
                 : cursorRect?.current?.bottom - 140
             }px`,
-            right: `${cursorRect?.current.bottom > 750 ? '450' : cursorRect?.current?.left}px`,
+            right: `${
+              cursorRect?.current.bottom > 750
+                ? '450'
+                : cursorRect?.current?.left
+            }px`,
           }}
           className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
         >

@@ -164,17 +164,13 @@ function ContentView({
         {currentSelectedUI?.includes('kanban') && (
           <KanbanUI workspaceObj={workspace} uiDetails={currentSelectedUI} />
         )}
-        {currentSelectedUI?.includes('table') && (
-          <TableView workspaceObj={workspace} uiDetails={currentSelectedUI} />
-        )}
-
-        <Hamburger />
         {currentSelectedUI?.includes('tableview') && (
           <TableviewNew
             workspaceObj={workspace}
             uiDetails={currentSelectedUI}
           />
         )}
+        <Hamburger />
       </Content>
       <OmniSearch />
     </Layout>

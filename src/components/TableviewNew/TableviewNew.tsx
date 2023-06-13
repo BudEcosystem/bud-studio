@@ -6,6 +6,7 @@ import './tableviewNew.css';
 import './tablecss.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  generateInitialTableState,
   setColumnOrder,
   setNewCellValueRedux,
   setNewColumn,
@@ -13,14 +14,17 @@ import {
   setNewRow,
   setNewTaskClickedtable,
   setRowOrder,
+  updateWholeTableState,
 } from 'redux/slices/table';
 import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
 import { EmptyFlag, TiletedArrow, UpAndDown } from './TableIcons';
+import { updateAppData, updateAppName } from 'redux/slices/workspace';
 
-function TableviewNew() {
+function TableviewNew({ workspaceObj, uiDetails }: any) {
   const { table, workspace }: any = useSelector((state) => state);
   const { columnsArray, newTaskClickedtable, addNewRow, rowsInTable } = table;
   const { color } = workspace;
+  const [title, setTitle] = useState('');
   const [addCol, setAddCol] = useState(true);
   const [newRowValues, setNewRowValues] = useState({});
   const [newCellValues, setNewCellValues] = useState({});
@@ -30,6 +34,29 @@ function TableviewNew() {
 
   const dispatch = useDispatch();
   const [newColumnInput, setNewColumnInput] = useState('');
+  generateInitialTableState;
+  useEffect(() => {
+    const { editorApplicationsAdded } = workspace;
+    const currentApplicationId = uiDetails.split('--')[2];
+    const applicationsDataFiltered = editorApplicationsAdded?.find(
+      (appData: any) => appData.applicatioId === currentApplicationId
+    );
+    const kanbanEmptyData = generateInitialTableState();
+    if (applicationsDataFiltered) {
+      console.log('applicationsDataFiltered', applicationsDataFiltered);
+      const { appData, titleForDoc } = applicationsDataFiltered;
+      setTitle(titleForDoc);
+      if (appData) {
+        dispatch(updateWholeTableState(appData));
+      } else {
+        dispatch(updateWholeTableState(kanbanEmptyData));
+      }
+    }
+  }, []);
+  useEffect(() => {
+    const currentApplicationId = uiDetails.split('--')[2];
+    dispatch(updateAppData({ appID: currentApplicationId, appData: table }));
+  }, [table]);
   const handleNewColumnInputChange = (e) => {
     setNewColumnInput(e.target.value);
   };
@@ -170,9 +197,17 @@ function TableviewNew() {
     }
     return <div>{cell.render('Cell')}</div>;
   };
+  const updateCurrentTitle = (name) => {
+    const currentApplicationId = uiDetails.split('--')[2];
+    dispatch(updateAppName({ appID: currentApplicationId, titleForDoc: name }));
+  };
   return (
     <div>
-      <HeaderSection view="table" />
+      <HeaderSection
+        view="table"
+        updateCurrentTitle={updateCurrentTitle}
+        title={title}
+      />
       <div className="tableContainer">
         <div className="tableParent">
           <DragDropContext onDragEnd={handleDragEnd}>
