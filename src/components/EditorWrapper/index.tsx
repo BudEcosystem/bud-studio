@@ -550,7 +550,7 @@ any) {
     if (
       event.code === 'Slash' &&
       !event.shiftKey &&
-      event.ctrlKey &&
+      !event.ctrlKey &&
       !event.altKey &&
       !event.metaKey
     ) {
