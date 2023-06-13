@@ -192,6 +192,11 @@ export const tableSlice = createSlice({
       newRowOrder.push(newRowData);
       state.rowsInTable = newRowOrder;
     },
+    setNewCellValueRedux: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
+      state.rowsInTable[action.payload.row][action.payload.col] =
+        action.payload.val;
+    },
   },
 });
 export const {
@@ -200,5 +205,6 @@ export const {
   setColumnOrder,
   setRowOrder,
   setNewRow,
+  setNewCellValueRedux,
 } = tableSlice.actions;
 export default tableSlice.reducer;
