@@ -169,6 +169,12 @@ function ContentView({
         )}
 
         <Hamburger />
+        {currentSelectedUI?.includes('tableview') && (
+          <TableviewNew
+            workspaceObj={workspace}
+            uiDetails={currentSelectedUI}
+          />
+        )}
       </Content>
       <OmniSearch />
     </Layout>

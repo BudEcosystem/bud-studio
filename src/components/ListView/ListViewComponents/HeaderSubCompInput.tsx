@@ -45,6 +45,7 @@ const HeaderSubCompInput = ({ provided, selectedItem }) => {
             <DownArrow />
           </div>
           <div className="textIcon22"></div>
+          <div className='yellowbar'></div>
         </div>
         <input
           id="listInput"

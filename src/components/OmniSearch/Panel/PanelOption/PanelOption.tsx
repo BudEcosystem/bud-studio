@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function PanelOption({ active, item, setSelected, setHovered }) {
+function PanelOption({ active, item, setSelected, setHovered }: any) {
   let isDes = true;
   if (item.desc === '') isDes = false;
   return (
