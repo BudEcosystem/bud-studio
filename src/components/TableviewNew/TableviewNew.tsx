@@ -9,18 +9,24 @@ import {
   setColumnOrder,
   setNewCellValueRedux,
   setNewColumn,
+  setNewHeaderValueRedux,
   setNewRow,
   setNewTaskClickedtable,
   setRowOrder,
 } from 'redux/slices/table';
+import { EmptyFlag, TiletedArrow, UpAndDown } from './TableIcons';
+import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
 
 const TableviewNew = () => {
-  const { table }: any = useSelector((state) => state);
+  const { table, workspace }: any = useSelector((state) => state);
   const { columnsArray, newTaskClickedtable, addNewRow, rowsInTable } = table;
+  let { color } = workspace;
   const [addCol, setAddCol] = useState(true);
   const [newRowValues, setNewRowValues] = useState({});
   const [newCellValues, setNewCellValues] = useState({});
   const [editingCell, setEditingCell] = useState(null);
+  const [editingHeader, setEditionHeader] = useState(null);
+  const [newHeaderValues, setNewHeaderValues] = useState({});
 
   const dispatch = useDispatch();
   const [newColumnInput, setNewColumnInput] = useState('');
@@ -71,6 +77,96 @@ const TableviewNew = () => {
       setEditingCell(null);
     }
   };
+
+  const sendHeaderValues = (e, h, column) => {
+    if (e.key === 'Enter') {
+      dispatch(
+        setNewHeaderValueRedux({
+          val: newHeaderValues['newVal'],
+          headerCol: h,
+          column: column.id,
+        })
+      );
+      setNewHeaderValues({});
+      setEditionHeader(null);
+    }
+  };
+
+  const [selectedColumn, setSelectedColumn] = useState(null);
+  const handleColumnSelection = (colIdx) => {
+    setSelectedColumn(colIdx);
+  };
+
+  const renderHeaderContent = (column, colIdx) => {
+    if (column.id === '#') {
+      return <div style={{ marginLeft: '5px' }}>#</div>;
+    }
+    return (
+      <>
+        <div
+          style={{
+            cursor: 'pointer',
+            color: colIdx === selectedColumn ? '#FFFFFF' : '',
+          }}
+          onClick={() => handleColumnSelection(colIdx)} // Call the function to handle column selection
+        >
+          {column.render('Header')}
+        </div>
+        <div style={{ marginLeft: '13px' }}>
+          <UpAndDown color={colIdx === selectedColumn ? '#FFFFFF' : color} />
+        </div>
+      </>
+    );
+  };
+
+  const renderCellContent = (cell, column, colIdx) => {
+    if (column.id === 'priority') {
+      return <EmptyFlag />;
+    } else if (column.id === 'score') {
+      if (cell.value === 'High') {
+        return (
+          <>
+            <div className="greenDot" />
+            {cell.render('Cell')}
+          </>
+        );
+      } else if (cell.value === 'Medium') {
+        return (
+          <>
+            <div className="yellowDot" />
+            {cell.render('Cell')}
+          </>
+        );
+      } else if (cell.value === 'Low') {
+        return (
+          <>
+            <div className="redDot" />
+            {cell.render('Cell')}
+          </>
+        );
+      }
+    } else if (column.id === 'account_name') {
+      return (
+        <>
+          {cell.render('Cell')}
+          <div style={{ marginLeft: '5px' }}>
+            <TiletedArrow color={color} />
+          </div>
+        </>
+      );
+    } else if (column.id === 'assignee') {
+      return (
+        <div style={{ marginLeft: '8px' }}>
+          <CircularImageComponent />
+        </div>
+      );
+    } else if (column.id === 'tag') {
+      return <p className="recText">#Recurring</p>;
+    } else if (column.id === '#') {
+      return <div>{cell.row.index + 1}</div>;
+    }
+    return <div>{cell.render('Cell')}</div>;
+  };
   return (
     <div>
       <HeaderSection view="table" />
@@ -103,13 +199,44 @@ const TableviewNew = () => {
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
-                                className={colIdx === 0 ? 'firstCol1' : ''}
                                 style={{
                                   ...provided.draggableProps.style,
-                                  textAlign: colIdx === 0 ? 'center' : '',
+                                  background:
+                                    colIdx === selectedColumn ? color : '',
+                                }}
+                                onDoubleClick={() => {
+                                  setEditionHeader(colIdx);
+                                  setSelectedColumn(null);
                                 }}
                               >
-                                {column.render('Header')}
+                                {editingHeader === colIdx ? (
+                                  <input
+                                    type="text"
+                                    className="titleInputtable"
+                                    name={column.accessor}
+                                    placeholder={`Change ${column.Header}`}
+                                    value={newHeaderValues['newVal'] || ''}
+                                    onChange={(e) =>
+                                      setNewHeaderValues((prevValues) => ({
+                                        ...prevValues,
+                                        newVal: e.target.value,
+                                      }))
+                                    }
+                                    onKeyPress={(e) =>
+                                      sendHeaderValues(e, colIdx, column)
+                                    }
+                                    autoFocus
+                                  />
+                                ) : (
+                                  <div
+                                    style={{
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                    }}
+                                  >
+                                    {renderHeaderContent(column, colIdx)}
+                                  </div>
+                                )}
                               </th>
                             )}
                           </Draggable>
@@ -199,6 +326,10 @@ const TableviewNew = () => {
                                     style={{
                                       paddingLeft:
                                         cellIndex === 0 ? '' : '12px',
+                                      background:
+                                        cellIndex === selectedColumn
+                                          ? '#3C3C49'
+                                          : 'transparent',
                                     }}
                                     onDoubleClick={() =>
                                       setEditingCell({
@@ -227,7 +358,18 @@ const TableviewNew = () => {
                                         autoFocus
                                       />
                                     ) : (
-                                      cell.render('Cell')
+                                      <div
+                                        style={{
+                                          display: 'flex',
+                                          alignItems: 'center',
+                                        }}
+                                      >
+                                        {renderCellContent(
+                                          cell,
+                                          cell.column,
+                                          cellIndex
+                                        )}
+                                      </div>
                                     )}
                                   </td>
                                 ))}
