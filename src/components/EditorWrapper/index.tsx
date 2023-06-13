@@ -33,6 +33,8 @@ import {
   setSelectedOption,
 } from 'redux/slices/activestate';
 import { v4 as uuidv4 } from 'uuid';
+import bgImage from './bgImage.png';
+import iconImage from './iconImage.png';
 
 const DEFAULT_INITIAL_DATA = () => {
   return {
@@ -60,9 +62,10 @@ function EditorWrapper({
 any) {
   const ejInstance = useRef();
   const [editorData, setEditorData] = useState(null);
-  const [coverUrl, setCoverUrl] = useState();
+  const [coverUrl, setCoverUrl] = useState(bgImage);
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
-  const [iconUrl, setIconUrl] = useState();
+  const [iconUrl, setIconUrl] = useState(iconImage);
+  const [iconAvailable, setIconAvailable] = useState(true)
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
   const { tree, workspace }: any = useSelector((state) => state);
   const {
@@ -735,15 +738,15 @@ any) {
       {coverUrlAvailable ? (
         <div
           style={{
-            backgroundImage: `linear-gradient(to bottom right, ${color}, white)`,
+            backgroundImage: `url(${coverUrl})`,
           }}
           className="editorCover"
         >
-          <img src={coverUrl} />
           <div
             style={{
               position: 'relative',
-              left: '82%',
+              left: '81%',
+              marginTop: "15px",
               display: 'flex',
               width: '150px',
               alignItems: 'center',
@@ -807,7 +810,7 @@ any) {
         </div>
       )}
 
-      {!iconUrl ? (
+      {iconAvailable ? (
         coverUrlAvailable ? (
           <div
             style={{
@@ -816,7 +819,7 @@ any) {
               display: 'flex',
               width: '700px',
               alignItems: 'end',
-              marginRight: '225px',
+              marginRight: '125px',
             }}
           >
             <div className="editorIcon">
@@ -863,15 +866,16 @@ any) {
           style={{
             fontSize: '14px',
             fontWeight: '500',
-            marginRight: '910px',
-            marginTop: '120px',
+            marginRight: '810px',
+            marginTop: '60px',
             display: 'flex',
             width: 'fit-content',
             color: '#333539',
             cursor: 'pointer',
+            marginBottom: "20px"
           }}
         >
-          <div style={{ marginRight: '10px' }}>
+          <div onClick={(e) => setIconAvailable(true)} style={{ marginRight: '10px' }}>
             <AddIcon />
           </div>
           Add Icon
