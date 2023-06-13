@@ -52,14 +52,8 @@ const DEFAULT_INITIAL_DATA = () => {
 };
 
 const EDITTOR_HOLDER_ID = 'editorjs';
-let fileMentionedArray: any = [];
 
-function EditorWrapper({
-  data,
-}: // setCurrentSelectedUI,
-// selectedOption,
-// setSelectedOption,
-any) {
+function EditorWrapper () {
   const ejInstance = useRef();
   const [editorData, setEditorData] = useState(null);
   const [coverUrl, setCoverUrl] = useState(bgImage);
@@ -500,6 +494,28 @@ any) {
     }
   };
 
+  const removeSlash = (blockIndex: any) => {
+      if (blockIndex >= 0) {
+        async function removeSlashFromText(blockIndex: any) {
+          try {
+            const savedData = await ejInstance?.current?.save();
+            const currentData = savedData.blocks;
+            if (blockIndex >= 0 && blockIndex < currentData.length) {
+              const targetBlock = currentData[blockIndex];
+              // targetBlock.data.text += ` ${hyperlink}`;
+              console.log("TARGET BLOCK TEXT IS", targetBlock.data.text)
+              const modifiedText = targetBlock.data.text.slice(0, -1);
+              targetBlock.data.text = modifiedText
+              ejInstance?.current?.render({ blocks: currentData });
+            }
+          } catch (error) {
+            console.error('Error occurred while appending text:', error);
+          }
+        }
+        removeSlashFromText(blockIndex);
+      }
+    }
+
   const style = { '--bg-color': color };
 
   useEffect(() => {
@@ -517,10 +533,11 @@ any) {
     id,
     onItemsMouseEnter,
   }: any) {
+    const blockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
     return (
       <div
         style={style}
-        onClick={(e) => insertBlock(opt, title, id)}
+        onClick={(e) => {if(opt!="database" && opt!="document"){setShowEditorOptionsBlock(false)} removeSlash(blockIndex); setTimeout(() => {insertBlock(opt, title, id);}, 100)}}
         className="EditorOptionComponent"
         onMouseEnter={onItemsMouseEnter}
       >
