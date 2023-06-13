@@ -167,6 +167,8 @@ any) {
   useEffect(() => {
     if (!currentSelectedDocId) {
       initEditor(null);
+      ejInstance.current.destroy();
+      ejInstance.current = null;
     } else {
       const currentApplicationData = applicationData.filter(
         (application: any) =>
@@ -550,7 +552,7 @@ any) {
     if (
       event.code === 'Slash' &&
       !event.shiftKey &&
-      event.ctrlKey &&
+      !event.ctrlKey &&
       !event.altKey &&
       !event.metaKey
     ) {
@@ -574,10 +576,10 @@ any) {
     }
   }, [showEditorOptionsBlock]);
 
-  const solveRec = (x) => {
+  const solveRec = (x: any) => {
     if (x?.childOf != null) {
       const temp = workspace.workspaceFolders.find(
-        (y) => y?.uuid === x?.childOf
+        (y: any) => y?.uuid === x?.childOf
       );
       console.log('asdfasfsad', temp);
       dispatch(setNavigationPath(temp));
@@ -889,7 +891,7 @@ any) {
                 ? '360'
                 : cursorRect?.current?.bottom - 140
             }px`,
-            right: `${cursorRect?.current?.left}px`,
+            right: `${cursorRect?.current.bottom > 750 ? '450' : cursorRect?.current?.left}px`,
           }}
           className={`EditorOptionsBlock ${render ? 'show' : undefined}`}
         >
