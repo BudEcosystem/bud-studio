@@ -48,16 +48,18 @@
 /* table tr:nth-child(even){background-color: #f2f2f2;} */
 table td:first-child {
     background-color: #1B1C1E;
+    padding-left: 16px;
 }
 
-/* table td:nth-child(3) {
-    background-color: red;
+/* table td:first-child(3) {
+    margin-left: 15px;
 } */
 
 /* table tr:hover {background-color: #ddd;} */
-.firstCol1 {
-    text-align: center;
-}
+/* .firstCol1 {
+    text-align: right;
+    margin-left: 30px;
+} */
 
 .table th {
     font-family: 'Noto Sans';
@@ -78,7 +80,7 @@ table td:first-child {
 }
 
 .rest {
-    padding-left: 20px;
+    /* padding-left: 20px; */
 }
 
 .titleInputtable {
@@ -99,4 +101,44 @@ table td:first-child {
     color: #585A5B;
     text-align: left;
     opacity: 1;
+}
+
+.greenDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #21A32E;
+    margin-right: 7px;
+}
+
+.yellowDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #EFDC34;
+    margin-right: 7px;
+}
+
+.redDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #EF3434;
+    margin-right: 7px;
+}
+
+.recText {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    color: #BBBBBB;
+    width: 65px;
+    height: 18px;
+    background: #3D4047;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

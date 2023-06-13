@@ -81,7 +81,7 @@ export const generateInitialTableState = (): any => {
       id: 4,
       account_name: 'Wayne Interpeises',
       account_id: 'AB-123',
-      annual_revenue: '$1 - $10M',
+      annual_revenue: '$10,0000 - $35,00000M',
       score: '',
       due_date: '--',
       assignee: [],
@@ -125,7 +125,7 @@ export const generateInitialTableState = (): any => {
       id: 8,
       account_name: 'Demon Slayer',
       account_id: 'AB-123',
-      annual_revenue: '$1 - $10M',
+      annual_revenue: '$10,0000 - $35,00000M',
       score: 'High',
       due_date: '26 Jan 2023',
       assignee: [],
@@ -197,6 +197,16 @@ export const tableSlice = createSlice({
       state.rowsInTable[action.payload.row][action.payload.col] =
         action.payload.val;
     },
+    setNewHeaderValueRedux: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
+      state.columnsArray.map((item) => {
+        if (item.accessor === action.payload.column) {
+          item.Header = action.payload.val;
+        }
+      });
+      // state.rowsInTable[action.payload.row][action.payload.col] =
+      //   action.payload.val;
+    },
   },
 });
 export const {
@@ -206,5 +216,6 @@ export const {
   setRowOrder,
   setNewRow,
   setNewCellValueRedux,
+  setNewHeaderValueRedux,
 } = tableSlice.actions;
 export default tableSlice.reducer;
