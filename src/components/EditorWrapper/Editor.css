@@ -47,7 +47,7 @@
 }
 
 .editorjsDiv {
-  margin-right: 265px;
+  margin-right: 165px;
   width: 800px;
 }
 
@@ -135,8 +135,8 @@
 }
 
 .editorCover {
-  width: 1000px;
-  min-height: 150px;
+  width: 889px;
+  min-height: 149px;
   background-blend-mode: color, normal, normal, normal;
   border-radius: 8px;
 }

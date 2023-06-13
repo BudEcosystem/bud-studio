@@ -100,3 +100,11 @@ export function Plus() {
 
     );
   };
+
+  export function BackButton () {
+    return (
+      <svg width="12" height="9" viewBox="0 0 9 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8.12668 3.39268L1.16406 3.39268M1.16406 3.39268L3.84991 0.697478M1.16406 3.39268L3.84991 6.08789" stroke="white" stroke-width="1.25303" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>      
+    );
+  };
