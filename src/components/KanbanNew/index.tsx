@@ -8,7 +8,11 @@ import {
 } from 'redux/slices/kanban';
 import Kanban from './kanbanBoard';
 import { useSelector } from 'react-redux';
-import { updateAppData, updateWholeState } from 'redux/slices/workspace';
+import {
+  updateAppData,
+  updateAppName,
+  updateWholeState,
+} from 'redux/slices/workspace';
 import HeaderSection from 'components/ListView/HeaderSection';
 
 const KanbanSection = styled.div`
@@ -219,6 +223,7 @@ function HeaderButtons({ label, icon }: any) {
 }
 function KanbanUI({ workspaceObj, uiDetails }: any) {
   const [date, setDate] = useState<String>('');
+  const [title, setTitle] = useState('');
   useEffect(() => setDate('13 June 2022'), []);
   const dispatch = useDispatch();
   const reduxState = useSelector((state) => state);
@@ -246,7 +251,9 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
     );
     const kanbanEmptyData = generateKanbanInitialState();
     if (applicationsDataFiltered) {
-      const { appData } = applicationsDataFiltered;
+      console.log('applicationsDataFiltered', applicationsDataFiltered);
+      const { appData, titleForDoc } = applicationsDataFiltered;
+      setTitle(titleForDoc);
       if (appData) {
         dispatch(updateWholeKanbanState(appData));
       } else {
@@ -258,9 +265,17 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
     const currentApplicationId = uiDetails.split('--')[2];
     dispatch(updateAppData({ appID: currentApplicationId, appData: kanban }));
   }, [kanban]);
+  const updateCurrentTitle = (name) => {
+    const currentApplicationId = uiDetails.split('--')[2];
+    dispatch(updateAppName({ appID: currentApplicationId, titleForDoc: name }));
+  };
   return (
     <KanbanSection>
-      <HeaderSection view="kanban" />
+      <HeaderSection
+        view="kanban"
+        updateCurrentTitle={updateCurrentTitle}
+        title={title}
+      />
       <Kanban />
     </KanbanSection>
   );

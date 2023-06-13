@@ -10,7 +10,7 @@ import {
   updateWholeListState,
 } from 'redux/slices/list';
 import AppModeHeader from './ListViewComponents/AppModeHeader';
-import { updateAppData } from 'redux/slices/workspace';
+import { updateAppData, updateAppName } from 'redux/slices/workspace';
 import HeaderSection from './HeaderSection';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -84,9 +84,13 @@ function ListView({ contentRef, workspaceObj, uiDetails }: any) {
     dispatch(updateAppData({ appID: currentApplicationId, appData: list }));
   }, [list]);
 
+  const updateCurrentTitle = (name) => {
+    const currentApplicationId = uiDetails.split('--')[2];
+    dispatch(updateAppName({ appID: currentApplicationId, titleForDoc: name }));
+  };
   return (
     <>
-      <HeaderSection view="list" />
+      <HeaderSection view="list" updateCurrentTitle={updateCurrentTitle} />
       <div className="mainListComponentContainer">
         {/* <MainListComponent /> */}
         <Accordion isAppMode={isAppMode} />
