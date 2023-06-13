@@ -20,7 +20,11 @@ import {
   setCurrentSelectedDocument,
 } from 'redux/slices/workspace';
 import TableviewNew from 'components/TableviewNew/TableviewNew';
-import { setNodeIDs, setCurrentSelectedUI, setNavigationPath } from 'redux/slices/activestate';
+import {
+  setNodeIDs,
+  setCurrentSelectedUI,
+  setNavigationPath,
+} from 'redux/slices/activestate';
 
 function ContentView({
   setCollapsed,
@@ -47,23 +51,25 @@ function ContentView({
     workspace.workSpaceItems
   );
 
-  const newNode  = {
-    "title": "Welcome To Bud",
-    "key": "8fbac4d2-7bd0-482f-9880-c645bddd6eac5",
-    "isLeaf": true,
-    "color": "#343434",
-    "workspaceDetails": {
-        "name": "Private",
-        "color": "#343434",
-        "id": "wsp-1",
-        "uuid": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc",
-        "childs": []
+  const newNode = {
+    title: 'Welcome To Bud',
+    key: '8fbac4d2-7bd0-482f-9880-c645bddd6eac5',
+    isLeaf: true,
+    color: '#343434',
+    workspaceDetails: {
+      name: 'Private',
+      color: '#343434',
+      id: 'wsp-1',
+      uuid: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+      childs: [],
     },
-    "children": []
-}
+    children: [],
+  };
 
   const findParent = (x: any) => {
-    const find = workspace.workspaceFolders.find((y: any) => y?.uuid === x?.parent);
+    const find = workspace.workspaceFolders.find(
+      (y: any) => y?.uuid === x?.parent
+    );
     return find;
   };
 
@@ -158,8 +164,11 @@ function ContentView({
         {currentSelectedUI?.includes('kanban') && (
           <KanbanUI workspaceObj={workspace} uiDetails={currentSelectedUI} />
         )}
+        {currentSelectedUI?.includes('table') && (
+          <TableView workspaceObj={workspace} uiDetails={currentSelectedUI} />
+        )}
+
         <Hamburger />
-        {currentSelectedUI?.includes('tableview') && <TableView />}
       </Content>
       <OmniSearch />
     </Layout>

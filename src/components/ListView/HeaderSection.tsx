@@ -1,19 +1,20 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useState } from 'react';
-import { AddCover } from './ListViewIcons';
-import OptionsComponent from './ListViewComponents/OptionsComponent';
-import AppModeHeader from './ListViewComponents/AppModeHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   editListDescription,
   editListTitle,
   setOneTime,
 } from 'redux/slices/list';
+import { AddCover } from './ListViewIcons';
+import OptionsComponent from './ListViewComponents/OptionsComponent';
+import AppModeHeader from './ListViewComponents/AppModeHeader';
 
-const HeaderSection = ({ view }) => {
+function HeaderSection({ view, updateCurrentTitle, title }: any) {
   const dispatch = useDispatch();
   const { content, list }: any = useSelector((state) => state);
   const { listTitleAndDesc, oneTime } = list;
-  const { title, description } = listTitleAndDesc;
+  const { description } = listTitleAndDesc;
   // const [oneTime, setOneTime] = useState(true);
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -37,6 +38,7 @@ const HeaderSection = ({ view }) => {
   useEffect(() => {
     if (currentFileName !== '') {
       dispatch(editListTitle({ newTitle: currentFileName }));
+      // updateCurrentTitle(currentFileName);
     }
   }, [currentFileName]);
 
@@ -45,6 +47,7 @@ const HeaderSection = ({ view }) => {
       event.preventDefault();
       dispatch(editListTitle({ newTitle: event.target.innerText }));
       dispatch(setOneTime(false));
+      updateCurrentTitle(event.target.innerText);
       const heading = document.getElementById('editableTitle');
       heading?.blur();
     }
@@ -71,7 +74,7 @@ const HeaderSection = ({ view }) => {
             <div className="mgLeft">
               <div
                 style={{ backgroundColor: 'var(--bud-container-background)' }}
-                className={`kabuni`}
+                className="kabuni"
               >
                 <div className="kabuni" style={{}}>
                   <div
@@ -80,9 +83,9 @@ const HeaderSection = ({ view }) => {
                       background: `${color}`,
                     }}
                   >
-                    <span className={`tick`}>L</span>
-                    <span className={`tick`}>L</span>
-                    <span className={`tick`}>L</span>
+                    <span className="tick">L</span>
+                    <span className="tick">L</span>
+                    <span className="tick">L</span>
                   </div>
                   <p
                     className="kabuniText"
@@ -91,7 +94,7 @@ const HeaderSection = ({ view }) => {
                       border: 'none',
                       outline: 'none',
                     }}
-                    contentEditable={true}
+                    contentEditable
                     onKeyDown={keyHandler}
                   >
                     {title}
@@ -101,7 +104,7 @@ const HeaderSection = ({ view }) => {
               <p
                 id="editableDesc"
                 className="kabuniBottomText"
-                contentEditable={true}
+                contentEditable
                 style={{
                   border: 'none',
                   outline: 'none',
@@ -126,6 +129,6 @@ const HeaderSection = ({ view }) => {
       )}
     </>
   );
-};
+}
 
 export default HeaderSection;

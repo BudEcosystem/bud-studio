@@ -349,6 +349,7 @@ export const workspaceSlice = createSlice({
         applicatioId: newId,
         createdAt: dayjs.default().unix(),
         appData: null,
+        titleForDoc: 'Default Title',
       };
       const oldApplicationData: any = [];
       const { editorApplicationsAdded: applicationData } = state;
@@ -443,6 +444,22 @@ export const workspaceSlice = createSlice({
       state.editorApplicationsAdded = newArrayGenerated;
       // }
     },
+    updateAppName: (state, action: PayloadAction<any>) => {
+      console.log('applicationsDataFiltered', action.payload);
+      const { appID, titleForDoc } = action.payload;
+      console.log(action.payload);
+      const copyOfEditorApplicationsAdded = [...state.editorApplicationsAdded];
+      const proxyFilteredArray: any = [];
+      copyOfEditorApplicationsAdded.forEach((data): any => {
+        let currentData = { ...data };
+        if (currentData.applicatioId === appID) {
+          currentData = { ...currentData, titleForDoc };
+        }
+        proxyFilteredArray.push({ ...currentData });
+      });
+      console.log('copyOfEditorApplicationsAdded', proxyFilteredArray);
+      state.editorApplicationsAdded = proxyFilteredArray;
+    },
   },
 });
 
@@ -470,5 +487,6 @@ export const {
   addDuplicateFolders,
   addDuplicateDoc,
   addDuplicateEditorApplications,
+  updateAppName,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

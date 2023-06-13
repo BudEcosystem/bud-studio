@@ -60,10 +60,10 @@ function Hamburger() {
     <div>
       {currentSelectedDocId && (
         <div className="hamBurgerParent">
-          {hamburgerOptions.map(({ title, type, applicatioId }: any) => (
+          {hamburgerOptions.map(({ title, applicatioId, titleForDoc }: any) => (
             <HamburgerItems
               key={applicatioId}
-              title={type}
+              title={titleForDoc}
               selected={title === selectedOption}
               onClick={() => handleOptionClick(title)}
             />

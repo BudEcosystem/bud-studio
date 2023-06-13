@@ -14,7 +14,7 @@ import {
   setRowOrder,
 } from 'redux/slices/table';
 
-const TableviewNew = () => {
+function TableviewNew() {
   const { table }: any = useSelector((state) => state);
   const { columnsArray, newTaskClickedtable, addNewRow, rowsInTable } = table;
   const [addCol, setAddCol] = useState(true);
@@ -62,7 +62,7 @@ const TableviewNew = () => {
       console.log(newCellValues, r, c);
       dispatch(
         setNewCellValueRedux({
-          val: newCellValues['newVal'],
+          val: newCellValues.newVal,
           row: r,
           col: c.id,
         })
@@ -146,7 +146,7 @@ const TableviewNew = () => {
                         return (
                           <tr>
                             {columnsArray.map((cols, i) => {
-                              if (i === 0) return <td></td>;
+                              if (i === 0) return <td />;
                               return (
                                 <td>
                                   <input
@@ -176,64 +176,61 @@ const TableviewNew = () => {
                           index={index}
                         >
                           {(provided, snapshot) => (
-                            <>
-                              <tr
-                                {...row.getRowProps()}
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                style={{
-                                  ...provided.draggableProps.style,
-                                  padding: '0px',
-                                  boxSizing: 'border-box',
-                                }}
-                              >
-                                {row.cells.map((cell, cellIndex) => (
-                                  <td
-                                    className={`${
-                                      cellIndex === 0 ? 'firstCol' : 'rest'
-                                    } col${index}${cellIndex}`}
-                                    {...cell.getCellProps()}
-                                    {...(cellIndex === 0
-                                      ? provided.dragHandleProps
-                                      : {})}
-                                    style={{
-                                      paddingLeft:
-                                        cellIndex === 0 ? '' : '12px',
-                                    }}
-                                    onDoubleClick={() =>
-                                      setEditingCell({
-                                        rowIndex: index,
-                                        cellIndex,
-                                      })
-                                    }
-                                  >
-                                    {editingCell?.rowIndex === index &&
-                                    editingCell?.cellIndex === cellIndex ? (
-                                      <input
-                                        type="text"
-                                        className="titleInputtable"
-                                        name={cell.column.accessor}
-                                        placeholder={`Change ${cell.column.Header}`}
-                                        value={newCellValues['newVal'] || ''}
-                                        onChange={(e) =>
-                                          setNewCellValues((prevValues) => ({
-                                            ...prevValues,
-                                            newVal: e.target.value,
-                                          }))
-                                        }
-                                        onKeyPress={(e) =>
-                                          sendCellValues(e, index, cell.column)
-                                        }
-                                        autoFocus
-                                      />
-                                    ) : (
-                                      cell.render('Cell')
-                                    )}
-                                  </td>
-                                ))}
-                                {addCol && <td></td>}
-                              </tr>
-                            </>
+                            <tr
+                              {...row.getRowProps()}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              style={{
+                                ...provided.draggableProps.style,
+                                padding: '0px',
+                                boxSizing: 'border-box',
+                              }}
+                            >
+                              {row.cells.map((cell, cellIndex) => (
+                                <td
+                                  className={`${
+                                    cellIndex === 0 ? 'firstCol' : 'rest'
+                                  } col${index}${cellIndex}`}
+                                  {...cell.getCellProps()}
+                                  {...(cellIndex === 0
+                                    ? provided.dragHandleProps
+                                    : {})}
+                                  style={{
+                                    paddingLeft: cellIndex === 0 ? '' : '12px',
+                                  }}
+                                  onDoubleClick={() =>
+                                    setEditingCell({
+                                      rowIndex: index,
+                                      cellIndex,
+                                    })
+                                  }
+                                >
+                                  {editingCell?.rowIndex === index &&
+                                  editingCell?.cellIndex === cellIndex ? (
+                                    <input
+                                      type="text"
+                                      className="titleInputtable"
+                                      name={cell.column.accessor}
+                                      placeholder={`Change ${cell.column.Header}`}
+                                      value={newCellValues.newVal || ''}
+                                      onChange={(e) =>
+                                        setNewCellValues((prevValues) => ({
+                                          ...prevValues,
+                                          newVal: e.target.value,
+                                        }))
+                                      }
+                                      onKeyPress={(e) =>
+                                        sendCellValues(e, index, cell.column)
+                                      }
+                                      autoFocus
+                                    />
+                                  ) : (
+                                    cell.render('Cell')
+                                  )}
+                                </td>
+                              ))}
+                              {addCol && <td />}
+                            </tr>
                           )}
                         </Draggable>
                       );
@@ -248,6 +245,6 @@ const TableviewNew = () => {
       </div>
     </div>
   );
-};
+}
 
 export default TableviewNew;

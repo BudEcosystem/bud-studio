@@ -8,7 +8,7 @@ function TableView() {
   const { color } = workspace;
   return (
     <div>
-      <HeaderSection view={undefined} />
+      <HeaderSection view={undefined} updateCurrentTitle={() => {}} />
       <div
         style={{
           paddingTop: '15px',
