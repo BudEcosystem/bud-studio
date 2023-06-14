@@ -22,7 +22,7 @@ import {
   Move,
   Plus,
   RightArrow,
-  SearchIconShortcut
+  SearchIconShortcut,
 } from './WorkspaceIcons';
 import TreeView from './TreeView/TreeView';
 import './WorkspaceModal.css';
@@ -79,8 +79,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
           ) {
             setShowColorDots(false);
           }
-        }
-        else if (showDocumentOptions) {
+        } else if (showDocumentOptions) {
           if (
             docOptionModalRef.current &&
             !docOptionModalRef.current.contains(event.target) &&
@@ -89,8 +88,11 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
           ) {
             setShowDocumentOptions(false);
           }
-        }
-        else if (ref.current && !ref.current.contains(event.target) && isDrag) {
+        } else if (
+          ref.current &&
+          !ref.current.contains(event.target) &&
+          isDrag
+        ) {
           setWorkspaceModal(false);
           setIsDrag(false);
         }
@@ -194,7 +196,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
           height: '90%',
           width: '85%',
           pointerEvents: 'none',
-          zIndex: "10"
+          zIndex: '10',
         }}
       >
         <Draggable bounds="parent" handle=".handle">
@@ -296,7 +298,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                 ref={searchInputFieldRef}
                 id="searchFlyout"
               />
-              <SearchIconShortcut/>
+              <SearchIconShortcut />
             </div>
 
             {/* <TreeView

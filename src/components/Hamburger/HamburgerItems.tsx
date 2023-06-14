@@ -8,7 +8,7 @@ function HamburgerItems({ title, selected, onClick }: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   return (
-    <div className="" onClick={onClick}>
+    <div className="" onClick={onClick} style={{ cursor: 'pointer' }}>
       <div
         className={selected ? 'verticalBar' : ''}
         style={{

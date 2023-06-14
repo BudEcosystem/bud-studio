@@ -94,15 +94,11 @@ function RenderChild({
   const findAndReplaceItem = (index: any, currentTreeData: any) => {
     let inc = index;
     const current = currentTreeData;
-    // console.log(expandedKeys);
     const indexFound = findIndexOfData(current, expandedKeys[inc]);
-    // console.log(indexFound);
     if (indexFound !== -1) {
       const newCurrent = current[indexFound];
-      console.log(newCurrent);
       inc += 1;
       if (inc === expandedKeys.length) {
-        console.log('last index found', newCurrent);
         newCurrent.children[0].title = 'renamed';
       } else {
         findAndReplaceItem(inc, newCurrent.children);
@@ -111,13 +107,6 @@ function RenderChild({
     return current;
   };
   const onRenameClicked = (e: any) => {
-    // console.log(expandedKeys);
-    // e.stopPropagation();
-    // const treeDataCopy = treeData;
-    // findAndReplaceItem(0, treeDataCopy);
-    // setTreeData(treeDataCopy);
-    // setPopOverVisible(false);
-    // setExpandedKeys(expandedKeys);
     setCurrentNode({ ...node, folderUpdateInput: true });
   };
   const checkForChilds = (id: any) => {
@@ -142,14 +131,12 @@ function RenderChild({
       const parentFolder = workspaceFolders.find(
         (data: any) => data.uuid === parentId
       );
-      console.log('duplicateFolder - parentFolder', parentFolder);
       const newUUID = uuidv4();
       const newParentFolder = {
         ...parentFolder,
         name: `${parentFolder.name}-duplicate`,
         uuid: newUUID,
       };
-      console.log('duplicateFolder - newParentFolder', newParentFolder);
       folderCopy.push(newParentFolder);
       if (checkForChilds(parentId).length > 0) {
         checkIfCHildrenExistsAndDuplicate(
@@ -169,8 +156,7 @@ function RenderChild({
         (data: any) => data?.childOf === parentId
       );
       childDocs.forEach((childDoc: any) => {
-        console.log('duplicateFolder - Doc - child', childDoc);
-        let newId = uuidv4();
+        const newId = uuidv4();
         const newChildDoc = {
           ...childDoc,
           uuid: newId,
@@ -183,18 +169,15 @@ function RenderChild({
         filteredApplicationDataForCurrentDOcument.forEach((each) =>
           applicationCopy.push({ ...each, docId: newId })
         );
-        console.log('duplicateFolder - newChildDoc - child', newChildDoc);
         docCopy.push(newChildDoc);
       });
       childFolders.forEach((childFolder: any) => {
         const newChildUUID = uuidv4();
-        console.log('duplicateFolder - child', childFolder);
         const newChildFolder = {
           ...childFolder,
           uuid: newChildUUID,
           childOf: newParentId,
         };
-        console.log('duplicateFolder - new child', newChildFolder);
         folderCopy.push(newChildFolder);
         const { uuid } = childFolder;
         if (checkForChilds(uuid).length > 0) {
@@ -209,12 +192,10 @@ function RenderChild({
         }
       });
     }
-    // nodeSelected(node);
   };
   const onDuplicateFolderClicked = (e: any) => {
     e.stopPropagation();
     setPopOverVisible(false);
-    // console.log('duplicateFolder', node);
     const folderCopy: any = [];
     const docCopy: any = [];
     const applicationCopy: any = [];
@@ -226,14 +207,9 @@ function RenderChild({
       docCopy,
       applicationCopy
     );
-    console.log('duplicateFolder - folderCopy', folderCopy);
     dispatch(addDuplicateFolders({ newObjectArray: folderCopy }));
-    console.log('duplicateFolder - docCopy', docCopy);
     dispatch(addDuplicateDoc({ newObjectArray: docCopy }));
-    console.log('duplicateFolder - applicationCopy', applicationCopy);
     dispatch(addDuplicateEditorApplications({ newObjectArray: docCopy }));
-    // let keys = expandedKeys;
-    // setExpandedKeys([]);
   };
   const content = (
     <div className="docOptionsModal" ref={optionModalRef}>
@@ -402,8 +378,6 @@ function RenderChild({
     // }, 100);
   };
   const inputRefFolder = useRef() as React.MutableRefObject<HTMLInputElement>;
-  console.log(node);
-
   useEffect(() => {
     document.getElementById('newTreeChildInput')?.focus();
   });
@@ -481,7 +455,6 @@ function RenderChild({
     }
   };
   const navPathHandler = (n) => {
-    console.log('asdfasfsad', n);
     const par = findParent(n);
     dispatch(setNavigationPath(null));
     dispatch(setNavigationPath({ name: n.title }));
@@ -501,17 +474,17 @@ function RenderChild({
         dispatch(
           setCurrentSelectedDocument({
             uuid: node.key,
-            workSpaceUUID: workSpaceUUID,
+            workSpaceUUID,
           })
         );
-        dispatch(setNodeIDs({ uuid: node.key, workSpaceUUID: workSpaceUUID }));
+        dispatch(setNodeIDs({ uuid: node.key, workSpaceUUID }));
         dispatch(setCurrentSelectedUI(''));
         dispatch(setSelectedOption('Editor'));
         dispatch(changeColor({ color: node.color }));
       }, 100);
       setTimeout(() => {
         window.location.reload();
-      }, 200)
+      }, 200);
     }
   };
   return (
