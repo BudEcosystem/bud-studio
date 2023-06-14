@@ -1,6 +1,6 @@
 import HeaderSection from 'components/ListView/HeaderSection';
 import React, { useEffect, useState } from 'react';
-import { useTable } from 'react-table';
+import { useTable, useSortBy } from 'react-table';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './tableviewNew.css';
 import './tablecss.scss';
@@ -14,6 +14,7 @@ import {
   setNewRow,
   setNewTaskClickedtable,
   setRowOrder,
+  sortedRowsReorder,
   updateWholeTableState,
 } from 'redux/slices/table';
 import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
@@ -72,8 +73,10 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
     }
   };
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns: columnsArray, data: rowsInTable });
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state } =
+    useTable({ columns: columnsArray, data: rowsInTable }, useSortBy);
+
   const handleDragEnd = (result) => {
     if (!result.destination) return;
     if (result.type === 'column') {
@@ -118,14 +121,22 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
       setEditionHeader(null);
     }
   };
+  const sortedRows = state.sortedRows || rows;
+  // sortedRows.map((row) => {
+  //   console.log(row)
+  //   // Render each row
+  // });
 
   const [selectedColumn, setSelectedColumn] = useState(null);
   const handleColumnSelection = (colIdx) => {
     setSelectedColumn(colIdx);
   };
+  const handleColumnSort = (column, colIdx, allCols) => {
+    column.toggleSortBy();
+  };
 
-  const renderHeaderContent = (column, colIdx) => {
-    if (column.id === '#') {
+  const renderHeaderContent = (column, colIdx, allRows) => {
+    if (column.id === 'id') {
       return <div style={{ marginLeft: '5px' }}>#</div>;
     }
     return (
@@ -135,13 +146,18 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
             cursor: 'pointer',
             color: colIdx === selectedColumn ? '#FFFFFF' : '',
           }}
-          onClick={() => handleColumnSelection(colIdx)} // Call the function to handle column selection
+          onClick={() => handleColumnSelection(colIdx)}
         >
           {column.render('Header')}
         </div>
-        <div style={{ marginLeft: '13px' }}>
-          <UpAndDown color={colIdx === selectedColumn ? '#FFFFFF' : color} />
-        </div>
+        {column.id !== 'id' && (
+          <div
+            style={{ marginLeft: '13px', cursor: 'pointer' }}
+            onClick={() => handleColumnSort(column, colIdx, allRows)}
+          >
+            <UpAndDown color={colIdx === selectedColumn ? '#FFFFFF' : color} />
+          </div>
+        )}
       </>
     );
   };
@@ -192,7 +208,7 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
       );
     } else if (column.id === 'tag') {
       return <p className="recText">#Recurring</p>;
-    } else if (column.id === '#') {
+    } else if (column.id === 'id') {
       return <div>{cell.row.index + 1}</div>;
     }
     return <div>{cell.render('Cell')}</div>;
@@ -272,7 +288,11 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
                                       alignItems: 'center',
                                     }}
                                   >
-                                    {renderHeaderContent(column, colIdx)}
+                                    {renderHeaderContent(
+                                      column,
+                                      colIdx,
+                                      rows
+                                    )}
                                   </div>
                                 )}
                               </th>

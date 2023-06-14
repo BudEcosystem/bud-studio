@@ -41,13 +41,13 @@
     font-size: 14px;
     line-height: 19px;
     color: #FFFFFF;
-    width: 100%;
+    /* width: 100%; */
     height: 40px;
 }
 
 /* table tr:nth-child(even){background-color: #f2f2f2;} */
 table td:first-child {
-    background-color: #1B1C1E;
+    background-color: #1B1C1E !important;
     padding-left: 16px;
 }
 
