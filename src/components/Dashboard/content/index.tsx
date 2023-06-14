@@ -163,8 +163,6 @@ function ContentView({
             uiDetails={currentSelectedUI}
           />
         )}
-        <TableviewNew workspaceObj={workspace}
-            uiDetails={currentSelectedUI} />
         <TaskView />
         <Hamburger />
       </Content>
