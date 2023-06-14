@@ -435,7 +435,7 @@ function TreeStructure({
         titleRender={customRenderer}
         // loadData={nodeSelected}
         onExpand={onNodeExpand}
-        {...propsGenerated}
+        // {...propsGenerated}
       />
     </div>
   );
