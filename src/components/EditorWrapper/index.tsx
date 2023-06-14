@@ -24,6 +24,7 @@ import {
   HeadingIcon,
   ParagraphIcon,
   FileIcon,
+  BackButton,
 } from './EditorIcons';
 import {
   setCurrentSelectedUI,
@@ -32,6 +33,8 @@ import {
   setSelectedOption,
 } from 'redux/slices/activestate';
 import { v4 as uuidv4 } from 'uuid';
+import bgImage from './bgImage.png';
+import iconImage from './iconImage.png';
 
 const DEFAULT_INITIAL_DATA = () => {
   return {
@@ -49,19 +52,14 @@ const DEFAULT_INITIAL_DATA = () => {
 };
 
 const EDITTOR_HOLDER_ID = 'editorjs';
-let fileMentionedArray: any = [];
 
-function EditorWrapper({
-  data,
-}: // setCurrentSelectedUI,
-// selectedOption,
-// setSelectedOption,
-any) {
+function EditorWrapper () {
   const ejInstance = useRef();
   const [editorData, setEditorData] = useState(null);
-  const [coverUrl, setCoverUrl] = useState();
+  const [coverUrl, setCoverUrl] = useState(bgImage);
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
-  const [iconUrl, setIconUrl] = useState();
+  const [iconUrl, setIconUrl] = useState(iconImage);
+  const [iconAvailable, setIconAvailable] = useState(true)
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
   const { tree, workspace }: any = useSelector((state) => state);
   const {
@@ -496,6 +494,28 @@ any) {
     }
   };
 
+  const removeSlash = (blockIndex: any) => {
+      if (blockIndex >= 0) {
+        async function removeSlashFromText(blockIndex: any) {
+          try {
+            const savedData = await ejInstance?.current?.save();
+            const currentData = savedData.blocks;
+            if (blockIndex >= 0 && blockIndex < currentData.length) {
+              const targetBlock = currentData[blockIndex];
+              // targetBlock.data.text += ` ${hyperlink}`;
+              console.log("TARGET BLOCK TEXT IS", targetBlock.data.text)
+              const modifiedText = targetBlock.data.text.slice(0, -1);
+              targetBlock.data.text = modifiedText
+              ejInstance?.current?.render({ blocks: currentData });
+            }
+          } catch (error) {
+            console.error('Error occurred while appending text:', error);
+          }
+        }
+        removeSlashFromText(blockIndex);
+      }
+    }
+
   const style = { '--bg-color': color };
 
   useEffect(() => {
@@ -513,10 +533,11 @@ any) {
     id,
     onItemsMouseEnter,
   }: any) {
+    const blockIndex = ejInstance?.current?.blocks.getCurrentBlockIndex();
     return (
       <div
         style={style}
-        onClick={(e) => insertBlock(opt, title, id)}
+        onClick={(e) => {if(opt!="database" && opt!="document"){setShowEditorOptionsBlock(false)} removeSlash(blockIndex); setTimeout(() => {insertBlock(opt, title, id);}, 100)}}
         className="EditorOptionComponent"
         onMouseEnter={onItemsMouseEnter}
       >
@@ -734,15 +755,15 @@ any) {
       {coverUrlAvailable ? (
         <div
           style={{
-            backgroundImage: `linear-gradient(to bottom right, ${color}, white)`,
+            backgroundImage: `url(${coverUrl})`,
           }}
           className="editorCover"
         >
-          <img src={coverUrl} />
           <div
             style={{
               position: 'relative',
-              left: '82%',
+              left: '81%',
+              marginTop: "15px",
               display: 'flex',
               width: '150px',
               alignItems: 'center',
@@ -806,7 +827,7 @@ any) {
         </div>
       )}
 
-      {!iconUrl ? (
+      {iconAvailable ? (
         coverUrlAvailable ? (
           <div
             style={{
@@ -815,7 +836,7 @@ any) {
               display: 'flex',
               width: '700px',
               alignItems: 'end',
-              marginRight: '225px',
+              marginRight: '125px',
             }}
           >
             <div className="editorIcon">
@@ -839,7 +860,7 @@ any) {
               display: 'flex',
               width: '700px',
               alignItems: 'center',
-              marginRight: '225px',
+              marginRight: '125px',
               marginBottom: '40px',
             }}
           >
@@ -862,15 +883,16 @@ any) {
           style={{
             fontSize: '14px',
             fontWeight: '500',
-            marginRight: '910px',
-            marginTop: '120px',
+            marginRight: '810px',
+            marginTop: '60px',
             display: 'flex',
             width: 'fit-content',
             color: '#333539',
             cursor: 'pointer',
+            marginBottom: "20px"
           }}
         >
-          <div style={{ marginRight: '10px' }}>
+          <div onClick={(e) => setIconAvailable(true)} style={{ marginRight: '10px' }}>
             <AddIcon />
           </div>
           Add Icon
@@ -922,7 +944,8 @@ any) {
               }}
               onClick={() => setShowFirstOptions(true)}
             >
-              Go Back
+              <BackButton />
+              <span style={{marginLeft: "5px"}}>Go Back</span>
             </div>
           )}
 
