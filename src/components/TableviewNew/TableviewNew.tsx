@@ -73,9 +73,14 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
     }
   };
 
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state } =
-    useTable({ columns: columnsArray, data: rowsInTable }, useSortBy);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state,
+  } = useTable({ columns: columnsArray, data: rowsInTable }, useSortBy);
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
@@ -131,13 +136,46 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
   const handleColumnSelection = (colIdx) => {
     setSelectedColumn(colIdx);
   };
+  const [ascOrDesc, setAscOrDesc] = useState({});
+  useEffect(() => {
+    const initializedObj = {};
+    columnsArray.forEach((row) => {
+      initializedObj[row.accessor] = false;
+    });
+    setAscOrDesc(initializedObj);
+  }, []);
   const handleColumnSort = (column, colIdx, allCols) => {
-    column.toggleSortBy();
+    setAscOrDesc((prevValues) => ({
+      ...prevValues,
+      [column.id]: !prevValues[column.id],
+    }));
+    console.log(ascOrDesc);
+    dispatch(sortedRowsReorder({ col: column.id, ascOrDes: ascOrDesc }));
+    //  if(column.id === 'id'){
+
+    //   setAscOrDesc((prevValues) => ({
+    //     ...prevValues,
+    //     [column.id] : !prevValues[column.id]
+    //   }))
+    //   console.log(ascOrDesc)
+    //   dispatch(sortedRowsReorder({col: column.id, ascOrDes: ascOrDesc}))
+    //  }
+    // dispatch(sortedRowsReorder({col: column.id}))
   };
 
   const renderHeaderContent = (column, colIdx, allRows) => {
     if (column.id === 'id') {
-      return <div style={{ marginLeft: '5px' }}>#</div>;
+      return (
+        <>
+          <div style={{ marginLeft: '5px' }}>#</div>
+          <div
+            style={{ marginLeft: '13px', cursor: 'pointer' }}
+            onClick={() => handleColumnSort(column, colIdx, allRows)}
+          >
+            <UpAndDown color={colIdx === selectedColumn ? '#FFFFFF' : color} />
+          </div>
+        </>
+      );
     }
     return (
       <>
@@ -150,14 +188,12 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
         >
           {column.render('Header')}
         </div>
-        {column.id !== 'id' && (
-          <div
-            style={{ marginLeft: '13px', cursor: 'pointer' }}
-            onClick={() => handleColumnSort(column, colIdx, allRows)}
-          >
-            <UpAndDown color={colIdx === selectedColumn ? '#FFFFFF' : color} />
-          </div>
-        )}
+        <div
+          style={{ marginLeft: '13px', cursor: 'pointer' }}
+          onClick={() => handleColumnSort(column, colIdx, allRows)}
+        >
+          <UpAndDown color={colIdx === selectedColumn ? '#FFFFFF' : color} />
+        </div>
       </>
     );
   };
@@ -209,7 +245,13 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
     } else if (column.id === 'tag') {
       return <p className="recText">#Recurring</p>;
     } else if (column.id === 'id') {
-      return <div>{cell.row.index + 1}</div>;
+      return (
+        <div>
+          {ascOrDesc['id']
+            ? rowsInTable.length - cell.row.index
+            : cell.row.index + 1}
+        </div>
+      );
     }
     return <div>{cell.render('Cell')}</div>;
   };
@@ -288,11 +330,7 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
                                       alignItems: 'center',
                                     }}
                                   >
-                                    {renderHeaderContent(
-                                      column,
-                                      colIdx,
-                                      rows
-                                    )}
+                                    {renderHeaderContent(column, colIdx, rows)}
                                   </div>
                                 )}
                               </th>

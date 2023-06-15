@@ -65,6 +65,7 @@ function WorkspaceMenuItem({
       menu={menu}
       updateWorkspace={onUpdateWorkspace}
       index={i}
+      isEditMode={isEditMode}
       setIsEditMode={setIsEditMode}
       setShowAddWorkspace={setShowAddWorkspace}
     />
@@ -146,11 +147,13 @@ function MenuWorkSpaceInput({
   menu,
   updateWorkspace,
   index,
+  isEditMode,
   setIsEditMode,
   setShowAddWorkspace,
 }: any) {
   const [workSpace, setWorkSpace] = useState({ name: '', color: '' });
   const [randCol, setRandCol] = useState(getRandomColor());
+  const [editColor, setEditColor] = useState(menu.color);
   useEffect(() => {
     document.getElementById('workspace-create-input')?.focus();
   }, []);
@@ -167,6 +170,7 @@ function MenuWorkSpaceInput({
   };
   const workSpaceColorInputHandler = (e: any) => {
     setRandCol(e.target.value);
+    setEditColor(e.target.value);
     setWorkSpace((prev: any) => {
       return {
         ...prev,
@@ -183,6 +187,7 @@ function MenuWorkSpaceInput({
     }
   };
   const onBlurHandler = () => {
+    console.log(workSpace, index);
     updateWorkspace({ value: workSpace, index });
   };
   const onEscapeButtonPressed = (event) => {
@@ -205,7 +210,11 @@ function MenuWorkSpaceInput({
           >
             {/* <rect width="14" height="14" rx="4" fill={randCol} /> */}
             {menu.name ? (
-              <rect width="14" height="14" rx="4" fill={menu.color} />
+              !isEditMode ? (
+                <rect width="14" height="14" rx="4" fill={menu.color} />
+              ) : (
+                <rect width="14" height="14" rx="4" fill={editColor} />
+              )
             ) : (
               <rect width="14" height="14" rx="4" fill={randCol} />
             )}
@@ -213,7 +222,7 @@ function MenuWorkSpaceInput({
           <input
             type="color"
             name="hex_code"
-            value={randCol}
+            value={isEditMode ? editColor : randCol}
             onChange={workSpaceColorInputHandler}
             onBlur={onBlurHandler}
             className={classWrksps.colorInput}
@@ -226,7 +235,7 @@ function MenuWorkSpaceInput({
         id="workspace-create-input"
         type="text"
         placeholder="Enter space name"
-        onBlur={onBlurHandler}
+        // onBlur={onBlurHandler}
         value={workSpace.name}
         onKeyUp={workSpaceNameChangeHandler}
         onInput={workSpaceNameInputHandler}
