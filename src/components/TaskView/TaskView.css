@@ -1,0 +1,394 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.KanbanTaskView {
+  width: 96%;
+  margin: auto;
+  /* height: 84vh; */
+  background-color: #1B1C1E;
+  border-radius: 14px
+}
+
+.KanbanTaskView__TopBar {
+  height: 70px;
+  border-bottom: 1px solid #252525;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.TopBar__LeftSide {
+  display: flex;
+  margin-left: 40px;
+}
+
+.LogoAndProgress {
+  display: flex;
+  width: 170px;
+  height: 32px;
+  background-color: #212023;
+  border-radius: 6px;
+  align-items: center;
+}
+
+.kabuniLogo {
+  width: 24px;
+  height: 24px;
+  mix-blend-mode: lighten;
+  border-radius: 3.30189px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.tick {
+  font-family: arial;
+  -ms-transform: scaleX(-1) rotate(-35deg);
+  /* IE 9 */
+  -webkit-transform: scaleX(-1) rotate(-35deg);
+  /* Chrome, Safari, Opera */
+  transform: scaleX(-1) rotate(-35deg);
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 0.5;
+  margin-left: -9px;
+  margin-top: .5px;
+}
+
+.TopBar__Title {
+  color: white;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  margin-left: 5px;
+
+}
+
+.TopBar__ProgressText {
+  width: 66px;
+  height: 18px;
+  background: #21A32E;
+  border-radius: 6px;
+  color: white;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+}
+
+.progressBar {
+  width: 94px;
+  height: 4px;
+  background: #0F0F0F;
+  border-radius: 21px;
+  overflow: hidden;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.progress {
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+.TopBar__RightSide {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}
+
+.TopBarRight__Date {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.Bar {
+  width: 14px;
+  height: 1px;
+  border: 1px solid #595959;
+  transform: rotate(90deg);
+  margin-left: 10px;
+}
+
+.Share {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  margin-left: 10px;
+}
+
+.KanbanTaskView__Panel {
+  display: flex;
+}
+
+.KanbanTaskView__LeftPanel {
+  width: 55%;
+  height: 713px;
+  border-bottom-left-radius: 14px;
+  overflow: auto;
+  border-right: 1px solid #252525;
+  ;
+}
+
+.KanbanTask__Title {
+  width: fit-content;
+  height: fit-content;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 100%;
+  margin-top: 50px;
+  margin-left: 30px;
+  max-width: 700px;
+}
+
+.KanbanTask__subHeading {
+  width: fit-content;
+  height: fit-content;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  color: #BBBBBB;
+  margin-left: 30px;
+  margin-top: 15px;
+  max-width: 700px;
+}
+
+.KabuniPanel__WriteContent {
+  width: 94%;
+  height: 90px;
+  border: 0.5px dashed #2F2F2F;
+  border-radius: 12px;
+  margin-top: 30px;
+  margin-left: 30px;
+  display: grid;
+  place-items: center;
+}
+
+.KabuniPanel__TextArea {
+  width: 95% !important;
+  height: 85% !important;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  color: white;
+  resize: none;
+}
+
+.KanbanPanel__Attatchment {
+  margin-left: 30px;
+  margin-top: 20px;
+  display: flex;
+}
+
+.AddIcon {
+  padding: 4px 8px;
+  width: 49.67px;
+  height: 24px;
+  background: #25272B;
+  box-shadow: 0px 0px 3px rgba(255, 255, 255, 0.24);
+  border-radius: 7px;
+  border-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drop-zone {
+  width: 94%;
+  height: 78px;
+  border: 0.5px dashed #2F2F2F;
+  border-radius: 12px;
+  margin-left: 30px;
+  margin-top: 10px;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  color: #313035;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.dragover {
+  background-color: aliceblue;
+}
+
+.KanbanPanel__todo {
+  margin-left: 30px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.subtaskText {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 154.5%;
+  color: #7B8388;
+  margin-top: 24px;
+}
+
+.headerComponentInputParent {
+  display: flex;
+  justify-content: space-between;
+  background: #25272B;
+  border-radius: 8px;
+  align-items: center;
+  height: 40px;
+  padding: 0px 10px 0px 9px;
+  margin-right: 13px;
+}
+
+.iconsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textIcon22 {
+  width: 12px;
+  height: 12px;
+  border: 0.8px solid #FFFFFF;
+  border-radius: 4px;
+}
+
+.yellowbar {
+  background: #F9D45D;
+  height: 18.5px;
+  width: 1px;
+  margin-left: 16px;
+  margin-right: 2px;
+}
+
+.rightSideOptions {
+  display: flex;
+  align-items: center;
+}
+
+.saveText {
+  width: 34px;
+  height: 18px;
+  background: #FFC556;
+  border-radius: 6px;
+  color: black;
+  font-size: 10px;
+  margin-left: 18px;
+  cursor: pointer;
+}
+
+.cross {
+  margin-left: 18px;
+  cursor: pointer;
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.workspaceTextBox {
+  background-color: rgba(217, 217, 217, 0.05);
+  border: none;
+  color: #C6C6C6;
+  border-radius: 2px;
+  height: 20px;
+  outline: none;
+  font-weight: 400;
+  font-size: 14px;
+  width: 133px;
+}
+
+.workspaceTextBox::placeholder {
+  color: #585A5B;
+  text-align: left;
+  opacity: 1;
+  padding-left: 4px;
+}
+
+.textTodo {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 154.5%;
+  color: #FFFFFF;
+  margin-left: 12px;
+  line-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  }
+
+
+  .dragover {
+    background-color: aliceblue;
+  }
+
+  .KanbanTaskView__RightPanel {
+    width: 45%;
+    height: 713px;
+    border-bottom-right-radius: 14px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .KanbanRightPanel__Comments {
+    height: 87%;
+    width: 90%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow: auto;
+  }
+
+  .KanbanRightPanel__Comment {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .KanbanRightPanel__CommentInput {
+    width: 90%;
+    height: 40px;
+    background: #171718;
+    border: 1px solid #1D1D1D;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+  }
+
+  .CommentInput__InputField {
+    width: 95%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: #171718;
+    color: white;
+    caret-color: #F9D45D;
+  }
