@@ -4,7 +4,8 @@ import { Menu } from 'antd';
 import { createRef, useEffect, useState } from 'react';
 import classes from '../../dashboard.module.css';
 import classWrksps from './workspaceMenuItem.module.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { editWorkspaceItem } from 'redux/slices/workspace';
 
 function getRandomColor() {
   const letters = '0123456789ABCDEF';
@@ -154,6 +155,7 @@ function MenuWorkSpaceInput({
   const [workSpace, setWorkSpace] = useState({ name: '', color: '' });
   const [randCol, setRandCol] = useState(getRandomColor());
   const [editColor, setEditColor] = useState(menu.color);
+  const dispatch = useDispatch();
   useEffect(() => {
     document.getElementById('workspace-create-input')?.focus();
   }, []);
@@ -187,8 +189,9 @@ function MenuWorkSpaceInput({
     }
   };
   const onBlurHandler = () => {
-    console.log(workSpace, index);
-    updateWorkspace({ value: workSpace, index });
+    const updObj = { ...workSpace, color: editColor };
+    // updateWorkspace({ value: updObj, index, editColor: true });
+    dispatch(editWorkspaceItem({ index, value: updObj, editColor: true }));
   };
   const onEscapeButtonPressed = (event) => {
     if (event.code === 'Escape') {
