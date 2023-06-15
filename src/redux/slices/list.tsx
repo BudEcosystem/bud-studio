@@ -329,12 +329,14 @@ export const generateInitialListState = (): any => {
   const expandedItems = [0];
   const selectedItemIndex = 0;
   const oneTime = true;
+  const taskViewData: never[]= [];
   const initialData = {
     panelArray,
     newTaskClicked,
     listTitleAndDesc,
     expandedItems,
     selectedItemIndex,
+    taskViewData
   };
   return initialData;
 };
@@ -362,6 +364,9 @@ export const listSlice = createSlice({
         childs: [],
       };
       state.panelArray[action.payload.selectedItem].items.push(tempObj);
+    },
+    taskViewDataChange: (state, action: PayloadAction<any>) => {
+      state.taskViewData = action.payload;
     },
     updatePosition: (state, action: PayloadAction<any>) => {
       const mapping = { todo: 0, inprogress: 1, inreview: 2, completed: 3 };
@@ -450,6 +455,7 @@ export const {
   setSelectedItemIndex,
   checkToggle,
   setOneTime,
+  taskViewDataChange,
   updateWholeListState,
 } = listSlice.actions;
 export default listSlice.reducer;

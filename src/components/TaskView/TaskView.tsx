@@ -14,8 +14,9 @@ import ToDoPanel from './components/ToDoPanel';
 import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
 
 const TaskView = () => {
-  const { workspace }: any = useSelector((state) => state);
+  const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
+  const { taskViewData } = list;
   const [isDragOver, setIsDragOver] = useState(false);
   const imagesArray: Array<any> = ['', '', ''];
 
@@ -156,7 +157,7 @@ const TaskView = () => {
             <h2 className="TopBar__Title">Kabuni</h2>
             <div className="TopBar__ProgressText">In Progress</div>
           </div>
-          <div style={{display: "grid", placeItems: "center", marginLeft: "40px"}} className="TopBar__AvatarImages"><CircularImageComponent images={imagesArray} /></div>
+          <div style={{display: "grid", placeItems: "center", marginLeft: "40px"}} className="TopBar__AvatarImages"><CircularImageComponent images={taskViewData.imagesData} /></div>
           <div
             style={{
               cursor: 'pointer',
@@ -179,7 +180,7 @@ const TaskView = () => {
           </div>
           <div className="progressBar">
             <div
-              style={{ backgroundColor: `${color}`, width: '20%' }}
+              style={{ backgroundColor: `${color}`, width: `${taskViewData.checklist?.checked / taskViewData.checklist?.total * 100}%` }}
               className="progress"
             ></div>
           </div>
@@ -201,9 +202,9 @@ const TaskView = () => {
 
       <div className="KanbanTaskView__Panel">
         <div className="KanbanTaskView__LeftPanel">
-          <div className="KanbanTask__Title">Check and respond to emails</div>
+          <div className="KanbanTask__Title">{taskViewData.title}</div>
           <div className="KanbanTask__subHeading">
-            Make note of any appointments or meetings.
+            {taskViewData?.description}
           </div>
 
           <div className="KabuniPanel__WriteContent">

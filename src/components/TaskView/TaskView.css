@@ -144,7 +144,7 @@
 
 .KanbanTask__Title {
   width: fit-content;
-  height: 24px;
+  height: fit-content;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 400;
@@ -157,15 +157,15 @@
 
 .KanbanTask__subHeading {
   width: fit-content;
-  height: 12px;
+  height: fit-content;
   font-family: 'Noto Sans';
   font-style: normal;
   font-weight: 300;
   font-size: 14px;
-  line-height: 100%;
   color: #BBBBBB;
   margin-left: 30px;
   margin-top: 15px;
+  max-width: 700px;
 }
 
 .KabuniPanel__WriteContent {
@@ -225,6 +225,7 @@
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s ease;
+  margin-bottom: 15px;
 }
 
 .dragover {
