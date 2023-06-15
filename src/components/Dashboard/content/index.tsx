@@ -163,7 +163,8 @@ function ContentView({
             uiDetails={currentSelectedUI}
           />
         )}
-        <TaskView />
+        <TableviewNew workspaceObj={workspace}
+            uiDetails={currentSelectedUI}/>
         <Hamburger />
       </Content>
       <OmniSearch />

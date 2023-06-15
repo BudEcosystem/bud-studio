@@ -7,7 +7,7 @@ export const generateInitialTableState = (): any => {
   const columnsArray = [
     {
       Header: '#',
-      accessor: (row, index) => index + 1,
+      accessor: 'id',
     },
     {
       Header: 'Account Name',
@@ -32,7 +32,6 @@ export const generateInitialTableState = (): any => {
     {
       Header: 'Assignee',
       accessor: 'assignee',
-      Cell: ({ value }) => <CircularImageComponent />,
     },
     {
       Header: 'Priority',
@@ -210,6 +209,14 @@ export const tableSlice = createSlice({
     updateWholeTableState: (state, action: PayloadAction<any>) => {
       return action.payload;
     },
+    sortedRowsReorder: (state, action: PayloadAction<any>) => {
+      // let newArr = []
+      // action.payload.map(row => {
+      //   newArr.push(row.values)
+      // })
+      // console.log(newArr)
+      // state.rowsInTable = action.payload
+    },
   },
 });
 export const {
@@ -221,5 +228,6 @@ export const {
   setNewCellValueRedux,
   setNewHeaderValueRedux,
   updateWholeTableState,
+  sortedRowsReorder
 } = tableSlice.actions;
 export default tableSlice.reducer;
