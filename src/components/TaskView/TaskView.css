@@ -152,6 +152,7 @@
   line-height: 100%;
   margin-top: 50px;
   margin-left: 30px;
+  max-width: 700px;
 }
 
 .KanbanTask__subHeading {
@@ -168,8 +169,8 @@
 }
 
 .KabuniPanel__WriteContent {
-  width: 90%;
-  height: 80px;
+  width: 94%;
+  height: 90px;
   border: 0.5px dashed #2F2F2F;
   border-radius: 12px;
   margin-top: 30px;
@@ -180,7 +181,7 @@
 
 .KabuniPanel__TextArea {
   width: 95% !important;
-  height: 60px !important;
+  height: 85% !important;
   outline: none;
   border: none;
   background-color: transparent;
@@ -208,7 +209,7 @@
 }
 
 .drop-zone {
-  width: 90%;
+  width: 94%;
   height: 78px;
   border: 0.5px dashed #2F2F2F;
   border-radius: 12px;
@@ -333,4 +334,60 @@
   line-height: 154.5%;
   color: #FFFFFF;
   margin-left: 12px;
-}
+  line-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  }
+
+
+  .dragover {
+    background-color: aliceblue;
+  }
+
+  .KanbanTaskView__RightPanel {
+    width: 45%;
+    height: 713px;
+    border-bottom-right-radius: 14px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .KanbanRightPanel__Comments {
+    height: 87%;
+    width: 90%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow: auto;
+  }
+
+  .KanbanRightPanel__Comment {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .KanbanRightPanel__CommentInput {
+    width: 90%;
+    height: 40px;
+    background: #171718;
+    border: 1px solid #1D1D1D;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+  }
+
+  .CommentInput__InputField {
+    width: 95%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: #171718;
+    color: white;
+    caret-color: #F9D45D;
+  }

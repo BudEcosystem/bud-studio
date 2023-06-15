@@ -12,7 +12,7 @@ const ToDoPanel = () => {
   return (
     <div className="KanbanPanel__todo">
       <div style={{ display: 'flex' }}>
-        <div style={{ fontSize: '16px' }}>Attatchments</div>
+        <div style={{ fontSize: '16px' }}>To Do</div>
         <div
           style={{
             marginLeft: '10px',

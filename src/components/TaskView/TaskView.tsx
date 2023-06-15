@@ -5,15 +5,19 @@ import {
   ArrowIcon,
   DocIcon,
   FlagIcon,
+  FourLines,
   ThreeDots,
   UploadIcon,
+  WindowIcon,
 } from './TaskViewIcons';
 import ToDoPanel from './components/ToDoPanel';
+import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
 
 const TaskView = () => {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [isDragOver, setIsDragOver] = useState(false);
+  const imagesArray: Array<any> = ['', '', ''];
 
   const handleDragOver = (event: any) => {
     event.preventDefault();
@@ -41,6 +45,104 @@ const TaskView = () => {
     }
   };
 
+  const comments = [{
+    text: "George created this task",
+    time: "May 9, 11:20am"
+  },
+  {
+    text: "George added a task",
+    time: "May 9, 11:22am"
+  },
+  {
+    text: "George added a task",
+    time: "May 9, 11:24am"
+  },
+  {
+    text: "George moved this task to important",
+    time: "May 9, 11:28am"
+  },
+  {
+    text: "George created a subtask",
+    time: "May 9, 12:20am"
+  },
+  {
+    text: "George removed a task",
+    time: "May 9, 12:30am"
+  },
+  {
+    text: "George marked a task as checked",
+    time: "May 9, 12:40am"
+  },
+  {
+    text: "George added a task",
+    time: "May 9, 12:55am"
+  },
+  {
+    text: "George created this task",
+    time: "May 9, 11:20am"
+  },
+  {
+    text: "George added a task",
+    time: "May 9, 11:22am"
+  },
+  {
+    text: "George added a task",
+    time: "May 9, 11:24am"
+  },
+  {
+    text: "George moved this task to important",
+    time: "May 9, 11:28am"
+  },
+  {
+    text: "George created a subtask",
+    time: "May 9, 12:20am"
+  },
+  {
+    text: "George removed a task",
+    time: "May 9, 12:30am"
+  },
+  {
+    text: "George marked a task as checked",
+    time: "May 9, 12:40am"
+  },
+  {
+    text: "George added a task",
+    time: "May 9, 12:55am"
+  },
+  {
+    text: "George created this task",
+    time: "May 9, 11:20am"
+  },
+  {
+    text: "George added a task",
+    time: "May 9, 11:22am"
+  },
+  {
+    text: "George added a task",
+    time: "May 9, 11:24am"
+  },
+  {
+    text: "George moved this task to important",
+    time: "May 9, 11:28am"
+  },
+  {
+    text: "George created a subtask",
+    time: "May 9, 12:20am"
+  },
+  {
+    text: "George removed a task",
+    time: "May 9, 12:30am"
+  },
+  {
+    text: "George marked a task as checked",
+    time: "May 9, 12:40am"
+  },
+  {
+    text: "George added a task",
+    time: "May 9, 12:55am"
+  },
+]
+
   return (
     <div className="KanbanTaskView">
       <div className="KanbanTaskView__TopBar">
@@ -54,7 +156,7 @@ const TaskView = () => {
             <h2 className="TopBar__Title">Kabuni</h2>
             <div className="TopBar__ProgressText">In Progress</div>
           </div>
-          <div className="TopBar__AvatarImages"></div>
+          <div style={{display: "grid", placeItems: "center", marginLeft: "40px"}} className="TopBar__AvatarImages"><CircularImageComponent images={imagesArray} /></div>
           <div
             style={{
               cursor: 'pointer',
@@ -111,9 +213,12 @@ const TaskView = () => {
             ></textarea>
           </div>
 
-          <ToDoPanel />
+          <div style={{marginTop: "20px"}}>
+            <ToDoPanel />
+          </div>
 
-          <div className="KanbanPanel__Attatchment">
+          <div style={{marginTop:" 20px", display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+            <div className="KanbanPanel__Attatchment">
             <div style={{ fontSize: '16px' }}>Attatchments</div>
             <div
               style={{
@@ -135,6 +240,18 @@ const TaskView = () => {
               </div>
             </div>
           </div>
+
+          <div style={{display: "flex", alignItems: "center", justifyContent: "center", gap: "5px", marginRight: "25px"}}>
+          <div style={{cursor: "pointer"}}>
+          <FourLines/>
+          </div>
+          <div style={{cursor: "pointer"}}>
+          <WindowIcon/>
+          </div>
+
+          </div> 
+          </div>
+          
           <div
             className={`drop-zone ${isDragOver ? 'dragover' : ''}`}
             onDragOver={handleDragOver}
@@ -146,7 +263,20 @@ const TaskView = () => {
           </div>
         </div>
 
-        <div className="KanbanTaskView__RightPanel"></div>
+        <div className="KanbanTaskView__RightPanel">
+
+              <div className='KanbanRightPanel__Comments'>
+                {comments.map((comment) => (
+                  <div className='KanbanRightPanel__Comment'>
+                    <div style={{fontSize: "15px", fontWeight: "300", color: "#7B8388"}}>{comment.text}</div>
+                    <div style={{fontSize: "15px", fontWeight: "300", color: "#7B8388", marginRight: "5px"}}>{comment.time}</div>
+                  </div>
+                ))}
+              </div>
+              <div className='KanbanRightPanel__CommentInput'>
+                <input className='CommentInput__InputField' placeholder='Comment or type ‘ / ‘ for commands' />
+              </div>
+        </div>
       </div>
     </div>
   );
