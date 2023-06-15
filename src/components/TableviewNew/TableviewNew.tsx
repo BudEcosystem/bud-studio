@@ -198,7 +198,11 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
     );
   };
 
-  const renderCellContent = (cell, column, colIdx) => {
+  const onBlurHandler = () => {
+    setEditingCell(null);
+  };
+
+  const renderCellContent = (cell, column, colIdx, index) => {
     if (column.id === 'priority') {
       return <EmptyFlag />;
     }
@@ -230,7 +234,17 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
     } else if (column.id === 'account_name') {
       return (
         <>
-          {cell.render('Cell')}
+          <div
+            onClick={() => {
+              setEditingCell({
+                rowIndex: index,
+                cellIndex: colIdx,
+              });
+              setNewCellValues({ newVal: cell.value });
+            }}
+          >
+            {cell.render('Cell')}
+          </div>
           <div style={{ marginLeft: '5px' }}>
             <TiletedArrow color={color} />
           </div>
@@ -253,7 +267,19 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
         </div>
       );
     }
-    return <div>{cell.render('Cell')}</div>;
+    return (
+      <div
+        onClick={() => {
+          setEditingCell({
+            rowIndex: index,
+            cellIndex: colIdx,
+          });
+          setNewCellValues({ newVal: cell.value });
+        }}
+      >
+        {cell.render('Cell')}
+      </div>
+    );
   };
   const updateCurrentTitle = (name) => {
     const currentApplicationId = uiDetails.split('--')[2];
@@ -302,6 +328,7 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
                                 }}
                                 onDoubleClick={() => {
                                   setEditionHeader(colIdx);
+                                  setNewHeaderValues({ newVal: column.Header });
                                   setSelectedColumn(null);
                                 }}
                               >
@@ -311,7 +338,7 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
                                     className="titleInputtable"
                                     name={column.accessor}
                                     placeholder={`Change ${column.Header}`}
-                                    value={newHeaderValues.newVal || ''}
+                                    value={newHeaderValues['newVal'] || ''}
                                     onChange={(e) =>
                                       setNewHeaderValues((prevValues) => ({
                                         ...prevValues,
@@ -321,6 +348,7 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
                                     onKeyPress={(e) =>
                                       sendHeaderValues(e, colIdx, column)
                                     }
+                                    onBlur={() => setEditionHeader(null)}
                                     autoFocus
                                   />
                                 ) : (
@@ -425,12 +453,6 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
                                         ? '#3C3C49'
                                         : 'transparent',
                                   }}
-                                  onDoubleClick={() =>
-                                    setEditingCell({
-                                      rowIndex: index,
-                                      cellIndex,
-                                    })
-                                  }
                                 >
                                   {editingCell?.rowIndex === index &&
                                   editingCell?.cellIndex === cellIndex ? (
@@ -439,13 +461,14 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
                                       className="titleInputtable"
                                       name={cell.column.accessor}
                                       placeholder={`Change ${cell.column.Header}`}
-                                      value={newCellValues.newVal || ''}
+                                      value={newCellValues['newVal'] || ''}
                                       onChange={(e) =>
                                         setNewCellValues((prevValues) => ({
                                           ...prevValues,
                                           newVal: e.target.value,
                                         }))
                                       }
+                                      onBlur={onBlurHandler}
                                       onKeyPress={(e) =>
                                         sendCellValues(e, index, cell.column)
                                       }
@@ -461,7 +484,8 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
                                       {renderCellContent(
                                         cell,
                                         cell.column,
-                                        cellIndex
+                                        cellIndex,
+                                        index
                                       )}
                                     </div>
                                   )}
