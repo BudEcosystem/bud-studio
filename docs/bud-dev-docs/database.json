@@ -1,0 +1,12 @@
+{
+  "type": "Database",
+  "title" : "Bud Test Database",
+  "created_at": "",
+  "updated_at": "",
+  "entries": [
+    {
+      "documentID": "1234-5678-9012-3456"
+    }
+  ]
+}
+
