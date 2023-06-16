@@ -131,7 +131,11 @@ export const workspaceSlice = createSlice({
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
       const arr = [...state.workSpaceItems];
-      if (action.payload.value.name) {
+      console.log(JSON.stringify(arr));
+      if (action.payload.editColor) {
+        arr[action.payload.index].name = action.payload.value.name;
+        arr[action.payload.index].color = action.payload.value.color;
+      } else if (action.payload.value.name) {
         arr[action.payload.index].name = action.payload.value.name;
       } else {
         arr[action.payload.index].name = action.payload.value;
