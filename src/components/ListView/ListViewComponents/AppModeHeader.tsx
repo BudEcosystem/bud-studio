@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import NewTaskPanel from './NewTaskPanel';
 import { useDispatch, useSelector } from 'react-redux';
 import { editListTitle, setOneTime } from 'redux/slices/list';
+import NewTaskPanel from './NewTaskPanel';
 
-const AppModeHeader = () => {
+function AppModeHeader() {
   const dispatch = useDispatch();
   const { list }: any = useSelector((state) => state);
   const { listTitleAndDesc, oneTime } = list;
@@ -33,7 +33,6 @@ const AppModeHeader = () => {
   const keyHandler = (event: any) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      console.log(event.target.innerText);
       dispatch(editListTitle({ newTitle: event.target.innerText }));
       dispatch(setOneTime(false));
       const heading = document.getElementById('editableTitle');
@@ -41,48 +40,46 @@ const AppModeHeader = () => {
     }
   };
   return (
-    <>
-      <div className="mgLeft" style={{ marginBottom: '20px' }}>
-        <div
-          style={{
-            backgroundColor: 'var(--bud-container-backgroundt)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-          //   className={`kabuni`}
-        >
-          <div className="kabuni" style={{ marginLeft: '10px' }}>
-            <div
-              className="kabuniLogoAppMode"
-              style={{
-                background: `${color}`,
-              }}
-            >
-              <span className={`tickAppMode`}>L</span>
-              <span className={`tickAppMode`}>L</span>
-              <span className={`tickAppMode`}>L</span>
-            </div>
-            <p
-              className="kabuniTextAppMode"
-              id="editableTitle"
-              style={{
-                border: 'none',
-                outline: 'none',
-              }}
-              contentEditable={true}
-              onKeyDown={keyHandler}
-            >
-              {title}
-            </p>
+    <div className="mgLeft" style={{ marginBottom: '20px' }}>
+      <div
+        style={{
+          backgroundColor: 'var(--bud-container-backgroundt)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+        //   className={`kabuni`}
+      >
+        <div className="kabuni" style={{ marginLeft: '10px' }}>
+          <div
+            className="kabuniLogoAppMode"
+            style={{
+              background: `${color}`,
+            }}
+          >
+            <span className="tickAppMode">L</span>
+            <span className="tickAppMode">L</span>
+            <span className="tickAppMode">L</span>
           </div>
-          <div style={{ marginRight: '4px' }}>
-            <NewTaskPanel />
-          </div>
+          <p
+            className="kabuniTextAppMode"
+            id="editableTitle"
+            style={{
+              border: 'none',
+              outline: 'none',
+            }}
+            contentEditable
+            onKeyDown={keyHandler}
+          >
+            {title}
+          </p>
+        </div>
+        <div style={{ marginRight: '4px' }}>
+          <NewTaskPanel />
         </div>
       </div>
-    </>
+    </div>
   );
-};
+}
 
 export default AppModeHeader;

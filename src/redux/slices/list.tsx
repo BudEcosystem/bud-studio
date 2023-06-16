@@ -329,14 +329,14 @@ export const generateInitialListState = (): any => {
   const expandedItems = [0];
   const selectedItemIndex = 0;
   const oneTime = true;
-  const taskViewData: never[]= [];
+  const taskViewData: never[] = [];
   const initialData = {
     panelArray,
     newTaskClicked,
     listTitleAndDesc,
     expandedItems,
     selectedItemIndex,
-    taskViewData
+    taskViewData,
   };
   return initialData;
 };
@@ -408,7 +408,6 @@ export const listSlice = createSlice({
       }
     },
     editListTitle: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       state.listTitleAndDesc.title = action.payload.newTitle;
     },
     editListDescription: (state, action: PayloadAction<any>) => {

@@ -167,7 +167,6 @@ export const tableSlice = createSlice({
       state.newTaskClickedtable = action.payload;
     },
     setNewColumn: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       state.columnsArray.push(action.payload);
     },
     setColumnOrder: (state, action: PayloadAction<any>) => {
@@ -197,12 +196,10 @@ export const tableSlice = createSlice({
       state.rowsInTable = newRowOrder;
     },
     setNewCellValueRedux: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       state.rowsInTable[action.payload.row][action.payload.col] =
         action.payload.val;
     },
     setNewHeaderValueRedux: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       state.columnsArray.map((item) => {
         if (item.accessor === action.payload.column) {
           item.Header = action.payload.val;
@@ -217,12 +214,10 @@ export const tableSlice = createSlice({
     sortedRowsReorder: (state, action: PayloadAction<any>) => {
       const { col, ascOrDes } = action.payload;
       if (ascOrDes[col]) {
-        console.log(ascOrDes[col]);
         state.rowsInTable = state.rowsInTable.sort((a, b) =>
           a[col].toString().localeCompare(b[col].toString())
         );
       } else {
-        console.log(ascOrDes[col], ascOrDes, col);
         state.rowsInTable = state.rowsInTable.sort((a, b) =>
           b[col].toString().localeCompare(a[col].toString())
         );
@@ -231,7 +226,6 @@ export const tableSlice = createSlice({
       // action.payload.map(row => {
       //   newArr.push(row.values)
       // })
-      console.log(action.payload);
     },
   },
 });

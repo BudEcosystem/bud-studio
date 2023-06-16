@@ -146,7 +146,6 @@ function TreeStructure({
   };
 
   function addChildObject(obj: any, targetKey: any, newObject: any) {
-    console.log('sdcjbdjcbdcbh', obj, targetKey, newObject);
     if (obj.key === targetKey) {
       const copyOfChildrenArray = obj.children || [];
       // obj.children.push(newObject);
@@ -176,8 +175,6 @@ function TreeStructure({
 
       const updatedPath = [...navigationPath, node?.title];
       setNavigationPath(updatedPath);
-
-      console.log(updatedPath, 'sadfads', node);
 
       const selectedFolder = workspaceFolders.filter((folderData: any) => {
         return folderData?.uuid === node?.key;
@@ -211,7 +208,6 @@ function TreeStructure({
         };
         WorkSpaceTreeData.push(sampleObjectDoc);
       });
-      console.log('WorkSpaceTreeData', WorkSpaceTreeData);
       addChildObject(copyOftreeDataProcessed, node.key, WorkSpaceTreeData);
       function findLevels(objects: any, level = 0) {
         objects &&
@@ -230,7 +226,6 @@ function TreeStructure({
   };
 
   const onNodeExpand = (key: any) => {
-    console.log(key);
     setExpandedKeys(key);
   };
 
@@ -261,7 +256,6 @@ function TreeStructure({
     }
     // addChildObject(copyOftreeDataProcessed, target.key, arrayToPush);
     const copyOfTreeData = arrayToPush.concat(copyOftreeDataProcessed);
-    console.log('copyOftreeDataProcessed', copyOfTreeData);
     // function findLevels(objects: any, level = 0) {
     //   objects &&
     //     objects.forEach((obj: any) => {

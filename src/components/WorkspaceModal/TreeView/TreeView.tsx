@@ -18,13 +18,9 @@ function TreeView({
   workSpaceDetails,
 }: any) {
   const { tree, workspace }: any = useSelector((state) => state);
-  console.log('workspace', workspace);
   const [treeDataState, setTreeDataState] = useState([]);
   const [treeDataStateCopy, setTreeDataStateCopy] = useState([]);
   useEffect(() => {
-    if (tree) {
-      console.log(tree);
-    }
     if (workspace) {
       const treeStructureObject: any = [];
       const { workspaceFolders, workSpaceDocs } = workspace;
@@ -83,7 +79,6 @@ function TreeView({
         });
       }
       setTreeDataStateCopy(treeStructureObject);
-      console.log('workspace - treeStructureObject', treeStructureObject);
     }
   }, [tree, workspace, workSpaceDetails, setTreeDataState]);
   const filterTreeData = (filter: string) => {

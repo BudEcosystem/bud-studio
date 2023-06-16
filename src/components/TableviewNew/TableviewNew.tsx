@@ -44,7 +44,6 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
     );
     const kanbanEmptyData = generateInitialTableState();
     if (applicationsDataFiltered) {
-      console.log('applicationsDataFiltered', applicationsDataFiltered);
       const { appData, titleForDoc } = applicationsDataFiltered;
       setTitle(titleForDoc);
       if (appData) {
@@ -100,7 +99,6 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
   };
   const sendCellValues = (e, r, c) => {
     if (e.key === 'Enter') {
-      console.log(newCellValues, r, c);
       dispatch(
         setNewCellValueRedux({
           val: newCellValues.newVal,
@@ -149,7 +147,6 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
       ...prevValues,
       [column.id]: !prevValues[column.id],
     }));
-    console.log(ascOrDesc);
     dispatch(sortedRowsReorder({ col: column.id, ascOrDes: ascOrDesc }));
   };
 

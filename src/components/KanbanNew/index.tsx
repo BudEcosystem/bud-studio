@@ -227,7 +227,6 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
   useEffect(() => setDate('13 June 2022'), []);
   const dispatch = useDispatch();
   const reduxState = useSelector((state) => state);
-  console.log('reduxState', reduxState);
   const { workspace, kanban }: any = useSelector((state) => state);
   const { color } = workspace;
   const [currentFileName, setCurrentFileName] = useState('');
@@ -251,7 +250,6 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
     );
     const kanbanEmptyData = generateKanbanInitialState();
     if (applicationsDataFiltered) {
-      console.log('applicationsDataFiltered', applicationsDataFiltered);
       const { appData, titleForDoc } = applicationsDataFiltered;
       setTitle(titleForDoc);
       if (appData) {

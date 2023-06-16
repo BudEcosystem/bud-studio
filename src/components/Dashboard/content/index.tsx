@@ -78,7 +78,6 @@ function ContentView({
       const temp = workspace.workspaceFolders.find(
         (y: any) => y?.uuid === x?.childOf
       );
-      console.log('asdfasfsad', temp);
       dispatch(setNavigationPath(temp));
       solveRec(temp);
     }
@@ -123,7 +122,6 @@ function ContentView({
   }, [workspace]);
   useEffect(() => {
     const { currentSelectedUI: csUI, nodeIDs } = activestate;
-    console.log('csi', csUI);
     setCurrentSelectedUI(csUI);
     dispatch(setCurrentSelectedDocument(nodeIDs));
   }, [dispatch, activestate]);
@@ -144,9 +142,7 @@ function ContentView({
             workspaceModal={workspaceModal}
           />
         )}
-        {selectedDoc && currentSelectedUI === '' && (
-          <EditorJsWrapper/>
-        )}
+        {selectedDoc && currentSelectedUI === '' && <EditorJsWrapper />}
         {currentSelectedUI?.includes('listview') && (
           <ListView
             contentRef={contentRef}
@@ -163,9 +159,7 @@ function ContentView({
             uiDetails={currentSelectedUI}
           />
         )}
-        {currentSelectedUI?.includes('taskview') && (
-          <TaskView/>
-        )}
+        {currentSelectedUI?.includes('taskview') && <TaskView />}
         <Hamburger />
       </Content>
       <OmniSearch />

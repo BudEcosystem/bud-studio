@@ -432,7 +432,6 @@ function RenderChild({
     let newIDGenerated = uuidv4();
     if (event.code === 'Escape') {
       event.preventDefault();
-      console.log(inputRefFolder.current.value, currentNode);
       dispatch(
         createSubChild({
           name: 'Untitled',
@@ -446,7 +445,6 @@ function RenderChild({
     }
     if (event.code === 'Enter') {
       event.preventDefault();
-      console.log(inputRefFolder.current.value, currentNode);
       dispatch(
         createSubChild({
           name: inputRefFolder.current.value,
@@ -461,10 +459,8 @@ function RenderChild({
     }
   };
   const onEnterInputForUpdate = (event: any) => {
-    console.log('currentNode', currentNode);
     if (event.code === 'Escape') {
       event.preventDefault();
-      console.log(inputRefFolder.current.value, currentNode);
       dispatch(
         editFolderName({
           name: currentNode.title,
@@ -485,23 +481,19 @@ function RenderChild({
         })
       );
       setTimeout(setExpandedKeys([]));
-      console.log(inputRefFolder.current.value, currentNode);
     }
   };
   const findParent = (x) => {
-    console.log(x);
     const find = workspace.workspaceFolders.find((y) => y?.uuid === x?.parent);
     // console.log(find, "asdf")
     return find;
   };
   const [navArray, setNavArray] = useState([]);
   const solveRec = (x) => {
-    console.log('asdfasfsad', x);
     if (x?.childOf != null) {
       const temp = workspace.workspaceFolders.find(
         (y) => y?.uuid === x?.childOf
       );
-      console.log('asdfasfsad', temp);
       dispatch(setNavigationPath(temp));
       solveRec(temp);
     }
@@ -519,7 +511,6 @@ function RenderChild({
   const clickHandler = () => {
     if (node.isLeaf && !currentNode?.folderInput && !currentNode?.docInput) {
       dispatch(setCurrentSelectedDocument({ id: null }));
-      console.log(node);
       navPathHandler(node);
       setTimeout(() => {
         const workSpaceUUID = node.workspaceDetails?.uuid;
