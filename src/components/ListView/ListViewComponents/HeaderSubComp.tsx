@@ -32,8 +32,9 @@ const HeaderSubComp = ({
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(data.title);
-  const handleDoubleClick = () => {
+  const handleDoubleClick = (e) => {
     setEditing(true);
+    e.stopPropagation()
   };
   const handleChange = (event) => {
     setNewTitle(event.target.value);
@@ -45,7 +46,7 @@ const HeaderSubComp = ({
       setNewTitle('');
     }
   };
-  
+
   return (
     <div className="flexVerticalCenter HeaderSubCompParent">
       <div className="flexVerticalCenter">
@@ -84,8 +85,7 @@ const HeaderSubComp = ({
             className="datatitleText"
             id="cardTitle"
             style={{ marginLeft: '16px' }}
-            onDoubleClick={handleDoubleClick}
-            onClick={() => {dispatch(setCurrentSelectedUI('null')); dispatch(taskViewDataChange(data)); setTimeout(() => {dispatch(setCurrentSelectedUI('taskview'))}, 500)}}
+            onDoubleClick={(e) => {handleDoubleClick(e)}}
           >
             {data.title}
           </p>
