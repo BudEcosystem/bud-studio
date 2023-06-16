@@ -85,7 +85,7 @@ const HeaderSubComp = ({
             className="datatitleText"
             id="cardTitle"
             style={{ marginLeft: '16px' }}
-            onDoubleClick={(e) => {handleDoubleClick(e)}}
+            onDoubleClick={(e) => {e.stopPropagation(); handleDoubleClick(e)}}
           >
             {data.title}
           </p>
