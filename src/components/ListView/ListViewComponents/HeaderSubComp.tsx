@@ -14,7 +14,8 @@ import SkillBar from './SkillBar';
 import CircularImageComponent from './CircularImageComponent';
 import CircularBorder from './CircularBorder';
 import { useDispatch } from 'react-redux';
-import { editTitle } from 'redux/slices/list';
+import { editTitle, taskViewDataChange } from 'redux/slices/list';
+import { setCurrentSelectedUI } from 'redux/slices/activestate';
 
 const data = ['', ''];
 
@@ -44,6 +45,7 @@ const HeaderSubComp = ({
       setNewTitle('');
     }
   };
+  
   return (
     <div className="flexVerticalCenter HeaderSubCompParent">
       <div className="flexVerticalCenter">
@@ -80,8 +82,10 @@ const HeaderSubComp = ({
         ) : (
           <p
             className="datatitleText"
+            id="cardTitle"
             style={{ marginLeft: '16px' }}
             onDoubleClick={handleDoubleClick}
+            onClick={() => {dispatch(setCurrentSelectedUI('null')); dispatch(taskViewDataChange(data)); setTimeout(() => {dispatch(setCurrentSelectedUI('taskview'))}, 500)}}
           >
             {data.title}
           </p>

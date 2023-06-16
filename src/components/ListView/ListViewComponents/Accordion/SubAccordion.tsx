@@ -33,7 +33,6 @@ const SubAccordion = ({ status, data, provided, index }) => {
         background: selected ? `#28272C` : '#1B1C1E',
         cursor: "pointer"
       }}
-      onClick={() => {dispatch(setCurrentSelectedUI('null')); dispatch(taskViewDataChange(data)); setTimeout(() => {dispatch(setCurrentSelectedUI('taskview'))}, 500)}}
     >
       <div className="headerSubComponentContainer">
         <HeaderSubComp
