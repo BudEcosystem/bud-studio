@@ -23,11 +23,13 @@
 
 .LogoAndProgress {
   display: flex;
-  width: 170px;
+  width: fit-content;
   height: 32px;
   background-color: #212023;
   border-radius: 6px;
   align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .kabuniLogo {
@@ -39,7 +41,6 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-left: 5px;
 }
 
 .tick {
