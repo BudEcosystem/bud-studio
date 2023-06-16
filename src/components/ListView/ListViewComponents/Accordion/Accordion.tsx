@@ -11,7 +11,7 @@ import {
 import SubAccordion from './SubAccordion';
 import HeaderSubCompInput from '../HeaderSubCompInput';
 
-function Accordion({ isAppMode }) {
+function Accordion({ isAppMode, title }) {
   const dispatch = useDispatch();
   const { panelArray, newTaskClicked, expandedItems, selectedItemIndex } =
     useSelector((state) => state.list);
@@ -110,6 +110,7 @@ function Accordion({ isAppMode }) {
                                 data={subItems}
                                 provided={provided}
                                 index={j}
+                                title={title}
                               />
                             </div>
                           )}

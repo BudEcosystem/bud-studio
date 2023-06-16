@@ -330,13 +330,15 @@ export const generateInitialListState = (): any => {
   const selectedItemIndex = 0;
   const oneTime = true;
   const taskViewData: never[]= [];
+  const docTitle = '';
   const initialData = {
     panelArray,
     newTaskClicked,
     listTitleAndDesc,
     expandedItems,
     selectedItemIndex,
-    taskViewData
+    taskViewData,
+    docTitle
   };
   return initialData;
 };
@@ -367,6 +369,9 @@ export const listSlice = createSlice({
     },
     taskViewDataChange: (state, action: PayloadAction<any>) => {
       state.taskViewData = action.payload;
+    },
+    taskViewTitleChange: (state, action: PayloadAction<any>) => {
+      state.docTitle = action.payload;
     },
     updatePosition: (state, action: PayloadAction<any>) => {
       const mapping = { todo: 0, inprogress: 1, inreview: 2, completed: 3 };
@@ -453,6 +458,7 @@ export const {
   editListDescription,
   setExpandedItems,
   setSelectedItemIndex,
+  taskViewTitleChange,
   checkToggle,
   setOneTime,
   taskViewDataChange,
