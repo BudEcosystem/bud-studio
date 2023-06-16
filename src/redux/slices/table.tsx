@@ -8,6 +8,11 @@ export const generateInitialTableState = (): any => {
     {
       Header: '#',
       accessor: 'id',
+      // sortType: (a, b) => {
+      //   const numA = parseInt(a, 10);
+      //   const numB = parseInt(b, 10);
+      //   return numA - numB;
+      // },
     },
     {
       Header: 'Account Name',
@@ -210,12 +215,23 @@ export const tableSlice = createSlice({
       return action.payload;
     },
     sortedRowsReorder: (state, action: PayloadAction<any>) => {
+      const { col, ascOrDes } = action.payload;
+      if (ascOrDes[col]) {
+        console.log(ascOrDes[col]);
+        state.rowsInTable = state.rowsInTable.sort((a, b) =>
+          a[col].toString().localeCompare(b[col].toString())
+        );
+      } else {
+        console.log(ascOrDes[col], ascOrDes, col);
+        state.rowsInTable = state.rowsInTable.sort((a, b) =>
+          b[col].toString().localeCompare(a[col].toString())
+        );
+      }
       // let newArr = []
       // action.payload.map(row => {
       //   newArr.push(row.values)
       // })
-      // console.log(newArr)
-      // state.rowsInTable = action.payload
+      console.log(action.payload);
     },
   },
 });
@@ -228,6 +244,6 @@ export const {
   setNewCellValueRedux,
   setNewHeaderValueRedux,
   updateWholeTableState,
-  sortedRowsReorder
+  sortedRowsReorder,
 } = tableSlice.actions;
 export default tableSlice.reducer;

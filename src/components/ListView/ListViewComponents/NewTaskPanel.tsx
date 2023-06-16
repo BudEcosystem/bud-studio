@@ -64,7 +64,7 @@ const NewTaskPanel = ({ view }) => {
           +
         </div>
         <div className="newTaskText">
-          New {view === 'list' ? 'list' : view === 'table' ? 'row' : 'task'}
+          New {view === 'list' ? 'list' : view === 'table' ? 'Row' : 'task'}
         </div>
       </div>
       <div className="threeDots flexCenter">

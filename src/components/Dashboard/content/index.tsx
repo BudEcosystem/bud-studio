@@ -144,9 +144,7 @@ function ContentView({
             workspaceModal={workspaceModal}
           />
         )}
-        {selectedDoc && currentSelectedUI === '' && (
-          <EditorJsWrapper/>
-        )}
+        {selectedDoc && currentSelectedUI === '' && <EditorJsWrapper />}
         {currentSelectedUI?.includes('listview') && (
           <ListView
             contentRef={contentRef}
@@ -163,9 +161,7 @@ function ContentView({
             uiDetails={currentSelectedUI}
           />
         )}
-        {currentSelectedUI?.includes('taskview') && (
-          <TaskView/>
-        )}
+        {currentSelectedUI?.includes('taskview') && <TaskView />}
         <Hamburger />
       </Content>
       <OmniSearch />

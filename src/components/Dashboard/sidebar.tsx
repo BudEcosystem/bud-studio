@@ -218,12 +218,18 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
 
   const ShowMoreIcon = () => {
     return (
-      <svg width="28" height="17" viewBox="0 0 28 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="28.0003" height="16.7693" rx="3" fill="#121213"/>
-        <circle cx="9.38461" cy="8.38461" r="1.38462" fill="#666468"/>
-        <circle cx="14.0018" cy="8.38461" r="1.38462" fill="#666468"/>
-        <circle cx="18.619" cy="8.38461" r="1.38462" fill="#666468"/>
-        </svg>
+      <svg
+        width="28"
+        height="17"
+        viewBox="0 0 28 17"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width="28.0003" height="16.7693" rx="3" fill="#121213" />
+        <circle cx="9.38461" cy="8.38461" r="1.38462" fill="#666468" />
+        <circle cx="14.0018" cy="8.38461" r="1.38462" fill="#666468" />
+        <circle cx="18.619" cy="8.38461" r="1.38462" fill="#666468" />
+      </svg>
     );
   };
 
@@ -259,6 +265,27 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      workSpaceItems.map((item, i) => {
+        if (event.ctrlKey && event.altKey && event.key === i.toString()) {
+          event.preventDefault();
+          setWorkspaceModal(false);
+          setTimeout(() => {
+            handlerColor(item.color, item.name, i);
+            setWorkspaceModal(true);
+          }, 200);
+        }
+      });
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [workspaceModal]);
 
   const setHoverColorHandler = (hovercolor: any) => {
     setHoverColor(hovercolor);
@@ -600,7 +627,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       className={`${classes['view-more']}`}
                       onClick={showMoreWorkspaces}
                     >
-                      <ShowMoreIcon/>
+                      <ShowMoreIcon />
                     </div>
                   )}
                 </div>

@@ -402,7 +402,7 @@ function EditorWrapper () {
       const TableApptitle = `${opt}--${currentSelectedDoc}--${newId}`;
       dispatch(setCurrentSelectedUI(''));
       setTimeout(() => {
-        alert(TableApptitle);
+        // alert(TableApptitle);
         dispatch(setCurrentSelectedUI(TableApptitle));
         dispatch(setSelectedOption('Table View'));
         dispatch(
