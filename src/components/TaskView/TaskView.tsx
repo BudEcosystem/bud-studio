@@ -20,8 +20,8 @@ const TaskView = () => {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
   const { taskViewData } = list;
+  const { docTitle } = list;
   const [isDragOver, setIsDragOver] = useState(false);
-  const imagesArray: Array<any> = ['', '', ''];
 
   const handleDragOver = (event: any) => {
     event.preventDefault();
@@ -157,7 +157,7 @@ const TaskView = () => {
               <span className="tick">L</span>
               <span className="tick">L</span>
             </div>
-            <h2 className="TopBar__Title">Kabuni</h2>
+            <h2 className="TopBar__Title">{docTitle}</h2>
             <div className="TopBar__ProgressText">In Progress</div>
           </div>
 
