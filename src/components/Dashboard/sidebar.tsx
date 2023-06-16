@@ -285,7 +285,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [workspaceModal]);
+  }, [workspaceModal, workSpaceItems]);
 
   const setHoverColorHandler = (hovercolor: any) => {
     setHoverColor(hovercolor);

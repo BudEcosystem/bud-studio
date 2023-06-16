@@ -90,12 +90,23 @@
   border-radius: 21px;
   overflow: hidden;
   margin-left: 20px;
-  margin-top: 10px;
 }
 
 .progress {
   height: 100%;
   transition: width 0.5s ease;
+}
+
+.DashedCircleIcons {
+  display: grid;
+  place-items: center;
+  border: 1px dashed #3D4047;
+  border-radius: 50%;
+  margin-left: 10px;
+  height: 24px;
+  width: 24px;
+  size: 20px;
+  cursor: pointer;
 }
 
 .TopBar__RightSide {
@@ -187,6 +198,7 @@
   background-color: transparent;
   color: white;
   resize: none;
+  caret-color: #F9D45D;
 }
 
 .KanbanPanel__Attatchment {

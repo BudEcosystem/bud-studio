@@ -14,7 +14,8 @@ import SkillBar from './SkillBar';
 import CircularImageComponent from './CircularImageComponent';
 import CircularBorder from './CircularBorder';
 import { useDispatch } from 'react-redux';
-import { editTitle } from 'redux/slices/list';
+import { editTitle, taskViewDataChange } from 'redux/slices/list';
+import { setCurrentSelectedUI } from 'redux/slices/activestate';
 
 const data = ['', ''];
 
@@ -31,8 +32,9 @@ const HeaderSubComp = ({
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(data.title);
-  const handleDoubleClick = () => {
+  const handleDoubleClick = (e) => {
     setEditing(true);
+    e.stopPropagation()
   };
   const handleChange = (event) => {
     setNewTitle(event.target.value);
@@ -44,6 +46,7 @@ const HeaderSubComp = ({
       setNewTitle('');
     }
   };
+
   return (
     <div className="flexVerticalCenter HeaderSubCompParent">
       <div className="flexVerticalCenter">
@@ -80,8 +83,9 @@ const HeaderSubComp = ({
         ) : (
           <p
             className="datatitleText"
+            id="cardTitle"
             style={{ marginLeft: '16px' }}
-            onDoubleClick={handleDoubleClick}
+            onDoubleClick={(e) => {e.stopPropagation(); handleDoubleClick(e)}}
           >
             {data.title}
           </p>
