@@ -266,6 +266,27 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      workSpaceItems.map((item, i) => {
+        if (event.ctrlKey && event.altKey && event.key === i.toString()) {
+          event.preventDefault();
+          setWorkspaceModal(false);
+          setTimeout(() => {
+            handlerColor(item.color, item.name, i);
+            setWorkspaceModal(true);
+          }, 200);
+        }
+      });
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [workspaceModal]);
+
   const setHoverColorHandler = (hovercolor: any) => {
     setHoverColor(hovercolor);
   };
