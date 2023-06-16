@@ -14,12 +14,20 @@ import CircularBorder from '../../ListView/ListViewComponents/CircularBorder';
 import { useSelector, useDispatch } from 'react-redux';
 import { Arrow } from '../TaskViewIcons';
 
-const TextComponent = ({ text }) => {
+const TextComponent = ({ provided, snapshot, text }) => {
   return (
-    <div className="headerComponentInputParent" style={{ background: 'none' }}>
+    <div
+      className="headerComponentInputParent"
+      style={{ background: snapshot?.isDragging ? '#25272B' : 'none' }}
+      // style={{ background: 'none' }}
+    >
       <div className="flex">
         <div className="iconsContainer">
-          <div className="flexCenter" style={{ marginRight: '8px' }}>
+          <div
+            className="flexCenter"
+            style={{ marginRight: '8px' }}
+            {...provided?.dragHandleProps}
+          >
             <FourDots />
           </div>
           <div className="flexCenter" style={{ marginRight: '8px' }}>
