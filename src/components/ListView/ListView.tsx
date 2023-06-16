@@ -18,13 +18,14 @@ function ListView({ contentRef, workspaceObj, uiDetails }: any) {
   const dispatch = useDispatch();
   const { content, list, workspace }: any = useSelector((state) => state);
   const { listTitleAndDesc, oneTime } = list;
-  const { title, description } = listTitleAndDesc;
-  const kabuniRef = useRef(null);
-  const [isSticky, setIsSticky] = useState(false);
+  // const { title, description } = listTitleAndDesc;
+  // const kabuniRef = useRef(null);
+  // const [isSticky, setIsSticky] = useState(false);
   // const [oneTime, setOneTime] = useState(true);
-  const { color } = workspace;
+  // const { color } = workspace;
   const [currentFileName, setCurrentFileName] = useState('');
   const [isAppMode, setIsAppMode] = useState(false);
+  const [title, setTitle] = useState('');
 
   useEffect(() => {
     if (oneTime) {
@@ -46,23 +47,6 @@ function ListView({ contentRef, workspaceObj, uiDetails }: any) {
     }
   }, [currentFileName]);
 
-  const keyHandler = (event: any) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      dispatch(editListTitle({ newTitle: event.target.innerText }));
-      dispatch(setOneTime(false));
-      const heading = document.getElementById('editableTitle');
-      heading?.blur();
-    }
-  };
-  const keyHandler2 = (event: any) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      dispatch(editListDescription({ newDesc: event.target.innerText }));
-      const heading = document.getElementById('editableDesc');
-      heading?.blur();
-    }
-  };
   useEffect(() => {
     const { editorApplicationsAdded } = workspace;
     const currentApplicationId = uiDetails.split('--')[2];
@@ -71,7 +55,8 @@ function ListView({ contentRef, workspaceObj, uiDetails }: any) {
     );
     const ListEmptyData = generateInitialListState();
     if (applicationsDataFiltered) {
-      const { appData } = applicationsDataFiltered;
+      const { appData, titleForDoc } = applicationsDataFiltered;
+      setTitle(titleForDoc);
       if (appData) {
         dispatch(updateWholeListState(appData));
       } else {
@@ -90,7 +75,11 @@ function ListView({ contentRef, workspaceObj, uiDetails }: any) {
   };
   return (
     <>
-      <HeaderSection view="list" updateCurrentTitle={updateCurrentTitle} />
+      <HeaderSection
+        view="list"
+        updateCurrentTitle={updateCurrentTitle}
+        title={title}
+      />
       <div className="mainListComponentContainer">
         {/* <MainListComponent /> */}
         <Accordion isAppMode={isAppMode} />

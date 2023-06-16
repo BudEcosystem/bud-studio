@@ -7,7 +7,12 @@ export const generateInitialTableState = (): any => {
   const columnsArray = [
     {
       Header: '#',
-      accessor: (row, index) => index + 1,
+      accessor: 'id',
+      // sortType: (a, b) => {
+      //   const numA = parseInt(a, 10);
+      //   const numB = parseInt(b, 10);
+      //   return numA - numB;
+      // },
     },
     {
       Header: 'Account Name',
@@ -32,7 +37,6 @@ export const generateInitialTableState = (): any => {
     {
       Header: 'Assignee',
       accessor: 'assignee',
-      Cell: ({ value }) => <CircularImageComponent />,
     },
     {
       Header: 'Priority',
@@ -210,6 +214,25 @@ export const tableSlice = createSlice({
     updateWholeTableState: (state, action: PayloadAction<any>) => {
       return action.payload;
     },
+    sortedRowsReorder: (state, action: PayloadAction<any>) => {
+      const { col, ascOrDes } = action.payload;
+      if (ascOrDes[col]) {
+        console.log(ascOrDes[col]);
+        state.rowsInTable = state.rowsInTable.sort((a, b) =>
+          a[col].toString().localeCompare(b[col].toString())
+        );
+      } else {
+        console.log(ascOrDes[col], ascOrDes, col);
+        state.rowsInTable = state.rowsInTable.sort((a, b) =>
+          b[col].toString().localeCompare(a[col].toString())
+        );
+      }
+      // let newArr = []
+      // action.payload.map(row => {
+      //   newArr.push(row.values)
+      // })
+      console.log(action.payload);
+    },
   },
 });
 export const {
@@ -221,5 +244,6 @@ export const {
   setNewCellValueRedux,
   setNewHeaderValueRedux,
   updateWholeTableState,
+  sortedRowsReorder,
 } = tableSlice.actions;
 export default tableSlice.reducer;

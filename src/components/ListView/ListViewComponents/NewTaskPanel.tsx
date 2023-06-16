@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GroupBy, Sort, ThreeDots, Union, Views } from '../ListViewIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -34,16 +34,18 @@ const NewTaskPanel = ({ view }) => {
   const { newTaskClicked, selectedItemIndex } = list;
   const { newTaskClickedtable } = table;
   const { workspace }: any = useSelector((state) => state);
+  const [name, setName] = useState('');
   let { color } = workspace;
   const newTaskHandler = () => {
     if (view === 'list') {
+      setName(view);
       dispatch(setNewTaskClicked(!newTaskClicked));
       dispatch(checkToggle(selectedItemIndex));
     } else if (view === 'kanban') {
       dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
-    }
-    else if(view === 'table'){
-      dispatch(setNewTaskClickedtable(!newTaskClickedtable))
+    } else if (view === 'table') {
+      setName('row');
+      dispatch(setNewTaskClickedtable(!newTaskClickedtable));
     }
   };
   return (
@@ -62,7 +64,7 @@ const NewTaskPanel = ({ view }) => {
           +
         </div>
         <div className="newTaskText">
-          New {view === 'list' ? 'list' : 'task'}
+          New {view === 'list' ? 'list' : view === 'table' ? 'Row' : 'task'}
         </div>
       </div>
       <div className="threeDots flexCenter">

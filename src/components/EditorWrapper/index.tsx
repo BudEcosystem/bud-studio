@@ -402,7 +402,7 @@ function EditorWrapper () {
       const TableApptitle = `${opt}--${currentSelectedDoc}--${newId}`;
       dispatch(setCurrentSelectedUI(''));
       setTimeout(() => {
-        alert(TableApptitle);
+        // alert(TableApptitle);
         dispatch(setCurrentSelectedUI(TableApptitle));
         dispatch(setSelectedOption('Table View'));
         dispatch(
@@ -507,6 +507,9 @@ function EditorWrapper () {
               const modifiedText = targetBlock.data.text.slice(0, -1);
               targetBlock.data.text = modifiedText
               ejInstance?.current?.render({ blocks: currentData });
+              setTimeout(() => {
+                checkForMentions()
+              }, 100)
             }
           } catch (error) {
             console.error('Error occurred while appending text:', error);
