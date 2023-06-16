@@ -82,7 +82,7 @@ function TreeStructure({
   };
   useEffect(() => {
     initData();
-  }, [workspace]);
+  }, []);
 
   // child render function
   const inputRefFolder = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -170,7 +170,6 @@ function TreeStructure({
     }
   }
   const nodeSelected = (node: any) => {
-    console.log('hahahahahahahahahahahahahahah', node);
     return new Promise((resolve) => {
       const { workSpaceDocs, workspaceFolders } = workspace;
       const WorkSpaceTreeData: any = [];
@@ -236,11 +235,7 @@ function TreeStructure({
   };
 
   const addInputField = (target: any, type: any) => {
-    console.log('target', target);
-    console.log('target', type);
     const copyOftreeDataProcessed = treeDataProcessed;
-    console.log('copyOftreeDataProcessed', copyOftreeDataProcessed);
-
     const arrayToPush = [];
     if (type === 'doc') {
       const objectToadd = {
@@ -284,6 +279,20 @@ function TreeStructure({
     }, 100);
     // nodeSelected(target);
   };
+  const findAndUpdateObjectById = (data: any, id: any, childs: any) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].key === id) {
+        data[i].children = childs;
+        return true; // Object found and updated
+      }
+      if (data[i].children && data[i].children.length > 0) {
+        if (findAndUpdateObjectById(data[i].children, id, childs)) {
+          return true; // Object found and updated in child nodes
+        }
+      }
+    }
+    return false; // Object not found
+  };
   const customRenderer = (node: any) => {
     const { level } = node;
     return (
@@ -307,7 +316,8 @@ function TreeStructure({
           workspaceDetails={workspaceDetails}
           setShowDocumentOptions={setShowDocumentOptions}
           color={color}
-          // nodeSelected={nodeSelected}
+          findObjectByIDAndAddChild={findAndUpdateObjectById}
+          nodeSelected={nodeSelected}
         />
       </div>
     );
@@ -315,7 +325,7 @@ function TreeStructure({
   const conditionalProps = () => {
     const sampleObjectProps: any = {};
     if (expandedKeys.length > 0) {
-      sampleObjectProps.expandedKeys = expandedKeys;
+      sampleObjectProps.defaultExpandedKeys = expandedKeys;
     }
     return sampleObjectProps;
   };
@@ -375,6 +385,7 @@ function TreeStructure({
       }, 1300);
     });
   }, []);
+
   return (
     <div style={{ background: '#0c0c0c', color: 'white', paddingTop: '20px' }}>
       {createFolderFlag && (
@@ -429,6 +440,7 @@ function TreeStructure({
             </div>
           );
         }}
+        // showLine
         multiple={false}
         treeData={treeDataProcessed}
         selectable={false}

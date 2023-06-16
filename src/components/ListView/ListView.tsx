@@ -84,7 +84,7 @@ function ListView({ contentRef, workspaceObj, uiDetails }: any) {
     dispatch(updateAppData({ appID: currentApplicationId, appData: list }));
   }, [list]);
 
-  const updateCurrentTitle = (name) => {
+  const updateCurrentTitle = (name: any) => {
     const currentApplicationId = uiDetails.split('--')[2];
     dispatch(updateAppName({ appID: currentApplicationId, titleForDoc: name }));
   };

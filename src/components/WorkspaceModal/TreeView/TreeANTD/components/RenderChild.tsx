@@ -32,6 +32,7 @@ import {
   setNodeIDs,
   setSelectedOption,
 } from 'redux/slices/activestate';
+import { FileIcon, FolderIcon } from './TreeSVG';
 
 function RenderChild({
   node,
@@ -45,6 +46,7 @@ function RenderChild({
   color,
   setTreeData,
   nodeSelected,
+  findObjectByIDAndAddChild,
 }: any) {
   const [currentNode, setCurrentNode] = useState<any>();
   const [popOverVisible, setPopOverVisible] = useState(false);
@@ -74,11 +76,29 @@ function RenderChild({
     }
     return [];
   };
+
   const createNewClickHandler = (e: any, type: any, node: any) => {
     e.preventDefault();
-    const { key } = node;
-    addInputField(node, type);
+    // const { key } = node;
+    // addInputField(node, type);
     setShowDocumentOptions(false);
+    const children = [
+      ...currentNode.children,
+      {
+        title: 'child',
+        key: '1a7aea77-2dc6-4aa2-9757-19c536e1djdvbdjvbdjvbjf133',
+        children: [],
+        color: currentNode.color,
+        isLeaf: false,
+        folderInput: false,
+        level: currentNode.level + 1,
+      },
+    ];
+    const copyOfTreeData = treeData;
+    findObjectByIDAndAddChild(copyOfTreeData, currentNode.key, children);
+    setTreeData(copyOfTreeData);
+    nodeSelected(currentNode);
+    // setCurrentNode(updatedNode);
   };
   const dispatch = useDispatch();
 
@@ -357,10 +377,11 @@ function RenderChild({
   }, [node]);
 
   const deterMineColor = () => {
-    const flag = currentNode?.level !== 0 || currentNode?.isLeaf;
+    const flag =
+      currentNode?.level === 0 && expandedKeys.includes(currentNode.key);
     const colourDetermined = flag
-      ? 'transparent'
-      : `linear-gradient(90.28deg, ${color}45 4.88%, rgba(17, 21, 18, 0) 91.54%)`;
+      ? `linear-gradient(90.28deg, ${color}45 4.88%, rgba(17, 21, 18, 0) 91.54%)`
+      : 'transparent';
     return colourDetermined;
   };
 
@@ -381,7 +402,34 @@ function RenderChild({
   useEffect(() => {
     document.getElementById('newTreeChildInput')?.focus();
   });
+  const callbackFunctionForCreate = (data: any) => {
+    //   {
+    //     "name": "test",
+    //     "childOf": "1a7aea77-2dc6-4aa2-9757-19c536e1f133",
+    //     "type": "folder",
+    //     "uuid": "3548ce30-494e-49fd-8993-ff9dd60b3203",
+    //     "key": "3548ce30-494e-49fd-8993-ff9dd60b3203",
+    //     "workSpaceUUID": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc",
+    //     "workSPaceId": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc"
+    // }
+    //   {
+    //     "title": "Welcome Aprent",
+    //     "key": "1a7aea77-2dc6-4aa2-9757-19c536e1f144",
+    //     "children": [],
+    //     "color": "#343434",
+    //     "isLeaf": false,
+    //     "workspaceDetails": {
+    //         "name": "Private",
+    //         "color": "#343434",
+    //         "id": "wsp-1",
+    //         "uuid": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc",
+    //         "childs": []
+    //     }
+    // }
+    // let newChildObject = {...curr}
+  };
   const onEnterInput = (event: any) => {
+    let newIDGenerated = uuidv4();
     if (event.code === 'Escape') {
       event.preventDefault();
       console.log(inputRefFolder.current.value, currentNode);
@@ -390,6 +438,8 @@ function RenderChild({
           name: 'Untitled',
           type: currentNode.isLeaf ? 'doc' : 'folder',
           parentDetails: currentNode.parent,
+          newIDGenerated,
+          callbackFunctionForCreate,
         })
       );
       setTimeout(setExpandedKeys([]));
@@ -402,10 +452,12 @@ function RenderChild({
           name: inputRefFolder.current.value,
           type: currentNode.isLeaf ? 'doc' : 'folder',
           parentDetails: currentNode.parent,
+          newIDGenerated,
+          callbackFunctionForCreate,
         })
       );
-      setTimeout(setExpandedKeys([]));
-      console.log(inputRefFolder.current.value, currentNode);
+      // setTimeout(setExpandedKeys([]));
+      // console.log(inputRefFolder.current.value, currentNode);
     }
   };
   const onEnterInputForUpdate = (event: any) => {
@@ -505,27 +557,30 @@ function RenderChild({
       }}
       onClick={clickHandler}
     >
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         {!currentNode?.folderInput &&
         !currentNode?.docInput &&
         !currentNode?.folderUpdateInput &&
         currentNode?.isLeaf ? (
-          <FileFilled
+          <FileIcon
             style={{
-              color: `${currentNode?.color}`,
+              // color: `${currentNode?.color}`,
               marginLeft: '30px',
               fontSize: '18px',
+              height: '12.75px',
+              width: '12.75px',
             }}
             rev={undefined}
           />
         ) : (
-          <FolderFilled
+          <FolderIcon
             style={{
               color: `${currentNode?.color}`,
               marginLeft: '30px',
               fontSize: '18px',
+              height: '12.75px',
+              width: '12.75px',
             }}
-            rev={undefined}
           />
         )}{' '}
         {!currentNode?.folderInput &&

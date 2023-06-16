@@ -198,7 +198,13 @@ export const workspaceSlice = createSlice({
       // }
     },
     createSubChild: (state, action: PayloadAction<any>) => {
-      const { name: passedName, type, parentDetails } = action.payload;
+      const {
+        name: passedName,
+        type,
+        parentDetails,
+        newIDGenerated,
+        callbackFunctionForCreate,
+      } = action.payload;
       let name = passedName;
       if (type === 'folder') {
         const copyOfworkSpaceFolders = [...state.workspaceFolders];
@@ -215,16 +221,17 @@ export const workspaceSlice = createSlice({
         if (name === 'Untitled') {
           name = `${name}-${filteredUnknown.length + 1}`;
         }
-        const sampleDocData = {
+        const sampleFolderData = {
           name,
           childOf: parentDetails.key,
           type: 'folder',
-          uuid: uuidv4(),
-          key: uuidv4(),
+          uuid: newIDGenerated,
+          key: newIDGenerated,
           workSpaceUUID: parentDetails.workspaceDetails.uuid,
           workSPaceId: parentDetails.workspaceDetails.uuid,
         };
-        proxyFilteredArray.push(sampleDocData);
+        proxyFilteredArray.push(sampleFolderData);
+        callbackFunctionForCreate(sampleFolderData);
         state.workspaceFolders = proxyFilteredArray;
       } else {
         const copyOfworkSpaceDocs = [...state.workSpaceDocs];
@@ -250,6 +257,7 @@ export const workspaceSlice = createSlice({
           workSpaceUUID: parentDetails.workspaceDetails.uuid,
         };
         proxyFilteredArray.push(sampleDocData);
+        callbackFunctionForCreate(sampleDocData);
         state.workSpaceDocs = proxyFilteredArray;
       }
     },
@@ -364,7 +372,6 @@ export const workspaceSlice = createSlice({
     },
     updateAppData: (state, action: PayloadAction<any>) => {
       const { appID, appData } = action.payload;
-      console.log(action.payload);
       const copyOfEditorApplicationsAdded = [...state.editorApplicationsAdded];
       const proxyFilteredArray: any = [];
       copyOfEditorApplicationsAdded.forEach((data): any => {
@@ -374,11 +381,9 @@ export const workspaceSlice = createSlice({
         }
         proxyFilteredArray.push({ ...currentData });
       });
-      console.log('copyOfEditorApplicationsAdded', proxyFilteredArray);
       state.editorApplicationsAdded = proxyFilteredArray;
     },
     editFolderName: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       const { id, name } = action.payload;
       const copyOfworkSpaceFolders = [...state.workspaceFolders];
       const proxyFilteredArray: any = [];
@@ -394,10 +399,6 @@ export const workspaceSlice = createSlice({
       state.workspaceFolders = newSetOFDataProcessed;
     },
     addDuplicateFolders: (state, action: PayloadAction<any>) => {
-      console.log(
-        'duplicateFolder - addDuplicateFolders - payload',
-        action.payload
-      );
       const copyFolderStructure = state.workspaceFolders;
       const { newObjectArray } = action.payload;
       const proxyFilteredArray: any = [];
@@ -405,14 +406,9 @@ export const workspaceSlice = createSlice({
         proxyFilteredArray.push({ ...data });
       });
       const newArrayGenerated = proxyFilteredArray.concat(newObjectArray);
-      console.log('duplicateFolder - addDuplicateFolders', newArrayGenerated);
       state.workspaceFolders = newArrayGenerated;
     },
     addDuplicateDoc: (state, action: PayloadAction<any>) => {
-      console.log(
-        'duplicateFolder - addDuplicateDoc - payload',
-        action.payload
-      );
       const copyDocStructure = state.workSpaceDocs;
       const { newObjectArray } = action.payload;
       const proxyFilteredArray: any = [];
@@ -424,15 +420,10 @@ export const workspaceSlice = createSlice({
         proxyFilteredArray.push({ ...data });
       });
       const newArrayGenerated = proxyFilteredArray.concat(newObjectArray);
-      console.log('duplicateFolder - addDuplicateDoc', newArrayGenerated);
       state.workSpaceDocs = newArrayGenerated;
       // }
     },
     addDuplicateEditorApplications: (state, action: PayloadAction<any>) => {
-      console.log(
-        'duplicateFolder - addDuplicateDoc - payload',
-        action.payload
-      );
       const copyDocStructure = state.editorApplicationsAdded;
       const { newObjectArray } = action.payload;
       const proxyFilteredArray: any = [];
@@ -440,14 +431,11 @@ export const workspaceSlice = createSlice({
         proxyFilteredArray.push({ ...data });
       });
       const newArrayGenerated = proxyFilteredArray.concat(newObjectArray);
-      console.log('duplicateFolder - addDuplicateDoc', newArrayGenerated);
       state.editorApplicationsAdded = newArrayGenerated;
       // }
     },
     updateAppName: (state, action: PayloadAction<any>) => {
-      console.log('applicationsDataFiltered', action.payload);
       const { appID, titleForDoc } = action.payload;
-      console.log(action.payload);
       const copyOfEditorApplicationsAdded = [...state.editorApplicationsAdded];
       const proxyFilteredArray: any = [];
       copyOfEditorApplicationsAdded.forEach((data): any => {
@@ -457,7 +445,6 @@ export const workspaceSlice = createSlice({
         }
         proxyFilteredArray.push({ ...currentData });
       });
-      console.log('copyOfEditorApplicationsAdded', proxyFilteredArray);
       state.editorApplicationsAdded = proxyFilteredArray;
     },
   },
