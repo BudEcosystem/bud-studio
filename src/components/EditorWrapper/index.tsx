@@ -507,6 +507,9 @@ function EditorWrapper () {
               const modifiedText = targetBlock.data.text.slice(0, -1);
               targetBlock.data.text = modifiedText
               ejInstance?.current?.render({ blocks: currentData });
+              setTimeout(() => {
+                checkForMentions()
+              }, 100)
             }
           } catch (error) {
             console.error('Error occurred while appending text:', error);

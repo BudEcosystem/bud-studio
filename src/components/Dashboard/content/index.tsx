@@ -10,7 +10,6 @@ import classes from '../dashboard.module.css';
 import Launcher from '../../Launcher/Launcher';
 import OmniSearch from '../../OmniSearch/OmniSearch';
 import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
-import Editor from '../../Editor/Editor';
 import EditorJsWrapper from '../../EditorWrapper';
 import TableView from 'components/TableView';
 
@@ -25,6 +24,7 @@ import {
   setCurrentSelectedUI,
   setNavigationPath,
 } from 'redux/slices/activestate';
+import TaskView from 'components/TaskView/TaskView';
 
 function ContentView({
   setCollapsed,
@@ -144,15 +144,8 @@ function ContentView({
             workspaceModal={workspaceModal}
           />
         )}
-        {/* <Editor /> */}
         {selectedDoc && currentSelectedUI === '' && (
-          // <BudEditor />
-          <EditorJsWrapper
-            data={{}}
-            // setCurrentSelectedUI={setCurrentSelectedUI}
-            // selectedOption={selectedOption}
-            // setSelectedOption={setSelectedOption}
-          />
+          <EditorJsWrapper/>
         )}
         {currentSelectedUI?.includes('listview') && (
           <ListView
@@ -170,8 +163,9 @@ function ContentView({
             uiDetails={currentSelectedUI}
           />
         )}
-        {/* <TableviewNew workspaceObj={workspace}
-            uiDetails={currentSelectedUI}/> */}
+        {currentSelectedUI?.includes('taskview') && (
+          <TaskView/>
+        )}
         <Hamburger />
       </Content>
       <OmniSearch />
