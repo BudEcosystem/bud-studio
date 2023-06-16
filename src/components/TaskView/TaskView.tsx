@@ -4,8 +4,11 @@ import { useSelector } from 'react-redux';
 import {
   ArrowIcon,
   DocIcon,
+  DocSmall,
   FlagIcon,
+  FlagSmall,
   FourLines,
+  PersonIcon,
   ThreeDots,
   UploadIcon,
   WindowIcon,
@@ -157,6 +160,9 @@ const TaskView = () => {
             <h2 className="TopBar__Title">Kabuni</h2>
             <div className="TopBar__ProgressText">In Progress</div>
           </div>
+
+          {taskViewData.imagesData ? 
+          (<div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
           <div style={{display: "grid", placeItems: "center", marginLeft: "40px"}} className="TopBar__AvatarImages"><CircularImageComponent images={taskViewData.imagesData} /></div>
           <div
             style={{
@@ -172,18 +178,20 @@ const TaskView = () => {
             style={{
               cursor: 'pointer',
               display: 'grid',
-              marginTop: '7px',
               marginLeft: '20px',
             }}
           >
             <DocIcon />
           </div>
           <div className="progressBar">
-            <div
-              style={{ backgroundColor: `${color}`, width: `${taskViewData.checklist?.checked / taskViewData.checklist?.total * 100}%` }}
-              className="progress"
-            ></div>
-          </div>
+            <div style={{ backgroundColor: `${color}`, width: `${taskViewData.checklist?.checked / taskViewData.checklist?.total * 100}%` }} className="progress"></div>
+          </div> </div>) :
+          
+          (<div style={{display: "flex", alignItems: "center", placeItems: "center", marginLeft: "30px"}}>
+            <div className='DashedCircleIcons'><FlagSmall/></div>
+            <div className='DashedCircleIcons'><DocSmall/></div>
+            <div className='DashedCircleIcons'><PersonIcon/></div>
+          </div>) }
         </div>
 
         <div className="TopBar__RightSide">
