@@ -151,16 +151,6 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
     }));
     console.log(ascOrDesc);
     dispatch(sortedRowsReorder({ col: column.id, ascOrDes: ascOrDesc }));
-    //  if(column.id === 'id'){
-
-    //   setAscOrDesc((prevValues) => ({
-    //     ...prevValues,
-    //     [column.id] : !prevValues[column.id]
-    //   }))
-    //   console.log(ascOrDesc)
-    //   dispatch(sortedRowsReorder({col: column.id, ascOrDes: ascOrDesc}))
-    //  }
-    // dispatch(sortedRowsReorder({col: column.id}))
   };
 
   const renderHeaderContent = (column, colIdx, allRows) => {

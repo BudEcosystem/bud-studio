@@ -170,8 +170,8 @@ function ContentView({
             uiDetails={currentSelectedUI}
           />
         )}
-        <TableviewNew workspaceObj={workspace}
-            uiDetails={currentSelectedUI}/>
+        {/* <TableviewNew workspaceObj={workspace}
+            uiDetails={currentSelectedUI}/> */}
         <Hamburger />
       </Content>
       <OmniSearch />
