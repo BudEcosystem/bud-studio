@@ -100,6 +100,7 @@ export const generateInitialWorkspaceState = (): any => {
         workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
       },
     ],
+    workSpaceFolderOrDocCreateInputFieldObjects: [],
     applicationData: [],
     editorInitialised: false,
     editorApplicationsAdded: [],
@@ -236,6 +237,28 @@ export const workspaceSlice = createSlice({
         proxyFilteredArray.push(sampleFolderData);
         callbackFunctionForCreate(sampleFolderData);
         state.workspaceFolders = proxyFilteredArray;
+      } else if (type === 'create') {
+        const copyOfworkSpaceFolderOrDocCreateInputFieldObjects = [
+          ...state.workSpaceFolderOrDocCreateInputFieldObjects,
+        ];
+        const proxyFilteredArray: any = [];
+        copyOfworkSpaceFolderOrDocCreateInputFieldObjects.forEach(
+          (data: any) => {
+            proxyFilteredArray.push({ ...data });
+          }
+        );
+        const sampleDocData = {
+          name,
+          parentDetails,
+          childOf: parentDetails.key,
+          workSPaceId: parentDetails.uuid,
+          type: 'create',
+          uuid: newIDGenerated,
+          workSpaceUUID: parentDetails.workspaceDetails.uuid,
+        };
+        proxyFilteredArray.push(sampleDocData);
+        state.workSpaceFolderOrDocCreateInputFieldObjects = proxyFilteredArray;
+        callbackFunctionForCreate(sampleDocData);
       } else {
         const copyOfworkSpaceDocs = [...state.workSpaceDocs];
         const proxyFilteredArray: any = [];

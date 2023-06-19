@@ -7,19 +7,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-alert */
 import { Tree } from 'antd';
-import type { DataNode } from 'antd/es/tree';
-import {
-  FileFilled,
-  FolderFilled,
-  PlusOutlined,
-  DownOutlined,
-} from '@ant-design/icons';
+import { FileFilled, FolderFilled, DownOutlined } from '@ant-design/icons';
+import { createDoc, createFolder } from 'redux/slices/workspace';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useRef, useState } from 'react';
 import { DocIcon } from 'components/WorkspaceModal/WorkspaceIcons';
 import { Folder } from '../Tree/TreeSvgIcons';
 import './index.css';
-import { createDoc, createFolder } from 'redux/slices/workspace';
 import RenderChild from './components/RenderChild';
 
 const { DirectoryTree } = Tree;
@@ -65,7 +59,13 @@ function TreeStructure({
         isLeaf: false,
         workspaceDetails,
       };
-      WorkSpaceTreeData.push(sampleObjectFolder);
+      if (
+        WorkSpaceTreeData.filter(
+          (WSTDdata: any) => WSTDdata.key === sampleObjectFolder.key
+        ).length === 0
+      ) {
+        WorkSpaceTreeData.push(sampleObjectFolder);
+      }
     });
     rootLevelDocuments.forEach((data: any) => {
       const sampleObjectDoc = {
@@ -76,7 +76,13 @@ function TreeStructure({
         workspaceDetails,
         children: [],
       };
-      WorkSpaceTreeData.push(sampleObjectDoc);
+      if (
+        WorkSpaceTreeData.filter(
+          (WSTDdata: any) => WSTDdata.key === sampleObjectDoc.key
+        ).length === 0
+      ) {
+        WorkSpaceTreeData.push(sampleObjectDoc);
+      }
     });
     setTreeData(WorkSpaceTreeData);
   };
@@ -146,6 +152,9 @@ function TreeStructure({
   };
 
   function addChildObject(obj: any, targetKey: any, newObject: any) {
+    console.log('obj', obj);
+    console.log('targetKey', targetKey);
+    console.log('newObject', newObject);
     if (obj.key === targetKey) {
       const copyOfChildrenArray = obj.children || [];
       // obj.children.push(newObject);
@@ -168,9 +177,15 @@ function TreeStructure({
       });
     }
   }
+
   const nodeSelected = (node: any) => {
     return new Promise((resolve) => {
-      const { workSpaceDocs, workspaceFolders } = workspace;
+      console.log('WorkSpaceTreeDatamod - workspace', workspace);
+      const {
+        workSpaceDocs,
+        workspaceFolders,
+        workSpaceFolderOrDocCreateInputFieldObjects,
+      } = workspace;
       const WorkSpaceTreeData: any = [];
 
       const updatedPath = [...navigationPath, node?.title];
@@ -185,6 +200,12 @@ function TreeStructure({
       const rootLevelDocuments = workSpaceDocs.filter(
         (docData: any) => docData?.childOf === node?.key
       );
+      const rootLevelInputs =
+        workSpaceFolderOrDocCreateInputFieldObjects.filter((inputData: any) => {
+          console.log('WorkSpaceTreeDatamod - inputData', inputData);
+          console.log('WorkSpaceTreeDatamod - node', node);
+          return inputData?.childOf === node?.key;
+        });
       rootLevelFolders.forEach((data: any) => {
         const sampleObjectFolder = {
           title: data.name,
@@ -208,6 +229,23 @@ function TreeStructure({
         };
         WorkSpaceTreeData.push(sampleObjectDoc);
       });
+      rootLevelInputs.forEach((data: any) => {
+        const sampleObjectDoc = {
+          title: data.name,
+          key: data.uuid,
+          isLeaf: true,
+          color: node.color,
+          docInput: false,
+          folderInput: false,
+          createInput: true,
+          parent: data.childOf,
+        };
+        WorkSpaceTreeData.push(sampleObjectDoc);
+      });
+      console.log(
+        'WorkSpaceTreeDatamod - WorkSpaceTreeData',
+        WorkSpaceTreeData
+      );
       addChildObject(copyOftreeDataProcessed, node.key, WorkSpaceTreeData);
       function findLevels(objects: any, level = 0) {
         objects &&
@@ -221,10 +259,23 @@ function TreeStructure({
       const copyOfTreeData = copyOftreeDataProcessed;
       findLevels(copyOfTreeData);
       setTreeData(copyOfTreeData);
+      console.log('WorkSpaceTreeDatamod - copyOfTreeData', copyOfTreeData);
       resolve(true);
     });
   };
 
+  useEffect(() => {
+    console.log('WorkSpaceTreeDatamod - workspace - workspace', workspace);
+    const { workSpaceFolderOrDocCreateInputFieldObjects } = workspace;
+    console.log(
+      'WorkSpaceTreeDatamod - workSpaceFolderOrDocCreateInputFieldObjects',
+      workSpaceFolderOrDocCreateInputFieldObjects
+    );
+    if (workSpaceFolderOrDocCreateInputFieldObjects.length > 0) {
+      const { parentDetails } = workSpaceFolderOrDocCreateInputFieldObjects[0];
+      nodeSelected(parentDetails);
+    }
+  }, [workspace]);
   const onNodeExpand = (key: any) => {
     setExpandedKeys(key);
   };

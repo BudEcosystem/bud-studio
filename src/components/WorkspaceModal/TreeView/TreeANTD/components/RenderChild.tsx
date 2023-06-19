@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { FileFilled, FolderFilled, PlusOutlined } from '@ant-design/icons';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useCallback, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { Popover } from 'antd';
@@ -76,31 +76,49 @@ function RenderChild({
     }
     return [];
   };
+  const dispatch = useDispatch();
 
+  const callbackFunctionForCreate = (data: any) => {
+    console.log('WorkSpaceTreeDatamod - callback');
+    // setTimeout(() => {
+    //   nodeSelected(currentNode);
+    // }, 1000);
+  };
   const createNewClickHandler = (e: any, type: any, node: any) => {
     e.preventDefault();
     // const { key } = node;
     // addInputField(node, type);
     setShowDocumentOptions(false);
-    const children = [
-      ...currentNode.children,
-      {
-        title: 'child',
-        key: '1a7aea77-2dc6-4aa2-9757-19c536e1djdvbdjvbdjvbjf133',
-        children: [],
-        color: currentNode.color,
-        isLeaf: false,
-        folderInput: false,
-        level: currentNode.level + 1,
-      },
-    ];
-    const copyOfTreeData = treeData;
-    findObjectByIDAndAddChild(copyOfTreeData, currentNode.key, children);
-    setTreeData(copyOfTreeData);
-    nodeSelected(currentNode);
+    // const children = [
+    //   ...currentNode.children,
+    //   {
+    //     title: 'child',
+    //     key: '1a7aea77-2dc6-4aa2-9757-19c536e1djdvbdjvbdjvbjf133',
+    //     children: [],
+    //     color: currentNode.color,
+    //     isLeaf: false,
+    //     folderInput: false,
+    //     level: currentNode.level + 1,
+    //   },
+    // ];
+    // const copyOfTreeData = treeData;
+    // findObjectByIDAndAddChild(copyOfTreeData, currentNode.key, children);
+    // setTreeData(copyOfTreeData);
+    // nodeSelected(currentNode);
     // setCurrentNode(updatedNode);
+    const newIDGenerated = 'newIDForCreateFolderOrDoc';
+    console.log(currentNode);
+    dispatch(
+      createSubChild({
+        name: 'Untitled',
+        type: 'create',
+        parentDetails: { ...currentNode, workspaceDetails },
+        newIDGenerated,
+        callbackFunctionForCreate,
+      })
+    );
+    // nodeSelected(currentNode);
   };
-  const dispatch = useDispatch();
 
   const onDeleteFolderClicked = (event: any) => {
     event.preventDefault();
@@ -370,11 +388,54 @@ function RenderChild({
       </div>
     </div>
   );
+  const findObjectByKey = useCallback((arr: any, key: any): any => {
+    for (const obj of arr) {
+      if (obj.key === key) {
+        return obj;
+      }
+      if (obj.children && obj.children.length > 0) {
+        const foundObj = findObjectByKey(obj.children, key);
+        if (foundObj) {
+          return foundObj;
+        }
+      }
+    }
+    return null;
+  }, []);
   useEffect(() => {
     if (node) {
+      console.log('WorkSpaceTreeDatamod - node updated', node);
       setCurrentNode(node);
     }
   }, [node]);
+  useEffect(() => {
+    const { workSpaceFolderOrDocCreateInputFieldObjects } = workspace;
+    if (
+      workSpaceFolderOrDocCreateInputFieldObjects[0]?.parentDetails.key ===
+      node.key
+    ) {
+      console.log('WorkSpaceTreeDatamod - treeData', treeData);
+      console.log('WorkSpaceTreeDatamod - node', node);
+      console.log(
+        'WorkSpaceTreeDatamod - workSpaceFolderOrDocCreateInputFieldObjects',
+        workSpaceFolderOrDocCreateInputFieldObjects
+      );
+      console.log(
+        'WorkSpaceTreeDatamod - workSpaceFolderOrDocCreateInputFieldObjects',
+        workSpaceFolderOrDocCreateInputFieldObjects[0]?.parentDetails.key ===
+          node.key
+      );
+      const { key } = node;
+      const objectFound = findObjectByKey(treeData, key);
+      console.log('WorkSpaceTreeDatamod - objectFound', objectFound);
+      if (objectFound) {
+        setCurrentNode({});
+        setTimeout(() => {
+          setCurrentNode({ ...node, children: objectFound.children });
+        }, 500);
+      }
+    }
+  }, [treeData, node, workspace, findObjectByKey]);
 
   const deterMineColor = () => {
     const flag =
@@ -402,34 +463,34 @@ function RenderChild({
   useEffect(() => {
     document.getElementById('newTreeChildInput')?.focus();
   });
-  const callbackFunctionForCreate = (data: any) => {
-    //   {
-    //     "name": "test",
-    //     "childOf": "1a7aea77-2dc6-4aa2-9757-19c536e1f133",
-    //     "type": "folder",
-    //     "uuid": "3548ce30-494e-49fd-8993-ff9dd60b3203",
-    //     "key": "3548ce30-494e-49fd-8993-ff9dd60b3203",
-    //     "workSpaceUUID": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc",
-    //     "workSPaceId": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc"
-    // }
-    //   {
-    //     "title": "Welcome Aprent",
-    //     "key": "1a7aea77-2dc6-4aa2-9757-19c536e1f144",
-    //     "children": [],
-    //     "color": "#343434",
-    //     "isLeaf": false,
-    //     "workspaceDetails": {
-    //         "name": "Private",
-    //         "color": "#343434",
-    //         "id": "wsp-1",
-    //         "uuid": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc",
-    //         "childs": []
-    //     }
-    // }
-    // let newChildObject = {...curr}
-  };
+  // const callbackFunctionForCreate = (data: any) => {
+  //   //   {
+  //   //     "name": "test",
+  //   //     "childOf": "1a7aea77-2dc6-4aa2-9757-19c536e1f133",
+  //   //     "type": "folder",
+  //   //     "uuid": "3548ce30-494e-49fd-8993-ff9dd60b3203",
+  //   //     "key": "3548ce30-494e-49fd-8993-ff9dd60b3203",
+  //   //     "workSpaceUUID": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc",
+  //   //     "workSPaceId": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc"
+  //   // }
+  //   //   {
+  //   //     "title": "Welcome Aprent",
+  //   //     "key": "1a7aea77-2dc6-4aa2-9757-19c536e1f144",
+  //   //     "children": [],
+  //   //     "color": "#343434",
+  //   //     "isLeaf": false,
+  //   //     "workspaceDetails": {
+  //   //         "name": "Private",
+  //   //         "color": "#343434",
+  //   //         "id": "wsp-1",
+  //   //         "uuid": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc",
+  //   //         "childs": []
+  //   //     }
+  //   // }
+  //   // let newChildObject = {...curr}
+  // };
   const onEnterInput = (event: any) => {
-    let newIDGenerated = uuidv4();
+    const newIDGenerated = uuidv4();
     if (event.code === 'Escape') {
       event.preventDefault();
       dispatch(
@@ -576,7 +637,8 @@ function RenderChild({
         )}{' '}
         {!currentNode?.folderInput &&
           !currentNode?.docInput &&
-          !currentNode?.folderUpdateInput && (
+          !currentNode?.folderUpdateInput &&
+          !currentNode?.createInput && (
             <div style={{ display: 'flex' }}>
               <span
                 style={{
@@ -589,7 +651,9 @@ function RenderChild({
               </span>
             </div>
           )}
-        {(currentNode?.folderInput || currentNode?.docInput) && (
+        {(currentNode?.folderInput ||
+          currentNode?.docInput ||
+          currentNode?.createInput) && (
           <div style={{ display: 'flex' }}>
             <input
               onKeyDown={onEnterInput}
