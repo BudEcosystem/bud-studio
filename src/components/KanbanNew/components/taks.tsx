@@ -3,6 +3,10 @@
 import { styled } from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import { Popover } from 'antd';
+import { useDispatch } from 'react-redux';
+import { setCurrentSelectedUI } from 'redux/slices/activestate';
+import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
+
 const TaskContainer = styled.div`
   height: 30px;
   padding: 10px;
@@ -233,7 +237,9 @@ const PopOverSearchKeybordCommandWrapper = styled.div`
   padding-left: 15.59px;
 `;
 const PopOverSearchKeybordCommand = styled.img``;
+
 function PopOverSearch() {
+
   return (
     <PopOverWrapper>
       <PopOveSearchWrapper>
@@ -249,12 +255,19 @@ function PopOverSearch() {
     </PopOverWrapper>
   );
 }
+
+
 function Tasks(props: any) {
+  const dispatch = useDispatch();
+  const handleClick = () => {
+    dispatch(setCurrentSelectedUI('null')); setTimeout(() => {dispatch(setCurrentSelectedUI('klatask'))}, 500)
+  }
+
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
       {(provided) => {
         return (
-          <TaskContainer {...provided.draggableProps} ref={provided.innerRef}>
+          <TaskContainer onClick={handleClick} {...provided.draggableProps} ref={provided.innerRef}>
             <TaskHeader>
               {' '}
               {props?.task?.heading && (

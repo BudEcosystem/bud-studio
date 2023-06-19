@@ -25,6 +25,7 @@ import {
   setNavigationPath,
 } from 'redux/slices/activestate';
 import TaskView from 'components/TaskView/TaskView';
+import TaskViewKanban from 'components/TaskViewKanban/TaskViewKanban';
 
 function ContentView({
   setCollapsed,
@@ -162,6 +163,7 @@ function ContentView({
           />
         )}
         {currentSelectedUI?.includes('taskview') && <TaskView />}
+        {currentSelectedUI?.includes('klatask') && <TaskViewKanban />}
         <Hamburger />
       </Content>
       <OmniSearch />
