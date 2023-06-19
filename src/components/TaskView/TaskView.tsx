@@ -16,7 +16,7 @@ import {
 import ToDoPanel from './components/ToDoPanel';
 import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
 
-const TaskView = () => {
+const TaskView = ({ uiDetails }) => {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
   const { taskViewData } = list;
@@ -49,103 +49,104 @@ const TaskView = () => {
     }
   };
 
-  const comments = [{
-    text: "George created this task",
-    time: "May 9, 11:20am"
-  },
-  {
-    text: "George added a task",
-    time: "May 9, 11:22am"
-  },
-  {
-    text: "George added a task",
-    time: "May 9, 11:24am"
-  },
-  {
-    text: "George moved this task to important",
-    time: "May 9, 11:28am"
-  },
-  {
-    text: "George created a subtask",
-    time: "May 9, 12:20am"
-  },
-  {
-    text: "George removed a task",
-    time: "May 9, 12:30am"
-  },
-  {
-    text: "George marked a task as checked",
-    time: "May 9, 12:40am"
-  },
-  {
-    text: "George added a task",
-    time: "May 9, 12:55am"
-  },
-  {
-    text: "George created this task",
-    time: "May 9, 11:20am"
-  },
-  {
-    text: "George added a task",
-    time: "May 9, 11:22am"
-  },
-  {
-    text: "George added a task",
-    time: "May 9, 11:24am"
-  },
-  {
-    text: "George moved this task to important",
-    time: "May 9, 11:28am"
-  },
-  {
-    text: "George created a subtask",
-    time: "May 9, 12:20am"
-  },
-  {
-    text: "George removed a task",
-    time: "May 9, 12:30am"
-  },
-  {
-    text: "George marked a task as checked",
-    time: "May 9, 12:40am"
-  },
-  {
-    text: "George added a task",
-    time: "May 9, 12:55am"
-  },
-  {
-    text: "George created this task",
-    time: "May 9, 11:20am"
-  },
-  {
-    text: "George added a task",
-    time: "May 9, 11:22am"
-  },
-  {
-    text: "George added a task",
-    time: "May 9, 11:24am"
-  },
-  {
-    text: "George moved this task to important",
-    time: "May 9, 11:28am"
-  },
-  {
-    text: "George created a subtask",
-    time: "May 9, 12:20am"
-  },
-  {
-    text: "George removed a task",
-    time: "May 9, 12:30am"
-  },
-  {
-    text: "George marked a task as checked",
-    time: "May 9, 12:40am"
-  },
-  {
-    text: "George added a task",
-    time: "May 9, 12:55am"
-  },
-]
+  const comments = [
+    {
+      text: 'George created this task',
+      time: 'May 9, 11:20am',
+    },
+    {
+      text: 'George added a task',
+      time: 'May 9, 11:22am',
+    },
+    {
+      text: 'George added a task',
+      time: 'May 9, 11:24am',
+    },
+    {
+      text: 'George moved this task to important',
+      time: 'May 9, 11:28am',
+    },
+    {
+      text: 'George created a subtask',
+      time: 'May 9, 12:20am',
+    },
+    {
+      text: 'George removed a task',
+      time: 'May 9, 12:30am',
+    },
+    {
+      text: 'George marked a task as checked',
+      time: 'May 9, 12:40am',
+    },
+    {
+      text: 'George added a task',
+      time: 'May 9, 12:55am',
+    },
+    {
+      text: 'George created this task',
+      time: 'May 9, 11:20am',
+    },
+    {
+      text: 'George added a task',
+      time: 'May 9, 11:22am',
+    },
+    {
+      text: 'George added a task',
+      time: 'May 9, 11:24am',
+    },
+    {
+      text: 'George moved this task to important',
+      time: 'May 9, 11:28am',
+    },
+    {
+      text: 'George created a subtask',
+      time: 'May 9, 12:20am',
+    },
+    {
+      text: 'George removed a task',
+      time: 'May 9, 12:30am',
+    },
+    {
+      text: 'George marked a task as checked',
+      time: 'May 9, 12:40am',
+    },
+    {
+      text: 'George added a task',
+      time: 'May 9, 12:55am',
+    },
+    {
+      text: 'George created this task',
+      time: 'May 9, 11:20am',
+    },
+    {
+      text: 'George added a task',
+      time: 'May 9, 11:22am',
+    },
+    {
+      text: 'George added a task',
+      time: 'May 9, 11:24am',
+    },
+    {
+      text: 'George moved this task to important',
+      time: 'May 9, 11:28am',
+    },
+    {
+      text: 'George created a subtask',
+      time: 'May 9, 12:20am',
+    },
+    {
+      text: 'George removed a task',
+      time: 'May 9, 12:30am',
+    },
+    {
+      text: 'George marked a task as checked',
+      time: 'May 9, 12:40am',
+    },
+    {
+      text: 'George added a task',
+      time: 'May 9, 12:55am',
+    },
+  ];
 
   return (
     <div className="KanbanTaskView">
@@ -161,37 +162,77 @@ const TaskView = () => {
             <div className="TopBar__ProgressText">In Progress</div>
           </div>
 
-          {taskViewData.imagesData ? 
-          (<div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-          <div style={{display: "grid", placeItems: "center", marginLeft: "40px"}} className="TopBar__AvatarImages"><CircularImageComponent images={taskViewData.imagesData} /></div>
-          <div
-            style={{
-              cursor: 'pointer',
-              display: 'grid',
-              placeItems: 'center',
-              marginLeft: '20px',
-            }}
-          >
-            <FlagIcon />
-          </div>
-          <div
-            style={{
-              cursor: 'pointer',
-              display: 'grid',
-              marginLeft: '20px',
-            }}
-          >
-            <DocIcon />
-          </div>
-          <div className="progressBar">
-            <div style={{ backgroundColor: `${color}`, width: `${taskViewData.checklist?.checked / taskViewData.checklist?.total * 100}%` }} className="progress"></div>
-          </div> </div>) :
-          
-          (<div style={{display: "flex", alignItems: "center", placeItems: "center", marginLeft: "30px"}}>
-            <div className='DashedCircleIcons'><FlagSmall/></div>
-            <div className='DashedCircleIcons'><DocSmall/></div>
-            <div className='DashedCircleIcons'><PersonIcon/></div>
-          </div>) }
+          {taskViewData.imagesData ? (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <div
+                style={{
+                  display: 'grid',
+                  placeItems: 'center',
+                  marginLeft: '40px',
+                }}
+                className="TopBar__AvatarImages"
+              >
+                <CircularImageComponent images={taskViewData.imagesData} />
+              </div>
+              <div
+                style={{
+                  cursor: 'pointer',
+                  display: 'grid',
+                  placeItems: 'center',
+                  marginLeft: '20px',
+                }}
+              >
+                <FlagIcon />
+              </div>
+              <div
+                style={{
+                  cursor: 'pointer',
+                  display: 'grid',
+                  marginLeft: '20px',
+                }}
+              >
+                <DocIcon />
+              </div>
+              <div className="progressBar">
+                <div
+                  style={{
+                    backgroundColor: `${color}`,
+                    width: `${
+                      (taskViewData.checklist?.checked /
+                        taskViewData.checklist?.total) *
+                      100
+                    }%`,
+                  }}
+                  className="progress"
+                ></div>
+              </div>{' '}
+            </div>
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                placeItems: 'center',
+                marginLeft: '30px',
+              }}
+            >
+              <div className="DashedCircleIcons">
+                <FlagSmall />
+              </div>
+              <div className="DashedCircleIcons">
+                <DocSmall />
+              </div>
+              <div className="DashedCircleIcons">
+                <PersonIcon />
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="TopBar__RightSide">
@@ -222,45 +263,59 @@ const TaskView = () => {
             ></textarea>
           </div>
 
-          <div style={{marginTop: "20px"}}>
-            <ToDoPanel />
+          <div style={{ marginTop: '20px' }}>
+            <ToDoPanel uiDetails={uiDetails} />
           </div>
 
-          <div style={{marginTop:" 20px", display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+          <div
+            style={{
+              marginTop: ' 20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
             <div className="KanbanPanel__Attatchment">
-            <div style={{ fontSize: '16px' }}>Attatchments</div>
-            <div
-              style={{
-                marginLeft: '10px',
-                color: `${color}`,
-                border: `1px solid ${color}`,
-              }}
-              className="AddIcon"
-            >
-              <div style={{ fontSize: '12px' }}>Add</div>
+              <div style={{ fontSize: '16px' }}>Attatchments</div>
               <div
                 style={{
-                  marginLeft: '5px',
-                  display: 'grid',
-                  placeItems: 'center',
+                  marginLeft: '10px',
+                  color: `${color}`,
+                  border: `1px solid ${color}`,
                 }}
+                className="AddIcon"
               >
-                <ArrowIcon themeColor={color} />
+                <div style={{ fontSize: '12px' }}>Add</div>
+                <div
+                  style={{
+                    marginLeft: '5px',
+                    display: 'grid',
+                    placeItems: 'center',
+                  }}
+                >
+                  <ArrowIcon themeColor={color} />
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '5px',
+                marginRight: '25px',
+              }}
+            >
+              <div style={{ cursor: 'pointer' }}>
+                <FourLines />
+              </div>
+              <div style={{ cursor: 'pointer' }}>
+                <WindowIcon />
               </div>
             </div>
           </div>
 
-          <div style={{display: "flex", alignItems: "center", justifyContent: "center", gap: "5px", marginRight: "25px"}}>
-          <div style={{cursor: "pointer"}}>
-          <FourLines/>
-          </div>
-          <div style={{cursor: "pointer"}}>
-          <WindowIcon/>
-          </div>
-
-          </div> 
-          </div>
-          
           <div
             className={`drop-zone ${isDragOver ? 'dragover' : ''}`}
             onDragOver={handleDragOver}
@@ -273,18 +328,37 @@ const TaskView = () => {
         </div>
 
         <div className="KanbanTaskView__RightPanel">
-
-              <div className='KanbanRightPanel__Comments'>
-                {comments.map((comment) => (
-                  <div className='KanbanRightPanel__Comment'>
-                    <div style={{fontSize: "15px", fontWeight: "300", color: "#7B8388"}}>{comment.text}</div>
-                    <div style={{fontSize: "15px", fontWeight: "300", color: "#7B8388", marginRight: "5px"}}>{comment.time}</div>
-                  </div>
-                ))}
+          <div className="KanbanRightPanel__Comments">
+            {comments.map((comment) => (
+              <div className="KanbanRightPanel__Comment">
+                <div
+                  style={{
+                    fontSize: '15px',
+                    fontWeight: '300',
+                    color: '#7B8388',
+                  }}
+                >
+                  {comment.text}
+                </div>
+                <div
+                  style={{
+                    fontSize: '15px',
+                    fontWeight: '300',
+                    color: '#7B8388',
+                    marginRight: '5px',
+                  }}
+                >
+                  {comment.time}
+                </div>
               </div>
-              <div className='KanbanRightPanel__CommentInput'>
-                <input className='CommentInput__InputField' placeholder='Comment or type ‘ / ‘ for commands' />
-              </div>
+            ))}
+          </div>
+          <div className="KanbanRightPanel__CommentInput">
+            <input
+              className="CommentInput__InputField"
+              placeholder="Comment or type ‘ / ‘ for commands"
+            />
+          </div>
         </div>
       </div>
     </div>

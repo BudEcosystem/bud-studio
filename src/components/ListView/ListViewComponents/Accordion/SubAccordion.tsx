@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react';
 import HeaderSubComp from '../HeaderSubComp';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { setCurrentSelectedUI, setSelectedOption } from 'redux/slices/activestate';
+import {
+  setCurrentSelectedUI,
+  setSelectedOption,
+} from 'redux/slices/activestate';
 import TaskView from 'components/TaskView/TaskView';
-import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
+import {
+  setStatusAndindex,
+  taskViewDataChange,
+  taskViewTitleChange,
+} from 'redux/slices/list';
 
-
-const SubAccordion = ({ status, data, provided, index , title}) => {
+const SubAccordion = ({ status, data, provided, index, title }) => {
   const { workspace }: any = useSelector((state) => state);
   let { color } = workspace;
   const [expanded, setExpanded] = useState(index === 0 ? true : false);
@@ -31,10 +37,17 @@ const SubAccordion = ({ status, data, provided, index , title}) => {
       style={{
         border: selected ? '' : `0.8px solid ${color}`,
         background: selected ? `#28272C` : '#1B1C1E',
-        cursor: "pointer"
-        
+        cursor: 'pointer',
       }}
-      onDoubleClick={() => {dispatch(setCurrentSelectedUI('null')); dispatch(taskViewDataChange(data)); dispatch(taskViewTitleChange(title)); setTimeout(() => {dispatch(setCurrentSelectedUI('taskview'))}, 500)}}
+      onDoubleClick={() => {
+        dispatch(setCurrentSelectedUI('null'));
+        dispatch(taskViewDataChange(data));
+        dispatch(setStatusAndindex({ status, index }));
+        dispatch(taskViewTitleChange(title));
+        setTimeout(() => {
+          dispatch(setCurrentSelectedUI('taskview'));
+        }, 500);
+      }}
     >
       <div className="headerSubComponentContainer">
         <HeaderSubComp

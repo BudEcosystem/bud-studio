@@ -329,7 +329,11 @@ export const generateInitialListState = (): any => {
   const expandedItems = [0];
   const selectedItemIndex = 0;
   const oneTime = true;
-  const taskViewData: never[]= [];
+  const taskViewData: never[] = [];
+  const statusAndIndex = {
+    status: '',
+    index: '',
+  };
   const docTitle = '';
   const initialData = {
     panelArray,
@@ -338,7 +342,8 @@ export const generateInitialListState = (): any => {
     expandedItems,
     selectedItemIndex,
     taskViewData,
-    docTitle
+    docTitle,
+    statusAndIndex,
   };
   return initialData;
 };
@@ -367,8 +372,31 @@ export const listSlice = createSlice({
       };
       state.panelArray[action.payload.selectedItem].items.push(tempObj);
     },
+    createNewSubChildTask: (state, action: PayloadAction<any>) => {
+      const mapping = { todo: 0, inprogress: 1, inreview: 2, completed: 3 };
+      const tempObj = {
+        title: action.payload.titleInput,
+        description: '',
+        siconValue: 0,
+        checklist: {
+          checked: 0,
+          total: 1,
+        },
+        imagesData: [],
+        page: false,
+        flag: false,
+        recurring: false,
+        childs: [],
+      };
+      state.panelArray[mapping[state.statusAndIndex.status]].items[
+        state.statusAndIndex.index
+      ].childs.push(tempObj);
+    },
     taskViewDataChange: (state, action: PayloadAction<any>) => {
       state.taskViewData = action.payload;
+    },
+    setStatusAndindex: (state, action: PayloadAction<any>) => {
+      state.statusAndIndex = action.payload;
     },
     taskViewTitleChange: (state, action: PayloadAction<any>) => {
       state.docTitle = action.payload;
@@ -463,5 +491,7 @@ export const {
   setOneTime,
   taskViewDataChange,
   updateWholeListState,
+  setStatusAndindex,
+  createNewSubChildTask,
 } = listSlice.actions;
 export default listSlice.reducer;

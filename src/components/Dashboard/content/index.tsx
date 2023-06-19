@@ -161,7 +161,10 @@ function ContentView({
             uiDetails={currentSelectedUI}
           />
         )}
-        {currentSelectedUI?.includes('taskview') && <TaskView />}
+        {console.log(currentSelectedUI, 'poi')}
+        {currentSelectedUI?.includes('taskview') && (
+          <TaskView uiDetails={currentSelectedUI} />
+        )}
         <Hamburger />
       </Content>
       <OmniSearch />

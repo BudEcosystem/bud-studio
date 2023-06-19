@@ -13,10 +13,11 @@ import '../TaskView.css';
 import CircularBorder from '../../ListView/ListViewComponents/CircularBorder';
 import { useSelector, useDispatch } from 'react-redux';
 import { Arrow } from '../TaskViewIcons';
+import { createNewSubChildTask } from 'redux/slices/list';
 
 const InputComponent = () => {
-  //   const dispatch = useDispatch();
-  //   const [titleInput, setTitleInput] = useState('');
+  const dispatch = useDispatch();
+  const [titleInput, setTitleInput] = useState('');
 
   //   useEffect(() => {
   //     document.getElementById('listInput')?.focus();
@@ -25,16 +26,16 @@ const InputComponent = () => {
   //   const crossClickHandler = () => {
   //     dispatch(setNewTaskClicked(false));
   //   };
-  //   const titleInputHandler = (e: any) => {
-  //     setTitleInput(e.target.value);
-  //   };
-  //   const titleChangeHandler = (e: any) => {
-  //     if (e.key === 'Enter' && !!e.target.value) {
-  //       dispatch(createNewTask({ selectedItem, titleInput }));
-  //       crossClickHandler();
-  //       setTitleInput('');
-  //     }
-  //   };
+  const titleInputHandler = (e: any) => {
+    setTitleInput(e.target.value);
+  };
+  const titleChangeHandler = (e: any) => {
+    if (e.key === 'Enter' && !!e.target.value) {
+      dispatch(createNewSubChildTask({ titleInput }));
+      // crossClickHandler();
+      setTitleInput('');
+    }
+  };
   return (
     <div className="headerComponentInputParent">
       <div className="flex">
@@ -53,9 +54,9 @@ const InputComponent = () => {
           type="text"
           placeholder="Enter new subtask"
           // onBlur={onBlurHandler}
-          //   value={titleInput}
-          //   onKeyUp={titleChangeHandler}
-          //   onInput={titleInputHandler}
+          value={titleInput}
+          onKeyUp={titleChangeHandler}
+          onInput={titleInputHandler}
           className="workspaceTextBox"
         />
       </div>
