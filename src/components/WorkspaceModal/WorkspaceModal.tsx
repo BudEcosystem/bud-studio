@@ -184,10 +184,6 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
   const searchInputFieldRef =
     useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  const moveToHandler = () => {
-    dispatch(setIsMoveTo(true));
-  };
-
   return (
     <>
       <div className="loader" style={loaderStyle}>
@@ -436,10 +432,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                         <RightArrow />
                       </div>
                     </div>
-                    <div
-                      className="secondWorkspaceOption"
-                      onClick={moveToHandler}
-                    >
+                    <div className="secondWorkspaceOption">
                       <Move />
                       <h3
                         style={{

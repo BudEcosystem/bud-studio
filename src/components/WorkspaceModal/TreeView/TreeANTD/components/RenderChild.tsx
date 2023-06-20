@@ -27,7 +27,9 @@ import {
   setCurrentSelectedDocument,
 } from 'redux/slices/workspace';
 import {
+  setCurrentMoveToItem,
   setCurrentSelectedUI,
+  setIsMoveTo,
   setNavigationPath,
   setNodeIDs,
   setSelectedOption,
@@ -81,6 +83,17 @@ function RenderChild({
     setShowDocumentOptions(false);
   };
   const dispatch = useDispatch();
+  const { activestate }: any = useSelector((state) => state);
+  const { isMoveto } = activestate;
+  const moveToHandler = () => {
+    if (isMoveto) {
+      setTimeout(() => {
+        dispatch(setIsMoveTo(false));
+      }, 200);
+    }
+    dispatch(setIsMoveTo(true));
+    dispatch(setCurrentMoveToItem(node));
+  };
 
   const onDeleteFolderClicked = (event: any) => {
     event.preventDefault();
@@ -310,7 +323,7 @@ function RenderChild({
                 <RightArrow />
               </div>
             </div>
-            <div className="secondWorkspaceOption">
+            <div className="secondWorkspaceOption" onClick={moveToHandler}>
               <Move />
               <h3
                 style={{

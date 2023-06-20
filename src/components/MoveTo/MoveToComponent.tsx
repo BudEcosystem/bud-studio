@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './MoveTo.css';
 import {
   DownArrow,
@@ -10,18 +10,53 @@ import {
 import Directory from './Directory/Directory';
 import Spaces from './Spaces/Spaces';
 import { setIsMoveTo } from 'redux/slices/activestate';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const MoveToComponent = () => {
   const dispatch = useDispatch();
   const [isSpaceVisible, setIsSpacesVisible] = useState(false);
+  const { workspace, activestate }: any = useSelector((state) => state);
+  const { currentMoveToItem } = activestate;
+  const { color } = workspace;
+
+  const [currentWorkSpaceState, setCurrentWorkSpaceState] = useState(() => {
+    return workspace.workSpaceItems.find(
+      (item) => item.uuid === currentMoveToItem.workspaceDetails.uuid
+    );
+  });
+  console.log(workspace);
+
+  const [filteredFolders, setFilteredFolders] = useState([]);
+
+  useEffect(() => {
+    if (currentWorkSpaceState.name === 'Private') {
+      const filtered = workspace.workspaceFolders.filter(
+        (item) => item.workSPaceId === 'Private'
+      );
+      setFilteredFolders(filtered);
+    } else {
+      const filtered = workspace.workspaceFolders.filter(
+        (item) => item.workSPaceId === currentWorkSpaceState.uuid
+      );
+      setFilteredFolders(filtered);
+    }
+  }, [currentWorkSpaceState, workspace.workspaceFiles]);
+  console.log(filteredFolders, 'asdgf');
+
+  // const
+  // const otherWorkspaces = workspace.workSpaceItems.filter(
+  //   (item) => item.uuid !== currentWorkSpaceState.uuid
+  // );
+  // console.log(workspace, currentWorkSpace, otherWorkspaces);
+
   return (
     <div className="moveToContainer">
       <div className="moveToWrapper">
         <div className="movetoMainContainer">
           <p className="movetotext">Move to</p>
           <p className="movetobelowtext">
-            Move <span style={{ color: '#939AFF' }}>Human Resources</span> to:
+            Move <span style={{ color: color }}>{currentMoveToItem.title}</span>{' '}
+            to:
           </p>
           <div className="folderBox">
             <div className="internalBox">
@@ -38,7 +73,7 @@ const MoveToComponent = () => {
                   className="folderName"
                   onClick={() => setIsSpacesVisible(!isSpaceVisible)}
                 >
-                  Davinci's Men
+                  {currentWorkSpaceState.name}
                 </p>
                 <div
                   style={{
@@ -58,11 +93,18 @@ const MoveToComponent = () => {
                     zIndex: '10',
                   }}
                 >
-                  <Spaces />
+                  <Spaces
+                    setIsSpacesVisible={setIsSpacesVisible}
+                    currentWorkSpaceState={currentWorkSpaceState}
+                    setCurrentWorkSpaceState={setCurrentWorkSpaceState}
+                  />
                 </div>
               )}
 
-              <div className="moveToSearchBar">
+              <div
+                className="moveToSearchBar"
+                style={{ border: `0.5px solid $color` }}
+              >
                 <div
                   style={{
                     display: 'flex',
@@ -84,9 +126,12 @@ const MoveToComponent = () => {
               </div>
             </div>
             <div className="foldersContainer">
-              <Directory />
-              <Directory />
-              <Directory />
+              {filteredFolders.map(
+                (folder, i) =>
+                  folder.uuid !== currentMoveToItem.key && (
+                    <Directory folder={folder} />
+                  )
+              )}
             </div>
           </div>
           <div className="buttonDiv">
@@ -117,7 +162,9 @@ const MoveToComponent = () => {
               >
                 Cancel
               </div>
-              <div className="moveButton">Move</div>
+              <div className="moveButton" style={{ background: color }}>
+                Move
+              </div>
             </div>
           </div>
         </div>
