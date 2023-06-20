@@ -17,11 +17,9 @@ import ToDoPanel from './components/ToDoPanel';
 import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
 import { Modal } from 'antd';
 
-const TaskView = ({showTaskViewModal, setShowTaskViewModal}: any) => {
+const TaskView = ({data, title, showTaskViewModal, setShowTaskViewModal}: any) => {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
-  const { taskViewData } = list;
-  const { docTitle } = list;
   const [isDragOver, setIsDragOver] = useState(false);
 
   const handleDragOver = (event: any) => {
@@ -167,13 +165,13 @@ const handleOk = () => {
               <span className="tick">L</span>
               <span className="tick">L</span>
             </div>
-            <h2 className="TopBar__Title">{docTitle}</h2>
+            <h2 className="TopBar__Title">{title}</h2>
             <div className="TopBar__ProgressText">In Progress</div>
           </div>
 
-          {taskViewData.imagesData ? 
+          {data.imagesData ? 
           (<div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-          <div style={{display: "grid", placeItems: "center", marginLeft: "40px"}} className="TopBar__AvatarImages"><CircularImageComponent images={taskViewData.imagesData} /></div>
+          <div style={{display: "grid", placeItems: "center", marginLeft: "40px"}} className="TopBar__AvatarImages"><CircularImageComponent images={data.imagesData} /></div>
           <div
             style={{
               cursor: 'pointer',
@@ -194,7 +192,7 @@ const handleOk = () => {
             <DocIcon />
           </div>
           <div className="progressBar">
-            <div style={{ backgroundColor: `${color}`, width: `${taskViewData.checklist?.checked / taskViewData.checklist?.total * 100}%` }} className="progress"></div>
+            <div style={{ backgroundColor: `${color}`, width: `${data.checklist?.checked / data.checklist?.total * 100}%` }} className="progress"></div>
           </div> </div>) :
           
           (<div style={{display: "flex", alignItems: "center", placeItems: "center", marginLeft: "30px"}}>
@@ -220,9 +218,9 @@ const handleOk = () => {
 
       <div className="KanbanTaskView__Panel">
         <div className="KanbanTaskView__LeftPanel">
-          <div className="KanbanTask__Title">{taskViewData.title}</div>
+          <div className="KanbanTask__Title">{data.title}</div>
           <div className="KanbanTask__subHeading">
-            {taskViewData?.description}
+            {data?.description}
           </div>
 
           <div className="KabuniPanel__WriteContent">
@@ -233,7 +231,7 @@ const handleOk = () => {
           </div>
 
           <div style={{marginTop: "20px"}}>
-            <ToDoPanel />
+            <ToDoPanel data={data} />
           </div>
 
           <div style={{marginTop:" 20px", display: "flex", alignItems: "center", justifyContent: "space-between"}}>

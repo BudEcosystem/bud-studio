@@ -7,11 +7,10 @@ import InputComponent from './InputComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TextComponent from './TextComponent';
 
-const ToDoPanel = () => {
+const ToDoPanel = ({data}: any) => {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
-  const { taskViewData } = list;
-  const [childData, setChildData] = useState(taskViewData.childs);
+  const [childData, setChildData] = useState(data.childs);
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;

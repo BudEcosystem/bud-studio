@@ -37,8 +37,8 @@ const SubAccordion = ({ status, data, provided, index , title}) => {
       }}
       onDoubleClick={() => {dispatch(taskViewDataChange(data)); dispatch(taskViewTitleChange(title)); setShowTaskViewModal(true)}}
     >
-      {<TaskView showTaskViewModal={showTaskViewModal} setShowTaskViewModal={setShowTaskViewModal}/>}
-      
+      {<TaskView data={data} title={title} showTaskViewModal={showTaskViewModal} setShowTaskViewModal={setShowTaskViewModal}/>}
+
       <div className="headerSubComponentContainer">
         <HeaderSubComp
           index={index}
