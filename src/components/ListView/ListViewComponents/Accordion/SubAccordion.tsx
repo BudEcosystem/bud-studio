@@ -15,7 +15,6 @@ const SubAccordion = ({ status, data, provided, index , title}) => {
     Array(data.childs.length).fill(false)
   );
   const [selected, setSelected] = useState(index === 0 ? false : true);
-  const dispatch = useDispatch();
   const toggleSubAccordion = () => {
     setExpanded(!expanded);
     setSelected(!selected);
