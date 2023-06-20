@@ -241,7 +241,6 @@ const PopOverSearchKeybordCommandWrapper = styled.div`
 const PopOverSearchKeybordCommand = styled.img``;
 
 function PopOverSearch() {
-
   return (
     <PopOverWrapper>
       <PopOveSearchWrapper>
@@ -258,16 +257,25 @@ function PopOverSearch() {
   );
 }
 
-
 function Tasks(props: any) {
-  const [showKanbanTaskView, setShowKanbanTaskView] = useState(false)
+  const [showKanbanTaskView, setShowKanbanTaskView] = useState(false);
 
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
       {(provided) => {
         return (
-          <TaskContainer onClick={setShowKanbanTaskView(true)} {...provided.draggableProps} ref={provided.innerRef}>
-            {<TaskViewKanban data={props.task} showKanbanTaskView={showKanbanTaskView} setShowKanbanTaskView={setShowKanbanTaskView} />}
+          <TaskContainer
+            onClick={() => setShowKanbanTaskView(true)}
+            {...provided.draggableProps}
+            ref={provided.innerRef}
+          >
+            {
+              <TaskViewKanban
+                data={props.task}
+                showKanbanTaskView={showKanbanTaskView}
+                setShowKanbanTaskView={setShowKanbanTaskView}
+              />
+            }
             <TaskHeader>
               {' '}
               {props?.task?.heading && (
