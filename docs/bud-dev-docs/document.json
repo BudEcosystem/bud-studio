@@ -1,0 +1,48 @@
+{
+  "created_at": "",
+  "documentID": "adfg-1234-1234-1234",
+  "updated_at": "",
+  "creator": {
+    "name": "Wachowski Brothers",
+    "id": "1234-1234-1234-1234"
+  },
+  "properties": {
+    "tags": [
+      "new",
+      "hr-documents"
+    ],
+    "status": [],
+    "date": {
+      "start": "2020-01-01",
+      "end": "2020-01-01"
+    }
+  },
+  "blocks": [
+    {
+      "id": "1234-1234-1234-1234",
+      "type": "COVER",
+      "url": "Cover.jpg",
+      "block_type": "header"
+    },
+    {
+      "id": "1234-1234-1234-1234",
+      "type": "DOCUMENTICON",
+      "url": "Cover.jpg",
+      "block_type": "header"
+    },
+    {
+      "id": "1234-1234-1234-1234",
+      "type": "TITLE",
+      "data": {
+        "text": "The Matrix"
+      },
+      "block_type": "header"
+    },
+    {
+      "id": "1234-1234-1234-1234",
+      "type": "KANBAN",
+      "database_id": "1234-1234-1234-1234",
+      "block_type": "App"
+    }
+  ]
+}
