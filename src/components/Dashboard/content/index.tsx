@@ -25,7 +25,7 @@ import {
   setNavigationPath,
 } from 'redux/slices/activestate';
 import TaskView from 'components/TaskView/TaskView';
-import TaskViewKanban from 'components/TaskViewKanban/TaskViewKanban';
+import MoveToComponent from 'components/MoveTo/MoveToComponent';
 
 function ContentView({
   setCollapsed,
@@ -145,6 +145,7 @@ function ContentView({
             workspaceModal={workspaceModal}
           />
         )}
+        {activestate.isMoveto && <MoveToComponent />}
         {selectedDoc && currentSelectedUI === '' && <EditorJsWrapper />}
         {currentSelectedUI?.includes('listview') && (
           <ListView

@@ -1,0 +1,60 @@
+.spacesContainer {
+    width: 253px;
+    /* height: 226px; */
+    background: #0C0C0C;
+    border: 1px solid #1D1D1D;
+    backdrop-filter: blur(46.5px);
+    border-radius: 12px;
+    padding: 28px 16px;
+}
+
+.spaceNameContainer {
+    display: flex;
+    align-items: center;
+}
+
+.spaceColor {
+    width: 12px;
+    height: 12px;
+    background: #939AFF;
+    border-radius: 4px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.spaceText {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    color: #C6C6C6;
+
+}
+
+.spacesSearchInput {
+    background: #1b1c1e;
+    border: none;
+    outline: none;
+    width: 66%;
+    height: 34px;
+    color: white;
+    margin-left: 10px;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.spacesSearchInput::placeholder {
+    text-align: left;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    color: #7B8388;
+}
+
+.otherSpaces {
+    margin-top: 20px;
+    margin-left: 20px;
+}
