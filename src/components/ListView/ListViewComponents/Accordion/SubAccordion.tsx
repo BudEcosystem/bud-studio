@@ -35,7 +35,7 @@ const SubAccordion = ({ status, data, provided, index , title}) => {
         cursor: "pointer"
         
       }}
-      onDoubleClick={() => {dispatch(taskViewDataChange(data)); dispatch(taskViewTitleChange(title)); setShowTaskViewModal(true)}}
+      onDoubleClick={() => {setShowTaskViewModal(true)}}
     >
       {<TaskView data={data} title={title} showTaskViewModal={showTaskViewModal} setShowTaskViewModal={setShowTaskViewModal}/>}
 
