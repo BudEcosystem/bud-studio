@@ -34,6 +34,144 @@ export function SearchShortCut() {
     </svg>
   );
 }
+export function DownArrow() {
+  return (
+    <svg
+      width="9"
+      height="5"
+      viewBox="0 0 9 5"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8.125 1L4.6875 4.125L1.25 1"
+        stroke="#7B8388"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function UpArrow() {
+  return (
+    <svg
+      width="9"
+      height="5"
+      viewBox="0 0 9 5"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8.125 4.125L4.6875 1L1.25 4.125"
+        stroke="#7B8388"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function RightArrow() {
+  return (
+    <svg
+      width="6"
+      height="10"
+      viewBox="0 0 6 10"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0.999982 1L5 5.00002L0.999982 9.00004"
+        stroke="#7B8388"
+        stroke-width="1.36891"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function Drag() {
+  return (
+    <svg
+      width="9"
+      height="15"
+      viewBox="0 0 9 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="1.5"
+        cy="13.5"
+        r="1.5"
+        transform="rotate(-90 1.5 13.5)"
+        fill="#242424"
+      />
+      <circle
+        cx="1.5"
+        cy="7.5"
+        r="1.5"
+        transform="rotate(-90 1.5 7.5)"
+        fill="#242424"
+      />
+      <circle
+        cx="1.5"
+        cy="1.5"
+        r="1.5"
+        transform="rotate(-90 1.5 1.5)"
+        fill="#242424"
+      />
+      <circle
+        cx="7.5"
+        cy="13.5"
+        r="1.5"
+        transform="rotate(-90 7.5 13.5)"
+        fill="#242424"
+      />
+      <circle
+        cx="7.5"
+        cy="7.5"
+        r="1.5"
+        transform="rotate(-90 7.5 7.5)"
+        fill="#242424"
+      />
+      <circle
+        cx="7.5"
+        cy="1.5"
+        r="1.5"
+        transform="rotate(-90 7.5 1.5)"
+        fill="#242424"
+      />
+    </svg>
+  );
+}
+
+export function Folder() {
+  return (
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 12 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0.500109 1.58565L0.500026 3.22033L7.20936 3.22034L5.73531 1.38824C5.67552 1.31393 5.58529 1.27072 5.48992 1.27072H0.815057C0.641123 1.27072 0.500118 1.41171 0.500109 1.58565Z"
+        stroke="white"
+      />
+      <mask id="path-2-inside-1_2659_37790" fill="white">
+        <path d="M0 3.72034H11.1851C11.6351 3.72034 12 4.0852 12 4.53529V10.4143C12 10.8644 11.6351 11.2293 11.1851 11.2293H0.814948C0.364865 11.2293 0 10.8644 0 10.4143V3.72034Z" />
+      </mask>
+      <path
+        d="M0 3.72034H11.1851C11.6351 3.72034 12 4.0852 12 4.53529V10.4143C12 10.8644 11.6351 11.2293 11.1851 11.2293H0.814948C0.364865 11.2293 0 10.8644 0 10.4143V3.72034Z"
+        stroke="white"
+        stroke-width="2"
+        mask="url(#path-2-inside-1_2659_37790)"
+      />
+    </svg>
+  );
+}
 
 export function SearchIcon() {
   return (

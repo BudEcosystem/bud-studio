@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 
 .moveToContainer {
-    width: 100%;
-    height: 100%;
+    width: 95%;
+    height: 95%;
     position: absolute;
     display: flex;
     justify-content: center;
@@ -11,10 +11,11 @@
 
 .moveToWrapper {
     width: 600px;
-    height: 402px;
+    /* height: 402px; */
     background: #1B1C1E;
     border-radius: 14px;
     z-index: 10;
+    border: 0.8px solid #333436;
 }
 
 .movetoMainContainer {
@@ -71,6 +72,7 @@
     line-height: 100%;
     color: #FFFFFF;
     margin-right: 10px;
+    cursor: pointer;
 }
 
 .moveToSearchBar {
@@ -105,4 +107,88 @@
     font-size: 14px;
     line-height: 100%;
     color: #7B8388;
+}
+
+.buttonDiv {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.textContainer {
+    display: flex;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 24px;
+    color: #7B8388;
+    opacity: 0.75;
+    align-items: center;
+}
+
+.arrowContainer {
+    width: 20px;
+    height: 20px;
+    background: #0F0F0F;
+    mix-blend-mode: normal;
+    border: 1px solid #242424;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonContainer {
+    display: flex;
+}
+
+.cancelButton {
+    width: 100px;
+    height: 32px;
+    border: 1px solid #25272B;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    text-align: center;
+    color: #7B8388;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.moveButton {
+    width: 100px;
+    height: 32px;
+    background: #939AFF;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    text-align: center;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.foldersContainer {
+    margin-top: 20px;
+    margin-left: 15px;
+}
+
+.folderText {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    color: #FFFFFF;
+    margin-left: 8px;
 }
