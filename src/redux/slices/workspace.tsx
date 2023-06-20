@@ -1,14 +1,11 @@
 /* eslint-disable no-console */
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
-import * as dayjs from 'dayjs';
-import { useDispatch } from 'react-redux';
-import { setCurrentSelectedUI } from './activestate';
-// temp private workspace id
-const wrkUUID = uuidv4();
-export const generateInitialWorkspaceState = (): any => {
-  const initialState: any = {
+import dayjs from 'dayjs';
+import InitialState from 'interfaces/InitialState';
+
+export const generateInitialWorkspaceState = (): InitialState => {
+  const initialState: InitialState = {
     props: {},
     color: '#939AFF',
     currentWorkspace: null,
@@ -90,14 +87,7 @@ export const generateInitialWorkspaceState = (): any => {
         type: 'doc',
         uuid: '8fbac4d2-7bd0-482f-9880-c645bddd6eac5',
         workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-      },
-      {
-        name: 'Welcome To Bud',
-        childOf: '1a7aea77-2dc6-4aa2-9757-19c536vb1x133',
-        workSPaceId: 'Private',
-        type: 'doc',
-        uuid: '8fbac4d2-7bd0-482f-9880-c645b426eac5',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        properties: [],
       },
     ],
     applicationData: [],
