@@ -11,6 +11,7 @@ const generateInitialState = (): any => {
       workSpaceUUID: null,
     },
     navigationPathArray: [{}],
+    isMoveto: false,
   };
   return initialState;
 };
@@ -34,6 +35,10 @@ export const activestateSlice = createSlice({
         state.navigationPathArray?.unshift(action.payload?.name);
       }
     },
+    setIsMoveTo: (state, action: PayloadAction<any>) => {
+      console.log(action.payload, 'asdfg;lk');
+      state.isMoveto = action.payload;
+    },
   },
 });
 export const {
@@ -41,5 +46,6 @@ export const {
   setSelectedOption,
   setNodeIDs,
   setNavigationPath,
+  setIsMoveTo,
 } = activestateSlice.actions;
 export default activestateSlice.reducer;

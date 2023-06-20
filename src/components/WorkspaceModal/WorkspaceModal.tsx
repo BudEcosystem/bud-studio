@@ -29,6 +29,7 @@ import './WorkspaceModal.css';
 import { enableCreateNewTreeNode } from 'redux/slices/tree';
 import { v4 as uuidv4 } from 'uuid';
 import TreeStructure from './TreeView/TreeANTD';
+import { setIsMoveTo } from 'redux/slices/activestate';
 
 export function CreatePopupModal() {
   return <div className="createPopupModal" />;
@@ -43,7 +44,8 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
   const [isRename, setIsRename] = useState(false);
   const [newName, setNewName] = useState('');
   const dispatch = useDispatch();
-  const { workspace }: any = useSelector((state) => state);
+  const { workspace, activestate }: any = useSelector((state) => state);
+  const { isMoveto } = activestate;
   const { color, workSpaceItems } = workspace;
   const [createPopup, setCreatePopup] = useState(false);
   const [createFolderFlag, setCreateFolderFlag] = useState(false);
@@ -181,6 +183,10 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
   });
   const searchInputFieldRef =
     useRef() as React.MutableRefObject<HTMLInputElement>;
+
+  const moveToHandler = () => {
+    dispatch(setIsMoveTo(true));
+  };
 
   return (
     <>
@@ -430,7 +436,10 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                         <RightArrow />
                       </div>
                     </div>
-                    <div className="secondWorkspaceOption">
+                    <div
+                      className="secondWorkspaceOption"
+                      onClick={moveToHandler}
+                    >
                       <Move />
                       <h3
                         style={{
