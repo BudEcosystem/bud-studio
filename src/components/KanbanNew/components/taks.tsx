@@ -265,7 +265,7 @@ function Tasks(props: any) {
       {(provided) => {
         return (
           <TaskContainer
-            onClick={() => setShowKanbanTaskView(true)}
+            onDoubleClick={() => setShowKanbanTaskView(true)}
             {...provided.draggableProps}
             ref={provided.innerRef}
           >

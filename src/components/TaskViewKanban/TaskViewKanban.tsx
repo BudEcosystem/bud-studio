@@ -151,12 +151,12 @@ const TaskViewKanban = ({
     },
   ];
 
-  const handleCancell = () => {
+  const handleCancel = () => {
     setShowKanbanTaskView(false);
     console.log('CLOSE');
   };
 
-  const handleOkk = () => {
+  const handleOk = () => {
     setShowKanbanTaskView(false);
     console.log('CLOSE');
   };
@@ -165,8 +165,8 @@ const TaskViewKanban = ({
     <Modal
       className="TaskViewModal"
       open={showKanbanTaskView}
-      onOk={handleOkk}
-      onCancel={handleCancell}
+      onOk={handleOk}
+      onCancel={handleCancel}
     >
       <div className="KanbanTaskView">
         <div className="KanbanTaskView__TopBar">
