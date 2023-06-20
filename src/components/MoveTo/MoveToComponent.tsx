@@ -11,6 +11,7 @@ import Directory from './Directory/Directory';
 import Spaces from './Spaces/Spaces';
 import { setIsMoveTo } from 'redux/slices/activestate';
 import { useDispatch, useSelector } from 'react-redux';
+import { moveFolderRedux } from 'redux/slices/workspace';
 
 const MoveToComponent = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const MoveToComponent = () => {
   console.log(workspace);
 
   const [filteredFolders, setFilteredFolders] = useState([]);
+  const [selectedFolder, setSelectedFolder] = useState(null);
 
   useEffect(() => {
     if (currentWorkSpaceState.name === 'Private') {
@@ -42,6 +44,7 @@ const MoveToComponent = () => {
     }
   }, [currentWorkSpaceState, workspace.workspaceFiles]);
   console.log(filteredFolders, 'asdgf');
+  console.log(selectedFolder, 'po');
 
   // const
   // const otherWorkspaces = workspace.workSpaceItems.filter(
@@ -49,13 +52,22 @@ const MoveToComponent = () => {
   // );
   // console.log(workspace, currentWorkSpace, otherWorkspaces);
 
+  const moveHandler = () => {
+    dispatch(
+      moveFolderRedux({ dest: selectedFolder, source: currentMoveToItem })
+    );
+  };
+
   return (
     <div className="moveToContainer">
       <div className="moveToWrapper">
         <div className="movetoMainContainer">
           <p className="movetotext">Move to</p>
           <p className="movetobelowtext">
-            Move <span style={{ color: color }}>{currentMoveToItem.title}</span>{' '}
+            Move{' '}
+            <span style={{ color: currentMoveToItem.color }}>
+              {currentMoveToItem.title}
+            </span>{' '}
             to:
           </p>
           <div className="folderBox">
@@ -129,7 +141,11 @@ const MoveToComponent = () => {
               {filteredFolders.map(
                 (folder, i) =>
                   folder.uuid !== currentMoveToItem.key && (
-                    <Directory folder={folder} />
+                    <Directory
+                      folder={folder}
+                      selectedFolder={selectedFolder}
+                      setSelectedFolder={setSelectedFolder}
+                    />
                   )
               )}
             </div>
@@ -162,7 +178,11 @@ const MoveToComponent = () => {
               >
                 Cancel
               </div>
-              <div className="moveButton" style={{ background: color }}>
+              <div
+                className="moveButton"
+                style={{ background: currentMoveToItem.color }}
+                onClick={moveHandler}
+              >
                 Move
               </div>
             </div>

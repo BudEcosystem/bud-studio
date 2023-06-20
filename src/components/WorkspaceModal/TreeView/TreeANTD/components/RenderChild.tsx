@@ -86,11 +86,11 @@ function RenderChild({
   const { activestate }: any = useSelector((state) => state);
   const { isMoveto } = activestate;
   const moveToHandler = () => {
-    if (isMoveto) {
-      setTimeout(() => {
-        dispatch(setIsMoveTo(false));
-      }, 200);
-    }
+    // if (isMoveto) {
+    //   setTimeout(() => {
+    //     dispatch(setIsMoveTo(false));
+    //   }, 200);
+    // }
     dispatch(setIsMoveTo(true));
     dispatch(setCurrentMoveToItem(node));
   };

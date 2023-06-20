@@ -387,6 +387,24 @@ export const workspaceSlice = createSlice({
       });
       state.workspaceFolders = newSetOFDataProcessed;
     },
+    moveFolderRedux: (state, action: PayloadAction<any>) => {
+      console.log(action.payload, "kljl")
+      const { dest, source } = action.payload;
+      const copyOfworkSpaceFolders = [...state.workspaceFolders];
+      const proxyFilteredArray: any = [];
+      copyOfworkSpaceFolders.forEach((data: any) => {
+        proxyFilteredArray.push({ ...data });
+      });
+      const newSetOFDataProcessed = proxyFilteredArray.map((data: any) => {
+        if (data.uuid === source.key) {
+          data.childOf = dest.uuid
+          data.workSPaceId = dest.workSPaceId
+          data.workSpaceUUID = dest.workSpaceUUID
+        }
+        return data;
+      });
+      state.workspaceFolders = newSetOFDataProcessed;
+    },
     addDuplicateFolders: (state, action: PayloadAction<any>) => {
       console.log(
         'duplicateFolder - addDuplicateFolders - payload',
@@ -482,5 +500,6 @@ export const {
   addDuplicateDoc,
   addDuplicateEditorApplications,
   updateAppName,
+  moveFolderRedux
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

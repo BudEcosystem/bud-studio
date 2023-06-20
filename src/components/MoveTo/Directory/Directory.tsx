@@ -1,10 +1,11 @@
 import React from 'react';
 import { Folder, RightArrow } from '../MoveToIcons';
 
-const Directory = ({ folder }) => {
+const Directory = ({ folder, selectedFolder, setSelectedFolder }) => {
   return (
     <div
       style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}
+      onClick={() => setSelectedFolder(folder)}
     >
       <div>
         <RightArrow />
@@ -15,7 +16,12 @@ const Directory = ({ folder }) => {
         <div>
           <Folder />
         </div>
-        <div className="folderText">{folder.name}</div>
+        <div
+          className="folderText"
+          style={{ color: selectedFolder?.name === folder?.name ? 'red' : '' }}
+        >
+          {folder.name}
+        </div>
       </div>
     </div>
   );
