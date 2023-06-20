@@ -6,6 +6,8 @@ import { Popover } from 'antd';
 import { useDispatch } from 'react-redux';
 import { setCurrentSelectedUI } from 'redux/slices/activestate';
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
+import { useState } from 'react';
+import TaskViewKanban from 'components/TaskViewKanban/TaskViewKanban';
 
 const TaskContainer = styled.div`
   height: 30px;
@@ -258,16 +260,14 @@ function PopOverSearch() {
 
 
 function Tasks(props: any) {
-  const dispatch = useDispatch();
-  const handleClick = () => {
-    dispatch(setCurrentSelectedUI('null')); setTimeout(() => {dispatch(setCurrentSelectedUI('klatask'))}, 500)
-  }
+  const [showKanbanTaskView, setShowKanbanTaskView] = useState(false)
 
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
       {(provided) => {
         return (
-          <TaskContainer onClick={handleClick} {...provided.draggableProps} ref={provided.innerRef}>
+          <TaskContainer onClick={setShowKanbanTaskView(true)} {...provided.draggableProps} ref={provided.innerRef}>
+            {<TaskViewKanban data={props.task} showKanbanTaskView={showKanbanTaskView} setShowKanbanTaskView={setShowKanbanTaskView} />}
             <TaskHeader>
               {' '}
               {props?.task?.heading && (

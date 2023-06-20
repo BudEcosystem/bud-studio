@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ArrowIcon } from '../TaskViewIcons';
-import '../TaskView.css';
+import '../../TaskView/TaskView.css';
 import HeaderSubCompInput from 'components/ListView/ListViewComponents/HeaderSubCompInput';
 import InputComponent from './InputComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TextComponent from './TextComponent';
 
-const ToDoPanel = () => {
+const ToDoPanel = ({data}: any) => {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
-  const { taskViewData } = list;
-  const [childData, setChildData] = useState(taskViewData.childs);
+  const [childData, setChildData] = useState(data.childs);
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
@@ -23,7 +22,7 @@ const ToDoPanel = () => {
   return (
     <div className="KanbanPanel__todo">
       <div style={{ display: 'flex' }}>
-        <div style={{ fontSize: '16px' }}>To Do</div>
+        <div style={{ color: "white", fontSize: '16px' }}>To Do</div>
         <div
           style={{
             marginLeft: '10px',

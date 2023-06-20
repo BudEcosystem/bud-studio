@@ -9,7 +9,7 @@ import {
   DownArrow,
   FourDots,
 } from '../../ListView/ListViewIcons';
-import '../TaskView.css';
+import '../../TaskView/TaskView.css';
 import CircularBorder from '../../ListView/ListViewComponents/CircularBorder';
 import { useSelector, useDispatch } from 'react-redux';
 import { Arrow } from '../TaskViewIcons';
