@@ -15,8 +15,9 @@ import {
 } from './TaskViewIcons';
 import ToDoPanel from './components/ToDoPanel';
 import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
+import { Modal } from 'antd';
 
-const TaskView = () => {
+const TaskView = ({showTaskViewModal, setShowTaskViewModal}: any) => {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
   const { taskViewData } = list;
@@ -147,7 +148,16 @@ const TaskView = () => {
   },
 ]
 
+const handleCancel = () => {
+  setShowTaskViewModal(false);
+};
+
+const handleOk = () => {
+  setShowTaskViewModal(false);
+};
+
   return (
+    <Modal className='TaskViewModal' open={showTaskViewModal} onOk={handleOk} onCancel={handleCancel}>
     <div className="KanbanTaskView">
       <div className="KanbanTaskView__TopBar">
         <div className="TopBar__LeftSide">
@@ -197,7 +207,7 @@ const TaskView = () => {
         <div className="TopBar__RightSide">
           <div className="TopBarRight__Date">
             <div style={{ color: '#8A8B8B' }}>Created</div>
-            <div>May 9, 11:20am</div>
+            <div style={{color: "white"}}>May 9, 11:20am</div>
           </div>
           <div className="Bar"></div>
           <div className="Share">Share</div>
@@ -228,7 +238,7 @@ const TaskView = () => {
 
           <div style={{marginTop:" 20px", display: "flex", alignItems: "center", justifyContent: "space-between"}}>
             <div className="KanbanPanel__Attatchment">
-            <div style={{ fontSize: '16px' }}>Attatchments</div>
+            <div style={{ color: "white", fontSize: '16px' }}>Attatchments</div>
             <div
               style={{
                 marginLeft: '10px',
@@ -288,6 +298,7 @@ const TaskView = () => {
         </div>
       </div>
     </div>
+    </Modal>
   );
 };
 

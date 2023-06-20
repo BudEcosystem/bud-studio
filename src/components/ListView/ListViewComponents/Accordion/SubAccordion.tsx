@@ -25,6 +25,7 @@ const SubAccordion = ({ status, data, provided, index , title}) => {
     updatedExpandedChild[index] = !updatedExpandedChild[index];
     setExpandedChild(updatedExpandedChild);
   };
+  const [showTaskViewModal, setShowTaskViewModal] = useState(false);
   return (
     <div
       className={`subAccordionParent`}
@@ -34,8 +35,10 @@ const SubAccordion = ({ status, data, provided, index , title}) => {
         cursor: "pointer"
         
       }}
-      onDoubleClick={() => {dispatch(setCurrentSelectedUI('null')); dispatch(taskViewDataChange(data)); dispatch(taskViewTitleChange(title)); setTimeout(() => {dispatch(setCurrentSelectedUI('taskview'))}, 500)}}
+      onDoubleClick={() => {dispatch(taskViewDataChange(data)); dispatch(taskViewTitleChange(title)); setShowTaskViewModal(true)}}
     >
+      {<TaskView showTaskViewModal={showTaskViewModal} setShowTaskViewModal={setShowTaskViewModal}/>}
+      
       <div className="headerSubComponentContainer">
         <HeaderSubComp
           index={index}
