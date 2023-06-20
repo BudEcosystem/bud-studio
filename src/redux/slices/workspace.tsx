@@ -341,7 +341,7 @@ export const workspaceSlice = createSlice({
         docId: currentSelectedDoc,
         type,
         applicatioId: newId,
-        createdAt: dayjs.default().unix(),
+        createdAt: dayjs().unix(),
         appData: null,
         titleForDoc: 'Default Title',
       };
