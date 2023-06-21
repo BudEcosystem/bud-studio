@@ -1,11 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Spaces.css';
 import { Drag, SearchIcon, SearchShortCut } from '../MoveToIcons';
 import { OtherSpaces } from './OtherSpaces';
 import { useSelector } from 'react-redux';
-const Spaces = ({ setIsSpacesVisible,currentWorkSpaceState, setCurrentWorkSpaceState }) => {
+import Draggable from 'react-draggable';
+const Spaces = ({ setIsSpacesVisible,currentWorkSpaceState, setCurrentWorkSpaceState }: any) => {
   const { workspace }: any = useSelector((state) => state);
   const [filteredFiles, setFilteredFiles] = useState([]);
+  const spacesRef = useRef(null);
+
+
+  function useOutsideAlerter(ref: any) {
+
+    useEffect(() => {
+      function handleClickOutside(event: any) {
+        console.log(event);
+        console.log(ref);
+           if (
+          ref.current &&
+          !ref.current.contains(event.target)
+        ) {
+          setIsSpacesVisible(false)
+        }
+      }
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  useOutsideAlerter(spacesRef);
+
 
   useEffect(() => {
     const filtered = workspace.workSpaceItems.filter(
@@ -15,9 +42,24 @@ const Spaces = ({ setIsSpacesVisible,currentWorkSpaceState, setCurrentWorkSpaceS
   }, [currentWorkSpaceState, workspace.workspaceFiles]);
   console.log(filteredFiles);
   return (
-    <div className="spacesContainer">
+    <div
+        style={{
+          position: 'fixed',
+          top: '80px',
+          left: '260px',
+          height: '90%',
+          width: '85%',
+          pointerEvents: 'none',
+          zIndex: '100',
+        }}
+      >
+    <Draggable bounds="parent" handle=".handle">
+    <div className="spacesContainer" ref={spacesRef}>
       <div className="spaceNameContainer">
-        <Drag />
+        <div className='handle'>
+          <Drag />  
+        </div>
+        
         <div
           className="spaceColor"
           style={{ background: currentWorkSpaceState.color }}
@@ -59,6 +101,8 @@ const Spaces = ({ setIsSpacesVisible,currentWorkSpaceState, setCurrentWorkSpaceS
           />
         ))}
       </div>
+    </div>
+    </Draggable>
     </div>
   );
 };
