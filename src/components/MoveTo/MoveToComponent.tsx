@@ -19,8 +19,6 @@ const MoveToComponent = () => {
   const { workspace, activestate }: any = useSelector((state) => state);
   const { currentMoveToItem, copyOrMove } = activestate;
   const { color } = workspace;
-  // console.log(copyOrMove, "sfhghg")
-  // const [copyOrMoveState, setCopyOrMoveState] = useState()
 
   const [currentWorkSpaceState, setCurrentWorkSpaceState] = useState(() => {
     return workspace.workSpaceItems.find(
@@ -64,6 +62,7 @@ const MoveToComponent = () => {
         copyFolderRedux({ dest: selectedFolder, source: currentMoveToItem })
       );
     }
+    dispatch(setIsMoveTo(false));
   };
 
   return (
