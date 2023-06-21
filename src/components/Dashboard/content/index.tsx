@@ -163,7 +163,6 @@ function ContentView({
             uiDetails={currentSelectedUI}
           />
         )}
-        {currentSelectedUI?.includes('taskview') && <TaskView />}
         <Hamburger />
       </Content>
       <OmniSearch />

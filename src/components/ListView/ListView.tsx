@@ -82,7 +82,7 @@ function ListView({ contentRef, workspaceObj, uiDetails }: any) {
       />
       <div className="mainListComponentContainer">
         {/* <MainListComponent /> */}
-        <Accordion isAppMode={isAppMode} title={title}/>
+        <Accordion isAppMode={isAppMode} title={title} />
       </div>
     </>
   );

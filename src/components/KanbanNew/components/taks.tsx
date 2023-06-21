@@ -3,6 +3,12 @@
 import { styled } from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import { Popover } from 'antd';
+import { useDispatch } from 'react-redux';
+import { setCurrentSelectedUI } from 'redux/slices/activestate';
+import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
+import { useState } from 'react';
+import TaskViewKanban from 'components/TaskViewKanban/TaskViewKanban';
+
 const TaskContainer = styled.div`
   height: 30px;
   padding: 10px;
@@ -233,6 +239,7 @@ const PopOverSearchKeybordCommandWrapper = styled.div`
   padding-left: 15.59px;
 `;
 const PopOverSearchKeybordCommand = styled.img``;
+
 function PopOverSearch() {
   return (
     <PopOverWrapper>
@@ -249,12 +256,26 @@ function PopOverSearch() {
     </PopOverWrapper>
   );
 }
+
 function Tasks(props: any) {
+  const [showKanbanTaskView, setShowKanbanTaskView] = useState(false);
+
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
       {(provided) => {
         return (
-          <TaskContainer {...provided.draggableProps} ref={provided.innerRef}>
+          <TaskContainer
+            onDoubleClick={() => setShowKanbanTaskView(true)}
+            {...provided.draggableProps}
+            ref={provided.innerRef}
+          >
+            {
+              <TaskViewKanban
+                data={props.task}
+                showKanbanTaskView={showKanbanTaskView}
+                setShowKanbanTaskView={setShowKanbanTaskView}
+              />
+            }
             <TaskHeader>
               {' '}
               {props?.task?.heading && (
