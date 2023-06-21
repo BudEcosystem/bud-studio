@@ -104,7 +104,7 @@
   /* background-color: var(--primary-bgc-2); */
   border-radius: 6px;
   padding: 0 7px;
-  color: #7B8388;
+  color: #7b8388;
 }
 
 .controls-box-right-box {
@@ -230,9 +230,11 @@
   top: 0 !important;
   bottom: 0 !important;
   left: 0 !important;
-  background: linear-gradient(90deg,
-      rgba(144, 104, 253, 0.2) 10%,
-      rgba(144, 104, 253, 0) 100%) !important;
+  background: linear-gradient(
+    90deg,
+    rgba(144, 104, 253, 0.2) 10%,
+    rgba(144, 104, 253, 0) 100%
+  ) !important;
   width: 0% !important;
   transition: all 0.5s !important;
 }
@@ -247,9 +249,11 @@
   top: 0 !important;
   bottom: 0 !important;
   left: 0 !important;
-  background: linear-gradient(90deg,
-      rgba(144, 104, 253, 0.2) 0%,
-      rgba(144, 104, 253, 0) 90%) !important;
+  background: linear-gradient(
+    90deg,
+    rgba(144, 104, 253, 0.2) 0%,
+    rgba(144, 104, 253, 0) 90%
+  ) !important;
   border-left: 3px solid transparent !important;
   border-left-color: var(--bud-primary-color) !important;
   width: 100% !important;
@@ -280,16 +284,14 @@
   }
 }
 
-
 .main-sidebar-menu-ws-box {
   display: flex;
   flex-direction: column;
   max-height: 350px;
   overflow: scroll;
-  animation: fadeIn .5s;
+  animation: fadeIn 0.5s;
   overflow-x: hidden;
   scroll-behavior: smooth;
-
 }
 
 ::-webkit-scrollbar {
@@ -311,8 +313,6 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-
-
 
 .sidebar-work-spaces {
   background: #060507;
@@ -354,18 +354,22 @@
   top: 0 !important;
   bottom: 0 !important;
   left: 0 !important;
-  background: linear-gradient(90deg,
-      var(--menuHoverColorOnLeave) 10%,
-      rgba(144, 104, 253, 0) 100%) !important;
+  background: linear-gradient(
+    90deg,
+    var(--menuHoverColorOnLeave) 10%,
+    rgba(144, 104, 253, 0) 100%
+  ) !important;
   width: 0% !important;
   transition: all 0.5s !important;
 }
 
 .sidebar-workspaces-items:hover::before {
   width: 100% !important;
-  background: linear-gradient(90deg,
-      var(--menuHoverColor) 10%,
-      rgba(144, 104, 253, 0) 100%) !important;
+  background: linear-gradient(
+    90deg,
+    var(--menuHoverColor) 10%,
+    rgba(144, 104, 253, 0) 100%
+  ) !important;
   opacity: 0.2;
   /* background-color: red; */
 }
@@ -376,9 +380,11 @@
   top: 0 !important;
   bottom: 0 !important;
   left: 0 !important;
-  background: linear-gradient(90deg,
-      var(--menuColor) 0%,
-      rgba(144, 104, 253, 0) 90%) !important;
+  background: linear-gradient(
+    90deg,
+    var(--menuColor) 0%,
+    rgba(144, 104, 253, 0) 90%
+  ) !important;
   opacity: 0.2;
   border-left: 3px solid transparent !important;
   border-left-color: var(--menuColor) !important;
@@ -413,9 +419,11 @@
   /* bottom: -80%; */
   z-index: 2;
   border-radius: 5px;
-  background: linear-gradient(100deg,
-      rgba(144, 104, 253, 0.2) 100%,
-      rgba(144, 104, 253, 0) 100%) !important;
+  background: linear-gradient(
+    100deg,
+    rgba(144, 104, 253, 0.2) 100%,
+    rgba(144, 104, 253, 0) 100%
+  ) !important;
 }
 
 .workspace-add input {
@@ -560,21 +568,20 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
   margin-left: 24px;
   margin-top: 20px;
 }
 
-.pointBox{
+.pointBox {
   width: 23px;
-height: 22.8px;
-display: flex;
+  height: 22.8px;
+  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-background: #212023;
-border-radius: 6px;
-
+  background: #212023;
+  border-radius: 6px;
 }
 
 /* [contenteditable] {padding:12px; background:#eee; } */
