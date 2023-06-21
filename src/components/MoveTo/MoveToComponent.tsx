@@ -11,14 +11,16 @@ import Directory from './Directory/Directory';
 import Spaces from './Spaces/Spaces';
 import { setIsMoveTo } from 'redux/slices/activestate';
 import { useDispatch, useSelector } from 'react-redux';
-import { moveFolderRedux } from 'redux/slices/workspace';
+import { copyFolderRedux, moveFolderRedux } from 'redux/slices/workspace';
 
 const MoveToComponent = () => {
   const dispatch = useDispatch();
   const [isSpaceVisible, setIsSpacesVisible] = useState(false);
   const { workspace, activestate }: any = useSelector((state) => state);
-  const { currentMoveToItem } = activestate;
+  const { currentMoveToItem, copyOrMove } = activestate;
   const { color } = workspace;
+  // console.log(copyOrMove, "sfhghg")
+  // const [copyOrMoveState, setCopyOrMoveState] = useState()
 
   const [currentWorkSpaceState, setCurrentWorkSpaceState] = useState(() => {
     return workspace.workSpaceItems.find(
@@ -52,19 +54,27 @@ const MoveToComponent = () => {
   // );
   // console.log(workspace, currentWorkSpace, otherWorkspaces);
 
-  const moveHandler = () => {
-    dispatch(
-      moveFolderRedux({ dest: selectedFolder, source: currentMoveToItem })
-    );
+  const copyOrMoveHandler = () => {
+    if (copyOrMove === 'move') {
+      dispatch(
+        moveFolderRedux({ dest: selectedFolder, source: currentMoveToItem })
+      );
+    } else if (copyOrMove === 'copy') {
+      dispatch(
+        copyFolderRedux({ dest: selectedFolder, source: currentMoveToItem })
+      );
+    }
   };
 
   return (
     <div className="moveToContainer">
       <div className="moveToWrapper">
         <div className="movetoMainContainer">
-          <p className="movetotext">Move to</p>
+          <p className="movetotext">
+            {copyOrMove === 'copy' ? 'Copy to' : 'Move to'}
+          </p>
           <p className="movetobelowtext">
-            Move{' '}
+            {copyOrMove === 'copy' ? 'Copy' : 'Move'}{' '}
             <span style={{ color: currentMoveToItem.color }}>
               {currentMoveToItem.title}
             </span>{' '}
@@ -181,9 +191,9 @@ const MoveToComponent = () => {
               <div
                 className="moveButton"
                 style={{ background: currentMoveToItem.color }}
-                onClick={moveHandler}
+                onClick={copyOrMoveHandler}
               >
-                Move
+                {copyOrMove === 'copy' ? 'Copy' : 'Move'}
               </div>
             </div>
           </div>

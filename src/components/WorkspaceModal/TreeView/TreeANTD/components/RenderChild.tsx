@@ -27,6 +27,7 @@ import {
   setCurrentSelectedDocument,
 } from 'redux/slices/workspace';
 import {
+  setCopyOrMove,
   setCurrentMoveToItem,
   setCurrentSelectedUI,
   setIsMoveTo,
@@ -91,6 +92,13 @@ function RenderChild({
     //     dispatch(setIsMoveTo(false));
     //   }, 200);
     // }
+    dispatch(setCopyOrMove('move'))
+    dispatch(setIsMoveTo(true));
+    dispatch(setCurrentMoveToItem(node));
+  };
+
+  const copyHandler = () => {
+    dispatch(setCopyOrMove('copy'))
     dispatch(setIsMoveTo(true));
     dispatch(setCurrentMoveToItem(node));
   };
@@ -307,7 +315,7 @@ function RenderChild({
                 <RightArrow />
               </div>
             </div>
-            <div className="secondWorkspaceOption">
+            <div className="secondWorkspaceOption" onClick={copyHandler}>
               <Copy />
               <h3
                 style={{
