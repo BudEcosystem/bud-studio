@@ -1,0 +1,90 @@
+
+
+.EditorOptionsBlock {
+  width: 260px;
+  height: 270px;
+  background: #28272C;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.85);
+  border-radius: 12px;
+  margin-right: 200px;
+  padding: 5px;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.1s ease;
+  position: absolute;
+  z-index: 100;
+}
+
+.show {
+  opacity: 1;
+  transition: all 0.2s ease;
+  transform: scale(1);
+  /* animation: animation 0.5s ease forwards; */
+}
+
+.editorOptionDiv::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.editorOptionDiv {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  max-height: 215px;
+  overflow-y: scroll;
+}
+
+
+/* .EditorOptionComponent:hover {
+  background-color: #1F1E22;
+  border-radius: 12px;
+  transition: all 0.2s ease-in-out;
+} */
+
+.EditorOptionComponent {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transform: translateY(10px);
+  transition: all 0.4s ease-in-out;
+}
+
+.EditorOptionComponent:hover .optionIcon {
+  border-color: var(--bg-color);
+}
+
+.optionIcon {
+  border: 0.5px dashed #747474;
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  margin-left: 5px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  background-color: #28272C;
+}
+
+.hoverMovement {
+  position: absolute;
+  right: 0;
+  left: 0;
+  background: #1F1E22;
+  height: 45px;
+  transition: transform .2s ease;
+  transform: translateY(9px);
+  z-index: -1;
+  border-radius: 12px;
+}
+
+.editorOptionDiv {
+  position: relative;
+  height: 300px;
+}
+
+.EditorOptionComponent {
+  z-index: 2;
+}
