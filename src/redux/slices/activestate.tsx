@@ -12,6 +12,8 @@ const generateInitialState = (): any => {
     },
     navigationPathArray: [{}],
     isMoveto: false,
+    currentMoveToItem: {},
+    copyOrMove: ''
   };
   return initialState;
 };
@@ -36,8 +38,15 @@ export const activestateSlice = createSlice({
       }
     },
     setIsMoveTo: (state, action: PayloadAction<any>) => {
-      console.log(action.payload, 'asdfg;lk');
       state.isMoveto = action.payload;
+    },
+    setCurrentMoveToItem: (state, action: PayloadAction<any>) => {
+      // console.log(action.payload, 'asdfg;lk');
+      state.currentMoveToItem = action.payload;
+    },
+    setCopyOrMove: (state, action: PayloadAction<any>) => {
+      console.log(action.payload, 'asdfg;lk');
+      state.copyOrMove = action.payload;
     },
   },
 });
@@ -47,5 +56,7 @@ export const {
   setNodeIDs,
   setNavigationPath,
   setIsMoveTo,
+  setCurrentMoveToItem,
+  setCopyOrMove
 } = activestateSlice.actions;
 export default activestateSlice.reducer;

@@ -438,7 +438,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                     </div>
                     <div
                       className="secondWorkspaceOption"
-                      onClick={moveToHandler}
+                      
                     >
                       <Move />
                       <h3
