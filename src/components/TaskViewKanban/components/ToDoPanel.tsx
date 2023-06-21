@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ArrowIcon } from '../TaskViewIcons';
-import '../TaskView.css';
+import '../../TaskView/TaskView.css';
 import HeaderSubCompInput from 'components/ListView/ListViewComponents/HeaderSubCompInput';
 import InputComponent from './InputComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
