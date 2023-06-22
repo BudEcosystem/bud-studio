@@ -53,13 +53,13 @@ const DEFAULT_INITIAL_DATA = () => {
 
 const EDITTOR_HOLDER_ID = 'editorjs';
 
-function EditorWrapper () {
+function EditorWrapper() {
   const ejInstance = useRef();
   const [editorData, setEditorData] = useState(null);
   const [coverUrl, setCoverUrl] = useState(bgImage);
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
   const [iconUrl, setIconUrl] = useState(iconImage);
-  const [iconAvailable, setIconAvailable] = useState(true)
+  const [iconAvailable, setIconAvailable] = useState(true);
   const [showEditorOptionsBlock, setShowEditorOptionsBlock] = useState(false);
   const { tree, workspace }: any = useSelector((state) => state);
   const {
@@ -495,29 +495,29 @@ function EditorWrapper () {
   };
 
   const removeSlash = (blockIndex: any) => {
-      if (blockIndex >= 0) {
-        async function removeSlashFromText(blockIndex: any) {
-          try {
-            const savedData = await ejInstance?.current?.save();
-            const currentData = savedData.blocks;
-            if (blockIndex >= 0 && blockIndex < currentData.length) {
-              const targetBlock = currentData[blockIndex];
-              // targetBlock.data.text += ` ${hyperlink}`;
-              console.log("TARGET BLOCK TEXT IS", targetBlock.data.text)
-              const modifiedText = targetBlock.data.text.slice(0, -1);
-              targetBlock.data.text = modifiedText
-              ejInstance?.current?.render({ blocks: currentData });
-              setTimeout(() => {
-                checkForMentions()
-              }, 100)
-            }
-          } catch (error) {
-            console.error('Error occurred while appending text:', error);
+    if (blockIndex >= 0) {
+      async function removeSlashFromText(blockIndex: any) {
+        try {
+          const savedData = await ejInstance?.current?.save();
+          const currentData = savedData.blocks;
+          if (blockIndex >= 0 && blockIndex < currentData.length) {
+            const targetBlock = currentData[blockIndex];
+            // targetBlock.data.text += ` ${hyperlink}`;
+            console.log('TARGET BLOCK TEXT IS', targetBlock.data.text);
+            const modifiedText = targetBlock.data.text.slice(0, -1);
+            targetBlock.data.text = modifiedText;
+            ejInstance?.current?.render({ blocks: currentData });
+            setTimeout(() => {
+              checkForMentions();
+            }, 100);
           }
+        } catch (error) {
+          console.error('Error occurred while appending text:', error);
         }
-        removeSlashFromText(blockIndex);
       }
+      removeSlashFromText(blockIndex);
     }
+  };
 
   const style = { '--bg-color': color };
 
@@ -540,7 +540,15 @@ function EditorWrapper () {
     return (
       <div
         style={style}
-        onClick={(e) => {if(opt!="database" && opt!="document"){setShowEditorOptionsBlock(false)} removeSlash(blockIndex); setTimeout(() => {insertBlock(opt, title, id);}, 100)}}
+        onClick={(e) => {
+          if (opt != 'database' && opt != 'document') {
+            setShowEditorOptionsBlock(false);
+          }
+          removeSlash(blockIndex);
+          setTimeout(() => {
+            insertBlock(opt, title, id);
+          }, 100);
+        }}
         className="EditorOptionComponent"
         onMouseEnter={onItemsMouseEnter}
       >
@@ -766,7 +774,7 @@ function EditorWrapper () {
             style={{
               position: 'relative',
               left: '81%',
-              marginTop: "15px",
+              marginTop: '15px',
               display: 'flex',
               width: '150px',
               alignItems: 'center',
@@ -892,10 +900,13 @@ function EditorWrapper () {
             width: 'fit-content',
             color: '#333539',
             cursor: 'pointer',
-            marginBottom: "20px"
+            marginBottom: '20px',
           }}
         >
-          <div onClick={(e) => setIconAvailable(true)} style={{ marginRight: '10px' }}>
+          <div
+            onClick={(e) => setIconAvailable(true)}
+            style={{ marginRight: '10px' }}
+          >
             <AddIcon />
           </div>
           Add Icon
@@ -948,7 +959,7 @@ function EditorWrapper () {
               onClick={() => setShowFirstOptions(true)}
             >
               <BackButton />
-              <span style={{marginLeft: "5px"}}>Go Back</span>
+              <span style={{ marginLeft: '5px' }}>Go Back</span>
             </div>
           )}
 
