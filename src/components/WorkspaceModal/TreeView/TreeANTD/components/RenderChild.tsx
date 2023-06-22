@@ -87,6 +87,7 @@ function RenderChild({
   const { activestate }: any = useSelector((state) => state);
   const { isMoveto } = activestate;
   const moveToHandler = () => {
+    setShowDocumentOptions(false)
     // if (isMoveto) {
     //   setTimeout(() => {
     //     dispatch(setIsMoveTo(false));
@@ -98,12 +99,14 @@ function RenderChild({
   };
 
   const copyHandler = () => {
+    setShowDocumentOptions(false)
     dispatch(setCopyOrMove('copy'))
     dispatch(setIsMoveTo(true));
     dispatch(setCurrentMoveToItem(node));
   };
 
   const onDeleteFolderClicked = (event: any) => {
+    setShowDocumentOptions(false)
     event.preventDefault();
     dispatch(deleteFolder({ id: node.key }));
   };
@@ -128,6 +131,7 @@ function RenderChild({
     return current;
   };
   const onRenameClicked = (e: any) => {
+    setShowDocumentOptions(false)
     setCurrentNode({ ...node, folderUpdateInput: true });
   };
   const checkForChilds = (id: any) => {
@@ -216,6 +220,7 @@ function RenderChild({
   };
   const onDuplicateFolderClicked = (e: any) => {
     e.stopPropagation();
+    setShowDocumentOptions(false)
     setPopOverVisible(false);
     const folderCopy: any = [];
     const docCopy: any = [];
@@ -598,7 +603,6 @@ function RenderChild({
             onClick={plusButtonClicked}
             style={{
               position: 'absolute',
-              zIndex: '9999',
               width: '26px',
               height: '26px',
               display: 'flex',
