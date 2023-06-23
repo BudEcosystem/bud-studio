@@ -48,22 +48,6 @@ export function MyLexicalPlugin({ data = null }) {
     );
     editor.setEditorState(initialEditorState);
   }, [editor, data]);
-
-  // editor.setEditorState(data);
-
-  // console.log('Editor', editor.isEditable());
-
-  // editor.update((root) => {
-  //   console.log('Root', root);
-  // });
-
-  // useEffect(() => {
-  //   //editor.setEditorState(data);
-
-  //   const root = $getRoot();
-
-  //   console.log('Empty State', root.isEmpty());
-  // },[editor]);
 }
 
 export default function BudEditor({ data }): JSX.Element {
