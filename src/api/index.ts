@@ -1,4 +1,4 @@
-export const imageGeneration = () => {
+export const imageGeneration = async () => {
     const apiURL = 'http://216.48.187.144:5555/gateway/panorama?model=stable_diffusion_mega_v1_5';
     const prompt = 'welcome to bud';
     const height = 512;
@@ -8,15 +8,14 @@ export const imageGeneration = () => {
     const urlWithParams = `${apiURL}?model=stable_diffusion_mega_v1_5&prompt=${encodeURIComponent(prompt)}&height=${height}&width=${width}`;
 
     // Fetch data from the API
-    fetch(urlWithParams)
-      .then(response => response.json())
-      .then(data => {
-        // Update the state with the received output
-        console.log("API DATA", data)
-      })
-      .catch(error => {
-        console.error('Error fetching API DATA data:', error);
-      });
+    try {
+      const response = await fetch(urlWithParams);
+      const jsonData = await response.json();
+      return jsonData;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
 }
 
 export const jsonResult = {

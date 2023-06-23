@@ -15,17 +15,17 @@ import {
 import './Editor.css'
 
 const EditorHeader = ({coverImg, iconImg}: any) => {
-  const [coverUrl, setCoverUrl] = useState(coverImg);
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
-  const [iconUrl, setIconUrl] = useState(iconImg);
   const [iconAvailable, setIconAvailable] = useState(true)
+
+  console.log("COVER IMAGE", coverImg)
 
   return (
     <div className='editor'>
         {coverUrlAvailable ? (
         <div
           style={{
-            backgroundImage: `url(${coverUrl})`,
+            backgroundImage: `url(${coverImg})`,
           }}
           className="editorCover"
         >
@@ -110,7 +110,7 @@ const EditorHeader = ({coverImg, iconImg}: any) => {
             }}
           >
             <div className="editorIcon">
-              <img src={iconUrl} />
+              <img src={iconImg} />
             </div>
           </div>
         ) : (
@@ -126,7 +126,7 @@ const EditorHeader = ({coverImg, iconImg}: any) => {
             }}
           >
             <div className="editorIcon">
-              <img src={iconUrl} />
+              <img src={iconImg} />
             </div>
           </div>
         )

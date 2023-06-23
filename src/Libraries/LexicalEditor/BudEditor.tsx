@@ -100,18 +100,26 @@ export default function BudEditor({ data }): JSX.Element {
     }
   };
 
-  var imageSRC = jsonResult.output[0]
-  console.log("IMAGE OUTPUT", jsonResult.output[0])
-  const imageSource = `data:image/jpeg;base64,${imageSRC}`;
+  const [coverImgAPI, setCoverImageAPI] = useState('')
 
   useEffect(() => {
-    imageGeneration();
-    console.log("API CALED")
-  }, [])
+    fetchApiData();
+  }, []);
 
-  // useEffect(() => {
+  const fetchApiData = async () => {
+      const apiData  = await imageGeneration();
+      console.log("API DATA", apiData)
+      if(!apiData) {
+        const imageSource = `data:image/jpeg;base64,${jsonResult.output[0]}`;
+        setCoverImageAPI(imageSource)
+      }
+      else {
+        const imageSource = `data:image/jpeg;base64,${apiData.output[0]}`;
+        setCoverImageAPI(imageSource)
+      }
+    
+  };
 
-  // });
 
   function onChange(editorState) {
     // editorStateRef.current = editorState;
@@ -126,7 +134,7 @@ export default function BudEditor({ data }): JSX.Element {
 
   return (
     <div>
-      <EditorHeader coverImg={imageSource} iconImg={iconImage} />
+      <EditorHeader coverImg={coverImgAPI} iconImg={iconImage} />
       <LexicalComposer initialConfig={initialConfig}>
       <div className="editor-container">
         <RichTextPlugin
