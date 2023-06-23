@@ -18,6 +18,8 @@ import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 import { TRANSFORMERS } from '@lexical/markdown';
+import bgImage from '../../components/EditorHeader/images/bgImage.png';
+import iconImage from '../../components/EditorHeader/images/iconImage.png';
 
 import './styles.css';
 
@@ -26,6 +28,7 @@ import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
 import TextFormatFloatingToolbar from './plugins/FloatingTextFormatToolbarPlugin';
 import TreeViewPlugin from './plugins/TreeViewPlugin';
 import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
+import EditorHeader from 'components/EditorHeader';
 
 const theme = {};
 
@@ -96,7 +99,9 @@ export default function BudEditor({ data }): JSX.Element {
   }
 
   return (
-    <LexicalComposer initialConfig={initialConfig}>
+    <div>
+      <EditorHeader coverImg={bgImage} iconImg={iconImage} />
+      <LexicalComposer initialConfig={initialConfig}>
       <div className="editor-container">
         <RichTextPlugin
           contentEditable={
@@ -127,5 +132,6 @@ export default function BudEditor({ data }): JSX.Element {
         {/* <TreeViewPlugin /> */}
       </div>
     </LexicalComposer>
+    </div> 
   );
 }
