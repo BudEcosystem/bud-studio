@@ -29,6 +29,7 @@ import TextFormatFloatingToolbar from './plugins/FloatingTextFormatToolbarPlugin
 import TreeViewPlugin from './plugins/TreeViewPlugin';
 import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
 import EditorHeader from 'components/EditorHeader';
+import { imageGeneration, jsonResult } from 'api';
 
 const theme = {};
 
@@ -99,6 +100,15 @@ export default function BudEditor({ data }): JSX.Element {
     }
   };
 
+  var imageSRC = jsonResult.output[0]
+  console.log("IMAGE OUTPUT", jsonResult.output[0])
+  const imageSource = `data:image/jpeg;base64,${imageSRC}`;
+
+  useEffect(() => {
+    imageGeneration();
+    console.log("API CALED")
+  }, [])
+
   // useEffect(() => {
 
   // });
@@ -116,7 +126,7 @@ export default function BudEditor({ data }): JSX.Element {
 
   return (
     <div>
-      <EditorHeader coverImg={bgImage} iconImg={iconImage} />
+      <EditorHeader coverImg={imageSource} iconImg={iconImage} />
       <LexicalComposer initialConfig={initialConfig}>
       <div className="editor-container">
         <RichTextPlugin

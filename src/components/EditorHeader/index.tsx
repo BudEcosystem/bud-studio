@@ -112,15 +112,6 @@ const EditorHeader = ({coverImg, iconImg}: any) => {
             <div className="editorIcon">
               <img src={iconUrl} />
             </div>
-            <div
-              style={{
-                fontSize: '23px',
-                fontWeight: '400',
-                height: 'fit-content',
-              }}
-            >
-              File Name
-            </div>
           </div>
         ) : (
           <div
@@ -136,15 +127,6 @@ const EditorHeader = ({coverImg, iconImg}: any) => {
           >
             <div className="editorIcon">
               <img src={iconUrl} />
-            </div>
-            <div
-              style={{
-                fontSize: '25px',
-                fontWeight: '400',
-                height: 'fit-content',
-              }}
-            >
-              File Name
             </div>
           </div>
         )
