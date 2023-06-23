@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -37,6 +38,8 @@ import * as ReactDOM from 'react-dom';
 import catTypingGif from '../../images/cat-typing.gif';
 import useModal from '../../hooks/useModal';
 
+import ActionMenu from '../../../../components/ActionMenu';
+
 // import { EmbedConfigs } from '../AutoEmbedPlugin';
 // import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin';
 // import { InsertEquationDialog } from '../EquationsPlugin';
@@ -58,6 +61,9 @@ class ComponentPickerOption extends MenuOption {
   // TBD
   keyboardShortcut?: string;
 
+  // Description
+  description?: string;
+
   // What happens when you select this option?
   onSelect: (queryString: string) => void;
 
@@ -68,6 +74,7 @@ class ComponentPickerOption extends MenuOption {
       keywords?: Array<string>;
       keyboardShortcut?: string;
       onSelect: (queryString: string) => void;
+      description?: string;
     }
   ) {
     super(title);
@@ -76,6 +83,7 @@ class ComponentPickerOption extends MenuOption {
     this.icon = options.icon;
     this.keyboardShortcut = options.keyboardShortcut;
     this.onSelect = options.onSelect.bind(this);
+    this.description = options.description;
   }
 }
 
@@ -110,6 +118,7 @@ function ComponentPickerMenuItem({
     >
       {option.icon}
       <span className="text">{option.title}</span>
+
     </li>
   );
 }
@@ -175,6 +184,7 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
       new ComponentPickerOption('Paragraph', {
         icon: <i className="icon paragraph" />,
         keywords: ['normal', 'paragraph', 'p', 'text'],
+        description: 'Write your words in paragraph.',
         onSelect: () =>
           editor.update(() => {
             const selection = $getSelection();
@@ -337,6 +347,8 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
       // ),
     ];
 
+
+
     const dynamicOptions = getDynamicOptions();
 
     return queryString
@@ -375,6 +387,7 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
   return (
     <>
       {modal}
+      {/* <ActionMenu /> */}
       <LexicalTypeaheadMenuPlugin<ComponentPickerOption>
         onQueryChange={setQueryString}
         onSelectOption={onSelectOption}

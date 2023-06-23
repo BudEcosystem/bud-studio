@@ -9,7 +9,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
     props: {},
     color: '#939AFF',
     currentWorkspace: null,
-    currentSelectedDocId: null,
+    currentSelectedDocId: null, // Current Document
     currentSelectedItem: {
       workSpace: null,
       doc: null,
@@ -17,68 +17,13 @@ export const generateInitialWorkspaceState = (): InitialState => {
     workSpaceItems: [
       {
         name: 'Private',
-        color: '#343434',
+        color: '#939AFF',
         id: 'wsp-1',
         uuid: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
         childs: [],
       },
     ],
-    workspaceFolders: [
-      {
-        name: 'Welcome Aprent',
-        key: 'welcome',
-        workSPaceId: 'Private',
-        type: 'folder',
-        uuid: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        childOf: null,
-      },
-      {
-        name: 'Welcome1',
-        key: 'welcome1',
-        workSPaceId: 'Private',
-        type: 'folder',
-        uuid: uuidv4(),
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        childOf: null,
-      },
-      {
-        name: 'child',
-        key: 'tested',
-        workSPaceId: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        type: 'folder',
-        uuid: '1a7aea77-2dc6-4aa2-9757-19c536e1f133',
-        childOf: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
-      },
-      {
-        name: 'child-test',
-        key: 'tested',
-        workSPaceId: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        type: 'folder',
-        uuid: '1a7aea77-2dc6-4aa2-9757-19c536vb1f133',
-        childOf: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
-      },
-      {
-        name: 'Welcome',
-        key: 'welcome',
-        workSPaceId: 'Private',
-        type: 'folder',
-        uuid: 'b25bcec6-6ed7-47f5-9b9d-1673da80c860',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        childOf: null,
-      },
-      {
-        name: 'child-test-3',
-        key: 'tested',
-        workSPaceId: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        type: 'folder',
-        uuid: '1a7aea77-2dc6-4aa2-9757-19c536vb1x133',
-        childOf: '1a7aea77-2dc6-4aa2-9757-19c536vb1f133',
-      },
-    ],
+    workspaceFolders: [],
     workSpaceDocs: [
       {
         name: 'Welcome To Bud',
@@ -89,8 +34,130 @@ export const generateInitialWorkspaceState = (): InitialState => {
         workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
         properties: [],
       },
+      {
+        name: 'Welcome To Bud 2',
+        childOf: null,
+        workSPaceId: 'Private',
+        type: 'doc',
+        uuid: '39b08a3d-12f1-4651-90f7-328952849dca',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        properties: [],
+      },
     ],
-    applicationData: [],
+    applicationData: {
+      '8fbac4d2-7bd0-482f-9880-c645bddd6eac5': {
+        root: {
+          children: [
+            {
+              children: [
+                {
+                  detail: 0,
+                  format: 0,
+                  mode: 'normal',
+                  style: '',
+                  text: 'Welcome to Bud',
+                  type: 'text',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              format: '',
+              indent: 0,
+              type: 'heading',
+              version: 1,
+              tag: 'h1',
+            },
+            {
+              children: [],
+              direction: null,
+              format: '',
+              indent: 0,
+              type: 'paragraph',
+              version: 1,
+            },
+            {
+              children: [
+                {
+                  detail: 0,
+                  format: 0,
+                  mode: 'normal',
+                  style: '',
+                  text: 'Start Building your eco system here!!!',
+                  type: 'text',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              format: '',
+              indent: 0,
+              type: 'paragraph',
+              version: 1,
+            },
+          ],
+          direction: 'ltr',
+          format: '',
+          indent: 0,
+          type: 'root',
+          version: 1,
+        },
+      },
+      '39b08a3d-12f1-4651-90f7-328952849dca': {
+        root: {
+          children: [
+            {
+              children: [
+                {
+                  detail: 0,
+                  format: 0,
+                  mode: 'normal',
+                  style: '',
+                  text: 'Welcome To Bud 2',
+                  type: 'text',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              format: '',
+              indent: 0,
+              type: 'heading',
+              version: 1,
+              tag: 'h1',
+            },
+            {
+              children: [],
+              direction: null,
+              format: '',
+              indent: 0,
+              type: 'paragraph',
+              version: 1,
+            },
+            {
+              children: [
+                {
+                  detail: 0,
+                  format: 0,
+                  mode: 'normal',
+                  style: '',
+                  text: 'Yup Its Working!!!',
+                  type: 'text',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              format: '',
+              indent: 0,
+              type: 'paragraph',
+              version: 1,
+            },
+          ],
+          direction: 'ltr',
+          format: '',
+          indent: 0,
+          type: 'root',
+          version: 1,
+        },
+      },
+    },
     editorInitialised: false,
     editorApplicationsAdded: [],
   };
@@ -189,7 +256,50 @@ export const workspaceSlice = createSlice({
       };
       copyDocStructure.push(newObject);
       state.workSpaceDocs = copyDocStructure;
-      // }
+
+      // Create ApplicationData
+      const copyApp: any = state.applicationData;
+
+      copyApp[newObject.uuid] = {
+        root: {
+          children: [
+            {
+              children: [
+                {
+                  detail: 0,
+                  format: 0,
+                  mode: 'normal',
+                  style: '',
+                  text: newObject.name,
+                  type: 'text',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              format: '',
+              indent: 0,
+              type: 'heading',
+              version: 1,
+              tag: 'h1',
+            },
+            {
+              children: [],
+              direction: null,
+              format: '',
+              indent: 0,
+              type: 'paragraph',
+              version: 1,
+            },
+          ],
+          direction: 'ltr',
+          format: '',
+          indent: 0,
+          type: 'root',
+          version: 1,
+        },
+      };
+
+      state.applicationData = copyApp;
     },
     createSubChild: (state, action: PayloadAction<any>) => {
       const { name: passedName, type, parentDetails } = action.payload;

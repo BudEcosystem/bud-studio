@@ -252,8 +252,16 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     // setActiveClassNameColor(foundIndex);
     // setActiveClassName(foundIndex)
   }, [workspace]);
+
+  // Open Flyout Menu
   const handlerColor = (menuColor: any, menuName: any, i: any) => {
     try {
+      console.log('Handle Menu cClick');
+
+      console.log(menuColor);
+      console.log(i);
+      console.log(menuName);
+
       setActiveClassNameColor(i);
       setActiveClassName('-1');
       setSpaceColor(menuColor);
@@ -793,7 +801,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
           </div>
         </div>
       </Sider>
-      <ContentView
+      {/* <ContentView
         isCollapsed={isCollapsed}
         setCollapsed={setCollapsed}
         workspaceName={workspaceName}
@@ -809,7 +817,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
           <Route path="/kanban" element={<KanbanUI />} />
           <Route path="/kanban2" element={<KanbanMain />} />
         </Routes>
-      </ContentView>
+      </ContentView> */}
     </>
   );
 }

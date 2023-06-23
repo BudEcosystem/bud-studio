@@ -29,38 +29,49 @@ import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
 
 const theme = {};
 
-function onChange(editorState) {
-  editorState.read(() => {
-    // Read the contents of the EditorState here.
-    const root = $getRoot();
-    const selection = $getSelection();
-
-    console.log(root, selection);
-
-    console.log('State', editorState.toJSON());
-  });
-}
-
-function MyCustomAutoFocusPlugin() {
-  const [editor] = useLexicalComposerContext();
-
-  useEffect(() => {
-    // Focus the editor when the effect fires!
-    editor.focus();
-  }, [editor]);
-
-  return null;
-}
-
 function onError(error) {
   console.error(error);
 }
 
-export default function BudEditor(): JSX.Element {
+// Effect
+const emptyEditor =
+  '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
+export function MyLexicalPlugin({ data = null }) {
+  const [editor] = useLexicalComposerContext();
+
+  useEffect(() => {
+    // defines whether the editor is on edit or read mode
+    if (data === null) return;
+
+    const initialEditorState = editor.parseEditorState(
+      data === '' ? emptyEditor : data
+    );
+    editor.setEditorState(initialEditorState);
+  }, [editor, data]);
+
+  // editor.setEditorState(data);
+
+  // console.log('Editor', editor.isEditable());
+
+  // editor.update((root) => {
+  //   console.log('Root', root);
+  // });
+
+  // useEffect(() => {
+  //   //editor.setEditorState(data);
+
+  //   const root = $getRoot();
+
+  //   console.log('Empty State', root.isEmpty());
+  // },[editor]);
+}
+
+export default function BudEditor({ data }): JSX.Element {
   const initialConfig = {
     namespace: 'bud-editor',
     theme,
     onError,
+    editorState: JSON.stringify(data),
     nodes: [
       HeadingNode,
       ListNode,
@@ -84,6 +95,21 @@ export default function BudEditor(): JSX.Element {
       setFloatingAnchorElem(_floatingAnchorElem);
     }
   };
+
+  // useEffect(() => {
+
+  // });
+
+  function onChange(editorState) {
+    // editorStateRef.current = editorState;
+    // editorState.read(() => {
+    //   // Read the contents of the EditorState here.
+    //   // const root = $getRoot();
+    //   // const selection = $getSelection();
+    //   // console.log(root, selection);
+    //   // console.log('State', JSON.stringify(editorState.toJSON()));
+    // });
+  }
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
@@ -112,7 +138,7 @@ export default function BudEditor(): JSX.Element {
         <ComponentPickerPlugin />
         <ListPlugin />
         <LinkPlugin />
-
+        <MyLexicalPlugin data={data} />
         <TextFormatFloatingToolbar />
         {/* <TreeViewPlugin /> */}
       </div>

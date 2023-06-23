@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-plusplus */
 /* eslint-disable react/jsx-props-no-spreading */
@@ -7,17 +8,11 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-alert */
 import { Tree } from 'antd';
-import type { DataNode } from 'antd/es/tree';
-import {
-  FileFilled,
-  FolderFilled,
-  PlusOutlined,
-  DownOutlined,
-} from '@ant-design/icons';
+
+import { FileFilled, FolderFilled, DownOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useRef, useState } from 'react';
-import { DocIcon } from 'components/WorkspaceModal/WorkspaceIcons';
-import { Folder } from '../Tree/TreeSvgIcons';
+
 import './index.css';
 import { createDoc, createFolder } from 'redux/slices/workspace';
 import RenderChild from './components/RenderChild';
@@ -141,15 +136,13 @@ function TreeStructure({
     document.getElementById('newTreeDocInput')?.focus();
   }, [createFolderFlag, createDocFlag]);
   const callbackFunctionForModTree = (treeData: any) => {
-    // let oldTreeStateObject = treeDataProcessed;
     setTreeData(treeData);
   };
 
   function addChildObject(obj: any, targetKey: any, newObject: any) {
-    console.log('sdcjbdjcbdcbh', obj, targetKey, newObject);
     if (obj.key === targetKey) {
       const copyOfChildrenArray = obj.children || [];
-      // obj.children.push(newObject);
+
       const filteredArray = copyOfChildrenArray.filter((data: any) => {
         const idArray = newObject.map((objectData: any) => objectData.key);
         return idArray.includes(data.key);
@@ -170,15 +163,12 @@ function TreeStructure({
     }
   }
   const nodeSelected = (node: any) => {
-    console.log('hahahahahahahahahahahahahahah', node);
     return new Promise((resolve) => {
       const { workSpaceDocs, workspaceFolders } = workspace;
       const WorkSpaceTreeData: any = [];
 
       const updatedPath = [...navigationPath, node?.title];
       setNavigationPath(updatedPath);
-
-      console.log(updatedPath, 'sadfads', node);
 
       const selectedFolder = workspaceFolders.filter((folderData: any) => {
         return folderData?.uuid === node?.key;
@@ -231,7 +221,6 @@ function TreeStructure({
   };
 
   const onNodeExpand = (key: any) => {
-    console.log(key);
     setExpandedKeys(key);
   };
 
@@ -266,19 +255,7 @@ function TreeStructure({
     }
     // addChildObject(copyOftreeDataProcessed, target.key, arrayToPush);
     const copyOfTreeData = arrayToPush.concat(copyOftreeDataProcessed);
-    console.log('copyOftreeDataProcessed', copyOfTreeData);
-    // function findLevels(objects: any, level = 0) {
-    //   objects &&
-    //     objects.forEach((obj: any) => {
-    //       obj.level = level;
-    //       if (obj?.children?.length > 0) {
-    //         findLevels(obj.children, level + 1);
-    //       }
-    //     });
-    // }
-    // console.log('copyOfTreeData', copyOfTreeData);
-    // findLevels(copyOftreeDataProcessed);
-    // setTreeData([]);
+
     setTimeout(() => {
       setTreeData(copyOfTreeData);
     }, 100);
@@ -291,8 +268,6 @@ function TreeStructure({
         onClick={() => nodeSelected(node)}
         style={{
           marginLeft: `${level ? level * 30 : 0}px`,
-          // background: 'red',
-          // pointerEvents: 'none',
         }}
       >
         <RenderChild
@@ -307,7 +282,6 @@ function TreeStructure({
           workspaceDetails={workspaceDetails}
           setShowDocumentOptions={setShowDocumentOptions}
           color={color}
-          // nodeSelected={nodeSelected}
         />
       </div>
     );
@@ -320,6 +294,7 @@ function TreeStructure({
     return sampleObjectProps;
   };
   const propsGenerated: any = conditionalProps();
+
   const onSearchInput = (value: string) => {
     if (value.length === 0) {
       initData();

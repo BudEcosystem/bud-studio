@@ -12,7 +12,7 @@ interface InitialState {
   workSpaceItems: WorkSpaceItem[];
   workspaceFolders: WorkspaceFolder[];
   workSpaceDocs: WorkSpaceDoc[];
-  applicationData: any[]; // Replace 'any' with the appropriate type for applicationData
+  applicationData: {}; // Replace 'any' with the appropriate type for applicationData
   editorInitialised: boolean;
   editorApplicationsAdded: string[];
 }
