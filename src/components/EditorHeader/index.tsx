@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
 import {
-    AddCover,
-    AddIcon,
-    TextIcon,
-    ListIcon,
-    Plus,
-    TableIcon,
-    CheckListIcon,
-    HeadingIcon,
-    ParagraphIcon,
-    FileIcon,
-    BackButton,
-  } from './EditorIcons';
-import './Editor.css'
+  AddCover,
+  AddIcon,
+  TextIcon,
+  ListIcon,
+  Plus,
+  TableIcon,
+  CheckListIcon,
+  HeadingIcon,
+  ParagraphIcon,
+  FileIcon,
+  BackButton,
+} from './EditorIcons';
+import './Editor.css';
 
-const EditorHeader = ({coverImg, iconImg}: any) => {
+const EditorHeader = ({ coverImg, iconImg }: any) => {
   const [coverUrl, setCoverUrl] = useState(coverImg);
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
   const [iconUrl, setIconUrl] = useState(iconImg);
-  const [iconAvailable, setIconAvailable] = useState(true)
+  const [iconAvailable, setIconAvailable] = useState(true);
 
   return (
-    <div className='editor'>
-        {coverUrlAvailable ? (
+    <div className="editor">
+      {coverUrlAvailable ? (
         <div
           style={{
             backgroundImage: `url(${coverUrl})`,
@@ -33,7 +33,7 @@ const EditorHeader = ({coverImg, iconImg}: any) => {
             style={{
               position: 'relative',
               left: '81%',
-              marginTop: "15px",
+              marginTop: '15px',
               display: 'flex',
               width: '150px',
               alignItems: 'center',
@@ -104,15 +104,14 @@ const EditorHeader = ({coverImg, iconImg}: any) => {
               position: 'relative',
               bottom: '30px',
               display: 'flex',
-              width: '700px',
+              width: '889px',
               alignItems: 'end',
-              marginRight: '125px',
             }}
           >
             <div className="editorIcon">
               <img src={iconUrl} />
             </div>
-            <div
+            {/* <div
               style={{
                 fontSize: '23px',
                 fontWeight: '400',
@@ -120,7 +119,7 @@ const EditorHeader = ({coverImg, iconImg}: any) => {
               }}
             >
               File Name
-            </div>
+            </div> */}
           </div>
         ) : (
           <div
@@ -159,17 +158,20 @@ const EditorHeader = ({coverImg, iconImg}: any) => {
             width: 'fit-content',
             color: '#333539',
             cursor: 'pointer',
-            marginBottom: "20px"
+            marginBottom: '20px',
           }}
         >
-          <div onClick={(e) => setIconAvailable(true)} style={{ marginRight: '10px' }}>
+          <div
+            onClick={(e) => setIconAvailable(true)}
+            style={{ marginRight: '10px' }}
+          >
             <AddIcon />
           </div>
           Add Icon
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default EditorHeader
+export default EditorHeader;

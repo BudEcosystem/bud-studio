@@ -30,133 +30,92 @@ export const generateInitialWorkspaceState = (): InitialState => {
         childOf: null,
         workSPaceId: 'Private',
         type: 'doc',
-        uuid: '8fbac4d2-7bd0-482f-9880-c645bddd6eac5',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        properties: [],
-      },
-      {
-        name: 'Welcome To Bud 2',
-        childOf: null,
-        workSPaceId: 'Private',
-        type: 'doc',
         uuid: '39b08a3d-12f1-4651-90f7-328952849dca',
         workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
         properties: [],
       },
     ],
     applicationData: {
-      '8fbac4d2-7bd0-482f-9880-c645bddd6eac5': {
-        root: {
-          children: [
-            {
-              children: [
-                {
-                  detail: 0,
-                  format: 0,
-                  mode: 'normal',
-                  style: '',
-                  text: 'Welcome to Bud',
-                  type: 'text',
-                  version: 1,
-                },
-              ],
-              direction: 'ltr',
-              format: '',
-              indent: 0,
-              type: 'heading',
-              version: 1,
-              tag: 'h1',
-            },
-            {
-              children: [],
-              direction: null,
-              format: '',
-              indent: 0,
-              type: 'paragraph',
-              version: 1,
-            },
-            {
-              children: [
-                {
-                  detail: 0,
-                  format: 0,
-                  mode: 'normal',
-                  style: '',
-                  text: 'Start Building your eco system here!!!',
-                  type: 'text',
-                  version: 1,
-                },
-              ],
-              direction: 'ltr',
-              format: '',
-              indent: 0,
-              type: 'paragraph',
-              version: 1,
-            },
-          ],
-          direction: 'ltr',
-          format: '',
-          indent: 0,
-          type: 'root',
-          version: 1,
+      '39b08a3d-12f1-4651-90f7-328952849dca': [
+        {
+          root: {
+            children: [
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'How to evolve into a super human with your',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'digital mind place',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [],
+                direction: null,
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'Philosophy, life, misc',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            type: 'root',
+            version: 1,
+          },
         },
-      },
-      '39b08a3d-12f1-4651-90f7-328952849dca': {
-        root: {
-          children: [
-            {
-              children: [
-                {
-                  detail: 0,
-                  format: 0,
-                  mode: 'normal',
-                  style: '',
-                  text: 'Welcome To Bud 2',
-                  type: 'text',
-                  version: 1,
-                },
-              ],
-              direction: 'ltr',
-              format: '',
-              indent: 0,
-              type: 'heading',
-              version: 1,
-              tag: 'h1',
-            },
-            {
-              children: [],
-              direction: null,
-              format: '',
-              indent: 0,
-              type: 'paragraph',
-              version: 1,
-            },
-            {
-              children: [
-                {
-                  detail: 0,
-                  format: 0,
-                  mode: 'normal',
-                  style: '',
-                  text: 'Yup Its Working!!!',
-                  type: 'text',
-                  version: 1,
-                },
-              ],
-              direction: 'ltr',
-              format: '',
-              indent: 0,
-              type: 'paragraph',
-              version: 1,
-            },
-          ],
-          direction: 'ltr',
-          format: '',
-          indent: 0,
-          type: 'root',
-          version: 1,
+        {
+          type: 'Database',
         },
-      },
+      ],
     },
     editorInitialised: false,
     editorApplicationsAdded: [],
@@ -370,6 +329,28 @@ export const workspaceSlice = createSlice({
       state.currentSelectedDocId = docUUID;
       state.currentWorkspace = workSpaceUUID;
       state.editorInitialised = false;
+    },
+    updateDocumentData: (state, action: PayloadAction<any>) => {
+      const { editorState, currentPage, currentDocumentUUID } = action.payload;
+
+      const copyOfApplicationData = state.applicationData;
+
+      console.log(JSON.stringify(editorState));
+
+      copyOfApplicationData[currentDocumentUUID][currentPage] = JSON.parse(
+        JSON.stringify(editorState)
+      );
+
+      state.applicationData = copyOfApplicationData;
+
+      // copyOfApplicationData.forEach(element => {
+      //   console
+      // });
+
+      // console.log(
+      //   'Application Status',
+      //   copyOfApplicationData
+      // );
     },
     setApplicationData: (state, action: PayloadAction<any>) => {
       const { workSpaceId, docId, editorObject } = action.payload;
@@ -592,5 +573,6 @@ export const {
   addDuplicateDoc,
   addDuplicateEditorApplications,
   updateAppName,
+  updateDocumentData,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

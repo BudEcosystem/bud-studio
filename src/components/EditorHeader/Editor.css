@@ -12,10 +12,11 @@
 }
 
 .editorCover {
-  width: 889px;
+  width: 989px;
   min-height: 149px;
   background-blend-mode: color, normal, normal, normal;
   border-radius: 8px;
+  background-size: cover;
 }
 
 .editorIcon {

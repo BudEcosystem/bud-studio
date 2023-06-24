@@ -134,12 +134,7 @@
   background-color: rgb(31, 31, 31);
 }
 
-.editorCover {
-  width: 889px;
-  min-height: 149px;
-  background-blend-mode: color, normal, normal, normal;
-  border-radius: 8px;
-}
+
 
 .editorIcon {
   width: 72px;
