@@ -1,0 +1,75 @@
+.GroupByModal {
+    width: 214px;
+    height: 248px;
+    background: #0c0c0c;
+    border: 1px solid #1d1d1d;
+    border-radius: 14px;
+    padding: 15px;
+    position: absolute;
+    left: 75%;
+    top: 25%;
+    z-index: 15;
+  }
+  
+  .GroupByOptions {
+    height: auto;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .GroupByOption {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    color: white;
+    align-items: center;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 3px;
+    margin-left: 10px;
+  }
+
+  .GroupBySearchBar {
+    width: 100%;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    background: #1b1c1e;
+    mix-blend-mode: normal;
+    border: 1px solid #1d1d1d;
+    border-radius: 10px;
+  }
+
+  .GroupBySearchInput {
+    background: #1b1c1e;
+    border: none;
+    outline: none;
+    width: 60%;
+    height: auto;
+    color: white;
+    margin-left: 10px;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .GroupBySearchInput::placeholder{
+    text-align: left;
+  }
+
+  .GroupByLine {
+    height: 1px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #242424;
+    margin-top: 10px;
+  }
+
+  .GroupByAdd {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
