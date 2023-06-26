@@ -38,8 +38,8 @@ const NewTaskPanel = ({ view }: any) => {
   const { workspace }: any = useSelector((state) => state);
   const [name, setName] = useState('');
   let { color } = workspace;
-  const [showThreeDotsOption, setShowThreeDotsOption] = useState(false)
-  const [showGroupBy, setShowGroupBy] = useState(false)
+  const [showThreeDotsOption, setShowThreeDotsOption] = useState(false);
+  const [showGroupBy, setShowGroupBy] = useState(false);
 
   const newTaskHandler = () => {
     if (view === 'list') {
@@ -55,14 +55,19 @@ const NewTaskPanel = ({ view }: any) => {
   };
 
   const handleOptionClick = (name: any) => {
-    if(name=='Group by') {
-      setShowGroupBy(!showGroupBy)
+    if (name == 'Group by') {
+      setShowGroupBy(!showGroupBy);
     }
-  }
+  };
   return (
     <div className="flexCenter">
       {nameAndLogoArray.map((item, i) => (
-        <div onClick={() => {handleOptionClick(item.name)}} className="flexCenter newTaskPanelItems">
+        <div
+          onClick={() => {
+            handleOptionClick(item.name);
+          }}
+          className="flexCenter newTaskPanelItems"
+        >
           {item.logo}
           <p className="itemName">{item.name}</p>
           {i === nameAndLogoArray.length - 1 ? undefined : (
@@ -78,11 +83,14 @@ const NewTaskPanel = ({ view }: any) => {
           New {view === 'list' ? 'list' : view === 'table' ? 'Row' : 'task'}
         </div>
       </div>
-      <div onClick={() => setShowThreeDotsOption(!showThreeDotsOption)} className="threeDots flexCenter">
+      <div
+        onClick={() => setShowThreeDotsOption(!showThreeDotsOption)}
+        className="threeDots flexCenter"
+      >
         <ThreeDots />
       </div>
       {showThreeDotsOption && <ThreeDotsOption />}
-      {showGroupBy && <GroupByModal/>}
+      {showGroupBy && <GroupByModal />}
     </div>
   );
 };

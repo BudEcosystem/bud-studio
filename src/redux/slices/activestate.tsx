@@ -14,6 +14,8 @@ const generateInitialState = (): any => {
     isMoveto: false,
     currentMoveToItem: {},
     copyOrMove: '',
+    groupBy: false,
+    groupByOption: '',
   };
   return initialState;
 };
@@ -47,12 +49,18 @@ export const activestateSlice = createSlice({
       state.isMoveto = action.payload;
     },
     setCurrentMoveToItem: (state, action: PayloadAction<any>) => {
-      // console.log(action.payload, 'asdfg;lk');
       state.currentMoveToItem = action.payload;
     },
     setCopyOrMove: (state, action: PayloadAction<any>) => {
-      console.log(action.payload, 'asdfg;lk');
       state.copyOrMove = action.payload;
+    },
+    setGroupBy: (state, action: PayloadAction<any>) => {
+      console.log(action.payload, 'asdfg;lk');
+      state.groupBy = action.payload;
+    },
+    setGroupByOption: (state, action: PayloadAction<any>) => {
+      console.log(action.payload, 'asdfg;lk');
+      state.groupByOption = action.payload;
     },
   },
 });
@@ -65,5 +73,7 @@ export const {
   setCurrentMoveToItem,
   setCopyOrMove,
   updateNavigationPath,
+  setGroupBy,
+  setGroupByOption,
 } = activestateSlice.actions;
 export default activestateSlice.reducer;
