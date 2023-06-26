@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './GroupByModal.css';
 import {
   Rename,
@@ -12,9 +12,36 @@ import {
 import { setGroupBy, setGroupByOption } from 'redux/slices/activestate';
 import { useDispatch } from 'react-redux';
 
-const GroupByModal = () => {
+const GroupByModal = ({setShowGroupBy}: any) => {
+  const dispatch = useDispatch();
+  const wrapperRef = useRef(null);
+
+  const { } = useOutsideAlerter(
+    wrapperRef
+  );
+
+  function useOutsideAlerter(ref: any) {
+
+    useEffect(() => {
+      function handleClickOutside(event: any) {
+         if (
+          ref.current &&
+          !ref.current.contains(event.target)
+        ) {
+          setShowGroupBy(false);
+        }
+      }
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [ref]);
+
+    return { };
+  }
   return (
-    <div className="GroupByModal">
+    <div className="GroupByModal" ref={wrapperRef}>
       <div className="GroupBySearchBar">
         <div
           style={{

@@ -1,11 +1,38 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './ThreeDotsOption.css'
 import { RightArrow, Plus, Rename, Duplicate, Move, CopyLink, Archive, Delete } from './ThreeDotsOptionIcons';
 
 const ThreeDotsOption = ({setShowThreeDotsOption}: any) => {
+    const wrapperRef = useRef(null);
+
+    const { } = useOutsideAlerter(
+        wrapperRef
+      );
+    
+      function useOutsideAlerter(ref: any) {
+    
+        useEffect(() => {
+          function handleClickOutside(event: any) {
+             if (
+              ref.current &&
+              !ref.current.contains(event.target)
+            ) {
+              setShowThreeDotsOption(false);
+            }
+          }
+    
+          document.addEventListener('mousedown', handleClickOutside);
+          return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+          };
+        }, [ref]);
+    
+        return { };
+      }
+
   return (
     <div>
-        <div className="threeDotsOptionsModal">
+        <div className="threeDotsOptionsModal" ref={wrapperRef}>
 
           <div className="threeDotsOptions">
             <div style={{ marginBottom: '20px' }}>
