@@ -209,6 +209,7 @@
 
 .newTaskPanelItems {
     /* margin-left: 14px; */
+    cursor: pointer;
 }
 
 .itemName {
@@ -258,6 +259,9 @@
 
 .threeDots {
     margin-left: 25px;
+    cursor: pointer;
+    width: 10px;
+    height: 15px;
 }
 
 .curveContainer {
