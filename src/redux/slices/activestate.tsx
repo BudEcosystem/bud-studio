@@ -36,7 +36,6 @@ export const activestateSlice = createSlice({
       }
     },
     setIsMoveTo: (state, action: PayloadAction<any>) => {
-      console.log(action.payload, 'asdfg;lk');
       state.isMoveto = action.payload;
     },
   },

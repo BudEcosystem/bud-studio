@@ -10,7 +10,6 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
-import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
 import { ListItemNode, ListNode } from '@lexical/list';
 import { CodeHighlightNode, CodeNode } from '@lexical/code';
 import { AutoLinkNode, LinkNode } from '@lexical/link';
@@ -18,8 +17,17 @@ import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 import { TRANSFORMERS } from '@lexical/markdown';
-import bgImage from '../../components/EditorHeader/images/bgImage.png';
-import iconImage from '../../components/EditorHeader/images/iconImage.png';
+
+// Table
+import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
+import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
+import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
+
+// Table Cell
+import TableCellActionMenuPlugin from './plugins/TableActionMenuPlugin';
+import TableCellResizer from './plugins/TableCellResizer';
+import TableOfContentsPlugin from './plugins/TableOfContentsPlugin';
+import { TablePlugin as NewTablePlugin } from './plugins/TablePlugin';
 
 import './styles.css';
 
@@ -52,25 +60,9 @@ export function MyLexicalPlugin({ data = null }) {
     );
     editor.setEditorState(initialEditorState);
   }, [editor, data]);
-
-  // editor.setEditorState(data);
-
-  // console.log('Editor', editor.isEditable());
-
-  // editor.update((root) => {
-  //   console.log('Root', root);
-  // });
-
-  // useEffect(() => {
-  //   //editor.setEditorState(data);
-
-  //   const root = $getRoot();
-
-  //   console.log('Empty State', root.isEmpty());
-  // },[editor]);
 }
 
-export default function BudEditor({ data }): JSX.Element {
+export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
   const initialConfig = {
     namespace: 'bud-editor',
     theme,
@@ -123,13 +115,17 @@ export default function BudEditor({ data }): JSX.Element {
 
   function onChange(editorState) {
     // editorStateRef.current = editorState;
-    // editorState.read(() => {
-    //   // Read the contents of the EditorState here.
-    //   // const root = $getRoot();
-    //   // const selection = $getSelection();
-    //   // console.log(root, selection);
-    //   // console.log('State', JSON.stringify(editorState.toJSON()));
-    // });
+    editorState.read(() => {
+      // const root = $getRoot();
+      // console.log('Updated Content', JSON.stringify(editorState));
+      persistEditorRoot(editorState);
+
+      //   // Read the contents of the EditorState here.
+      //   // const root = $getRoot();
+      //   // const selection = $getSelection();
+      //   // console.log(root, selection);
+      //   // console.log('State', JSON.stringify(editorState.toJSON()));
+    });
   }
 
   return (
@@ -140,7 +136,7 @@ export default function BudEditor({ data }): JSX.Element {
         <RichTextPlugin
           contentEditable={
             <div className="editor-scroller">
-              <div className="editor" ref={onRef}>
+              <div className="editor-innter" ref={onRef}>
                 <ContentEditable className="contentEditable" />
               </div>
             </div>
@@ -166,6 +162,5 @@ export default function BudEditor({ data }): JSX.Element {
         {/* <TreeViewPlugin /> */}
       </div>
     </LexicalComposer>
-    </div> 
   );
 }

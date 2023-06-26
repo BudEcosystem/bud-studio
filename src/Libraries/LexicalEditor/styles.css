@@ -1,6 +1,7 @@
 .editor-container {
-  width: 80%;
+  width: 889px;
   margin: auto;
+  min-width: 889px;
 
   h1 {
     color: #ffffff;
@@ -10,8 +11,14 @@
     font-size: 26px;
   }
 
-  p:before {
+  p {
     content: '';
+    color: #BCBCBC;
+    font-size: 14px;
+    font-family: Noto Sans;
+    font-weight: 500;
+    line-height: 175%;
+    letter-spacing: -0.28px;
   }
 }
 

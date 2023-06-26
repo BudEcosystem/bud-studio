@@ -8,13 +8,20 @@
  */
 import React, { useEffect, useState } from 'react';
 import { Layout } from 'antd';
-import { useSelector } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useSelector, useDispatch } from 'react-redux';
 
 import HeaderComp from 'components/Dashboard/header';
 import Launcher from 'components/Launcher/Launcher';
 import OmniSearch from 'components/OmniSearch/OmniSearch';
 import WorkspaceModal from 'components/WorkspaceModal/WorkspaceModal';
 import BudEditor from 'Libraries/LexicalEditor/BudEditor';
+import Hamburger from 'components/Hamburger/Hamburger';
+import EditorHeader from 'components/EditorHeader';
+
+import bgImage from 'components/EditorHeader/images/bgImage.png';
+import iconImage from 'components/EditorHeader/images/iconImage.png';
+import { updateDocumentData } from 'redux/slices/workspace';
 import classes from './workspace.module.css';
 
 interface WorkspaceProps {
@@ -35,11 +42,12 @@ export default function Workspace({
   // Get the workspace state from redux
   const { workspace }: any = useSelector((state) => state);
   // Flyout Menu
-  const [showFloutMenu, setShowFloutMenu] = useState(true);
+  const [showFlyoutMenu, setShowFlyoutMenu] = useState(true);
   const [currentDocument, setCurrentDocument] = useState(null);
+  const [currentDocumentID, setCurrentDocumentID] = useState(null);
 
   // Utils
-  const getDocumentByID = (id) => {
+  const getDocumentByID = (id: string) => {
     const doc = workspace.workSpaceDocs.filter((item) => item.uuid === id);
     return doc[0];
   };
@@ -48,14 +56,14 @@ export default function Workspace({
   useEffect(() => {
     console.log('workspace', workspace);
 
-    if (workspace.currentSelectedDocId) {
-      // console.log('Active Document', workspace.workSpaceDocs[0]);
-      // console.log('Active Data ID', workspace.workSpaceDocs[0].uuid);
-      // console.log(
-      //   'Active Data',
-      //   workspace.applicationData[workspace.workSpaceDocs[0].uuid]
-      // );
+    if (workspace.currentSelectedDocId === currentDocumentID) {
+      return;
+    }
 
+    if (workspace.currentSelectedDocId) {
+      if (currentDocumentID === null) {
+        setCurrentDocumentID(workspace.currentSelectedDocId);
+      }
       const docId = getDocumentByID(workspace.currentSelectedDocId);
       const document = workspace.applicationData[docId.uuid];
       setCurrentDocument(document);
@@ -71,7 +79,7 @@ export default function Workspace({
       <Launcher />
 
       {/* Workspace Nvigation */}
-      {showFloutMenu && (
+      {showFlyoutMenu && (
         <WorkspaceModal
           idx={0}
           workspaceModal
@@ -87,21 +95,81 @@ export default function Workspace({
 
       {/* Content Area */}
       <Layout.Content className={classes['site-layout-content']}>
-        {currentDocument && <WorkspaceEditor data={currentDocument} />}
+        {currentDocument && (
+          <WorkspaceEditor
+            data={currentDocument}
+            setCurrentDocument={setCurrentDocument}
+            currentDocumentUUID={workspace.currentSelectedDocId}
+          />
+        )}
       </Layout.Content>
     </Layout>
   );
 }
 
 // Workspace Editor Component
-function WorkspaceEditor({ data }): JSX.Element {
-  useEffect(() => {
-    console.log('Data Updated', data);
-  }, [data]);
+function WorkspaceEditor({
+  data,
+  setCurrentDocument,
+  currentDocumentUUID,
+}): JSX.Element {
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const dispatch = useDispatch();
+
+  const persistEditorRoot = (editorState) => {
+    console.log('persistEditorRoot', editorState);
+    console.log('Current Document Raw', data);
+
+    // const tempDoc = data;
+
+    // setCurrentDocument
+
+    dispatch(
+      updateDocumentData({
+        editorState,
+        currentPage,
+        currentDocumentUUID,
+      })
+    );
+
+    // Persist the editor state to redux
+  };
 
   return (
     <div>
-      <BudEditor data={data} />
+      {data && (
+        <>
+          <section>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentPage || 'empty'}
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -10, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {data[currentPage].type === undefined ? (
+                  <>
+                    <EditorHeader coverImg={bgImage} iconImg={iconImage} />
+                    <BudEditor
+                      data={data[currentPage]}
+                      persistEditorRoot={persistEditorRoot}
+                    />
+                  </>
+                ) : (
+                  <> Document </>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </section>
+          <Hamburger
+            documentData={data}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </>
+      )}
     </div>
   );
 }
