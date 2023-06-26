@@ -16,6 +16,7 @@ const generateInitialState = (): any => {
     copyOrMove: '',
     groupBy: false,
     groupByOption: '',
+    displayToggle: true,
   };
   return initialState;
 };
@@ -55,12 +56,13 @@ export const activestateSlice = createSlice({
       state.copyOrMove = action.payload;
     },
     setGroupBy: (state, action: PayloadAction<any>) => {
-      console.log(action.payload, 'asdfg;lk');
       state.groupBy = action.payload;
     },
     setGroupByOption: (state, action: PayloadAction<any>) => {
-      console.log(action.payload, 'asdfg;lk');
       state.groupByOption = action.payload;
+    },
+    setDisplayToggle: (state, action: PayloadAction<any>) => {
+      state.displayToggle = action.payload;
     },
   },
 });
@@ -75,5 +77,6 @@ export const {
   updateNavigationPath,
   setGroupBy,
   setGroupByOption,
+  setDisplayToggle,
 } = activestateSlice.actions;
 export default activestateSlice.reducer;

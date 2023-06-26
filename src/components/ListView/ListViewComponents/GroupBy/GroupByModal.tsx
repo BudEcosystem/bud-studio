@@ -9,25 +9,23 @@ import {
   Shortcut,
   Plus,
 } from './GroupByModalIcons';
-import { setGroupBy, setGroupByOption } from 'redux/slices/activestate';
+import {
+  setDisplayToggle,
+  setGroupBy,
+  setGroupByOption,
+} from 'redux/slices/activestate';
 import { useDispatch } from 'react-redux';
 
-const GroupByModal = ({setShowGroupBy}: any) => {
+const GroupByModal = ({ setShowGroupBy }: any) => {
   const dispatch = useDispatch();
   const wrapperRef = useRef(null);
 
-  const { } = useOutsideAlerter(
-    wrapperRef
-  );
+  const {} = useOutsideAlerter(wrapperRef);
 
   function useOutsideAlerter(ref: any) {
-
     useEffect(() => {
       function handleClickOutside(event: any) {
-         if (
-          ref.current &&
-          !ref.current.contains(event.target)
-        ) {
+        if (ref.current && !ref.current.contains(event.target)) {
           setShowGroupBy(false);
         }
       }
@@ -38,7 +36,7 @@ const GroupByModal = ({setShowGroupBy}: any) => {
       };
     }, [ref]);
 
-    return { };
+    return {};
   }
   return (
     <div className="GroupByModal" ref={wrapperRef}>
@@ -65,6 +63,7 @@ const GroupByModal = ({setShowGroupBy}: any) => {
           className="GroupByOption"
           onClick={() => {
             dispatch(setGroupBy(true));
+            dispatch(setDisplayToggle(true));
             dispatch(setGroupByOption('Name'));
           }}
         >
@@ -130,6 +129,7 @@ const GroupByModal = ({setShowGroupBy}: any) => {
         className="GroupByAdd"
         onClick={() => {
           dispatch(setGroupBy(true));
+          dispatch(setDisplayToggle(true));
           dispatch(setGroupByOption('AddGroup'));
         }}
       >

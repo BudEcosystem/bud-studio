@@ -8,7 +8,8 @@ import { useSelector } from 'react-redux';
 
 const GroupByComponent = () => {
   const { activestate }: any = useSelector((state) => state);
-  const { groupByOption } = activestate;
+  const { groupByOption, displayToggle } = activestate;
+  const [toggle, setToggle] = useState(groupByOption);
 
   return (
     <div style={{ marginBottom: '10px' }}>
@@ -33,8 +34,8 @@ const GroupByComponent = () => {
           </div>
         </div>
       </div>
-      {groupByOption === 'Name' && <NameComponent />}
-      {groupByOption === 'AddGroup' && <AddGroup />}
+      {displayToggle && groupByOption === 'Name' && <NameComponent />}
+      {displayToggle && groupByOption === 'AddGroup' && <AddGroup />}
       {/* <AddGroup /> */}
     </div>
   );
