@@ -1,19 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './GroupByComponent.css';
 import ButtonName from './ButtonName';
 import { Group, NameText } from './GropuByIcons';
 import NameComponent from './NameComponent';
 import AddGroup from './AddGroup';
+import { useSelector } from 'react-redux';
 
 const GroupByComponent = () => {
+  const { activestate }: any = useSelector((state) => state);
+  const { groupByOption } = activestate;
+
   return (
-    <div>
+    <div style={{ marginBottom: '10px' }}>
       <div className="gropuBymainContainer">
         <div>
           <div className="gropuByLeftContainer">
             <div className="leftButtonGropuBy">
-              {/* <ButtonName name={`Name`} icon={<NameText />} /> */}
-              <ButtonName name={`1 rule`} icon={<Group />} />
+              {groupByOption === 'Name' && (
+                <ButtonName name={`Name`} icon={<NameText />} />
+              )}
+              {groupByOption === 'AddGroup' && (
+                <ButtonName name={`1 rule`} icon={<Group />} />
+              )}
             </div>
             <p className="addTextGroupBy">+ Add New</p>
           </div>
@@ -25,8 +33,9 @@ const GroupByComponent = () => {
           </div>
         </div>
       </div>
-      {/* <NameComponent /> */}
-      <AddGroup />
+      {groupByOption === 'Name' && <NameComponent />}
+      {groupByOption === 'AddGroup' && <AddGroup />}
+      {/* <AddGroup /> */}
     </div>
   );
 };

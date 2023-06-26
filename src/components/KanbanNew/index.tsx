@@ -229,8 +229,9 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
   const dispatch = useDispatch();
   const reduxState = useSelector((state) => state);
   console.log('reduxState', reduxState);
-  const { workspace, kanban }: any = useSelector((state) => state);
+  const { workspace, kanban, activestate }: any = useSelector((state) => state);
   const { color } = workspace;
+  const { groupBy } = activestate;
   const [currentFileName, setCurrentFileName] = useState('');
   // const onNewTaskButtonClicked = () => {
   //   dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
@@ -277,9 +278,11 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
         updateCurrentTitle={updateCurrentTitle}
         title={title}
       />
-      <div style={{ marginLeft: '38px', marginRight: '63px' }}>
-        <GroupByComponent />
-      </div>
+      {groupBy && (
+        <div style={{ marginLeft: '38px', marginRight: '63px' }}>
+          <GroupByComponent />
+        </div>
+      )}
       <Kanban />
     </KanbanSection>
   );

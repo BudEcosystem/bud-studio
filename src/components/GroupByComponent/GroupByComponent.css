@@ -24,6 +24,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .RightButtonGropuBy {
@@ -60,6 +61,7 @@
   border: 0.8px solid #333436;
   background: #171718;
   margin-top: 5px;
+  position: absolute;
 }
 
 .buttonNameText {
@@ -123,7 +125,7 @@
   background: #1B1C1E;
   padding: 14px 16px 10px 24px;
   margin-top: 5px;
-  position: relative;
+  position: absolute;
 }
 
 .darkButton {
