@@ -42,7 +42,7 @@ export default function Workspace({
   // Get the workspace state from redux
   const { workspace }: any = useSelector((state) => state);
   // Flyout Menu
-  const [showFlyoutMenu, setShowFlyoutMenu] = useState(true);
+  const [showFlyoutMenu, setShowFlyoutMenu] = useState(false);
   const [currentDocument, setCurrentDocument] = useState(null);
   const [currentDocumentID, setCurrentDocumentID] = useState(null);
 
@@ -54,16 +54,17 @@ export default function Workspace({
 
   // Use Effect
   useEffect(() => {
-    console.log('workspace', workspace);
+    console.log('workspace', workspace.currentSelectedDocId);
+    console.log('Workspace Local', currentDocumentID);
 
     if (workspace.currentSelectedDocId === currentDocumentID) {
       return;
     }
 
     if (workspace.currentSelectedDocId) {
-      if (currentDocumentID === null) {
-        setCurrentDocumentID(workspace.currentSelectedDocId);
-      }
+
+      setCurrentDocumentID(workspace.currentSelectedDocId);
+
       const docId = getDocumentByID(workspace.currentSelectedDocId);
       const document = workspace.applicationData[docId.uuid];
       setCurrentDocument(document);
@@ -99,7 +100,7 @@ export default function Workspace({
           <WorkspaceEditor
             data={currentDocument}
             setCurrentDocument={setCurrentDocument}
-            currentDocumentUUID={workspace.currentSelectedDocId}
+            currentDocumentUUID={currentDocumentID}
           />
         )}
       </Layout.Content>
@@ -149,7 +150,7 @@ function WorkspaceEditor({
                 exit={{ y: -10, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                {data[currentPage].type === undefined ? (
+                {data[currentPage] && data[currentPage].type === undefined ? (
                   <>
                     <EditorHeader coverImg={bgImage} iconImg={iconImage} />
                     <BudEditor

@@ -10,17 +10,17 @@ import activestateReducer from './slices/activestate'
 import tableReducer from './slices/table'
 
 const persistConfig = {
-  key: 'root',
+  key: 'test',
   storage,
 };
 const reducer = combineReducers({
   workspace: workspaceReducer,
   content: contentReducer,
-  kanban: kanbanReducer,
-  list: listReducer,
-  tree: treeReducer,
+  // kanban: kanbanReducer,
+  // list: listReducer,
+  // tree: treeReducer,
   activestate: activestateReducer,
-  table: tableReducer
+  // table: tableReducer
 });
 const persistedReducer = persistReducer(persistConfig, reducer);
 
