@@ -277,7 +277,7 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
         updateCurrentTitle={updateCurrentTitle}
         title={title}
       />
-      <div style={{ marginLeft: '40px', marginRight: '63px' }}>
+      <div style={{ marginLeft: '38px', marginRight: '63px' }}>
         <GroupByComponent />
       </div>
       <Kanban />

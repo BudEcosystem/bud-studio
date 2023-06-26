@@ -25,8 +25,8 @@ const GroupByComponent = () => {
           </div>
         </div>
       </div>
-      <NameComponent />
-      {/* <AddGroup /> */}
+      {/* <NameComponent /> */}
+      <AddGroup />
     </div>
   );
 };
