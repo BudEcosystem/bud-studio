@@ -131,7 +131,6 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
 
   return (
     <div>
-      <EditorHeader coverImg={coverImgAPI} iconImg={iconImage} />
       <LexicalComposer initialConfig={initialConfig}>
       <div className="editor-container">
         <RichTextPlugin
