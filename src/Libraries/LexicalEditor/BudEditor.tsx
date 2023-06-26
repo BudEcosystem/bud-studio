@@ -36,7 +36,9 @@ import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
 import TextFormatFloatingToolbar from './plugins/FloatingTextFormatToolbarPlugin';
 import TreeViewPlugin from './plugins/TreeViewPlugin';
 import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
-// import EditorHeader from 'components/EditorHeader';
+import EditorHeader from 'components/EditorHeader';
+import { imageGeneration, jsonResult } from 'api';
+import iconImage from '../../components/EditorHeader/images/iconImage.png'
 
 const theme = {};
 
@@ -91,9 +93,26 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
     }
   };
 
-  // useEffect(() => {
+  const [coverImgAPI, setCoverImageAPI] = useState('')
 
-  // });
+  useEffect(() => {
+    fetchApiData();
+  }, []);
+
+  const fetchApiData = async () => {
+      const apiData  = await imageGeneration();
+      console.log("API DATA", apiData)
+      if(!apiData) {
+        const imageSource = `data:image/jpeg;base64,${jsonResult.output[0]}`;
+        setCoverImageAPI(imageSource)
+      }
+      else {
+        const imageSource = `data:image/jpeg;base64,${apiData.output[0]}`;
+        setCoverImageAPI(imageSource)
+      }
+    
+  };
+
 
   function onChange(editorState) {
     // editorStateRef.current = editorState;
@@ -111,7 +130,8 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
   }
 
   return (
-    <LexicalComposer initialConfig={initialConfig}>
+    <div>
+      <LexicalComposer initialConfig={initialConfig}>
       <div className="editor-container">
         <RichTextPlugin
           contentEditable={
@@ -142,5 +162,6 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
         {/* <TreeViewPlugin /> */}
       </div>
     </LexicalComposer>
+    </div>
   );
 }

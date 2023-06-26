@@ -23,6 +23,7 @@ import bgImage from 'components/EditorHeader/images/bgImage.png';
 import iconImage from 'components/EditorHeader/images/iconImage.png';
 import { updateDocumentData } from 'redux/slices/workspace';
 import classes from './workspace.module.css';
+import { imageGeneration, jsonResult } from 'api';
 
 interface WorkspaceProps {
   isCollapsed: boolean;
@@ -118,6 +119,26 @@ function WorkspaceEditor({
 
   const dispatch = useDispatch();
 
+  const [coverImgAPI, setCoverImageAPI] = useState('')
+
+  useEffect(() => {
+    fetchApiData();
+  }, []);
+
+  const fetchApiData = async () => {
+      const apiData  = await imageGeneration();
+      console.log("API DATA", apiData)
+      if(!apiData) {
+        const imageSource = `data:image/jpeg;base64,${jsonResult.output[0]}`;
+        setCoverImageAPI(imageSource)
+      }
+      else {
+        const imageSource = `data:image/jpeg;base64,${apiData.output[0]}`;
+        setCoverImageAPI(imageSource)
+      }
+    
+  };
+
   const persistEditorRoot = (editorState) => {
     console.log('persistEditorRoot', editorState);
     console.log('Current Document Raw', data);
@@ -152,7 +173,7 @@ function WorkspaceEditor({
               >
                 {data[currentPage] && data[currentPage].type === undefined ? (
                   <>
-                    <EditorHeader coverImg={bgImage} iconImg={iconImage} />
+                    <EditorHeader coverImg={coverImgAPI} iconImg={iconImage} />
                     <BudEditor
                       data={data[currentPage]}
                       persistEditorRoot={persistEditorRoot}

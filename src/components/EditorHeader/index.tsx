@@ -14,18 +14,18 @@ import {
 } from './EditorIcons';
 import './Editor.css';
 
-const EditorHeader = ({ coverImg, iconImg }: any) => {
-  const [coverUrl, setCoverUrl] = useState(coverImg);
+const EditorHeader = ({coverImg, iconImg}: any) => {
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
-  const [iconUrl, setIconUrl] = useState(iconImg);
-  const [iconAvailable, setIconAvailable] = useState(true);
+  const [iconAvailable, setIconAvailable] = useState(true)
+
+  console.log("COVER IMAGE", coverImg)
 
   return (
     <div className="editor">
       {coverUrlAvailable ? (
         <div
           style={{
-            backgroundImage: `url(${coverUrl})`,
+            backgroundImage: `url(${coverImg})`,
           }}
           className="editorCover"
         >
@@ -109,17 +109,8 @@ const EditorHeader = ({ coverImg, iconImg }: any) => {
             }}
           >
             <div className="editorIcon">
-              <img src={iconUrl} />
+              <img src={iconImg} />
             </div>
-            {/* <div
-              style={{
-                fontSize: '23px',
-                fontWeight: '400',
-                height: 'fit-content',
-              }}
-            >
-              File Name
-            </div> */}
           </div>
         ) : (
           <div
@@ -134,16 +125,7 @@ const EditorHeader = ({ coverImg, iconImg }: any) => {
             }}
           >
             <div className="editorIcon">
-              <img src={iconUrl} />
-            </div>
-            <div
-              style={{
-                fontSize: '25px',
-                fontWeight: '400',
-                height: 'fit-content',
-              }}
-            >
-              File Name
+              <img src={iconImg} />
             </div>
           </div>
         )
