@@ -38,6 +38,7 @@ import TreeViewPlugin from './plugins/TreeViewPlugin';
 import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
 import EditorHeader from 'components/EditorHeader';
 import { imageGeneration, jsonResult } from 'api';
+import iconImage from '../../components/EditorHeader/images/iconImage.png'
 
 const theme = {};
 
@@ -162,5 +163,6 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
         {/* <TreeViewPlugin /> */}
       </div>
     </LexicalComposer>
+    </div>
   );
 }
