@@ -14,6 +14,7 @@ import {
   updateWholeState,
 } from 'redux/slices/workspace';
 import HeaderSection from 'components/ListView/HeaderSection';
+import GroupByComponent from 'components/GroupByComponent/GroupByComponent';
 
 const KanbanSection = styled.div`
   height: auto;
@@ -276,6 +277,9 @@ function KanbanUI({ workspaceObj, uiDetails }: any) {
         updateCurrentTitle={updateCurrentTitle}
         title={title}
       />
+      <div style={{ marginLeft: '40px', marginRight: '63px' }}>
+        <GroupByComponent />
+      </div>
       <Kanban />
     </KanbanSection>
   );
