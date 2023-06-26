@@ -81,8 +81,8 @@ const NewTaskPanel = ({ view }: any) => {
       <div onClick={() => setShowThreeDotsOption(!showThreeDotsOption)} className="threeDots flexCenter">
         <ThreeDots />
       </div>
-      {showThreeDotsOption && <ThreeDotsOption />}
-      {showGroupBy && <GroupByModal/>}
+      {showThreeDotsOption && <ThreeDotsOption setShowThreeDotsOption={setShowThreeDotsOption} />}
+      {showGroupBy && <GroupByModal setShowGroupBy={setShowGroupBy}/>}
     </div>
   );
 };

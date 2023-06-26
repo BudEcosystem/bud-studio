@@ -2,7 +2,7 @@ import React from 'react';
 import './ThreeDotsOption.css'
 import { RightArrow, Plus, Rename, Duplicate, Move, CopyLink, Archive, Delete } from './ThreeDotsOptionIcons';
 
-const ThreeDotsOption = () => {
+const ThreeDotsOption = ({setShowThreeDotsOption}: any) => {
   return (
     <div>
         <div className="threeDotsOptionsModal">

@@ -2,7 +2,7 @@ import React from 'react';
 import './GroupByModal.css'
 import { Rename, Assign, Priority, Status, Search, Shortcut, Plus} from './GroupByModalIcons'
 
-const GroupByModal = () => {
+const GroupByModal = ({setShowGroupBy}: any) => {
   return (
         <div className="GroupByModal">
         <div className="GroupBySearchBar">
