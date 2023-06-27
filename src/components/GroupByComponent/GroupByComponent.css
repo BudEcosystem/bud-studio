@@ -232,4 +232,5 @@
 
 .active {
   background: #151515;
+  cursor: pointer;
 }
