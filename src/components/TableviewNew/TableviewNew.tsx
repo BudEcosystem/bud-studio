@@ -25,7 +25,7 @@ import { columns, data } from './data';
 function TableviewNew({ workspaceObj, uiDetails }: any) {
   const { table, workspace }: any = useSelector((state) => state);
 
-  const { newTaskClickedtable, addNewRow } = table;
+  // const { newTaskClickedtable, addNewRow } = table;
   const { color } = workspace;
   const [title, setTitle] = useState('');
   const [addCol, setAddCol] = useState(true);
@@ -71,7 +71,7 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
       };
       dispatch(setNewColumn(newColumn));
       setNewColumnInput('');
-      dispatch(setNewTaskClickedtable(false));
+      // dispatch(setNewTaskClickedtable(false));
     }
   };
 
@@ -121,7 +121,7 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
       setRowsInTable(newRowOrder);
       // state.rowsInTable = newRowOrder;
       setNewRowValues({});
-      dispatch(setNewTaskClickedtable(false));
+      // dispatch(setNewTaskClickedtable(false));
     }
   };
   const sendCellValues = (e, r, c) => {
@@ -159,7 +159,7 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
           item.Header = newHeaderValues.newVal;
         }
       });
-      setColumnsArray(newCol)
+      setColumnsArray(newCol);
       setNewHeaderValues({});
       setEditionHeader(null);
     }
@@ -188,7 +188,21 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
       [column.id]: !prevValues[column.id],
     }));
     console.log(ascOrDesc);
-    dispatch(sortedRowsReorder({ col: column.id, ascOrDes: ascOrDesc }));
+    // dispatch(sortedRowsReorder({ col: column.id, ascOrDes: ascOrDesc }));
+    const newArray = Array.from(rowsInTable);
+    let newArr2 = [];
+    if (ascOrDesc[column.id]) {
+      // console.log(ascOrDesc[column.id]);
+      newArr2 = newArray.sort((a, b) =>
+        a[column.id].toString().localeCompare(b[column.id].toString())
+      );
+    } else {
+      // console.log(ascOrDes[col], ascOrDes, col);
+      newArr2 = newArray.sort((a, b) =>
+        b[column.id].toString().localeCompare(a[column.id].toString())
+      );
+    }
+    setRowsInTable(newArr2);
   };
 
   const renderHeaderContent = (column, colIdx, allRows) => {
@@ -421,7 +435,11 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
                   >
                     {rows.map((row, index) => {
                       prepareRow(row);
-                      if (newTaskClickedtable && index === rows.length - 1) {
+                      if (
+                        false &&
+                        newTaskClickedtable &&
+                        index === rows.length - 1
+                      ) {
                         return (
                           <tr>
                             {columnsArray.map((cols, i) => {
