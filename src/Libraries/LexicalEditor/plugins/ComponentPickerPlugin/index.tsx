@@ -39,6 +39,7 @@ import catTypingGif from '../../images/cat-typing.gif';
 import useModal from '../../hooks/useModal';
 
 import ActionMenu from '../../../../components/ActionMenu';
+import { InsertImageDialog } from '../ImagesPlugin';
 
 // import { EmbedConfigs } from '../AutoEmbedPlugin';
 // import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin';
@@ -362,30 +363,30 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
             src: catTypingGif,
           }),
       }),
-      // new ComponentPickerOption('Image', {
-      //   icon: <i className="icon image" />,
-      //   keywords: ['image', 'photo', 'picture', 'file'],
-      //   onSelect: () =>
-      //     showModal('Insert Image', (onClose) => (
-      //       <InsertImageDialog activeEditor={editor} onClose={onClose} />
-      //     )),
-      // }),
+      new ComponentPickerOption('Image', {
+        icon: <i className="icon image" />,
+        keywords: ['image', 'photo', 'picture', 'file'],
+        onSelect: () =>
+          showModal('Insert Image', (onClose) => (
+            <InsertImageDialog activeEditor={editor} onClose={onClose} />
+          )),
+      }),
       // new ComponentPickerOption('Collapsible', {
       //   icon: <i className="icon caret-right" />,
       //   keywords: ['collapse', 'collapsible', 'toggle'],
       //   onSelect: () =>
       //     editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined),
       // }),
-      // ...['left', 'center', 'right', 'justify'].map(
-      //   (alignment) =>
-      //     new ComponentPickerOption(`Align ${alignment}`, {
-      //       icon: <i className={`icon ${alignment}-align`} />,
-      //       keywords: ['align', 'justify', alignment],
-      //       onSelect: () =>
-      //         // @ts-ignore Correct types, but since they're dynamic TS doesn't like it.
-      //         editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, alignment),
-      //     })
-      // ),
+      ...['left', 'center', 'right', 'justify'].map(
+        (alignment) =>
+          new ComponentPickerOption(`Align ${alignment}`, {
+            icon: <i className={`icon ${alignment}-align`} />,
+            keywords: ['align', 'justify', alignment],
+            onSelect: () =>
+              // @ts-ignore Correct types, but since they're dynamic TS doesn't like it.
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, alignment),
+          })
+      ),
     ];
 
     const dynamicOptions = getDynamicOptions();

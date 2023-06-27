@@ -33,7 +33,10 @@ import TableCellActionMenuPlugin from './plugins/TableActionMenuPlugin';
 import TableCellResizer from './plugins/TableCellResizer';
 import TableOfContentsPlugin from './plugins/TableOfContentsPlugin';
 import { TablePlugin as NewTablePlugin } from './plugins/TablePlugin';
+import ImagesPlugin from './plugins/ImagesPlugin';
 import InlineImagePlugin from './plugins/InlineImagePlugin';
+import { ImageNode } from './nodes/ImageNode';
+import ContextMenuPlugin from './plugins/ContextMenuPlugin';
 
 import './styles.css';
 
@@ -45,7 +48,7 @@ import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
 import EditorHeader from 'components/EditorHeader';
 import { imageGeneration, jsonResult } from 'api';
 import iconImage from '../../components/EditorHeader/images/iconImage.png';
-import { ImageNode } from './nodes/ImageNode';
+import { InlineImageNode } from './nodes/InlineImageNode';
 
 const theme = {
   hashtag: 'editor-text-hashtag',
@@ -85,6 +88,34 @@ export function MyLexicalPlugin({ data = null }) {
       data === '' ? emptyEditor : data
     );
     editor.setEditorState(initialEditorState);
+
+    // const paragraphs = document.querySelectorAll('.editor-container p');
+
+    // paragraphs.forEach((paragraph) => {
+    //   if (paragraph.innerHTML === '<br>') {
+    //     paragraph.classList.add('custom-class');
+    //   }
+    // });
+
+    //  get the last paragraph tag under class contentEditable
+    // const lastParagraph = document.querySelector(
+    //   '.editor-container p:last-child:before'
+    // );
+
+    // if (lastParagraph) {
+    //   // Manipulate the last paragraph here
+    //   console.log('My Last', lastParagraph);
+    //   lastParagraph.addEventListener('click', () => {
+    //     lastParagraph.style.content = 'none';
+    //   });
+    // }
+
+    // Get The Last Paragraph
+    // const root = $getRoot();
+    // const lastParagraph = root.children[root.children.length - 1];
+    // const lastParagraphNode = $wrapNodeInElement(lastParagraph);
+
+    // console.log("Last Paragraph", lastParagraphNode);
   }, [editor, data]);
 }
 
@@ -96,6 +127,7 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
     editorState: JSON.stringify(data),
     nodes: [
       HeadingNode,
+      ImageNode,
       ListNode,
       ListItemNode,
       QuoteNode,
@@ -107,7 +139,7 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
       AutoLinkNode,
       LinkNode,
       HashtagNode,
-      ImageNode,
+      InlineImageNode,
     ],
   };
 
@@ -186,10 +218,14 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
           <ListPlugin />
           <LinkPlugin />
           <MyLexicalPlugin data={data} />
+
           <CheckListPlugin />
-          <InlineImagePlugin />
 
           <TextFormatFloatingToolbar />
+          <ImagesPlugin />
+          <InlineImagePlugin />
+
+          <ContextMenuPlugin />
 
           {/* <TreeViewPlugin /> */}
         </div>
