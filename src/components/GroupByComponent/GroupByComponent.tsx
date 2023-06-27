@@ -34,7 +34,7 @@ const GroupByComponent = () => {
           </div>
         </div>
       </div>
-      {displayToggle && groupByOption === 'Name' && <NameComponent />}
+      {displayToggle && groupByOption === 'Name' && <NameComponent displayToggle={displayToggle} />}
       {displayToggle && groupByOption === 'AddGroup' && <AddGroup />}
       {/* <AddGroup /> */}
     </div>

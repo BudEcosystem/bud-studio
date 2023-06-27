@@ -10,6 +10,7 @@ import {
   Archive,
   Delete,
 } from '../../ListView/ListViewComponents/ThreeDotsOption/ThreeDotsOptionIcons';
+import Draggable from 'react-draggable';
 
 const DragHandle = () => {
   return (
@@ -96,17 +97,27 @@ const RightClickMenu = ({ left, top, setMenuVisible }: any) => {
     return {};
   }
   return (
-    <div>
+    <div 
+    style={{
+      position: 'fixed',
+      // top: '80px',
+      // left: '260px',
+      height: '100%',
+      width: '100%',
+      pointerEvents: 'none',
+      zIndex: '10',
+    }}>
+      <Draggable bounds="parent" handle=".handle">
       <div
         className="threeDotsOptionsModal"
-        style={{ position: 'fixed', left: left, top: top, height: 'unset' }}
+        style={{ position: 'fixed', left: left, top: top, height: 'unset', pointerEvents: "auto", zIndex: "9" }}
         ref={wrapperRef}
       >
         <div className="threeDotsOptions">
           <div style={{ marginBottom: '20px' }}>
             <div
-              className="threeDotsOption"
-              style={{ marginBottom: '22px', cursor: 'drag' }}
+              className="handle"
+              style={{ marginBottom: '10px', cursor: 'drag', marginTop: "5px" }}
             >
               <DragHandle />
             </div>
@@ -238,6 +249,7 @@ const RightClickMenu = ({ left, top, setMenuVisible }: any) => {
           </div>
         </div>
       </div>
+      </Draggable>
     </div>
   );
 };
