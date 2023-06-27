@@ -14,16 +14,22 @@
   transition: opacity 0.5s;
   height: 35px;
   will-change: transform;
+  background: black;
 }
 
 .floating-text-format-popup button.popup-item {
   border: 0;
   display: flex;
   background: none;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 6px;
   cursor: pointer;
   vertical-align: middle;
+  background-color: #1F1E22;
+}
+
+.floating-text-format-popup button.popup-item > img {
+  filter: invert(0.8);
 }
 
 .floating-text-format-popup button.popup-item:disabled {
@@ -58,7 +64,7 @@
 }
 
 .floating-text-format-popup .popup-item:hover:not([disabled]) {
-  background-color: #eee;
+  background-color: #333235;
 }
 
 .floating-text-format-popup select.popup-item {
