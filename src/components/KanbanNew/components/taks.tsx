@@ -8,6 +8,8 @@ import { setCurrentSelectedUI } from 'redux/slices/activestate';
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
 import { useState } from 'react';
 import TaskViewKanban from 'components/TaskViewKanban/TaskViewKanban';
+import GroupByModal from 'components/ListView/ListViewComponents/GroupBy/GroupByModal';
+import RightClickMenu from './RightClickMenu';
 
 const TaskContainer = styled.div`
   height: 30px;
@@ -259,6 +261,24 @@ function PopOverSearch() {
 
 function Tasks(props: any) {
   const [showKanbanTaskView, setShowKanbanTaskView] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+
+  const handleContextMenu = (event) => {
+    event.preventDefault();
+    const { clientX, clientY } = event;
+    setMenuPosition({ x: clientX, y: clientY });
+    setMenuVisible(true);
+  };
+
+  const handleMenuItemClick = () => {
+    setMenuVisible(false);
+    // Handle menu item click logic
+  };
+
+  const handleDocumentClick = () => {
+    setMenuVisible(false);
+  };
 
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
@@ -268,6 +288,7 @@ function Tasks(props: any) {
             onDoubleClick={() => setShowKanbanTaskView(true)}
             {...provided.draggableProps}
             ref={provided.innerRef}
+            onContextMenu={handleContextMenu}
           >
             {
               <TaskViewKanban
@@ -276,6 +297,13 @@ function Tasks(props: any) {
                 setShowKanbanTaskView={setShowKanbanTaskView}
               />
             }
+            {menuVisible && (
+              <RightClickMenu
+                left={menuPosition.x}
+                top={menuPosition.y}
+                setMenuVisible={setMenuVisible}
+              />
+            )}
             <TaskHeader>
               {' '}
               {props?.task?.heading && (
