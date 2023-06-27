@@ -18,7 +18,7 @@ const NameComponent = ({displayToggle}: any) => {
            if (
             ref.current &&
             !ref.current.contains(event.target)
-          ) { dispatch(setDisplayToggle(!displayToggle));
+          ) { dispatch(setDisplayToggle(false));
           }
         }
   
