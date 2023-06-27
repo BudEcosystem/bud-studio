@@ -480,6 +480,50 @@ export const workspaceSlice = createSlice({
       });
       state.workspaceFolders = newSetOFDataProcessed;
     },
+    moveFolderRedux: (state, action: PayloadAction<any>) => {
+      console.log(action.payload, 'move123');
+      const { dest, source } = action.payload;
+      const copyOfworkSpaceFolders = [...state.workspaceFolders];
+      const proxyFilteredArray: any = [];
+      copyOfworkSpaceFolders.forEach((data: any) => {
+        proxyFilteredArray.push({ ...data });
+      });
+      const newSetOFDataProcessed = proxyFilteredArray.map((data: any) => {
+        if (data.uuid === source.key) {
+          data.childOf = dest.uuid;
+          data.workSPaceId = dest.workSPaceId;
+          data.workSpaceUUID = dest.workSpaceUUID;
+        }
+        return data;
+      });
+      state.workspaceFolders = newSetOFDataProcessed;
+    },
+    copyFolderRedux: (state, action: PayloadAction<any>) => {
+      console.log(action.payload, 'copy123');
+      const { dest, source } = action.payload;
+      const copyOfworkSpaceFolders = [...state.workspaceFolders];
+      const proxyFilteredArray: any = [];
+      copyOfworkSpaceFolders.forEach((data: any) => {
+        proxyFilteredArray.push({ ...data });
+      });
+      const sourceData = proxyFilteredArray.find((data: any) => data.uuid === source.key)
+      const copyOfSource = JSON.parse(JSON.stringify(sourceData));
+      copyOfSource.childOf = dest.uuid
+      copyOfSource.workSPaceId = dest.workSPaceId;
+      copyOfSource.workSpaceUUID = dest.workSpaceUUID;
+      console.log(copyOfSource, sourceData)
+      // {
+      //   if (data.uuid === source.key) {
+      //     data.childOf = dest.uuid;
+      //     data.workSPaceId = dest.workSPaceId;
+      //     data.workSpaceUUID = dest.workSpaceUUID;
+      //   }
+      //   return data;
+      // });
+      proxyFilteredArray.push(copyOfSource)
+      state.workspaceFolders = proxyFilteredArray;
+    },
+
     addDuplicateFolders: (state, action: PayloadAction<any>) => {
       console.log(
         'duplicateFolder - addDuplicateFolders - payload',
@@ -575,6 +619,8 @@ export const {
   addDuplicateDoc,
   addDuplicateEditorApplications,
   updateAppName,
+  moveFolderRedux,
+  copyFolderRedux,
   updateDocumentData,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

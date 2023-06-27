@@ -5,7 +5,16 @@ import { createRef, useEffect, useState } from 'react';
 import classes from '../../dashboard.module.css';
 import classWrksps from './workspaceMenuItem.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { editWorkspaceItem } from 'redux/slices/workspace';
+import {
+  changeColor,
+  editWorkspaceItem,
+  setCurrentSelectedDocument,
+} from 'redux/slices/workspace';
+import {
+  setCurrentSelectedUI,
+  setSelectedOption,
+  updateNavigationPath,
+} from 'redux/slices/activestate';
 
 function getRandomColor() {
   const letters = '0123456789ABCDEF';
@@ -98,8 +107,9 @@ function MenuWorkSpaceItem({
   setHoverColorHandler,
   setHoverColorOnLeave,
 }: any): JSX.Element {
-  let { workspace } = useSelector((state) => state);
+  let { workspace, activestate } = useSelector((state) => state);
   let { currentWorkspace } = workspace;
+  const { nodeIDs } = activestate;
   return (
     <Menu.Item
       className={`${
@@ -158,6 +168,8 @@ function MenuWorkSpaceInput({
   const [workSpace, setWorkSpace] = useState({ name: '', color: '' });
   const [randCol, setRandCol] = useState(getRandomColor());
   const [editColor, setEditColor] = useState(menu.color);
+  let { activestate, workspace } = useSelector((state) => state);
+  const { nodeIDs } = activestate;
   const dispatch = useDispatch();
   useEffect(() => {
     document.getElementById('workspace-create-input')?.focus();
@@ -188,6 +200,9 @@ function MenuWorkSpaceInput({
       if (updateWorkspace) {
         const updObj = { ...workSpace, name: e.target.value };
         updateWorkspace({ value: updObj, index });
+        console.log(menu, workspace);
+        if (workspace.currentWorkspace === menu.uuid)
+          dispatch(updateNavigationPath(e.target.value));
       }
     }
   };
@@ -195,6 +210,8 @@ function MenuWorkSpaceInput({
     const updObj = { ...workSpace, color: editColor };
     // updateWorkspace({ value: updObj, index, editColor: true });
     dispatch(editWorkspaceItem({ index, value: updObj, editColor: true }));
+    console.log(nodeIDs);
+    dispatch(changeColor({ color: editColor }));
   };
   const onEscapeButtonPressed = (event) => {
     if (event.code === 'Escape') {
