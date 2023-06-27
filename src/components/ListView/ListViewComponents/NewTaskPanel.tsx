@@ -63,6 +63,7 @@ const NewTaskPanel = ({ view }: any) => {
     <div className="flexCenter">
       {nameAndLogoArray.map((item, i) => (
         <div
+          style={{ position: item.name === 'Group by' ? 'relative' : '' }}
           onClick={() => {
             handleOptionClick(item.name);
           }}
@@ -72,6 +73,11 @@ const NewTaskPanel = ({ view }: any) => {
           <p className="itemName">{item.name}</p>
           {i === nameAndLogoArray.length - 1 ? undefined : (
             <div className="verticalLine">|</div>
+          )}
+          {item.name === 'Group by' && showGroupBy && (
+            <div className="groupbyOptions">
+              <GroupByModal setShowGroupBy={setShowGroupBy} />
+            </div>
           )}
         </div>
       ))}
@@ -85,12 +91,15 @@ const NewTaskPanel = ({ view }: any) => {
       </div>
       <div
         onClick={() => setShowThreeDotsOption(!showThreeDotsOption)}
-        className="threeDots flexCenter"
+        className="threeDots"
       >
         <ThreeDots />
+        {showThreeDotsOption && (
+          <div className="threeDotsOptionsContainer">
+            <ThreeDotsOption setShowThreeDotsOption={setShowThreeDotsOption} />
+          </div>
+        )}
       </div>
-      {showThreeDotsOption && <ThreeDotsOption setShowThreeDotsOption={setShowThreeDotsOption} />}
-      {showGroupBy && <GroupByModal setShowGroupBy={setShowGroupBy} />}
     </div>
   );
 };

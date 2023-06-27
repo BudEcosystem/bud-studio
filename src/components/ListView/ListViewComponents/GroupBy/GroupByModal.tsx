@@ -19,9 +19,7 @@ import { useDispatch } from 'react-redux';
 const GroupByModal = ({ setShowGroupBy }: any) => {
   const dispatch = useDispatch();
   const wrapperRef = useRef(null);
-
   const {} = useOutsideAlerter(wrapperRef);
-
   function useOutsideAlerter(ref: any) {
     useEffect(() => {
       function handleClickOutside(event: any) {
@@ -29,13 +27,11 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
           setShowGroupBy(false);
         }
       }
-
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }, [ref]);
-
     return {};
   }
   return (
