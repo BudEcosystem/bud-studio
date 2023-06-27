@@ -43,7 +43,7 @@ export default function Workspace({
   // Get the workspace state from redux
   const { workspace }: any = useSelector((state) => state);
   // Flyout Menu
-  const [showFlyoutMenu, setShowFlyoutMenu] = useState(false);
+  const [showFlyoutMenu, setShowFlyoutMenu] = useState(true);
   const [currentDocument, setCurrentDocument] = useState(null);
   const [currentDocumentID, setCurrentDocumentID] = useState(null);
 
@@ -136,7 +136,7 @@ function WorkspaceEditor({
         const imageSource = `data:image/jpeg;base64,${apiData.output[0]}`;
         setCoverImageAPI(imageSource)
       }
-    
+
   };
 
   const persistEditorRoot = (editorState) => {

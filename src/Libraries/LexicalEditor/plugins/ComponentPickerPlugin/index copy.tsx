@@ -116,20 +116,8 @@ function ComponentPickerMenuItem({
       onMouseEnter={onMouseEnter}
       onClick={onClick}
     >
-      {/* {option.icon}
+      {option.icon}
       <span className="text">{option.title}</span>
-      <span>Embed a subpage inside this.</span> */}
-      <div className="bud-action-menu">
-        <div className="bud-action-menu-icon">Icon</div>
-        <div className="bud-action-menu-item">
-          <div className="bud-action-menu-item-title">{option.title}</div>
-          <div className="bud-action-menu-item-description">
-            {option.description
-              ? option.description
-              : 'No Description Available.'}
-          </div>
-        </div>
-      </div>
     </li>
   );
 }
@@ -209,18 +197,6 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
 
   const options = useMemo(() => {
     const baseOptions = [
-      new ComponentPickerOption('Page', {
-        icon: <i className="icon paragraph" />,
-        keywords: ['page', 'p'],
-        description: 'Embed a subpage inside this..',
-        onSelect: () =>
-          editor.update(() => {
-            const selection = $getSelection();
-            if ($isRangeSelection(selection)) {
-              $setBlocksType(selection, () => $createParagraphNode());
-            }
-          }),
-      }),
       new ComponentPickerOption('Paragraph', {
         icon: <i className="icon paragraph" />,
         keywords: ['normal', 'paragraph', 'p', 'text'],
@@ -238,7 +214,6 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
           new ComponentPickerOption(`Heading ${n}`, {
             icon: <i className={`icon h${n}`} />,
             keywords: ['heading', 'header', `h${n}`],
-            description: `Level ${n} heading.`,
             onSelect: () =>
               editor.update(() => {
                 const selection = $getSelection();
@@ -438,10 +413,32 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
         ) =>
           anchorElementRef.current && options.length
             ? ReactDOM.createPortal(
-                <div className="typeahead-popover component-picker-menu bud-action">
-                  <div className="bud-action-title">Editor Blocks</div>
-                  <ul>
-                    {options.map((option, i: number) => (
+                <div>
+                  <ActionMenu />
+                </div>,
+                // <div className="typeahead-popover component-picker-menu">
+                //   <ul>
+                //     <ActionMenu />
+                    {/* <li>Test</li>
+                    <li>Test</li>
+                    <li>Test</li>
+                    <li>Test</li>
+                    <li>Test</li>
+                    <li>Test</li>
+                    <li>Test</li>
+                    <li>Test</li>
+                    <li>Test</li>
+                    <li>Test</li>
+                    <li>Test</li>
+                    <li>Test</li>
+
+                    <li>
+                      <CustomComponent
+                        index={i}
+                        selectedIndex={selectedIndex === i}
+                      />
+                    </li> */}
+                    {/* {options.map((option, i: number) => (
                       <ComponentPickerMenuItem
                         index={i}
                         isSelected={selectedIndex === i}
@@ -455,9 +452,9 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
                         key={option.key}
                         option={option}
                       />
-                    ))}
-                  </ul>
-                </div>,
+                    ))} */}
+                //   </ul>
+                // </div>,
                 anchorElementRef.current
               )
             : null

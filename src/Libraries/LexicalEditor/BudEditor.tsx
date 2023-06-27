@@ -2,7 +2,7 @@ import { $getRoot, $getSelection } from 'lexical';
 import { useEffect, useState, useRef } from 'react';
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
+
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
@@ -15,8 +15,13 @@ import { CodeHighlightNode, CodeNode } from '@lexical/code';
 import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin';
+import { HashtagNode } from '@lexical/hashtag';
+import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
+
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 import { TRANSFORMERS } from '@lexical/markdown';
+import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
 
 // Table
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
@@ -28,6 +33,7 @@ import TableCellActionMenuPlugin from './plugins/TableActionMenuPlugin';
 import TableCellResizer from './plugins/TableCellResizer';
 import TableOfContentsPlugin from './plugins/TableOfContentsPlugin';
 import { TablePlugin as NewTablePlugin } from './plugins/TablePlugin';
+import InlineImagePlugin from './plugins/InlineImagePlugin';
 
 import './styles.css';
 
@@ -38,9 +44,28 @@ import TreeViewPlugin from './plugins/TreeViewPlugin';
 import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
 import EditorHeader from 'components/EditorHeader';
 import { imageGeneration, jsonResult } from 'api';
-import iconImage from '../../components/EditorHeader/images/iconImage.png'
+import iconImage from '../../components/EditorHeader/images/iconImage.png';
+import { ImageNode } from './nodes/ImageNode';
 
-const theme = {};
+const theme = {
+  hashtag: 'editor-text-hashtag',
+  list: {
+    listitem: 'PlaygroundEditorTheme__listItem',
+    listitemChecked: 'PlaygroundEditorTheme__listItemChecked',
+    listitemUnchecked: 'PlaygroundEditorTheme__listItemUnchecked',
+    nested: {
+      listitem: 'PlaygroundEditorTheme__nestedListItem',
+    },
+    olDepth: [
+      'PlaygroundEditorTheme__ol1',
+      'PlaygroundEditorTheme__ol2',
+      'PlaygroundEditorTheme__ol3',
+      'PlaygroundEditorTheme__ol4',
+      'PlaygroundEditorTheme__ol5',
+    ],
+    ul: 'PlaygroundEditorTheme__ul',
+  },
+};
 
 function onError(error) {
   console.error(error);
@@ -81,6 +106,8 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
       TableRowNode,
       AutoLinkNode,
       LinkNode,
+      HashtagNode,
+      ImageNode,
     ],
   };
 
@@ -93,26 +120,23 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
     }
   };
 
-  const [coverImgAPI, setCoverImageAPI] = useState('')
+  const [coverImgAPI, setCoverImageAPI] = useState('');
 
   useEffect(() => {
     fetchApiData();
   }, []);
 
   const fetchApiData = async () => {
-      const apiData  = await imageGeneration();
-      console.log("API DATA", apiData)
-      if(!apiData) {
-        const imageSource = `data:image/jpeg;base64,${jsonResult.output[0]}`;
-        setCoverImageAPI(imageSource)
-      }
-      else {
-        const imageSource = `data:image/jpeg;base64,${apiData.output[0]}`;
-        setCoverImageAPI(imageSource)
-      }
-    
+    const apiData = await imageGeneration();
+    console.log('API DATA', apiData);
+    if (!apiData) {
+      const imageSource = `data:image/jpeg;base64,${jsonResult.output[0]}`;
+      setCoverImageAPI(imageSource);
+    } else {
+      const imageSource = `data:image/jpeg;base64,${apiData.output[0]}`;
+      setCoverImageAPI(imageSource);
+    }
   };
-
 
   function onChange(editorState) {
     // editorStateRef.current = editorState;
@@ -129,39 +153,47 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
     });
   }
 
+  const contentEditableRef = useRef(null);
+
   return (
     <div>
       <LexicalComposer initialConfig={initialConfig}>
-      <div className="editor-container">
-        <RichTextPlugin
-          contentEditable={
-            <div className="editor-scroller">
-              <div className="editor-innter" ref={onRef}>
-                <ContentEditable className="contentEditable" />
+        <div className="editor-container">
+          <RichTextPlugin
+            contentEditable={
+              <div className="editor-scroller">
+                <div className="editor-innter" ref={onRef}>
+                  <ContentEditable className="contentEditable" />
+                </div>
               </div>
-            </div>
-          }
-          placeholder={
-            <span className="placeholder">
-              Press "space" for task , "/" for ask Bud
-            </span>
-          }
-          ErrorBoundary={LexicalErrorBoundary}
-        />
-        <OnChangePlugin onChange={onChange} />
-        <HistoryPlugin />
-        {/* <MyCustomAutoFocusPlugin /> */}
-        {floatingAnchorElem && (
-          <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
-        )}
-        <ComponentPickerPlugin />
-        <ListPlugin />
-        <LinkPlugin />
-        <MyLexicalPlugin data={data} />
-        <TextFormatFloatingToolbar />
-        {/* <TreeViewPlugin /> */}
-      </div>
-    </LexicalComposer>
+            }
+            placeholder={
+              <span className="placeholder">
+                Press "space" for task , "/" for ask Bud
+              </span>
+            }
+            ErrorBoundary={LexicalErrorBoundary}
+          />
+          <OnChangePlugin onChange={onChange} />
+          <HashtagPlugin />
+          <HistoryPlugin />
+          {/* <MyCustomAutoFocusPlugin /> */}
+          {floatingAnchorElem && (
+            <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
+          )}
+          <ComponentPickerPlugin />
+
+          <ListPlugin />
+          <LinkPlugin />
+          <MyLexicalPlugin data={data} />
+          <CheckListPlugin />
+          <InlineImagePlugin />
+
+          <TextFormatFloatingToolbar />
+
+          {/* <TreeViewPlugin /> */}
+        </div>
+      </LexicalComposer>
     </div>
   );
 }
