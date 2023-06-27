@@ -14,7 +14,8 @@ const AddGroup = () => {
     'Is empty',
   ];
   const [isContainsOption, setIsContainsOption] = useState(false);
-  return (
+  const [hoverElement, setHoverElement] = useState(-1);
+  return ( 
     <div className="addGroupContainer">
       <div className="topLine">
         <p className="whereText">where</p>
@@ -67,7 +68,10 @@ const AddGroup = () => {
         <div className="containsOption">
           <div className="containsOptionMain">
             {containsArr.map((item, i) => (
-              <div className={`optionsWrapper ${i === 2 && 'active'}`}>
+              <div
+                className={`optionsWrapper ${i === hoverElement && 'active'}`}
+                onMouseOver={() => setHoverElement(i)}
+              >
                 {item}
               </div>
             ))}

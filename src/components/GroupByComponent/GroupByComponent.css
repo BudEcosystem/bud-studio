@@ -98,15 +98,21 @@
 }
 
 .inputName {
-  width: 100%;
+  width: 90%;
   height: 32px;
   border-radius: 6px;
   border: 0.5px solid #939AFF;
   background: #151517;
+  color: white;
+  outline: none;
+  margin-left: 10px;
+
 }
 
 .nameSearchConatiner {
   margin-top: 8px;
+  caret-color: #FFD976;
+  display: flex;
 }
 
 .inputName::placeholder {
@@ -126,6 +132,7 @@
   padding: 14px 16px 10px 24px;
   margin-top: 5px;
   position: absolute;
+  z-index: 10;
 }
 
 .darkButton {
@@ -232,4 +239,5 @@
 
 .active {
   background: #151515;
+  cursor: pointer;
 }

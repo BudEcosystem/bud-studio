@@ -262,6 +262,25 @@
     cursor: pointer;
     width: 10px;
     height: 15px;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    padding: 9px 15px;
+    border-radius: 6px;
+    background: #212023;
+}
+
+.threeDotsOptionsContainer {
+    position: absolute;
+    right: 196px;
+    top: 48px;
+}
+
+.groupbyOptions {
+    position: absolute;
+    z-index: 15;
+    top: 42px;
+    right: -70px;
 }
 
 .curveContainer {
