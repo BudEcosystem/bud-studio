@@ -92,6 +92,7 @@ const NewTaskPanel = ({ view }: any) => {
       <div
         onClick={() => setShowThreeDotsOption(!showThreeDotsOption)}
         className="threeDots"
+        style={{background: `${showThreeDotsOption ? '#212023' : 'transparent'}`}}
       >
         <ThreeDots />
         {showThreeDotsOption && (

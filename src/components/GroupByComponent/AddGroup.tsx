@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './GroupByComponent.css';
 import { DownArrowName, NameText, ThreeDotsName } from './GropuByIcons';
+import { useDispatch } from 'react-redux';
+import { setDisplayToggle } from 'redux/slices/activestate';
 
-const AddGroup = () => {
+const AddGroup = ({displayToggle}: any) => {
   const containsArr = [
     'Is',
     'Is not',
@@ -15,8 +17,36 @@ const AddGroup = () => {
   ];
   const [isContainsOption, setIsContainsOption] = useState(false);
   const [hoverElement, setHoverElement] = useState(-1);
+
+  const wrapperRef = useRef(null);
+  const dispatch = useDispatch();
+
+  const { } = useOutsideAlerter(
+      wrapperRef
+    );
+  
+    function useOutsideAlerter(ref: any) {
+  
+      useEffect(() => {
+        function handleClickOutside(event: any) {
+           if (
+            ref.current &&
+            !ref.current.contains(event.target)
+          ) { dispatch(setDisplayToggle(!displayToggle));
+          }
+        }
+  
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, [ref]);
+  
+      return { };
+    }
+
   return ( 
-    <div className="addGroupContainer">
+    <div ref={wrapperRef} className="addGroupContainer">
       <div className="topLine">
         <p className="whereText">where</p>
         <div className="darkButton">

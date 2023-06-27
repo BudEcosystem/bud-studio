@@ -260,14 +260,11 @@
 .threeDots {
     margin-left: 25px;
     cursor: pointer;
-    width: 10px;
-    height: 15px;
     position: relative;
     width: 32px;
     height: 32px;
     padding: 9px 15px;
     border-radius: 6px;
-    background: #212023;
 }
 
 .threeDotsOptionsContainer {
