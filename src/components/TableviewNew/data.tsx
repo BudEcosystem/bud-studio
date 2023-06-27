@@ -99,3 +99,47 @@ export const data = [
     tag: 'recurring',
   },
 ];
+
+export const columns = [
+  {
+    Header: '#',
+    accessor: 'id',
+    // sortType: (a, b) => {
+    //   const numA = parseInt(a, 10);
+    //   const numB = parseInt(b, 10);
+    //   return numA - numB;
+    // },
+  },
+  {
+    Header: 'Account Name',
+    accessor: 'account_name',
+  },
+  {
+    Header: 'Account ID',
+    accessor: 'account_id',
+  },
+  {
+    Header: 'Annual Revenue',
+    accessor: 'annual_revenue',
+  },
+  {
+    Header: 'Score',
+    accessor: 'score',
+  },
+  {
+    Header: 'Due Date',
+    accessor: 'due_date',
+  },
+  {
+    Header: 'Assignee',
+    accessor: 'assignee',
+  },
+  {
+    Header: 'Priority',
+    accessor: 'priority',
+  },
+  {
+    Header: 'Tag',
+    accessor: 'tag',
+  },
+];
