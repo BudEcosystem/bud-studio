@@ -15,7 +15,7 @@ const AddGroup = () => {
   ];
   const [isContainsOption, setIsContainsOption] = useState(false);
   const [hoverElement, setHoverElement] = useState(-1);
-  return (
+  return ( 
     <div className="addGroupContainer">
       <div className="topLine">
         <p className="whereText">where</p>
