@@ -39,7 +39,7 @@ const GroupByComponent = () => {
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, [ref]);
+    }, [ref, displayToggle]);
 
     return { };
   }
