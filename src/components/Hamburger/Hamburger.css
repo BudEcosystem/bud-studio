@@ -46,8 +46,7 @@
 }
 
 .ham-container{
-  position: absolute;
-  bottom: 23px;
-  left: 20px;
+  position: fixed;
+  top: 75vh;
 }
 
