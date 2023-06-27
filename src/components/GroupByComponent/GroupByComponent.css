@@ -126,6 +126,7 @@
   padding: 14px 16px 10px 24px;
   margin-top: 5px;
   position: absolute;
+  z-index: 10;
 }
 
 .darkButton {
