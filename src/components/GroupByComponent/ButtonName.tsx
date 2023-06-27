@@ -2,7 +2,7 @@ import React from 'react';
 import { DownArrow } from './GropuByIcons';
 import './GroupByComponent.css';
 
-const ButtonName = ({ name, icon }) => {
+const ButtonName = ({ name, icon }: any) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       {icon && (
