@@ -22,7 +22,9 @@ import { EmptyFlag, TiletedArrow, UpAndDown } from './TableIcons';
 import { updateAppData, updateAppName } from 'redux/slices/workspace';
 
 function TableviewNew({ workspaceObj, uiDetails }: any) {
+
   const { table, workspace }: any = useSelector((state) => state);
+
   const { columnsArray, newTaskClickedtable, addNewRow, rowsInTable } = table;
   const { color } = workspace;
   const [title, setTitle] = useState('');

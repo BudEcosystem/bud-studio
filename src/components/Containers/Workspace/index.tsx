@@ -22,8 +22,9 @@ import EditorHeader from 'components/EditorHeader';
 import bgImage from 'components/EditorHeader/images/bgImage.png';
 import iconImage from 'components/EditorHeader/images/iconImage.png';
 import { updateDocumentData } from 'redux/slices/workspace';
-import classes from './workspace.module.css';
 import { imageGeneration, jsonResult } from 'api';
+import classes from './workspace.module.css';
+import DatabaseView from './Database';
 
 interface WorkspaceProps {
   isCollapsed: boolean;
@@ -43,7 +44,7 @@ export default function Workspace({
   // Get the workspace state from redux
   const { workspace }: any = useSelector((state) => state);
   // Flyout Menu
-  const [showFlyoutMenu, setShowFlyoutMenu] = useState(false);
+  const [showFlyoutMenu, setShowFlyoutMenu] = useState(true);
   const [currentDocument, setCurrentDocument] = useState(null);
   const [currentDocumentID, setCurrentDocumentID] = useState(null);
 
@@ -63,7 +64,6 @@ export default function Workspace({
     }
 
     if (workspace.currentSelectedDocId) {
-
       setCurrentDocumentID(workspace.currentSelectedDocId);
 
       const docId = getDocumentByID(workspace.currentSelectedDocId);
@@ -119,24 +119,22 @@ function WorkspaceEditor({
 
   const dispatch = useDispatch();
 
-  const [coverImgAPI, setCoverImageAPI] = useState('')
+  const [coverImgAPI, setCoverImageAPI] = useState('');
 
   useEffect(() => {
     fetchApiData();
   }, []);
 
   const fetchApiData = async () => {
-      const apiData  = await imageGeneration();
-      console.log("API DATA", apiData)
-      if(!apiData) {
-        const imageSource = `data:image/jpeg;base64,${jsonResult.output[0]}`;
-        setCoverImageAPI(imageSource)
-      }
-      else {
-        const imageSource = `data:image/jpeg;base64,${apiData.output[0]}`;
-        setCoverImageAPI(imageSource)
-      }
-
+    const apiData = await imageGeneration();
+    console.log('API DATA', apiData);
+    if (!apiData) {
+      const imageSource = `data:image/jpeg;base64,${jsonResult.output[0]}`;
+      setCoverImageAPI(imageSource);
+    } else {
+      const imageSource = `data:image/jpeg;base64,${apiData.output[0]}`;
+      setCoverImageAPI(imageSource);
+    }
   };
 
   const persistEditorRoot = (editorState) => {
@@ -180,7 +178,7 @@ function WorkspaceEditor({
                     />
                   </>
                 ) : (
-                  <> Document </>
+                  <DatabaseView />
                 )}
               </motion.div>
             </AnimatePresence>
