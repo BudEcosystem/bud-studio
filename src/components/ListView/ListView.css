@@ -128,6 +128,13 @@
     margin-left: 10px;
 }
 
+.sortbyOptions {
+    position: absolute;
+    z-index: 15;
+    top: 42px;
+    right: -100px;
+}
+
 .kabuniTextAppMode {
     font-style: normal;
     font-weight: 400;
