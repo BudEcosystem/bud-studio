@@ -17,6 +17,8 @@ const generateInitialState = (): any => {
     groupBy: false,
     groupByOption: '',
     displayToggle: true,
+    sortBy: false,
+    sortByOption: '',
   };
   return initialState;
 };
@@ -64,6 +66,12 @@ export const activestateSlice = createSlice({
     setDisplayToggle: (state, action: PayloadAction<any>) => {
       state.displayToggle = action.payload;
     },
+    setSortBy: (state, action: PayloadAction<any>) => {
+      state.groupBy = action.payload;
+    },
+    setSortByOption: (state, action: PayloadAction<any>) => {
+      state.groupByOption = action.payload;
+    },
   },
 });
 export const {
@@ -78,5 +86,7 @@ export const {
   setGroupBy,
   setGroupByOption,
   setDisplayToggle,
+  setSortBy,
+  setSortByOption,
 } = activestateSlice.actions;
 export default activestateSlice.reducer;

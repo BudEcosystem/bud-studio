@@ -41,7 +41,8 @@ const ThreeDotsOption = ({setShowThreeDotsOption}: any) => {
                 <Rename />
                 <h3
                   style={{
-                    marginLeft: '20px',
+                    position: "absolute",
+                    left: "50px",
                     color: 'white',
                     fontWeight: '400',
                     fontSize: '14px',
@@ -58,7 +59,8 @@ const ThreeDotsOption = ({setShowThreeDotsOption}: any) => {
                   <Plus />
                   <h3
                     style={{
-                      marginLeft: '20px',
+                      position: "absolute",
+                      left: "50px",
                       color: 'white',
                       fontWeight: '400',
                       fontSize: '14px',
@@ -78,7 +80,8 @@ const ThreeDotsOption = ({setShowThreeDotsOption}: any) => {
                 <Duplicate />
                 <h3
                   style={{
-                    marginLeft: '20px',
+                    position: "absolute",
+                    left: "50px",
                     color: 'white',
                     fontWeight: '400',
                     fontSize: '14px',
@@ -95,7 +98,8 @@ const ThreeDotsOption = ({setShowThreeDotsOption}: any) => {
                 <CopyLink />
                 <h3
                   style={{
-                    marginLeft: '20px',
+                    position: "absolute",
+                    left: "50px",
                     color: 'white',
                     fontWeight: '400',
                     fontSize: '14px',
@@ -111,7 +115,8 @@ const ThreeDotsOption = ({setShowThreeDotsOption}: any) => {
                 <Move />
                 <h3
                   style={{
-                    marginLeft: '20px',
+                    position: "absolute",
+                    left: "50px",
                     color: 'white',
                     fontWeight: '400',
                     fontSize: '14px',
@@ -131,7 +136,8 @@ const ThreeDotsOption = ({setShowThreeDotsOption}: any) => {
                 <Archive />
                 <h3
                   style={{
-                    marginLeft: '20px',
+                    position: "absolute",
+                    left: "50px",
                     color: 'white',
                     fontWeight: '400',
                     fontSize: '14px',
@@ -150,7 +156,8 @@ const ThreeDotsOption = ({setShowThreeDotsOption}: any) => {
                 <Delete />
                 <h3
                   style={{
-                    marginLeft: '20px',
+                    position: "absolute",
+                    left: "50px",
                     color: 'white',
                     fontWeight: '400',
                     fontSize: '14px',
