@@ -68,7 +68,7 @@ function HeaderSection({ view, updateCurrentTitle, title }: any) {
       <div className="listViewContainer">
         {!isAppMode ? (
           <>
-            <div style={{marginBottom: "50px"}}>
+            <div style={{marginBottom: "30px"}}>
             <EditorHeader view={view} coverImg={bgImg} iconImg={iconImg} />
             </div>
             <div className="mgLeft">
