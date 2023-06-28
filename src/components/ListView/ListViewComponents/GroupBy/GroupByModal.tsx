@@ -8,6 +8,7 @@ import {
   Search,
   Shortcut,
   Plus,
+  Name,
 } from './GroupByModalIcons';
 import {
   setDisplayToggle,
@@ -63,13 +64,14 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
             dispatch(setGroupByOption('Name'));
           }}
         >
-          <Rename />
+          <Name />
           <h3
-            style={{
-              marginLeft: '20px',
+            style={{left: "60px",
               color: 'white',
               fontWeight: '400',
               fontSize: '14px',
+              position: "absolute",
+
             }}
           >
             Name
@@ -79,11 +81,12 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
         <div className="GroupByOption">
           <Assign />
           <h3
-            style={{
-              marginLeft: '20px',
+            style={{left: "60px",
               color: 'white',
               fontWeight: '400',
               fontSize: '14px',
+              position: "absolute",
+
             }}
           >
             Assign
@@ -93,11 +96,12 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
         <div className="GroupByOption">
           <Priority />
           <h3
-            style={{
-              marginLeft: '20px',
+            style={{left: "60px",
               color: 'white',
               fontWeight: '400',
               fontSize: '14px',
+              position: "absolute",
+
             }}
           >
             Priority
@@ -107,11 +111,12 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
         <div className="GroupByOption">
           <Status />
           <h3
-            style={{
-              marginLeft: '20px',
+            style={{left: "60px",
               color: 'white',
               fontWeight: '400',
               fontSize: '14px',
+              position: "absolute",
+
             }}
           >
             Status
