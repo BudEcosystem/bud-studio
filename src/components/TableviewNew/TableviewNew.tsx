@@ -2,9 +2,12 @@ import HeaderSection from 'components/ListView/HeaderSection';
 import React, { useEffect, useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
 import './tableviewNew.css';
 import './tablecss.scss';
+
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   generateInitialTableState,
   setColumnOrder,
@@ -17,8 +20,10 @@ import {
   sortedRowsReorder,
   updateWholeTableState,
 } from 'redux/slices/table';
+
 import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
 import { EmptyFlag, TiletedArrow, UpAndDown } from './TableIcons';
+
 import { updateAppData, updateAppName } from 'redux/slices/workspace';
 import { columns, data } from './data';
 
@@ -37,7 +42,7 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
 
   const dispatch = useDispatch();
   const [newColumnInput, setNewColumnInput] = useState('');
-  generateInitialTableState;
+  // generateInitialTableState;
   useEffect(() => {
     const { editorApplicationsAdded } = workspace;
     const currentApplicationId = uiDetails.split('--')[2];

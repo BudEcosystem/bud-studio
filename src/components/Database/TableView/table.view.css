@@ -1,0 +1,61 @@
+.table-wrapper {
+  width: 1151px;
+  border-radius: 12px;
+  border: 0.5px dashed #2f2f2f;
+  background: #101010;
+  padding: 10px 10px 13px 10px;
+
+  transition: border 0.5s linear;
+  margin: auto;
+}
+
+.table-wrapper:hover{
+  border: 0.5px dashed #939AFF;
+}
+
+.table-wrapper:hover .table-drag-button{
+  opacity: 1;
+
+}
+
+/*.table-wrapper:hover .table-drag-button{*/
+/*  background: #939AFF;*/
+/*}*/
+
+.table-drag-button{
+  width: 18px;
+  height: 18px;
+  background: #939AFF;
+  border-radius: 50px;
+  margin-left: 515px;
+  /* margin-right: auto; */
+  margin-top: 3px;
+  cursor: all-scroll;
+  display: flex;
+  flex-direction: column;
+  /* align-content: center; */
+  justify-content: space-evenly;
+  align-items: center;
+  position: absolute;
+
+  opacity: 0;
+  transition: opacity 0.5s linear;
+
+}
+
+.table-drag-button svg{
+
+  width: 9px;
+  height: 9px;
+  fill: #101010;
+}
+
+.table-drag-button:hover ~ .table-wrapper{
+  border: 0.5px dashed #939AFF;
+}
+
+.table-wrapper > div:first-child {
+  border-radius: 5px;
+}
+
+

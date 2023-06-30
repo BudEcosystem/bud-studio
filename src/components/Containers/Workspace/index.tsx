@@ -23,6 +23,7 @@ import bgImage from 'components/EditorHeader/images/bgImage.png';
 import iconImage from 'components/EditorHeader/images/iconImage.png';
 import { updateDocumentData } from 'redux/slices/workspace';
 import { imageGeneration, jsonResult } from 'api';
+import Database from 'components/Database';
 import classes from './workspace.module.css';
 import DatabaseView from './Database';
 
@@ -178,7 +179,8 @@ function WorkspaceEditor({
                     />
                   </>
                 ) : (
-                  <DatabaseView />
+                  <Database />
+                  // <DatabaseView />
                 )}
               </motion.div>
             </AnimatePresence>
