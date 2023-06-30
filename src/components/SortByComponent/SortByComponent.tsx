@@ -1,36 +1,36 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './GroupByComponent.css';
+import './SortByComponent.css';
 import ButtonName from './ButtonName';
-import { Group, NameText } from './GropuByIcons';
+import { Group, NameText } from './SortByIcons';
 import NameComponent from './NameComponent';
 import AddGroup from './AddGroup';
 import { useSelector } from 'react-redux';
 import {
   setDisplayToggle,
-  setGroupBy,
-  setGroupByOption,
+  setSortBy,
+  setSortByOption,
 } from 'redux/slices/activestate';
 import { useDispatch } from 'react-redux';
 
-const GroupByComponent = () => {
+const SortByComponent = () => {
   const { activestate }: any = useSelector((state) => state);
-  const { groupByOption, displayToggle } = activestate;
-  const [toggle, setToggle] = useState(groupByOption);
+  const { sortByOption, displayToggleSortBy } = activestate;
+  const [toggle, setToggle] = useState(sortByOption);
   const mainRef = useRef(null);
   const dispatch = useDispatch();
-
+  console.log(sortByOption, displayToggleSortBy);
   const {} = useOutsideAlerter(mainRef);
 
   function useOutsideAlerter(ref: any) {
     useEffect(() => {
       function handleClickOutside(event: any) {
-        console.log('DISPLAY TOGGLE', displayToggle);
+        console.log('DISPLAY TOGGLE', displayToggleSortBy);
         if (
           ref.current &&
           !ref.current.contains(event.target) &&
-          !displayToggle
+          !displayToggleSortBy
         ) {
-          dispatch(setGroupBy(false));
+          dispatch(setSortBy(false));
         }
       }
 
@@ -38,7 +38,7 @@ const GroupByComponent = () => {
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, [ref, displayToggle]);
+    }, [ref, displayToggleSortBy]);
 
     return {};
   }
@@ -49,14 +49,14 @@ const GroupByComponent = () => {
         <div>
           <div className="gropuByLeftContainer">
             <div className="leftButtonGropuBy">
-              {groupByOption === 'Name' && (
+              {sortByOption === 'Name' && (
                 <ButtonName name={`Name`} icon={<NameText />} />
               )}
-              {groupByOption === 'AddGroup' && (
+              {sortByOption === 'AddSort' && (
                 <ButtonName name={`1 rule`} icon={<Group />} />
               )}
             </div>
-            <p className="addTextGroupBy">+ Add New</p>
+            <p className="addTextSortBy">+ Add New</p>
           </div>
         </div>
         <div className="gropuByRightContainer">
@@ -66,15 +66,15 @@ const GroupByComponent = () => {
           </div>
         </div>
       </div>
-      {displayToggle && groupByOption === 'Name' && (
-        <NameComponent displayToggle={displayToggle} />
+      {displayToggleSortBy && sortByOption === 'Name' && (
+        <NameComponent displayToggle={displayToggleSortBy} />
       )}
-      {displayToggle && groupByOption === 'AddGroup' && (
-        <AddGroup displayToggle={displayToggle} />
+      {displayToggleSortBy && sortByOption === 'AddSort' && (
+        <AddGroup displayToggle={displayToggleSortBy} />
       )}
       {/* <AddGroup /> */}
     </div>
   );
 };
 
-export default GroupByComponent;
+export default SortByComponent;
