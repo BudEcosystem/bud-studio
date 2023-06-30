@@ -317,6 +317,26 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
             }
           }),
       }),
+      new ComponentPickerOption('Simple Table', {
+        icon: <i className="icon code" />,
+        keywords: ['table', 'rows', 'columns', 'grid'],
+        onSelect: () =>
+          editor.update(() => {
+            const selection = $getSelection();
+
+            if ($isRangeSelection(selection)) {
+              if (selection.isCollapsed()) {
+                $setBlocksType(selection, () => $createCodeNode());
+              } else {
+                // Will this ever happen?
+                const textContent = selection.getTextContent();
+                const codeNode = $createCodeNode();
+                selection.insertNodes([codeNode]);
+                selection.insertRawText(textContent);
+              }
+            }
+          }),
+      }),
       new ComponentPickerOption('Divider', {
         icon: <i className="icon horizontal-rule" />,
         keywords: ['horizontal rule', 'divider', 'hr'],

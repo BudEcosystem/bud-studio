@@ -224,6 +224,8 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
           <TextFormatFloatingToolbar />
           <ImagesPlugin />
           <InlineImagePlugin />
+          <TablePlugin/>
+          <TableCellResizer />
 
           <ContextMenuPlugin />
 
