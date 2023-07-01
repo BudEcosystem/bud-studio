@@ -125,6 +125,7 @@
     "@emotion/styled": "^11.11.0",
     "@floating-ui/dom": "^1.4.1",
     "@glideapps/glide-data-grid": "^5.2.1",
+    "@glideapps/glide-data-grid-cells": "^5.2.1",
     "@lexical/code": "^0.11.1",
     "@lexical/hashtag": "^0.11.1",
     "@lexical/link": "^0.11.1",

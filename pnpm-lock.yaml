@@ -64,6 +64,9 @@ dependencies:
   '@glideapps/glide-data-grid':
     specifier: ^5.2.1
     version: 5.2.1(lodash@4.17.21)(marked@5.1.0)(react-dom@18.2.0)(react-responsive-carousel@3.2.23)(react@18.2.0)
+  '@glideapps/glide-data-grid-cells':
+    specifier: ^5.2.1
+    version: 5.2.1(@types/react@18.0.27)(lodash@4.17.21)(marked@5.1.0)(react-dom@18.2.0)(react-responsive-carousel@3.2.23)(react@18.2.0)
   '@lexical/code':
     specifier: ^0.11.1
     version: 0.11.1(lexical@0.11.1)
@@ -2262,6 +2265,22 @@ packages:
       tabbable: 6.1.2
     dev: false
 
+  /@glideapps/glide-data-grid-cells@5.2.1(@types/react@18.0.27)(lodash@4.17.21)(marked@5.1.0)(react-dom@18.2.0)(react-responsive-carousel@3.2.23)(react@18.2.0):
+    resolution: {integrity: sha512-o4gA8U3mwOMZTAszKAkm6tcP0aYsi1YQNpg/Ie8U0czpUvApPaBbhZM0bNBstVhzlB9IIgWatfOJEk2rnxA76w==}
+    dependencies:
+      '@glideapps/glide-data-grid': 5.2.1(lodash@4.17.21)(marked@5.1.0)(react-dom@18.2.0)(react-responsive-carousel@3.2.23)(react@18.2.0)
+      '@toast-ui/editor': 3.1.10
+      '@toast-ui/react-editor': 3.1.10(react@18.2.0)
+      react-select: 5.7.3(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0)
+    transitivePeerDependencies:
+      - '@types/react'
+      - lodash
+      - marked
+      - react
+      - react-dom
+      - react-responsive-carousel
+    dev: false
+
   /@glideapps/glide-data-grid@5.2.1(lodash@4.17.21)(marked@5.1.0)(react-dom@18.2.0)(react-responsive-carousel@3.2.23)(react@18.2.0):
     resolution: {integrity: sha512-2ds1xwYZkoJil7OyoHJHMtjq/MTwIFBRLx2VPAP5d6XaJRbuni3UCjtpUH51qf8o1qHeZsSE/dg3hJZZ2I86SQ==}
     peerDependencies:
@@ -3934,6 +3953,29 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /@toast-ui/editor@3.1.10:
+    resolution: {integrity: sha512-lzJxNM9lEbAxEqVAnLGqARLFqcVAPW3gwVOU0qKHf/IIwdhjZPjo8VDNQ4sPqOsC7vKCG35HVX8bNC+ab+Gzlg==}
+    dependencies:
+      dompurify: 2.4.5
+      prosemirror-commands: 1.1.12
+      prosemirror-history: 1.1.3
+      prosemirror-inputrules: 1.1.3
+      prosemirror-keymap: 1.1.5
+      prosemirror-model: 1.14.3
+      prosemirror-state: 1.3.4
+      prosemirror-transform: 1.3.4
+      prosemirror-view: 1.18.11
+    dev: false
+
+  /@toast-ui/react-editor@3.1.10(react@18.2.0):
+    resolution: {integrity: sha512-IY9uEIVKsOcWHuGf4kn08xILudhhNBbp3tGEvhpxpmhWiuFDKuEVBhTk/sUmFR4pytNefcvNi9wjzWU2BcYD+Q==}
+    peerDependencies:
+      react: ^17.0.1
+    dependencies:
+      '@toast-ui/editor': 3.1.10
+      react: 18.2.0
+    dev: false
+
   /@tootallnate/once@2.0.0:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
     engines: {node: '>= 10'}
@@ -4264,6 +4306,12 @@ packages:
     dependencies:
       '@types/react': 18.0.27
     dev: true
+
+  /@types/react-transition-group@4.4.6:
+    resolution: {integrity: sha512-VnCdSxfcm08KjsJVQcfBmhEQAPnLB8G08hAxn39azX1qYBQ/5RVQuoHuKIcfKOdncuaUvEpFKFzEvbtIMsfVew==}
+    dependencies:
+      '@types/react': 18.0.27
+    dev: false
 
   /@types/react@18.0.27:
     resolution: {integrity: sha512-3vtRKHgVxu3Jp9t718R9BuzoD4NcQ8YJ5XRzsSKxNDiDonD2MXIT1TmSkenxuCycZJoQT5d2vE8LwWJxBC1gmA==}
@@ -6618,6 +6666,13 @@ packages:
       utila: 0.4.0
     dev: true
 
+  /dom-helpers@5.2.1:
+    resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
+    dependencies:
+      '@babel/runtime': 7.22.5
+      csstype: 3.1.2
+    dev: false
+
   /dom-serializer@1.4.1:
     resolution: {integrity: sha512-VHwB3KfrcOOkelEG2ZOfxqLZdfkil8PtJi4P8N2MMXucZq2yLp75ClViUlOVwyoHEDjYU433Aq+5zWP61+RGag==}
     dependencies:
@@ -6643,6 +6698,10 @@ packages:
     dependencies:
       domelementtype: 2.3.0
     dev: true
+
+  /dompurify@2.4.5:
+    resolution: {integrity: sha512-jggCCd+8Iqp4Tsz0nIvpcb22InKEBrGz5dw3EQJMs8HPJDsKbFIO3STYtAvCfDx26Muevn1MHVI0XxjgFfmiSA==}
+    dev: false
 
   /domutils@2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
@@ -10106,6 +10165,10 @@ packages:
     resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==}
     dev: false
 
+  /memoize-one@6.0.0:
+    resolution: {integrity: sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==}
+    dev: false
+
   /memory-fs@0.2.0:
     resolution: {integrity: sha512-+y4mDxU4rvXXu5UDSGCGNiesFmwCHuefGMoPCO1WYucNYj7DsLqrFaa2fXVI0H+NNiPTwwzKwspn9yTZqUGqng==}
     dev: true
@@ -10898,6 +10961,10 @@ packages:
       wcwidth: 1.0.1
     dev: true
 
+  /orderedmap@1.1.8:
+    resolution: {integrity: sha512-eWEYOAggZZpZbJ9CTsqAKOTxlbBHdHZ8pzcfEvNTxGrjQ/m+Q25nSWUiMlT9MTbgpB6FOiBDKqsgJ2FlLDVNaw==}
+    dev: false
+
   /orderedmap@2.1.1:
     resolution: {integrity: sha512-TvAWxi0nDe1j/rtMcWcIj94+Ffe6n7zhow33h40SKxmsmozs6dz/e+EajymfoFcHd7sxNn8yHM8839uixMOV6g==}
     dev: false
@@ -11526,6 +11593,14 @@ packages:
       prosemirror-state: 1.4.3
     dev: false
 
+  /prosemirror-commands@1.1.12:
+    resolution: {integrity: sha512-+CrMs3w/ZVPSkR+REg8KL/clyFLv/1+SgY/OMN+CB22Z24j9TZDje72vL36lOZ/E4NeRXuiCcmENcW/vAcG67A==}
+    dependencies:
+      prosemirror-model: 1.19.2
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.7.3
+    dev: false
+
   /prosemirror-commands@1.5.2:
     resolution: {integrity: sha512-hgLcPaakxH8tu6YvVAaILV2tXYsW3rAdDR8WNkeKGcgeMVQg3/TMhPdVoh7iAmfgVjZGtcOSjKiQaoeKjzd2mQ==}
     dependencies:
@@ -11551,6 +11626,14 @@ packages:
       prosemirror-view: 1.31.5
     dev: false
 
+  /prosemirror-history@1.1.3:
+    resolution: {integrity: sha512-zGDotijea+vnfnyyUGyiy1wfOQhf0B/b6zYcCouBV8yo6JmrE9X23M5q7Nf/nATywEZbgRLG70R4DmfSTC+gfg==}
+    dependencies:
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.7.3
+      rope-sequence: 1.3.4
+    dev: false
+
   /prosemirror-history@1.3.2:
     resolution: {integrity: sha512-/zm0XoU/N/+u7i5zepjmZAEnpvjDtzoPWW6VmKptcAnPadN/SStsBjMImdCEbb3seiNTpveziPTIrXQbHLtU1g==}
     dependencies:
@@ -11560,11 +11643,25 @@ packages:
       rope-sequence: 1.3.4
     dev: false
 
+  /prosemirror-inputrules@1.1.3:
+    resolution: {integrity: sha512-ZaHCLyBtvbyIHv0f5p6boQTIJjlD6o2NPZiEaZWT2DA+j591zS29QQEMT4lBqwcLW3qRSf7ZvoKNbf05YrsStw==}
+    dependencies:
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.7.3
+    dev: false
+
   /prosemirror-inputrules@1.2.1:
     resolution: {integrity: sha512-3LrWJX1+ULRh5SZvbIQlwZafOXqp1XuV21MGBu/i5xsztd+9VD15x6OtN6mdqSFI7/8Y77gYUbQ6vwwJ4mr6QQ==}
     dependencies:
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.7.3
+    dev: false
+
+  /prosemirror-keymap@1.1.5:
+    resolution: {integrity: sha512-8SZgPH3K+GLsHL2wKuwBD9rxhsbnVBTwpHCO4VUO5GmqUQlxd/2GtBVWTsyLq4Dp3N9nGgPd3+lZFKUDuVp+Vw==}
+    dependencies:
+      prosemirror-state: 1.4.3
+      w3c-keyname: 2.2.8
     dev: false
 
   /prosemirror-keymap@1.2.2:
@@ -11590,6 +11687,12 @@ packages:
       prosemirror-state: 1.4.3
     dev: false
 
+  /prosemirror-model@1.14.3:
+    resolution: {integrity: sha512-yzZlBaSxfUPIIP6U5Edh5zKxJPZ5f7bwZRhiCuH3UYkWhj+P3d8swHsbuAMOu/iDatDc5J/Qs5Mb3++mZf+CvQ==}
+    dependencies:
+      orderedmap: 1.1.8
+    dev: false
+
   /prosemirror-model@1.19.2:
     resolution: {integrity: sha512-RXl0Waiss4YtJAUY3NzKH0xkJmsZupCIccqcIFoLTIKFlKNbIvFDRl27/kQy1FP8iUAxrjRRfIVvOebnnXJgqQ==}
     dependencies:
@@ -11607,6 +11710,13 @@ packages:
     dependencies:
       prosemirror-model: 1.19.2
       prosemirror-state: 1.4.3
+      prosemirror-transform: 1.7.3
+    dev: false
+
+  /prosemirror-state@1.3.4:
+    resolution: {integrity: sha512-Xkkrpd1y/TQ6HKzN3agsQIGRcLckUMA9u3j207L04mt8ToRgpGeyhbVv0HI7omDORIBHjR29b7AwlATFFf2GLA==}
+    dependencies:
+      prosemirror-model: 1.19.2
       prosemirror-transform: 1.7.3
     dev: false
 
@@ -11646,10 +11756,24 @@ packages:
       - supports-color
     dev: false
 
+  /prosemirror-transform@1.3.4:
+    resolution: {integrity: sha512-gTsg3UIeaFuEY6+YmNPMgTpEkCKPedkFIUnsPpOMbclU701fEVI/e4VOXACXh3BO5rZJaBbEBwrnzB0mLp6eBA==}
+    dependencies:
+      prosemirror-model: 1.19.2
+    dev: false
+
   /prosemirror-transform@1.7.3:
     resolution: {integrity: sha512-qDapyx5lqYfxVeUWEw0xTGgeP2S8346QtE7DxkalsXlX89lpzkY6GZfulgfHyk1n4tf74sZ7CcXgcaCcGjsUtA==}
     dependencies:
       prosemirror-model: 1.19.2
+    dev: false
+
+  /prosemirror-view@1.18.11:
+    resolution: {integrity: sha512-KXUM8UEV+IK4JYWHNyxkPGDGbxeTEUHQv3POApfyTRN5eMcPFbY4cB0mDJr0LPelVvYPghmZDOCqfCIm9mYHtQ==}
+    dependencies:
+      prosemirror-model: 1.19.2
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.7.3
     dev: false
 
   /prosemirror-view@1.31.5:
@@ -12509,6 +12633,27 @@ packages:
       react: 18.2.0
     dev: false
 
+  /react-select@5.7.3(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-z8i3NCuFFWL3w27xq92rBkVI2onT0jzIIPe480HlBjXJ3b5o6Q+Clp4ydyeKrj9DZZ3lrjawwLC5NGl0FSvUDg==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.22.5
+      '@emotion/cache': 11.11.0
+      '@emotion/react': 11.11.0(@types/react@18.0.27)(react@18.2.0)
+      '@floating-ui/dom': 1.4.1
+      '@types/react-transition-group': 4.4.6
+      memoize-one: 6.0.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-transition-group: 4.4.5(react-dom@18.2.0)(react@18.2.0)
+      use-isomorphic-layout-effect: 1.1.2(@types/react@18.0.27)(react@18.2.0)
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
+
   /react-shallow-renderer@16.15.0(react@18.2.0):
     resolution: {integrity: sha512-oScf2FqQ9LFVQgA73vr86xl2NaOIX73rh+YFqcOp68CWj56tSfgtGKrEbyhCj0rSijyG9M1CYprTh39fBi5hzA==}
     peerDependencies:
@@ -12550,6 +12695,20 @@ packages:
       use-latest: 1.2.1(@types/react@18.0.27)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
+    dev: false
+
+  /react-transition-group@4.4.5(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
+    peerDependencies:
+      react: '>=16.6.0'
+      react-dom: '>=16.6.0'
+    dependencies:
+      '@babel/runtime': 7.22.5
+      dom-helpers: 5.2.1
+      loose-envify: 1.4.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react@18.2.0:

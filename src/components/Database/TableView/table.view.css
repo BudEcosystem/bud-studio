@@ -58,4 +58,52 @@
   border-radius: 5px;
 }
 
+.table-add-column{
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: space-around;
+  justify-content: center;
+  align-items: center;
+  margin-left: 6px;
+}
 
+.table-column-virtalbar{
+  width: 2px;
+  height: 19px;
+  background: #F9D45D;
+  margin-right: 4px;
+  border-radius: 5px;
+}
+
+.table-add-column-button{
+  border-radius: 2px;
+  background: rgba(217, 217, 217, 0.05);
+
+  font-size: 14px;
+  font-family: Noto Sans;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  cursor: text;
+  padding: .5px;
+  color: #BBB;
+}
+
+.table-add-column-button:focus{
+  color: #FFF;
+}
+
+.table-add-column-button:empty:before{
+  content: "Add Column";
+  cursor: text;
+  color: #BBB;
+}
+
+.dvn-spacer{
+  -webkit-box-flex: 0 !important;
+  -webkit-flex-grow: 0 !important;
+  -ms-flex-positive: 0 !important;
+  flex-grow: 0 !important;
+}
