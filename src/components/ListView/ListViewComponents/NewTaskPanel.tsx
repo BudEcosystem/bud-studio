@@ -10,6 +10,7 @@ import { triggerDefaultNewTask } from 'redux/slices/kanban';
 import { setNewTaskClickedtable } from 'redux/slices/table';
 import ThreeDotsOption from './ThreeDotsOption/ThreeDotsOption';
 import GroupByModal from './GroupBy/GroupByModal';
+import SortByModal from './SortBy/SortByModal';
 
 const nameAndLogoArray = [
   {
@@ -40,6 +41,7 @@ const NewTaskPanel = ({ view }: any) => {
   let { color } = workspace;
   const [showThreeDotsOption, setShowThreeDotsOption] = useState(false);
   const [showGroupBy, setShowGroupBy] = useState(false);
+  const [showSortBy, setShowSortBy] = useState(false);
 
   const newTaskHandler = () => {
     if (view === 'list') {
@@ -57,12 +59,15 @@ const NewTaskPanel = ({ view }: any) => {
   const handleOptionClick = (name: any) => {
     if (name == 'Group by') {
       setShowGroupBy(!showGroupBy);
+    } else if (name == 'Sort') {
+      setShowSortBy(!showSortBy);
     }
   };
   return (
     <div className="flexCenter">
       {nameAndLogoArray.map((item, i) => (
         <div
+          style={{ position: 'relative' }}
           onClick={() => {
             handleOptionClick(item.name);
           }}
@@ -72,6 +77,16 @@ const NewTaskPanel = ({ view }: any) => {
           <p className="itemName">{item.name}</p>
           {i === nameAndLogoArray.length - 1 ? undefined : (
             <div className="verticalLine">|</div>
+          )}
+          {item.name === 'Group by' && showGroupBy && (
+            <div className="groupbyOptions">
+              <GroupByModal setShowGroupBy={setShowGroupBy} />
+            </div>
+          )}
+          {item.name === 'Sort' && showSortBy && (
+            <div className="sortbyOptions">
+              <SortByModal setShowSortBy={setShowSortBy} />
+            </div>
           )}
         </div>
       ))}
@@ -85,12 +100,18 @@ const NewTaskPanel = ({ view }: any) => {
       </div>
       <div
         onClick={() => setShowThreeDotsOption(!showThreeDotsOption)}
-        className="threeDots flexCenter"
+        className="threeDots"
+        style={{
+          background: `${showThreeDotsOption ? '#212023' : 'transparent'}`,
+        }}
       >
         <ThreeDots />
+        {showThreeDotsOption && (
+          <div className="threeDotsOptionsContainer">
+            <ThreeDotsOption setShowThreeDotsOption={setShowThreeDotsOption} />
+          </div>
+        )}
       </div>
-      {showThreeDotsOption && <ThreeDotsOption setShowThreeDotsOption={setShowThreeDotsOption} />}
-      {showGroupBy && <GroupByModal setShowGroupBy={setShowGroupBy} />}
     </div>
   );
 };

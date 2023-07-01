@@ -1,4 +1,4 @@
-.GroupByModal {
+.SortByModal {
   width: 214px;
   height: 248px;
   background: #0c0c0c;
@@ -7,13 +7,13 @@
   padding: 15px;
 }
 
-.GroupByOptions {
+.SortByOptions {
   height: auto;
   width: 100%;
   margin-top: 10px;
 }
 
-.GroupByOption {
+.SortByOption {
   display: flex;
   width: 100%;
   height: 30px;
@@ -27,11 +27,11 @@
   border-radius: 6px;
 }
 
-.GroupByOption:hover {
+.SortByOption:hover {
   background-color: #151515;
 }
 
-.GroupBySearchBar {
+.SortBySearchBar {
   width: 100%;
   height: 32px;
   display: flex;
@@ -42,7 +42,7 @@
   border-radius: 10px;
 }
 
-.GroupBySearchInput {
+.SortBySearchInput {
   background: #1b1c1e;
   border: none;
   outline: none;
@@ -55,11 +55,11 @@
   font-weight: 400;
 }
 
-.GroupBySearchInput::placeholder {
+.SortBySearchInput::placeholder {
   text-align: left;
 }
 
-.GroupByLine {
+.SortByLine {
   height: 1px;
   width: 100%;
   display: flex;
@@ -69,7 +69,7 @@
   margin-top: 10px;
 }
 
-.GroupByAdd {
+.SortByAdd {
   margin-top: 10px;
   display: flex;
   align-items: center;

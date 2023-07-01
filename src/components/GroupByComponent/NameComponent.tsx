@@ -1,9 +1,37 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { DownArrowName, ThreeDotsName } from './GropuByIcons';
+import { useDispatch, useSelector } from 'react-redux'
+import { setDisplayToggle } from 'redux/slices/activestate';
 
-const NameComponent = () => {
+const NameComponent = ({displayToggle}: any) => {
+  const wrapperRef = useRef(null);
+  const dispatch = useDispatch();
+
+  const { } = useOutsideAlerter(
+      wrapperRef
+    );
+  
+    function useOutsideAlerter(ref: any) {
+  
+      useEffect(() => {
+        function handleClickOutside(event: any) {
+           if (
+            ref.current &&
+            !ref.current.contains(event.target)
+          ) { dispatch(setDisplayToggle(false));
+          }
+        }
+  
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, [ref]);
+  
+      return { };
+    }
   return (
-    <div className="dropDownContainer">
+    <div ref={wrapperRef} className="dropDownContainer">
       <div className="nameMainContainer">
         <div className="nameContainer">
           <div className="titleContainer">

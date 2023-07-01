@@ -14,11 +14,10 @@ import {
 } from './EditorIcons';
 import './Editor.css';
 
-const EditorHeader = ({coverImg, iconImg}: any) => {
+const EditorHeader = ({view, coverImg, iconImg}: any) => {
+
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
   const [iconAvailable, setIconAvailable] = useState(true)
-
-  console.log("COVER IMAGE", coverImg)
 
   return (
     <div className="editor">
@@ -97,7 +96,7 @@ const EditorHeader = ({coverImg, iconImg}: any) => {
         </div>
       )}
 
-      {iconAvailable ? (
+      {view=='' && iconAvailable ? (
         coverUrlAvailable ? (
           <div
             style={{
@@ -129,7 +128,7 @@ const EditorHeader = ({coverImg, iconImg}: any) => {
             </div>
           </div>
         )
-      ) : (
+      ) : ( view=='' &&
         <div
           style={{
             fontSize: '14px',

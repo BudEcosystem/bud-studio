@@ -4,7 +4,7 @@ import './GroupByComponent.css';
 import { setDisplayToggle } from 'redux/slices/activestate';
 import { useDispatch, useSelector } from 'react-redux';
 
-const ButtonName = ({ name, icon }) => {
+const ButtonName = ({ name, icon }: any) => {
   const dispatch = useDispatch();
   const { activestate }: any = useSelector((state) => state);
   const { displayToggle } = activestate;
