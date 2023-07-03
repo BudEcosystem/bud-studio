@@ -2,6 +2,8 @@
 
 .listViewContainer {
     /* margin-left: 56px; */
+    width: 100%;
+    margin-bottom: 30px;
 }
 
 .mgLeft {
@@ -265,7 +267,7 @@
 }
 
 .threeDots {
-    margin-left: 25px;
+    margin-left: 16px;
     cursor: pointer;
     position: relative;
     width: 32px;
