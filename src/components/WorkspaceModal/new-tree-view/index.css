@@ -25,7 +25,7 @@
 .tree ul li {
   display: flex;
   border-left: 2px solid var(--lineColor);
-  margin-left: 43px;
+  margin-left: 44px;
 }
 
 .tree ul li:last-child {
@@ -38,7 +38,7 @@
   position: absolute;
   top: calc(var(--spacing) / -2);
   left: -2px;
-  width: calc(var(--spacing) + -6px);
+  width: calc(var(--spacing) + -14px);
   height: calc(var(--spacing));
   border: solid var(--lineColor);
   border-width: 0 0 2px 2px;
@@ -99,7 +99,7 @@
   /* background: #696 url("expand-collapse.svg") 0 0; */
 }
 
-.tree details[open]>summary::before {
+.tree details[open] > summary::before {
   background-position: calc(-2 * var(--radius)) 0;
 }
 
@@ -108,11 +108,11 @@
   background: var(--bud-tertiary-background);
 }
 
-details>summary {
+details > summary {
   list-style-type: none;
 }
 
-details>summary::-webkit-details-marker {
+details > summary::-webkit-details-marker {
   display: none;
 }
 
@@ -388,16 +388,17 @@ details>summary::-webkit-details-marker {
 }
 
 .folderArrow {
-  margin-left: 9px;
-  margin-right: 10px;
+  /* margin-left: 9px;
+  margin-right: 10px; */
+  margin-left: 12px;
+  margin-right: 7px;
 }
 
 .summaryChild {
-  margin-left: 8px;
-
+  /* margin-left: 8px; */
 }
 
-.childFile>details>summary {
+.childFile > details > summary {
   margin-left: 20px;
   width: 100%;
   /* margin-top: 10px; */
@@ -433,15 +434,15 @@ details>summary::-webkit-details-marker {
   z-index: 15;
 }
 
-.subMenu>ul {
+.subMenu > ul {
   margin: unset;
 }
 
 .inputTree {
   background-color: #1b1c1e;
   border: none;
-  caret-color: #F9D45D;
-  color: #C6C6C6;
+  caret-color: #f9d45d;
+  color: #c6c6c6;
   border-radius: 2px;
   height: 20px;
   outline: none;
@@ -450,7 +451,7 @@ details>summary::-webkit-details-marker {
 }
 
 .inputTree::placeholder {
-  color: #585A5B;
+  color: #585a5b;
   text-align: left;
   opacity: 1;
 }
