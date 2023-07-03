@@ -374,7 +374,7 @@ function Tasks(props: any) {
             )}
             <TaskHeader>
               {' '}
-              {props?.task?.heading && (
+              {!props?.task?.heading && (
                 <TaskHeading {...provided.dragHandleProps}>
                   {props?.task?.content}
                 </TaskHeading>

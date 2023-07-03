@@ -3,20 +3,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { styled } from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
 import { createNewColumn, updateColumnPosition } from 'redux/slices/kanban';
 import Column from './components/column';
 
 function Kanban() {
-  const dispatch = useDispatch();
   // useEffect(() => {
   // setStateData(initialData);
   // }, []);
-  const reduxState: any = useSelector((state) => state);
-  const { kanban } = reduxState;
-  const { tasks, columns, columnOrder } = kanban;
   const onDragEnd = (result: any) => {
-    dispatch(updateColumnPosition(result));
+    
   };
   const Container = styled.div`
     display: flex;
@@ -100,11 +95,43 @@ function Kanban() {
       if (event.key === 'Enter') {
         event.preventDefault();
         if (inputRef.current?.value) {
-          dispatch(createNewColumn({ name: inputRef.current?.value }));
+          
         }
       }
     });
   });
+
+  var columnOrder = ['column-1', 'column-2', 'column-3', 'column-4'];
+
+  const columns: { [key: string]: object } = {
+    'column-1': {
+      id: 'column-1',
+      title: 'To-do',
+      taskIds: ['task-1', 'task-2', 'task-3'],
+    },
+    'column-2': {
+      id: 'column-2',
+      title: 'In-Progress',
+      taskIds: [],
+    },
+    'column-3': {
+      id: 'column-3',
+      title: 'Done',
+      taskIds: [],
+    },
+    'column-4': {
+      id: 'column-4',
+      title: 'Review',
+      taskIds: [],
+    },
+  };
+
+  const tasks: { [key: string]: object } = {
+    'task-1': { id: 'task-1', content: 'check for mails' },
+    'task-2': { id: 'task-2', content: 'check for messages' },
+    'task-3': { id: 'task-3', content: 'check for water level' },
+  };
+
   return (
     <ContainerWrapper>
       <DragDropContext onDragEnd={onDragEnd}>

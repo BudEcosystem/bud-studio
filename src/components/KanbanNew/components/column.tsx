@@ -27,18 +27,9 @@ interface Task {
 
 function Column(props: any) {
   const [showNewTaskUI, setNewTaskUI] = useState(false);
-  const { kanban } = useSelector((state) => state);
-  const { workspace }: any = useSelector((state) => state);
-  const { color } = workspace;
   const [addButtonClickedFromColumn, SetAddButtonClickedFromColumn] =
     useState(false);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (props.index === 0) {
-      const { triggerTaskCreation } = kanban;
-      setNewTaskUI(triggerTaskCreation);
-    }
-  }, [props.index, kanban]);
+
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const inputRefForColumnEdit =
     useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -77,7 +68,7 @@ function Column(props: any) {
   const TitleHeaderColoured = styled.div`
     width: 12px;
     height: 12px;
-    background: ${color};
+    background: red;
     border-radius: 4px;
     margin-left: 7px;
   `;
@@ -243,9 +234,7 @@ function Column(props: any) {
       if (event.key === 'Enter') {
         event.preventDefault();
         if (inputRef.current?.value) {
-          dispatch(
-            createNewTaskOnEnter({ task: inputRef.current?.value, props })
-          );
+      
         }
       }
     });
@@ -253,12 +242,7 @@ function Column(props: any) {
       if (event.key === 'Enter') {
         event.preventDefault();
         if (inputRefForColumnEdit.current?.value) {
-          dispatch(
-            editColumnName({
-              name: inputRefForColumnEdit.current?.value,
-              props,
-            })
-          );
+         
         }
       }
     });
