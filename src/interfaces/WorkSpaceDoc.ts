@@ -5,7 +5,7 @@ interface WorkSpaceDoc {
   type: string;
   uuid: string;
   workSpaceUUID: string;
-  properties: any[]; // Replace 'any' with the appropriate type for properties
+  properties: any; // Replace 'any' with the appropriate type for properties
 }
 
 export default WorkSpaceDoc;

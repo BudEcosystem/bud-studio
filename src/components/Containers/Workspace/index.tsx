@@ -18,14 +18,12 @@ import WorkspaceModal from 'components/WorkspaceModal/WorkspaceModal';
 import BudEditor from 'Libraries/LexicalEditor/BudEditor';
 import Hamburger from 'components/Hamburger/Hamburger';
 import EditorHeader from 'components/EditorHeader';
-
-import bgImage from 'components/EditorHeader/images/bgImage.png';
-import iconImage from 'components/EditorHeader/images/iconImage.png';
 import { updateDocumentData } from 'redux/slices/workspace';
 import { imageGeneration, jsonResult } from 'api';
+
+import iconImage from 'components/EditorHeader/images/iconImage.png';
 import Database from 'components/Database';
 import classes from './workspace.module.css';
-import DatabaseView from './Database';
 
 interface WorkspaceProps {
   isCollapsed: boolean;
@@ -34,8 +32,6 @@ interface WorkspaceProps {
 }
 
 // Workspace component
-// All the  workspace logic should be handled here
-
 export default function Workspace({
   isCollapsed,
   setMenuCollapsed,
@@ -117,14 +113,27 @@ function WorkspaceEditor({
   currentDocumentUUID,
 }): JSX.Element {
   const [currentPage, setCurrentPage] = useState(0);
-
   const dispatch = useDispatch();
-
   const [coverImgAPI, setCoverImageAPI] = useState('');
+  const [currentDatabase, setDatabase] = useState(null);
+
+  // Database Slice
+  const { database }: any = useSelector((state) => state);
 
   useEffect(() => {
     fetchApiData();
   }, []);
+
+  // Once the current page is changed, fetch the API data
+  useEffect(() => {
+    if (data[currentPage].type === 'Database') {
+      // Load Database Content
+      const db = database.databases.filter(
+        (item: { id: string }) => item.id === data[currentPage].databaseID
+      );
+      setDatabase(db[0]);
+    }
+  }, [currentPage]);
 
   const fetchApiData = async () => {
     const apiData = await imageGeneration();
@@ -138,7 +147,7 @@ function WorkspaceEditor({
     }
   };
 
-  const persistEditorRoot = (editorState) => {
+  const persistEditorRoot = (editorState: any) => {
     console.log('persistEditorRoot', editorState);
     console.log('Current Document Raw', data);
 
@@ -179,8 +188,7 @@ function WorkspaceEditor({
                     />
                   </>
                 ) : (
-                  <Database />
-                  // <DatabaseView />
+                  <Database databaseData={currentDatabase} />
                 )}
               </motion.div>
             </AnimatePresence>

@@ -14,10 +14,9 @@ import {
 } from './EditorIcons';
 import './Editor.css';
 
-const EditorHeader = ({view, coverImg, iconImg}: any) => {
-
+function EditorHeader({ view, coverImg, iconImg }: any) {
   const [coverUrlAvailable, setCoverUrlAvailable] = useState(true);
-  const [iconAvailable, setIconAvailable] = useState(true)
+  const [iconAvailable, setIconAvailable] = useState(true);
 
   return (
     <div className="editor">
@@ -96,7 +95,7 @@ const EditorHeader = ({view, coverImg, iconImg}: any) => {
         </div>
       )}
 
-      {view=='' && iconAvailable ? (
+      {view == '' && iconAvailable ? (
         coverUrlAvailable ? (
           <div
             style={{
@@ -128,31 +127,33 @@ const EditorHeader = ({view, coverImg, iconImg}: any) => {
             </div>
           </div>
         )
-      ) : ( view=='' &&
-        <div
-          style={{
-            fontSize: '14px',
-            fontWeight: '500',
-            marginRight: '810px',
-            marginTop: '60px',
-            display: 'flex',
-            width: 'fit-content',
-            color: '#333539',
-            cursor: 'pointer',
-            marginBottom: '20px',
-          }}
-        >
+      ) : (
+        view == '' && (
           <div
-            onClick={(e) => setIconAvailable(true)}
-            style={{ marginRight: '10px' }}
+            style={{
+              fontSize: '14px',
+              fontWeight: '500',
+              marginRight: '810px',
+              marginTop: '60px',
+              display: 'flex',
+              width: 'fit-content',
+              color: '#333539',
+              cursor: 'pointer',
+              marginBottom: '20px',
+            }}
           >
-            <AddIcon />
+            <div
+              onClick={(e) => setIconAvailable(true)}
+              style={{ marginRight: '10px' }}
+            >
+              <AddIcon />
+            </div>
+            Add Icon
           </div>
-          Add Icon
-        </div>
+        )
       )}
     </div>
   );
-};
+}
 
 export default EditorHeader;

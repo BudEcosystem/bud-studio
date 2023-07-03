@@ -68,9 +68,9 @@ function HeaderSection({ view, updateCurrentTitle, title }: any) {
       <div className="listViewContainer">
         {!isAppMode ? (
           <>
-            <div style={{marginBottom: "30px"}}>
-            <EditorHeader view={view} coverImg={bgImg} iconImg={iconImg} />
-            </div>
+            {/*<div style={{marginBottom: "30px"}}>*/}
+            {/*<EditorHeader view={view} coverImg={bgImg} iconImg={iconImg} />*/}
+            {/*</div>*/}
             <div className="mgLeft">
               <div
                 style={{ backgroundColor: 'var(--bud-container-background)' }}
@@ -122,11 +122,11 @@ function HeaderSection({ view, updateCurrentTitle, title }: any) {
           <AppModeHeader />
         )}
       </div>
-      {!isAppMode && (
-        <div className="curveContainer">
-          <div className="borderCurveLine" />
-        </div>
-      )}
+      {/*{!isAppMode && (*/}
+      {/*  <div className="curveContainer">*/}
+      {/*    <div className="borderCurveLine" />*/}
+      {/*  </div>*/}
+      {/*)}*/}
     </>
   );
 }
