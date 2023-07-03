@@ -30,6 +30,7 @@ import { enableCreateNewTreeNode } from 'redux/slices/tree';
 import { v4 as uuidv4 } from 'uuid';
 import TreeStructure from './TreeView/TreeANTD';
 import { setIsMoveTo } from 'redux/slices/activestate';
+import Menu from './new-tree-view';
 
 export function CreatePopupModal() {
   return <div className="createPopupModal" />;
@@ -306,7 +307,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
               />
               <SearchIconShortcut />
             </div>
-
+            <Menu />
             {/* <TreeView
               filter={filterText}
               setShowColorDots={setShowColorDots}
