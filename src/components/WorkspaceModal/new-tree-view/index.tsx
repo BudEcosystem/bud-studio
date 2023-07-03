@@ -46,6 +46,7 @@ const Menu = ({ workspaceItem }) => {
           id: uuidv4(),
           name: 'Subfolder 3',
           files: [],
+          folders: [],
         },
       ],
       files: [
