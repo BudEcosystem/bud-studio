@@ -10,7 +10,11 @@ import {
   RightArrow,
 } from '../WorkspaceIcons';
 
-const OptionsTree = ({ setShowAddFolder, setShowAddFile }) => {
+const OptionsTree = ({
+  setShowAddFolder,
+  setShowAddFile,
+  setShowoptionsTree,
+}) => {
   return (
     <div id="optionsModal" className="optionsModal">
       <div className="secondWorkspaceModal">
@@ -36,8 +40,22 @@ const OptionsTree = ({ setShowAddFolder, setShowAddFile }) => {
                 Create New
               </h3>
               <div className="subMenu">
-                <p onClick={() => setShowAddFolder(true)}>Folder</p>
-                <p onClick={() => setShowAddFile(true)}>Document</p>
+                <p
+                  onClick={() => {
+                    setShowAddFolder(true);
+                    setShowoptionsTree(false);
+                  }}
+                >
+                  Folder
+                </p>
+                <p
+                  onClick={() => {
+                    setShowAddFile(true);
+                    setShowoptionsTree(false);
+                  }}
+                >
+                  Document
+                </p>
               </div>
               {/* <ul className="subMenu">
                 <li

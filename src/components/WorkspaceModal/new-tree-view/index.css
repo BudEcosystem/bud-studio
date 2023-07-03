@@ -47,6 +47,7 @@
   cursor: pointer;
   padding: 4px;
   margin-right: 10px;
+  width: 100%;
   /* column-gap: 220px; */
 }
 
@@ -368,7 +369,7 @@ details>summary::-webkit-details-marker {
 }
 
 .liItemFolder {
-  width: 219px;
+  /* width: 219px; */
 }
 
 .rootFolder {
@@ -387,10 +388,12 @@ details>summary::-webkit-details-marker {
 
 .summaryChild {
   margin-left: 8px;
+  
 }
 
 .childFile>details>summary {
   margin-left: 20px;
+  width: 100%;
 }
 
 .fileIconContainer {

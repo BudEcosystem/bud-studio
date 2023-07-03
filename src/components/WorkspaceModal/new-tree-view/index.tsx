@@ -353,7 +353,7 @@ const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
 
   return (
     <li className={parentId === null ? 'rootFolderLi' : 'childFolder'}>
-      <details style={{ position: 'relative' }}>
+      <details style={{ position: parentId === null ? 'relative' : 'none' }}>
         <summary
           className={parentId === null ? 'rootFolder chevron' : 'summaryChild'}
           onClick={(event) => {
@@ -424,7 +424,11 @@ const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
         )}
         {isFolderOpen && showoptionsTree && (
           <div className="optionTreeContainer">
-            <OptionsTree setShowAddFolder={setShowAddFolder} setShowAddFile={setShowAddFile} />
+            <OptionsTree
+              setShowAddFolder={setShowAddFolder}
+              setShowAddFile={setShowAddFile}
+              setShowoptionsTree={setShowoptionsTree}
+            />
           </div>
         )}
         {showAddFolder && (
