@@ -21,12 +21,29 @@
   }
 
   p:last-child:before {
-    content: 'Press “@” for bud , “/”  for editor blocks';
+    content: '';
     color: #696969;
     font-size: 14px;
     font-family: Noto Sans;
   }
 
+  table {
+    border: 1px solid #434244;
+  }
+
+  tr {
+    border-bottom: 1px solid #434244;
+  }
+
+  th {
+    border: 1px solid #434244;
+    min-width: 200px;
+    background-color: #1f1e22;
+  }
+
+  td {
+    border: 1px solid #434244;
+  }
 
 }
 

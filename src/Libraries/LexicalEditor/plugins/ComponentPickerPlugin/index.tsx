@@ -40,6 +40,9 @@ import useModal from '../../hooks/useModal';
 
 import ActionMenu from '../../../../components/ActionMenu';
 import { InsertImageDialog } from '../ImagesPlugin';
+import TextInput from '../../ui/TextInput';
+import { DialogActions } from '../../ui/Dialog';
+import Button from '../../ui/Button';
 
 // import { EmbedConfigs } from '../AutoEmbedPlugin';
 // import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin';
@@ -208,6 +211,10 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
     return options;
   }, [editor, queryString]);
 
+  const [rows, setRows] = useState('5');
+  const [columns, setColumns] = useState('5');
+  const [showTableModal, setShowTableModal] = useState(false);
+
   const options = useMemo(() => {
     const baseOptions = [
       new ComponentPickerOption('Page', {
@@ -353,6 +360,12 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
             }
           }),
       }),
+      new ComponentPickerOption('Simple Table', {
+        icon: <i className="icon code" />,
+        keywords: ['table', 'rows', 'columns', 'grid'],
+        onSelect: () => 
+            editor.dispatchCommand(INSERT_TABLE_COMMAND, {columns, rows}),
+      }),
       new ComponentPickerOption('Divider', {
         icon: <i className="icon horizontal-rule" />,
         keywords: ['horizontal rule', 'divider', 'hr'],
@@ -427,6 +440,7 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
 
     const dynamicOptions = getDynamicOptions();
 
+
     return queryString
       ? [
           ...dynamicOptions,
@@ -460,9 +474,38 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
     [editor]
   );
 
+  const TableModal = () => {
+    return (
+      <>
+        <TextInput
+          placeholder={'# of rows (1-500)'}
+          label="Rows"
+          onChange={setRows}
+          value={rows}
+          data-test-id="table-modal-rows"
+          type="number"
+        />
+        <TextInput
+          placeholder={'# of columns (1-50)'}
+          label="Columns"
+          onChange={setColumns}
+          value={columns}
+          data-test-id="table-modal-columns"
+          type="number"
+        />
+        <DialogActions data-test-id="table-model-confirm-insert">
+          <Button onClick={() => {setShowTableModal(false)}}>
+            Confirm
+          </Button>
+        </DialogActions>
+      </>
+    );
+  }
+
   return (
     <>
       {modal}
+      {showTableModal && <TableModal />}
       {/* <ActionMenu /> */}
       <LexicalTypeaheadMenuPlugin<ComponentPickerOption>
         onQueryChange={setQueryString}
