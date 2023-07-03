@@ -32,7 +32,15 @@ export const generateInitialWorkspaceState = (): InitialState => {
         type: 'doc',
         uuid: '39b08a3d-12f1-4651-90f7-328952849dca',
         workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        properties: [],
+        customProperties: [], // User defined Properties
+        properties:
+          // System Defined Properties
+          {
+            tags: ['no-tag'],
+            priority: 'Normal',
+            status: 'Not Started',
+            date: null,
+          },
       },
     ],
     applicationData: {
@@ -114,6 +122,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
         },
         {
           type: 'Database',
+          databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4gr',
         },
       ],
     },
@@ -506,12 +515,14 @@ export const workspaceSlice = createSlice({
       copyOfworkSpaceFolders.forEach((data: any) => {
         proxyFilteredArray.push({ ...data });
       });
-      const sourceData = proxyFilteredArray.find((data: any) => data.uuid === source.key)
+      const sourceData = proxyFilteredArray.find(
+        (data: any) => data.uuid === source.key
+      );
       const copyOfSource = JSON.parse(JSON.stringify(sourceData));
-      copyOfSource.childOf = dest.uuid
+      copyOfSource.childOf = dest.uuid;
       copyOfSource.workSPaceId = dest.workSPaceId;
       copyOfSource.workSpaceUUID = dest.workSpaceUUID;
-      console.log(copyOfSource, sourceData)
+      console.log(copyOfSource, sourceData);
       // {
       //   if (data.uuid === source.key) {
       //     data.childOf = dest.uuid;
@@ -520,7 +531,7 @@ export const workspaceSlice = createSlice({
       //   }
       //   return data;
       // });
-      proxyFilteredArray.push(copyOfSource)
+      proxyFilteredArray.push(copyOfSource);
       state.workspaceFolders = proxyFilteredArray;
     },
 

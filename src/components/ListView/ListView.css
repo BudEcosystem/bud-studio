@@ -128,6 +128,13 @@
     margin-left: 10px;
 }
 
+.sortbyOptions {
+    position: absolute;
+    z-index: 15;
+    top: 42px;
+    right: -100px;
+}
+
 .kabuniTextAppMode {
     font-style: normal;
     font-weight: 400;
@@ -260,8 +267,24 @@
 .threeDots {
     margin-left: 25px;
     cursor: pointer;
-    width: 10px;
-    height: 15px;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    padding: 9px 15px;
+    border-radius: 6px;
+}
+
+.threeDotsOptionsContainer {
+    position: absolute;
+    right: 196px;
+    top: 48px;
+}
+
+.groupbyOptions {
+    position: absolute;
+    z-index: 15;
+    top: 42px;
+    right: -70px;
 }
 
 .curveContainer {

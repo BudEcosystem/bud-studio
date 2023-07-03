@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './GroupByModal.css';
+import './SortByModal.css';
 import {
   Rename,
   Assign,
@@ -9,15 +9,15 @@ import {
   Shortcut,
   Plus,
   Name,
-} from './GroupByModalIcons';
+} from './SortByModalIcons';
 import {
   setDisplayToggle,
-  setGroupBy,
-  setGroupByOption,
+  setSortBy,
+  setSortByOption,
 } from 'redux/slices/activestate';
 import { useDispatch } from 'react-redux';
 
-const GroupByModal = ({ setShowGroupBy }: any) => {
+const SortByModal = ({ setShowSortBy }: any) => {
   const dispatch = useDispatch();
   const wrapperRef = useRef(null);
   const {} = useOutsideAlerter(wrapperRef);
@@ -25,7 +25,7 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
     useEffect(() => {
       function handleClickOutside(event: any) {
         if (ref.current && !ref.current.contains(event.target)) {
-          setShowGroupBy(false);
+          setShowSortBy(false);
         }
       }
       document.addEventListener('mousedown', handleClickOutside);
@@ -36,8 +36,8 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
     return {};
   }
   return (
-    <div className="GroupByModal" ref={wrapperRef}>
-      <div className="GroupBySearchBar">
+    <div className="SortByModal" ref={wrapperRef}>
+      <div className="SortBySearchBar">
         <div
           style={{
             display: 'flex',
@@ -48,75 +48,75 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
           <Search />
         </div>
         <input
-          className="GroupBySearchInput"
+          className="SortBySearchInput"
           type="text"
-          placeholder="Group by..."
+          placeholder="Sort by..."
         />
         <Shortcut />
       </div>
 
-      <div className="GroupByOptions">
+      <div className="SortByOptions">
         <div
-          className="GroupByOption"
+          className="SortByOption"
           onClick={() => {
-            dispatch(setGroupBy(true));
+            dispatch(setSortBy(true));
             dispatch(setDisplayToggle(true));
-            dispatch(setGroupByOption('Name'));
+            dispatch(setSortByOption('Name'));
           }}
         >
           <Name />
           <h3
-            style={{left: "60px",
+            style={{
+              left: '60px',
               color: 'white',
               fontWeight: '400',
               fontSize: '14px',
-              position: "absolute",
-
+              position: 'absolute',
             }}
           >
             Name
           </h3>
         </div>
 
-        <div className="GroupByOption">
+        <div className="SortByOption">
           <Assign />
           <h3
-            style={{left: "60px",
+            style={{
+              left: '60px',
               color: 'white',
               fontWeight: '400',
               fontSize: '14px',
-              position: "absolute",
-
+              position: 'absolute',
             }}
           >
             Assign
           </h3>
         </div>
 
-        <div className="GroupByOption">
+        <div className="SortByOption">
           <Priority />
           <h3
-            style={{left: "60px",
+            style={{
+              left: '60px',
               color: 'white',
               fontWeight: '400',
               fontSize: '14px',
-              position: "absolute",
-
+              position: 'absolute',
             }}
           >
             Priority
           </h3>
         </div>
 
-        <div className="GroupByOption">
+        <div className="SortByOption">
           <Status />
           <h3
-            style={{left: "60px",
+            style={{
+              left: '60px',
               color: 'white',
               fontWeight: '400',
               fontSize: '14px',
-              position: "absolute",
-
+              position: 'absolute',
             }}
           >
             Status
@@ -124,14 +124,14 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
         </div>
       </div>
 
-      <div className="GroupByLine"></div>
+      <div className="SortByLine"></div>
 
       <div
-        className="GroupByAdd"
+        className="SortByAdd"
         onClick={() => {
-          dispatch(setGroupBy(true));
+          dispatch(setSortBy(true));
           dispatch(setDisplayToggle(true));
-          dispatch(setGroupByOption('AddGroup'));
+          dispatch(setSortByOption('AddSort'));
         }}
       >
         <Plus />
@@ -143,11 +143,11 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
             marginLeft: '20px',
           }}
         >
-          Add group
+          Add Sort
         </div>
       </div>
     </div>
   );
 };
 
-export default GroupByModal;
+export default SortByModal;
