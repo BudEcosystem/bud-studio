@@ -415,7 +415,7 @@ details>summary::-webkit-details-marker {
   align-items: center;
   position: absolute;
   right: 0px;
-  top: 5px;
+  top: 0px;
   cursor: pointer;
 }
 

@@ -317,7 +317,7 @@ export function Plus() {
   );
 }
 
-export function FolderArrow({color}) {
+export function FolderArrow({ color }) {
   return (
     <svg
       width="10"
@@ -387,17 +387,29 @@ export function FolderIcon() {
 
 export function FolderIcon2() {
   return (
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0.500109 1.58565L0.500026 3.22033L7.20936 3.22034L5.73531 1.38824C5.67552 1.31393 5.58529 1.27072 5.48992 1.27072H0.815057C0.641123 1.27072 0.500118 1.41171 0.500109 1.58565Z" stroke="white"/>
-<mask id="path-2-inside-1_4040_10714" fill="white">
-<path d="M0 3.72034H11.1851C11.6351 3.72034 12 4.0852 12 4.53529V10.4143C12 10.8644 11.6351 11.2293 11.1851 11.2293H0.814948C0.364865 11.2293 0 10.8644 0 10.4143V3.72034Z"/>
-</mask>
-<path d="M0 3.72034H11.1851C11.6351 3.72034 12 4.0852 12 4.53529V10.4143C12 10.8644 11.6351 11.2293 11.1851 11.2293H0.814948C0.364865 11.2293 0 10.8644 0 10.4143V3.72034Z" stroke="white" stroke-width="2" mask="url(#path-2-inside-1_4040_10714)"/>
-</svg>
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 12 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0.500109 1.58565L0.500026 3.22033L7.20936 3.22034L5.73531 1.38824C5.67552 1.31393 5.58529 1.27072 5.48992 1.27072H0.815057C0.641123 1.27072 0.500118 1.41171 0.500109 1.58565Z"
+        stroke="white"
+      />
+      <mask id="path-2-inside-1_4040_10714" fill="white">
+        <path d="M0 3.72034H11.1851C11.6351 3.72034 12 4.0852 12 4.53529V10.4143C12 10.8644 11.6351 11.2293 11.1851 11.2293H0.814948C0.364865 11.2293 0 10.8644 0 10.4143V3.72034Z" />
+      </mask>
+      <path
+        d="M0 3.72034H11.1851C11.6351 3.72034 12 4.0852 12 4.53529V10.4143C12 10.8644 11.6351 11.2293 11.1851 11.2293H0.814948C0.364865 11.2293 0 10.8644 0 10.4143V3.72034Z"
+        stroke="white"
+        stroke-width="2"
+        mask="url(#path-2-inside-1_4040_10714)"
+      />
+    </svg>
   );
 }
-
-
 
 export function DocIcon() {
   return (

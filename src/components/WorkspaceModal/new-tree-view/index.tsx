@@ -413,6 +413,7 @@ const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
         {isFolderOpen && (
           <div
             className="plusIcon"
+            style={{ marginTop: parentId === null ? '5px' : '' }}
             onClick={(event) => {
               event.stopPropagation();
               // setShowAddFolder(true);
