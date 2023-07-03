@@ -15,13 +15,14 @@ import {
 } from '../WorkspaceIcons';
 import OptionsTree from './OptionsTree';
 
-const Menu = () => {
+const Menu = ({ workspaceItem }) => {
   // const [showAddFolder, setShowAddFolder] = useState(false);
   // const [showAddFile, setShowAddFile] = useState(false);
   const [openItems, setOpenItems] = useState([]); // State to track the open items
   const dispatch = useDispatch();
   const { tree }: any = useSelector((state) => state);
   const { showAddFolder, showAddFile } = tree;
+  console.log(workspaceItem);
 
   const initialList = [
     {
@@ -153,6 +154,10 @@ const Menu = () => {
   //   setShowAddFile(!showAddFile);
   //   if (showAddFile) addFileInput.current.value = ''; // Clear input field
   // };
+
+  const lineStyle = {
+    '--lineColor': workspaceItem.color,
+  };
   return (
     <div className="main">
       {/* <div className="viewerTop">
@@ -170,13 +175,17 @@ const Menu = () => {
       </div> */}
       {showAddFolder && (
         <div className="folder">
-          <div className="folderTitle">
+          <div
+            className="folderTitle"
+            style={{ marginLeft: '10px', marginBottom: 'unset' }}
+          >
             <div className="openIcon"></div>
             <div className="folderIcon">
               <FaFolder className="icons" />
             </div>
             <input
               type="text"
+              className="inputTree"
               placeholder="Folder name"
               ref={addFolderInput}
               onKeyUp={(event) => addFolder(event)}
@@ -186,13 +195,17 @@ const Menu = () => {
       )}
       {showAddFile && (
         <div className="folder">
-          <div className="folderTitle">
+          <div
+            className="folderTitle"
+            style={{ marginLeft: '10px', marginBottom: 'unset' }}
+          >
             <div className="openIcon"></div>
             <div className="folderIcon">
               <AiOutlineFileText className="icons" />
             </div>
             <input
               type="text"
+              className="inputTree"
               placeholder="File name"
               ref={addFileInput}
               onKeyUp={(event) => addFile(event)}
@@ -201,7 +214,7 @@ const Menu = () => {
         </div>
       )}
 
-      <ul className="tree">
+      <ul className="tree" style={lineStyle}>
         {folders.map((item) => (
           <FolderItem
             key={item.id}
@@ -209,6 +222,7 @@ const Menu = () => {
             parentId={null}
             openItems={openItems}
             toggleItem={toggleItem}
+            workspaceItemColor={workspaceItem.color}
           />
         ))}
         {files.map((file) => (
@@ -241,8 +255,14 @@ const FileItem = ({ file, parentId, openItems, toggleItem }) => {
     file.files = updatedFiles;
     setShowAddFile(false);
   };
+  const lineStyle = {
+    '--leftLine': parentId === null ? '' : '215px',
+  };
   return (
-    <li className={parentId !== null ? 'childFile' : 'parentFile'}>
+    <li
+      className={parentId !== null ? 'childFile' : 'parentFile'}
+      style={lineStyle}
+    >
       <details>
         <summary>
           <div className="showName">
@@ -307,10 +327,24 @@ const FileItem = ({ file, parentId, openItems, toggleItem }) => {
     </li>
   );
 };
-const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
+
+const hexToRGBA = (hex, opacity) => {
+  const r = parseInt(hex?.slice(1, 3), 16);
+  const g = parseInt(hex?.slice(3, 5), 16);
+  const b = parseInt(hex?.slice(5, 7), 16);
+
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};
+const FolderItem = ({
+  item,
+  parentId,
+  openItems,
+  toggleItem,
+  workspaceItemColor,
+}) => {
   const id = parentId ? `${parentId}.${item.id}` : item.id;
   // const hasNestedItems = item.files.length > 0 || item.folders.length > 0;
-
+  const rgbaColor = hexToRGBA(workspaceItemColor, 0.3);
   const [showoptionsTree, setShowoptionsTree] = useState(false);
   const [showAddFolder, setShowAddFolder] = useState(false);
   const [showAddFile, setShowAddFile] = useState(false);
@@ -351,8 +385,15 @@ const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
     setShowAddFile(false);
   };
 
+  const lineStyle = {
+    // '--leftLine': parentId === null ? '100px' : '0px'
+  };
+
   return (
-    <li className={parentId === null ? 'rootFolderLi' : 'childFolder'}>
+    <li
+      className={parentId === null ? 'rootFolderLi' : 'childFolder'}
+      style={lineStyle}
+    >
       <details style={{ position: parentId === null ? 'relative' : 'none' }}>
         <summary
           className={parentId === null ? 'rootFolder chevron' : 'summaryChild'}
@@ -368,14 +409,14 @@ const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
           style={{
             background:
               isFolderOpen && parentId === null
-                ? 'linear-gradient(101deg, rgba(138, 142, 233, 0.16) 0%, rgba(17, 21, 18, 0.00) 100%)'
+                ? `linear-gradient(101deg, ${rgbaColor} 0%, rgba(17, 21, 18, 0.00) 100%)`
                 : '',
           }}
         >
           <div className="showName">
             <div className="showName folderArrow">
               {isFolderOpen ? (
-                <FolderArrow color={'rgba(147, 154, 255, 1)'} />
+                <FolderArrow color={workspaceItemColor} />
               ) : (
                 // <FiChevronRight
                 //   className="right-icon chevron"
@@ -393,7 +434,11 @@ const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
               )}
             </div>
             {/* <div onClick={() => toggleItem(id)}> */}
-            {isFolderOpen ? <FolderIcon /> : <FolderIcon2 />}
+            {isFolderOpen ? (
+              <FolderIcon color={workspaceItemColor} />
+            ) : (
+              <FolderIcon2 />
+            )}
             {/* <FolderIcon /> */}
             {/* <FaFolder className="folder-icon" /> */}
             {/* </div> */}
@@ -437,10 +482,11 @@ const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
             <div className="folderTitle">
               <div className="openIcon"></div>
               <div className="folderIcon">
-                <FaFolder className="icons" />
+                <FolderIcon2 />
               </div>
               <input
                 type="text"
+                className="inputTree"
                 placeholder="Folder name"
                 ref={addFolderInput}
                 onKeyUp={(event) => addFolder(event)}
@@ -453,10 +499,11 @@ const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
             <div className="folderTitle">
               <div className="openIcon"></div>
               <div className="folderIcon">
-                <AiOutlineFileText className="icons" />
+                <FileIcon />
               </div>
               <input
                 type="text"
+                className="inputTree"
                 placeholder="File name"
                 ref={addFileInput}
                 onKeyUp={(event) => addFile(event)}
@@ -472,6 +519,7 @@ const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
               parentId={id}
               openItems={openItems}
               toggleItem={toggleItem}
+              workspaceItemColor={workspaceItemColor}
             />
           ))}
           {item.files.map((file, fileIndex) => (

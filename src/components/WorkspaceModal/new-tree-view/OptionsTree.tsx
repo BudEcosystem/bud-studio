@@ -16,7 +16,7 @@ const OptionsTree = ({
   setShowoptionsTree,
 }) => {
   return (
-    <div id="optionsModal" className="optionsModal">
+    <div id="optionsModal2" className="optionsModal2">
       <div className="secondWorkspaceModal">
         {/* <div className="drag">
           <Drag />

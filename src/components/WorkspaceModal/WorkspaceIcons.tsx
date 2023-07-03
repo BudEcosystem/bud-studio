@@ -358,7 +358,7 @@ export function RightArrow() {
   );
 }
 
-export function FolderIcon() {
+export function FolderIcon({ color }) {
   return (
     <svg
       width="12"
@@ -369,15 +369,15 @@ export function FolderIcon() {
     >
       <path
         d="M0.500109 1.58565L0.500026 3.22033L7.20936 3.22034L5.73531 1.38824C5.67552 1.31393 5.58529 1.27072 5.48992 1.27072H0.815057C0.641123 1.27072 0.500118 1.41171 0.500109 1.58565Z"
-        stroke="#939AFF"
+        stroke={color || '#939AFF'}
       />
       <mask id="path-2-inside-1_2399_10521" fill="white">
         <path d="M0 3.72034H11.1851C11.6351 3.72034 12 4.0852 12 4.53529V10.4143C12 10.8644 11.6351 11.2293 11.1851 11.2293H0.814948C0.364865 11.2293 0 10.8644 0 10.4143V3.72034Z" />
       </mask>
       <path
         d="M0 3.72034H11.1851C11.6351 3.72034 12 4.0852 12 4.53529V10.4143C12 10.8644 11.6351 11.2293 11.1851 11.2293H0.814948C0.364865 11.2293 0 10.8644 0 10.4143V3.72034Z"
-        fill="#939AFF"
-        stroke="#939AFF"
+        fill={color || '#939AFF'}
+        stroke={color || '#939AFF'}
         strokeWidth="2"
         mask="url(#path-2-inside-1_2399_10521)"
       />
