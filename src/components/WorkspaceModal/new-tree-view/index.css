@@ -336,7 +336,7 @@ details>summary::-webkit-details-marker {
 }
 
 .main {
-  width: 219px;
+  width: fit-content;
   /* height: auto; */
   /* border-radius: 14px; */
   /* border: 1px solid #1d1d1d; */
@@ -362,6 +362,7 @@ details>summary::-webkit-details-marker {
 .folder-name {
   color: #fff;
   margin-left: 8px;
+  margin-right: calc(var(--spacing) + 10px);
 }
 
 .rootFolderLi {
@@ -388,7 +389,7 @@ details>summary::-webkit-details-marker {
 
 .summaryChild {
   margin-left: 8px;
-  
+
 }
 
 .childFile>details>summary {
@@ -417,14 +418,14 @@ details>summary::-webkit-details-marker {
   top: 5px;
   cursor: pointer;
 }
-.optionTreeContainer{
+
+.optionTreeContainer {
   position: absolute;
   left: -35px;
   top: 40px;
   z-index: 15;
 }
 
-.subMenu > ul {
+.subMenu>ul {
   margin: unset;
 }
-
