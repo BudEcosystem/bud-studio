@@ -26,7 +26,11 @@ import {
 } from './WorkspaceIcons';
 import TreeView from './TreeView/TreeView';
 import './WorkspaceModal.css';
-import { enableCreateNewTreeNode } from 'redux/slices/tree';
+import {
+  enableCreateNewTreeNode,
+  setShowAddFile,
+  setShowAddFolder,
+} from 'redux/slices/tree';
 import { v4 as uuidv4 } from 'uuid';
 import TreeStructure from './TreeView/TreeANTD';
 import { setIsMoveTo } from 'redux/slices/activestate';
@@ -162,14 +166,26 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
   const showCreatePopup = () => {
     setCreatePopup(!createPopup);
   };
+  // const createNewClickHandler = (type: any) => {
+  //   if (type === 'doc') {
+  //     setCreateDocFlag(true);
+  //   }
+  //   if (type === 'folder') {
+  //     setCreateFolderFlag(true);
+  //   }
+  //   dispatch(enableCreateNewTreeNode({ type }));
+  //   setShowColorDots(false);
+  // };
   const createNewClickHandler = (type: any) => {
     if (type === 'doc') {
-      setCreateDocFlag(true);
+      // setCreateDocFlag(true);
+      dispatch(setShowAddFile(true));
     }
     if (type === 'folder') {
-      setCreateFolderFlag(true);
+      // setCreateFolderFlag(true);
+      dispatch(setShowAddFolder(true));
     }
-    dispatch(enableCreateNewTreeNode({ type }));
+    // dispatch(enableCreateNewTreeNode({ type }));
     setShowColorDots(false);
   };
   const callbackForCreate = () => {
@@ -315,7 +331,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
               setShowDocumentOptions={setShowDocumentOptions}
               workSpaceDetails={workSpaceItems[idx]}
             /> */}
-            <TreeStructure
+            {/* <TreeStructure
               color={workSpaceItems[idx].color}
               name={workSpaceItems[idx].name}
               workspaceDetails={workSpaceItems[idx]}
@@ -325,7 +341,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
               optionModalRef={docOptionModalRef}
               serachInputValue
               setShowDocumentOptions={setShowDocumentOptions}
-            />
+            /> */}
           </div>
         </Draggable>
         {showColorDots && (

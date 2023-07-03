@@ -5,11 +5,23 @@ import { FaFolder } from 'react-icons/fa';
 import { AiOutlineFileText } from 'react-icons/ai';
 import { v4 as uuidv4 } from 'uuid';
 import './index.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { setShowAddFile, setShowAddFolder } from 'redux/slices/tree';
+import {
+  FileIcon,
+  FolderArrow,
+  FolderIcon,
+  FolderIcon2,
+} from '../WorkspaceIcons';
+import OptionsTree from './OptionsTree';
 
 const Menu = () => {
-  const [showAddFolder, setShowAddFolder] = useState(false);
-  const [showAddFile, setShowAddFile] = useState(false);
+  // const [showAddFolder, setShowAddFolder] = useState(false);
+  // const [showAddFile, setShowAddFile] = useState(false);
   const [openItems, setOpenItems] = useState([]); // State to track the open items
+  const dispatch = useDispatch();
+  const { tree }: any = useSelector((state) => state);
+  const { showAddFolder, showAddFile } = tree;
 
   const initialList = [
     {
@@ -62,6 +74,8 @@ const Menu = () => {
 
   const addFolderInput = useRef(null);
   const addFileInput = useRef(null);
+  console.log(folders);
+
   useEffect(() => {
     if (showAddFolder) addFolderInput.current.focus();
     if (showAddFile) addFileInput.current.focus();
@@ -78,7 +92,8 @@ const Menu = () => {
     };
 
     setFolders([...folders, newFolder]);
-    setShowAddFolder(false);
+    dispatch(setShowAddFolder(false));
+    // setShowAddFolder(false);
   };
   const addFile = (event) => {
     if (event.key !== 'Enter') return;
@@ -90,35 +105,57 @@ const Menu = () => {
     };
 
     setFiles([...files, newFile]);
-    setShowAddFile(false);
+    dispatch(setShowAddFile(false));
+    // setShowAddFile(false);
   };
   const toggleItem = (event, id) => {
+    console.log('clicked', id, event);
     const clickedElement = event.target;
-    const isChevronClicked = clickedElement.classList.contains('chevron');
-    if (isChevronClicked) {
+    const isPlusClicked = clickedElement.classList.contains('plusIcon');
+    if (!isPlusClicked) {
       event.stopPropagation();
       if (openItems.includes(id)) {
         setOpenItems(openItems.filter((item) => item !== id));
-        console.log(id, 'id');
+        console.log('clicked3');
+        console.log(id, 'id', openItems);
       } else {
         setOpenItems([...openItems, id]);
-        console.log(id, 'id');
+        console.log(id, 'id', openItems);
+        console.log('clicked4');
       }
+    } else {
+      console.log('plusClicked');
     }
+
+    // console.log('')
+    // const isChevronClicked = clickedElement.classList.contains('chevron');
+    // console.log("clicked2", isChevronClicked)
+    // if (isChevronClicked) {
+    //   event.stopPropagation();
+    //   if (openItems.includes(id)) {
+    //     setOpenItems(openItems.filter((item) => item !== id));
+    //     console.log("clicked3", isChevronClicked)
+    //     console.log(id, 'id', openItems);
+    //   } else {
+    //     setOpenItems([...openItems, id]);
+    //     console.log(id, 'id', openItems);
+    //     console.log("clicked4", isChevronClicked)
+    //   }
+    // }
   };
 
-  const toggleAddFolder = () => {
-    setShowAddFolder(!showAddFolder);
-    if (showAddFolder) addFolderInput.current.value = ''; // Clear input field
-  };
+  // const toggleAddFolder = () => {
+  //   setShowAddFolder(!showAddFolder);
+  //   if (showAddFolder) addFolderInput.current.value = ''; // Clear input field
+  // };
 
-  const toggleAddFile = () => {
-    setShowAddFile(!showAddFile);
-    if (showAddFile) addFileInput.current.value = ''; // Clear input field
-  };
+  // const toggleAddFile = () => {
+  //   setShowAddFile(!showAddFile);
+  //   if (showAddFile) addFileInput.current.value = ''; // Clear input field
+  // };
   return (
     <div className="main">
-      <div className="viewerTop">
+      {/* <div className="viewerTop">
         <div className="spaceTitle">
           <p>Accubits</p>
           <div className="addIcon" onClick={toggleAddFolder}>
@@ -130,7 +167,7 @@ const Menu = () => {
             <span>+</span>
           </div>
         </div>
-      </div>
+      </div> */}
       {showAddFolder && (
         <div className="folder">
           <div className="folderTitle">
@@ -205,36 +242,38 @@ const FileItem = ({ file, parentId, openItems, toggleItem }) => {
     setShowAddFile(false);
   };
   return (
-    <li>
+    <li className={parentId !== null ? 'childFile' : 'parentFile'}>
       <details>
         <summary>
           <div className="showName">
-            <div>
+            <div className="fileIconContainer">
               {openItems.includes(id) ? (
-                <FiChevronRight
-                  className="right-icon chevron"
-                  onClick={(event) => toggleItem(event, id)}
-                  onClickCapture={(event) => event.stopPropagation()}
-                />
+                <FileIcon />
               ) : (
-                <FiChevronDown
-                  className="down-icon chevron"
-                  onClick={(event) => toggleItem(event, id)}
-                  onClickCapture={(event) => event.stopPropagation()}
-                />
+                // <FiChevronRight
+                //   className="right-icon chevron"
+                //   onClick={(event) => toggleItem(event, id)}
+                //   onClickCapture={(event) => event.stopPropagation()}
+                // />
+                <FileIcon />
+                // <FiChevronDown
+                //   className="down-icon chevron"
+                //   onClick={(event) => toggleItem(event, id)}
+                //   onClickCapture={(event) => event.stopPropagation()}
+                // />
               )}
             </div>
             {/* <div onClick={() => toggleItem(id)}> */}
             {/* </div> */}
-            <AiOutlineFileText className="folder-icon" />
+            {/* <AiOutlineFileText className="folder-icon" /> */}
             <span className="file-name">{file.name}</span>
           </div>
-          <div className="showIcons">
+          {/* <div className="showIcons">
             <div className="addIcon" onClick={() => setShowAddFile(true)}>
               <AiOutlineFileText className="icons" />
               <span>+</span>
             </div>
-          </div>
+          </div> */}
         </summary>
 
         {showAddFile && (
@@ -271,11 +310,19 @@ const FileItem = ({ file, parentId, openItems, toggleItem }) => {
 const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
   const id = parentId ? `${parentId}.${item.id}` : item.id;
   // const hasNestedItems = item.files.length > 0 || item.folders.length > 0;
+
+  const [showoptionsTree, setShowoptionsTree] = useState(false);
   const [showAddFolder, setShowAddFolder] = useState(false);
   const [showAddFile, setShowAddFile] = useState(false);
-
+  const [isFolderOpen, setIsFolderOpen] = useState(false);
   const addFolderInput = useRef(null);
   const addFileInput = useRef(null);
+  console.log(isFolderOpen, item, openItems);
+
+  useEffect(() => {
+    setIsFolderOpen(openItems.includes(item.id));
+  }, [openItems, item.id]);
+
   const addFolder = (event) => {
     if (event.key !== 'Enter') return;
 
@@ -305,31 +352,54 @@ const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
   };
 
   return (
-    <li>
-      <details>
-        <summary>
+    <li className={parentId === null ? 'rootFolderLi' : 'childFolder'}>
+      <details style={{ position: 'relative' }}>
+        <summary
+          className={parentId === null ? 'rootFolder chevron' : 'summaryChild'}
+          onClick={(event) => {
+            if (!event.target.classList.contains('plusIcon')) {
+              toggleItem(event, item.id);
+              console.log(event, 'sdfg');
+            } else {
+              event.stopPropagation();
+            }
+          }}
+          // onClickCapture={(event) => event.stopPropagation()}
+          style={{
+            background:
+              isFolderOpen && parentId === null
+                ? 'linear-gradient(101deg, rgba(138, 142, 233, 0.16) 0%, rgba(17, 21, 18, 0.00) 100%)'
+                : '',
+          }}
+        >
           <div className="showName">
-            <div>
-              {openItems.includes(id) ? (
-                <FiChevronRight
-                  className="right-icon chevron"
-                  onClick={(event) => toggleItem(event, id)}
-                  onClickCapture={(event) => event.stopPropagation()}
-                />
+            <div className="showName folderArrow">
+              {isFolderOpen ? (
+                <FolderArrow color={'rgba(147, 154, 255, 1)'} />
               ) : (
-                <FiChevronDown
-                  className="down-icon chevron"
-                  onClick={(event) => toggleItem(event, id)}
-                  onClickCapture={(event) => event.stopPropagation()}
-                />
+                // <FiChevronRight
+                //   className="right-icon chevron"
+                //   onClick={(event) => toggleItem(event, id)}
+                //   onClickCapture={(event) => event.stopPropagation()}
+                // />
+                <div style={{ transform: 'rotate(-90deg)' }}>
+                  <FolderArrow color={'rgba(123, 131, 136, 1)'} />
+                </div>
+                // <FiChevronDown
+                //   className="down-icon chevron"
+                //   onClick={(event) => toggleItem(event, id)}
+                //   onClickCapture={(event) => event.stopPropagation()}
+                // />
               )}
             </div>
             {/* <div onClick={() => toggleItem(id)}> */}
-            <FaFolder className="folder-icon" />
+            {isFolderOpen ? <FolderIcon /> : <FolderIcon2 />}
+            {/* <FolderIcon /> */}
+            {/* <FaFolder className="folder-icon" /> */}
             {/* </div> */}
             <span className="folder-name">{item.name}</span>
           </div>
-          <div className="showIcons">
+          {/* <div className="showIcons">
             <div className="addIcon" onClick={() => setShowAddFolder(true)}>
               <FaFolder className="icons" />
               <span>+</span>
@@ -338,8 +408,25 @@ const FolderItem = ({ item, parentId, openItems, toggleItem }) => {
               <AiOutlineFileText className="icons" />
               <span>+</span>
             </div>
-          </div>
+          </div> */}
         </summary>
+        {isFolderOpen && (
+          <div
+            className="plusIcon"
+            onClick={(event) => {
+              event.stopPropagation();
+              // setShowAddFolder(true);
+              setShowoptionsTree(!showoptionsTree);
+            }}
+          >
+            +
+          </div>
+        )}
+        {isFolderOpen && showoptionsTree && (
+          <div className="optionTreeContainer">
+            <OptionsTree setShowAddFolder={setShowAddFolder} setShowAddFile={setShowAddFile} />
+          </div>
+        )}
         {showAddFolder && (
           <div className="folder">
             <div className="folderTitle">

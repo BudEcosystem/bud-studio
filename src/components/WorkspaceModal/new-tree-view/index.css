@@ -1,7 +1,7 @@
 .tree {
   --spacing: 1.5rem;
   /* --radius: 10px; */
-  margin-left: -30px;
+  /* margin-left: -35px; */
 }
 
 .tree li {
@@ -20,12 +20,13 @@
 .tree ul li {
   display: flex;
   border-left: 2px solid cornflowerblue;
-  margin-left: 50px;
+  margin-left: 43px;
 }
 
 .tree ul li:last-child {
   border-color: transparent;
 }
+
 .tree ul li::before {
   content: '';
   display: block;
@@ -33,11 +34,12 @@
   top: calc(var(--spacing) / -2);
   left: -2px;
   width: calc(var(--spacing) + -6px);
-  height: calc(var(--spacing) + 2px);
+  height: calc(var(--spacing));
   border: solid cornflowerblue;
   border-width: 0 0 2px 2px;
   border-radius: 0px 9px;
 }
+
 .tree summary {
   display: flex;
   align-items: center;
@@ -47,18 +49,21 @@
   margin-right: 10px;
   /* column-gap: 220px; */
 }
+
 .showIcons {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 200px;
 }
+
 .showName {
-  width: 80%;
+  /* width: 80%; */
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
+
 .tree summary::marker,
 .tree summary::-webkit-details-marker {
   display: none;
@@ -82,22 +87,26 @@
   width: calc(2 * var(--radius));
   height: calc(2 * var(--radius));
 }
+
 .tree summary::before {
   z-index: 1;
   /* background: #696 url("expand-collapse.svg") 0 0; */
 }
-.tree details[open] > summary::before {
+
+.tree details[open]>summary::before {
   background-position: calc(-2 * var(--radius)) 0;
 }
+
 /* /////////////////// */
 .open .folderTitle {
   background: var(--bud-tertiary-background);
 }
-details > summary {
+
+details>summary {
   list-style-type: none;
 }
 
-details > summary::-webkit-details-marker {
+details>summary::-webkit-details-marker {
   display: none;
 }
 
@@ -107,12 +116,15 @@ details > summary::-webkit-details-marker {
   left: 11px;
   margin: 0px 3px;
 }
+
 .folder-icon {
-  margin: 0px 10px;
+  /* margin: 0px 10px; */
 }
+
 .doc-icon {
   width: 20px;
 }
+
 .viewerWrap {
   background: var(--bud-container-background);
   border: 1px solid var(--bud-border-color);
@@ -131,11 +143,13 @@ details > summary::-webkit-details-marker {
   padding: 5px;
   margin: 18px;
 }
+
 .spaceTitle {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .colorTag {
   width: 14px;
   height: 14px;
@@ -143,12 +157,15 @@ details > summary::-webkit-details-marker {
   border-radius: 4px;
   margin-right: 20px;
 }
+
 .spaceTitle p {
   margin: 0;
 }
+
 .addIcon span {
   margin-left: 6px;
 }
+
 .spaceTitle .addIcon {
   width: 40px;
   height: 30px;
@@ -162,12 +179,15 @@ details > summary::-webkit-details-marker {
   border: 1px solid transparent;
   transition: all 0.5s;
 }
+
 .addIcon {
   margin-left: 8px;
 }
+
 .spaceTitle .addIcon:hover {
   border: 1px solid var(--bud-secondary-text-color);
 }
+
 .searchWrap {
   border-radius: 9px;
   background: var(--bud-tertiary-background);
@@ -176,24 +196,29 @@ details > summary::-webkit-details-marker {
   padding: 8px;
   margin-bottom: 10px;
 }
+
 .searchWrap .icons {
   width: 16px;
   flex-shrink: 0;
   margin-right: 10px;
 }
+
 .searchWrap input {
   width: 100%;
   border: none;
   outline: none;
   background: transparent;
 }
+
 .listWrap {
   max-height: 300px;
   overflow-y: scroll;
 }
+
 .folder {
   margin-bottom: 10px;
 }
+
 .folderTitle {
   display: flex;
   align-items: center;
@@ -201,9 +226,11 @@ details > summary::-webkit-details-marker {
   border-radius: 8px;
   margin-left: 60px;
 }
+
 .open .folderTitle {
   background: var(--bud-tertiary-background);
 }
+
 .folderTitle .openIcon {
   width: 0;
   height: 0;
@@ -214,17 +241,21 @@ details > summary::-webkit-details-marker {
   transition: all 0.5s;
   cursor: pointer;
 }
+
 .open .folderTitle .openIcon {
   transform: rotate(90deg);
 }
+
 .folderTitle .folderIcon {
   margin-right: 7px;
   display: flex;
   align-items: center;
 }
+
 .folderTitle .folderIcon svg {
   color: var(--bud-primary-text-color);
 }
+
 .folderTitle p {
   margin: 0;
   width: calc(100% - 60px);
@@ -233,6 +264,7 @@ details > summary::-webkit-details-marker {
   overflow: hidden;
   margin-right: 10px;
 }
+
 .folderTitle input {
   width: calc(100% - 60px);
   border: none;
@@ -240,31 +272,38 @@ details > summary::-webkit-details-marker {
   background: transparent;
   color: white;
 }
+
 .folderTitle .addIcon {
   color: var(--bud-secondary-text-color);
   margin-right: 7px;
   cursor: pointer;
 }
+
 .folderTitle .addIcon:hover {
   color: var(--bud-primary-text-color);
 }
+
 .folderTitle .actionIcon {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
+
 .folderTitle .actionIcon:hover svg {
   color: var(--bud-primary-text-color);
 }
+
 .folderList {
   padding: 25px 0 10px;
 }
+
 .fileItem {
   display: flex;
   align-items: center;
   padding: 5px 10px 7px 45px;
   /* position: relative; */
 }
+
 .fileItem::before {
   content: '';
   position: absolute;
@@ -276,41 +315,113 @@ details > summary::-webkit-details-marker {
   top: -24px;
   border-radius: 0 0 0 6px;
 }
+
 .fileItem svg {
   flex-shrink: 0;
   margin-right: 7px;
 }
+
 .fileItem.active svg {
   color: var(--bud-primary-text-color);
 }
+
 .fileItem p {
   margin: 0;
   color: var(--bud-secondary-text-color);
 }
+
 .fileItem.active p {
   color: var(--bud-primary-text-color);
 }
+
 .main {
-  width: 300px;
-  height: auto;
-  border-radius: 14px;
-  border: 1px solid #1d1d1d;
-  padding: 21px, 16px, 21px, 16px;
-  gap: 55px;
+  width: 219px;
+  /* height: auto; */
+  /* border-radius: 14px; */
+  /* border: 1px solid #1d1d1d; */
+  /* padding: 21px, 16px, 21px, 16px; */
+  /* gap: 55px; */
   /* background-color: #0c0c0c; */
   color: #fff;
-  margin: 40px;
+  /* margin-left: 16px; */
+  margin-top: 28px;
 }
+
 .file-name,
 .folder-name {
-  font-family: DM Sans;
+  font-family: 'Noto Sans';
   font-size: 14px;
   font-weight: 400;
-  line-height: 14px;
+  line-height: 100%;
   letter-spacing: 0em;
   text-align: left;
   color: #7b8388;
 }
+
 .folder-name {
   color: #fff;
+  margin-left: 8px;
 }
+
+.rootFolderLi {
+  margin-bottom: 5px;
+}
+
+.liItemFolder {
+  width: 219px;
+}
+
+.rootFolder {
+  height: 36px;
+  border-radius: 10px;
+}
+
+.childFolder {
+  margin-top: 12px;
+}
+
+.folderArrow {
+  margin-left: 9px;
+  margin-right: 10px;
+}
+
+.summaryChild {
+  margin-left: 8px;
+}
+
+.childFile>details>summary {
+  margin-left: 20px;
+}
+
+.fileIconContainer {
+  margin-right: 10px;
+}
+
+.parentFile {
+  margin-left: 30px;
+}
+
+.plusIcon {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: #151517;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0px;
+  top: 5px;
+  cursor: pointer;
+}
+.optionTreeContainer{
+  position: absolute;
+  left: -35px;
+  top: 40px;
+  z-index: 15;
+}
+
+.subMenu > ul {
+  margin: unset;
+}
+
