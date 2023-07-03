@@ -222,6 +222,42 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
             }
           }),
       }),
+      new ComponentPickerOption('List - Database', {
+        icon: <i className="icon paragraph" />,
+        keywords: ['list', 'database'],
+        description: 'Database list view.',
+        onSelect: () =>
+          editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+              $setBlocksType(selection, () => $createParagraphNode());
+            }
+          }),
+      }),
+      new ComponentPickerOption('Table - Database', {
+        icon: <i className="icon paragraph" />,
+        keywords: ['list', 'table'],
+        description: 'Database table view.',
+        onSelect: () =>
+          editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+              $setBlocksType(selection, () => $createParagraphNode());
+            }
+          }),
+      }),
+      new ComponentPickerOption('Kanban - Database', {
+        icon: <i className="icon paragraph" />,
+        keywords: ['list', 'kanban'],
+        description: 'Database kanban view.',
+        onSelect: () =>
+          editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+              $setBlocksType(selection, () => $createParagraphNode());
+            }
+          }),
+      }),
       new ComponentPickerOption('Paragraph', {
         icon: <i className="icon paragraph" />,
         keywords: ['normal', 'paragraph', 'p', 'text'],
