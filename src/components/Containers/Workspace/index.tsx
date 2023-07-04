@@ -182,12 +182,12 @@ function WorkspaceEditor({
               >
                 {data[currentPage] && data[currentPage].type === undefined ? (
                   <>
-                    <EditorHeader coverImg={coverImgAPI} iconImg={iconImage} />
+                    {/* <EditorHeader coverImg={coverImgAPI} iconImg={iconImage} />
                     <BudEditor
                       data={data[currentPage]}
                       persistEditorRoot={persistEditorRoot}
-                    />
-                    {/* <KanbanUI/> */}
+                    /> */}
+                    <KanbanUI/>
                   </>
                 ) : (
                   <Database databaseData={currentDatabase} />
