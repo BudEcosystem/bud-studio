@@ -206,6 +206,18 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
     dispatch(setIsMoveTo(true));
   };
 
+  const threeDot = useRef(null);
+  const [leftDots,setLeftDots] = useState()
+  const [topDots,setTopDots] = useState()
+
+  const obtainDotsPosition = () => {
+    if (threeDot.current) {
+      const { top, left, right, bottom, width, height } = threeDot.current.getBoundingClientRect();
+      setTopDots(top)
+      setLeftDots(left)
+    }
+  };
+
   return (
     <>
       <div className="loader" style={loaderStyle}>
@@ -288,6 +300,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                   onClick={() => {
                     setShowColorDots(!showColorDots);
                     setShowDocumentOptions(false);
+                    obtainDotsPosition()
                   }}
                   style={{
                     background: `${
@@ -298,29 +311,66 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                     position: 'relative',
                   }}
                   className="WorkspaceIconBox"
+                  ref={threeDot}
                 >
                   <div className="WorkspaceIcon">
                     <Dots />
                   </div>
                 </div>
+              </div>
+            </div>
+            <div className="WorkspaceSearchBar">
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginLeft: '15px',
+                }}
+              >
+                <SearchIcon />
+                <input
+                  className="WorkspaceSearchInput"
+                  type="text"
+                  placeholder="Search"
+                  onInput={filterNode}
+                  ref={searchInputFieldRef}
+                  id="searchFlyout"
+                />
+              </div>
 
-                {showColorDots && (
-                  <div
-                  style={{
-                    position: 'fixed',
-                    top: '-145px',
-                    height: '790px',
-                    width: '1620px',
-                    left: '0px',
-                    pointerEvents: 'none',
-                    zIndex: '12',
-                  }}
-                >
+              <div style={{ marginRight: '15px' }}>
+                <SearchIconShortcut />
+              </div>
+            </div>
+            <Menu workspaceItem={workSpaceItems[idx]} />
+            {/* <TreeView
+              filter={filterText}
+              setShowColorDots={setShowColorDots}
+              showDocumentOptions={showDocumentOptions}
+              setShowDocumentOptions={setShowDocumentOptions}
+              workSpaceDetails={workSpaceItems[idx]}
+            /> */}
+            {/* <TreeStructure
+              color={workSpaceItems[idx].color}
+              name={workSpaceItems[idx].name}
+              workspaceDetails={workSpaceItems[idx]}
+              createFolderFlag={createFolderFlag}
+              createDocFlag={createDocFlag}
+              callbackForCreate={callbackForCreate}
+              optionModalRef={docOptionModalRef}
+              serachInputValue
+              setShowDocumentOptions={setShowDocumentOptions}
+            /> */}
+          </div>
+        </Draggable>
+
+        {showColorDots && (
                   <Draggable bounds="parent" handle=".drag">
                     <div
                       ref={optionModalRef}
                       id="optionsModal"
                       className="optionsModal"
+                      style={{top: topDots+5, left: leftDots-260}}
                     >
                       <div className="secondWorkspaceModal">
                         <div className="drag">
@@ -473,54 +523,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                       </div>
                     </div>
                   </Draggable>
-                  </div>
                 )}
-              </div>
-            </div>
-            <div className="WorkspaceSearchBar">
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginLeft: '15px',
-                }}
-              >
-                <SearchIcon />
-                <input
-                  className="WorkspaceSearchInput"
-                  type="text"
-                  placeholder="Search"
-                  onInput={filterNode}
-                  ref={searchInputFieldRef}
-                  id="searchFlyout"
-                />
-              </div>
-
-              <div style={{ marginRight: '15px' }}>
-                <SearchIconShortcut />
-              </div>
-            </div>
-            <Menu workspaceItem={workSpaceItems[idx]} />
-            {/* <TreeView
-              filter={filterText}
-              setShowColorDots={setShowColorDots}
-              showDocumentOptions={showDocumentOptions}
-              setShowDocumentOptions={setShowDocumentOptions}
-              workSpaceDetails={workSpaceItems[idx]}
-            /> */}
-            {/* <TreeStructure
-              color={workSpaceItems[idx].color}
-              name={workSpaceItems[idx].name}
-              workspaceDetails={workSpaceItems[idx]}
-              createFolderFlag={createFolderFlag}
-              createDocFlag={createDocFlag}
-              callbackForCreate={callbackForCreate}
-              optionModalRef={docOptionModalRef}
-              serachInputValue
-              setShowDocumentOptions={setShowDocumentOptions}
-            /> */}
-          </div>
-        </Draggable>
 
         {/* {!showColorDots && showDocumentOptions && (
           <Draggable bounds="parent" handle=".drag">
