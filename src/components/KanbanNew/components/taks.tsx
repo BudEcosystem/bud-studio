@@ -2,14 +2,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { styled } from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import { Popover } from 'antd';
+import { Avatar, Popover } from 'antd';
 import { useDispatch } from 'react-redux';
 import { setCurrentSelectedUI } from 'redux/slices/activestate';
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
-import { styled as materialStyled } from '@mui/material/styles';
-import Badge from '@mui/material/Badge';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
+// import { styled as materialStyled } from '@mui/material/styles';
+// import Badge from '@mui/material/Badge';
+// import Avatar from '@mui/material/Avatar';
+// import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import TaskViewKanban from 'components/TaskViewKanban/TaskViewKanban';
 import GroupByModal from 'components/ListView/ListViewComponents/GroupBy/GroupByModal';
@@ -28,7 +28,10 @@ const TaskContainer = styled.div`
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  transform: ${(props) => (props.isDragging ? 'rotate(-15deg)' : 'none')};
 `;
+// background: ${(props) => (props.isDragging ? 'blue' : 'none')};
+
 const TaskHeader = styled.div`
   font-family: 'Noto Sans';
   font-style: normal;
@@ -247,42 +250,6 @@ const PopOverSearchKeybordCommandWrapper = styled.div`
 `;
 const PopOverSearchKeybordCommand = styled.img``;
 
-const StyledBadge = materialStyled(Badge)(({ theme }) => ({
-  '& .MuiBadge-badge': {
-    backgroundColor: '#44b700',
-    color: '#44b700',
-    // boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    '&::after': {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      // borderRadius: '50%',
-      // animation: 'ripple 1.2s infinite ease-in-out',
-      // border: '1px solid currentColor',
-      content: '""',
-    },
-  },
-  // '@keyframes ripple': {
-  //   '0%': {
-  //     transform: 'scale(.8)',
-  //     opacity: 1,
-  //   },
-  //   '100%': {
-  //     transform: 'scale(2.4)',
-  //     opacity: 0,
-  //   },
-  // },
-}));
-
-const UserNameDiv = styled.div`
-  color: #bbb;
-  font-size: 12px;
-  font-family: Noto Sans;
-  line-height: 100%;
-`;
-
 function PopOverSearch() {
   const arr = ['Me', 'Manu M', 'Frijo johnson', 'Aji', 'Shandra'];
   return (
@@ -299,28 +266,21 @@ function PopOverSearch() {
       </PopOveSearchWrapper>
       <div className="userContainer">
         {arr.map((item, i) => (
-          <Stack direction="row" spacing={2}>
-            {i === 1 ? (
-              <StyledBadge
-                overlap="circular"
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                variant="dot"
-              >
-                <Avatar
-                  sx={{ width: 20, height: 20 }}
-                  alt="Remy Sharp"
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-                />
-              </StyledBadge>
-            ) : (
-              <Avatar
-                sx={{ width: 20, height: 20 }}
-                alt="Remy Sharp"
-                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-              />
-            )}
-            <UserNameDiv>{item}</UserNameDiv>
-          </Stack>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: '10px',
+            }}
+          >
+            <Avatar
+              size={25}
+              src={
+                'https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80'
+              }
+            />
+            <p className="userNameText">{item}</p>
+          </div>
         ))}
       </div>
     </PopOverWrapper>
@@ -350,13 +310,15 @@ function Tasks(props: any) {
 
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
-      {(provided) => {
+      {(provided, snapshot) => {
         return (
           <TaskContainer
             onDoubleClick={() => setShowKanbanTaskView(true)}
             {...provided.draggableProps}
             ref={provided.innerRef}
             onContextMenu={handleContextMenu}
+            isDragging={snapshot.isDragging}
+            style={{ ...provided.draggableProps.style }}
           >
             {
               <TaskViewKanban
