@@ -192,12 +192,13 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
     setCreateDocFlag(false);
     setCreateFolderFlag(false);
   };
-  useEffect(() => {
-    const flyOutMenu = document.getElementById('optionsModal');
-    flyOutMenu?.addEventListener('mouseleave', function (event) {
-      setShowColorDots(false);
-    });
-  });
+  // useEffect(() => {
+  //   const flyOutMenu = document.getElementById('optionsModal');
+  //   flyOutMenu?.addEventListener('mouseleave', function (event) {
+  //     setShowColorDots(false);
+  //   });
+  // });
+
   const searchInputFieldRef =
     useRef() as React.MutableRefObject<HTMLInputElement>;
 
@@ -304,6 +305,17 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                 </div>
 
                 {showColorDots && (
+                  <div
+                  style={{
+                    position: 'fixed',
+                    top: '-145px',
+                    height: '790px',
+                    width: '1620px',
+                    left: '0px',
+                    pointerEvents: 'none',
+                    zIndex: '12',
+                  }}
+                >
                   <Draggable bounds="parent" handle=".drag">
                     <div
                       ref={optionModalRef}
@@ -461,6 +473,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                       </div>
                     </div>
                   </Draggable>
+                  </div>
                 )}
               </div>
             </div>
