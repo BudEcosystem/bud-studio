@@ -11,7 +11,7 @@ function Kanban() {
   // setStateData(initialData);
   // }, []);
   const onDragEnd = (result: any) => {
-    
+    // CODE HERE TO STORE COLUMN DRAG
   };
   const Container = styled.div`
     display: flex;
@@ -107,29 +107,32 @@ function Kanban() {
     'column-1': {
       id: 'column-1',
       title: 'To-do',
-      taskIds: ['task-1', 'task-2', 'task-3'],
+      taskIds: ['task-1', 'task-2'],
+      color: "red"
     },
     'column-2': {
       id: 'column-2',
       title: 'In-Progress',
       taskIds: [],
+      color: "yellow"
     },
     'column-3': {
       id: 'column-3',
       title: 'Done',
       taskIds: [],
+      color: "green"
     },
     'column-4': {
       id: 'column-4',
       title: 'Review',
       taskIds: [],
+      color: "blue"
     },
   };
 
   const tasks: { [key: string]: object } = {
     'task-1': { id: 'task-1', content: 'check for mails' },
     'task-2': { id: 'task-2', content: 'check for messages' },
-    'task-3': { id: 'task-3', content: 'check for water level' },
   };
 
   return (
@@ -158,6 +161,7 @@ function Kanban() {
                     tasks={taskFiltered}
                     id={columnId}
                     index={index}
+                    color={column.color}
                   />
                 );
               })}

@@ -68,7 +68,7 @@ function Column(props: any) {
   const TitleHeaderColoured = styled.div`
     width: 12px;
     height: 12px;
-    background: red;
+    background: ${props.color};
     border-radius: 4px;
     margin-left: 7px;
   `;
