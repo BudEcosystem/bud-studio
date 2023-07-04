@@ -120,7 +120,7 @@
 
 .optionsModal {
   position: absolute;
-  top: 32%;
+  top: 200px;
   left: 220px;
   pointer-events: auto;
   z-index: 10;
