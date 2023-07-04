@@ -234,7 +234,7 @@ function Column(props: any) {
       if (event.key === 'Enter') {
         event.preventDefault();
         if (inputRef.current?.value) {
-      
+          // CODE FOR ADDING TASKS GOES HERE
         }
       }
     });
@@ -332,7 +332,7 @@ function Column(props: any) {
             </TitleHeaderFirst>
             <TitleHeaderSecond>
               <TitleHeaderPlusIconWrapper
-                onClick={() => addTaskButtonClicked(true)}
+                onClick={() => addTaskButtonClicked(!addButtonClickedFromColumn)}
               >
                 <TitleHeaderPlusIcon>
                   <svg
