@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import HeaderSection from 'components/ListView/HeaderSection';
 import TableView from './TableView';
 import './database.css';
+import { v4 as uuidv4 } from 'uuid';
+import { addEmptyDoc } from 'redux/slices/workspace';
 // TODO : Update The Interface With Required Data
 interface DatabaseProps {
   databaseData: any;
@@ -16,6 +18,8 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
   // Workspace
   const { workspace } = useSelector((state) => state);
   const [databaseEntries, setDatabaseEntries] = useState<any[]>([]);
+
+  const dispatch = useDispatch();
 
   /*
    * Database functions
@@ -52,13 +56,132 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
     }
   }, [databaseData]);
 
+  // Append Empty Document
+  const appendEmptyDocument = () => {
+    console.log('New Document');
+
+    // Prepare The First Document,
+    // Create The Document
+    // Append To The Database
+
+    const initialDocumentID = uuidv4();
+    // New Documents
+    const newDatabaseDocument = {
+      name: 'Untitled',
+      childOf: null,
+      workSPaceId: 'Private',
+      type: 'doc',
+      uuid: initialDocumentID,
+      workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+      customProperties: [], // User defined Properties
+      properties: {
+        tags: ['no-tag'],
+        priority: 'Normal',
+        status: 'Not Started',
+        date: null,
+      },
+    };
+
+    // initial document
+    const initialDocument = {
+      root: {
+        children: [
+          {
+            children: [
+              {
+                detail: 0,
+                format: 0,
+                mode: 'normal',
+                style: '',
+                text: 'Untitled',
+                type: 'text',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            type: 'heading',
+            version: 1,
+            tag: 'h1',
+          },
+          {
+            children: [
+              {
+                detail: 0,
+                format: 0,
+                mode: 'normal',
+                style: '',
+                text: 'digital mind place',
+                type: 'text',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            type: 'heading',
+            version: 1,
+            tag: 'h1',
+          },
+          {
+            children: [],
+            direction: null,
+            format: '',
+            indent: 0,
+            type: 'paragraph',
+            version: 1,
+          },
+          {
+            children: [
+              {
+                detail: 0,
+                format: 0,
+                mode: 'normal',
+                style: '',
+                text: 'Philosophy, life, misc',
+                type: 'text',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            type: 'paragraph',
+            version: 1,
+          },
+        ],
+        direction: 'ltr',
+        format: '',
+        indent: 0,
+        type: 'root',
+        version: 1,
+      },
+    };
+
+    // Dispatch Event
+    dispatch(
+      addEmptyDoc({
+        newDatabaseDocument,
+        initialDocument,
+        initialDocumentID,
+        databaseID: databaseData.id,
+      })
+    );
+  };
+
   return (
     <div className="database">
-      <HeaderSection view="kanabn" title={databaseData.title} />
+      <HeaderSection
+        view="kanabn"
+        title={databaseData.title}
+        databaseDescription={databaseData.description}
+      />
       {databaseData.defaultView === 'Table' && databaseEntries.length && (
         <TableView
           databaseData={databaseData}
           databaseEntries={databaseEntries}
+          appendEmptyDocument={appendEmptyDocument}
         />
       )}
     </div>

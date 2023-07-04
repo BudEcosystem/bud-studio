@@ -41,7 +41,7 @@ export default function Workspace({
   // Get the workspace state from redux
   const { workspace }: any = useSelector((state) => state);
   // Flyout Menu
-  const [showFlyoutMenu, setShowFlyoutMenu] = useState(false);
+  const [showFlyoutMenu, setShowFlyoutMenu] = useState(true);
   const [currentDocument, setCurrentDocument] = useState(null);
   const [currentDocumentID, setCurrentDocumentID] = useState(null);
 
@@ -51,23 +51,24 @@ export default function Workspace({
     return doc[0];
   };
 
-  // Use Effect
+  // Use Effect For Database
   useEffect(() => {
     console.log('workspace', workspace.currentSelectedDocId);
     console.log('Workspace Local', currentDocumentID);
 
-    if (workspace.currentSelectedDocId === currentDocumentID) {
+    if (
+      workspace.currentSelectedDocId === currentDocumentID &&
+      currentDocument.length ===
+        workspace.applicationData[currentDocumentID].length
+    ) {
       return;
     }
 
     if (workspace.currentSelectedDocId) {
       setCurrentDocumentID(workspace.currentSelectedDocId);
-
       const docId = getDocumentByID(workspace.currentSelectedDocId);
       const document = workspace.applicationData[docId.uuid];
       setCurrentDocument(document);
-
-      // console.log('Filterd Document', document);
     }
   }, [workspace]);
 
@@ -116,17 +117,54 @@ function WorkspaceEditor({
   const dispatch = useDispatch();
   const [coverImgAPI, setCoverImageAPI] = useState('');
   const [currentDatabase, setDatabase] = useState(null);
+  const [pageLength, setPageLength] = useState(0);
 
   // Database Slice
   const { database }: any = useSelector((state) => state);
+  const { workspace }: any = useSelector((state) => state);
+
+  // const { applicationData }: any = workspace;
 
   useEffect(() => {
     fetchApiData();
+
+    // Set The Page Length
+    // setPageLength(data.length - 1);
   }, []);
+
+  // Once Current Document Is Changed, Change The Page
+  useEffect(() => {
+    console.log('Current Doc ID', currentDocumentUUID);
+    console.log('Workspace Doc ID', workspace.currentSelectedDocId);
+    if (workspace.currentSelectedDocId === currentDocumentUUID) {
+      return;
+    }
+
+    setCurrentPage(0);
+  }, [workspace.currentSelectedDocId]);
+
+  // Set Current Document Page
+  useEffect(() => {
+    if (currentPage === -1) {
+      setCurrentPage(0);
+    }
+    // Use proper hooks
+    // if (data.length - 1 !== pageLength) {
+    //   setCurrentPage(data.length - 1);
+    //   setPageLength(data.length - 1);
+    // }
+  }, [data]);
 
   // Once the current page is changed, fetch the API data
   useEffect(() => {
-    if (data[currentPage].type === 'Database') {
+    console.log('Current Page', currentPage);
+
+    if (
+      currentPage !== -1 &&
+      currentPage !== 0 &&
+      data[currentPage].type &&
+      data[currentPage].type === 'Database'
+    ) {
       // Load Database Content
       const db = database.databases.filter(
         (item: { id: string }) => item.id === data[currentPage].databaseID
@@ -134,6 +172,23 @@ function WorkspaceEditor({
       setDatabase(db[0]);
     }
   }, [currentPage]);
+
+  // Listen For Changes In database
+  useEffect(() => {
+    if (
+      currentPage !== -1 &&
+      currentPage !== 0 &&
+      data[currentPage].type &&
+      data[currentPage].type === 'Database'
+    ) {
+      // Load Database Content
+      const db = database.databases.filter(
+        (item: { id: string }) => item.id === data[currentPage].databaseID
+      );
+
+      setDatabase(db[0]);
+    }
+  }, [database]);
 
   const fetchApiData = async () => {
     const apiData = await imageGeneration();
@@ -188,7 +243,7 @@ function WorkspaceEditor({
                     />
                   </>
                 ) : (
-                  <Database databaseData={currentDatabase} />
+                  currentDatabase && <Database databaseData={currentDatabase} />
                 )}
               </motion.div>
             </AnimatePresence>

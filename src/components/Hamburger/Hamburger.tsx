@@ -4,7 +4,9 @@ import React, { useEffect, useState } from 'react';
 import HamburgerItems from './HamburgerItems';
 import './Hamburger.css';
 
+
 function Hamburger({ documentData = [], currentPage, setCurrentPage }) {
+
   // Handle Pagination
   const handleOptionClick = (index: any) => {
     if (index === '') {

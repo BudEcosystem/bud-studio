@@ -41,6 +41,7 @@ import './table.view.css';
 export default function TableView({
   databaseData,
   databaseEntries,
+  appendEmptyDocument,
 }: any): JSX.Element {
   const cellProps = useExtraCells();
 
@@ -163,19 +164,17 @@ export default function TableView({
 
   // Create New Row => Create New Document
   const addNewRow = (e) => {
-    const newData = [...data];
-
+    // const newData = [...data];
     // Identify the current workspace and folder
     // create new document
-
-    newData.push({ name: 'untitled' });
-    setData(newData);
+    // newData.push({ name: 'untitled' });
+    // setData(newData);
+    appendEmptyDocument();
   };
 
   useEffect(() => {
-    console.log('Data', data);
-    console.log('Database', databaseData);
-  }, [data]);
+    setData(databaseEntries);
+  }, [databaseEntries]);
 
   return (
     <div className="table-wrapper" id="table-wrapper">
@@ -241,7 +240,12 @@ export default function TableView({
           readonly={false}
           onItemHovered={onItemHovered}
           getRowThemeOverride={getRowThemeOverride}
-          customRenderers={[DocumentCellRenderer, StarCell, DropdownCell,PriorityCellRenderer]}
+          customRenderers={[
+            DocumentCellRenderer,
+            StarCell,
+            DropdownCell,
+            PriorityCellRenderer,
+          ]}
         />
       )}
 

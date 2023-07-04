@@ -13,11 +13,11 @@ import EditorHeader from 'components/EditorHeader';
 import bgImg from '../EditorHeader/images/bgImage.png'
 import iconImg from '../EditorHeader/images/iconImage.png'
 
-function HeaderSection({ view, updateCurrentTitle, title }: any) {
+function HeaderSection({ view, updateCurrentTitle, title, databaseDescription }: any) {
   const dispatch = useDispatch();
   const { content, list }: any = useSelector((state) => state);
   const { listTitleAndDesc, oneTime } = list;
-  const { description } = listTitleAndDesc;
+  const { description } = databaseDescription;
   // const [oneTime, setOneTime] = useState(true);
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -111,7 +111,7 @@ function HeaderSection({ view, updateCurrentTitle, title }: any) {
                 }}
                 onKeyDown={keyHandler2}
               >
-                {description}
+                {databaseDescription}
               </p>
             </div>
             <div className="optionsComponentContainer mgLeft">
@@ -122,11 +122,11 @@ function HeaderSection({ view, updateCurrentTitle, title }: any) {
           <AppModeHeader />
         )}
       </div>
-      {/*{!isAppMode && (*/}
-      {/*  <div className="curveContainer">*/}
-      {/*    <div className="borderCurveLine" />*/}
-      {/*  </div>*/}
-      {/*)}*/}
+      {!isAppMode && (
+        <div className="curveContainer">
+          <div className="borderCurveLine" />
+        </div>
+      )}
     </>
   );
 }

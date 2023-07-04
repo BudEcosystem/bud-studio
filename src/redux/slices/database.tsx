@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+// uuid
+import { v4 as uuidv4 } from 'uuid';
+
+import { addEmptyDoc } from './workspace';
 
 export const generateDatabaseInitialState = (): any => {
   const initialState = {
@@ -49,7 +53,33 @@ export const generateDatabaseInitialState = (): any => {
 export const databaseSlice = createSlice({
   name: 'database',
   initialState: generateDatabaseInitialState,
-  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(addEmptyDoc, (state, action: PayloadAction<any>) => {
+      // Current Database ID
+      // const db = state.databases.find((database) => database.id === action.payload.databaseID)
+
+      const tempDatabases = state.databases;
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const database of tempDatabases) {
+        if (database.id === action.payload.databaseID) {
+          database.entries.push({
+            documentID: action.payload.initialDocumentID,
+          });
+          break;
+        }
+      }
+
+      state.databases = tempDatabases;
+    });
+  },
+  reducers: {
+    createNewEmptyDatabase: (state, action: PayloadAction<any>) => {
+      state.databases.push(action.payload.databaseinfo);
+    },
+  },
 });
+
+export const { createNewEmptyDatabase } = databaseSlice.actions;
 
 export default databaseSlice.reducer;

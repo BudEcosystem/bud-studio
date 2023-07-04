@@ -3,13 +3,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import InitialState from 'interfaces/InitialState';
+import { createNewEmptyDatabase } from '@/redux/slices/database';
 
 export const generateInitialWorkspaceState = (): InitialState => {
   const initialState: InitialState = {
     props: {},
     color: '#939AFF',
     currentWorkspace: null,
-    currentSelectedDocId: null, // Current Document
+    currentSelectedDocId: '39b08a3d-12f1-4651-90f7-328952849dca', // Current Document
     currentSelectedItem: {
       workSpace: null,
       doc: null,
@@ -135,7 +136,52 @@ export const generateInitialWorkspaceState = (): InitialState => {
 export const workspaceSlice = createSlice({
   name: 'workspace',
   initialState: generateInitialWorkspaceState,
+  extraReducers: (builder) => {
+    builder.addCase(createNewEmptyDatabase, (state, action) => {
+      // console.log('Triggered');
+      // console.log(action);
+
+      const copyDocStructure = state.workSpaceDocs;
+      copyDocStructure.push(action.payload.databaseDocumentInfo);
+
+      // Update Application Data
+      const tempAppData = state.applicationData;
+      // @ts-ignore
+      tempAppData[action.payload.initialDocumentID] =
+        action.payload.initialDocument;
+
+      state.applicationData = tempAppData;
+
+      // Add New Entry
+      const currentWorkspace = state.currentSelectedDocId;
+
+      // const currentEditor = state.workSpaceDocs.find(
+      //   (data: any) => data.uuid === currentWorkspace
+      // );
+
+      const documentTemplate = state.applicationData;
+      documentTemplate[currentWorkspace].push({
+        type: 'Database',
+        databaseID: action.payload.databaseID,
+      });
+    });
+  },
   reducers: {
+    addEmptyDoc: (state, action: PayloadAction<any>) => {
+      const copyDocStructure = state.workSpaceDocs;
+      copyDocStructure.push(action.payload.newDatabaseDocument);
+
+      // Update Application Data
+      const tempAppData = state.applicationData;
+      tempAppData[action.payload.initialDocumentID] =
+        action.payload.initialDocument;
+
+      state.applicationData = tempAppData;
+      state.workSpaceDocs = copyDocStructure;
+
+      // copyDocStructure.push(action.payload);
+      // state.workSpaceDocs = copyDocStructure;
+    },
     changeColorAndSetName: (state, action: PayloadAction<any>) => {
       state.color = action.payload.color;
       state.currentWorkspace = action.payload.name;
@@ -198,6 +244,7 @@ export const workspaceSlice = createSlice({
       };
       copyFolderStructure.push(newObject);
       state.workspaceFolders = copyFolderStructure;
+
       // }
     },
     createDoc: (state, action: PayloadAction<any>) => {
@@ -602,10 +649,46 @@ export const workspaceSlice = createSlice({
       console.log('copyOfEditorApplicationsAdded', proxyFilteredArray);
       state.editorApplicationsAdded = proxyFilteredArray;
     },
+    attachDatabaseToDocument: (state, action: PayloadAction<any>) => {
+      console.log('attachDatabaseToDocument', action.payload);
+
+      const { docId, databaseId } = action.payload;
+      // const copyOfworkSpaceDocs = [...state.workSpaceDocs];
+      // const proxyFilteredArray: any = [];
+      // copyOfworkSpaceDocs.forEach((data: any) => {
+      //   proxyFilteredArray.push({ ...data });
+      // });
+
+      // console.log("proxyFilteredArray",proxyFilteredArray);
+
+      // const newSetOFDataProcessed = proxyFilteredArray.map((data: any) => {
+      //   if (data.uuid === docId) {
+      //     data.databaseId = databaseId;
+      //   }
+      //   return data;
+      // });
+      //
+      // state.workSpaceDocs = newSetOFDataProcessed;
+
+      // const { docId, databaseId } = action.payload;
+      // const copyOfworkSpaceDocs = [...state.workSpaceDocs];
+      // const proxyFilteredArray: any = [];
+      // copyOfworkSpaceDocs.forEach((data: any) => {
+      //   proxyFilteredArray.push({ ...data });
+      // });
+      // const newSetOFDataProcessed = proxyFilteredArray.map((data: any) => {
+      //   if (data.uuid === docId) {
+      //     data.databaseId = databaseId;
+      //   }
+      //   return data;
+      // });
+      // state.workSpaceDocs = newSetOFDataProcessed;
+    },
   },
 });
 
 export const {
+  addEmptyDoc,
   changeColorAndSetName,
   changeColor,
   createWorkspaces,
@@ -633,5 +716,6 @@ export const {
   moveFolderRedux,
   copyFolderRedux,
   updateDocumentData,
+  attachDatabaseToDocument,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
