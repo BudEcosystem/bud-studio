@@ -1,0 +1,16 @@
+.MuiStack-root.css-e53awj-MuiStack-root {
+  align-Items: 'center';
+  margin-bottom: 10px;
+}
+
+.userContainer {
+  margin: 16px 0px 0px 24px;
+}
+
+span.MuiBadge-badge.MuiBadge-dot.MuiBadge-anchorOriginTopRight.MuiBadge-anchorOriginTopRightCircular.MuiBadge-overlapCircular.css-17e9da7-MuiBadge-badge {
+  min-height: unset !important;
+  min-width: unset !important;
+  width: 7px;
+  height: 7px;
+  box-shadow: unset;
+}

@@ -75,8 +75,6 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
 
     useEffect(() => {
       function handleClickOutside(event: any) {
-        console.log(event);
-        console.log(ref);
         if (showColorDots) {
           if (
             optionRef.current &&
