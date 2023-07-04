@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { styled } from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import { Popover } from 'antd';
+import { Avatar, Popover } from 'antd';
 import { useDispatch } from 'react-redux';
 import { setCurrentSelectedUI } from 'redux/slices/activestate';
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
@@ -301,30 +301,23 @@ function PopOverSearch() {
         </PopOverSearchKeybordCommandWrapper>
       </PopOveSearchWrapper>
       <div className="userContainer">
-        {/* {arr.map((item, i) => (
-          <Stack direction="row" spacing={2}>
-            {i === 1 ? (
-              <StyledBadge
-                overlap="circular"
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                variant="dot"
-              >
-                <Avatar
-                  sx={{ width: 20, height: 20 }}
-                  alt="Remy Sharp"
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-                />
-              </StyledBadge>
-            ) : (
-              <Avatar
-                sx={{ width: 20, height: 20 }}
-                alt="Remy Sharp"
-                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-              />
-            )}
-            <UserNameDiv>{item}</UserNameDiv>
-          </Stack>
-        ))} */}
+        {arr.map((item, i) => (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: '10px',
+            }}
+          >
+            <Avatar
+              size={25}
+              src={
+                'https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80'
+              }
+            />
+            <p className="userNameText">{item}</p>
+          </div>
+        ))}
       </div>
     </PopOverWrapper>
   );
