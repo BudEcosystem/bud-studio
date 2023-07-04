@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './index.css';
-import { FiChevronDown, FiChevronRight } from 'react-icons/fi';
-import { FaFolder } from 'react-icons/fa';
-import { AiOutlineFileText } from 'react-icons/ai';
 import { v4 as uuidv4 } from 'uuid';
 import './index.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,67 +19,14 @@ import {
 } from 'redux/slices/workspace';
 
 const Menu = ({ workspaceItem }) => {
-  // const [showAddFolder, setShowAddFolder] = useState(false);
-  // const [showAddFile, setShowAddFile] = useState(false);
-  const [openItems, setOpenItems] = useState([]); // State to track the open items
+  const [openItems, setOpenItems] = useState([]);
   const dispatch = useDispatch();
   const { tree, workspace }: any = useSelector((state) => state);
   const { showAddFolder, showAddFile } = tree;
-  console.log(workspaceItem, workspace);
-
-  const initialList = [
-    {
-      id: uuidv4(),
-      name: 'People Ops',
-      folders: [
-        {
-          id: uuidv4(),
-          name: 'Subfolder 1',
-          files: [],
-          folders: [],
-        },
-      ],
-      files: [],
-    },
-    {
-      id: uuidv4(),
-      name: 'HR',
-      folders: [
-        {
-          id: uuidv4(),
-          name: 'Subfolder 3',
-          files: [],
-          folders: [],
-        },
-      ],
-      files: [
-        {
-          id: uuidv4(),
-          name: 'Subfolder 3',
-          files: [],
-        },
-      ],
-    },
-  ];
-  const initialFiles = [
-    {
-      id: uuidv4(),
-      name: 'Main File 1',
-      files: [],
-    },
-    {
-      id: uuidv4(),
-      name: 'Main File 2',
-      files: [],
-    },
-    // Add more initial files if needed
-  ];
   const [folders, setFolders] = useState(workspaceItem.folders);
   const [files, setFiles] = useState(workspaceItem.files);
-
   const addFolderInput = useRef(null);
   const addFileInput = useRef(null);
-  console.log(folders);
 
   useEffect(() => {
     if (showAddFolder) addFolderInput.current.focus();
@@ -103,7 +47,6 @@ const Menu = ({ workspaceItem }) => {
     setFolders([...folders, newFolder]);
     dispatch(setShowAddFolder(false));
     dispatch(addFolderRedux({ newFolder, workspaceUUID: workspaceItem.uuid }));
-    // setShowAddFolder(false);
   };
   const addFile = (event) => {
     if (event.key !== 'Enter') return;
@@ -118,7 +61,6 @@ const Menu = ({ workspaceItem }) => {
     setFiles([...files, newFile]);
     dispatch(setShowAddFile(false));
     dispatch(addFileRedux({ newFile, workspaceUUID: workspaceItem.uuid }));
-    // setShowAddFile(false);
   };
   const toggleItem = (event, id) => {
     console.log('clicked', id, event);
@@ -128,62 +70,18 @@ const Menu = ({ workspaceItem }) => {
       event.stopPropagation();
       if (openItems.includes(id)) {
         setOpenItems(openItems.filter((item) => item !== id));
-        console.log('clicked3');
-        console.log(id, 'id', openItems);
       } else {
         setOpenItems([...openItems, id]);
-        console.log(id, 'id', openItems);
-        console.log('clicked4');
       }
     } else {
-      console.log('plusClicked');
     }
-
-    // console.log('')
-    // const isChevronClicked = clickedElement.classList.contains('chevron');
-    // console.log("clicked2", isChevronClicked)
-    // if (isChevronClicked) {
-    //   event.stopPropagation();
-    //   if (openItems.includes(id)) {
-    //     setOpenItems(openItems.filter((item) => item !== id));
-    //     console.log("clicked3", isChevronClicked)
-    //     console.log(id, 'id', openItems);
-    //   } else {
-    //     setOpenItems([...openItems, id]);
-    //     console.log(id, 'id', openItems);
-    //     console.log("clicked4", isChevronClicked)
-    //   }
-    // }
   };
-
-  // const toggleAddFolder = () => {
-  //   setShowAddFolder(!showAddFolder);
-  //   if (showAddFolder) addFolderInput.current.value = ''; // Clear input field
-  // };
-
-  // const toggleAddFile = () => {
-  //   setShowAddFile(!showAddFile);
-  //   if (showAddFile) addFileInput.current.value = ''; // Clear input field
-  // };
 
   const lineStyle = {
     '--lineColor': workspaceItem.color,
   };
   return (
     <div className="main">
-      {/* <div className="viewerTop">
-        <div className="spaceTitle">
-          <p>Accubits</p>
-          <div className="addIcon" onClick={toggleAddFolder}>
-            <FaFolder className="icons" /> <span>+</span>
-          </div>
-
-          <div className="addIcon" onClick={toggleAddFile}>
-            <AiOutlineFileText className="icons" />
-            <span>+</span>
-          </div>
-        </div>
-      </div> */}
       {showAddFolder && (
         <div className="folder">
           <div
@@ -192,7 +90,7 @@ const Menu = ({ workspaceItem }) => {
           >
             <div className="openIcon"></div>
             <div className="folderIcon">
-              <FaFolder className="icons" />
+              <FolderIcon2 />
             </div>
             <input
               type="text"
@@ -262,9 +160,6 @@ const FileItem = ({ file, parentId, openItems, toggleItem }) => {
       name: event.target.value || 'untitled',
       files: [],
     };
-
-    // const updatedFiles = [...file.files, newFile]; // Create a new array with the updated files
-    // file.files = updatedFiles;
     dispatch(
       addSubFilesRedux({
         newFile,
@@ -287,33 +182,10 @@ const FileItem = ({ file, parentId, openItems, toggleItem }) => {
         <summary>
           <div className="showName">
             <div className="fileIconContainer">
-              {openItems.includes(id) ? (
-                <FileIcon />
-              ) : (
-                // <FiChevronRight
-                //   className="right-icon chevron"
-                //   onClick={(event) => toggleItem(event, id)}
-                //   onClickCapture={(event) => event.stopPropagation()}
-                // />
-                <FileIcon />
-                // <FiChevronDown
-                //   className="down-icon chevron"
-                //   onClick={(event) => toggleItem(event, id)}
-                //   onClickCapture={(event) => event.stopPropagation()}
-                // />
-              )}
+              {openItems.includes(id) ? <FileIcon /> : <FileIcon />}
             </div>
-            {/* <div onClick={() => toggleItem(id)}> */}
-            {/* </div> */}
-            {/* <AiOutlineFileText className="folder-icon" /> */}
             <span className="file-name">{file.name}</span>
           </div>
-          {/* <div className="showIcons">
-            <div className="addIcon" onClick={() => setShowAddFile(true)}>
-              <AiOutlineFileText className="icons" />
-              <span>+</span>
-            </div>
-          </div> */}
         </summary>
 
         {showAddFile && (
@@ -321,7 +193,7 @@ const FileItem = ({ file, parentId, openItems, toggleItem }) => {
             <div className="folderTitle">
               <div className="openIcon"></div>
               <div className="folderIcon">
-                <AiOutlineFileText className="icons" />
+                <FileIcon />
               </div>
               <input
                 type="text"
@@ -363,7 +235,6 @@ const FolderItem = ({
   workspaceItemColor,
 }) => {
   const id = parentId ? `${parentId}.${item.id}` : item.id;
-  // const hasNestedItems = item.files.length > 0 || item.folders.length > 0;
   const dispatch = useDispatch();
   const rgbaColor = hexToRGBA(workspaceItemColor, 0.3);
   const [showoptionsTree, setShowoptionsTree] = useState(false);
@@ -372,7 +243,6 @@ const FolderItem = ({
   const [isFolderOpen, setIsFolderOpen] = useState(false);
   const addFolderInput = useRef(null);
   const addFileInput = useRef(null);
-  // console.log(isFolderOpen, item, openItems);
 
   useEffect(() => {
     setIsFolderOpen(openItems.includes(item.id));
@@ -389,7 +259,6 @@ const FolderItem = ({
       workspaceUUID: item.workspaceUUID,
     };
 
-    // item.folders.push(newFolder);
     dispatch(
       addSubFoldersRedux({
         newFolder,
@@ -409,9 +278,6 @@ const FolderItem = ({
       files: [],
       workspaceUUID: item.workspaceUUID,
     };
-
-    // const updatedFiles = [...item.files, newFile]; // Create a new array with the updated files
-    // item.files = updatedFiles;
     dispatch(
       addSubFilesRedux({
         newFile,
@@ -423,15 +289,8 @@ const FolderItem = ({
     setShowAddFile(false);
   };
 
-  const lineStyle = {
-    // '--leftLine': parentId === null ? '100px' : '0px'
-  };
-
   return (
-    <li
-      className={parentId === null ? 'rootFolderLi' : 'childFolder'}
-      style={lineStyle}
-    >
+    <li className={parentId === null ? 'rootFolderLi' : 'childFolder'}>
       <details style={{ position: parentId === null ? 'relative' : 'none' }}>
         <summary
           className={parentId === null ? 'rootFolder chevron' : 'summaryChild'}
@@ -456,42 +315,18 @@ const FolderItem = ({
               {isFolderOpen ? (
                 <FolderArrow color={workspaceItemColor} />
               ) : (
-                // <FiChevronRight
-                //   className="right-icon chevron"
-                //   onClick={(event) => toggleItem(event, id)}
-                //   onClickCapture={(event) => event.stopPropagation()}
-                // />
                 <div style={{ transform: 'rotate(-90deg)' }}>
                   <FolderArrow color={'rgba(123, 131, 136, 1)'} />
                 </div>
-                // <FiChevronDown
-                //   className="down-icon chevron"
-                //   onClick={(event) => toggleItem(event, id)}
-                //   onClickCapture={(event) => event.stopPropagation()}
-                // />
               )}
             </div>
-            {/* <div onClick={() => toggleItem(id)}> */}
             {isFolderOpen ? (
               <FolderIcon color={workspaceItemColor} />
             ) : (
               <FolderIcon2 />
             )}
-            {/* <FolderIcon /> */}
-            {/* <FaFolder className="folder-icon" /> */}
-            {/* </div> */}
             <span className="folder-name">{item.name}</span>
           </div>
-          {/* <div className="showIcons">
-            <div className="addIcon" onClick={() => setShowAddFolder(true)}>
-              <FaFolder className="icons" />
-              <span>+</span>
-            </div>
-            <div className="addIcon" onClick={() => setShowAddFile(true)}>
-              <AiOutlineFileText className="icons" />
-              <span>+</span>
-            </div>
-          </div> */}
         </summary>
         {isFolderOpen && (
           <div
@@ -499,7 +334,6 @@ const FolderItem = ({
             style={{ marginTop: parentId === null ? '5px' : '' }}
             onClick={(event) => {
               event.stopPropagation();
-              // setShowAddFolder(true);
               setShowoptionsTree(!showoptionsTree);
             }}
           >
