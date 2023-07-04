@@ -14,7 +14,12 @@ import {
   FolderIcon2,
 } from '../WorkspaceIcons';
 import OptionsTree from './OptionsTree';
-import { addFileRedux, addFolderRedux, addSubFoldersRedux } from 'redux/slices/workspace';
+import {
+  addFileRedux,
+  addFolderRedux,
+  addSubFilesRedux,
+  addSubFoldersRedux,
+} from 'redux/slices/workspace';
 
 const Menu = ({ workspaceItem }) => {
   // const [showAddFolder, setShowAddFolder] = useState(false);
@@ -247,6 +252,7 @@ const Menu = ({ workspaceItem }) => {
 const FileItem = ({ file, parentId, openItems, toggleItem }) => {
   const id = parentId ? `${parentId}.${file.id}` : file.id;
   const [showAddFile, setShowAddFile] = useState(false);
+  const dispatch = useDispatch();
   const addFileInput = useRef(null);
   const addFile = (event) => {
     if (event.key !== 'Enter') return;
@@ -257,8 +263,16 @@ const FileItem = ({ file, parentId, openItems, toggleItem }) => {
       files: [],
     };
 
-    const updatedFiles = [...file.files, newFile]; // Create a new array with the updated files
-    file.files = updatedFiles;
+    // const updatedFiles = [...file.files, newFile]; // Create a new array with the updated files
+    // file.files = updatedFiles;
+    dispatch(
+      addSubFilesRedux({
+        newFile,
+        subFileId: file.id,
+        workspaceUUID: file.workspaceUUID,
+      })
+    );
+
     setShowAddFile(false);
   };
   const lineStyle = {
@@ -350,7 +364,7 @@ const FolderItem = ({
 }) => {
   const id = parentId ? `${parentId}.${item.id}` : item.id;
   // const hasNestedItems = item.files.length > 0 || item.folders.length > 0;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const rgbaColor = hexToRGBA(workspaceItemColor, 0.3);
   const [showoptionsTree, setShowoptionsTree] = useState(false);
   const [showAddFolder, setShowAddFolder] = useState(false);
@@ -358,7 +372,7 @@ const FolderItem = ({
   const [isFolderOpen, setIsFolderOpen] = useState(false);
   const addFolderInput = useRef(null);
   const addFileInput = useRef(null);
-  console.log(isFolderOpen, item, openItems);
+  // console.log(isFolderOpen, item, openItems);
 
   useEffect(() => {
     setIsFolderOpen(openItems.includes(item.id));
@@ -372,11 +386,17 @@ const FolderItem = ({
       name: event.target.value || 'untitled',
       files: [],
       folders: [],
-      workspaceUUID: item.workspaceUUID
+      workspaceUUID: item.workspaceUUID,
     };
 
-    item.folders.push(newFolder);
-    dispatch(addSubFoldersRedux({newFolder, subFolderId: item.id, workspaceUUID: item.workspaceUUID}))
+    // item.folders.push(newFolder);
+    dispatch(
+      addSubFoldersRedux({
+        newFolder,
+        subFolderId: item.id,
+        workspaceUUID: item.workspaceUUID,
+      })
+    );
     setShowAddFolder(false);
   };
 
@@ -387,10 +407,19 @@ const FolderItem = ({
       id: uuidv4(),
       name: event.target.value || 'untitled',
       files: [],
+      workspaceUUID: item.workspaceUUID,
     };
 
-    const updatedFiles = [...item.files, newFile]; // Create a new array with the updated files
-    item.files = updatedFiles;
+    // const updatedFiles = [...item.files, newFile]; // Create a new array with the updated files
+    // item.files = updatedFiles;
+    dispatch(
+      addSubFilesRedux({
+        newFile,
+        subFileId: item.id,
+        workspaceUUID: item.workspaceUUID,
+      })
+    );
+
     setShowAddFile(false);
   };
 

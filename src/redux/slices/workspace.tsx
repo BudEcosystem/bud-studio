@@ -143,6 +143,36 @@ export const generateInitialWorkspaceState = (): InitialState => {
   return initialState;
 };
 
+const searchById = (structure, id) => {
+  console.log({ ...structure }, 'askdjf');
+  if (!structure || structure.length === 0) {
+    return null;
+  }
+  for (const item of structure) {
+    console.log({ ...item }, '222');
+    if (item.id === id) {
+      console.log({ ...item }, '3332');
+      return item;
+    }
+    if (item.folders && item.folders.length > 0) {
+      const foundInFolders = searchById(item.folders, id);
+      if (foundInFolders) {
+        console.log(foundInFolders, '666');
+        return foundInFolders;
+      }
+    }
+    // if (item.files && item.files.length > 0) {
+    //   const foundInFiles = searchById(item.files, id);
+    //   if (foundInFiles) {
+    //     return foundInFiles;
+    //   }
+    // }
+  }
+
+  // If the ID was not found in the current structure or any nested structures, return null
+  return null;
+};
+
 export const workspaceSlice = createSlice({
   name: 'workspace',
   initialState: generateInitialWorkspaceState,
@@ -198,9 +228,23 @@ export const workspaceSlice = createSlice({
     addSubFoldersRedux: (state, action: PayloadAction<any>) => {
       state.workSpaceItems.map((item, i) => {
         if (item.uuid === action.payload.workspaceUUID) {
-          
+          const x = searchById(item.folders, action.payload.subFolderId);
+          console.log({ ...x }, '999');
+          if (x) {
+            x.folders.push(action.payload.newFolder);
+          }
         }
-        console.log({ ...item.files });
+      });
+    },
+    addSubFilesRedux: (state, action: PayloadAction<any>) => {
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          const x = searchById(item.folders, action.payload.subFileId);
+          console.log({ ...x }, '999');
+          if (x) {
+            x.files.push(action.payload.newFile);
+          }
+        }
       });
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
@@ -568,6 +612,7 @@ export const {
   updateAppName,
   addFolderRedux,
   addFileRedux,
-  addSubFoldersRedux
+  addSubFoldersRedux,
+  addSubFilesRedux,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
