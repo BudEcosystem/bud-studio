@@ -24,6 +24,7 @@ import { imageGeneration, jsonResult } from 'api';
 import iconImage from 'components/EditorHeader/images/iconImage.png';
 import Database from 'components/Database';
 import classes from './workspace.module.css';
+import KanbanUI from '@/components/KanbanNew';
 
 interface WorkspaceProps {
   isCollapsed: boolean;
@@ -186,6 +187,7 @@ function WorkspaceEditor({
                       data={data[currentPage]}
                       persistEditorRoot={persistEditorRoot}
                     />
+                    {/* <KanbanUI/> */}
                   </>
                 ) : (
                   <Database databaseData={currentDatabase} />
