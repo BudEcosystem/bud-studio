@@ -370,7 +370,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                       ref={optionModalRef}
                       id="optionsModal"
                       className="optionsModal"
-                      style={{top: topDots+2, left: leftDots-260}}
+                      style={{top: topDots+3, left: leftDots-260}}
                     >
                       <div className="secondWorkspaceModal">
                         <div className="drag">
