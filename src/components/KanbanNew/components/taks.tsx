@@ -6,10 +6,10 @@ import { Popover } from 'antd';
 import { useDispatch } from 'react-redux';
 import { setCurrentSelectedUI } from 'redux/slices/activestate';
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
-import { styled as materialStyled } from '@mui/material/styles';
-import Badge from '@mui/material/Badge';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
+// import { styled as materialStyled } from '@mui/material/styles';
+// import Badge from '@mui/material/Badge';
+// import Avatar from '@mui/material/Avatar';
+// import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import TaskViewKanban from 'components/TaskViewKanban/TaskViewKanban';
 import GroupByModal from 'components/ListView/ListViewComponents/GroupBy/GroupByModal';
@@ -28,7 +28,10 @@ const TaskContainer = styled.div`
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  transform: ${(props) => (props.isDragging ? 'rotate(-15deg)' : 'none')};
 `;
+// background: ${(props) => (props.isDragging ? 'blue' : 'none')};
+
 const TaskHeader = styled.div`
   font-family: 'Noto Sans';
   font-style: normal;
@@ -247,34 +250,34 @@ const PopOverSearchKeybordCommandWrapper = styled.div`
 `;
 const PopOverSearchKeybordCommand = styled.img``;
 
-const StyledBadge = materialStyled(Badge)(({ theme }) => ({
-  '& .MuiBadge-badge': {
-    backgroundColor: '#44b700',
-    color: '#44b700',
-    // boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    '&::after': {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      // borderRadius: '50%',
-      // animation: 'ripple 1.2s infinite ease-in-out',
-      // border: '1px solid currentColor',
-      content: '""',
-    },
-  },
-  // '@keyframes ripple': {
-  //   '0%': {
-  //     transform: 'scale(.8)',
-  //     opacity: 1,
-  //   },
-  //   '100%': {
-  //     transform: 'scale(2.4)',
-  //     opacity: 0,
-  //   },
-  // },
-}));
+// const StyledBadge = materialStyled(Badge)(({ theme }) => ({
+//   '& .MuiBadge-badge': {
+//     backgroundColor: '#44b700',
+//     color: '#44b700',
+//     // boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+//     '&::after': {
+//       position: 'absolute',
+//       top: 0,
+//       left: 0,
+//       width: '100%',
+//       height: '100%',
+//       // borderRadius: '50%',
+//       // animation: 'ripple 1.2s infinite ease-in-out',
+//       // border: '1px solid currentColor',
+//       content: '""',
+//     },
+//   },
+//   // '@keyframes ripple': {
+//   //   '0%': {
+//   //     transform: 'scale(.8)',
+//   //     opacity: 1,
+//   //   },
+//   //   '100%': {
+//   //     transform: 'scale(2.4)',
+//   //     opacity: 0,
+//   //   },
+//   // },
+// }));
 
 const UserNameDiv = styled.div`
   color: #bbb;
@@ -298,7 +301,7 @@ function PopOverSearch() {
         </PopOverSearchKeybordCommandWrapper>
       </PopOveSearchWrapper>
       <div className="userContainer">
-        {arr.map((item, i) => (
+        {/* {arr.map((item, i) => (
           <Stack direction="row" spacing={2}>
             {i === 1 ? (
               <StyledBadge
@@ -321,7 +324,7 @@ function PopOverSearch() {
             )}
             <UserNameDiv>{item}</UserNameDiv>
           </Stack>
-        ))}
+        ))} */}
       </div>
     </PopOverWrapper>
   );
@@ -350,13 +353,15 @@ function Tasks(props: any) {
 
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
-      {(provided) => {
+      {(provided, snapshot) => {
         return (
           <TaskContainer
             onDoubleClick={() => setShowKanbanTaskView(true)}
             {...provided.draggableProps}
             ref={provided.innerRef}
             onContextMenu={handleContextMenu}
+            isDragging={snapshot.isDragging}
+            style={{ ...provided.draggableProps.style }}
           >
             {
               <TaskViewKanban
