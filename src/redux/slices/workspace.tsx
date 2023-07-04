@@ -144,20 +144,16 @@ export const generateInitialWorkspaceState = (): InitialState => {
 };
 
 const searchById = (structure, id) => {
-  console.log({ ...structure }, 'askdjf');
   if (!structure || structure.length === 0) {
     return null;
   }
   for (const item of structure) {
-    console.log({ ...item }, '222');
     if (item.id === id) {
-      console.log({ ...item }, '3332');
       return item;
     }
     if (item.folders && item.folders.length > 0) {
       const foundInFolders = searchById(item.folders, id);
       if (foundInFolders) {
-        console.log(foundInFolders, '666');
         return foundInFolders;
       }
     }
@@ -168,8 +164,6 @@ const searchById = (structure, id) => {
     //   }
     // }
   }
-
-  // If the ID was not found in the current structure or any nested structures, return null
   return null;
 };
 
