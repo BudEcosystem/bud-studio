@@ -14,15 +14,16 @@ import {
   FolderIcon2,
 } from '../WorkspaceIcons';
 import OptionsTree from './OptionsTree';
+import { addFileRedux, addFolderRedux, addSubFoldersRedux } from 'redux/slices/workspace';
 
 const Menu = ({ workspaceItem }) => {
   // const [showAddFolder, setShowAddFolder] = useState(false);
   // const [showAddFile, setShowAddFile] = useState(false);
   const [openItems, setOpenItems] = useState([]); // State to track the open items
   const dispatch = useDispatch();
-  const { tree }: any = useSelector((state) => state);
+  const { tree, workspace }: any = useSelector((state) => state);
   const { showAddFolder, showAddFile } = tree;
-  console.log(workspaceItem);
+  console.log(workspaceItem, workspace);
 
   const initialList = [
     {
@@ -71,8 +72,8 @@ const Menu = ({ workspaceItem }) => {
     },
     // Add more initial files if needed
   ];
-  const [folders, setFolders] = useState(initialList);
-  const [files, setFiles] = useState(initialFiles);
+  const [folders, setFolders] = useState(workspaceItem.folders);
+  const [files, setFiles] = useState(workspaceItem.files);
 
   const addFolderInput = useRef(null);
   const addFileInput = useRef(null);
@@ -91,10 +92,12 @@ const Menu = ({ workspaceItem }) => {
       name: event.target.value || 'untitled',
       files: [],
       folders: [],
+      workspaceUUID: workspaceItem.uuid,
     };
 
     setFolders([...folders, newFolder]);
     dispatch(setShowAddFolder(false));
+    dispatch(addFolderRedux({ newFolder, workspaceUUID: workspaceItem.uuid }));
     // setShowAddFolder(false);
   };
   const addFile = (event) => {
@@ -104,10 +107,12 @@ const Menu = ({ workspaceItem }) => {
       id: uuidv4(),
       name: event.target.value || 'untitled',
       files: [],
+      workspaceUUID: workspaceItem.uuid,
     };
 
     setFiles([...files, newFile]);
     dispatch(setShowAddFile(false));
+    dispatch(addFileRedux({ newFile, workspaceUUID: workspaceItem.uuid }));
     // setShowAddFile(false);
   };
   const toggleItem = (event, id) => {
@@ -216,7 +221,7 @@ const Menu = ({ workspaceItem }) => {
       )}
 
       <ul className="tree" style={lineStyle}>
-        {folders.map((item) => (
+        {workspaceItem.folders.map((item) => (
           <FolderItem
             key={item.id}
             item={item}
@@ -226,7 +231,7 @@ const Menu = ({ workspaceItem }) => {
             workspaceItemColor={workspaceItem.color}
           />
         ))}
-        {files.map((file) => (
+        {workspaceItem.files.map((file) => (
           <FileItem
             key={file.id}
             file={file}
@@ -345,6 +350,7 @@ const FolderItem = ({
 }) => {
   const id = parentId ? `${parentId}.${item.id}` : item.id;
   // const hasNestedItems = item.files.length > 0 || item.folders.length > 0;
+  const dispatch = useDispatch()
   const rgbaColor = hexToRGBA(workspaceItemColor, 0.3);
   const [showoptionsTree, setShowoptionsTree] = useState(false);
   const [showAddFolder, setShowAddFolder] = useState(false);
@@ -366,9 +372,11 @@ const FolderItem = ({
       name: event.target.value || 'untitled',
       files: [],
       folders: [],
+      workspaceUUID: item.workspaceUUID
     };
 
     item.folders.push(newFolder);
+    dispatch(addSubFoldersRedux({newFolder, subFolderId: item.id, workspaceUUID: item.workspaceUUID}))
     setShowAddFolder(false);
   };
 
