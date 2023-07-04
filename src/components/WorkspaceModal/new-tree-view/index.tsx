@@ -202,7 +202,7 @@ const Menu = ({ workspaceItem }) => {
           >
             <div className="openIcon"></div>
             <div className="folderIcon">
-              <AiOutlineFileText className="icons" />
+              <FileIcon />
             </div>
             <input
               type="text"
