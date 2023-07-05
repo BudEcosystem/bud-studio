@@ -89,10 +89,13 @@
   cursor: text;
   padding: .5px;
   color: #BBB;
+
+  border: 0px;
 }
 
 .table-add-column-button:focus{
   color: #FFF;
+  outline: none;
 }
 
 .table-add-column-button:empty:before{

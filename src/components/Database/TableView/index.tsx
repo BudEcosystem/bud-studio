@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
   DataEditor,
@@ -24,6 +24,7 @@ import {
   useExtraCells,
   StarCell,
   DropdownCell,
+  TagsCell,
 } from '@glideapps/glide-data-grid-cells';
 
 import { useSelector } from 'react-redux';
@@ -48,13 +49,8 @@ export default function TableView({
   // const { workspace } = useSelector((state) => state);
 
   // State Data
-  const [data, setData] = useState(databaseEntries);
-  const [columns, setColumns] = useState<GridColumn[]>([
-    { title: 'Document' },
-    { title: 'Status' },
-    { title: 'Priority' },
-    // { title: 'Status' },
-  ]);
+  const [data, setData] = useState(null);
+  const [columns, setColumns] = useState<GridColumn[]>([]);
   const [hoverRow, setHoverRow] = React.useState<number | undefined>(undefined);
 
   // Row Hover Effect
@@ -76,6 +72,7 @@ export default function TableView({
 
   function getData([col, row]: Item): GridCell {
     const rowData = data[row];
+
     if (col === 0) {
       return {
         kind: GridCellKind.Custom,
@@ -91,49 +88,87 @@ export default function TableView({
         },
       } as DocumentCell;
     }
-    if (col === 1) {
+
+    if (col <= rowData.properties.length) {
+      const propRpw = rowData.properties.find(
+        (property) => property.order === col
+      );
+
+      if (propRpw.type === 'tags') {
+        return {
+          kind: GridCellKind.Custom,
+          allowOverlay: true,
+          copyData: '4',
+          data: {
+            kind: 'dropdown-cell',
+            allowedValues: databaseData.propertyPresets.status.options.map(
+              (option) => option.title
+            ),
+            value: propRpw.value,
+          },
+        };
+      }
+
+      if (propRpw.type === 'status') {
+        return {
+          kind: GridCellKind.Custom,
+          allowOverlay: true,
+          copyData: '4',
+          data: {
+            kind: 'dropdown-cell',
+            allowedValues: databaseData.propertyPresets.status.options.map(
+              (option) => option.title
+            ),
+            value: propRpw.value,
+          },
+        };
+      }
+
+      if (propRpw.type === 'priority') {
+        return {
+          kind: GridCellKind.Custom,
+          allowOverlay: true,
+          copyData: '4',
+          data: {
+            kind: 'priority-cell',
+            allowedValues: databaseData.propertyPresets.priority.options.map(
+              (option) => option.title
+            ),
+            value: propRpw.value,
+          },
+        };
+      }
+
       return {
-        kind: GridCellKind.Custom,
+        kind: GridCellKind.Text,
         allowOverlay: true,
-        copyData: '4',
-        data: {
-          kind: 'dropdown-cell',
-          allowedValues: databaseData.propertyPresets.status.options.map(
-            (option) => option.title
-          ),
-          value: rowData.properties.status,
-        },
-      };
-    }
-    if (col === 2) {
-      return {
-        kind: GridCellKind.Custom,
-        allowOverlay: true,
-        copyData: '4',
-        data: {
-          kind: 'priority-cell',
-          allowedValues: databaseData.propertyPresets.priority.options.map(
-            (option) => option.title
-          ),
-          value: rowData.properties.priority,
-        },
+        displayData: '',
+        data: '',
+        allowWrapping: true,
       };
     }
 
-    // if (col === 3) {
-    //   return {
-    //     kind: GridCellKind.Custom,
-    //     allowOverlay: true,
-    //     copyData: '4',
-    //     data: {
-    //       kind: 'tags-cell',
-    //       allowedValues: databaseData.propertyPresets.priority.options.map(
-    //         (option) => option.title
-    //       ),
-    //       value: rowData.properties.priority,
-    //     },
-    //   };
-    // }
+    const propRpw = rowData.customProperties.find(
+      (property) => property.order === col
+    );
+
+    if (propRpw) {
+      return {
+        kind: GridCellKind.Text,
+        allowOverlay: true,
+        displayData: propRpw.value,
+        data: propRpw.value,
+        allowWrapping: true,
+      };
+    }
+
+    return {
+      kind: GridCellKind.Text,
+      allowOverlay: true,
+      displayData: '',
+      data: '',
+      allowWrapping: true,
+    };
 
     throw new Error();
   }
@@ -173,8 +208,48 @@ export default function TableView({
   };
 
   useEffect(() => {
+    // Prepare Data
+    console.log('Prepare Data Called');
+
+    const column:
+      | React.SetStateAction<GridColumn[]>
+      | { title: any; order: any }[] = [{ title: 'Document', order: 0 }];
+
+    // databaseEntries.forEach((entry) => {
+    // System Defined Properties
+    databaseEntries[0].properties.forEach((property) => {
+      column.push({ title: property.title, order: property.order });
+    });
+
+    // User Defined Properties
+    databaseEntries[0].customProperties.forEach((property) => {
+      column.push({ title: property.title, order: property.order });
+    });
+    // });
+
+    // Set The Columns
+    setColumns(column);
+
+    // Prepare Thw Data
+
     setData(databaseEntries);
   }, [databaseEntries]);
+
+  // Add New Column
+  const newColumnInput = useRef(null);
+  const addNewColumn = (e) => {
+    // check if caracter presses is enter
+
+    if (e.key === 'Enter') {
+      const newColumnTitle = newColumnInput.current.value;
+      const newColumns = [...columns];
+      newColumns.push({ title: newColumnTitle, order: columns.length });
+      setColumns(newColumns);
+      newColumnInput.current.value = '';
+
+      // Update The Properties
+    }
+  };
 
   return (
     <div className="table-wrapper" id="table-wrapper">
@@ -212,13 +287,15 @@ export default function TableView({
           rightElement={
             <div className="table-add-column">
               <div className="table-column-virtalbar" />
-              <div
-                contentEditable
+              <input
                 className="table-add-column-button"
+                ref={newColumnInput}
+                placeholder="Add Column"
                 style={{
                   width: '85px',
                   height: '19px',
                 }}
+                onKeyDown={addNewColumn}
               />
             </div>
           }
@@ -245,6 +322,7 @@ export default function TableView({
             StarCell,
             DropdownCell,
             PriorityCellRenderer,
+            TagsCell,
           ]}
         />
       )}

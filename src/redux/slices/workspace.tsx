@@ -33,15 +33,52 @@ export const generateInitialWorkspaceState = (): InitialState => {
         type: 'doc',
         uuid: '39b08a3d-12f1-4651-90f7-328952849dca',
         workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        customProperties: [], // User defined Properties
-        properties:
-          // System Defined Properties
+        customProperties: [
           {
-            tags: ['no-tag'],
-            priority: 'Normal',
-            status: 'Not Started',
-            date: null,
+            title: 'Author',
+            value: 'Bud',
+            type: 'text',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc',
+            order: 4,
           },
+          {
+            title: 'ISBN',
+            value: 'QWDE-DJJC-1234',
+            type: 'text',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee',
+            order: 5,
+          },
+        ], // User defined Properties
+        properties: [
+          {
+            title: 'Tags',
+            value: ['no-tag'],
+            type: 'tags',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc1',
+            order: 1,
+          },
+          {
+            title: 'Priority',
+            value: 'Normal',
+            type: 'priority',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc2',
+            order: 2,
+          },
+          {
+            title: 'Status',
+            value: 'Not Started',
+            type: 'status',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
+            order: 3,
+          },
+        ],
+        // System Defined Properties
+        // {
+        //   tags: ['no-tag'],
+        //   priority: 'Normal',
+        //   status: 'Not Started',
+        //   date: null,
+        // },
       },
     ],
     applicationData: {
