@@ -187,13 +187,12 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
       )}
 
       {databaseData.defaultView === 'Kanban' && databaseEntries.length && (
-        <KanbanUI/>
+        <KanbanUI />
       )}
 
       {databaseData.defaultView === 'List' && databaseEntries.length && (
         <div>List</div>
       )}
-
     </div>
   );
 }
