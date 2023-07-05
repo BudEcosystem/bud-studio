@@ -162,6 +162,14 @@ export const generateInitialWorkspaceState = (): InitialState => {
           type: 'Database',
           databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4gr',
         },
+        {
+          type: 'Database',
+          databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4gg',
+        },
+        {
+          type: 'Database',
+          databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4g2',
+        },
       ],
     },
     editorInitialised: false,

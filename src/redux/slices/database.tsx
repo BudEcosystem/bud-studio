@@ -46,7 +46,7 @@ export const generateDatabaseInitialState = (): any => {
       },
       {
         type: 'Database',
-        id: '39b08a3d-12f1-4651-90f7-3289524fr4gr',
+        id: '39b08a3d-12f1-4651-90f7-3289524fr4gg',
         title: 'Bud Test Database',
         description: 'This is a test database',
         defaultView: 'Kanban',
@@ -81,7 +81,7 @@ export const generateDatabaseInitialState = (): any => {
       },
       {
         type: 'Database',
-        id: '39b08a3d-12f1-4651-90f7-3289524fr4gr',
+        id: '39b08a3d-12f1-4651-90f7-3289524fr4g2',
         title: 'Bud Test Database',
         description: 'This is a test database',
         defaultView: 'List',

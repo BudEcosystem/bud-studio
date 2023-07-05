@@ -173,7 +173,7 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
   return (
     <div className="database">
       <HeaderSection
-        view="kanabn"
+        view={databaseData.defaultView}
         title={databaseData.title}
         databaseDescription={databaseData.description}
       />
@@ -184,6 +184,15 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
           appendEmptyDocument={appendEmptyDocument}
         />
       )}
+
+      {databaseData.defaultView === 'Kanban' && databaseEntries.length && (
+        <div>kanban</div>
+      )}
+
+      {databaseData.defaultView === 'List' && databaseEntries.length && (
+        <div>List</div>
+      )}
+
     </div>
   );
 }
