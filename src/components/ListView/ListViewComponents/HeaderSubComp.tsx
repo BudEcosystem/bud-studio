@@ -28,7 +28,7 @@ const HeaderSubComp = ({
   provided,
   expanded,
   toggleSubAccordion,
-}) => {
+}) => { 
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(data.title);
