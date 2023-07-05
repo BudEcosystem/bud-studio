@@ -371,7 +371,7 @@ details > summary::-webkit-details-marker {
 }
 
 .rootFolderLi {
-  margin-bottom: 5px;
+  /* margin-bottom: 5px; */
 }
 
 .liItemFolder {
@@ -397,7 +397,9 @@ details > summary::-webkit-details-marker {
 .summaryChild {
   /* margin-left: 8px; */
 }
-
+.childFile {
+  margin-top: 12px;
+}
 .childFile > details > summary {
   margin-left: 20px;
   width: 100%;
@@ -406,11 +408,13 @@ details > summary::-webkit-details-marker {
 
 .fileIconContainer {
   margin-right: 10px;
+  margin-left: 9px;
 }
 
 .parentFile {
-  margin-left: 30px;
-  margin-bottom: 10px;
+  margin-left: 20px;
+  height: 36px;
+  /* margin-bottom: 10px; */
 }
 
 .plusIcon {
