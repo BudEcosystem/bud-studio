@@ -40,6 +40,77 @@ export const generateDatabaseInitialState = (): any => {
         entries: [
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
+            childs: [{ documentID: '39b08a3d-12f1-4651-90f7-328952849dca' }],
+          },
+        ],
+      },
+      {
+        type: 'Database',
+        id: '39b08a3d-12f1-4651-90f7-3289524fr4gr',
+        title: 'Bud Test Database',
+        description: 'This is a test database',
+        defaultView: 'Kanban',
+        created_at: '',
+        updated_at: '',
+        propertyPresets: {
+          priority: {
+            name: 'Priority',
+            type: 'select',
+            options: [
+              { title: 'High', color: '#fff' },
+              { title: 'Low', color: '#fff' },
+              { title: 'Medium', color: '#fff' },
+              { title: 'Normal', color: '#fff' },
+            ],
+          },
+          status: {
+            name: 'Status',
+            type: 'select',
+            options: [
+              { title: 'Not Started', color: '#fff' },
+              { title: 'In Progress', color: '#fff' },
+              { title: 'Done', color: '#fff' },
+            ],
+          },
+        },
+        entries: [
+          {
+            documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
+          },
+        ],
+      },
+      {
+        type: 'Database',
+        id: '39b08a3d-12f1-4651-90f7-3289524fr4gr',
+        title: 'Bud Test Database',
+        description: 'This is a test database',
+        defaultView: 'List',
+        created_at: '',
+        updated_at: '',
+        propertyPresets: {
+          priority: {
+            name: 'Priority',
+            type: 'select',
+            options: [
+              { title: 'High', color: '#fff' },
+              { title: 'Low', color: '#fff' },
+              { title: 'Medium', color: '#fff' },
+              { title: 'Normal', color: '#fff' },
+            ],
+          },
+          status: {
+            name: 'Status',
+            type: 'select',
+            options: [
+              { title: 'Not Started', color: '#fff' },
+              { title: 'In Progress', color: '#fff' },
+              { title: 'Done', color: '#fff' },
+            ],
+          },
+        },
+        entries: [
+          {
+            documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
           },
         ],
       },
