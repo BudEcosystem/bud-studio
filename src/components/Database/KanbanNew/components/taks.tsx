@@ -26,10 +26,11 @@ const TaskContainer = styled.div`
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  transition: background-color 0.3s ease;
   transform: ${({ isDragging, draggingOver }: any) =>
-    (isDragging || draggingOver) ? 'rotate(-3deg)' : 'none'};
+    isDragging || draggingOver ? 'rotate(-3deg)' : 'none'};
   background: ${({ isDragging, draggingOver }: any) =>
-    (isDragging || draggingOver) ? 'grey' : '#2c2b30'};
+    isDragging || draggingOver ? 'grey' : '#2c2b30'};
 `;
 
 // const getItemStyle = (isDragging: any) => ({
@@ -38,7 +39,6 @@ const TaskContainer = styled.div`
 //   // change the tilt of the card while dragging
 //   transform: isDragging ? 'rotate(-3deg)' : null,
 // });
-
 
 const TaskHeader = styled.div`
   font-family: 'Noto Sans';
@@ -343,6 +343,8 @@ function Tasks(props: any) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
+  console.log('INDEX MAP', props.task.index);
+
   const handleContextMenu = (event: any) => {
     event.preventDefault();
     const { clientX, clientY } = event;
@@ -388,7 +390,7 @@ function Tasks(props: any) {
             )}
             <TaskHeader>
               {' '}
-              {!props?.task?.heading && (
+              {props?.task?.heading && (
                 <TaskHeading {...provided.dragHandleProps}>
                   {props?.task?.content}
                 </TaskHeading>
@@ -414,7 +416,7 @@ function Tasks(props: any) {
                 <TaskProgress />
               </TaskProgressBar>
             )}
-            {!props.task.user && (
+            {props.task.user && (
               <TaskUserUI>
                 <TaskUser />
                 <TaskUser />
@@ -427,17 +429,17 @@ function Tasks(props: any) {
                 </Popover>
               </TaskUserUI>
             )}
-            {!props.task.description && (
+            {props.task.description && (
               <TaskDescription>
                 Make note of any appointments or meetings.
               </TaskDescription>
             )}
-            {!props.task.type && (
+            {props.task.type && (
               <TaskType>
                 <TaskTypeSpan>Recurring</TaskTypeSpan>
               </TaskType>
             )}
-            {!props.task.footer && (
+            {props.task.footer && (
               <TaskFooterSection>
                 <TaskFooterTagsWrapper>
                   <TaskBrancDetailsWrapper>

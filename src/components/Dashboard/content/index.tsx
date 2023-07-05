@@ -4,7 +4,7 @@ import Hamburger from 'components/Hamburger/Hamburger';
 import ListView from 'components/ListView/ListView';
 import { useDispatch, useSelector } from 'react-redux';
 import { setContentRef } from 'redux/slices/content';
-import KanbanUI from 'components/KanbanNew';
+// import KanbanUI from 'components/KanbanNew';
 import TableView from 'components/TableView';
 import {
   changeColor,
@@ -97,8 +97,7 @@ function ContentView({
   // };
 
   useEffect(() => {
-
-    console.log("Auto Update 2");
+    console.log('Auto Update 2');
     // if (workspaceItems.length == 1) {
     //   dispatch(setCurrentSelectedDocument({ id: null }));
     //   //navPathHandler(newNode);
