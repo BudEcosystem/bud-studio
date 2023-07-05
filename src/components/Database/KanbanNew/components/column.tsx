@@ -29,11 +29,11 @@ function Column(props: any) {
   const [showNewTaskUI, setNewTaskUI] = useState(false);
   const [addButtonClickedFromColumn, SetAddButtonClickedFromColumn] =
     useState(false);
-  
-    const { workspace }: any = useSelector((state) => state);
-    const workSpaceDocs = workspace.workSpaceDocs;
 
-    console.log("WOrKSPACE RAHUL", workSpaceDocs)
+  const { workspace }: any = useSelector((state) => state);
+  const workSpaceDocs = workspace.workSpaceDocs;
+
+  console.log('WOrKSPACE RAHUL', workSpaceDocs);
 
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const inputRefForColumnEdit =
@@ -247,7 +247,6 @@ function Column(props: any) {
       if (event.key === 'Enter') {
         event.preventDefault();
         if (inputRefForColumnEdit.current?.value) {
-         
         }
       }
     });
@@ -278,6 +277,35 @@ function Column(props: any) {
       </ColumnMenuWrapper>
     );
   };
+  const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
+  useEffect(() => {
+    const TaskArray: any = [];
+    props.entries.forEach((entry: any, index: any) => {
+      workSpaceDocs.forEach((doc: any, index: any) => {
+        console.log('SUCCESS MAPP', props.title);
+        console.log('SUCCESS MAPP', entry);
+        if (doc.uuid == entry.documentID && props.title === entry.statusKey) {
+          console.log('SUCCESS MAPP');
+          const mappedTask: Task = {
+            index,
+            id: `${entry.documentId}`,
+            content: `${doc.name}`,
+            heading: `${doc.name}`,
+            progress: '',
+            user: '',
+            description: 'Make hay',
+            footer: '',
+            image: '',
+            type: '',
+          };
+          console.log('SUCCESS MAPP', mappedTask);
+          TaskArray.push(mappedTask);
+          // return <Tasks key={mappedTask.id} task={mappedTask} />;
+        }
+      });
+    });
+    SetTaskArrayForRender(TaskArray);
+  }, [props, workSpaceDocs, workspace]);
   return (
     <Draggable draggableId={props.id} index={props.index}>
       {(provided: any) => (
@@ -337,7 +365,9 @@ function Column(props: any) {
             </TitleHeaderFirst>
             <TitleHeaderSecond>
               <TitleHeaderPlusIconWrapper
-                onClick={() => addTaskButtonClicked(!addButtonClickedFromColumn)}
+                onClick={() =>
+                  addTaskButtonClicked(!addButtonClickedFromColumn)
+                }
               >
                 <TitleHeaderPlusIcon>
                   <svg
@@ -419,7 +449,7 @@ function Column(props: any) {
           <Droppable droppableId={props.id} type="task">
             {(provided) => (
               <TaskList ref={provided.innerRef} {...provided.droppableProps}>
-                 {/* {Object.entries(props.tasks).map(([key, value], index) => {
+                {/* {Object.entries(props.tasks).map(([key, value], index) => {
                   const taskvalue = value as Task;
                   const mappedTask: Task = {
                     index,
@@ -435,10 +465,10 @@ function Column(props: any) {
                   };
                   return <Tasks key={mappedTask.id} task={mappedTask} />;
                 })} */}
-                {props.entries.map((entry: any, index:any) => {
+                {/* {props.entries.map((entry: any, index: any) => {
                   workSpaceDocs.map((doc: any, index: any) => {
-                    if(doc.uuid == entry.documentID) {
-                      console.log("SUCCESS MAPP")
+                    if (doc.uuid == entry.documentID) {
+                      console.log('SUCCESS MAPP');
                       const mappedTask: Task = {
                         index,
                         id: `${entry.documentId}`,
@@ -446,15 +476,20 @@ function Column(props: any) {
                         heading: `${doc.name}`,
                         progress: '',
                         user: '',
-                        description: "Make hay",
+                        description: 'Make hay',
                         footer: '',
                         image: '',
-                        type: ''
-                      }
-                      return <Tasks key={mappedTask.id} task={mappedTask} />
+                        type: '',
+                      };
+                      console.log('SUCCESS MAPP', mappedTask);
+                      return <div>sjcgjscgh</div>;
+                      // return <Tasks key={mappedTask.id} task={mappedTask} />;
                     }
-                  })
-                })}
+                  });
+                })} */}
+                {TaskArrayForRender?.map((mappedTask: any) => (
+                  <Tasks key={mappedTask.id} task={mappedTask} />
+                ))}
                 {provided.placeholder}
               </TaskList>
             )}

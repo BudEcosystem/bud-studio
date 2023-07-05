@@ -28,9 +28,9 @@ const TaskContainer = styled.div`
   flex-direction: column;
   transition: background-color 0.3s ease;
   transform: ${({ isDragging, draggingOver }: any) =>
-    (isDragging || draggingOver) ? 'rotate(-3deg)' : 'none'};
+    isDragging || draggingOver ? 'rotate(-3deg)' : 'none'};
   background: ${({ isDragging, draggingOver }: any) =>
-    (isDragging || draggingOver) ? 'grey' : '#2c2b30'};
+    isDragging || draggingOver ? 'grey' : '#2c2b30'};
 `;
 
 // const getItemStyle = (isDragging: any) => ({
@@ -39,7 +39,6 @@ const TaskContainer = styled.div`
 //   // change the tilt of the card while dragging
 //   transform: isDragging ? 'rotate(-3deg)' : null,
 // });
-
 
 const TaskHeader = styled.div`
   font-family: 'Noto Sans';
@@ -344,7 +343,7 @@ function Tasks(props: any) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
-  console.log("INDEX KKK", props.task.index)
+  console.log('INDEX MAP', props.task.index);
 
   const handleContextMenu = (event: any) => {
     event.preventDefault();

@@ -6,7 +6,7 @@ import { styled } from 'styled-components';
 import { createNewColumn, updateColumnPosition } from 'redux/slices/kanban';
 import Column from './components/column';
 
-function Kanban({databaseData}: any) {
+function Kanban({ databaseData }: any) {
   // useEffect(() => {
   // setStateData(initialData);
   // }, []);
@@ -95,15 +95,14 @@ function Kanban({databaseData}: any) {
       if (event.key === 'Enter') {
         event.preventDefault();
         if (inputRef.current?.value) {
-          
         }
       }
     });
   });
 
-  var columnOrder = ['Not Started', 'In Progress', 'In Review', 'Done'];
+  const columnOrder = ['Not Started', 'In Progress', 'In Review', 'Done'];
 
-  console.log("DATABASE COLS", databaseData.entries)
+  console.log('DATABASE COLS', databaseData.entries);
 
   // const columns: { [key: string]: object } = {
   //   'column-1': {
@@ -152,7 +151,8 @@ function Kanban({databaseData}: any) {
           }) => (
             <Container {...provided.droppableProps} ref={provided.innerRef}>
               {columnOrder?.map((columnId, index) => {
-                const column = databaseData.propertyPresets.status.options[index];
+                const column =
+                  databaseData.propertyPresets.status.options[index];
                 // const taskFiltered = column.title.map(
                 //   (taskId: string) => tasks[`${taskId}`]
                 // );

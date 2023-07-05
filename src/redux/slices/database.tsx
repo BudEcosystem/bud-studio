@@ -31,9 +31,9 @@ export const generateDatabaseInitialState = (): any => {
             name: 'Status',
             type: 'select',
             options: [
-              { title: 'Not Started', color: '#fff' },
-              { title: 'In Progress', color: '#fff' },
-              { title: 'Done', color: '#fff' },
+              { title: 'Not Started', key: 'Not Started', color: '#fff' },
+              { title: 'In Progress', key: 'In Progres', color: '#fff' },
+              { title: 'Done', key: 'Done', color: '#fff' },
             ],
           },
         },
@@ -41,6 +41,7 @@ export const generateDatabaseInitialState = (): any => {
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
             childs: [{ documentID: '39b08a3d-12f1-4651-90f7-328952849dca' }],
+            statusKey: 'Not Started',
           },
         ],
       },
@@ -77,6 +78,8 @@ export const generateDatabaseInitialState = (): any => {
         entries: [
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
+            childs: [{ documentID: '39b08a3d-12f1-4651-90f7-328952849dca' }],
+            statusKey: 'Not Started',
           },
         ],
       },
