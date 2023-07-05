@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Layout, Space, Breadcrumb } from 'antd';
 import classes from './dashboard.module.css';
 import { useSelector } from 'react-redux';
+import { ToggleFileComponent } from './components/ToggleFile/ToggleFileComponent';
 
 const { Header } = Layout;
 
@@ -21,12 +22,12 @@ function SliderArrow({ slideFn, isCollapsed }: HeaderProps) {
       {isCollapsed ? (
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <div className={classes['slide-arrow-active']} onClick={slideFn}>
-          <CollapseIcon/>
+          <CollapseIcon />
         </div>
       ) : (
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <div className={classes['slide-arrow']} onClick={slideFn}>
-          <CollapseIcon/>
+          <CollapseIcon />
         </div>
       )}
     </div>
@@ -35,12 +36,30 @@ function SliderArrow({ slideFn, isCollapsed }: HeaderProps) {
 
 const CollapseIcon = () => {
   return (
-    <svg width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0.5" y="0.5" width="26.1231" height="24.5182" fill="#0F0F0F"/>
-    <path d="M8 9L8 16.5182" stroke="#7B8388" stroke-width="1.62894" stroke-linecap="round"/>
-    <path d="M19.1233 12.3927H12.1606M12.1606 12.3927L14.8465 9.69748M12.1606 12.3927L14.8465 15.0879" stroke="#7B8388" stroke-width="1.25303" stroke-linecap="round" stroke-linejoin="round"/>
-    <rect x="0.5" y="0.5" width="26.1231" height="24.5182" stroke="#242424"/>
-    </svg>)
+    <svg
+      width="28"
+      height="26"
+      viewBox="0 0 28 26"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="0.5" y="0.5" width="26.1231" height="24.5182" fill="#0F0F0F" />
+      <path
+        d="M8 9L8 16.5182"
+        stroke="#7B8388"
+        stroke-width="1.62894"
+        stroke-linecap="round"
+      />
+      <path
+        d="M19.1233 12.3927H12.1606M12.1606 12.3927L14.8465 9.69748M12.1606 12.3927L14.8465 15.0879"
+        stroke="#7B8388"
+        stroke-width="1.25303"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <rect x="0.5" y="0.5" width="26.1231" height="24.5182" stroke="#242424" />
+    </svg>
+  );
 };
 
 const PencilIcon = ({ themeColor }: any) => {
@@ -123,6 +142,26 @@ const FolderIcon = ({ themeColor }: any) => {
   );
 };
 
+const UpandDownArrow = () => {
+  return (
+    <svg
+      width="6"
+      height="9"
+      viewBox="0 0 6 9"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g id="Group 1261155577">
+        <path
+          id="Vector"
+          d="M5.1001 3L2.6001 0L0.100098 3H5.1001ZM5.1001 6L2.6001 9L0.100098 6H5.1001Z"
+          fill="white"
+        />
+      </g>
+    </svg>
+  );
+};
+
 const FileIcon = ({ themeColor }: any) => {
   return (
     <svg
@@ -146,6 +185,7 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
   const [feedtext, setFeedText] = useState('Editor');
   const [switchToggle, setSwitchToggle] = useState(false);
   const { workspace, activestate }: any = useSelector((state) => state);
+  const [toggleFileButton, setToggleFileButton] = useState(false);
   let { color } = workspace;
   const switchToggled = () => {
     setSwitchToggle(!switchToggle);
@@ -323,7 +363,7 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
                   </Breadcrumb.Item>
                   <Breadcrumb.Item>
                     <>
-                      <span style={{ color: color }}>......</span>
+                      <div className={classes['breadcrumbsDots']}>...</div>
                     </>
                   </Breadcrumb.Item>
                   <Breadcrumb.Item>
@@ -332,6 +372,17 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
                       <span style={{ color: color }}>
                         {navigationPathArray[navigationPathArray.length - 1]}
                       </span>
+                      <div
+                        style={{ marginLeft: '8px', position: 'relative' }}
+                        onClick={() => setToggleFileButton(!toggleFileButton)}
+                      >
+                        <UpandDownArrow />
+                      </div>
+                      {toggleFileButton && (
+                        <div className={classes['toggleContainer']}>
+                          <ToggleFileComponent />
+                        </div>
+                      )}
                     </>
                   </Breadcrumb.Item>
                 </>

@@ -12,6 +12,8 @@ import {
 } from './SortByModalIcons';
 import {
   setDisplayToggle,
+  setDisplayToggleSortBy,
+  setGroupBy,
   setSortBy,
   setSortByOption,
 } from 'redux/slices/activestate';
@@ -59,8 +61,8 @@ const SortByModal = ({ setShowSortBy }: any) => {
         <div
           className="SortByOption"
           onClick={() => {
+            dispatch(setDisplayToggleSortBy(true));
             dispatch(setSortBy(true));
-            dispatch(setDisplayToggle(true));
             dispatch(setSortByOption('Name'));
           }}
         >
@@ -130,7 +132,8 @@ const SortByModal = ({ setShowSortBy }: any) => {
         className="SortByAdd"
         onClick={() => {
           dispatch(setSortBy(true));
-          dispatch(setDisplayToggle(true));
+          dispatch(setGroupBy(false));
+          dispatch(setDisplayToggleSortBy(true));
           dispatch(setSortByOption('AddSort'));
         }}
       >
