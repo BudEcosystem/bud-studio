@@ -29,6 +29,11 @@ function Column(props: any) {
   const [showNewTaskUI, setNewTaskUI] = useState(false);
   const [addButtonClickedFromColumn, SetAddButtonClickedFromColumn] =
     useState(false);
+  
+    const { workspace }: any = useSelector((state) => state);
+    const workSpaceDocs = workspace.workSpaceDocs;
+
+    console.log("WOrKSPACE RAHUL", workSpaceDocs)
 
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const inputRefForColumnEdit =
@@ -414,7 +419,7 @@ function Column(props: any) {
           <Droppable droppableId={props.id} type="task">
             {(provided) => (
               <TaskList ref={provided.innerRef} {...provided.droppableProps}>
-                {Object.entries(props.tasks).map(([key, value], index) => {
+                 {/* {Object.entries(props.tasks).map(([key, value], index) => {
                   const taskvalue = value as Task;
                   const mappedTask: Task = {
                     index,
@@ -429,6 +434,26 @@ function Column(props: any) {
                     type: taskvalue.type,
                   };
                   return <Tasks key={mappedTask.id} task={mappedTask} />;
+                })} */}
+                {props.entries.map((entry: any, index:any) => {
+                  workSpaceDocs.map((doc: any, index: any) => {
+                    if(doc.uuid == entry.documentID) {
+                      console.log("SUCCESS MAPP")
+                      const mappedTask: Task = {
+                        index,
+                        id: `${entry.documentId}`,
+                        content: `${doc.name}`,
+                        heading: `${doc.name}`,
+                        progress: '',
+                        user: '',
+                        description: "Make hay",
+                        footer: '',
+                        image: '',
+                        type: ''
+                      }
+                      return <Tasks key={mappedTask.id} task={mappedTask} />
+                    }
+                  })
                 })}
                 {provided.placeholder}
               </TaskList>

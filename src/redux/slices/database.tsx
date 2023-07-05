@@ -67,9 +67,10 @@ export const generateDatabaseInitialState = (): any => {
             name: 'Status',
             type: 'select',
             options: [
-              { title: 'Not Started', color: '#fff' },
-              { title: 'In Progress', color: '#fff' },
-              { title: 'Done', color: '#fff' },
+              { title: 'Not Started', color: 'red' },
+              { title: 'In Progress', color: 'yellow' },
+              { title: 'In Review', color: 'blue' },
+              { title: 'Done', color: 'green' },
             ],
           },
         },

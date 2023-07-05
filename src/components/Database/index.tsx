@@ -19,6 +19,9 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
   // Workspace
   const { workspace } = useSelector((state) => state);
   const [databaseEntries, setDatabaseEntries] = useState<any[]>([]);
+  const { database }: any = useSelector((state) => state);
+
+  // console.log("DATABASE RAHUL", databaseData)
 
   const dispatch = useDispatch();
 
@@ -187,7 +190,7 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
       )}
 
       {databaseData.defaultView === 'Kanban' && databaseEntries.length && (
-        <KanbanUI/>
+        <KanbanUI databaseData={databaseData}/>
       )}
 
       {databaseData.defaultView === 'List' && databaseEntries.length && (
