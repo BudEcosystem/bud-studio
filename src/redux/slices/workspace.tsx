@@ -24,49 +24,11 @@ export const generateInitialWorkspaceState = (): InitialState => {
         files: [
           {
             id: uuidv4(),
-            name: 'Main File 1',
-            files: [],
-          },
-          {
-            id: uuidv4(),
-            name: 'Main File 2',
+            name: 'Welcome to Bud',
             files: [],
           },
         ],
-        folders: [
-          {
-            id: uuidv4(),
-            name: 'People Ops',
-            folders: [
-              {
-                id: uuidv4(),
-                name: 'Subfolder 1',
-                files: [],
-                folders: [],
-              },
-            ],
-            files: [],
-          },
-          {
-            id: uuidv4(),
-            name: 'HR',
-            folders: [
-              {
-                id: uuidv4(),
-                name: 'Subfolder 3',
-                files: [],
-                folders: [],
-              },
-            ],
-            files: [
-              {
-                id: uuidv4(),
-                name: 'Subfolder 3',
-                files: [],
-              },
-            ],
-          },
-        ],
+        folders: [],
       },
     ],
     workspaceFolders: [
