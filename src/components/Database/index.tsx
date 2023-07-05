@@ -6,6 +6,7 @@ import './database.css';
 import { v4 as uuidv4 } from 'uuid';
 import { addEmptyDoc } from 'redux/slices/workspace';
 import KanbanUI from './KanbanNew';
+import ListView from '../ListView/ListView';
 // TODO : Update The Interface With Required Data
 interface DatabaseProps {
   databaseData: any;
@@ -191,7 +192,7 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
       )}
 
       {databaseData.defaultView === 'List' && databaseEntries.length && (
-        <div>List</div>
+        <ListView />
       )}
     </div>
   );
