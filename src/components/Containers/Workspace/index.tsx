@@ -42,7 +42,7 @@ export default function Workspace({
   // Get the workspace state from redux
   const { workspace }: any = useSelector((state) => state);
   // Flyout Menu
-  const [showFlyoutMenu, setShowFlyoutMenu] = useState(true);
+  const [showFlyoutMenu, setShowFlyoutMenu] = useState(false);
   const [currentDocument, setCurrentDocument] = useState(null);
   const [currentDocumentID, setCurrentDocumentID] = useState(null);
 

@@ -29,7 +29,7 @@ const TaskContainer = styled.div`
   transform: ${({ isDragging, draggingOver }: any) =>
     (isDragging || draggingOver) ? 'rotate(-3deg)' : 'none'};
   background: ${({ isDragging, draggingOver }: any) =>
-    (isDragging || draggingOver) ? 'lightgreen' : '#2c2b30'};
+    (isDragging || draggingOver) ? 'grey' : '#2c2b30'};
 `;
 
 // const getItemStyle = (isDragging: any) => ({

@@ -220,11 +220,6 @@ function KanbanUI() {
 
   return (
     <KanbanSection>
-      {/* <HeaderSection
-        view="kanban"
-        updateCurrentTitle={updateCurrentTitle}
-        title={title}
-      /> */}
         {/* <div style={{ marginLeft: '38px', marginRight: '63px' }}>
           <GroupByComponent />
         </div> */}

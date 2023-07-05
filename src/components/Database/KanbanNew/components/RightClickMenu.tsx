@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import '../../ListView/ListViewComponents/ThreeDotsOption/ThreeDotsOption.css';
+import '../../../ListView/ListViewComponents/ThreeDotsOption/ThreeDotsOption.css';
 import {
   RightArrow,
   Plus,
@@ -9,7 +9,7 @@ import {
   CopyLink,
   Archive,
   Delete,
-} from '../../ListView/ListViewComponents/ThreeDotsOption/ThreeDotsOptionIcons';
+} from '../../../ListView/ListViewComponents/ThreeDotsOption/ThreeDotsOptionIcons';
 import Draggable from 'react-draggable';
 
 const DragHandle = () => {
