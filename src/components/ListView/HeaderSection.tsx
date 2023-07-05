@@ -9,6 +9,9 @@ import {
 import { AddCover } from './ListViewIcons';
 import OptionsComponent from './ListViewComponents/OptionsComponent';
 import AppModeHeader from './ListViewComponents/AppModeHeader';
+import EditorHeader from 'components/EditorHeader';
+import bgImg from '../EditorHeader/images/bgImage.png'
+import iconImg from '../EditorHeader/images/iconImage.png'
 
 function HeaderSection({ view, updateCurrentTitle, title }: any) {
   const dispatch = useDispatch();
@@ -65,11 +68,8 @@ function HeaderSection({ view, updateCurrentTitle, title }: any) {
       <div className="listViewContainer">
         {!isAppMode ? (
           <>
-            <div className="addCoverContainer">
-              <div className="flexCenter">
-                <AddCover />
-              </div>
-              <p className="addCoverText">Add cover</p>
+            <div style={{marginBottom: "30px"}}>
+            <EditorHeader view={view} coverImg={bgImg} iconImg={iconImg} />
             </div>
             <div className="mgLeft">
               <div

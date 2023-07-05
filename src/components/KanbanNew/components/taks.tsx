@@ -2,12 +2,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { styled } from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import { Popover } from 'antd';
+import { Avatar, Popover } from 'antd';
 import { useDispatch } from 'react-redux';
 import { setCurrentSelectedUI } from 'redux/slices/activestate';
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
+// import { styled as materialStyled } from '@mui/material/styles';
+// import Badge from '@mui/material/Badge';
+// import Avatar from '@mui/material/Avatar';
+// import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import TaskViewKanban from 'components/TaskViewKanban/TaskViewKanban';
+import GroupByModal from 'components/ListView/ListViewComponents/GroupBy/GroupByModal';
+import RightClickMenu from './RightClickMenu';
+import './kanban.css';
 
 const TaskContainer = styled.div`
   height: 30px;
@@ -21,7 +28,10 @@ const TaskContainer = styled.div`
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  transform: ${(props) => (props.isDragging ? 'rotate(-15deg)' : 'none')};
 `;
+// background: ${(props) => (props.isDragging ? 'blue' : 'none')};
+
 const TaskHeader = styled.div`
   font-family: 'Noto Sans';
   font-style: normal;
@@ -241,6 +251,7 @@ const PopOverSearchKeybordCommandWrapper = styled.div`
 const PopOverSearchKeybordCommand = styled.img``;
 
 function PopOverSearch() {
+  const arr = ['Me', 'Manu M', 'Frijo johnson', 'Aji', 'Shandra'];
   return (
     <PopOverWrapper>
       <PopOveSearchWrapper>
@@ -253,21 +264,61 @@ function PopOverSearch() {
           />
         </PopOverSearchKeybordCommandWrapper>
       </PopOveSearchWrapper>
+      <div className="userContainer">
+        {arr.map((item, i) => (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: '10px',
+            }}
+          >
+            <Avatar
+              size={25}
+              src={
+                'https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80'
+              }
+            />
+            <p className="userNameText">{item}</p>
+          </div>
+        ))}
+      </div>
     </PopOverWrapper>
   );
 }
 
 function Tasks(props: any) {
   const [showKanbanTaskView, setShowKanbanTaskView] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+
+  const handleContextMenu = (event) => {
+    event.preventDefault();
+    const { clientX, clientY } = event;
+    setMenuPosition({ x: clientX, y: clientY });
+    setMenuVisible(true);
+  };
+
+  const handleMenuItemClick = () => {
+    setMenuVisible(false);
+    // Handle menu item click logic
+  };
+
+  const handleDocumentClick = () => {
+    setMenuVisible(false);
+  };
 
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
-      {(provided) => {
+      {(provided, snapshot) => {
         return (
           <TaskContainer
             onDoubleClick={() => setShowKanbanTaskView(true)}
             {...provided.draggableProps}
             ref={provided.innerRef}
+            onContextMenu={handleContextMenu}
+            isDragging={snapshot.isDragging}
+            style={{ ...provided.draggableProps.style }}
           >
             {
               <TaskViewKanban
@@ -276,6 +327,13 @@ function Tasks(props: any) {
                 setShowKanbanTaskView={setShowKanbanTaskView}
               />
             }
+            {menuVisible && (
+              <RightClickMenu
+                left={menuPosition.x}
+                top={menuPosition.y}
+                setMenuVisible={setMenuVisible}
+              />
+            )}
             <TaskHeader>
               {' '}
               {props?.task?.heading && (

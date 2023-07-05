@@ -56,9 +56,6 @@ dependencies:
   '@emotion/styled':
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.0)(@types/react@18.0.27)(react@18.2.0)
-  '@radix-ui/react-avatar':
-    specifier: ^1.0.3
-    version: 1.0.3(@types/react-dom@18.0.10)(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0)
   '@reduxjs/toolkit':
     specifier: ^1.9.5
     version: 1.9.5(react-redux@8.0.5)(react@18.2.0)
@@ -113,9 +110,6 @@ dependencies:
   react-editor-js:
     specifier: ^2.1.0
     version: 2.1.0(@editorjs/editorjs@2.27.0)(@editorjs/paragraph@2.9.0)(react@18.2.0)
-  react-icons:
-    specifier: ^4.10.1
-    version: 4.10.1(react@18.2.0)
   react-redux:
     specifier: ^8.0.5
     version: 8.0.5(@types/react-dom@18.0.10)(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
@@ -385,7 +379,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@emotion/hash': 0.8.0
       '@emotion/unitless': 0.7.5
       classnames: 2.3.2
@@ -421,7 +415,7 @@ packages:
     peerDependencies:
       react: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       json2mq: 0.2.0
       react: 18.2.0
@@ -1679,6 +1673,12 @@ packages:
     dependencies:
       regenerator-runtime: 0.13.11
 
+  /@babel/runtime@7.22.5:
+    resolution: {integrity: sha512-ecjvYlnAaZ/KVneE/OdKYBYfgXV3Ptu6zQWmgEF7vwKhQnvVS6bjMD2XYgj+SNvQ1GfK/pjgokfPkC/2CO8CuA==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.11
+
   /@babel/template@7.21.9:
     resolution: {integrity: sha512-MK0X5k8NKOuWRamiEfc3KEJiHMTkGZNUjzMipqCGDDc6ijRl/B7RGSKVGncu4Ro/HdyzzY6cmoXuKI2Gffk7vQ==}
     engines: {node: '>=6.9.0'}
@@ -2523,129 +2523,13 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
 
-  /@radix-ui/react-avatar@1.0.3(@types/react-dom@18.0.10)(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-9ToF7YNex3Ste45LrAeTlKtONI9yVRt/zOS158iilIkW5K/Apeyb/TUQlcEFTEFvWr8Kzdi2ZYrm1/suiXPajQ==}
-    peerDependencies:
-      '@types/react': '*'
-      '@types/react-dom': '*'
-      react: ^16.8 || ^17.0 || ^18.0
-      react-dom: ^16.8 || ^17.0 || ^18.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.22.3
-      '@radix-ui/react-context': 1.0.1(@types/react@18.0.27)(react@18.2.0)
-      '@radix-ui/react-primitive': 1.0.3(@types/react-dom@18.0.10)(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-use-callback-ref': 1.0.1(@types/react@18.0.27)(react@18.2.0)
-      '@radix-ui/react-use-layout-effect': 1.0.1(@types/react@18.0.27)(react@18.2.0)
-      '@types/react': 18.0.27
-      '@types/react-dom': 18.0.10
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /@radix-ui/react-compose-refs@1.0.1(@types/react@18.0.27)(react@18.2.0):
-    resolution: {integrity: sha512-fDSBgd44FKHa1FRMU59qBMPFcl2PZE+2nmqunj+BWFyYYjnhIDWL2ItDs3rrbJDQOtzt5nIebLCQc4QRfz6LJw==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.22.3
-      '@types/react': 18.0.27
-      react: 18.2.0
-    dev: false
-
-  /@radix-ui/react-context@1.0.1(@types/react@18.0.27)(react@18.2.0):
-    resolution: {integrity: sha512-ebbrdFoYTcuZ0v4wG5tedGnp9tzcV8awzsxYph7gXUyvnNLuTIcCk1q17JEbnVhXAKG9oX3KtchwiMIAYp9NLg==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.22.3
-      '@types/react': 18.0.27
-      react: 18.2.0
-    dev: false
-
-  /@radix-ui/react-primitive@1.0.3(@types/react-dom@18.0.10)(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-yi58uVyoAcK/Nq1inRY56ZSjKypBNKTa/1mcL8qdl6oJeEaDbOldlzrGn7P6Q3Id5d+SYNGc5AJgc4vGhjs5+g==}
-    peerDependencies:
-      '@types/react': '*'
-      '@types/react-dom': '*'
-      react: ^16.8 || ^17.0 || ^18.0
-      react-dom: ^16.8 || ^17.0 || ^18.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.22.3
-      '@radix-ui/react-slot': 1.0.2(@types/react@18.0.27)(react@18.2.0)
-      '@types/react': 18.0.27
-      '@types/react-dom': 18.0.10
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /@radix-ui/react-slot@1.0.2(@types/react@18.0.27)(react@18.2.0):
-    resolution: {integrity: sha512-YeTpuq4deV+6DusvVUW4ivBgnkHwECUu0BiN43L5UCDFgdhsRUWAghhTF5MbvNTPzmiFOx90asDSUjWuCNapwg==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.22.3
-      '@radix-ui/react-compose-refs': 1.0.1(@types/react@18.0.27)(react@18.2.0)
-      '@types/react': 18.0.27
-      react: 18.2.0
-    dev: false
-
-  /@radix-ui/react-use-callback-ref@1.0.1(@types/react@18.0.27)(react@18.2.0):
-    resolution: {integrity: sha512-D94LjX4Sp0xJFVaoQOd3OO9k7tpBYNOXdVhkltUbGv2Qb9OXdrg/CpsjlZv7ia14Sylv398LswWBVVu5nqKzAQ==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.22.3
-      '@types/react': 18.0.27
-      react: 18.2.0
-    dev: false
-
-  /@radix-ui/react-use-layout-effect@1.0.1(@types/react@18.0.27)(react@18.2.0):
-    resolution: {integrity: sha512-v/5RegiJWYdoCvMnITBkNNx6bCj20fiaJnWtRkU18yITptraXjffz5Qbn05uOiQnOvi+dbkznkoaMltz1GnszQ==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.22.3
-      '@types/react': 18.0.27
-      react: 18.2.0
-    dev: false
-
   /@rc-component/context@1.3.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-6QdaCJ7Wn5UZLJs15IEfqy4Ru3OaL5ctqpQYWd5rlfV9wwzrzdt6+kgAQZV/qdB0MUPN4nhyBfRembQCIvBf+w==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -2655,7 +2539,7 @@ packages:
     resolution: {integrity: sha512-9N8nRk0oKj1qJzANKl+n9eNSMUGsZtjwNuDCiZ/KA+dt1fE3zq5x2XxclRcAbOIXnZcJ53ozP2Pa60gyELXagA==}
     engines: {node: '>=8.x'}
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
     dev: false
 
   /@rc-component/mutate-observer@1.0.0(react-dom@18.2.0)(react@18.2.0):
@@ -2665,7 +2549,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -2679,7 +2563,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -2693,7 +2577,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@rc-component/portal': 1.1.1(react-dom@18.2.0)(react@18.2.0)
       '@rc-component/trigger': 1.13.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
@@ -2709,7 +2593,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@rc-component/portal': 1.1.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       rc-align: 4.0.15(react-dom@18.2.0)(react@18.2.0)
@@ -4296,7 +4180,7 @@ packages:
     resolution: {integrity: sha512-Cg7TFGpIr01vOQNODXOOaGz2NpCU5gl8x1qJFbb6hbZxR7XrcE2vtbAsTAbJ7/xwJtUuJEw8K8Zr/AE0LHlesg==}
     engines: {node: '>=10', npm: '>=6'}
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       cosmiconfig: 7.1.0
       resolve: 1.22.2
     dev: false
@@ -5296,7 +5180,7 @@ packages:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
     engines: {node: '>=0.11'}
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
     dev: true
 
   /dayjs@1.11.8:
@@ -9877,7 +9761,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       dom-align: 1.12.4
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
@@ -9892,7 +9776,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       array-tree-filter: 2.1.0
       classnames: 2.3.2
       rc-select: 14.4.3(react-dom@18.2.0)(react@18.2.0)
@@ -9908,7 +9792,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -9921,7 +9805,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-motion: 2.7.3(react-dom@18.2.0)(react@18.2.0)
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
@@ -9935,7 +9819,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@rc-component/portal': 1.1.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       rc-motion: 2.7.3(react-dom@18.2.0)(react@18.2.0)
@@ -9950,7 +9834,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@rc-component/portal': 1.1.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       rc-motion: 2.7.3(react-dom@18.2.0)(react@18.2.0)
@@ -9965,7 +9849,7 @@ packages:
       react: '>=16.11.0'
       react-dom: '>=16.11.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-trigger: 5.3.4(react-dom@18.2.0)(react@18.2.0)
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
@@ -9980,7 +9864,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       async-validator: 4.2.5
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -9993,7 +9877,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@rc-component/portal': 1.1.1(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       rc-dialog: 9.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -10009,7 +9893,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@rc-component/mini-decimal': 1.0.1
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
@@ -10023,7 +9907,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -10036,7 +9920,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@rc-component/trigger': 1.13.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       rc-input: 1.0.4(react-dom@18.2.0)(react@18.2.0)
@@ -10053,7 +9937,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-motion: 2.7.3(react-dom@18.2.0)(react@18.2.0)
       rc-overflow: 1.3.0(react-dom@18.2.0)(react@18.2.0)
@@ -10069,7 +9953,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -10083,7 +9967,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-motion: 2.7.3(react-dom@18.2.0)(react@18.2.0)
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
@@ -10097,7 +9981,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-resize-observer: 1.3.1(react-dom@18.2.0)(react@18.2.0)
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
@@ -10111,7 +9995,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -10137,7 +10021,7 @@ packages:
       moment:
         optional: true
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@rc-component/trigger': 1.13.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       dayjs: 1.11.8
@@ -10152,7 +10036,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -10166,7 +10050,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -10179,7 +10063,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -10193,7 +10077,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-motion: 2.7.3(react-dom@18.2.0)(react@18.2.0)
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
@@ -10208,7 +10092,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@rc-component/trigger': 1.13.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       rc-motion: 2.7.3(react-dom@18.2.0)(react@18.2.0)
@@ -10226,7 +10110,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -10240,7 +10124,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -10253,7 +10137,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -10267,7 +10151,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@rc-component/context': 1.3.0(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       rc-resize-observer: 1.3.1(react-dom@18.2.0)(react@18.2.0)
@@ -10283,7 +10167,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-dropdown: 4.0.1(react-dom@18.2.0)(react@18.2.0)
       rc-menu: 9.8.4(react-dom@18.2.0)(react@18.2.0)
@@ -10300,7 +10184,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-input: 1.0.4(react-dom@18.2.0)(react@18.2.0)
       rc-resize-observer: 1.3.1(react-dom@18.2.0)(react@18.2.0)
@@ -10315,7 +10199,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@rc-component/trigger': 1.13.3(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.3.2
       react: 18.2.0
@@ -10328,7 +10212,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-select: 14.4.3(react-dom@18.2.0)(react@18.2.0)
       rc-tree: 5.7.4(react-dom@18.2.0)(react@18.2.0)
@@ -10344,7 +10228,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-motion: 2.7.3(react-dom@18.2.0)(react@18.2.0)
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
@@ -10360,7 +10244,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-align: 4.0.15(react-dom@18.2.0)(react@18.2.0)
       rc-motion: 2.7.3(react-dom@18.2.0)(react@18.2.0)
@@ -10375,7 +10259,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -10388,7 +10272,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-is: 16.13.1
@@ -10401,7 +10285,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       classnames: 2.3.2
       rc-resize-observer: 1.3.1(react-dom@18.2.0)(react@18.2.0)
       rc-util: 5.32.3(react-dom@18.2.0)(react@18.2.0)
@@ -10502,14 +10386,6 @@ packages:
       - react
     dev: false
 
-  /react-icons@4.10.1(react@18.2.0):
-    resolution: {integrity: sha512-/ngzDP/77tlCfqthiiGNZeYFACw85fUjZtLbedmJ5DTlNDIwETxhwBzdOJ21zj4iJdvc0J3y7yOsX3PpxAJzrw==}
-    peerDependencies:
-      react: '*'
-    dependencies:
-      react: 18.2.0
-    dev: false
-
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -10531,7 +10407,7 @@ packages:
       react-native:
         optional: true
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
       '@types/react-redux': 7.1.25
       hoist-non-react-statics: 3.3.2
       loose-envify: 1.4.0
@@ -10715,7 +10591,7 @@ packages:
   /redux@4.2.1:
     resolution: {integrity: sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==}
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
     dev: false
 
   /regenerate-unicode-properties@10.1.0:
@@ -10733,7 +10609,7 @@ packages:
   /regenerator-transform@0.15.1:
     resolution: {integrity: sha512-knzmNAcuyxV+gQCufkYcvOqX/qIIfHLv0u5x79kRxuGojfYVky1f15TzZEu2Avte8QGepvUNTnLskf8E6X6Vyg==}
     dependencies:
-      '@babel/runtime': 7.22.3
+      '@babel/runtime': 7.22.5
 
   /regexp.prototype.flags@1.5.0:
     resolution: {integrity: sha512-0SutC3pNudRKgquxGoRGIz946MZVHqbNfPjBdxeOhBrdgDKlRoXmYLQN9xRbrR09ZXWeGAdPuif7egofn6v5LA==}

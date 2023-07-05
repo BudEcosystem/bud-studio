@@ -21,6 +21,52 @@ export const generateInitialWorkspaceState = (): InitialState => {
         id: 'wsp-1',
         uuid: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
         childs: [],
+        files: [
+          {
+            id: uuidv4(),
+            name: 'Main File 1',
+            files: [],
+          },
+          {
+            id: uuidv4(),
+            name: 'Main File 2',
+            files: [],
+          },
+        ],
+        folders: [
+          {
+            id: uuidv4(),
+            name: 'People Ops',
+            folders: [
+              {
+                id: uuidv4(),
+                name: 'Subfolder 1',
+                files: [],
+                folders: [],
+              },
+            ],
+            files: [],
+          },
+          {
+            id: uuidv4(),
+            name: 'HR',
+            folders: [
+              {
+                id: uuidv4(),
+                name: 'Subfolder 3',
+                files: [],
+                folders: [],
+              },
+            ],
+            files: [
+              {
+                id: uuidv4(),
+                name: 'Subfolder 3',
+                files: [],
+              },
+            ],
+          },
+        ],
       },
     ],
     workspaceFolders: [
@@ -97,6 +143,30 @@ export const generateInitialWorkspaceState = (): InitialState => {
   return initialState;
 };
 
+const searchById = (structure, id) => {
+  if (!structure || structure.length === 0) {
+    return null;
+  }
+  for (const item of structure) {
+    if (item.id === id) {
+      return item;
+    }
+    if (item.folders && item.folders.length > 0) {
+      const foundInFolders = searchById(item.folders, id);
+      if (foundInFolders) {
+        return foundInFolders;
+      }
+    }
+    // if (item.files && item.files.length > 0) {
+    //   const foundInFiles = searchById(item.files, id);
+    //   if (foundInFiles) {
+    //     return foundInFiles;
+    //   }
+    // }
+  }
+  return null;
+};
+
 export const workspaceSlice = createSlice({
   name: 'workspace',
   initialState: generateInitialWorkspaceState,
@@ -110,6 +180,15 @@ export const workspaceSlice = createSlice({
     changeColor: (state, action: PayloadAction<any>) => {
       state.color = action.payload.color;
     },
+    // createWorkspaces: (state, action: PayloadAction<any>) => {
+    //   if (action.payload.idx !== undefined) {
+    //     state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
+    //     // state.workspaceFolders.push()
+    //   } else {
+    //     // state.workspaceFolders.push(getObj(state.workSpaceItems.length));
+    //   }
+    //   state.workSpaceItems.push({ ...action.payload, uuid: uuidv4() });
+    // },
     createWorkspaces: (state, action: PayloadAction<any>) => {
       if (action.payload.idx !== undefined) {
         state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
@@ -117,7 +196,48 @@ export const workspaceSlice = createSlice({
       } else {
         // state.workspaceFolders.push(getObj(state.workSpaceItems.length));
       }
-      state.workSpaceItems.push({ ...action.payload, uuid: uuidv4() });
+      state.workSpaceItems.push({
+        ...action.payload,
+        uuid: uuidv4(),
+        files: [],
+        folders: [],
+      });
+    },
+    addFolderRedux: (state, action: PayloadAction<any>) => {
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          item['folders'].push(action.payload.newFolder);
+        }
+        console.log({ ...item.folders });
+      });
+    },
+    addFileRedux: (state, action: PayloadAction<any>) => {
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          item['files'].push(action.payload.newFile);
+        }
+        console.log({ ...item.files });
+      });
+    },
+    addSubFoldersRedux: (state, action: PayloadAction<any>) => {
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          const x = searchById(item.folders, action.payload.subFolderId);
+          if (x) {
+            x.folders.push(action.payload.newFolder);
+          }
+        }
+      });
+    },
+    addSubFilesRedux: (state, action: PayloadAction<any>) => {
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          const x = searchById(item.folders, action.payload.subFileId);
+          if (x) {
+            x.files.push(action.payload.newFile);
+          }
+        }
+      });
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
       const arr = [...state.workSpaceItems];
@@ -387,6 +507,50 @@ export const workspaceSlice = createSlice({
       });
       state.workspaceFolders = newSetOFDataProcessed;
     },
+    moveFolderRedux: (state, action: PayloadAction<any>) => {
+      console.log(action.payload, 'move123');
+      const { dest, source } = action.payload;
+      const copyOfworkSpaceFolders = [...state.workspaceFolders];
+      const proxyFilteredArray: any = [];
+      copyOfworkSpaceFolders.forEach((data: any) => {
+        proxyFilteredArray.push({ ...data });
+      });
+      const newSetOFDataProcessed = proxyFilteredArray.map((data: any) => {
+        if (data.uuid === source.key) {
+          data.childOf = dest.uuid;
+          data.workSPaceId = dest.workSPaceId;
+          data.workSpaceUUID = dest.workSpaceUUID;
+        }
+        return data;
+      });
+      state.workspaceFolders = newSetOFDataProcessed;
+    },
+    copyFolderRedux: (state, action: PayloadAction<any>) => {
+      console.log(action.payload, 'copy123');
+      const { dest, source } = action.payload;
+      const copyOfworkSpaceFolders = [...state.workspaceFolders];
+      const proxyFilteredArray: any = [];
+      copyOfworkSpaceFolders.forEach((data: any) => {
+        proxyFilteredArray.push({ ...data });
+      });
+      const sourceData = proxyFilteredArray.find((data: any) => data.uuid === source.key)
+      const copyOfSource = JSON.parse(JSON.stringify(sourceData));
+      copyOfSource.childOf = dest.uuid
+      copyOfSource.workSPaceId = dest.workSPaceId;
+      copyOfSource.workSpaceUUID = dest.workSpaceUUID;
+      console.log(copyOfSource, sourceData)
+      // {
+      //   if (data.uuid === source.key) {
+      //     data.childOf = dest.uuid;
+      //     data.workSPaceId = dest.workSPaceId;
+      //     data.workSpaceUUID = dest.workSpaceUUID;
+      //   }
+      //   return data;
+      // });
+      proxyFilteredArray.push(copyOfSource)
+      state.workspaceFolders = proxyFilteredArray;
+    },
+
     addDuplicateFolders: (state, action: PayloadAction<any>) => {
       console.log(
         'duplicateFolder - addDuplicateFolders - payload',
@@ -482,5 +646,11 @@ export const {
   addDuplicateDoc,
   addDuplicateEditorApplications,
   updateAppName,
+  addFolderRedux,
+  addFileRedux,
+  addSubFoldersRedux,
+  addSubFilesRedux,
+  moveFolderRedux,
+  copyFolderRedux,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
