@@ -533,12 +533,14 @@ export const workspaceSlice = createSlice({
       copyOfworkSpaceFolders.forEach((data: any) => {
         proxyFilteredArray.push({ ...data });
       });
-      const sourceData = proxyFilteredArray.find((data: any) => data.uuid === source.key)
+      const sourceData = proxyFilteredArray.find(
+        (data: any) => data.uuid === source.key
+      );
       const copyOfSource = JSON.parse(JSON.stringify(sourceData));
-      copyOfSource.childOf = dest.uuid
+      copyOfSource.childOf = dest.uuid;
       copyOfSource.workSPaceId = dest.workSPaceId;
       copyOfSource.workSpaceUUID = dest.workSpaceUUID;
-      console.log(copyOfSource, sourceData)
+      console.log(copyOfSource, sourceData);
       // {
       //   if (data.uuid === source.key) {
       //     data.childOf = dest.uuid;
@@ -547,7 +549,7 @@ export const workspaceSlice = createSlice({
       //   }
       //   return data;
       // });
-      proxyFilteredArray.push(copyOfSource)
+      proxyFilteredArray.push(copyOfSource);
       state.workspaceFolders = proxyFilteredArray;
     },
 

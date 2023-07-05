@@ -205,14 +205,15 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
   };
 
   const threeDot = useRef(null);
-  const [leftDots,setLeftDots] = useState()
-  const [topDots,setTopDots] = useState()
+  const [leftDots, setLeftDots] = useState();
+  const [topDots, setTopDots] = useState();
 
   const obtainDotsPosition = () => {
     if (threeDot.current) {
-      const { top, left, right, bottom, width, height } = threeDot.current.getBoundingClientRect();
-      setTopDots(top)
-      setLeftDots(left)
+      const { top, left, right, bottom, width, height } =
+        threeDot.current.getBoundingClientRect();
+      setTopDots(top);
+      setLeftDots(left);
     }
   };
 
@@ -298,7 +299,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                   onClick={() => {
                     setShowColorDots(!showColorDots);
                     setShowDocumentOptions(false);
-                    obtainDotsPosition()
+                    obtainDotsPosition();
                   }}
                   style={{
                     background: `${
@@ -363,165 +364,159 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
         </Draggable>
 
         {showColorDots && (
-                  <Draggable bounds="parent" handle=".drag">
+          <Draggable bounds="parent" handle=".drag">
+            <div
+              ref={optionModalRef}
+              id="optionsModal"
+              className="optionsModal"
+              style={{ top: topDots - 40, left: leftDots - 265 }}
+            >
+              <div className="secondWorkspaceModal">
+                <div className="drag">
+                  <Drag />
+                </div>
+
+                <div className="secondWorkspaceOptions">
+                  <div style={{ marginBottom: '20px' }}>
                     <div
-                      ref={optionModalRef}
-                      id="optionsModal"
-                      className="optionsModal"
-                      style={{top: topDots+3, left: leftDots-260}}
+                      className="secondWorkspaceOption"
+                      onClick={showCreatePopup}
                     >
-                      <div className="secondWorkspaceModal">
-                        <div className="drag">
-                          <Drag />
-                        </div>
-
-                        <div className="secondWorkspaceOptions">
-                          <div style={{ marginBottom: '20px' }}>
-                            <div
-                              className="secondWorkspaceOption"
-                              onClick={showCreatePopup}
-                            >
-                              <Plus />
-                              <h3
-                                style={{
-                                  marginLeft: '20px',
-                                  color: 'white',
-                                  fontWeight: '400',
-                                  fontSize: '14px',
-                                }}
-                              >
-                                Create New
-                              </h3>
-                              <ul className="subMenu">
-                                <li
-                                  onClick={() =>
-                                    createNewClickHandler('folder')
-                                  }
-                                >
-                                  Folder
-                                </li>
-                                <li
-                                  onClick={() => createNewClickHandler('doc')}
-                                >
-                                  Document
-                                </li>
-                              </ul>
-                              <div className="secondWorkspaceRightArrow">
-                                <RightArrow />
-                              </div>
-                            </div>
-                            {/* {createPopup && <CreatePopupModal />} */}
-                            <div
-                              className="secondWorkspaceOption"
-                              onClick={renameHandler}
-                            >
-                              <Edit />
-                              <h3
-                                style={{
-                                  marginLeft: '20px',
-                                  color: 'white',
-                                  fontWeight: '400',
-                                  fontSize: '14px',
-                                }}
-                              >
-                                Rename
-                              </h3>
-                              <div className="secondWorkspaceRightArrow">
-                                <RightArrow />
-                              </div>
-                            </div>
-                            <div>
-                              {isRename && (
-                                <input
-                                  type="text"
-                                  value={newName}
-                                  onKeyUp={workSpaceNameChangeHandler}
-                                  onInput={workSpaceNameInputHandler}
-                                />
-                              )}
-                            </div>
-                          </div>
-
-                          <div style={{ marginBottom: '20px' }}>
-                            <div
-                              className="secondWorkspaceOption"
-                              onClick={duplicateHandler}
-                            >
-                              <Duplicate />
-                              <h3
-                                style={{
-                                  marginLeft: '20px',
-                                  color: 'white',
-                                  fontWeight: '400',
-                                  fontSize: '14px',
-                                }}
-                              >
-                                Duplicate Space
-                              </h3>
-                              <div className="secondWorkspaceRightArrow">
-                                <RightArrow />
-                              </div>
-                            </div>
-                            <div className="secondWorkspaceOption">
-                              <Copy />
-                              <h3
-                                style={{
-                                  marginLeft: '20px',
-                                  color: 'white',
-                                  fontWeight: '400',
-                                  fontSize: '14px',
-                                }}
-                              >
-                                Copy to
-                              </h3>
-                              <div className="secondWorkspaceRightArrow">
-                                <RightArrow />
-                              </div>
-                            </div>
-                            <div
-                              className="secondWorkspaceOption"
-                              onClick={moveToHandler}
-                            >
-                              <Move />
-                              <h3
-                                style={{
-                                  marginLeft: '20px',
-                                  color: 'white',
-                                  fontWeight: '400',
-                                  fontSize: '14px',
-                                }}
-                              >
-                                Move to
-                              </h3>
-                              <div className="secondWorkspaceRightArrow">
-                                <RightArrow />
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="Delete">
-                            <div className="secondWorkspaceOption">
-                              <Delete />
-                              <h3
-                                style={{
-                                  marginLeft: '20px',
-                                  color: 'white',
-                                  fontWeight: '400',
-                                  fontSize: '14px',
-                                }}
-                              >
-                                Delete
-                              </h3>
-                              <div className="secondWorkspaceRightArrow">
-                                <RightArrow />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                      <Plus />
+                      <h3
+                        style={{
+                          marginLeft: '20px',
+                          color: 'white',
+                          fontWeight: '400',
+                          fontSize: '14px',
+                        }}
+                      >
+                        Create New
+                      </h3>
+                      <ul className="subMenu">
+                        <li onClick={() => createNewClickHandler('folder')}>
+                          Folder
+                        </li>
+                        <li onClick={() => createNewClickHandler('doc')}>
+                          Document
+                        </li>
+                      </ul>
+                      <div className="secondWorkspaceRightArrow">
+                        <RightArrow />
                       </div>
                     </div>
-                  </Draggable>
-                )}
+                    {/* {createPopup && <CreatePopupModal />} */}
+                    <div
+                      className="secondWorkspaceOption"
+                      onClick={renameHandler}
+                    >
+                      <Edit />
+                      <h3
+                        style={{
+                          marginLeft: '20px',
+                          color: 'white',
+                          fontWeight: '400',
+                          fontSize: '14px',
+                        }}
+                      >
+                        Rename
+                      </h3>
+                      <div className="secondWorkspaceRightArrow">
+                        <RightArrow />
+                      </div>
+                    </div>
+                    <div>
+                      {isRename && (
+                        <input
+                          type="text"
+                          value={newName}
+                          onKeyUp={workSpaceNameChangeHandler}
+                          onInput={workSpaceNameInputHandler}
+                        />
+                      )}
+                    </div>
+                  </div>
+
+                  <div style={{ marginBottom: '20px' }}>
+                    <div
+                      className="secondWorkspaceOption"
+                      onClick={duplicateHandler}
+                    >
+                      <Duplicate />
+                      <h3
+                        style={{
+                          marginLeft: '20px',
+                          color: 'white',
+                          fontWeight: '400',
+                          fontSize: '14px',
+                        }}
+                      >
+                        Duplicate Space
+                      </h3>
+                      <div className="secondWorkspaceRightArrow">
+                        <RightArrow />
+                      </div>
+                    </div>
+                    <div className="secondWorkspaceOption">
+                      <Copy />
+                      <h3
+                        style={{
+                          marginLeft: '20px',
+                          color: 'white',
+                          fontWeight: '400',
+                          fontSize: '14px',
+                        }}
+                      >
+                        Copy to
+                      </h3>
+                      <div className="secondWorkspaceRightArrow">
+                        <RightArrow />
+                      </div>
+                    </div>
+                    <div
+                      className="secondWorkspaceOption"
+                      onClick={moveToHandler}
+                    >
+                      <Move />
+                      <h3
+                        style={{
+                          marginLeft: '20px',
+                          color: 'white',
+                          fontWeight: '400',
+                          fontSize: '14px',
+                        }}
+                      >
+                        Move to
+                      </h3>
+                      <div className="secondWorkspaceRightArrow">
+                        <RightArrow />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="Delete">
+                    <div className="secondWorkspaceOption">
+                      <Delete />
+                      <h3
+                        style={{
+                          marginLeft: '20px',
+                          color: 'white',
+                          fontWeight: '400',
+                          fontSize: '14px',
+                        }}
+                      >
+                        Delete
+                      </h3>
+                      <div className="secondWorkspaceRightArrow">
+                        <RightArrow />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Draggable>
+        )}
 
         {/* {!showColorDots && showDocumentOptions && (
           <Draggable bounds="parent" handle=".drag">
