@@ -223,7 +223,6 @@ export const workspaceSlice = createSlice({
       state.workSpaceItems.map((item, i) => {
         if (item.uuid === action.payload.workspaceUUID) {
           const x = searchById(item.folders, action.payload.subFolderId);
-          console.log({ ...x }, '999');
           if (x) {
             x.folders.push(action.payload.newFolder);
           }
@@ -234,7 +233,6 @@ export const workspaceSlice = createSlice({
       state.workSpaceItems.map((item, i) => {
         if (item.uuid === action.payload.workspaceUUID) {
           const x = searchById(item.folders, action.payload.subFileId);
-          console.log({ ...x }, '999');
           if (x) {
             x.files.push(action.payload.newFile);
           }
