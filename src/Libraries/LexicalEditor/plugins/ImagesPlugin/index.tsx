@@ -27,7 +27,7 @@ import {
 } from 'lexical';
 import { useEffect, useRef, useState } from 'react';
 import * as React from 'react';
-import { CAN_USE_DOM } from 'shared/canUseDOM';
+import { CAN_USE_DOM } from 'shared/src/canUseDOM';
 
 import landscapeImage from '../../images/landscape.jpg';
 import yellowFlowerImage from '../../images/yellow-flower.jpg';

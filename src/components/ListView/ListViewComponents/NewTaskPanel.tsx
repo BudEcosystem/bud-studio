@@ -8,6 +8,9 @@ import {
 } from 'redux/slices/list';
 import { triggerDefaultNewTask } from 'redux/slices/kanban';
 import { setNewTaskClickedtable } from 'redux/slices/table';
+import ThreeDotsOption from './ThreeDotsOption/ThreeDotsOption';
+import GroupByModal from './GroupBy/GroupByModal';
+import SortByModal from './SortBy/SortByModal';
 
 const nameAndLogoArray = [
   {
@@ -19,7 +22,7 @@ const nameAndLogoArray = [
     logo: <Sort />,
   },
   {
-    name: 'Group By',
+    name: 'Group by',
     logo: <GroupBy />,
   },
   {
@@ -28,7 +31,7 @@ const nameAndLogoArray = [
   },
 ];
 
-const NewTaskPanel = ({ view }) => {
+const NewTaskPanel = ({ view }: any) => {
   const dispatch = useDispatch();
   const { list, table }: any = useSelector((state) => state);
   const { newTaskClicked, selectedItemIndex } = list;
@@ -36,6 +39,10 @@ const NewTaskPanel = ({ view }) => {
   const { workspace }: any = useSelector((state) => state);
   const [name, setName] = useState('');
   let { color } = workspace;
+  const [showThreeDotsOption, setShowThreeDotsOption] = useState(false);
+  const [showGroupBy, setShowGroupBy] = useState(false);
+  const [showSortBy, setShowSortBy] = useState(false);
+
   const newTaskHandler = () => {
     if (view === 'list') {
       setName(view);
@@ -48,14 +55,38 @@ const NewTaskPanel = ({ view }) => {
       dispatch(setNewTaskClickedtable(!newTaskClickedtable));
     }
   };
+
+  const handleOptionClick = (name: any) => {
+    if (name == 'Group by') {
+      setShowGroupBy(!showGroupBy);
+    } else if (name == 'Sort') {
+      setShowSortBy(!showSortBy);
+    }
+  };
   return (
     <div className="flexCenter">
       {nameAndLogoArray.map((item, i) => (
-        <div className="flexCenter newTaskPanelItems">
+        <div
+          style={{ position: 'relative' }}
+          onClick={() => {
+            handleOptionClick(item.name);
+          }}
+          className="flexCenter newTaskPanelItems"
+        >
           {item.logo}
           <p className="itemName">{item.name}</p>
           {i === nameAndLogoArray.length - 1 ? undefined : (
             <div className="verticalLine">|</div>
+          )}
+          {item.name === 'Group by' && showGroupBy && (
+            <div className="groupbyOptions">
+              <GroupByModal setShowGroupBy={setShowGroupBy} />
+            </div>
+          )}
+          {item.name === 'Sort' && showSortBy && (
+            <div className="sortbyOptions">
+              <SortByModal setShowSortBy={setShowSortBy} />
+            </div>
           )}
         </div>
       ))}
@@ -67,8 +98,19 @@ const NewTaskPanel = ({ view }) => {
           New {view === 'list' ? 'list' : view === 'table' ? 'Row' : 'task'}
         </div>
       </div>
-      <div className="threeDots flexCenter">
+      <div
+        onClick={() => setShowThreeDotsOption(!showThreeDotsOption)}
+        className="threeDots"
+        style={{
+          background: `${showThreeDotsOption ? '#212023' : 'transparent'}`,
+        }}
+      >
         <ThreeDots />
+        {showThreeDotsOption && (
+          <div className="threeDotsOptionsContainer">
+            <ThreeDotsOption setShowThreeDotsOption={setShowThreeDotsOption} />
+          </div>
+        )}
       </div>
     </div>
   );

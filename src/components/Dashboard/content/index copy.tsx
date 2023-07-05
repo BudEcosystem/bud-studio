@@ -13,7 +13,7 @@ import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 import EditorJsWrapper from '../../EditorWrapper';
 import TableView from 'components/TableView';
 
-import BudEditor from '../../BudEditor';
+
 import {
   changeColor,
   setCurrentSelectedDocument,
@@ -25,6 +25,7 @@ import {
   setNavigationPath,
 } from 'redux/slices/activestate';
 import TaskView from 'components/TaskView/TaskView';
+import MoveToComponent from 'components/MoveTo/MoveToComponent';
 
 function ContentView({
   setCollapsed,
@@ -123,7 +124,7 @@ function ContentView({
   }, [workspace]);
   useEffect(() => {
     const { currentSelectedUI: csUI, nodeIDs } = activestate;
-    console.log('csi', csUI);
+
     setCurrentSelectedUI(csUI);
     dispatch(setCurrentSelectedDocument(nodeIDs));
   }, [dispatch, activestate]);
@@ -144,6 +145,7 @@ function ContentView({
             workspaceModal={workspaceModal}
           />
         )}
+        {activestate.isMoveto && <MoveToComponent />}
         {selectedDoc && currentSelectedUI === '' && <EditorJsWrapper />}
         {currentSelectedUI?.includes('listview') && (
           <ListView
@@ -161,7 +163,6 @@ function ContentView({
             uiDetails={currentSelectedUI}
           />
         )}
-        {currentSelectedUI?.includes('taskview') && <TaskView />}
         <Hamburger />
       </Content>
       <OmniSearch />

@@ -71,8 +71,6 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
 
     useEffect(() => {
       function handleClickOutside(event: any) {
-        console.log(event);
-        console.log(ref);
         if (showColorDots) {
           if (
             optionRef.current &&
@@ -440,7 +438,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                     </div>
                     <div
                       className="secondWorkspaceOption"
-                      onClick={moveToHandler}
+                      
                     >
                       <Move />
                       <h3

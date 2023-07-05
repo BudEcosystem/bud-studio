@@ -31,14 +31,22 @@ import {
   FORMAT_ELEMENT_COMMAND,
   TextNode,
 } from 'lexical';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { v4 as uuidv4 } from 'uuid';
 
+import { useDispatch, useSelector } from 'react-redux';
 import catTypingGif from '../../images/cat-typing.gif';
 import useModal from '../../hooks/useModal';
 
 import ActionMenu from '../../../../components/ActionMenu';
+import { InsertImageDialog } from '../ImagesPlugin';
+import TextInput from '../../ui/TextInput';
+import { DialogActions } from '../../ui/Dialog';
+import Button from '../../ui/Button';
+
+import { createNewEmptyDatabase } from '../../../../redux/slices/database';
 
 // import { EmbedConfigs } from '../AutoEmbedPlugin';
 // import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin';
@@ -116,10 +124,38 @@ function ComponentPickerMenuItem({
       onMouseEnter={onMouseEnter}
       onClick={onClick}
     >
-      {option.icon}
+      {/* {option.icon}
       <span className="text">{option.title}</span>
-
+      <span>Embed a subpage inside this.</span> */}
+      <div className="bud-action-menu">
+        <div className="bud-action-menu-icon">Icon</div>
+        <div className="bud-action-menu-item">
+          <div className="bud-action-menu-item-title">{option.title}</div>
+          <div className="bud-action-menu-item-description">
+            {option.description
+              ? option.description
+              : 'No Description Available.'}
+          </div>
+        </div>
+      </div>
     </li>
+  );
+}
+
+function CustomComponent({ selectedIndex }) {
+  useEffect(() => {
+    console.log('Selected Index', selectedIndex);
+  }, [selectedIndex]);
+
+  let className = 'item';
+  if (isSelected) {
+    className += ' selected';
+  }
+
+  return (
+    <div>
+      <div className="">ok</div>
+    </div>
   );
 }
 
@@ -127,6 +163,10 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
   const [editor] = useLexicalComposerContext();
   const [modal, showModal] = useModal();
   const [queryString, setQueryString] = useState<string | null>(null);
+
+  // redux integration
+  const dispatch = useDispatch();
+  const { workspace }: any = useSelector((state) => state);
 
   const checkForTriggerMatch = useBasicTypeaheadTriggerMatch('/', {
     minLength: 0,
@@ -179,8 +219,211 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
     return options;
   }, [editor, queryString]);
 
+  const [rows, setRows] = useState('5');
+  const [columns, setColumns] = useState('5');
+  const [showTableModal, setShowTableModal] = useState(false);
+
   const options = useMemo(() => {
     const baseOptions = [
+      new ComponentPickerOption('Page', {
+        icon: <i className="icon paragraph" />,
+        keywords: ['page', 'p'],
+        description: 'Embed a subpage inside this..',
+        onSelect: () =>
+          editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+              $setBlocksType(selection, () => $createParagraphNode());
+            }
+          }),
+      }),
+      new ComponentPickerOption('List - Database', {
+        icon: <i className="icon paragraph" />,
+        keywords: ['list', 'database'],
+        description: 'Database list view.',
+        onSelect: () =>
+          editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+              $setBlocksType(selection, () => $createParagraphNode());
+            }
+          }),
+      }),
+      new ComponentPickerOption('Table - Database', {
+        icon: <i className="icon paragraph" />,
+        keywords: ['list', 'table'],
+        description: 'Database table view.',
+        onSelect: () => {
+          console.log('Add New Database To Document');
+
+          const initialDocumentID = uuidv4();
+          const databaseID = uuidv4();
+
+          // Prepare Database Template
+          const newDatabase = {
+            type: 'Database',
+            id: databaseID,
+            title: 'Untitled',
+            description: 'Description goes here',
+            defaultView: 'Table',
+            created_at: new Date().toISOString(),
+            updated_at: '',
+            propertyPresets: {
+              priority: {
+                name: 'Priority',
+                type: 'select',
+                options: [
+                  { title: 'High', color: '#fff' },
+                  { title: 'Low', color: '#fff' },
+                  { title: 'Medium', color: '#fff' },
+                  { title: 'Normal', color: '#fff' },
+                ],
+              },
+              status: {
+                name: 'Status',
+                type: 'select',
+                options: [
+                  { title: 'Not Started', color: '#fff' },
+                  { title: 'In Progress', color: '#fff' },
+                  { title: 'Done', color: '#fff' },
+                ],
+              },
+            },
+            entries: [
+              {
+                documentID: initialDocumentID,
+              },
+            ],
+          };
+
+          // Prepare Document Template
+          const newDatabaseDocument = {
+            name: 'Untitled',
+            childOf: null,
+            workSPaceId: 'Private',
+            type: 'doc',
+            uuid: initialDocumentID,
+            workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+            customProperties: [], // User defined Properties
+            properties: {
+              tags: ['no-tag'],
+              priority: 'Normal',
+              status: 'Not Started',
+              date: null,
+            },
+          };
+
+          // Initial Document Template
+          const initialDocument = {
+            root: {
+              children: [
+                {
+                  children: [
+                    {
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      text: 'How to evolve into a super human with your',
+                      type: 'text',
+                      version: 1,
+                    },
+                  ],
+                  direction: 'ltr',
+                  format: '',
+                  indent: 0,
+                  type: 'heading',
+                  version: 1,
+                  tag: 'h1',
+                },
+                {
+                  children: [
+                    {
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      text: 'digital mind place',
+                      type: 'text',
+                      version: 1,
+                    },
+                  ],
+                  direction: 'ltr',
+                  format: '',
+                  indent: 0,
+                  type: 'heading',
+                  version: 1,
+                  tag: 'h1',
+                },
+                {
+                  children: [],
+                  direction: null,
+                  format: '',
+                  indent: 0,
+                  type: 'paragraph',
+                  version: 1,
+                },
+                {
+                  children: [
+                    {
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      text: 'Philosophy, life, misc',
+                      type: 'text',
+                      version: 1,
+                    },
+                  ],
+                  direction: 'ltr',
+                  format: '',
+                  indent: 0,
+                  type: 'paragraph',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              format: '',
+              indent: 0,
+              type: 'root',
+              version: 1,
+            },
+          };
+
+          // Prepare Document
+
+          dispatch(
+            createNewEmptyDatabase({
+              workspaceInfo: workspace,
+              databaseinfo: newDatabase,
+              databaseDocumentInfo: newDatabaseDocument,
+              initialDocument,
+              initialDocumentID,
+              databaseID,
+            })
+          );
+
+          // Add New Database
+        },
+        // editor.update(() => {
+        //   const selection = $getSelection();
+        //   if ($isRangeSelection(selection)) {
+        //     $setBlocksType(selection, () => $createParagraphNode());
+        //   }
+        // }),
+      }),
+      new ComponentPickerOption('Kanban - Database', {
+        icon: <i className="icon paragraph" />,
+        keywords: ['list', 'kanban'],
+        description: 'Database kanban view.',
+        onSelect: () =>
+          editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+              $setBlocksType(selection, () => $createParagraphNode());
+            }
+          }),
+      }),
       new ComponentPickerOption('Paragraph', {
         icon: <i className="icon paragraph" />,
         keywords: ['normal', 'paragraph', 'p', 'text'],
@@ -198,6 +441,7 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
           new ComponentPickerOption(`Heading ${n}`, {
             icon: <i className={`icon h${n}`} />,
             keywords: ['heading', 'header', `h${n}`],
+            description: `Level ${n} heading.`,
             onSelect: () =>
               editor.update(() => {
                 const selection = $getSelection();
@@ -275,6 +519,12 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
             }
           }),
       }),
+      new ComponentPickerOption('Simple Table', {
+        icon: <i className="icon code" />,
+        keywords: ['table', 'rows', 'columns', 'grid'],
+        onSelect: () =>
+          editor.dispatchCommand(INSERT_TABLE_COMMAND, { columns, rows }),
+      }),
       new ComponentPickerOption('Divider', {
         icon: <i className="icon horizontal-rule" />,
         keywords: ['horizontal rule', 'divider', 'hr'],
@@ -321,33 +571,31 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
             src: catTypingGif,
           }),
       }),
-      // new ComponentPickerOption('Image', {
-      //   icon: <i className="icon image" />,
-      //   keywords: ['image', 'photo', 'picture', 'file'],
-      //   onSelect: () =>
-      //     showModal('Insert Image', (onClose) => (
-      //       <InsertImageDialog activeEditor={editor} onClose={onClose} />
-      //     )),
-      // }),
+      new ComponentPickerOption('Image', {
+        icon: <i className="icon image" />,
+        keywords: ['image', 'photo', 'picture', 'file'],
+        onSelect: () =>
+          showModal('Insert Image', (onClose) => (
+            <InsertImageDialog activeEditor={editor} onClose={onClose} />
+          )),
+      }),
       // new ComponentPickerOption('Collapsible', {
       //   icon: <i className="icon caret-right" />,
       //   keywords: ['collapse', 'collapsible', 'toggle'],
       //   onSelect: () =>
       //     editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined),
       // }),
-      // ...['left', 'center', 'right', 'justify'].map(
-      //   (alignment) =>
-      //     new ComponentPickerOption(`Align ${alignment}`, {
-      //       icon: <i className={`icon ${alignment}-align`} />,
-      //       keywords: ['align', 'justify', alignment],
-      //       onSelect: () =>
-      //         // @ts-ignore Correct types, but since they're dynamic TS doesn't like it.
-      //         editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, alignment),
-      //     })
-      // ),
+      ...['left', 'center', 'right', 'justify'].map(
+        (alignment) =>
+          new ComponentPickerOption(`Align ${alignment}`, {
+            icon: <i className={`icon ${alignment}-align`} />,
+            keywords: ['align', 'justify', alignment],
+            onSelect: () =>
+              // @ts-ignore Correct types, but since they're dynamic TS doesn't like it.
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, alignment),
+          })
+      ),
     ];
-
-
 
     const dynamicOptions = getDynamicOptions();
 
@@ -384,9 +632,42 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
     [editor]
   );
 
+  function TableModal() {
+    return (
+      <>
+        <TextInput
+          placeholder="# of rows (1-500)"
+          label="Rows"
+          onChange={setRows}
+          value={rows}
+          data-test-id="table-modal-rows"
+          type="number"
+        />
+        <TextInput
+          placeholder="# of columns (1-50)"
+          label="Columns"
+          onChange={setColumns}
+          value={columns}
+          data-test-id="table-modal-columns"
+          type="number"
+        />
+        <DialogActions data-test-id="table-model-confirm-insert">
+          <Button
+            onClick={() => {
+              setShowTableModal(false);
+            }}
+          >
+            Confirm
+          </Button>
+        </DialogActions>
+      </>
+    );
+  }
+
   return (
     <>
       {modal}
+      {showTableModal && <TableModal />}
       {/* <ActionMenu /> */}
       <LexicalTypeaheadMenuPlugin<ComponentPickerOption>
         onQueryChange={setQueryString}
@@ -399,7 +680,8 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
         ) =>
           anchorElementRef.current && options.length
             ? ReactDOM.createPortal(
-                <div className="typeahead-popover component-picker-menu">
+                <div className="typeahead-popover component-picker-menu bud-action">
+                  <div className="bud-action-title">Editor Blocks</div>
                   <ul>
                     {options.map((option, i: number) => (
                       <ComponentPickerMenuItem

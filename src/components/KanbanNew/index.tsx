@@ -1,19 +1,8 @@
 import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {
-  generateKanbanInitialState,
-  triggerDefaultNewTask,
-  updateWholeKanbanState,
-} from 'redux/slices/kanban';
 import Kanban from './kanbanBoard';
-import { useSelector } from 'react-redux';
-import {
-  updateAppData,
-  updateAppName,
-  updateWholeState,
-} from 'redux/slices/workspace';
 import HeaderSection from 'components/ListView/HeaderSection';
+import GroupByComponent from 'components/GroupByComponent/GroupByComponent';
 
 const KanbanSection = styled.div`
   height: auto;
@@ -221,61 +210,24 @@ function HeaderButtons({ label, icon }: any) {
     </ButtonGroup>
   );
 }
-function KanbanUI({ workspaceObj, uiDetails }: any) {
+function KanbanUI() {
   const [date, setDate] = useState<String>('');
   const [title, setTitle] = useState('');
   useEffect(() => setDate('13 June 2022'), []);
-  const dispatch = useDispatch();
-  const reduxState = useSelector((state) => state);
-  console.log('reduxState', reduxState);
-  const { workspace, kanban }: any = useSelector((state) => state);
-  const { color } = workspace;
-  const [currentFileName, setCurrentFileName] = useState('');
   // const onNewTaskButtonClicked = () => {
   //   dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
   // };
 
-  useEffect(() => {
-    workspaceObj.workSpaceDocs.map((doc: any) => {
-      if (workspaceObj.currentSelectedDocId == doc.uuid) {
-        setCurrentFileName(doc.name);
-      }
-    });
-  }, [workspaceObj]);
-
-  useEffect(() => {
-    const { editorApplicationsAdded } = workspace;
-    const currentApplicationId = uiDetails.split('--')[2];
-    const applicationsDataFiltered = editorApplicationsAdded?.find(
-      (appData: any) => appData.applicatioId === currentApplicationId
-    );
-    const kanbanEmptyData = generateKanbanInitialState();
-    if (applicationsDataFiltered) {
-      console.log('applicationsDataFiltered', applicationsDataFiltered);
-      const { appData, titleForDoc } = applicationsDataFiltered;
-      setTitle(titleForDoc);
-      if (appData) {
-        dispatch(updateWholeKanbanState(appData));
-      } else {
-        dispatch(updateWholeKanbanState(kanbanEmptyData));
-      }
-    }
-  }, []);
-  useEffect(() => {
-    const currentApplicationId = uiDetails.split('--')[2];
-    dispatch(updateAppData({ appID: currentApplicationId, appData: kanban }));
-  }, [kanban]);
-  const updateCurrentTitle = (name) => {
-    const currentApplicationId = uiDetails.split('--')[2];
-    dispatch(updateAppName({ appID: currentApplicationId, titleForDoc: name }));
-  };
   return (
     <KanbanSection>
-      <HeaderSection
+      {/* <HeaderSection
         view="kanban"
         updateCurrentTitle={updateCurrentTitle}
         title={title}
-      />
+      /> */}
+        {/* <div style={{ marginLeft: '38px', marginRight: '63px' }}>
+          <GroupByComponent />
+        </div> */}
       <Kanban />
     </KanbanSection>
   );

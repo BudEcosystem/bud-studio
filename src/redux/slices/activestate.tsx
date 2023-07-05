@@ -12,6 +12,13 @@ const generateInitialState = (): any => {
     },
     navigationPathArray: [{}],
     isMoveto: false,
+    currentMoveToItem: {},
+    copyOrMove: '',
+    groupBy: false,
+    groupByOption: '',
+    displayToggle: true,
+    sortBy: false,
+    sortByOption: '',
   };
   return initialState;
 };
@@ -35,9 +42,35 @@ export const activestateSlice = createSlice({
         state.navigationPathArray?.unshift(action.payload?.name);
       }
     },
+    updateNavigationPath: (state, action: PayloadAction<any>) => {
+      const copy = [...state.navigationPathArray];
+      copy[0] = action.payload;
+      state.navigationPathArray = copy;
+      console.log(copy);
+    },
     setIsMoveTo: (state, action: PayloadAction<any>) => {
-      console.log(action.payload, 'asdfg;lk');
       state.isMoveto = action.payload;
+    },
+    setCurrentMoveToItem: (state, action: PayloadAction<any>) => {
+      state.currentMoveToItem = action.payload;
+    },
+    setCopyOrMove: (state, action: PayloadAction<any>) => {
+      state.copyOrMove = action.payload;
+    },
+    setGroupBy: (state, action: PayloadAction<any>) => {
+      state.groupBy = action.payload;
+    },
+    setGroupByOption: (state, action: PayloadAction<any>) => {
+      state.groupByOption = action.payload;
+    },
+    setDisplayToggle: (state, action: PayloadAction<any>) => {
+      state.displayToggle = action.payload;
+    },
+    setSortBy: (state, action: PayloadAction<any>) => {
+      state.groupBy = action.payload;
+    },
+    setSortByOption: (state, action: PayloadAction<any>) => {
+      state.groupByOption = action.payload;
     },
   },
 });
@@ -47,5 +80,13 @@ export const {
   setNodeIDs,
   setNavigationPath,
   setIsMoveTo,
+  setCurrentMoveToItem,
+  setCopyOrMove,
+  updateNavigationPath,
+  setGroupBy,
+  setGroupByOption,
+  setDisplayToggle,
+  setSortBy,
+  setSortByOption,
 } = activestateSlice.actions;
 export default activestateSlice.reducer;
