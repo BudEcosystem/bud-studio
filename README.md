@@ -81,3 +81,42 @@ MIT © [Electron React Boilerplate](https://github.com/electron-react-boilerplat
 [github-tag-url]: https://github.com/electron-react-boilerplate/electron-react-boilerplate/releases/latest
 [stackoverflow-img]: https://img.shields.io/badge/stackoverflow-electron_react_boilerplate-blue.svg
 [stackoverflow-url]: https://stackoverflow.com/questions/tagged/electron-react-boilerplate
+
+
+## SHORTCUT LISTS
+### GENERAL
+Dashboard : Ctrl + N
+Main Search : Ctrl + F
+Favourites: Ctrl + L (Current Workspace gets favourited)
+New Workspace : Ctrl + N (COLLISION WITH DASHBOARD)
+Workspace Flyout Menu : Ctrl + Alt + index number (of that workspace, starts from 0 for private)
+Launcher: Ctrl + L
+OmniSearch : Ctrl + O
+Mini Searches (in flyout menus) : Ctrl + S
+Group By : Ctrl + G
+
+### OMNISEARCH
+OmniSearch Scroll through : Up & Down Arrows
+New Task in Omni Search : Ctrl + T
+Reload in OmniSearch : Ctrl + L
+Add new member (omnisearch) : Ctrl + M
+
+### EDITOR
+/ (in editor) : Editor Block
+@ in editor: Bud Menu
+
+### TASKVIEW
+/ : for commands
+@ : Ask Bud anything
+
+
+## SHORTCUTS COULD BE ADDED FOR:
+Sort By: ??
+Views: ??
+Collapse Sidebar: ??
+Notifications: ??
+Adding new task / columns in each database: ??
+Milestone sliding: ?? 
+Add Cover (For databases): ??
+Share: ??
+View Mode: ??
