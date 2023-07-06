@@ -120,3 +120,16 @@
     line-height: 154.5%;
     color: #FFFFFF;
 }
+
+.empty-list {
+  text-align: center;
+  font-family: 'Noto Sans';
+  font-size: small;
+  color: #2f2f2f;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-content: flex-end;
+
+}
