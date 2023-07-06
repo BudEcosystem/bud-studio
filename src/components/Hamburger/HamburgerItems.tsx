@@ -6,9 +6,12 @@ import { useSelector } from 'react-redux';
 import { Tooltip } from 'antd';
 import toolTipImage from '../../../assets/Kanban.svg';
 
-function HamburgerItems({ title, selected, onClick }: any) {
+function HamburgerItems({ title, selected, onClick, currentDatabase }: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
+  const style = {
+    '--tooltip-border-color': color,
+  };
   return (
     <div className="" onClick={onClick} style={{ cursor: 'pointer' }}>
       <div
@@ -22,14 +25,14 @@ function HamburgerItems({ title, selected, onClick }: any) {
       <div className="hamItemsContainer">
         <Tooltip
           title={
-            <div className="tooltip-container">
+            <div className="tooltip-container " style={style}>
               <img
                 className="tooltip-image"
                 src={toolTipImage}
                 alt="toolTipImage"
               />
               <div className="tooltip-content">
-                <h6 className="tooltip-text">Kanban View</h6>
+                <h6 className="tooltip-text">{currentDatabase?.title} </h6>
                 <p className="tooltip-date">Edited 23min ago</p>
               </div>
             </div>

@@ -1,3 +1,7 @@
+:root {
+  --tooltip-border-color: #939aff;
+}
+
 .hamBurgerParent {
   position: fixed;
   top: 65vh;
@@ -72,7 +76,7 @@
   top: 591px;
   left: 278px;
   border-radius: 8px;
-  border: 0.3px solid #939aff;
+  border: 0.3px solid var(--tooltip-border-color);
   background-color: #28272c;
   padding-left: 2px;
   padding-top: 2px;
@@ -98,8 +102,7 @@
   border-radius: 1.5px 1.5px 0px 14px;
 }
 
-.ham-container{
+.ham-container {
   position: fixed;
   top: 75vh;
 }
-
