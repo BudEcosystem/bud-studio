@@ -27,7 +27,8 @@ import {
   TagsCell,
 } from '@glideapps/glide-data-grid-cells';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { moveDatabaseRow } from '@/redux/slices/database';
 import DocumentCellRenderer, { DocumentCell } from './Cells/DocumentCell';
 import PriorityCellRenderer, { PriorityCell } from './Cells/PriorityCell';
 
@@ -47,6 +48,8 @@ export default function TableView({
   const cellProps = useExtraCells();
 
   // const { workspace } = useSelector((state) => state);
+
+  const dispatch = useDispatch();
 
   // State Data
   const [data, setData] = useState(null);
@@ -100,11 +103,9 @@ export default function TableView({
           allowOverlay: true,
           copyData: '4',
           data: {
-            kind: 'dropdown-cell',
-            allowedValues: databaseData.propertyPresets.status.options.map(
-              (option) => option.title
-            ),
-            value: propRpw.value,
+            kind: 'tags-cell',
+            possibleTags: databaseData.propertyPresets.tags.options,
+            tags: ['PR'],
           },
         };
       }
@@ -208,31 +209,42 @@ export default function TableView({
   };
 
   useEffect(() => {
-    // Prepare Data
-    console.log('Prepare Data Called');
+    const updateData = () => {
+      console.log('Prepare Data Called');
 
-    const column:
-      | React.SetStateAction<GridColumn[]>
-      | { title: any; order: any }[] = [{ title: 'Document', order: 0 }];
+      const column:
+        | React.SetStateAction<GridColumn[]>
+        | { title: any; order: any }[] = [{ title: 'Document', order: 0 }];
 
-    // databaseEntries.forEach((entry) => {
-    // System Defined Properties
-    databaseEntries[0].properties.forEach((property) => {
-      column.push({ title: property.title, order: property.order });
-    });
+      // databaseEntries.forEach((entry) => {
+      // System Defined Properties
+      databaseEntries[0].properties.forEach((property) => {
+        column.push({ title: property.title, order: property.order });
+      });
 
-    // User Defined Properties
-    databaseEntries[0].customProperties.forEach((property) => {
-      column.push({ title: property.title, order: property.order });
-    });
-    // });
+      // User Defined Properties
+      databaseEntries[0].customProperties.forEach((property) => {
+        column.push({ title: property.title, order: property.order });
+      });
+      // });
 
-    // Set The Columns
-    setColumns(column);
+      // Set The Columns
+      setColumns(column);
 
-    // Prepare Thw Data
+      console.log('Entries', databaseEntries);
 
-    setData(databaseEntries);
+      // Prepare Thw Data
+
+      setData(databaseEntries);
+    };
+
+    // For Smooth Re-rendering
+    if (data === null) {
+      // Prepare Data
+      updateData();
+    } else if (data && databaseEntries.length !== data.length) {
+      updateData();
+    }
   }, [databaseEntries]);
 
   // Add New Column
@@ -250,6 +262,57 @@ export default function TableView({
       // Update The Properties
     }
   };
+
+  /*
+   * Row Sorting handler
+   */
+  const onRowSort = (s, e) => {
+    dispatch(
+      moveDatabaseRow({ databaseID: databaseData.id, oldIndex: s, newIndex: e })
+    );
+
+    // Update the Local State
+    let newData = [...data];
+    newData = moveArrayItemToNewIndex(newData, s, e);
+    setData(newData);
+  };
+
+  /*
+   * Column Sorting handler
+   */
+  const onColumnMoved = (s, e) => {
+    let newColumns = [...columns];
+    newColumns = changeOrder(newColumns, s, e);
+
+    console.log("Chnaged Columns", newColumns);
+
+    setColumns(newColumns);
+  };
+
+  // Move To Util Class
+  function moveArrayItemToNewIndex(arr, old_index, new_index) {
+    if (new_index >= arr.length) {
+      let k = new_index - arr.length + 1;
+      while (k--) {
+        arr.push(undefined);
+      }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr;
+  }
+
+  // Move to Util Class
+  function changeOrder(arr: any, oldIndex: number, newIndex: number): any {
+    const item = arr.splice(oldIndex, 1)[0]; // remove the item at the old index
+    arr.splice(newIndex, 0, item); // add that item back at the new index
+
+    // Update the order property for each item
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].order = i;
+    }
+
+    return arr;
+  }
 
   return (
     <div className="table-wrapper" id="table-wrapper">
@@ -279,8 +342,8 @@ export default function TableView({
           getCellsForSelection
           rowMarkers="number"
           isDraggable={false}
-          onRowMoved={(s, e) => window.alert(`Moved row ${s} to ${e}`)}
-          onColumnMoved={(s, e) => window.alert(`Moved col ${s} to ${e}`)}
+          onRowMoved={onRowSort}
+          onColumnMoved={onColumnMoved}
           onDragStart={(e) => {
             e.setData('text/plain', 'Drag data here!');
           }}

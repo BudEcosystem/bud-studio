@@ -31,16 +31,21 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
 
     const documentsList = databaseData.entries;
     // Find The Document List From JSON Data
-    const filteredObjects = workspace.workSpaceDocs.filter((obj) => {
-      return documentsList.some((item) => item.documentID === obj.uuid);
+
+    const sortedContent = [];
+    documentsList.map((item) => {
+      const document = workspace.workSpaceDocs.filter(
+        (obj) => obj.uuid === item.documentID
+      );
+      sortedContent.push(document[0]);
     });
 
     // Set The Properties
-    filteredObjects.map((item) => {
-      console.log(item.uuid, item.properties);
-    });
+    // filteredObjects.map((item) => {
+    //   console.log(item.uuid, item.properties);
+    // });
 
-    setDatabaseEntries(filteredObjects);
+    setDatabaseEntries(sortedContent);
 
     // Prepare the data for the view
     // Default View Holds The View Type
@@ -74,12 +79,29 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
       uuid: initialDocumentID,
       workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
       customProperties: [], // User defined Properties
-      properties: {
-        tags: ['no-tag'],
-        priority: 'Normal',
-        status: 'Not Started',
-        date: null,
-      },
+      properties: [
+        {
+          title: 'Tags',
+          value: ['no-tag'],
+          type: 'tags',
+          id: uuidv4(),
+          order: 1,
+        },
+        {
+          title: 'Priority',
+          value: 'Normal',
+          type: 'priority',
+          id: uuidv4(),
+          order: 2,
+        },
+        {
+          title: 'Status',
+          value: 'Not Started',
+          type: 'status',
+          id: uuidv4(),
+          order: 3,
+        },
+      ],
     };
 
     // initial document
@@ -192,7 +214,6 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
       {databaseData.defaultView === 'List' && databaseEntries.length && (
         <div>List</div>
       )}
-
     </div>
   );
 }

@@ -433,6 +433,10 @@
   color: #fff;
 }
 
+.editor-text-hashtag::first-letter {
+  font-size: 0%;
+}
+
 /* Check List */
 .PlaygroundEditorTheme__ul {
   padding: 0;
