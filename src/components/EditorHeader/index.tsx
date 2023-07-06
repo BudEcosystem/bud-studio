@@ -95,7 +95,7 @@ function EditorHeader({ view, coverImg, iconImg }: any) {
         </div>
       )}
 
-      {view == '' && iconAvailable ? (
+      {iconAvailable ? (
         coverUrlAvailable ? (
           <div
             style={{
@@ -128,7 +128,7 @@ function EditorHeader({ view, coverImg, iconImg }: any) {
           </div>
         )
       ) : (
-        view == '' && (
+         (
           <div
             style={{
               fontSize: '14px',
