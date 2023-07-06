@@ -80,45 +80,28 @@ export default function TableView({
     const newDataArr = [];
     rowData.properties.map((item) => newDataArr.push(item));
     rowData.customProperties.map((item) => newDataArr.push(item));
-    console.log(newDataArr, col, rowData)
+    console.log(newDataArr, col, rowData, columns);
 
     const matchingItem = newDataArr.find((item) => item.order === col);
     console.log(matchingItem);
-    if (matchingItem === undefined) {
+    if (matchingItem === undefined && columns[col].title === 'Document') {
       return {
-      kind: GridCellKind.Custom,
-      allowOverlay: true,
-      copyData: '4',
-      data: {
-        kind: 'document-cell',
-        title: rowData.name,
-        uuid: '123',
-        onOpenClick: () => {
-          console.log('open');
-          setTaskViewOpen(true);
+        kind: GridCellKind.Custom,
+        allowOverlay: true,
+        copyData: '4',
+        data: {
+          kind: 'document-cell',
+          title: rowData.name,
+          uuid: '123',
+          onOpenClick: () => {
+            console.log('open');
+            setTaskViewOpen(true);
+          },
         },
-      },
-    } as DocumentCell;
+      } as DocumentCell;
     }
 
     if (matchingItem) {
-      // if (matchingItem.type === 'Document') {
-      //   return {
-      //         kind: GridCellKind.Custom,
-      //         allowOverlay: true,
-      //         copyData: '4',
-      //         data: {
-      //           kind: 'document-cell',
-      //           title: rowData.name,
-      //           uuid: '123',
-      //           onOpenClick: () => {
-      //             console.log('open');
-      //             setTaskViewOpen(true);
-      //           },
-      //         },
-      //       } as DocumentCell;
-      // }
-
       if (matchingItem.type === 'tags') {
         return {
           kind: GridCellKind.Custom,
@@ -319,7 +302,7 @@ export default function TableView({
 
       const column:
         | React.SetStateAction<GridColumn[]>
-        | { title: any; order: any }[] = [{title: 'Document', order: 0}];
+        | { title: any; order: any }[] = [{ title: 'Document', order: 0 }];
 
       // databaseEntries.forEach((entry) => {
       // System Defined Properties
