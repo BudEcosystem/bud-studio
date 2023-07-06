@@ -36,6 +36,7 @@ import { ReactComponent as DragButtonIcon } from '../../../../public/images/drag
 import '@glideapps/glide-data-grid/dist/index.css';
 import '@glideapps/glide-data-grid-cells/dist/index.css';
 import './table.view.css';
+import TaskView from '@/components/TaskView/TaskView';
 
 // Grid columns may also provide icon, overlayIcon, menu, style, and theme overrides
 // @ts-ignore
@@ -55,6 +56,7 @@ export default function TableView({
   const [data, setData] = useState(null);
   const [columns, setColumns] = useState<GridColumn[]>([]);
   const [hoverRow, setHoverRow] = React.useState<number | undefined>(undefined);
+  const [taskViewOpen, setTaskViewOpen] = useState(false);
 
   // Row Hover Effect
   const onItemHovered = React.useCallback((args: GridMouseEventArgs) => {
@@ -75,29 +77,49 @@ export default function TableView({
 
   function getData([col, row]: Item): GridCell {
     const rowData = data[row];
+    const newDataArr = [];
+    rowData.properties.map((item) => newDataArr.push(item));
+    rowData.customProperties.map((item) => newDataArr.push(item));
+    console.log(newDataArr, col, rowData)
 
-    if (col === 0) {
+    const matchingItem = newDataArr.find((item) => item.order === col);
+    console.log(matchingItem);
+    if (matchingItem === undefined) {
       return {
-        kind: GridCellKind.Custom,
-        allowOverlay: true,
-        copyData: '4',
-        data: {
-          kind: 'document-cell',
-          title: rowData.name,
-          uuid: '123',
-          onOpenClick: () => {
-            console.log('open');
-          },
+      kind: GridCellKind.Custom,
+      allowOverlay: true,
+      copyData: '4',
+      data: {
+        kind: 'document-cell',
+        title: rowData.name,
+        uuid: '123',
+        onOpenClick: () => {
+          console.log('open');
+          setTaskViewOpen(true);
         },
-      } as DocumentCell;
+      },
+    } as DocumentCell;
     }
 
-    if (col <= rowData.properties.length) {
-      const propRpw = rowData.properties.find(
-        (property) => property.order === col
-      );
+    if (matchingItem) {
+      // if (matchingItem.type === 'Document') {
+      //   return {
+      //         kind: GridCellKind.Custom,
+      //         allowOverlay: true,
+      //         copyData: '4',
+      //         data: {
+      //           kind: 'document-cell',
+      //           title: rowData.name,
+      //           uuid: '123',
+      //           onOpenClick: () => {
+      //             console.log('open');
+      //             setTaskViewOpen(true);
+      //           },
+      //         },
+      //       } as DocumentCell;
+      // }
 
-      if (propRpw.type === 'tags') {
+      if (matchingItem.type === 'tags') {
         return {
           kind: GridCellKind.Custom,
           allowOverlay: true,
@@ -110,7 +132,7 @@ export default function TableView({
         };
       }
 
-      if (propRpw.type === 'status') {
+      if (matchingItem.type === 'status') {
         return {
           kind: GridCellKind.Custom,
           allowOverlay: true,
@@ -120,12 +142,12 @@ export default function TableView({
             allowedValues: databaseData.propertyPresets.status.options.map(
               (option) => option.title
             ),
-            value: propRpw.value,
+            value: matchingItem.value,
           },
         };
       }
 
-      if (propRpw.type === 'priority') {
+      if (matchingItem.type === 'priority') {
         return {
           kind: GridCellKind.Custom,
           allowOverlay: true,
@@ -135,7 +157,7 @@ export default function TableView({
             allowedValues: databaseData.propertyPresets.priority.options.map(
               (option) => option.title
             ),
-            value: propRpw.value,
+            value: matchingItem.value,
           },
         };
       }
@@ -143,22 +165,8 @@ export default function TableView({
       return {
         kind: GridCellKind.Text,
         allowOverlay: true,
-        displayData: '',
-        data: '',
-        allowWrapping: true,
-      };
-    }
-
-    const propRpw = rowData.customProperties.find(
-      (property) => property.order === col
-    );
-
-    if (propRpw) {
-      return {
-        kind: GridCellKind.Text,
-        allowOverlay: true,
-        displayData: propRpw.value,
-        data: propRpw.value,
+        displayData: matchingItem.value,
+        data: matchingItem.value,
         allowWrapping: true,
       };
     }
@@ -171,7 +179,104 @@ export default function TableView({
       allowWrapping: true,
     };
 
-    throw new Error();
+    // console.log(col)
+    // if (col === 0) {
+    //   return {
+    //     kind: GridCellKind.Custom,
+    //     allowOverlay: true,
+    //     copyData: '4',
+    //     data: {
+    //       kind: 'document-cell',
+    //       title: rowData.name,
+    //       uuid: '123',
+    //       onOpenClick: () => {
+    //         console.log('open');
+    //         setTaskViewOpen(true);
+    //       },
+    //     },
+    //   } as DocumentCell;
+    // }
+
+    // if (col <= rowData.properties.length) {
+    //   const propRpw = rowData.properties.find(
+    //     (property) => property.order === col
+    //   );
+
+    //   if (propRpw?.type === 'tags') {
+    //     return {
+    //       kind: GridCellKind.Custom,
+    //       allowOverlay: true,
+    //       copyData: '4',
+    //       data: {
+    //         kind: 'tags-cell',
+    //         possibleTags: databaseData.propertyPresets.tags.options,
+    //         tags: ['PR'],
+    //       },
+    //     };
+    //   }
+
+    //   if (propRpw?.type === 'status') {
+    //     return {
+    //       kind: GridCellKind.Custom,
+    //       allowOverlay: true,
+    //       copyData: '4',
+    //       data: {
+    //         kind: 'dropdown-cell',
+    //         allowedValues: databaseData.propertyPresets.status.options.map(
+    //           (option) => option.title
+    //         ),
+    //         value: propRpw.value,
+    //       },
+    //     };
+    //   }
+
+    //   if (propRpw?.type === 'priority') {
+    //     return {
+    //       kind: GridCellKind.Custom,
+    //       allowOverlay: true,
+    //       copyData: '4',
+    //       data: {
+    //         kind: 'priority-cell',
+    //         allowedValues: databaseData.propertyPresets.priority.options.map(
+    //           (option) => option.title
+    //         ),
+    //         value: propRpw.value,
+    //       },
+    //     };
+    //   }
+
+    //   return {
+    //     kind: GridCellKind.Text,
+    //     allowOverlay: true,
+    //     displayData: '',
+    //     data: '',
+    //     allowWrapping: true,
+    //   };
+    // }
+
+    // const propRpw = rowData.customProperties.find(
+    //   (property) => property.order === col
+    // );
+
+    // if (propRpw) {
+    //   return {
+    //     kind: GridCellKind.Text,
+    //     allowOverlay: true,
+    //     displayData: propRpw.value,
+    //     data: propRpw.value,
+    //     allowWrapping: true,
+    //   };
+    // }
+
+    // return {
+    //   kind: GridCellKind.Text,
+    //   allowOverlay: true,
+    //   displayData: '',
+    //   data: '',
+    //   allowWrapping: true,
+    // };
+
+    // throw new Error();
   }
 
   const onAddRowDrag = (e: DraggableEvent, ui: DraggableData) => {
@@ -214,7 +319,7 @@ export default function TableView({
 
       const column:
         | React.SetStateAction<GridColumn[]>
-        | { title: any; order: any }[] = [{ title: 'Document', order: 0 }];
+        | { title: any; order: any }[] = [{title: 'Document', order: 0}];
 
       // databaseEntries.forEach((entry) => {
       // System Defined Properties
@@ -284,9 +389,39 @@ export default function TableView({
     let newColumns = [...columns];
     newColumns = changeOrder(newColumns, s, e);
 
-    console.log("Chnaged Columns", newColumns);
-
     setColumns(newColumns);
+    console.log('Chnaged Columns', newColumns, columns, data);
+    let newData = [...data];
+    newData = newData.map((rowData) => {
+      const updatedRowData = { ...rowData };
+
+      updatedRowData.customProperties = updatedRowData.customProperties.map(
+        (customProp) => {
+          const matchingColumn = newColumns.find(
+            (column) => column.title === customProp.title
+          );
+          if (matchingColumn) {
+            return { ...customProp, order: matchingColumn.order };
+          }
+          return customProp;
+        }
+      );
+
+      updatedRowData.properties = updatedRowData.properties.map((prop) => {
+        const matchingColumn = newColumns.find(
+          (column) => column.title === prop.title
+        );
+        if (matchingColumn) {
+          return { ...prop, order: matchingColumn.order };
+        }
+        return prop;
+      });
+
+      return updatedRowData;
+    });
+
+    setData(newData);
+    console.log(newData);
   };
 
   // Move To Util Class
@@ -316,6 +451,14 @@ export default function TableView({
 
   return (
     <div className="table-wrapper" id="table-wrapper">
+      {taskViewOpen && (
+        <TaskView
+          data={null}
+          title={'hello'}
+          showTaskViewModal={taskViewOpen}
+          setShowTaskViewModal={setTaskViewOpen}
+        />
+      )}
       {data && (
         <DataEditor
           {...cellProps}
