@@ -19,7 +19,6 @@ function Hamburger() {
   const { selectedOption, nodeIDs } = activestate;
   const { workspace }: any = useSelector((state) => state);
   const { currentSelectedDocId } = workspace;
-
   useEffect(() => {
     const { editorApplicationsAdded, currentSelectedDocId: csdi } = workspace;
     const documentApps = editorApplicationsAdded.filter(
