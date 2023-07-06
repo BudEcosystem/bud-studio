@@ -3,13 +3,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import InitialState from 'interfaces/InitialState';
+import { createNewEmptyDatabase } from '@/redux/slices/database';
 
 export const generateInitialWorkspaceState = (): InitialState => {
   const initialState: InitialState = {
     props: {},
     color: '#939AFF',
     currentWorkspace: null,
-    currentSelectedDocId: null,
+    currentSelectedDocId: '39b08a3d-12f1-4651-90f7-328952849dca', // Current Document
     currentSelectedItem: {
       workSpace: null,
       doc: null,
@@ -17,7 +18,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
     workSpaceItems: [
       {
         name: 'Private',
-        color: '#343434',
+        color: '#939AFF',
         id: 'wsp-1',
         uuid: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
         childs: [],
@@ -31,74 +32,154 @@ export const generateInitialWorkspaceState = (): InitialState => {
         folders: [],
       },
     ],
-    workspaceFolders: [
-      {
-        name: 'Welcome Aprent',
-        key: 'welcome',
-        workSPaceId: 'Private',
-        type: 'folder',
-        uuid: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        childOf: null,
-      },
-      {
-        name: 'Welcome1',
-        key: 'welcome1',
-        workSPaceId: 'Private',
-        type: 'folder',
-        uuid: uuidv4(),
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        childOf: null,
-      },
-      {
-        name: 'child',
-        key: 'tested',
-        workSPaceId: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        type: 'folder',
-        uuid: '1a7aea77-2dc6-4aa2-9757-19c536e1f133',
-        childOf: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
-      },
-      {
-        name: 'child-test',
-        key: 'tested',
-        workSPaceId: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        type: 'folder',
-        uuid: '1a7aea77-2dc6-4aa2-9757-19c536vb1f133',
-        childOf: '1a7aea77-2dc6-4aa2-9757-19c536e1f144',
-      },
-      {
-        name: 'Welcome',
-        key: 'welcome',
-        workSPaceId: 'Private',
-        type: 'folder',
-        uuid: 'b25bcec6-6ed7-47f5-9b9d-1673da80c860',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        childOf: null,
-      },
-      {
-        name: 'child-test-3',
-        key: 'tested',
-        workSPaceId: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        type: 'folder',
-        uuid: '1a7aea77-2dc6-4aa2-9757-19c536vb1x133',
-        childOf: '1a7aea77-2dc6-4aa2-9757-19c536vb1f133',
-      },
-    ],
+    workspaceFolders: [],
     workSpaceDocs: [
       {
         name: 'Welcome To Bud',
         childOf: null,
         workSPaceId: 'Private',
         type: 'doc',
-        uuid: '8fbac4d2-7bd0-482f-9880-c645bddd6eac5',
+        uuid: '39b08a3d-12f1-4651-90f7-328952849dca',
         workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        properties: [],
+        customProperties: [
+          {
+            title: 'Author',
+            value: 'Bud',
+            type: 'text',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc',
+            order: 4,
+          },
+          {
+            title: 'ISBN',
+            value: 'QWDE-DJJC-1234',
+            type: 'text',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee',
+            order: 5,
+          },
+        ], // User defined Properties
+        properties: [
+          {
+            title: 'Tags',
+            value: ['no-tag'],
+            type: 'tags',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc1',
+            order: 1,
+          },
+          {
+            title: 'Priority',
+            value: 'Normal',
+            type: 'priority',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc2',
+            order: 2,
+          },
+          {
+            title: 'Status',
+            value: 'Not Started',
+            type: 'status',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
+            order: 3,
+          },
+        ],
+        // System Defined Properties
+        // {
+        //   tags: ['no-tag'],
+        //   priority: 'Normal',
+        //   status: 'Not Started',
+        //   date: null,
+        // },
       },
     ],
-    applicationData: [],
+    applicationData: {
+      '39b08a3d-12f1-4651-90f7-328952849dca': [
+        {
+          root: {
+            children: [
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'How to evolve into a super human with your',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'digital mind place',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [],
+                direction: null,
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'Philosophy, life, misc',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            type: 'root',
+            version: 1,
+          },
+        },
+        {
+          type: 'Database',
+          databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4gr',
+        },
+        {
+          type: 'Database',
+          databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4gg',
+        },
+        {
+          type: 'Database',
+          databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4g2',
+        },
+      ],
+    },
     editorInitialised: false,
     editorApplicationsAdded: [],
   };
@@ -132,7 +213,52 @@ const searchById = (structure, id) => {
 export const workspaceSlice = createSlice({
   name: 'workspace',
   initialState: generateInitialWorkspaceState,
+  extraReducers: (builder) => {
+    builder.addCase(createNewEmptyDatabase, (state, action) => {
+      // console.log('Triggered');
+      // console.log(action);
+
+      const copyDocStructure = state.workSpaceDocs;
+      copyDocStructure.push(action.payload.databaseDocumentInfo);
+
+      // Update Application Data
+      const tempAppData = state.applicationData;
+      // @ts-ignore
+      tempAppData[action.payload.initialDocumentID] =
+        action.payload.initialDocument;
+
+      state.applicationData = tempAppData;
+
+      // Add New Entry
+      const currentWorkspace = state.currentSelectedDocId;
+
+      // const currentEditor = state.workSpaceDocs.find(
+      //   (data: any) => data.uuid === currentWorkspace
+      // );
+
+      const documentTemplate = state.applicationData;
+      documentTemplate[currentWorkspace].push({
+        type: 'Database',
+        databaseID: action.payload.databaseID,
+      });
+    });
+  },
   reducers: {
+    addEmptyDoc: (state, action: PayloadAction<any>) => {
+      const copyDocStructure = state.workSpaceDocs;
+      copyDocStructure.push(action.payload.newDatabaseDocument);
+
+      // Update Application Data
+      const tempAppData = state.applicationData;
+      tempAppData[action.payload.initialDocumentID] =
+        action.payload.initialDocument;
+
+      state.applicationData = tempAppData;
+      state.workSpaceDocs = copyDocStructure;
+
+      // copyDocStructure.push(action.payload);
+      // state.workSpaceDocs = copyDocStructure;
+    },
     changeColorAndSetName: (state, action: PayloadAction<any>) => {
       state.color = action.payload.color;
       state.currentWorkspace = action.payload.name;
@@ -245,6 +371,7 @@ export const workspaceSlice = createSlice({
       };
       copyFolderStructure.push(newObject);
       state.workspaceFolders = copyFolderStructure;
+
       // }
     },
     createDoc: (state, action: PayloadAction<any>) => {
@@ -271,7 +398,52 @@ export const workspaceSlice = createSlice({
       };
       copyDocStructure.push(newObject);
       state.workSpaceDocs = copyDocStructure;
-      // }
+
+      // Create ApplicationData
+      const copyApp: any = state.applicationData;
+
+      copyApp[newObject.uuid] = [
+        {
+          root: {
+            children: [
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: newObject.name,
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [],
+                direction: null,
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            type: 'root',
+            version: 1,
+          },
+        },
+      ];
+
+      state.applicationData = copyApp;
     },
     createSubChild: (state, action: PayloadAction<any>) => {
       const { name: passedName, type, parentDetails } = action.payload;
@@ -342,6 +514,28 @@ export const workspaceSlice = createSlice({
       state.currentSelectedDocId = docUUID;
       state.currentWorkspace = workSpaceUUID;
       state.editorInitialised = false;
+    },
+    updateDocumentData: (state, action: PayloadAction<any>) => {
+      const { editorState, currentPage, currentDocumentUUID } = action.payload;
+
+      const copyOfApplicationData = state.applicationData;
+
+      console.log(JSON.stringify(editorState));
+
+      copyOfApplicationData[currentDocumentUUID][currentPage] = JSON.parse(
+        JSON.stringify(editorState)
+      );
+
+      state.applicationData = copyOfApplicationData;
+
+      // copyOfApplicationData.forEach(element => {
+      //   console
+      // });
+
+      // console.log(
+      //   'Application Status',
+      //   copyOfApplicationData
+      // );
     },
     setApplicationData: (state, action: PayloadAction<any>) => {
       const { workSpaceId, docId, editorObject } = action.payload;
@@ -582,10 +776,46 @@ export const workspaceSlice = createSlice({
       console.log('copyOfEditorApplicationsAdded', proxyFilteredArray);
       state.editorApplicationsAdded = proxyFilteredArray;
     },
+    attachDatabaseToDocument: (state, action: PayloadAction<any>) => {
+      console.log('attachDatabaseToDocument', action.payload);
+
+      const { docId, databaseId } = action.payload;
+      // const copyOfworkSpaceDocs = [...state.workSpaceDocs];
+      // const proxyFilteredArray: any = [];
+      // copyOfworkSpaceDocs.forEach((data: any) => {
+      //   proxyFilteredArray.push({ ...data });
+      // });
+
+      // console.log("proxyFilteredArray",proxyFilteredArray);
+
+      // const newSetOFDataProcessed = proxyFilteredArray.map((data: any) => {
+      //   if (data.uuid === docId) {
+      //     data.databaseId = databaseId;
+      //   }
+      //   return data;
+      // });
+      //
+      // state.workSpaceDocs = newSetOFDataProcessed;
+
+      // const { docId, databaseId } = action.payload;
+      // const copyOfworkSpaceDocs = [...state.workSpaceDocs];
+      // const proxyFilteredArray: any = [];
+      // copyOfworkSpaceDocs.forEach((data: any) => {
+      //   proxyFilteredArray.push({ ...data });
+      // });
+      // const newSetOFDataProcessed = proxyFilteredArray.map((data: any) => {
+      //   if (data.uuid === docId) {
+      //     data.databaseId = databaseId;
+      //   }
+      //   return data;
+      // });
+      // state.workSpaceDocs = newSetOFDataProcessed;
+    },
   },
 });
 
 export const {
+  addEmptyDoc,
   changeColorAndSetName,
   changeColor,
   createWorkspaces,
@@ -616,5 +846,7 @@ export const {
   addSubFilesRedux,
   moveFolderRedux,
   copyFolderRedux,
+  updateDocumentData,
+  attachDatabaseToDocument,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

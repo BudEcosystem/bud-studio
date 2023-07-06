@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/jsx-props-no-spreading */
-import { styled } from 'styled-components';
+import { styled, css } from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import { Avatar, Popover } from 'antd';
 import { useDispatch } from 'react-redux';
@@ -20,17 +20,25 @@ const TaskContainer = styled.div`
   height: 30px;
   padding: 10px;
   margin-bottom: 10px;
-  background: blue;
   color: white;
   width: 214px;
   height: auto;
-  background: #2c2b30;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  transform: ${(props) => (props.isDragging ? 'rotate(-15deg)' : 'none')};
+  transform: ${({ isDragging, draggingOver }: any) =>
+    (isDragging || draggingOver) ? 'rotate(-3deg)' : 'none'};
+  background: ${({ isDragging, draggingOver }: any) =>
+    (isDragging || draggingOver) ? 'lightgreen' : '#2c2b30'};
 `;
-// background: ${(props) => (props.isDragging ? 'blue' : 'none')};
+
+// const getItemStyle = (isDragging: any) => ({
+//   background: isDragging ? 'lightgreen' : 'grey',
+
+//   // change the tilt of the card while dragging
+//   transform: isDragging ? 'rotate(-3deg)' : null,
+// });
+
 
 const TaskHeader = styled.div`
   font-family: 'Noto Sans';
@@ -292,7 +300,7 @@ function Tasks(props: any) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
-  const handleContextMenu = (event) => {
+  const handleContextMenu = (event: any) => {
     event.preventDefault();
     const { clientX, clientY } = event;
     setMenuPosition({ x: clientX, y: clientY });
@@ -315,10 +323,11 @@ function Tasks(props: any) {
           <TaskContainer
             onDoubleClick={() => setShowKanbanTaskView(true)}
             {...provided.draggableProps}
+            {...provided.dragHandleProps}
             ref={provided.innerRef}
             onContextMenu={handleContextMenu}
             isDragging={snapshot.isDragging}
-            style={{ ...provided.draggableProps.style }}
+            draggingOver={snapshot.draggingOver}
           >
             {
               <TaskViewKanban
@@ -336,7 +345,7 @@ function Tasks(props: any) {
             )}
             <TaskHeader>
               {' '}
-              {props?.task?.heading && (
+              {!props?.task?.heading && (
                 <TaskHeading {...provided.dragHandleProps}>
                   {props?.task?.content}
                 </TaskHeading>
@@ -357,12 +366,12 @@ function Tasks(props: any) {
             {props?.task?.image && (
               <TaskImageSection image="/images/other/sampleImage.svg" />
             )}
-            {props?.task?.progress && (
+            {!props?.task?.progress && (
               <TaskProgressBar>
                 <TaskProgress />
               </TaskProgressBar>
             )}
-            {props.task.user && (
+            {!props.task.user && (
               <TaskUserUI>
                 <TaskUser />
                 <TaskUser />
@@ -375,17 +384,17 @@ function Tasks(props: any) {
                 </Popover>
               </TaskUserUI>
             )}
-            {props.task.description && (
+            {!props.task.description && (
               <TaskDescription>
                 Make note of any appointments or meetings.
               </TaskDescription>
             )}
-            {props.task.type && (
+            {!props.task.type && (
               <TaskType>
                 <TaskTypeSpan>Recurring</TaskTypeSpan>
               </TaskType>
             )}
-            {props.task.footer && (
+            {!props.task.footer && (
               <TaskFooterSection>
                 <TaskFooterTagsWrapper>
                   <TaskBrancDetailsWrapper>

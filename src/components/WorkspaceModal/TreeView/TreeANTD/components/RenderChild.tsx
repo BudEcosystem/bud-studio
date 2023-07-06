@@ -492,8 +492,12 @@ function RenderChild({
   };
   const clickHandler = () => {
     if (node.isLeaf && !currentNode?.folderInput && !currentNode?.docInput) {
-      dispatch(setCurrentSelectedDocument({ id: null }));
-      console.log(node);
+
+
+      //console.debug('nodeSelected', node);
+
+      //dispatch(setCurrentSelectedDocument({ id: null }));
+      // console.log(node);
       navPathHandler(node);
       setTimeout(() => {
         const workSpaceUUID = node.workspaceDetails?.uuid;
@@ -508,9 +512,9 @@ function RenderChild({
         dispatch(setSelectedOption('Editor'));
         dispatch(changeColor({ color: node.color }));
       }, 100);
-      setTimeout(() => {
-        window.location.reload();
-      }, 200);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 200);
     }
   };
   return (

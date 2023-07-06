@@ -40,12 +40,14 @@ function WorkspaceMenuItem({
 }: any): JSX.Element {
   const clickListnRef: any = createRef();
   const [isEditMode, setIsEditMode] = useState(false);
+
   const handleOnMenuClick = (
     e: any,
     color: any,
     name: any,
     index: number
   ): any => {
+
     if (clickListnRef.current) {
       clearTimeout(clickListnRef.current);
     }
@@ -57,6 +59,7 @@ function WorkspaceMenuItem({
       }
     }, 300);
   };
+
   const onUpdateWorkspace = (e: any) => {
     if (updateWorkspace) {
       updateWorkspace(e);

@@ -2,9 +2,12 @@ import HeaderSection from 'components/ListView/HeaderSection';
 import React, { useEffect, useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
 import './tableviewNew.css';
 import './tablecss.scss';
+
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
   generateInitialTableState,
   setColumnOrder,
@@ -17,13 +20,17 @@ import {
   sortedRowsReorder,
   updateWholeTableState,
 } from 'redux/slices/table';
+
 import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
 import { EmptyFlag, TiletedArrow, UpAndDown } from './TableIcons';
+
 import { updateAppData, updateAppName } from 'redux/slices/workspace';
+import { columns, data } from './data';
 
 function TableviewNew({ workspaceObj, uiDetails }: any) {
   const { table, workspace }: any = useSelector((state) => state);
-  const { columnsArray, newTaskClickedtable, addNewRow, rowsInTable } = table;
+
+  // const { newTaskClickedtable, addNewRow } = table;
   const { color } = workspace;
   const [title, setTitle] = useState('');
   const [addCol, setAddCol] = useState(true);
@@ -35,7 +42,7 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
 
   const dispatch = useDispatch();
   const [newColumnInput, setNewColumnInput] = useState('');
-  generateInitialTableState;
+  // generateInitialTableState;
   useEffect(() => {
     const { editorApplicationsAdded } = workspace;
     const currentApplicationId = uiDetails.split('--')[2];
@@ -69,9 +76,12 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
       };
       dispatch(setNewColumn(newColumn));
       setNewColumnInput('');
-      dispatch(setNewTaskClickedtable(false));
+      // dispatch(setNewTaskClickedtable(false));
     }
   };
+
+  const [columnsArray, setColumnsArray] = useState(columns);
+  const [rowsInTable, setRowsInTable] = useState(data);
 
   const {
     getTableProps,
@@ -85,29 +95,55 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
   const handleDragEnd = (result) => {
     if (!result.destination) return;
     if (result.type === 'column') {
-      dispatch(setColumnOrder(result));
+      // dispatch(setColumnOrder(result));
+      const newColumnOrder = Array.from(columnsArray);
+      const [removed] = newColumnOrder.splice(result.source.index, 1);
+      newColumnOrder.splice(result.destination.index, 0, removed);
+      setColumnsArray(newColumnOrder);
+      // state.columnsArray = newColumnOrder;
     } else {
-      dispatch(setRowOrder(result));
+      // dispatch(setRowOrder(result));
+      const { source, destination } = result;
+      if (!destination) return;
+      const newRowOrder = Array.from(rowsInTable);
+      const [removed] = newRowOrder.splice(source.index, 1);
+      newRowOrder.splice(destination.index, 0, removed);
+      setRowsInTable(newRowOrder);
+      // state.rowsInTable = newRowOrder;
     }
   };
 
   const sendRowValues = (e) => {
     if (e.key === 'Enter') {
-      dispatch(setNewRow(newRowValues));
+      // dispatch(setNewRow(newRowValues));
+      const newRowData = {};
+      columnsArray.forEach((column) => {
+        const { accessor } = column;
+        newRowData[accessor] = newRowValues[accessor] || null;
+      });
+      const newRowOrder = Array.from(rowsInTable);
+      newRowOrder.push(newRowData);
+      setRowsInTable(newRowOrder);
+      // state.rowsInTable = newRowOrder;
       setNewRowValues({});
-      dispatch(setNewTaskClickedtable(false));
+      // dispatch(setNewTaskClickedtable(false));
     }
   };
   const sendCellValues = (e, r, c) => {
     if (e.key === 'Enter') {
       console.log(newCellValues, r, c);
-      dispatch(
-        setNewCellValueRedux({
-          val: newCellValues.newVal,
-          row: r,
-          col: c.id,
-        })
-      );
+      // dispatch(
+      //   setNewCellValueRedux({
+      //     val: newCellValues.newVal,
+      //     row: r,
+      //     col: c.id,
+      //   })
+      // );
+      const newRowOrder = Array.from(rowsInTable);
+      newRowOrder[r][c.id] = newCellValues.newVal;
+      setRowsInTable(newRowOrder);
+      // state.rowsInTable[action.payload.row][action.payload.col] =
+      //   action.payload.val;
       setNewCellValues({});
       setEditingCell(null);
     }
@@ -115,13 +151,20 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
 
   const sendHeaderValues = (e, h, column) => {
     if (e.key === 'Enter') {
-      dispatch(
-        setNewHeaderValueRedux({
-          val: newHeaderValues.newVal,
-          headerCol: h,
-          column: column.id,
-        })
-      );
+      // dispatch(
+      //   setNewHeaderValueRedux({
+      //     val: newHeaderValues.newVal,
+      //     headerCol: h,
+      //     column: column.id,
+      //   })
+      // );
+      const newCol = Array.from(columnsArray);
+      newCol.map((item) => {
+        if (item.accessor === column.id) {
+          item.Header = newHeaderValues.newVal;
+        }
+      });
+      setColumnsArray(newCol);
       setNewHeaderValues({});
       setEditionHeader(null);
     }
@@ -150,7 +193,21 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
       [column.id]: !prevValues[column.id],
     }));
     console.log(ascOrDesc);
-    dispatch(sortedRowsReorder({ col: column.id, ascOrDes: ascOrDesc }));
+    // dispatch(sortedRowsReorder({ col: column.id, ascOrDes: ascOrDesc }));
+    const newArray = Array.from(rowsInTable);
+    let newArr2 = [];
+    if (ascOrDesc[column.id]) {
+      // console.log(ascOrDesc[column.id]);
+      newArr2 = newArray.sort((a, b) =>
+        a[column.id].toString().localeCompare(b[column.id].toString())
+      );
+    } else {
+      // console.log(ascOrDes[col], ascOrDes, col);
+      newArr2 = newArray.sort((a, b) =>
+        b[column.id].toString().localeCompare(a[column.id].toString())
+      );
+    }
+    setRowsInTable(newArr2);
   };
 
   const renderHeaderContent = (column, colIdx, allRows) => {
@@ -383,7 +440,11 @@ function TableviewNew({ workspaceObj, uiDetails }: any) {
                   >
                     {rows.map((row, index) => {
                       prepareRow(row);
-                      if (newTaskClickedtable && index === rows.length - 1) {
+                      if (
+                        false &&
+                        newTaskClickedtable &&
+                        index === rows.length - 1
+                      ) {
                         return (
                           <tr>
                             {columnsArray.map((cols, i) => {

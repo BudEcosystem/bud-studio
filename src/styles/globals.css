@@ -143,3 +143,20 @@
 .ant-tree-iconEle {
   display: none !important;
 }
+
+.editor-wrapper{
+  color: #fff;
+  margin-left: 50px;
+
+  /* p {
+    color: red;
+  }
+
+  p:before{
+    content: '>';
+    color: #fff;
+    margin-right: 10px;
+  } */
+
+}
+

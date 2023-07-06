@@ -97,3 +97,9 @@
   background: linear-gradient(180deg, #939aff 0%, rgba(147, 154, 255, 0) 100%);
   border-radius: 1.5px 1.5px 0px 14px;
 }
+
+.ham-container{
+  position: fixed;
+  top: 75vh;
+}
+
