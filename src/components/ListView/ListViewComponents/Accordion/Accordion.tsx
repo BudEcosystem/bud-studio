@@ -9,8 +9,11 @@ import {
   updatePosition,
 } from 'redux/slices/list';
 import { motion } from 'framer-motion';
-import SubAccordion from './SubAccordion';
+import { generateListTemplate } from 'utils/dataTemplates';
+import { v4 as uuidv4 } from 'uuid';
+import { createTableDocument } from '@/redux/slices/workspace';
 import HeaderSubCompInput from '../HeaderSubCompInput';
+import SubAccordion from './SubAccordion';
 
 function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   const dispatch = useDispatch();
@@ -96,6 +99,24 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   const onDragEnd = (result) => {
     dispatch(updatePosition(result));
   };
+
+  const newDocument = (item) => {
+    console.log('New Doc Requested', item, databaseData);
+    const initialDocumentID = uuidv4();
+
+    // Get Current Workspace Info
+
+    // Document Meta
+    const documentMeta = {};
+
+    // Create Document With Status
+    const docTemplate = generateListTemplate();
+    // Add Database Entry
+
+    // Dispatch Create Event For Doc
+    dispatch(createTableDocument({ initialDocumentID, docTemplate }));
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div
@@ -146,13 +167,21 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
                       </div>
                     </div>
                     {expandedItems?.includes(i) && (
-                      <div className="newTaskText2">
+                      <div
+                        className="newTaskText2"
+                        onClick={(e) => newDocument(item)}
+                      >
                         New Task <span style={{ color: '#8A8B8B' }}>+</span>
                       </div>
                     )}
                   </div>
                   {expandedItems?.includes(i) && (
                     <div className="subAccordionContainer">
+                      {item.items.length === 0 && (
+                        <div className="empty-list">
+                          Add a task or drag here.
+                        </div>
+                      )}
                       {item.items.map((subItems, j) => (
                         <Draggable
                           key={j}
@@ -171,7 +200,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
                                 transition={{ duration: 0.3 }}
                                 variants={{
                                   visible: { opacity: 1, scale: 1 },
-                                  hidden: { opacity: 0, scale: 0.5 }
+                                  hidden: { opacity: 0, scale: 0.5 },
                                 }}
                               >
                                 <SubAccordion

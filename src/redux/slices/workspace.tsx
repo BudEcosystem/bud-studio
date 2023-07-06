@@ -811,6 +811,8 @@ export const workspaceSlice = createSlice({
       // });
       // state.workSpaceDocs = newSetOFDataProcessed;
     },
+
+    createTableDocument: (state, action: PayloadAction<any>) => {},
   },
 });
 
@@ -848,5 +850,6 @@ export const {
   copyFolderRedux,
   updateDocumentData,
   attachDatabaseToDocument,
+  createTableDocument,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

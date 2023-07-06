@@ -6,8 +6,6 @@ import { Link, Route, Routes, To, useNavigate } from 'react-router-dom';
 import Kanban from 'components/KanbanNew/kanbanBoard';
 import KanbanUI from 'components/KanbanNew';
 import KanbanMain from 'components/Kanaban/KanbanMain';
-import classes from './dashboard.module.css';
-import ContentView from './content';
 import {
   changeColor,
   changeColorAndSetName,
@@ -15,15 +13,12 @@ import {
   editWorkspaceItem,
 } from 'redux/slices/workspace';
 import { useDispatch, useSelector } from 'react-redux';
+import WorkspaceModal from "@/components/WorkspaceModal/WorkspaceModal";
+import classes from './dashboard.module.css';
+import ContentView from './content';
 import WorkspaceMenuItem, {
   MenuWorkSpaceInput,
 } from './components/WorkspaceMenuItem';
-import Kanban from 'components/KanbanNew/kanbanBoard';
-import KanbanUI from 'components/KanbanNew';
-import KanbanMain from 'components/Kanaban/KanbanMain';
-import classes from './dashboard.module.css';
-import ContentView from './content';
-import WorkspaceMenuItem from './components/WorkspaceMenuItem';
 import BudLogoSidebar from './components/Logo/BudLogo';
 import FlyoutMenu from '../WorkspaceModal/FlyoutMenu';
 
@@ -175,7 +170,7 @@ const sidebarOptions = [
 function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu, idx, setIdx }: SideBarProps) {
   const dispatch = useDispatch();
   const { workspace }: any = useSelector((state) => state);
-  let { workSpaceItems } = workspace;
+  const { workSpaceItems } = workspace;
   const [activeClassName, setActiveClassName] = useState('0');
   const [activeClassNameColor, setActiveClassNameColor] = useState(0);
   const addWorkspaceInput = useRef(null);
@@ -204,7 +199,7 @@ function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu,
     setActiveClassNameColor(-1);
   };
 
-  const FavouriteShortcutIcon = () => {
+  function FavouriteShortcutIcon() {
     return (
       <svg
         width="22"
@@ -219,9 +214,9 @@ function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu,
         />
       </svg>
     );
-  };
+  }
 
-  const ShowMoreIcon = () => {
+  function ShowMoreIcon() {
     return (
       <svg
         width="28"
@@ -236,7 +231,7 @@ function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu,
         <circle cx="18.619" cy="8.38461" r="1.38462" fill="#666468" />
       </svg>
     );
-  };
+  }
 
   // const showWorkspaceModal = (colorPassed: any, name: any) => {
   //   setWorkspaceModal(!workspaceModal);
@@ -272,8 +267,8 @@ function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu,
       setSpaceColor(menuColor);
       setWorkSpaceIndex(i);
       showWorkspaceModal(menuColor, menuName);
-      //dispatch(changeColorAndSetName({ color: null, name: null }));
-      //dispatch(changeColorAndSetName({ color: menuColor, name: menuName }));
+      // dispatch(changeColorAndSetName({ color: null, name: null }));
+      // dispatch(changeColorAndSetName({ color: menuColor, name: menuName }));
     } catch (err) {
       console.log(err);
     }
@@ -601,7 +596,7 @@ function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu,
                       zIndex: '20',
                       pointerEvents: 'none',
                     }}
-                  ></div>
+                   />
                   {!showMore &&
                     workSpaceItems
                       .slice(0, 3)
@@ -822,6 +817,14 @@ function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu,
           </div>
         </div>
       </Sider>
+
+      {workspaceModal && ( <WorkspaceModal
+        idx={workSpaceIndex}
+        name={workspaceName}
+        setWorkspaceModal={setWorkspaceModal}
+        workspaceModal={workspaceModal}
+      />)}
+
       {/* <ContentView
         isCollapsed={isCollapsed}
         setCollapsed={setCollapsed}

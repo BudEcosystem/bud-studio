@@ -344,24 +344,24 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
               </div>
             </div>
             <Menu workspaceItem={workSpaceItems[idx]} />
-            {/* <TreeView
-              filter={filterText}
-              setShowColorDots={setShowColorDots}
-              showDocumentOptions={showDocumentOptions}
-              setShowDocumentOptions={setShowDocumentOptions}
-              workSpaceDetails={workSpaceItems[idx]}
-            /> */}
-            {/* <TreeStructure
-              color={workSpaceItems[idx].color}
-              name={workSpaceItems[idx].name}
-              workspaceDetails={workSpaceItems[idx]}
-              createFolderFlag={createFolderFlag}
-              createDocFlag={createDocFlag}
-              callbackForCreate={callbackForCreate}
-              optionModalRef={docOptionModalRef}
-              serachInputValue
-              setShowDocumentOptions={setShowDocumentOptions}
-            /> */}
+            {/* <TreeView*/}
+            {/*  filter={filterText}*/}
+            {/*  setShowColorDots={setShowColorDots}*/}
+            {/*  showDocumentOptions={showDocumentOptions}*/}
+            {/*  setShowDocumentOptions={setShowDocumentOptions}*/}
+            {/*  workSpaceDetails={workSpaceItems[idx]}*/}
+            {/*/> */}
+            {/* <TreeStructure*/}
+            {/*  color={workSpaceItems[idx].color}*/}
+            {/*  name={workSpaceItems[idx].name}*/}
+            {/*  workspaceDetails={workSpaceItems[idx]}*/}
+            {/*  createFolderFlag={createFolderFlag}*/}
+            {/*  createDocFlag={createDocFlag}*/}
+            {/*  callbackForCreate={callbackForCreate}*/}
+            {/*  optionModalRef={docOptionModalRef}*/}
+            {/*  serachInputValue*/}
+            {/*  setShowDocumentOptions={setShowDocumentOptions}*/}
+            {/*/>*/}
           </div>
         </Draggable>
 
