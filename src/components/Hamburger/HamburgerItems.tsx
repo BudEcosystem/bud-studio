@@ -44,12 +44,12 @@ function HamburgerItems({ title, selected, onClick, currentDatabase }: any) {
             style={{ background: selected ? color : 'none' }}
           />
         </Tooltip>
-        <p
+        {/* <p
           className="hamItemsTitle"
           style={{ display: selected ? 'block' : 'none' }}
         >
           {title}
-        </p>
+        </p> */}
       </div>
     </div>
   );

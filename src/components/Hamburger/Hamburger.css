@@ -33,12 +33,21 @@
   0% {
     transform: translateY(0px);
   }
+  30% {
+    transform: translateY(5px);
+  }
   50% {
-    transform: translateY(20px);
+    transform: translateY(10px);
+  }
+  80% {
+    transform: translateY(5px);
   }
   100% {
     transform: translateY(0px);
   }
+  /* 100% {
+    transform: translateY(0px);
+  } */
 }
 .tooltip-image {
   width: 192px;
@@ -80,8 +89,6 @@
   background-color: #28272c;
   padding-left: 2px;
   padding-top: 2px;
-  animation: moveToTop 1.3s ease-in-out;
-  /* animation-delay: 500ms; */
 }
 .hamItemsTitle {
   margin-left: 7px;
@@ -100,6 +107,8 @@
   margin-top: 2px;
   background: linear-gradient(180deg, #939aff 0%, rgba(147, 154, 255, 0) 100%);
   border-radius: 1.5px 1.5px 0px 14px;
+  animation: moveToTop 1.2s linear;
+  /* animation-delay: 500ms; */
 }
 
 .ham-container {
