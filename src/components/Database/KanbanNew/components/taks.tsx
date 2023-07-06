@@ -2,14 +2,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { styled, css } from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import { Popover } from 'antd';
+import { Avatar, Popover } from 'antd';
 import { useDispatch } from 'react-redux';
 import { setCurrentSelectedUI } from 'redux/slices/activestate';
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
-import { styled as materialStyled } from '@mui/material/styles';
-import Badge from '@mui/material/Badge';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
+// import { styled as materialStyled } from '@mui/material/styles';
+// import Badge from '@mui/material/Badge';
+// import Avatar from '@mui/material/Avatar';
+// import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import TaskViewKanban from 'components/TaskViewKanban/TaskViewKanban';
 import GroupByModal from 'components/ListView/ListViewComponents/GroupBy/GroupByModal';
@@ -26,10 +26,11 @@ const TaskContainer = styled.div`
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  transition: background-color 0.3s ease;
   transform: ${({ isDragging, draggingOver }: any) =>
-    (isDragging || draggingOver) ? 'rotate(-3deg)' : 'none'};
+    isDragging || draggingOver ? 'rotate(-3deg)' : 'none'};
   background: ${({ isDragging, draggingOver }: any) =>
-    (isDragging || draggingOver) ? 'lightgreen' : '#2c2b30'};
+    isDragging || draggingOver ? 'grey' : '#2c2b30'};
 `;
 
 // const getItemStyle = (isDragging: any) => ({
@@ -38,7 +39,6 @@ const TaskContainer = styled.div`
 //   // change the tilt of the card while dragging
 //   transform: isDragging ? 'rotate(-3deg)' : null,
 // });
-
 
 const TaskHeader = styled.div`
   font-family: 'Noto Sans';
@@ -258,42 +258,6 @@ const PopOverSearchKeybordCommandWrapper = styled.div`
 `;
 const PopOverSearchKeybordCommand = styled.img``;
 
-const StyledBadge = materialStyled(Badge)(({ theme }) => ({
-  '& .MuiBadge-badge': {
-    backgroundColor: '#44b700',
-    color: '#44b700',
-    // boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    '&::after': {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      // borderRadius: '50%',
-      // animation: 'ripple 1.2s infinite ease-in-out',
-      // border: '1px solid currentColor',
-      content: '""',
-    },
-  },
-  // '@keyframes ripple': {
-  //   '0%': {
-  //     transform: 'scale(.8)',
-  //     opacity: 1,
-  //   },
-  //   '100%': {
-  //     transform: 'scale(2.4)',
-  //     opacity: 0,
-  //   },
-  // },
-}));
-
-const UserNameDiv = styled.div`
-  color: #bbb;
-  font-size: 12px;
-  font-family: Noto Sans;
-  line-height: 100%;
-`;
-
 function PopOverSearch() {
   const arr = ['Me', 'Manu M', 'Frijo johnson', 'Aji', 'Shandra'];
   return (
@@ -310,28 +274,21 @@ function PopOverSearch() {
       </PopOveSearchWrapper>
       <div className="userContainer">
         {arr.map((item, i) => (
-          <Stack direction="row" spacing={2}>
-            {i === 1 ? (
-              <StyledBadge
-                overlap="circular"
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                variant="dot"
-              >
-                <Avatar
-                  sx={{ width: 20, height: 20 }}
-                  alt="Remy Sharp"
-                  src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-                />
-              </StyledBadge>
-            ) : (
-              <Avatar
-                sx={{ width: 20, height: 20 }}
-                alt="Remy Sharp"
-                src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-              />
-            )}
-            <UserNameDiv>{item}</UserNameDiv>
-          </Stack>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: '10px',
+            }}
+          >
+            <Avatar
+              size={25}
+              src={
+                'https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80'
+              }
+            />
+            <p className="userNameText">{item}</p>
+          </div>
         ))}
       </div>
     </PopOverWrapper>
@@ -342,6 +299,8 @@ function Tasks(props: any) {
   const [showKanbanTaskView, setShowKanbanTaskView] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+
+  console.log('INDEX MAP', props.task.index);
 
   const handleContextMenu = (event: any) => {
     event.preventDefault();
@@ -388,7 +347,7 @@ function Tasks(props: any) {
             )}
             <TaskHeader>
               {' '}
-              {!props?.task?.heading && (
+              {props?.task?.heading && (
                 <TaskHeading {...provided.dragHandleProps}>
                   {props?.task?.content}
                 </TaskHeading>
@@ -414,7 +373,7 @@ function Tasks(props: any) {
                 <TaskProgress />
               </TaskProgressBar>
             )}
-            {!props.task.user && (
+            {props.task.user && (
               <TaskUserUI>
                 <TaskUser />
                 <TaskUser />
@@ -427,17 +386,17 @@ function Tasks(props: any) {
                 </Popover>
               </TaskUserUI>
             )}
-            {!props.task.description && (
+            {props.task.description && (
               <TaskDescription>
                 Make note of any appointments or meetings.
               </TaskDescription>
             )}
-            {!props.task.type && (
+            {props.task.type && (
               <TaskType>
                 <TaskTypeSpan>Recurring</TaskTypeSpan>
               </TaskType>
             )}
-            {!props.task.footer && (
+            {props.task.footer && (
               <TaskFooterSection>
                 <TaskFooterTagsWrapper>
                   <TaskBrancDetailsWrapper>

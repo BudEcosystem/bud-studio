@@ -226,6 +226,7 @@ function WorkspaceEditor({
 
     // Persist the editor state to redux
   };
+  console.log(currentDatabase, 'currentDocument');
 
   return (
     <div>
@@ -259,6 +260,7 @@ function WorkspaceEditor({
             documentData={data}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            currentDatabase={currentDatabase}
           />
         </>
       )}

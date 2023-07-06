@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans&display=swap');
+
+.gropuBymainContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.gropuByLeftContainer {
+  display: flex;
+  align-items: center;
+}
+
+.gropuByRightContainer {
+  display: flex;
+  align-items: center;
+}
+
+.leftButtonGropuBy {
+  width: 103px;
+  height: 32px;
+  border-radius: 6px;
+  border: 0.871px solid #1D1D1D;
+  background: #171718;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.RightButtonGropuBy {
+  width: 160px;
+  height: 32px;
+  border-radius: 6px;
+  border: 0.5px solid #939AFF;
+  background: #1B1C1E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addTextSortBy {
+  color: #7B8388;
+  font-size: 14px;
+  font-family: Noto Sans;
+  line-height: 154.5%;
+  margin-left: 22px;
+}
+
+.resetText {
+  color: #7B8388;
+  font-size: 14px;
+  font-family: Noto Sans;
+  line-height: 154.5%;
+  margin-right: 16px;
+}
+
+.dropDownContainer {
+  width: 334px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 0.8px solid #333436;
+  background: #171718;
+  margin-top: 5px;
+  position: absolute;
+}
+
+.buttonNameText {
+  color: #8A8B8B;
+  font-size: 14px;
+  font-family: Noto Sans;
+}
+
+.nameText {
+  color: #959393;
+  font-size: 14px;
+  font-family: Noto Sans;
+  line-height: 100%;
+  margin-right: 9px;
+}
+
+.containsText {
+  color: #7B8388;
+  font-size: 14px;
+  font-family: Noto Sans;
+  line-height: 154.5%;
+  margin-right: 5px;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0px 7px 0px 6px;
+}
+
+.nameContainer {
+  margin: 11px 17px 15px 18px;
+}
+
+.inputName {
+  width: 90%;
+  height: 32px;
+  border-radius: 6px;
+  border: 0.5px solid #939AFF;
+  background: #151517;
+  color: white;
+  outline: none;
+  margin-left: 10px;
+
+}
+
+.nameSearchConatiner {
+  margin-top: 8px;
+  caret-color: #FFD976;
+  display: flex;
+}
+
+.inputName::placeholder {
+  text-align: left;
+  color: #3D4047;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 100%;
+  padding-left: 10px;
+}
+
+.addGroupContainer {
+  width: 445px;
+  border-radius: 8px;
+  border: 0.8px solid #333436;
+  background: #1B1C1E;
+  padding: 14px 16px 10px 24px;
+  margin-top: 5px;
+  position: absolute;
+  z-index: 10;
+}
+
+.darkButton {
+  width: 111px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #1D1D1D;
+  background: #0C0C0C;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.containsButton {
+  width: 120px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #25272B;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 8px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.valueInput {
+  width: 82px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #25272B;
+  background: none;
+}
+
+.topLine {
+  display: flex;
+  align-items: center;
+}
+
+.whereText {
+  color: #959393;
+  font-size: 14px;
+  font-family: Noto Sans;
+  line-height: 100%;
+}
+
+.darkbtnName {
+  color: #7B8388;
+  font-size: 14px;
+  font-family: DM Sans;
+  line-height: 100%;
+}
+
+.filterText {
+  color: #7B8388;
+  font-size: 14px;
+  font-family: Noto Sans;
+  line-height: 154.5%;
+}
+
+.hrLine {
+  height: 1px;
+  background-color: rgba(36, 36, 36, 1);
+  margin-top: 14px;
+}
+
+.deleteFilterText {
+  color: #7B8388;
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 100%;
+  opacity: 0.75;
+  margin-top: 10px;
+}
+
+.containsOption {
+  width: 214px;
+  /* height: 284px; */
+  border-radius: 8px;
+  border: 1px solid #1D1D1D;
+  background: #0C0C0C;
+  backdrop-filter: blur(46.5px);
+  padding: 10px 20px 10px 20px;
+  position: absolute;
+  left: 20px;
+  top: 52px;
+  left: 195px;
+}
+
+.optionsWrapper {
+  width: 174px;
+  height: 32px;
+  border-radius: 6px;
+  /* background: #151515; */
+  display: flex;
+  align-items: center;
+  color: #FFF;
+  font-size: 14px;
+  font-family: 'DM Sans';
+  line-height: 100%;
+  padding-left: 10px;
+}
+
+.active {
+  background: #151515;
+  cursor: pointer;
+}

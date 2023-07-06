@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { GroupBy, Sort, ThreeDots, Union, Views } from '../ListViewIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   checkToggle,
@@ -8,9 +7,31 @@ import {
 } from 'redux/slices/list';
 import { triggerDefaultNewTask } from 'redux/slices/kanban';
 import { setNewTaskClickedtable } from 'redux/slices/table';
+import { DownOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Dropdown, Space } from 'antd';
+import { GroupBy, Sort, ThreeDots, Union, Views } from '../ListViewIcons';
 import ThreeDotsOption from './ThreeDotsOption/ThreeDotsOption';
 import GroupByModal from './GroupBy/GroupByModal';
 import SortByModal from './SortBy/SortByModal';
+
+// Design
+
+// Menu Items
+const items: MenuProps['items'] = [
+  {
+    label: 'Kanban',
+    key: '0',
+  },
+  {
+    label: 'List',
+    key: '1',
+  },
+  {
+    label: 'Table',
+    key: '3',
+  },
+];
 
 const nameAndLogoArray = [
   {
@@ -25,20 +46,16 @@ const nameAndLogoArray = [
     name: 'Group by',
     logo: <GroupBy />,
   },
-  {
-    name: 'Views',
-    logo: <Views />,
-  },
 ];
 
-const NewTaskPanel = ({ view }: any) => {
+function NewTaskPanel({ view }: any) {
   const dispatch = useDispatch();
   const { list, table }: any = useSelector((state) => state);
   const { newTaskClicked, selectedItemIndex } = list;
   const { newTaskClickedtable } = table;
   const { workspace }: any = useSelector((state) => state);
   const [name, setName] = useState('');
-  let { color } = workspace;
+  const { color } = workspace;
   const [showThreeDotsOption, setShowThreeDotsOption] = useState(false);
   const [showGroupBy, setShowGroupBy] = useState(false);
   const [showSortBy, setShowSortBy] = useState(false);
@@ -74,6 +91,7 @@ const NewTaskPanel = ({ view }: any) => {
           className="flexCenter newTaskPanelItems"
         >
           {item.logo}
+
           <p className="itemName">{item.name}</p>
           {i === nameAndLogoArray.length - 1 ? undefined : (
             <div className="verticalLine">|</div>
@@ -90,8 +108,25 @@ const NewTaskPanel = ({ view }: any) => {
           )}
         </div>
       ))}
+
+      <div className="verticalLine">|</div>
+
+      <Dropdown
+        menu={{ items, selectable: true, defaultSelectedKeys: ['1'] }}
+        trigger={['click']}
+        placement="bottom"
+      >
+        <div
+          className="flexCenter newTaskPanelItems"
+          style={{ position: 'relative' }}
+        >
+          <Views />
+          <p className="itemName">Views</p>
+        </div>
+      </Dropdown>
+
       <div className="newTaskContainer" onClick={newTaskHandler}>
-        <div className="plusContainer flexCenter" style={{ color: color }}>
+        <div className="plusContainer flexCenter" style={{ color }}>
           +
         </div>
         <div className="newTaskText">
@@ -114,6 +149,6 @@ const NewTaskPanel = ({ view }: any) => {
       </div>
     </div>
   );
-};
+}
 
 export default NewTaskPanel;

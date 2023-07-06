@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Kanban from './kanbanBoard';
 import HeaderSection from 'components/ListView/HeaderSection';
 import GroupByComponent from 'components/GroupByComponent/GroupByComponent';
+import SortByComponent from 'components/SortByComponent/SortByComponent';
 
 const KanbanSection = styled.div`
   height: auto;
@@ -210,7 +211,7 @@ function HeaderButtons({ label, icon }: any) {
     </ButtonGroup>
   );
 }
-function KanbanUI() {
+function KanbanUI({databaseData}: any) {
   const [date, setDate] = useState<String>('');
   const [title, setTitle] = useState('');
   useEffect(() => setDate('13 June 2022'), []);
@@ -220,15 +221,10 @@ function KanbanUI() {
 
   return (
     <KanbanSection>
-      {/* <HeaderSection
-        view="kanban"
-        updateCurrentTitle={updateCurrentTitle}
-        title={title}
-      /> */}
         {/* <div style={{ marginLeft: '38px', marginRight: '63px' }}>
           <GroupByComponent />
         </div> */}
-      <Kanban />
+      <Kanban databaseData={databaseData} />
     </KanbanSection>
   );
 }
