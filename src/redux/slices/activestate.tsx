@@ -19,6 +19,7 @@ const generateInitialState = (): any => {
     displayToggle: true,
     sortBy: false,
     sortByOption: '',
+    displayToggleSortBy: false,
   };
   return initialState;
 };
@@ -67,10 +68,13 @@ export const activestateSlice = createSlice({
       state.displayToggle = action.payload;
     },
     setSortBy: (state, action: PayloadAction<any>) => {
-      state.groupBy = action.payload;
+      state.sortBy = action.payload;
     },
     setSortByOption: (state, action: PayloadAction<any>) => {
-      state.groupByOption = action.payload;
+      state.sortByOption = action.payload;
+    },
+    setDisplayToggleSortBy: (state, action: PayloadAction<any>) => {
+      state.displayToggleSortBy = action.payload;
     },
   },
 });
@@ -88,5 +92,6 @@ export const {
   setDisplayToggle,
   setSortBy,
   setSortByOption,
+  setDisplayToggleSortBy,
 } = activestateSlice.actions;
 export default activestateSlice.reducer;

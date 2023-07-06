@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Kanban from './kanbanBoard';
 import HeaderSection from 'components/ListView/HeaderSection';
 import GroupByComponent from 'components/GroupByComponent/GroupByComponent';
+import SortByComponent from 'components/SortByComponent/SortByComponent';
 
 const KanbanSection = styled.div`
   height: auto;
