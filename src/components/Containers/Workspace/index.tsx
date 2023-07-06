@@ -30,19 +30,24 @@ interface WorkspaceProps {
   isCollapsed: boolean;
   // eslint-disable-next-line no-unused-vars
   setMenuCollapsed: (isCollapsed: any) => void;
+  showFlyoutMenu: boolean;
+  setShowFlyoutMenu: (showFlyoutMenu: any) => void;
+  idx: any;
 }
 
 // Workspace component
 export default function Workspace({
   isCollapsed,
   setMenuCollapsed,
+  showFlyoutMenu,
+  setShowFlyoutMenu,
+  idx,
 }: WorkspaceProps): JSX.Element {
   // Local States
 
   // Get the workspace state from redux
   const { workspace }: any = useSelector((state) => state);
   // Flyout Menu
-  const [showFlyoutMenu, setShowFlyoutMenu] = useState(true);
   const [currentDocument, setCurrentDocument] = useState(null);
   const [currentDocumentID, setCurrentDocumentID] = useState(null);
 
@@ -82,7 +87,7 @@ export default function Workspace({
       {/* Workspace Nvigation */}
       {showFlyoutMenu && (
         <WorkspaceModal
-          idx={0}
+          idx={idx}
           workspaceModal
           setWorkspaceModal={() => console.log('ok')}
         />

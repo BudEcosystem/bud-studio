@@ -25,11 +25,16 @@ import classes from './dashboard.module.css';
 import ContentView from './content';
 import WorkspaceMenuItem from './components/WorkspaceMenuItem';
 import BudLogoSidebar from './components/Logo/BudLogo';
+import FlyoutMenu from '../WorkspaceModal/FlyoutMenu';
 
 const { Sider } = Layout;
 interface SideBarProps {
   isCollapsed: boolean;
   setCollapsed: any;
+  showFlyoutMenu: any;
+  setShowFlyoutMenu: any;
+  idx: any;
+  setIdx: any;
 }
 
 const sidebarOptions = [
@@ -167,7 +172,7 @@ const sidebarOptions = [
   },
 ];
 
-function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
+function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu, idx, setIdx }: SideBarProps) {
   const dispatch = useDispatch();
   const { workspace }: any = useSelector((state) => state);
   let { workSpaceItems } = workspace;
@@ -275,14 +280,15 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
   };
 
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      workSpaceItems.map((item, i) => {
+    const handleKeyDown = (event:any) => {
+      workSpaceItems.map((item: any, i: any) => {
         if (event.ctrlKey && event.altKey && event.key === i.toString()) {
           event.preventDefault();
-          setWorkspaceModal(false);
+          setShowFlyoutMenu(false);
+          setIdx(i);
           setTimeout(() => {
             handlerColor(item.color, item.name, i);
-            setWorkspaceModal(true);
+            setShowFlyoutMenu(true);
           }, 200);
         }
       });
@@ -293,7 +299,22 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [workspaceModal, workSpaceItems]);
+  }, [showFlyoutMenu, workSpaceItems]);
+
+  useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if(event.ctrlKey && event.key==='n') {
+        setShowAddWorkspace(!showAddWorkspace);
+        console.log("NIGGA PRESS")
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  });
 
   const setHoverColorHandler = (hovercolor: any) => {
     setHoverColor(hovercolor);
