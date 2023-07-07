@@ -19,7 +19,7 @@ import {
   changeColor,
   setCurrentSelectedDocument,
 } from 'redux/slices/workspace';
-import { setNodeIDs } from '@/redux/slices/activestate';
+import { setNavigationPath, setNodeIDs } from '@/redux/slices/activestate';
 
 const Menu = ({ workspaceItem }) => {
   const [openItems, setOpenItems] = useState([]);
@@ -182,6 +182,7 @@ const Menu = ({ workspaceItem }) => {
 const FileItem = ({ file, parentId, openItems, toggleItem, workspaceItem }) => {
   const id = parentId ? `${parentId}.${file.id}` : file.id;
   const [showAddFile, setShowAddFile] = useState(false);
+  const { workspace } = useSelector((state) => state);
   const dispatch = useDispatch();
   const addFileInput = useRef(null);
   const addFile = (event) => {
@@ -207,6 +208,23 @@ const FileItem = ({ file, parentId, openItems, toggleItem, workspaceItem }) => {
     '--leftLine': parentId === null ? '' : '215px',
   };
 
+  const findParent = (x: any) => {
+    const find = workspace.workSpaceDocs.find((y: any) => y?.uuid === x);
+    // console.log(find, x)
+    return find;
+  };
+
+  const solveRec = (x: any) => {
+    if (x?.childOf != null) {
+      const temp = workspace.workspaceFolders.find(
+        (y: any) => y?.uuid === x?.childOf
+      );
+      console.log('asdfasfsad', temp);
+      dispatch(setNavigationPath(temp));
+      solveRec(temp);
+    }
+  };
+
   const fileClickHandler = () => {
     // console.log(file);
     dispatch(setCurrentSelectedDocument({ id: null }));
@@ -225,6 +243,14 @@ const FileItem = ({ file, parentId, openItems, toggleItem, workspaceItem }) => {
         })
       );
       dispatch(changeColor({ color: workspaceItem.color }));
+      dispatch(setNavigationPath(null));
+      dispatch(setNavigationPath({ name: file.name }));
+      const par = findParent(file.id);
+      if (par) {
+        // dispatch(setNavigationPath({name: par.name}));
+        solveRec(par);
+      }
+      dispatch(setNavigationPath({ name: workspaceItem.name }));
     });
   };
   return (
