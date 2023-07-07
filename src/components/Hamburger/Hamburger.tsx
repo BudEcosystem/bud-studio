@@ -10,7 +10,7 @@ function Hamburger({
   setCurrentPage,
   currentDatabase,
 }) {
-  console.log(currentDatabase, 'currentdatabase=');
+  console.log(documentData, 'documentData=');
   // Handle Pagination
   const handleOptionClick = (index: any) => {
     if (index === '') {
@@ -19,6 +19,7 @@ function Hamburger({
 
     // Set The Current View
     setCurrentPage(index);
+    console.log(currentPage, 'llllll');
   };
 
   return (
@@ -32,6 +33,7 @@ function Hamburger({
               selected={index === currentPage}
               onClick={() => handleOptionClick(index)}
               currentDatabase={currentDatabase}
+              databaseID={doc.databaseID}
             />
           ))}
         </>
