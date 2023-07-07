@@ -21,6 +21,7 @@ const TaskView = ({data, title, showTaskViewModal, setShowTaskViewModal}: any) =
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
   const [isDragOver, setIsDragOver] = useState(false);
+  console.log('asdfads')
 
   const handleDragOver = (event: any) => {
     event.preventDefault();
@@ -169,7 +170,7 @@ const handleOk = () => {
             <div className="TopBar__ProgressText">In Progress</div>
           </div>
 
-          {data.imagesData ? 
+          {data?.imagesData ? 
           (<div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
           <div style={{display: "grid", placeItems: "center", marginLeft: "40px"}} className="TopBar__AvatarImages"><CircularImageComponent images={data.imagesData} /></div>
           <div
@@ -218,7 +219,7 @@ const handleOk = () => {
 
       <div className="KanbanTaskView__Panel">
         <div className="KanbanTaskView__LeftPanel">
-          <div className="KanbanTask__Title">{data.title}</div>
+          <div className="KanbanTask__Title">{data?.title}</div>
           <div className="KanbanTask__subHeading">
             {data?.description}
           </div>

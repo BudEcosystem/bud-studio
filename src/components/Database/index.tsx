@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { addEmptyDoc } from 'redux/slices/workspace';
 import ListView from '@/components/ListView/ListView';
 import KanbanUI from './KanbanNew';
+import ListView from '../ListView/ListView';
 // TODO : Update The Interface With Required Data
 interface DatabaseProps {
   databaseData: any;

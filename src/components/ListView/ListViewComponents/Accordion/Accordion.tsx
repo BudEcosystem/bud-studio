@@ -82,18 +82,76 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
     setStatusPanels(data);
   }, [databaseData]);
 
+  // Local States
+  // const [statusPanels, setStatusPanels] = useState(null);
+
+  // On List View Load
+  useEffect(() => {
+    // List View Load
+    console.log('panelArray', panelArray);
+    console.log('Data From Store', databaseData);
+    console.log('Data From Entries', databaseEntries);
+
+    const data: any[] = [];
+    databaseData.propertyPresets.status.options.map((item: any) => {
+      console.log('item', item);
+
+      const entries = [];
+
+      // Optimize The Code
+      databaseEntries.databaseEntries.forEach((entry: any) => {
+        entry.properties.forEach((property: any) => {
+          if (property.title === 'Status') {
+            console.log('===Entry', property);
+            console.log('===Item', item);
+            console.log('===Doc', entry);
+            if (property.value === item.title) {
+              entries.push({
+                title: entry.name,
+                description: 'test',
+                childs: [],
+              });
+            }
+          }
+        });
+
+        // console.log("Status",entry.status);
+        // console.log("Status",item.title);
+
+        // if (entry.status === item.title) {
+        //   entries.push({
+        //     title: item.title,
+        //   });
+        // }
+      });
+
+      data.push({
+        status: item.title,
+        headerText: item.title,
+        colorIcon: item.color,
+        items: entries,
+      });
+    });
+
+    console.log('Final data', data);
+
+    setStatusPanels(data);
+  }, [databaseData]);
+
   const toggleAccordion = (index) => {
-    // const updatedItems = [...expandedItems];
-    // if (updatedItems.includes(index)) {
-    //   updatedItems.splice(updatedItems.indexOf(index), 1);
-    // } else {
-    //   updatedItems.push(index);
-    // }
-    dispatch(setExpandedItems(index));
+    const updatedItems = [...expandedItems];
+    if (updatedItems.includes(index)) {
+      updatedItems.splice(updatedItems.indexOf(index), 1);
+    } else {
+      updatedItems.push(index);
+    }
+    setExpandedItems(updatedItems);
+    // dispatch(setExpandedItems(index));
   };
 
   const selectItem = (index) => {
-    dispatch(setSelectedItemIndex(index));
+    setSelectedItemIndex(index);
+    // dispatch(setSelectedItemIndex(index));
   };
 
   const onDragEnd = (result) => {
@@ -159,10 +217,10 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
                       <div className="titleContainer">
                         <div
                           className="textIcon"
-                          style={{ background: item.colorIcon }}
+                          style={{ background: item.color }}
                         />
                         <p className="textHeader" style={{ marginLeft: '8px' }}>
-                          {item.headerText}
+                          {item.title}
                         </p>
                       </div>
                     </div>
