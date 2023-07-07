@@ -13,7 +13,7 @@ import {
   editWorkspaceItem,
 } from 'redux/slices/workspace';
 import { useDispatch, useSelector } from 'react-redux';
-import WorkspaceModal from "@/components/WorkspaceModal/WorkspaceModal";
+import WorkspaceModal from '@/components/WorkspaceModal/WorkspaceModal';
 import classes from './dashboard.module.css';
 import ContentView from './content';
 import WorkspaceMenuItem, {
@@ -167,7 +167,14 @@ const sidebarOptions = [
   },
 ];
 
-function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu, idx, setIdx }: SideBarProps) {
+function SideBar({
+  isCollapsed,
+  setCollapsed,
+  showFlyoutMenu,
+  setShowFlyoutMenu,
+  idx,
+  setIdx,
+}: SideBarProps) {
   const dispatch = useDispatch();
   const { workspace }: any = useSelector((state) => state);
   const { workSpaceItems } = workspace;
@@ -188,7 +195,7 @@ function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu,
   const { color } = workspace;
 
   const [showMore, setShowMore] = useState(false);
-
+  console.log(workspace);
   const showMoreWorkspaces = () => {
     setShowMore(!showMore);
   };
@@ -275,7 +282,7 @@ function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu,
   };
 
   useEffect(() => {
-    const handleKeyDown = (event:any) => {
+    const handleKeyDown = (event: any) => {
       workSpaceItems.map((item: any, i: any) => {
         if (event.ctrlKey && event.altKey && event.key === i.toString()) {
           event.preventDefault();
@@ -297,10 +304,10 @@ function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu,
   }, [showFlyoutMenu, workSpaceItems]);
 
   useEffect(() => {
-    const handleKeyDown = (event:any) => {
-      if(event.ctrlKey && event.key==='n') {
+    const handleKeyDown = (event: any) => {
+      if (event.ctrlKey && event.key === 'n') {
         setShowAddWorkspace(!showAddWorkspace);
-        console.log("NIGGA PRESS")
+        console.log('NIGGA PRESS');
       }
     };
 
@@ -596,7 +603,7 @@ function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu,
                       zIndex: '20',
                       pointerEvents: 'none',
                     }}
-                   />
+                  />
                   {!showMore &&
                     workSpaceItems
                       .slice(0, 3)
@@ -818,12 +825,14 @@ function SideBar({ isCollapsed, setCollapsed, showFlyoutMenu, setShowFlyoutMenu,
         </div>
       </Sider>
 
-      {workspaceModal && ( <WorkspaceModal
-        idx={workSpaceIndex}
-        name={workspaceName}
-        setWorkspaceModal={setWorkspaceModal}
-        workspaceModal={workspaceModal}
-      />)}
+      {workspaceModal && (
+        <WorkspaceModal
+          idx={workSpaceIndex}
+          name={workspaceName}
+          setWorkspaceModal={setWorkspaceModal}
+          workspaceModal={workspaceModal}
+        />
+      )}
 
       {/* <ContentView
         isCollapsed={isCollapsed}

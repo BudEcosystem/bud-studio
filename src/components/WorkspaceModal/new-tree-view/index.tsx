@@ -16,7 +16,9 @@ import {
   addFolderRedux,
   addSubFilesRedux,
   addSubFoldersRedux,
+  setCurrentSelectedDocument,
 } from 'redux/slices/workspace';
+import { setNodeIDs } from '@/redux/slices/activestate';
 
 const Menu = ({ workspaceItem }) => {
   const [openItems, setOpenItems] = useState([]);
@@ -57,10 +59,24 @@ const Menu = ({ workspaceItem }) => {
       files: [],
       workspaceUUID: workspaceItem.uuid,
     };
-
+    const newFileForWorkspaceDocs = {
+      childOf: null,
+      customProperties: [],
+      name: newFile.name,
+      properties: [],
+      type: 'doc',
+      uuid: newFile.id,
+      workSpaceUUID: workspaceItem.uuid,
+    };
     setFiles([...files, newFile]);
     dispatch(setShowAddFile(false));
-    dispatch(addFileRedux({ newFile, workspaceUUID: workspaceItem.uuid }));
+    dispatch(
+      addFileRedux({
+        newFile,
+        workspaceUUID: workspaceItem.uuid,
+        newFileForWorkspaceDocs,
+      })
+    );
   };
   const toggleItem = (event, id) => {
     console.log('clicked', id, event);
@@ -170,13 +186,35 @@ const FileItem = ({ file, parentId, openItems, toggleItem }) => {
 
     setShowAddFile(false);
   };
+
   const lineStyle = {
     '--leftLine': parentId === null ? '' : '215px',
+  };
+
+  const fileClickHandler = () => {
+    console.log(file);
+    dispatch(setCurrentSelectedDocument({ id: null }));
+    // navPathHandler(newNode);
+    setTimeout(() => {
+      dispatch(
+        setCurrentSelectedDocument({
+          uuid: file.id,
+          workSpaceUUID: file.workspaceUUID,
+        })
+      );
+      dispatch(
+        setNodeIDs({
+          uuid: file.id,
+          workSpaceUUID: file.workspaceUUID,
+        })
+      );
+    });
   };
   return (
     <li
       className={parentId !== null ? 'childFile' : 'parentFile'}
       style={lineStyle}
+      onClick={fileClickHandler}
     >
       <details>
         <summary>
@@ -278,11 +316,21 @@ const FolderItem = ({
       files: [],
       workspaceUUID: item.workspaceUUID,
     };
+    const newFileForWorkspaceDocs = {
+      childOf: parentId,
+      customProperties: [],
+      name: newFile.name,
+      properties: [],
+      type: 'doc',
+      uuid: newFile.id,
+      workSpaceUUID: item.workspaceUUID,
+    };
     dispatch(
       addSubFilesRedux({
         newFile,
         subFileId: item.id,
         workspaceUUID: item.workspaceUUID,
+        newFileForWorkspaceDocs,
       })
     );
 
