@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { addEmptyDoc } from 'redux/slices/workspace';
 import ListView from '@/components/ListView/ListView';
 import KanbanUI from './KanbanNew';
+import { changeDatabaseDefaultView } from '@/redux/slices/database';
 import ListView from '../ListView/ListView';
 // TODO : Update The Interface With Required Data
 interface DatabaseProps {
@@ -66,6 +67,14 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
       prepareDatabaseViewData();
     }
   }, [databaseData]);
+
+  const changeDatabaseView = (viewType: string) => {
+    console.log('View Change Clicked', viewType);
+
+    dispatch(
+      changeDatabaseDefaultView({ viewType, databaseID: databaseData.id })
+    );
+  };
 
   // Append Empty Document
   const appendEmptyDocument = () => {
@@ -204,6 +213,7 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
         view={databaseData.defaultView}
         title={databaseData.title}
         databaseDescription={databaseData.description}
+        changeDatabaseView={changeDatabaseView}
       />
       {databaseData.defaultView === 'Table' && databaseEntries.length && (
         <TableView
