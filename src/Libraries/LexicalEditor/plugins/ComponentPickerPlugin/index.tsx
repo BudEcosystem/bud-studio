@@ -288,6 +288,36 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
                   { title: 'Done', color: '#fff' },
                 ],
               },
+              tags: {
+                name: 'tags',
+                type: 'tags',
+                options: [
+                  {
+                    tag: 'Bug',
+                    color: '#ff4d4d35',
+                  },
+                  {
+                    tag: 'Feature',
+                    color: '#35f8ff35',
+                  },
+                  {
+                    tag: 'Enhancement',
+                    color: '#48ff5735',
+                  },
+                  {
+                    tag: 'First Issue',
+                    color: '#436fff35',
+                  },
+                  {
+                    tag: 'PR',
+                    color: '#e0ff3235',
+                  },
+                  {
+                    tag: 'Assigned',
+                    color: '#ff1eec35',
+                  },
+                ],
+              },
             },
             entries: [
               {
@@ -305,12 +335,29 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
             uuid: initialDocumentID,
             workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
             customProperties: [], // User defined Properties
-            properties: {
-              tags: ['no-tag'],
-              priority: 'Normal',
-              status: 'Not Started',
-              date: null,
-            },
+            properties: [
+              {
+                title: 'Tags',
+                value: ['no-tag'],
+                type: 'tags',
+                id: uuidv4(),
+                order: 1,
+              },
+              {
+                title: 'Priority',
+                value: 'Normal',
+                type: 'priority',
+                id: uuidv4(),
+                order: 2,
+              },
+              {
+                title: 'Status',
+                value: 'Not Started',
+                type: 'status',
+                id: uuidv4(),
+                order: 3,
+              },
+            ],
           };
 
           // Initial Document Template
