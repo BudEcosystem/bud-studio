@@ -41,9 +41,12 @@ const HeaderSubComp = ({
   };
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      dispatch(editTitle({ index, childIndex, newTitle, status }));
-      setEditing(false);
-      setNewTitle('');
+
+      // Find The Document & Update The Title
+
+      // dispatch(editTitle({ index, childIndex, newTitle, status }));
+      // setEditing(false);
+      // setNewTitle('');
     }
   };
 

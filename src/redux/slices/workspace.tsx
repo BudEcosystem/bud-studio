@@ -294,7 +294,7 @@ export const workspaceSlice = createSlice({
     addFolderRedux: (state, action: PayloadAction<any>) => {
       state.workSpaceItems.map((item, i) => {
         if (item.uuid === action.payload.workspaceUUID) {
-          item['folders'].push(action.payload.newFolder);
+          item.folders.push(action.payload.newFolder);
         }
         console.log({ ...item.folders });
       });
@@ -302,7 +302,7 @@ export const workspaceSlice = createSlice({
     addFileRedux: (state, action: PayloadAction<any>) => {
       state.workSpaceItems.map((item, i) => {
         if (item.uuid === action.payload.workspaceUUID) {
-          item['files'].push(action.payload.newFile);
+          item.files.push(action.payload.newFile);
         }
         console.log({ ...item.files });
       });
@@ -812,7 +812,21 @@ export const workspaceSlice = createSlice({
       // state.workSpaceDocs = newSetOFDataProcessed;
     },
 
-    createTableDocument: (state, action: PayloadAction<any>) => {},
+    createTableDocument: (state, action: PayloadAction<any>) => {
+      console.log('test');
+      console.log(action.payload);
+
+      // Setup Workspace Meta
+      const workspaceDocs = state.workSpaceDocs;
+      workspaceDocs.push(action.payload.documentMeta);
+      state.workSpaceDocs = workspaceDocs;
+
+      // Update The Application Data
+      const appData = state.applicationData;
+      appData[action.payload.initialDocumentID] = action.payload.docTemplate;
+      console.log("App Data",appData);
+      state.applicationData = appData;
+    },
   },
 });
 
