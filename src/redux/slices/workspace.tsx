@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import InitialState from 'interfaces/InitialState';
 import { createNewEmptyDatabase } from '@/redux/slices/database';
+import initialData from '@/components/Database/KanbanNew/data/initial-data';
+import { useSelector } from 'react-redux';
 
 export const generateInitialWorkspaceState = (): InitialState => {
   const initialState: InitialState = {
@@ -827,6 +829,25 @@ export const workspaceSlice = createSlice({
       console.log("App Data",appData);
       state.applicationData = appData;
     },
+    changePriority: (state, action: PayloadAction<any>) => {
+      const copyOfworkSpaceDocs = state.workSpaceDocs;
+      copyOfworkSpaceDocs.map((doc, index) => {
+        if(doc.uuid == action.payload.id) {
+          console.log("REDUXGOV", state.workSpaceDocs[index].properties[1].value)
+          state.workSpaceDocs[index].properties[1].value = action.payload.label;
+        }
+      })
+      
+    },
+    changeStatus: (state, action: PayloadAction<any>) => {
+      console.log("LABEL", action.payload.label)
+      const copyOfworkSpaceDocs = state.workSpaceDocs;
+      copyOfworkSpaceDocs.map((doc, index) => {
+        if(doc.uuid == action.payload.id) {
+          state.workSpaceDocs[index].properties[2].value = action.payload.label;
+        }
+      }) 
+    }
   },
 });
 
@@ -865,5 +886,7 @@ export const {
   updateDocumentData,
   attachDatabaseToDocument,
   createTableDocument,
+  changePriority,
+  changeStatus
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

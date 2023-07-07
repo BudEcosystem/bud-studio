@@ -37,6 +37,7 @@ import '@glideapps/glide-data-grid/dist/index.css';
 import '@glideapps/glide-data-grid-cells/dist/index.css';
 import './table.view.css';
 import TaskView from '@/components/TaskView/TaskView';
+import { changePriority, changeStatus } from '@/redux/slices/workspace';
 
 // Grid columns may also provide icon, overlayIcon, menu, style, and theme overrides
 // @ts-ignore
@@ -57,12 +58,15 @@ export default function TableView({
   const [columns, setColumns] = useState<GridColumn[]>([]);
   const [hoverRow, setHoverRow] = React.useState<number | undefined>(undefined);
   const [taskViewOpen, setTaskViewOpen] = useState(false);
+  const { workSpace }: any = useSelector((state) => state);
 
   // Row Hover Effect
   const onItemHovered = React.useCallback((args: GridMouseEventArgs) => {
     const [_, row] = args.location;
     setHoverRow(args.kind !== 'cell' ? undefined : row);
   }, []);
+
+  console.log("TABLE GOV", databaseEntries)
 
   // Theme Override
   const getRowThemeOverride = React.useCallback<GetRowThemeCallback>(
@@ -126,6 +130,10 @@ export default function TableView({
               (option) => option.title
             ),
             value: matchingItem.value,
+            id: rowData.uuid,
+            changeValue: (id: any, label: any) => {
+            dispatch(changeStatus({id, label}))
+            },
           },
         };
       }
@@ -141,6 +149,10 @@ export default function TableView({
               (option) => option.title
             ),
             value: matchingItem.value,
+            id: rowData.uuid,
+            changeValue: (id: any, label: any) => {
+              dispatch(changePriority({id, label}))
+            },
           },
         };
       }
