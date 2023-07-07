@@ -13,7 +13,6 @@ import WorkspaceModal from '../../WorkspaceModal/WorkspaceModal';
 import EditorJsWrapper from '../../EditorWrapper';
 import TableView from 'components/TableView';
 
-
 import {
   changeColor,
   setCurrentSelectedDocument,
