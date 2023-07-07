@@ -14,7 +14,7 @@ import { GroupBy, Sort, ThreeDots, Union, Views } from '../ListViewIcons';
 import ThreeDotsOption from './ThreeDotsOption/ThreeDotsOption';
 import GroupByModal from './GroupBy/GroupByModal';
 import SortByModal from './SortBy/SortByModal';
-
+import '../ListView.css';
 // Design
 
 const nameAndLogoArray = [
