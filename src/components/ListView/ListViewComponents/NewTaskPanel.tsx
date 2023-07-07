@@ -14,24 +14,8 @@ import { GroupBy, Sort, ThreeDots, Union, Views } from '../ListViewIcons';
 import ThreeDotsOption from './ThreeDotsOption/ThreeDotsOption';
 import GroupByModal from './GroupBy/GroupByModal';
 import SortByModal from './SortBy/SortByModal';
-
+import '../ListView.css';
 // Design
-
-// Menu Items
-const items: MenuProps['items'] = [
-  {
-    label: 'Kanban',
-    key: '0',
-  },
-  {
-    label: 'List',
-    key: '1',
-  },
-  {
-    label: 'Table',
-    key: '3',
-  },
-];
 
 const nameAndLogoArray = [
   {
@@ -48,7 +32,7 @@ const nameAndLogoArray = [
   },
 ];
 
-function NewTaskPanel({ view }: any) {
+function NewTaskPanel({ view, changeDatabaseView }: any) {
   const dispatch = useDispatch();
   const { list, table }: any = useSelector((state) => state);
   const { newTaskClicked, selectedItemIndex } = list;
@@ -59,6 +43,22 @@ function NewTaskPanel({ view }: any) {
   const [showThreeDotsOption, setShowThreeDotsOption] = useState(false);
   const [showGroupBy, setShowGroupBy] = useState(false);
   const [showSortBy, setShowSortBy] = useState(false);
+
+  // Menu Items
+  const items: MenuProps['items'] = [
+    {
+      label: <div onClick={(e) => changeDatabaseView('Kanban')}>Kanban</div>,
+      key: '0',
+    },
+    {
+      label: <div onClick={(e) => changeDatabaseView('List')}>List</div>,
+      key: '1',
+    },
+    {
+      label: <div onClick={(e) => changeDatabaseView('Table')}>Table</div>,
+      key: '3',
+    },
+  ];
 
   const newTaskHandler = () => {
     if (view === 'list') {

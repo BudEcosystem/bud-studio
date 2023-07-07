@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice, current } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 // uuid
 import { v4 as uuidv4 } from 'uuid';
@@ -104,6 +104,36 @@ export const generateDatabaseInitialState = (): any => {
               { title: 'Done', color: 'green' },
             ],
           },
+          tags: {
+            name: 'tags',
+            type: 'tags',
+            options: [
+              {
+                tag: 'Bug',
+                color: '#ff4d4d35',
+              },
+              {
+                tag: 'Feature',
+                color: '#35f8ff35',
+              },
+              {
+                tag: 'Enhancement',
+                color: '#48ff5735',
+              },
+              {
+                tag: 'First Issue',
+                color: '#436fff35',
+              },
+              {
+                tag: 'PR',
+                color: '#e0ff3235',
+              },
+              {
+                tag: 'Assigned',
+                color: '#ff1eec35',
+              },
+            ],
+          },
         },
         entries: [
           {
@@ -139,6 +169,36 @@ export const generateDatabaseInitialState = (): any => {
               { title: 'Not Started', color: '#939AFF' },
               { title: 'In Progress', color: '#FFD976' },
               { title: 'Done', color: '#36D95A' },
+            ],
+          },
+          tags: {
+            name: 'tags',
+            type: 'tags',
+            options: [
+              {
+                tag: 'Bug',
+                color: '#ff4d4d35',
+              },
+              {
+                tag: 'Feature',
+                color: '#35f8ff35',
+              },
+              {
+                tag: 'Enhancement',
+                color: '#48ff5735',
+              },
+              {
+                tag: 'First Issue',
+                color: '#436fff35',
+              },
+              {
+                tag: 'PR',
+                color: '#e0ff3235',
+              },
+              {
+                tag: 'Assigned',
+                color: '#ff1eec35',
+              },
             ],
           },
         },
@@ -182,11 +242,36 @@ export const databaseSlice = createSlice({
     });
   },
   reducers: {
+    changeDatabaseDefaultView: (state, action: PayloadAction<any>) => {
+      console.log(action);
+      const localDb = state.databases;
+      const localdbIndex = state.databases.findIndex(
+        (database) => database.id === action.payload.databaseID
+      );
+
+      localDb[localdbIndex].defaultView = action.payload.viewType;
+
+      state.databases = localDb;
+    },
     createNewEmptyDatabase: (state, action: PayloadAction<any>) => {
       state.databases.push(action.payload.databaseinfo);
     },
+    attachDocumentToDatabase: (state, action: PayloadAction<any>) => {
+      const localDb = state.databases;
+      const localdbIndex = state.databases.findIndex(
+        (database) => database.id === action.payload.databaseData.id
+      );
+
+      // Update Based On Index
+      console.log('Local DB', localdbIndex);
+      localDb[localdbIndex].entries.push({
+        documentID: action.payload.initialDocumentID,
+      });
+
+      state.databases = localDb;
+    },
     moveDatabaseRow: (state, action: PayloadAction<any>) => {
-      console.log('Move Array!',action);
+      console.log('Move Array!', action);
 
       // get the current database from the state
       const currentDatabase = state.databases;
@@ -195,8 +280,7 @@ export const databaseSlice = createSlice({
 
       currentDatabase.forEach((database, index) => {
         if (database.id === action.payload.databaseID) {
-
-          console.log("Object Found", current(database));
+          console.log('Object Found', current(database));
           // get the current entry
           let currentEntry = database.entries;
           // move the entry to the new position
@@ -232,7 +316,11 @@ function moveArrayItemToNewIndex(arr, old_index, new_index) {
   return arr;
 }
 
-export const { createNewEmptyDatabase, moveDatabaseRow } =
-  databaseSlice.actions;
+export const {
+  createNewEmptyDatabase,
+  moveDatabaseRow,
+  attachDocumentToDatabase,
+  changeDatabaseDefaultView,
+} = databaseSlice.actions;
 
 export default databaseSlice.reducer;

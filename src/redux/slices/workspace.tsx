@@ -296,7 +296,7 @@ export const workspaceSlice = createSlice({
       state.workspaceFolders.push(action.payload.newFileForWorkspaceFolder);
       state.workSpaceItems.map((item, i) => {
         if (item.uuid === action.payload.workspaceUUID) {
-          item['folders'].push(action.payload.newFolder);
+          item.folders.push(action.payload.newFolder);
         }
         console.log({ ...item.folders });
       });
@@ -978,7 +978,21 @@ export const workspaceSlice = createSlice({
       // state.workSpaceDocs = newSetOFDataProcessed;
     },
 
-    createTableDocument: (state, action: PayloadAction<any>) => {},
+    createTableDocument: (state, action: PayloadAction<any>) => {
+      console.log('test');
+      console.log(action.payload);
+
+      // Setup Workspace Meta
+      const workspaceDocs = state.workSpaceDocs;
+      workspaceDocs.push(action.payload.documentMeta);
+      state.workSpaceDocs = workspaceDocs;
+
+      // Update The Application Data
+      const appData = state.applicationData;
+      appData[action.payload.initialDocumentID] = action.payload.docTemplate;
+      console.log("App Data",appData);
+      state.applicationData = appData;
+    },
   },
 });
 
