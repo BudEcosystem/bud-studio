@@ -8,6 +8,7 @@ import { addEmptyDoc } from 'redux/slices/workspace';
 import ListView from '@/components/ListView/ListView';
 import KanbanUI from './KanbanNew';
 import { changeDatabaseDefaultView } from '@/redux/slices/database';
+import ListView from '../ListView/ListView';
 // TODO : Update The Interface With Required Data
 interface DatabaseProps {
   databaseData: any;

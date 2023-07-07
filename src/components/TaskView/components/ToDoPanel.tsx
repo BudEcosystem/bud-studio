@@ -10,7 +10,7 @@ import TextComponent from './TextComponent';
 const ToDoPanel = ({data}: any) => {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
-  const [childData, setChildData] = useState(data.childs);
+  const [childData, setChildData] = useState(data?.childs);
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
@@ -52,7 +52,7 @@ const ToDoPanel = ({data}: any) => {
               {...provided.droppableProps}
               style={{ marginTop: '8px' }}
             >
-              {childData.map((item, i) => (
+              {childData?.map((item, i) => (
                 <Draggable key={`todo-${i}`} draggableId={`todo-${i}`} index={i}>
                   {(provided, snapshot) => (
                     <div ref={provided.innerRef} {...provided.draggableProps}>

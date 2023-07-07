@@ -27,19 +27,19 @@ function ListView({ databaseData, databaseEntries }: any) {
   const [isAppMode, setIsAppMode] = useState(false);
   const [title, setTitle] = useState('');
 
-  useEffect(() => {
-    // if (oneTime) {
-    //   setTimeout(() => {
-    //     workspace.workSpaceDocs.map((doc: any) => {
-    //       if (workspace.currentSelectedDocId === doc.uuid) {
-    //         setCurrentFileName(doc.name);
-    //       }
-    //     });
-    //   }, 0);
-    //
-    //   dispatch(setOneTime(false));
-    // }
-  }, []);
+  // useEffect(() => {
+  //   if (oneTime) {
+  //     setTimeout(() => {
+  //       workspace.workSpaceDocs.map((doc: any) => {
+  //         if (workspace.currentSelectedDocId === doc.uuid) {
+  //           setCurrentFileName(doc.name);
+  //         }
+  //       });
+  //     }, 0);
+
+  //     dispatch(setOneTime(false));
+  //   }
+  // }, []);
 
   useEffect(() => {
     // if (currentFileName !== '') {

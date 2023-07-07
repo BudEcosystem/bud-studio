@@ -74,18 +74,67 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
     setStatusPanels(data);
   }, [databaseData]);
 
+  // Local States
+  // const [statusPanels, setStatusPanels] = useState(null);
+
+  // On List View Load
+  useEffect(() => {
+
+    // Get Database entries
+    const sortedContent = [];
+    databaseData.entries.map((item) => {
+      const document = workspace.workSpaceDocs.filter(
+        (obj) => obj.uuid === item.documentID
+      );
+      sortedContent.push(document[0]);
+    });
+
+    const data: any[] = [];
+    databaseData.propertyPresets.status.options.map((item: any) => {
+
+      const entries = [];
+      // Optimize The Code
+      sortedContent.forEach((entry: any) => {
+
+        entry.properties.forEach((property: any) => {
+          if (property.title === 'Status') {
+            if (property.value === item.title) {
+              entries.push({
+                title: entry.name,
+                description: '',
+                childs: [],
+              });
+            }
+          }
+        });
+
+      });
+
+      data.push({
+        status: item.title,
+        headerText: item.title,
+        colorIcon: item.color,
+        items: entries,
+      });
+    });
+
+    setStatusPanels(data);
+  }, [databaseData]);
+
   const toggleAccordion = (index) => {
-    // const updatedItems = [...expandedItems];
-    // if (updatedItems.includes(index)) {
-    //   updatedItems.splice(updatedItems.indexOf(index), 1);
-    // } else {
-    //   updatedItems.push(index);
-    // }
-    dispatch(setExpandedItems(index));
+    const updatedItems = [...expandedItems];
+    if (updatedItems.includes(index)) {
+      updatedItems.splice(updatedItems.indexOf(index), 1);
+    } else {
+      updatedItems.push(index);
+    }
+    setExpandedItems(updatedItems);
+    // dispatch(setExpandedItems(index));
   };
 
   const selectItem = (index) => {
-    dispatch(setSelectedItemIndex(index));
+    setSelectedItemIndex(index);
+    // dispatch(setSelectedItemIndex(index));
   };
 
   const onDragEnd = (result) => {
