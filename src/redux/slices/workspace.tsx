@@ -293,6 +293,7 @@ export const workspaceSlice = createSlice({
       });
     },
     addFolderRedux: (state, action: PayloadAction<any>) => {
+      state.workspaceFolders.push(action.payload.newFileForWorkspaceFolder);
       state.workSpaceItems.map((item, i) => {
         if (item.uuid === action.payload.workspaceUUID) {
           item['folders'].push(action.payload.newFolder);
@@ -393,6 +394,7 @@ export const workspaceSlice = createSlice({
       });
     },
     addSubFoldersRedux: (state, action: PayloadAction<any>) => {
+      state.workspaceFolders.push(action.payload.newFileForWorkspaceFolder);
       state.workSpaceItems.map((item, i) => {
         if (item.uuid === action.payload.workspaceUUID) {
           const x = searchById(item.folders, action.payload.subFolderId);

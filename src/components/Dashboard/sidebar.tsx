@@ -195,7 +195,6 @@ function SideBar({
   const { color } = workspace;
 
   const [showMore, setShowMore] = useState(false);
-  console.log(workspace);
   const showMoreWorkspaces = () => {
     setShowMore(!showMore);
   };
