@@ -18,19 +18,13 @@ import SubAccordion from './SubAccordion';
 function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   const dispatch = useDispatch();
 
-  const { 
-    panelArray, 
-    newTaskClicked, 
-    expandedItems, 
-    selectedItemIndex 
-  } =
+  const { panelArray, newTaskClicked, expandedItems, selectedItemIndex } =
     useSelector((state) => state.list);
 
   // const [expandedItems, setExpandedItems] = useState([0]);
   // const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
-
 
   // Local States
   const [statusPanels, setStatusPanels] = useState(null);
@@ -89,7 +83,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   }, [databaseData]);
 
   // Local States
-  const [statusPanels, setStatusPanels] = useState(null);
+  // const [statusPanels, setStatusPanels] = useState(null);
 
   // On List View Load
   useEffect(() => {
@@ -151,12 +145,12 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
     } else {
       updatedItems.push(index);
     }
-    setExpandedItems(updatedItems)
+    setExpandedItems(updatedItems);
     // dispatch(setExpandedItems(index));
   };
 
   const selectItem = (index) => {
-    setSelectedItemIndex(index)
+    setSelectedItemIndex(index);
     // dispatch(setSelectedItemIndex(index));
   };
 
@@ -239,7 +233,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
                       </div>
                     )}
                   </div>
-                  {expandedItems?.includes(i) && ( 
+                  {expandedItems?.includes(i) && (
                     <div className="subAccordionContainer">
                       {item.items.length === 0 && (
                         <div className="empty-list">
