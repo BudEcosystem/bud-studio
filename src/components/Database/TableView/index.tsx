@@ -80,10 +80,10 @@ export default function TableView({
     const newDataArr = [];
     rowData.properties.map((item) => newDataArr.push(item));
     rowData.customProperties.map((item) => newDataArr.push(item));
-    console.log(newDataArr, col, rowData, columns);
+    // console.log(newDataArr, col, rowData, columns);
 
     const matchingItem = newDataArr.find((item) => item.order === col);
-    console.log(matchingItem);
+    // console.log(matchingItem);
     if (matchingItem === undefined && columns[col].title === 'Document') {
       return {
         kind: GridCellKind.Custom,
@@ -157,7 +157,7 @@ export default function TableView({
     return {
       kind: GridCellKind.Text,
       allowOverlay: true,
-      displayData: '',
+      displayData: 'Untitled',
       data: '',
       allowWrapping: true,
     };
@@ -428,9 +428,12 @@ export default function TableView({
     for (let i = 0; i < arr.length; i++) {
       arr[i].order = i;
     }
-
     return arr;
   }
+
+  const cellEditHandler = (cell, newVal) => {
+    console.log(data);
+  };
 
   return (
     <div className="table-wrapper" id="table-wrapper">
@@ -500,6 +503,7 @@ export default function TableView({
           }}
           onRowAppended={addNewRow}
           onCellEdited={(cell, newVal) => {
+            cellEditHandler(cell, newVal);
             console.log(cell, newVal);
           }}
           allowOverlay
