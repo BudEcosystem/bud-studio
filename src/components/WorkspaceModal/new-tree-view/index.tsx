@@ -16,7 +16,10 @@ import {
   addFolderRedux,
   addSubFilesRedux,
   addSubFoldersRedux,
+  changeColor,
+  setCurrentSelectedDocument,
 } from 'redux/slices/workspace';
+import { setNavigationPath, setNodeIDs } from '@/redux/slices/activestate';
 
 const Menu = ({ workspaceItem }) => {
   const [openItems, setOpenItems] = useState([]);
@@ -27,6 +30,7 @@ const Menu = ({ workspaceItem }) => {
   const [files, setFiles] = useState(workspaceItem.files);
   const addFolderInput = useRef(null);
   const addFileInput = useRef(null);
+  // console.log(workspaceItem, ";kkm;")
 
   useEffect(() => {
     if (showAddFolder) addFolderInput.current.focus();
@@ -43,10 +47,22 @@ const Menu = ({ workspaceItem }) => {
       folders: [],
       workspaceUUID: workspaceItem.uuid,
     };
-
+    const newFileForWorkspaceFolder = {
+      childOf: null,
+      name: newFolder.name,
+      type: 'folder',
+      uuid: newFolder.id,
+      workSpaceUUID: workspaceItem.uuid,
+    };
     setFolders([...folders, newFolder]);
     dispatch(setShowAddFolder(false));
-    dispatch(addFolderRedux({ newFolder, workspaceUUID: workspaceItem.uuid }));
+    dispatch(
+      addFolderRedux({
+        newFolder,
+        workspaceUUID: workspaceItem.uuid,
+        newFileForWorkspaceFolder,
+      })
+    );
   };
   const addFile = (event) => {
     if (event.key !== 'Enter') return;
@@ -57,13 +73,27 @@ const Menu = ({ workspaceItem }) => {
       files: [],
       workspaceUUID: workspaceItem.uuid,
     };
-
+    const newFileForWorkspaceDocs = {
+      childOf: null,
+      customProperties: [],
+      name: newFile.name,
+      properties: [],
+      type: 'doc',
+      uuid: newFile.id,
+      workSpaceUUID: workspaceItem.uuid,
+    };
     setFiles([...files, newFile]);
     dispatch(setShowAddFile(false));
-    dispatch(addFileRedux({ newFile, workspaceUUID: workspaceItem.uuid }));
+    dispatch(
+      addFileRedux({
+        newFile,
+        workspaceUUID: workspaceItem.uuid,
+        newFileForWorkspaceDocs,
+      })
+    );
   };
   const toggleItem = (event, id) => {
-    console.log('clicked', id, event);
+    // console.log('clicked', id, event);
     const clickedElement = event.target;
     const isPlusClicked = clickedElement.classList.contains('plusIcon');
     if (!isPlusClicked) {
@@ -129,9 +159,10 @@ const Menu = ({ workspaceItem }) => {
             key={item.id}
             item={item}
             parentId={null}
+            parent={item.id}
             openItems={openItems}
             toggleItem={toggleItem}
-            workspaceItemColor={workspaceItem.color}
+            workspaceItem={workspaceItem}
           />
         ))}
         {workspaceItem.files.map((file) => (
@@ -141,15 +172,17 @@ const Menu = ({ workspaceItem }) => {
             parentId={null}
             openItems={openItems}
             toggleItem={toggleItem}
+            workspaceItem={workspaceItem}
           />
         ))}
       </ul>
     </div>
   );
 };
-const FileItem = ({ file, parentId, openItems, toggleItem }) => {
+const FileItem = ({ file, parentId, openItems, toggleItem, workspaceItem }) => {
   const id = parentId ? `${parentId}.${file.id}` : file.id;
   const [showAddFile, setShowAddFile] = useState(false);
+  const { workspace } = useSelector((state) => state);
   const dispatch = useDispatch();
   const addFileInput = useRef(null);
   const addFile = (event) => {
@@ -170,13 +203,61 @@ const FileItem = ({ file, parentId, openItems, toggleItem }) => {
 
     setShowAddFile(false);
   };
+
   const lineStyle = {
     '--leftLine': parentId === null ? '' : '215px',
+  };
+
+  const findParent = (x: any) => {
+    const find = workspace.workSpaceDocs.find((y: any) => y?.uuid === x);
+    // console.log(find, x)
+    return find;
+  };
+
+  const solveRec = (x: any) => {
+    if (x?.childOf != null) {
+      const temp = workspace.workspaceFolders.find(
+        (y: any) => y?.uuid === x?.childOf
+      );
+      console.log('asdfasfsad', temp);
+      dispatch(setNavigationPath(temp));
+      solveRec(temp);
+    }
+  };
+
+  const fileClickHandler = () => {
+    // console.log(file);
+    dispatch(setCurrentSelectedDocument({ id: null }));
+    // navPathHandler(newNode);
+    setTimeout(() => {
+      dispatch(
+        setCurrentSelectedDocument({
+          uuid: file.id,
+          workSpaceUUID: file.workspaceUUID,
+        })
+      );
+      dispatch(
+        setNodeIDs({
+          uuid: file.id,
+          workSpaceUUID: file.workspaceUUID,
+        })
+      );
+      dispatch(changeColor({ color: workspaceItem.color }));
+      dispatch(setNavigationPath(null));
+      dispatch(setNavigationPath({ name: file.name }));
+      const par = findParent(file.id);
+      if (par) {
+        // dispatch(setNavigationPath({name: par.name}));
+        solveRec(par);
+      }
+      dispatch(setNavigationPath({ name: workspaceItem.name }));
+    });
   };
   return (
     <li
       className={parentId !== null ? 'childFile' : 'parentFile'}
       style={lineStyle}
+      onClick={fileClickHandler}
     >
       <details>
         <summary>
@@ -212,6 +293,7 @@ const FileItem = ({ file, parentId, openItems, toggleItem }) => {
               parentId={id}
               openItems={openItems}
               toggleItem={toggleItem}
+              workspaceItem={workspaceItem}
             />
           ))}
         </ul>
@@ -227,16 +309,18 @@ const hexToRGBA = (hex, opacity) => {
 
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 };
+let i = 0;
 const FolderItem = ({
   item,
   parentId,
   openItems,
   toggleItem,
-  workspaceItemColor,
+  workspaceItem,
+  parent,
 }) => {
   const id = parentId ? `${parentId}.${item.id}` : item.id;
   const dispatch = useDispatch();
-  const rgbaColor = hexToRGBA(workspaceItemColor, 0.3);
+  const rgbaColor = hexToRGBA(workspaceItem.color, 0.3);
   const [showoptionsTree, setShowoptionsTree] = useState(false);
   const [showAddFolder, setShowAddFolder] = useState(false);
   const [showAddFile, setShowAddFile] = useState(false);
@@ -244,10 +328,11 @@ const FolderItem = ({
   const addFolderInput = useRef(null);
   const addFileInput = useRef(null);
 
+  console.log(item, parentId, `${i++}`);
   useEffect(() => {
     setIsFolderOpen(openItems.includes(item.id));
   }, [openItems, item.id]);
-
+  const last36CharsSlice = parentId?.slice(-36);
   const addFolder = (event) => {
     if (event.key !== 'Enter') return;
 
@@ -258,12 +343,19 @@ const FolderItem = ({
       folders: [],
       workspaceUUID: item.workspaceUUID,
     };
-
+    const newFileForWorkspaceFolder = {
+      childOf: parent,
+      name: newFolder.name,
+      type: 'folder',
+      uuid: newFolder.id,
+      workSpaceUUID: newFolder.workspaceUUID,
+    };
     dispatch(
       addSubFoldersRedux({
         newFolder,
         subFolderId: item.id,
         workspaceUUID: item.workspaceUUID,
+        newFileForWorkspaceFolder,
       })
     );
     setShowAddFolder(false);
@@ -278,17 +370,28 @@ const FolderItem = ({
       files: [],
       workspaceUUID: item.workspaceUUID,
     };
+    const newFileForWorkspaceDocs = {
+      childOf: parent,
+      customProperties: [],
+      name: newFile.name,
+      properties: [],
+      type: 'doc',
+      uuid: newFile.id,
+      workSpaceUUID: item.workspaceUUID,
+    };
     dispatch(
       addSubFilesRedux({
         newFile,
         subFileId: item.id,
         workspaceUUID: item.workspaceUUID,
+        newFileForWorkspaceDocs,
       })
     );
 
     setShowAddFile(false);
   };
-
+  const { workspace }: any = useSelector((state) => state);
+  console.log(workspace);
   return (
     <li className={parentId === null ? 'rootFolderLi' : 'childFolder'}>
       <details style={{ position: parentId === null ? 'relative' : 'none' }}>
@@ -297,7 +400,7 @@ const FolderItem = ({
           onClick={(event) => {
             if (!event.target.classList.contains('plusIcon')) {
               toggleItem(event, item.id);
-              console.log(event, 'sdfg');
+              // console.log(event, 'sdfg');
             } else {
               event.stopPropagation();
             }
@@ -313,7 +416,7 @@ const FolderItem = ({
           <div className="showName">
             <div className="showName folderArrow">
               {isFolderOpen ? (
-                <FolderArrow color={workspaceItemColor} />
+                <FolderArrow color={workspaceItem.color} />
               ) : (
                 <div style={{ transform: 'rotate(-90deg)' }}>
                   <FolderArrow color={'rgba(123, 131, 136, 1)'} />
@@ -321,7 +424,7 @@ const FolderItem = ({
               )}
             </div>
             {isFolderOpen ? (
-              <FolderIcon color={workspaceItemColor} />
+              <FolderIcon color={workspaceItem.color} />
             ) : (
               <FolderIcon2 />
             )}
@@ -389,9 +492,10 @@ const FolderItem = ({
               key={folder.id}
               item={folder}
               parentId={id}
+              parent={folder.id}
               openItems={openItems}
               toggleItem={toggleItem}
-              workspaceItemColor={workspaceItemColor}
+              workspaceItem={workspaceItem}
             />
           ))}
           {item.files.map((file, fileIndex) => (
@@ -401,6 +505,7 @@ const FolderItem = ({
               parentId={id}
               openItems={openItems}
               toggleItem={toggleItem}
+              workspaceItem={workspaceItem}
             />
           ))}
         </ul>

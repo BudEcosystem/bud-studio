@@ -21,7 +21,7 @@ const TaskView = ({data, title, showTaskViewModal, setShowTaskViewModal}: any) =
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
   const [isDragOver, setIsDragOver] = useState(false);
-  console.log('asdfads')
+
 
   const handleDragOver = (event: any) => {
     event.preventDefault();
@@ -167,12 +167,12 @@ const handleOk = () => {
               <span className="tick">L</span>
             </div>
             <h2 className="TopBar__Title">{title}</h2>
-            <div className="TopBar__ProgressText">In Progress</div>
+            <div className="TopBar__ProgressText">{data?.properties?.[2]?.value}</div>
           </div>
 
           {data?.imagesData ? 
           (<div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-          <div style={{display: "grid", placeItems: "center", marginLeft: "40px"}} className="TopBar__AvatarImages"><CircularImageComponent images={data.imagesData} /></div>
+          <div style={{display: "grid", placeItems: "center", marginLeft: "40px"}} className="TopBar__AvatarImages"><CircularImageComponent images={data?.imagesData} /></div>
           <div
             style={{
               cursor: 'pointer',
@@ -193,7 +193,7 @@ const handleOk = () => {
             <DocIcon />
           </div>
           <div className="progressBar">
-            <div style={{ backgroundColor: `${color}`, width: `${data.checklist?.checked / data.checklist?.total * 100}%` }} className="progress"></div>
+            <div style={{ backgroundColor: `${color}`, width: `${data?.checklist?.checked / data?.checklist?.total * 100}%` }} className="progress"></div>
           </div> </div>) :
           
           (<div style={{display: "flex", alignItems: "center", placeItems: "center", marginLeft: "30px"}}>
@@ -219,7 +219,7 @@ const handleOk = () => {
 
       <div className="KanbanTaskView__Panel">
         <div className="KanbanTaskView__LeftPanel">
-          <div className="KanbanTask__Title">{data?.title}</div>
+          <div className="KanbanTask__Title">{data?.name}</div>
           <div className="KanbanTask__subHeading">
             {data?.description}
           </div>
@@ -231,9 +231,10 @@ const handleOk = () => {
             ></textarea>
           </div>
 
-          <div style={{marginTop: "20px"}}>
+        {data?.tasks && <div style={{marginTop: "20px"}}>
             <ToDoPanel data={data} />
-          </div>
+          </div>}
+          
 
           <div style={{marginTop:" 20px", display: "flex", alignItems: "center", justifyContent: "space-between"}}>
             <div className="KanbanPanel__Attatchment">

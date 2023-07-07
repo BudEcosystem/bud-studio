@@ -8,6 +8,8 @@ import {
 } from '@glideapps/glide-data-grid';
 import * as React from 'react';
 import Select, { MenuProps, components } from 'react-select';
+import { changePriority } from '@/redux/slices/workspace';
+import { useDispatch } from 'react-redux';
 
 interface CustomMenuProps extends MenuProps<any> {}
 
@@ -22,6 +24,8 @@ interface PriorityCellProps {
   readonly value: string;
   readonly allowedValues: readonly string[];
   readonly readonly?: boolean;
+  readonly id: string;
+  readonly changeValue: () => void;
 }
 
 export type PriorityCell = CustomCell<PriorityCellProps>;
@@ -50,7 +54,7 @@ export type PriorityCell = CustomCell<PriorityCellProps>;
 
 const Editor: ReturnType<ProvideEditorCallback<PriorityCell>> = (p) => {
   const { value: cell, onFinishedEditing, initialValue } = p;
-  const { allowedValues, value: valueIn } = cell.data;
+  const { allowedValues, value: valueIn, id, changeValue } = cell.data;
 
   const [value, setValue] = React.useState(valueIn);
   const [inputValue, setInputValue] = React.useState(initialValue ?? '');
@@ -67,10 +71,10 @@ const Editor: ReturnType<ProvideEditorCallback<PriorityCell>> = (p) => {
   );
 
   const { Option } = components;
-  function IconOption(props) {
+  function IconOption(props: any) {
     return (
       <Option {...props}>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div onClick={() => {changeValue(id, props.data.label)}} style={{cursor: "pointer", display: 'flex', flexDirection: 'row' }}>
           <div style={{ marginTop: '3px' }}>
             <svg
               width="12"
