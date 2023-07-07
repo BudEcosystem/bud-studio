@@ -6,18 +6,18 @@ import { useSelector } from 'react-redux';
 import { Tooltip } from 'antd';
 import toolTipImage from '../../../assets/Kanban.svg';
 
-function HamburgerItems({
-  selected,
-  onClick,
-  currentDatabase,
-  databaseID,
-}: any) {
+function HamburgerItems({ selected, onClick, databaseID }: any) {
   const { workspace }: any = useSelector((state) => state);
+  const { database }: any = useSelector((state) => state);
   const { color } = workspace;
   const style = {
     '--tooltip-border-color': color,
   };
-  console.log(currentDatabase, 'currentDatabase');
+  let DBtitle = database.databases.map((dt) => {
+    if (databaseID === dt.id) {
+      return dt.title;
+    }
+  });
   return (
     <div className="" onClick={onClick} style={{ cursor: 'pointer' }}>
       <div
@@ -39,11 +39,8 @@ function HamburgerItems({
               />
               <div className="tooltip-content">
                 <h6 className="tooltip-text">
-                  {currentDatabase?.id === databaseID
-                    ? currentDatabase?.title
-                    : ''}{' '}
+                  {DBtitle === undefined ? 'Editor' : DBtitle}
                 </h6>
-                {/* <h6 className="tooltip-text">{databaseID} </h6> */}
                 <p className="tooltip-date">Edited 23min ago</p>
               </div>
             </div>
