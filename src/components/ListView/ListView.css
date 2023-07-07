@@ -201,6 +201,7 @@
     background-color: aqua;
     margin-left: -10px;
     border: 2px solid #131313;
+    z-index: 12;
 }
 
 .imgCircularTxt {

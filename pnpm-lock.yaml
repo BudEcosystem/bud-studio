@@ -2997,7 +2997,7 @@ packages:
       '@babel/runtime': 7.22.5
       '@emotion/is-prop-valid': 1.2.1
       '@mui/types': 7.2.4(@types/react@18.0.27)
-      '@mui/utils': 5.13.6(react@18.2.0)
+      '@mui/utils': 5.13.7(react@18.2.0)
       '@popperjs/core': 2.11.8
       '@types/react': 18.0.27
       clsx: 1.2.1
@@ -3007,8 +3007,8 @@ packages:
       react-is: 18.2.0
     dev: false
 
-  /@mui/core-downloads-tracker@5.13.4:
-    resolution: {integrity: sha512-yFrMWcrlI0TqRN5jpb6Ma9iI7sGTHpytdzzL33oskFHNQ8UgrtPas33Y1K7sWAMwCrr1qbWDrOHLAQG4tAzuSw==}
+  /@mui/core-downloads-tracker@5.13.7:
+    resolution: {integrity: sha512-/suIo4WoeL/OyO3KUsFVpdOmKiSAr6NpWXmQ4WLSxwKrTiha1FJxM6vwAki5W/5kR9WnVLw5E8JC4oHHsutT8w==}
     dev: false
 
   /@mui/material@5.13.6(@emotion/react@11.11.0)(@emotion/styled@11.11.0)(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0):
@@ -3032,10 +3032,10 @@ packages:
       '@emotion/react': 11.11.0(@types/react@18.0.27)(react@18.2.0)
       '@emotion/styled': 11.11.0(@emotion/react@11.11.0)(@types/react@18.0.27)(react@18.2.0)
       '@mui/base': 5.0.0-beta.5(@types/react@18.0.27)(react-dom@18.2.0)(react@18.2.0)
-      '@mui/core-downloads-tracker': 5.13.4
-      '@mui/system': 5.13.6(@emotion/react@11.11.0)(@emotion/styled@11.11.0)(@types/react@18.0.27)(react@18.2.0)
+      '@mui/core-downloads-tracker': 5.13.7
+      '@mui/system': 5.13.7(@emotion/react@11.11.0)(@emotion/styled@11.11.0)(@types/react@18.0.27)(react@18.2.0)
       '@mui/types': 7.2.4(@types/react@18.0.27)
-      '@mui/utils': 5.13.6(react@18.2.0)
+      '@mui/utils': 5.13.7(react@18.2.0)
       '@types/react': 18.0.27
       '@types/react-transition-group': 4.4.6
       clsx: 1.2.1
@@ -3047,8 +3047,8 @@ packages:
       react-transition-group: 4.4.5(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
-  /@mui/private-theming@5.13.1(@types/react@18.0.27)(react@18.2.0):
-    resolution: {integrity: sha512-HW4npLUD9BAkVppOUZHeO1FOKUJWAwbpy0VQoGe3McUYTlck1HezGHQCfBQ5S/Nszi7EViqiimECVl9xi+/WjQ==}
+  /@mui/private-theming@5.13.7(@types/react@18.0.27)(react@18.2.0):
+    resolution: {integrity: sha512-qbSr+udcij5F9dKhGX7fEdx2drXchq7htLNr2Qg2Ma+WJ6q0ERlEqGSBiPiVDJkptcjeVL4DGmcf1wl5+vD4EA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       '@types/react': ^17.0.0 || ^18.0.0
@@ -3058,7 +3058,7 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.22.5
-      '@mui/utils': 5.13.6(react@18.2.0)
+      '@mui/utils': 5.13.7(react@18.2.0)
       '@types/react': 18.0.27
       prop-types: 15.8.1
       react: 18.2.0
@@ -3086,8 +3086,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@mui/system@5.13.6(@emotion/react@11.11.0)(@emotion/styled@11.11.0)(@types/react@18.0.27)(react@18.2.0):
-    resolution: {integrity: sha512-G3Xr28uLqU3DyF6r2LQkHGw/ku4P0AHzlKVe7FGXOPl7X1u+hoe2xxj8Vdiq/69II/mh9OP21i38yBWgWb7WgQ==}
+  /@mui/system@5.13.7(@emotion/react@11.11.0)(@emotion/styled@11.11.0)(@types/react@18.0.27)(react@18.2.0):
+    resolution: {integrity: sha512-7R2KdI6vr8KtnauEfg9e9xQmPk6Gg/1vGNiALYyhSI+cYztxN6WmlSqGX4bjWn/Sygp1TUE1jhFEgs7MWruhkQ==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       '@emotion/react': ^11.5.0
@@ -3105,10 +3105,10 @@ packages:
       '@babel/runtime': 7.22.5
       '@emotion/react': 11.11.0(@types/react@18.0.27)(react@18.2.0)
       '@emotion/styled': 11.11.0(@emotion/react@11.11.0)(@types/react@18.0.27)(react@18.2.0)
-      '@mui/private-theming': 5.13.1(@types/react@18.0.27)(react@18.2.0)
+      '@mui/private-theming': 5.13.7(@types/react@18.0.27)(react@18.2.0)
       '@mui/styled-engine': 5.13.2(@emotion/react@11.11.0)(@emotion/styled@11.11.0)(react@18.2.0)
       '@mui/types': 7.2.4(@types/react@18.0.27)
-      '@mui/utils': 5.13.6(react@18.2.0)
+      '@mui/utils': 5.13.7(react@18.2.0)
       '@types/react': 18.0.27
       clsx: 1.2.1
       csstype: 3.1.2
@@ -3127,8 +3127,8 @@ packages:
       '@types/react': 18.0.27
     dev: false
 
-  /@mui/utils@5.13.6(react@18.2.0):
-    resolution: {integrity: sha512-ggNlxl5NPSbp+kNcQLmSig6WVB0Id+4gOxhx644987v4fsji+CSXc+MFYLocFB/x4oHtzCUlSzbVHlJfP/fXoQ==}
+  /@mui/utils@5.13.7(react@18.2.0):
+    resolution: {integrity: sha512-/3BLptG/q0u36eYED7Nhf4fKXmcKb6LjjT7ZMwhZIZSdSxVqDqSTmATW3a56n3KEPQUXCU9TpxAfCBQhs6brVA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0
@@ -5570,6 +5570,7 @@ packages:
 
   /base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+    requiresBuild: true
     dev: true
 
   /batch@0.6.1:
@@ -7083,6 +7084,7 @@ packages:
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
+    requiresBuild: true
     dev: true
 
   /emoji-regex@9.2.2:
@@ -8788,6 +8790,7 @@ packages:
 
   /ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
+    requiresBuild: true
     dev: true
 
   /ignore@5.2.4:
@@ -11757,9 +11760,9 @@ packages:
   /prosemirror-commands@1.1.12:
     resolution: {integrity: sha512-+CrMs3w/ZVPSkR+REg8KL/clyFLv/1+SgY/OMN+CB22Z24j9TZDje72vL36lOZ/E4NeRXuiCcmENcW/vAcG67A==}
     dependencies:
-      prosemirror-model: 1.14.3
-      prosemirror-state: 1.3.4
-      prosemirror-transform: 1.3.4
+      prosemirror-model: 1.19.2
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.7.3
     dev: false
 
   /prosemirror-commands@1.5.2:
@@ -11790,8 +11793,8 @@ packages:
   /prosemirror-history@1.1.3:
     resolution: {integrity: sha512-zGDotijea+vnfnyyUGyiy1wfOQhf0B/b6zYcCouBV8yo6JmrE9X23M5q7Nf/nATywEZbgRLG70R4DmfSTC+gfg==}
     dependencies:
-      prosemirror-state: 1.3.4
-      prosemirror-transform: 1.3.4
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.7.3
       rope-sequence: 1.3.4
     dev: false
 
@@ -11807,8 +11810,8 @@ packages:
   /prosemirror-inputrules@1.1.3:
     resolution: {integrity: sha512-ZaHCLyBtvbyIHv0f5p6boQTIJjlD6o2NPZiEaZWT2DA+j591zS29QQEMT4lBqwcLW3qRSf7ZvoKNbf05YrsStw==}
     dependencies:
-      prosemirror-state: 1.3.4
-      prosemirror-transform: 1.3.4
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.7.3
     dev: false
 
   /prosemirror-inputrules@1.2.1:
@@ -11821,7 +11824,7 @@ packages:
   /prosemirror-keymap@1.1.5:
     resolution: {integrity: sha512-8SZgPH3K+GLsHL2wKuwBD9rxhsbnVBTwpHCO4VUO5GmqUQlxd/2GtBVWTsyLq4Dp3N9nGgPd3+lZFKUDuVp+Vw==}
     dependencies:
-      prosemirror-state: 1.3.4
+      prosemirror-state: 1.4.3
       w3c-keyname: 2.2.8
     dev: false
 
@@ -11877,8 +11880,8 @@ packages:
   /prosemirror-state@1.3.4:
     resolution: {integrity: sha512-Xkkrpd1y/TQ6HKzN3agsQIGRcLckUMA9u3j207L04mt8ToRgpGeyhbVv0HI7omDORIBHjR29b7AwlATFFf2GLA==}
     dependencies:
-      prosemirror-model: 1.14.3
-      prosemirror-transform: 1.3.4
+      prosemirror-model: 1.19.2
+      prosemirror-transform: 1.7.3
     dev: false
 
   /prosemirror-state@1.4.3:
@@ -11920,7 +11923,7 @@ packages:
   /prosemirror-transform@1.3.4:
     resolution: {integrity: sha512-gTsg3UIeaFuEY6+YmNPMgTpEkCKPedkFIUnsPpOMbclU701fEVI/e4VOXACXh3BO5rZJaBbEBwrnzB0mLp6eBA==}
     dependencies:
-      prosemirror-model: 1.14.3
+      prosemirror-model: 1.19.2
     dev: false
 
   /prosemirror-transform@1.7.3:
@@ -11932,9 +11935,9 @@ packages:
   /prosemirror-view@1.18.11:
     resolution: {integrity: sha512-KXUM8UEV+IK4JYWHNyxkPGDGbxeTEUHQv3POApfyTRN5eMcPFbY4cB0mDJr0LPelVvYPghmZDOCqfCIm9mYHtQ==}
     dependencies:
-      prosemirror-model: 1.14.3
-      prosemirror-state: 1.3.4
-      prosemirror-transform: 1.3.4
+      prosemirror-model: 1.19.2
+      prosemirror-state: 1.4.3
+      prosemirror-transform: 1.7.3
     dev: false
 
   /prosemirror-view@1.31.5:
@@ -13576,6 +13579,7 @@ packages:
   /slice-ansi@3.0.0:
     resolution: {integrity: sha512-pSyv7bSTC7ig9Dcgbw9AuRNUb5k5V6oDudjZoMBSr13qpLBG7tB+zgCkARjq7xIUgdz5P1Qe8u+rSGdouOOIyQ==}
     engines: {node: '>=8'}
+    requiresBuild: true
     dependencies:
       ansi-styles: 4.3.0
       astral-regex: 2.0.0
@@ -15196,3 +15200,7 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

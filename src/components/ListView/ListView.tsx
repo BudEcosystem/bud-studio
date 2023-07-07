@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './ListView.css';
 
-import Accordion from './ListViewComponents/Accordion/Accordion';
 import {
   editListTitle,
   editListDescription,
@@ -9,12 +8,13 @@ import {
   generateInitialListState,
   updateWholeListState,
 } from 'redux/slices/list';
-import AppModeHeader from './ListViewComponents/AppModeHeader';
 import { updateAppData, updateAppName } from 'redux/slices/workspace';
-import HeaderSection from './HeaderSection';
 import { useDispatch, useSelector } from 'react-redux';
+import Accordion from './ListViewComponents/Accordion/Accordion';
+import AppModeHeader from './ListViewComponents/AppModeHeader';
+import HeaderSection from './HeaderSection';
 
-function ListView({ contentRef, workspaceObj, uiDetails }: any) {
+function ListView({ databaseData, databaseEntries }: any) {
   const dispatch = useDispatch();
   const { content, list, workspace }: any = useSelector((state) => state);
   const { listTitleAndDesc, oneTime } = list;
@@ -41,52 +41,42 @@ function ListView({ contentRef, workspaceObj, uiDetails }: any) {
   //   }
   // }, []);
 
-  // useEffect(() => {
-  //   if (currentFileName !== '') {
-  //     dispatch(editListTitle({ newTitle: currentFileName }));
-  //   }
-  // }, [currentFileName]);
+  useEffect(() => {
+    // if (currentFileName !== '') {
+    //   dispatch(editListTitle({ newTitle: currentFileName }));
+    // }
+  }, [currentFileName]);
 
-  // useEffect(() => {
-  //   const { editorApplicationsAdded } = workspace;
-  //   const currentApplicationId = uiDetails.split('--')[2];
-  //   const applicationsDataFiltered = editorApplicationsAdded?.find(
-  //     (appData: any) => appData.applicatioId === currentApplicationId
-  //   );
-  //   const ListEmptyData = generateInitialListState();
-  //   if (applicationsDataFiltered) {
-  //     const { appData, titleForDoc } = applicationsDataFiltered;
-  //     setTitle(titleForDoc);
-  //     if (appData) {
-  //       dispatch(updateWholeListState(appData));
-  //     } else {
-  //       dispatch(updateWholeListState(ListEmptyData));
-  //     }
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   const currentApplicationId = uiDetails.split('--')[2];
-  //   dispatch(updateAppData({ appID: currentApplicationId, appData: list }));
-  // }, [list]);
+  useEffect(() => {
+    // const { editorApplicationsAdded } = workspace;
+    // const currentApplicationId = uiDetails.split('--')[2];
+    // const applicationsDataFiltered = editorApplicationsAdded?.find(
+    //   (appData: any) => appData.applicatioId === currentApplicationId
+    // );
+    // const ListEmptyData = generateInitialListState();
+    // if (applicationsDataFiltered) {
+    //   const { appData, titleForDoc } = applicationsDataFiltered;
+    //   setTitle(titleForDoc);
+    //   if (appData) {
+    //     dispatch(updateWholeListState(appData));
+    //   } else {
+    //     dispatch(updateWholeListState(ListEmptyData));
+    //   }
+    // }
+  }, []);
 
-  // const updateCurrentTitle = (name) => {
-  //   const currentApplicationId = uiDetails.split('--')[2];
-  //   dispatch(updateAppName({ appID: currentApplicationId, titleForDoc: name }));
-  // };
+  useEffect(() => {}, [list]);
+
   return (
-    <>
-      {/* <HeaderSection
-        view="list"
-        updateCurrentTitle={updateCurrentTitle}
-        title={title}
-      /> */}
-      <div className="mainListComponentContainer">
-        {/* <MainListComponent /> */}
-        <Accordion isAppMode={isAppMode} 
-        // title={title} 
-        />
-      </div>
-    </>
+    <div className="mainListComponentContainer">
+      {/* <MainListComponent /> */}
+      <Accordion
+        isAppMode={false}
+        title={databaseData.title}
+        databaseData={databaseData}
+        databaseEntries={{ databaseEntries }}
+      />
+    </div>
   );
 }
 

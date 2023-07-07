@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Accordion.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,346 +8,141 @@ import {
   setSelectedItemIndex,
   updatePosition,
 } from 'redux/slices/list';
-import SubAccordion from './SubAccordion';
+import { motion } from 'framer-motion';
+import { generateListTemplate } from 'utils/dataTemplates';
+import { v4 as uuidv4 } from 'uuid';
+import { createTableDocument } from '@/redux/slices/workspace';
 import HeaderSubCompInput from '../HeaderSubCompInput';
-const dummmyArray = [
-  {
-    status: 'todo',
-    headerText: 'To-do',
-    colorIcon: '#939AFF',
-    items: [
-      // {
-      //   title: 'Check for meetings 1',
-      //   description:
-      //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-      //   siconValue: 2,
-      //   checklist: {
-      //     checked: 2,
-      //     total: 6,
-      //   },
-      //   imagesData: ['', ''],
-      //   page: true,
-      //   flag: true,
-      //   recurring: true,
-      //   childs: [
-      //     {
-      //       title: 'Check for sub-meetings 1',
-      //       description: '',
-      //       siconValue: 2,
-      //       checklist: {
-      //         checked: 2,
-      //         total: 6,
-      //       },
-      //       imagesData: ['', ''],
-      //       page: true,
-      //       flag: true,
-      //       recurring: true,
-      //     },
-      //     {
-      //       title: 'Check for sub-meetings 2',
-      //       description: '',
-      //       siconValue: 2,
-      //       checklist: {
-      //         checked: 2,
-      //         total: 6,
-      //       },
-      //       imagesData: ['', ''],
-      //       page: true,
-      //       flag: true,
-      //       recurring: true,
-      //     },
-      //   ],
-      // },
-      // {
-      //   title: 'Check for meetings 2',
-      //   description:
-      //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-      //   siconValue: 1,
-      //   checklist: {
-      //     checked: 4,
-      //     total: 6,
-      //   },
-      //   imagesData: ['', ''],
-      //   page: true,
-      //   flag: true,
-      //   recurring: true,
-      //   childs: [],
-      // },
-      // {
-      //   title: 'Check for meetings 3',
-      //   description:
-      //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-      //   siconValue: 3,
-      //   checklist: {
-      //     checked: 3,
-      //     total: 6,
-      //   },
-      //   imagesData: ['', ''],
-      //   page: true,
-      //   flag: true,
-      //   recurring: true,
-      //   childs: [],
-      // },
-    ],
-  },
-  {
-    status: 'inprogress',
-    headerText: 'In-progress',
-    colorIcon: '#FFD976',
-    items: [
-      // {
-      //   title: 'In progress meetings 1',
-      //   description:
-      //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-      //   siconValue: 2,
-      //   checklist: {
-      //     checked: 2,
-      //     total: 6,
-      //   },
-      //   imagesData: ['', ''],
-      //   page: true,
-      //   flag: true,
-      //   recurring: true,
-      //   childs: [
-      //     {
-      //       title: 'In progress sub-meetings 1',
-      //       description: '',
-      //       siconValue: 2,
-      //       checklist: {
-      //         checked: 2,
-      //         total: 6,
-      //       },
-      //       imagesData: ['', ''],
-      //       page: true,
-      //       flag: true,
-      //       recurring: true,
-      //     },
-      //     {
-      //       title: 'In progress sub-meetings 2',
-      //       description: '',
-      //       siconValue: 2,
-      //       checklist: {
-      //         checked: 2,
-      //         total: 6,
-      //       },
-      //       imagesData: ['', ''],
-      //       page: true,
-      //       flag: true,
-      //       recurring: true,
-      //     },
-      //   ],
-      // },
-      // {
-      //   title: 'In progress meetings 2',
-      //   description:
-      //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-      //   siconValue: 1,
-      //   checklist: {
-      //     checked: 4,
-      //     total: 6,
-      //   },
-      //   imagesData: ['', ''],
-      //   page: true,
-      //   flag: true,
-      //   recurring: true,
-      //   childs: [],
-      // },
-      // {
-      //   title: 'In progress meetings 3',
-      //   description:
-      //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-      //   siconValue: 3,
-      //   checklist: {
-      //     checked: 3,
-      //     total: 6,
-      //   },
-      //   imagesData: ['', ''],
-      //   page: true,
-      //   flag: true,
-      //   recurring: true,
-      //   childs: [],
-      // },
-    ],
-  },
-  {
-    status: 'inreview',
-    headerText: 'In-review',
-    colorIcon: '#4184E9',
-    items: [
-      // {
-      //   title: 'In-review meetings 1',
-      //   description:
-      //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-      //   siconValue: 2,
-      //   checklist: {
-      //     checked: 2,
-      //     total: 6,
-      //   },
-      //   imagesData: ['', ''],
-      //   page: true,
-      //   flag: true,
-      //   recurring: true,
-      //   childs: [
-      //     {
-      //       title: 'In-review sub-meetings 1',
-      //       description: '',
-      //       siconValue: 2,
-      //       checklist: {
-      //         checked: 2,
-      //         total: 6,
-      //       },
-      //       imagesData: ['', ''],
-      //       page: true,
-      //       flag: true,
-      //       recurring: true,
-      //     },
-      //     {
-      //       title: 'In-review sub-meetings 2',
-      //       description: '',
-      //       siconValue: 2,
-      //       checklist: {
-      //         checked: 2,
-      //         total: 6,
-      //       },
-      //       imagesData: ['', ''],
-      //       page: true,
-      //       flag: true,
-      //       recurring: true,
-      //     },
-      //   ],
-      // },
-      // {
-      //   title: 'In-review meetings 2',
-      //   description:
-      //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-      //   siconValue: 1,
-      //   checklist: {
-      //     checked: 4,
-      //     total: 6,
-      //   },
-      //   imagesData: ['', ''],
-      //   page: true,
-      //   flag: true,
-      //   recurring: true,
-      //   childs: [],
-      // },
-      // {
-      //   title: 'In-review meetings 3',
-      //   description:
-      //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-      //   siconValue: 3,
-      //   checklist: {
-      //     checked: 3,
-      //     total: 6,
-      //   },
-      //   imagesData: ['', ''],
-      //   page: true,
-      //   flag: true,
-      //   recurring: true,
-      //   childs: [],
-      // },
-    ],
-  },
-  {
-    status: 'completed',
-    headerText: 'Completed',
-    colorIcon: '#36D95A',
-    items: [
-      // {
-      //   title: 'Completed meetings 1',
-      //   description:
-      //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-      //   siconValue: 2,
-      //   checklist: {
-      //     checked: 2,
-      //     total: 6,
-      //   },
-      //   imagesData: ['', ''],
-      //   page: true,
-      //   flag: true,
-      //   recurring: true,
-      //   childs: [
-      //     {
-      //       title: 'Completed sub-meetings 1',
-      //       description: '',
-      //       siconValue: 2,
-      //       checklist: {
-      //         checked: 2,
-      //         total: 6,
-      //       },
-      //       imagesData: ['', ''],
-      //       page: true,
-      //       flag: true,
-      //       recurring: true,
-      //     },
-      //     {
-      //       title: 'Completed sub-meetings 2',
-      //       description: '',
-      //       siconValue: 2,
-      //       checklist: {
-      //         checked: 2,
-      //         total: 6,
-      //       },
-      //       imagesData: ['', ''],
-      //       page: true,
-      //       flag: true,
-      //       recurring: true,
-      //     },
-      //   ],
-      // },
-      // {
-      //   title: 'Completed meetings 2',
-      //   description:
-      //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-      //   siconValue: 1,
-      //   checklist: {
-      //     checked: 4,
-      //     total: 6,
-      //   },
-      //   imagesData: ['', ''],
-      //   page: true,
-      //   flag: true,
-      //   recurring: true,
-      //   childs: [],
-      // },
-      // {
-      //   title: 'Completed meetings 3',
-      //   description:
-      //     'Make note of any appointments or meetings that you have scheduled for the day and ensure that you have the necessary information and materials.',
-      //   siconValue: 3,
-      //   checklist: {
-      //     checked: 3,
-      //     total: 6,
-      //   },
-      //   imagesData: ['', ''],
-      //   page: true,
-      //   flag: true,
-      //   recurring: true,
-      //   childs: [],
-      // },
-    ],
-  },
-];
+import SubAccordion from './SubAccordion';
 
-function Accordion({ isAppMode, title }) {
+function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   const dispatch = useDispatch();
-  // const [newTaskClicked, setNewTaskClicked] = useState(false)
+
   const { 
-    // panelArray, 
+    panelArray, 
     newTaskClicked, 
-    // expandedItems, 
-    // selectedItemIndex 
+    expandedItems, 
+    selectedItemIndex 
   } =
     useSelector((state) => state.list);
-  const [expandedItems, setExpandedItems] = useState([0]);
-  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
-  const { workspace, database }: any = useSelector((state) => state);
-  const {databases} = database
 
+  // const [expandedItems, setExpandedItems] = useState([0]);
+  // const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
-  console.log(database)
 
-  const [panelArray, setPanelArray] = useState(databases[2].propertyPresets.status.options)
+
+  // Local States
+  const [statusPanels, setStatusPanels] = useState(null);
+
+  // On List View Load
+  useEffect(() => {
+    // List View Load
+    console.log('panelArray', panelArray);
+    console.log('Data From Store', databaseData);
+    console.log('Data From Entries', databaseEntries);
+
+    const data: any[] = [];
+    databaseData.propertyPresets.status.options.map((item: any) => {
+      console.log('item', item);
+
+      const entries = [];
+
+      // Optimize The Code
+      databaseEntries.databaseEntries.forEach((entry: any) => {
+        entry.properties.forEach((property: any) => {
+          if (property.title === 'Status') {
+            console.log('===Entry', property);
+            console.log('===Item', item);
+            console.log('===Doc', entry);
+            if (property.value === item.title) {
+              entries.push({
+                title: entry.name,
+                description: 'test',
+                childs: [],
+              });
+            }
+          }
+        });
+
+        // console.log("Status",entry.status);
+        // console.log("Status",item.title);
+
+        // if (entry.status === item.title) {
+        //   entries.push({
+        //     title: item.title,
+        //   });
+        // }
+      });
+
+      data.push({
+        status: item.title,
+        headerText: item.title,
+        colorIcon: item.color,
+        items: entries,
+      });
+    });
+
+    console.log('Final data', data);
+
+    setStatusPanels(data);
+  }, [databaseData]);
+
+  // Local States
+  const [statusPanels, setStatusPanels] = useState(null);
+
+  // On List View Load
+  useEffect(() => {
+    // List View Load
+    console.log('panelArray', panelArray);
+    console.log('Data From Store', databaseData);
+    console.log('Data From Entries', databaseEntries);
+
+    const data: any[] = [];
+    databaseData.propertyPresets.status.options.map((item: any) => {
+      console.log('item', item);
+
+      const entries = [];
+
+      // Optimize The Code
+      databaseEntries.databaseEntries.forEach((entry: any) => {
+        entry.properties.forEach((property: any) => {
+          if (property.title === 'Status') {
+            console.log('===Entry', property);
+            console.log('===Item', item);
+            console.log('===Doc', entry);
+            if (property.value === item.title) {
+              entries.push({
+                title: entry.name,
+                description: 'test',
+                childs: [],
+              });
+            }
+          }
+        });
+
+        // console.log("Status",entry.status);
+        // console.log("Status",item.title);
+
+        // if (entry.status === item.title) {
+        //   entries.push({
+        //     title: item.title,
+        //   });
+        // }
+      });
+
+      data.push({
+        status: item.title,
+        headerText: item.title,
+        colorIcon: item.color,
+        items: entries,
+      });
+    });
+
+    console.log('Final data', data);
+
+    setStatusPanels(data);
+  }, [databaseData]);
 
   const toggleAccordion = (index) => {
     const updatedItems = [...expandedItems];
@@ -366,34 +161,26 @@ function Accordion({ isAppMode, title }) {
   };
 
   const onDragEnd = (result) => {
-    const mapping = { todo: 0, inprogress: 1, inreview: 2, completed: 3 };
-      const { source, destination, draggableId } = result
-      if (destination === undefined || destination === null) return null;
-      if (
-        source.droppableId === destination.droppableId &&
-        destination.index === source.index
-      )
-        return null;
-
-      const start = panelArray[mapping[source.droppableId]];
-      const end = panelArray[mapping[destination.droppableId]];
-      const draggedItem = start.items[source.index];
-      start.items.splice(source.index, 1);
-      end.items.splice(destination.index, 0, draggedItem);
-
-      const expandedItemsNew = [...expandedItems];
-      if (!expandedItemsNew.includes(mapping[source.droppableId])) {
-        expandedItemsNew.push(mapping[source.droppableId]);
-      }
-      if (!expandedItemsNew.includes(mapping[destination.droppableId])) {
-        expandedItemsNew.push(mapping[destination.droppableId]);
-      }
-      setExpandedItems(expandedItemsNew)
-      // state.expandedItems = expandedItems;
-    //   const updatedPanelArray = [...panelArray];
-    //   state.panelArray = updatedPanelArray;
-    // dispatch(updatePosition(result));
+    dispatch(updatePosition(result));
   };
+
+  const newDocument = (item) => {
+    console.log('New Doc Requested', item, databaseData);
+    const initialDocumentID = uuidv4();
+
+    // Get Current Workspace Info
+
+    // Document Meta
+    const documentMeta = {};
+
+    // Create Document With Status
+    const docTemplate = generateListTemplate();
+    // Add Database Entry
+
+    // Dispatch Create Event For Doc
+    dispatch(createTableDocument({ initialDocumentID, docTemplate }));
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div
@@ -403,8 +190,8 @@ function Accordion({ isAppMode, title }) {
           marginLeft: `${isAppMode ? '32px' : ''}`,
         }}
       >
-        {panelArray?.map((item, i) => (
-          <Droppable droppableId={item.title} key={i}>
+        {statusPanels?.map((item, i) => (
+          <Droppable droppableId={item.status} key={i}>
             {(provided, snapshot) => (
               <div
                 className="statusParent"
@@ -444,14 +231,22 @@ function Accordion({ isAppMode, title }) {
                       </div>
                     </div>
                     {expandedItems?.includes(i) && (
-                      <div className="newTaskText2">
+                      <div
+                        className="newTaskText2"
+                        onClick={(e) => newDocument(item)}
+                      >
                         New Task <span style={{ color: '#8A8B8B' }}>+</span>
                       </div>
                     )}
                   </div>
                   {expandedItems?.includes(i) && ( 
                     <div className="subAccordionContainer">
-                      {item.items?.map((subItems, j) => (
+                      {item.items.length === 0 && (
+                        <div className="empty-list">
+                          Add a task or drag here.
+                        </div>
+                      )}
+                      {item.items.map((subItems, j) => (
                         <Draggable
                           key={j}
                           draggableId={`draggable${i}${j}`}
@@ -462,13 +257,24 @@ function Accordion({ isAppMode, title }) {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                             >
-                              <SubAccordion
-                                status={item.title}
-                                data={subItems}
-                                provided={provided}
-                                index={j}
-                                title={title}
-                              />
+                              <motion.div
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.3 }}
+                                variants={{
+                                  visible: { opacity: 1, scale: 1 },
+                                  hidden: { opacity: 0, scale: 0.5 },
+                                }}
+                              >
+                                <SubAccordion
+                                  status={item.status}
+                                  data={subItems}
+                                  provided={provided}
+                                  index={j}
+                                  title={title}
+                                />
+                              </motion.div>
                             </div>
                           )}
                         </Draggable>

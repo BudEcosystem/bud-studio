@@ -4,9 +4,13 @@ import React, { useEffect, useState } from 'react';
 import HamburgerItems from './HamburgerItems';
 import './Hamburger.css';
 
-
-function Hamburger({ documentData = [], currentPage, setCurrentPage }) {
-
+function Hamburger({
+  documentData = [],
+  currentPage,
+  setCurrentPage,
+  currentDatabase,
+}) {
+  console.log(currentDatabase, 'currentdatabase=');
   // Handle Pagination
   const handleOptionClick = (index: any) => {
     if (index === '') {
@@ -16,6 +20,7 @@ function Hamburger({ documentData = [], currentPage, setCurrentPage }) {
     // Set The Current View
     setCurrentPage(index);
   };
+
   return (
     <div className={'ham-container'}>
       {documentData.length > 1 && (
@@ -26,6 +31,7 @@ function Hamburger({ documentData = [], currentPage, setCurrentPage }) {
               title="Document"
               selected={index === currentPage}
               onClick={() => handleOptionClick(index)}
+              currentDatabase={currentDatabase}
             />
           ))}
         </>

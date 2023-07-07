@@ -1,52 +1,117 @@
-.hamBurgerParent{
-    position: fixed;
-    top: 65vh;
+:root {
+  --tooltip-border-color: #939aff;
+}
+
+.hamBurgerParent {
+  position: fixed;
+  top: 65vh;
 }
 
 .hamItemsContainer {
-    display: flex;
-    align-items: center;
-    color: #B9B7B7;
-    font-family: 'Noto Sans';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 10px;
-    line-height: 100%;
-    margin-top: 7px;
-    transition: all 1s ease;
+  display: flex;
+  align-items: center;
+  color: #b9b7b7;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 100%;
+  margin-top: 7px;
+  transition: all 1s ease;
 }
 
 .square {
-    width: 13px;
-    height: 13px;
-    background: #161819;
-    border: 1px solid #333538;
-    border-radius: 3px;
-    transform: rotate(45deg);
-    transition: all 1s ease;
+  width: 13px;
+  height: 13px;
+  background: #161819;
+  border: 1px solid #333538;
+  border-radius: 3px;
+  transform: rotate(45deg);
+  transition: all 1s ease;
 }
-
+@keyframes moveToTop {
+  0% {
+    transform: translateY(0px);
+  }
+  30% {
+    transform: translateY(5px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  80% {
+    transform: translateY(5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+  /* 100% {
+    transform: translateY(0px);
+  } */
+}
+.tooltip-image {
+  width: 192px;
+  height: 112.17px;
+  top: 595px;
+  left: 282px;
+  border-radius: 5px;
+  padding: 1px;
+  padding-top: 3px;
+  text-align: center;
+}
+.tooltip-text {
+  font-family: Noto Sans;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: -2%;
+  color: #bbbbbb;
+  margin-bottom: 4px;
+}
+.tooltip-date {
+  font-family: Noto Sans;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 10px;
+  letter-spacing: -2%;
+  color: #bbbbbb;
+}
+.tooltip-content {
+  padding: 4px 8px;
+}
+.tooltip-container {
+  width: 200px;
+  height: 162px;
+  top: 591px;
+  left: 278px;
+  border-radius: 8px;
+  border: 0.3px solid var(--tooltip-border-color);
+  background-color: #28272c;
+  padding-left: 2px;
+  padding-top: 2px;
+}
 .hamItemsTitle {
-    margin-left: 7px;
-    transition: all 1s ease;
+  margin-left: 7px;
+  transition: all 1s ease;
 }
 
-.fillColor{
-    background: #939AFF;
-    transition: all 1s ease;
+.fillColor {
+  background: #939aff;
+  transition: all 1s ease;
 }
 
 .verticalBar {
-    width: 3px;
-    height: 80px;
-    margin-left: 5px;
-    margin-top: 2px;
-    background: linear-gradient(180deg, #939AFF 0%, rgba(147, 154, 255, 0) 100%);
-    border-radius: 1.5px 1.5px 0px 14px;
+  width: 3px;
+  height: 80px;
+  margin-left: 5px;
+  margin-top: 2px;
+  background: linear-gradient(180deg, #939aff 0%, rgba(147, 154, 255, 0) 100%);
+  border-radius: 1.5px 1.5px 0px 14px;
+  animation: moveToTop 1.2s linear;
+  /* animation-delay: 500ms; */
 }
 
-.ham-container{
+.ham-container {
   position: fixed;
   top: 75vh;
 }
-

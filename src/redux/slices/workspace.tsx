@@ -22,6 +22,14 @@ export const generateInitialWorkspaceState = (): InitialState => {
         id: 'wsp-1',
         uuid: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
         childs: [],
+        files: [
+          {
+            id: uuidv4(),
+            name: 'Welcome to Bud',
+            files: [],
+          },
+        ],
+        folders: [],
       },
     ],
     workspaceFolders: [],
@@ -178,6 +186,30 @@ export const generateInitialWorkspaceState = (): InitialState => {
   return initialState;
 };
 
+const searchById = (structure, id) => {
+  if (!structure || structure.length === 0) {
+    return null;
+  }
+  for (const item of structure) {
+    if (item.id === id) {
+      return item;
+    }
+    if (item.folders && item.folders.length > 0) {
+      const foundInFolders = searchById(item.folders, id);
+      if (foundInFolders) {
+        return foundInFolders;
+      }
+    }
+    // if (item.files && item.files.length > 0) {
+    //   const foundInFiles = searchById(item.files, id);
+    //   if (foundInFiles) {
+    //     return foundInFiles;
+    //   }
+    // }
+  }
+  return null;
+};
+
 export const workspaceSlice = createSlice({
   name: 'workspace',
   initialState: generateInitialWorkspaceState,
@@ -236,6 +268,15 @@ export const workspaceSlice = createSlice({
     changeColor: (state, action: PayloadAction<any>) => {
       state.color = action.payload.color;
     },
+    // createWorkspaces: (state, action: PayloadAction<any>) => {
+    //   if (action.payload.idx !== undefined) {
+    //     state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
+    //     // state.workspaceFolders.push()
+    //   } else {
+    //     // state.workspaceFolders.push(getObj(state.workSpaceItems.length));
+    //   }
+    //   state.workSpaceItems.push({ ...action.payload, uuid: uuidv4() });
+    // },
     createWorkspaces: (state, action: PayloadAction<any>) => {
       if (action.payload.idx !== undefined) {
         state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
@@ -243,7 +284,48 @@ export const workspaceSlice = createSlice({
       } else {
         // state.workspaceFolders.push(getObj(state.workSpaceItems.length));
       }
-      state.workSpaceItems.push({ ...action.payload, uuid: uuidv4() });
+      state.workSpaceItems.push({
+        ...action.payload,
+        uuid: uuidv4(),
+        files: [],
+        folders: [],
+      });
+    },
+    addFolderRedux: (state, action: PayloadAction<any>) => {
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          item['folders'].push(action.payload.newFolder);
+        }
+        console.log({ ...item.folders });
+      });
+    },
+    addFileRedux: (state, action: PayloadAction<any>) => {
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          item['files'].push(action.payload.newFile);
+        }
+        console.log({ ...item.files });
+      });
+    },
+    addSubFoldersRedux: (state, action: PayloadAction<any>) => {
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          const x = searchById(item.folders, action.payload.subFolderId);
+          if (x) {
+            x.folders.push(action.payload.newFolder);
+          }
+        }
+      });
+    },
+    addSubFilesRedux: (state, action: PayloadAction<any>) => {
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          const x = searchById(item.folders, action.payload.subFileId);
+          if (x) {
+            x.files.push(action.payload.newFile);
+          }
+        }
+      });
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
       const arr = [...state.workSpaceItems];
@@ -729,6 +811,8 @@ export const workspaceSlice = createSlice({
       // });
       // state.workSpaceDocs = newSetOFDataProcessed;
     },
+
+    createTableDocument: (state, action: PayloadAction<any>) => {},
   },
 });
 
@@ -758,9 +842,14 @@ export const {
   addDuplicateDoc,
   addDuplicateEditorApplications,
   updateAppName,
+  addFolderRedux,
+  addFileRedux,
+  addSubFoldersRedux,
+  addSubFilesRedux,
   moveFolderRedux,
   copyFolderRedux,
   updateDocumentData,
   attachDatabaseToDocument,
+  createTableDocument,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
