@@ -129,12 +129,12 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
       updatedItems.push(index);
     }
     setExpandedItems(updatedItems);
-    // dispatch(setExpandedItems(index));
+    dispatch(setExpandedItems(index));
   };
 
   const selectItem = (index) => {
     setSelectedItemIndex(index);
-    // dispatch(setSelectedItemIndex(index));
+    dispatch(setSelectedItemIndex(index));
   };
 
   const onDragEnd = (result) => {

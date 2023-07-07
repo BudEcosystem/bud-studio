@@ -299,10 +299,27 @@ export default function TableView({
   useEffect(() => {
     const updateData = () => {
       console.log('Prepare Data Called');
+      console.log(databaseEntries);
 
       const column:
         | React.SetStateAction<GridColumn[]>
         | { title: any; order: any }[] = [{ title: 'Document', order: 0 }];
+
+      // Properties
+      // column.push(
+      //   {
+      //     title: 'Status',
+      //     order: 1,
+      //   },
+      //   {
+      //     title: 'Tags',
+      //     order: 2,
+      //   },
+      //   {
+      //     title: 'Priority',
+      //     order: 3,
+      //   }
+      // );
 
       // databaseEntries.forEach((entry) => {
       // System Defined Properties
