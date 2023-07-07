@@ -59,6 +59,8 @@ export default function TableView({
   const [hoverRow, setHoverRow] = React.useState<number | undefined>(undefined);
   const [taskViewOpen, setTaskViewOpen] = useState(false);
   const { workSpace }: any = useSelector((state) => state);
+  const { database }: any = useSelector((state) => state);
+  const [taskViewData, setTaskViewData] = useState();
 
   // Row Hover Effect
   const onItemHovered = React.useCallback((args: GridMouseEventArgs) => {
@@ -66,7 +68,13 @@ export default function TableView({
     setHoverRow(args.kind !== 'cell' ? undefined : row);
   }, []);
 
-  console.log("TABLE GOV", databaseEntries)
+  console.log("TABLE GOV", databaseData)
+
+  let TaskTitle = database?.databases.map((dt: any) => {
+    // if(dataId == dt.id) {
+    //   return dt.title;
+    // }
+  })
 
   // Theme Override
   const getRowThemeOverride = React.useCallback<GetRowThemeCallback>(
@@ -98,7 +106,8 @@ export default function TableView({
           title: rowData.name,
           uuid: '123',
           onOpenClick: () => {
-            console.log('open');
+            console.log("ROWDATAGOV", rowData);
+            setTaskViewData(rowData)
             setTaskViewOpen(true);
           },
         },
@@ -449,10 +458,10 @@ export default function TableView({
 
   return (
     <div className="table-wrapper" id="table-wrapper">
-      {taskViewOpen && (
+      { (
         <TaskView
-          data={null}
-          title={'hello'}
+          data={taskViewData}
+          title={databaseData.title}
           showTaskViewModal={taskViewOpen}
           setShowTaskViewModal={setTaskViewOpen}
         />
