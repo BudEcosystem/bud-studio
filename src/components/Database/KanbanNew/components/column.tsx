@@ -282,7 +282,7 @@ function Column(props: any) {
     const TaskArray: any = [];
     props.entries.forEach((entry: any, index: any) => {
       workSpaceDocs.forEach((doc: any, index: any) => {
-        console.log('SUCCESS MAPP', props.title);
+        console.log('SUCCESS MAPP - PROPS', props);
         console.log('SUCCESS MAPP', entry);
         if (doc.uuid == entry.documentID && props.title === entry.statusKey) {
           console.log('SUCCESS MAPP');

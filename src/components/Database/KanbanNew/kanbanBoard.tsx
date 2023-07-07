@@ -161,6 +161,7 @@ function Kanban({ databaseData }: any) {
                     key={columnId}
                     title={column.title}
                     entries={databaseData.entries}
+                    databaseData={databaseData}
                     id={columnId}
                     index={index}
                     color={column.color}
