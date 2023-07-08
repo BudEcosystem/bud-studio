@@ -92,9 +92,8 @@ function Kanban({ dbId }: any) {
   const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
   const dispatch = useDispatch();
   const onDragEnd = (result: any) => {
-    console.log('drag', result);
     console.log(
-      'drag - kanbanDBData',
+      'newCopyOFDB - kanbanDBData',
       kanbanDBData.propertyPresets.status.options
     );
     const statusKeyArray = kanbanDBData.propertyPresets.status.options.map(
@@ -123,8 +122,6 @@ function Kanban({ dbId }: any) {
       if (event.key === 'Enter') {
         event.preventDefault();
         if (inputRef.current?.value) {
-          alert('Hello there');
-          console.log('Hello there', toSnakeCase(inputRef.current?.value));
           const newSectionParams = {
             title: inputRef.current?.value,
             color: 'yellow',
@@ -196,6 +193,7 @@ function Kanban({ dbId }: any) {
                       id={columnId?.key}
                       index={index}
                       color={column?.color}
+                      dbId={dbId}
                     />
                   );
                 }

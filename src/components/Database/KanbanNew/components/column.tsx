@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Popover } from 'antd';
 import { EnterOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
 import { createNewTaskOnEnter, editColumnName } from 'redux/slices/kanban';
-import Tasks from './taks';
+import Tasks from './tasks';
 import {
   ColumnMenuItems,
   ColumnMenuLabel,
@@ -32,6 +32,9 @@ import {
   AddNewTaskinput,
   TaskList,
 } from '../styled-components';
+import { addNewWorkSpaceDocument } from '@/redux/slices/workspace';
+import { v4 as uuidv4 } from 'uuid';
+import { addNewDocumentEntry } from '@/redux/slices/database';
 
 interface Task {
   index: any;
@@ -47,12 +50,14 @@ interface Task {
 }
 
 function Column(props: any) {
+  const dispatch = useDispatch();
   const [showNewTaskUI, setNewTaskUI] = useState(false);
   const [addButtonClickedFromColumn, SetAddButtonClickedFromColumn] =
     useState(false);
 
   const { workspace }: any = useSelector((state) => state);
-  const { workSpaceDocs } = workspace;
+  console.log('workspace', workspace);
+  const { workSpaceDocs, currentWorkspace } = workspace;
 
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const inputRefForColumnEdit =
@@ -64,8 +69,24 @@ function Column(props: any) {
     input?.addEventListener('keypress', function (event) {
       if (event.key === 'Enter') {
         event.preventDefault();
-        if (inputRef.current?.value) {
-          // CODE FOR ADDING TASKS GOES HERE
+        if (inputRef.current?.value && inputRef.current?.value !== '') {
+          const docIdGenerated = uuidv4();
+          dispatch(
+            addNewWorkSpaceDocument({
+              docId: docIdGenerated,
+              statusKey: props?.currentKey,
+              workspaceId: currentWorkspace,
+              docName: inputRef.current?.value,
+            })
+          );
+          dispatch(
+            addNewDocumentEntry({
+              docId: docIdGenerated,
+              statusKey: props?.currentKey,
+              dbId: props?.dbId,
+            })
+          );
+          inputRef.current.value = '';
         }
       }
     });
@@ -105,21 +126,25 @@ function Column(props: any) {
   };
   const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
   useEffect(() => {
-    console.log('coulmn.tsx - props', props);
-    console.log('coulmn.tsx - workSpaceDocs', workSpaceDocs);
+    console.log('newCopyOFDB - props', props);
+    console.log('newCopyOFDB - workSpaceDocs', workSpaceDocs);
     const TaskArray: any = [];
-    const statusOrder = workSpaceDocs[0]?.properties?.find(
-      (data) => data.type === 'status'
-    );
-    console.log('coulmn.tsx - statusOrder', statusOrder);
+    // const statusOrder = workSpaceDocs[0]?.properties?.find(
+    //   (data: any) => data.type === 'status'
+    // );
+    // console.log('newCopyOFDB - statusOrder', statusOrder);
 
     props?.entries?.forEach((entry: any, index: any) => {
       workSpaceDocs?.forEach((doc: any, index: any) => {
+        const statusOrder = doc.properties?.find(
+          (data: any) => data.type === 'status'
+        );
         if (
           doc.uuid === entry.documentID &&
           props.currentKey === statusOrder.value
         ) {
-          console.log(entry.documentID);
+          console.log('newCopyOFDB', doc.uuid, entry.documentID);
+          console.log('newCopyOFDB', props.currentKey, statusOrder.value);
           console.log(doc.uuid);
           const docId = entry.documentID;
           const mappedTask: Task = {

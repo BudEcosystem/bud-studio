@@ -212,7 +212,7 @@ function HeaderButtons({ label, icon }: any) {
     </ButtonGroup>
   );
 }
-function KanbanUI({ id }) {
+function KanbanUI({ id }: any) {
   const [date, setDate] = useState<String>('');
   const [title, setTitle] = useState('');
   useEffect(() => setDate('13 June 2022'), []);

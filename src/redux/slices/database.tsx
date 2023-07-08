@@ -317,6 +317,7 @@ export const databaseSlice = createSlice({
       state.databases = currentDatabase;
     },
     changeDatabaseStatusOrder: (state, action: PayloadAction<any>) => {
+      console.log('newCopyOFDB - changeDatabaseStatusOrder', action.payload);
       const { dragResult } = action.payload;
       const copyOfDB = [...state.databases];
       const newCopyOFDB = copyOfDB.map((data) => {
@@ -364,6 +365,32 @@ export const databaseSlice = createSlice({
       });
       state.databases = newCopyOFDB;
     },
+    addNewDocumentEntry: (state, action: PayloadAction<any>) => {
+      console.log('newCopyOFDB-addNewDocumentEntry', action.payload);
+      const { docId, statusKey: sk, dbId } = action.payload;
+      const sampleObjectToPush = {
+        documentID: docId,
+        statusKey: sk,
+      };
+
+      // const { id, newSectionParams } = action.payload;
+      const copyOfDB = [...state.databases];
+      const newCopyOFDB = copyOfDB.map((data) => {
+        const eachData = { ...data };
+        if (eachData.id === dbId) {
+          const copyOfEntries = [...eachData.entries];
+          const proxyOfEntries: any = [];
+          copyOfEntries.forEach((stat) => {
+            proxyOfEntries.push({ ...stat });
+          });
+          proxyOfEntries.push(sampleObjectToPush);
+          eachData.entries = proxyOfEntries;
+        }
+        return eachData;
+      });
+      console.log('newCopyOFDB', newCopyOFDB);
+      state.databases = newCopyOFDB;
+    },
   },
 });
 
@@ -386,6 +413,7 @@ export const {
   addNewPropertPresetsStatusOptions,
   attachDocumentToDatabase,
   changeDatabaseDefaultView,
+  addNewDocumentEntry,
 } = databaseSlice.actions;
 
 export default databaseSlice.reducer;
