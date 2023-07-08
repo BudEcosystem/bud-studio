@@ -29,6 +29,8 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import { moveDatabaseRow } from '@/redux/slices/database';
+import TaskView from '@/components/TaskView/TaskView';
+import { changePriority, changeStatus } from '@/redux/slices/workspace';
 import DocumentCellRenderer, { DocumentCell } from './Cells/DocumentCell';
 import PriorityCellRenderer, { PriorityCell } from './Cells/PriorityCell';
 
@@ -36,8 +38,6 @@ import { ReactComponent as DragButtonIcon } from '../../../../public/images/drag
 import '@glideapps/glide-data-grid/dist/index.css';
 import '@glideapps/glide-data-grid-cells/dist/index.css';
 import './table.view.css';
-import TaskView from '@/components/TaskView/TaskView';
-import { changePriority, changeStatus } from '@/redux/slices/workspace';
 
 // Grid columns may also provide icon, overlayIcon, menu, style, and theme overrides
 // @ts-ignore
@@ -68,13 +68,13 @@ export default function TableView({
     setHoverRow(args.kind !== 'cell' ? undefined : row);
   }, []);
 
-  console.log("TABLE GOV", databaseData)
-
-  let TaskTitle = database?.databases.map((dt: any) => {
-    // if(dataId == dt.id) {
-    //   return dt.title;
-    // }
-  })
+  // console.log('TABLE GOV', databaseData);
+  //
+  // const TaskTitle = database?.databases.map((dt: any) => {
+  //   // if(dataId == dt.id) {
+  //   //   return dt.title;
+  //   // }
+  // });
 
   // Theme Override
   const getRowThemeOverride = React.useCallback<GetRowThemeCallback>(
@@ -106,8 +106,8 @@ export default function TableView({
           title: rowData.name,
           uuid: '123',
           onOpenClick: () => {
-            console.log("ROWDATAGOV", rowData);
-            setTaskViewData(rowData)
+            console.log('ROWDATAGOV', rowData);
+            setTaskViewData(rowData);
             setTaskViewOpen(true);
           },
         },
@@ -141,7 +141,7 @@ export default function TableView({
             value: matchingItem.value,
             id: rowData.uuid,
             changeValue: (id: any, label: any) => {
-            dispatch(changeStatus({id, label}))
+              dispatch(changeStatus({ id, label }));
             },
           },
         };
@@ -160,9 +160,18 @@ export default function TableView({
             value: matchingItem.value,
             id: rowData.uuid,
             changeValue: (id: any, label: any) => {
-              dispatch(changePriority({id, label}))
+              dispatch(changePriority({ id, label }));
             },
           },
+        };
+      }
+      if (matchingItem.type === 'date') {
+        return {
+          kind: GridCellKind.Text,
+          allowOverlay: true,
+          displayData: matchingItem.value,
+          data: matchingItem.value,
+          allowWrapping: true,
         };
       }
 
@@ -475,14 +484,12 @@ export default function TableView({
 
   return (
     <div className="table-wrapper" id="table-wrapper">
-      { (
-        <TaskView
-          data={taskViewData}
-          title={databaseData.title}
-          showTaskViewModal={taskViewOpen}
-          setShowTaskViewModal={setTaskViewOpen}
-        />
-      )}
+      <TaskView
+        data={taskViewData}
+        title={databaseData.title}
+        showTaskViewModal={taskViewOpen}
+        setShowTaskViewModal={setTaskViewOpen}
+      />
       {data && (
         <DataEditor
           {...cellProps}

@@ -6,6 +6,7 @@ import { editTitle, taskViewDataChange } from 'redux/slices/list';
 import { setCurrentSelectedUI } from 'redux/slices/activestate';
 import {
   editDocumentTitleById,
+  updateDocumentDueDateById,
   updateDocumentStatusById,
   updateDocumentTagById,
 } from '@/redux/slices/workspace';
@@ -24,6 +25,7 @@ import {
 
 import { CalendarOutlined, SearchOutlined } from '@ant-design/icons';
 import { styled } from 'styled-components';
+import * as dayjs from 'dayjs';
 import {
   BoxArrow,
   CheckList,
@@ -61,6 +63,7 @@ function HeaderSubComp({
   );
   const [tagPopoverVisible, setTagPopoverVisible] = useState(false);
   const [priorityPopoverVisible, setPriorityPopoverVisible] = useState(false);
+  const [datePopoverVisible, setDatePopoverVisible] = useState(false);
   const inputTagRef = useRef<InputRef>(null);
   const { color } = useSelector((state) => state.workspace);
   // Priority Flags
@@ -124,6 +127,16 @@ function HeaderSubComp({
     dispatch(
       updateDocumentStatusById({ documentID: data.entry.uuid, priority })
     );
+  };
+
+  // Update Due Date
+  const updateDueDate = (date) => {
+
+    dispatch(
+      updateDocumentDueDateById({ documentID: data.entry.uuid, dueDate: date })
+    );
+
+    setDatePopoverVisible(false);
   };
 
   // @ts-ignore
@@ -221,6 +234,8 @@ function HeaderSubComp({
               placement="bottom"
               arrow={false}
               title="Due Date"
+              open={datePopoverVisible}
+              onOpenChange={(visible) => setDatePopoverVisible(visible)}
               content={
                 <div style={{ width: 300 }}>
                   <ConfigProvider
@@ -237,14 +252,27 @@ function HeaderSubComp({
                       },
                     }}
                   >
-                    <Calendar fullscreen={false} />
+                    <Calendar fullscreen={false} onChange={updateDueDate} />
                   </ConfigProvider>
                 </div>
               }
             >
-              <Button type="text">
-                <CircularBorder icon={<FoldedCard />} />
-              </Button>
+              {data.entry.properties.find(
+                (prop: { title: string; value: any }) => prop.title === 'Date'
+              )?.value ? (
+                <>
+                  {dayjs(
+                    data.entry.properties.find(
+                      (prop: { title: string; value: any }) =>
+                        prop.title === 'Date'
+                    )?.value
+                  ).format('DD MMM YYYY')}
+                </>
+              ) : (
+                <Button type="text">
+                  <CircularBorder icon={<FoldedCard />} />
+                </Button>
+              )}
             </Popover>
           )}
         </div>

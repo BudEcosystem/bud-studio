@@ -17,6 +17,10 @@ export const generateDatabaseInitialState = (): any => {
         created_at: '',
         updated_at: '',
         propertyPresets: {
+          date: {
+            name: 'Date',
+            type: 'date',
+          },
           priority: {
             name: 'Priority',
             type: 'select',

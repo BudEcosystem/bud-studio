@@ -83,7 +83,15 @@ export const generateInitialWorkspaceState = (): InitialState => {
             id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
             order: 3,
           },
+          {
+            title: 'Date',
+            value: '',
+            type: 'date',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
+            order: 4,
+          },
         ],
+
         // System Defined Properties
         // {
         //   tags: ['no-tag'],
@@ -293,6 +301,21 @@ export const workspaceSlice = createSlice({
       docs[currentEditorIndex].properties.find(
         (data: any) => data.title === 'Priority'
       ).value = action.payload.priority;
+
+      state.workSpaceDocs = docs;
+    },
+    updateDocumentDueDateById: (state, action: PayloadAction<any>) => {
+      const currentWorkspace = action.payload.documentID;
+
+      const currentEditorIndex = state.workSpaceDocs.findIndex(
+        (data: any) => data.uuid === currentWorkspace
+      );
+
+      // Get Tag From Index
+      const docs = state.workSpaceDocs;
+      docs[currentEditorIndex].properties.find(
+        (data: any) => data.title === 'Date'
+      ).value = action.payload.dueDate;
 
       state.workSpaceDocs = docs;
     },
@@ -1086,6 +1109,7 @@ export const workspaceSlice = createSlice({
 });
 
 export const {
+  updateDocumentDueDateById,
   updateDocumentStatusById,
   updateDocumentTagById,
   editDocumentTitleById,

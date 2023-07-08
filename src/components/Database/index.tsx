@@ -116,6 +116,13 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
           id: uuidv4(),
           order: 3,
         },
+        {
+          title: 'Date',
+          value: '',
+          type: 'date',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
+          order: 4,
+        },
       ],
     };
 
