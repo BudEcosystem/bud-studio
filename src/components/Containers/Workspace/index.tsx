@@ -25,6 +25,7 @@ import iconImage from 'components/EditorHeader/images/iconImage.png';
 import Database from 'components/Database';
 import classes from './workspace.module.css';
 import KanbanUI from '@/components/KanbanNew';
+import MoveToComponent from '@/components/MoveTo/MoveToComponent';
 
 interface WorkspaceProps {
   isCollapsed: boolean;
@@ -46,7 +47,7 @@ export default function Workspace({
   // Local States
 
   // Get the workspace state from redux
-  const { workspace }: any = useSelector((state) => state);
+  const { workspace, activestate }: any = useSelector((state) => state);
   // Flyout Menu
   const [currentDocument, setCurrentDocument] = useState(null);
   const [currentDocumentID, setCurrentDocumentID] = useState(null);
@@ -101,6 +102,7 @@ export default function Workspace({
 
       {/* Content Area */}
       <Layout.Content className={classes['site-layout-content']}>
+        {activestate.isMoveto && <MoveToComponent />}
         {currentDocument && (
           <WorkspaceEditor
             data={currentDocument}

@@ -213,6 +213,37 @@ const searchById = (structure, id) => {
   return null;
 };
 
+const insertWorkspaceFolders = (sourceArr, copySource, wf) => {
+  if (!sourceArr || sourceArr.length === 0) {
+    return;
+  }
+
+  for (const item of sourceArr.folders) {
+    const obj = {
+      childOf: copySource.id,
+      name: item.name,
+      uuid: item.id,
+      workSpaceUUID: copySource.workspaceUUID,
+    };
+    wf.push(obj);
+    console.log(obj, 'dfg');
+    if (item.folders && item.folders.length > 0) {
+      insertWorkspaceFolders(item, item, wf);
+    }
+  }
+};
+
+const changeFoldersArrayData = (arr, prop, propVal) => {
+  if (!arr || arr.length === 0) {
+    return;
+  }
+  for (const item of arr) {
+    item[prop] = propVal;
+    if (item.folders && item.folders.length > 0) {
+      changeFoldersArrayData(item.folders, prop, propVal);
+    }
+  }
+};
 export const workspaceSlice = createSlice({
   name: 'workspace',
   initialState: generateInitialWorkspaceState,
@@ -852,29 +883,58 @@ export const workspaceSlice = createSlice({
     copyFolderRedux: (state, action: PayloadAction<any>) => {
       console.log(action.payload, 'copy123');
       const { dest, source } = action.payload;
-      const copyOfworkSpaceFolders = [...state.workspaceFolders];
-      const proxyFilteredArray: any = [];
-      copyOfworkSpaceFolders.forEach((data: any) => {
-        proxyFilteredArray.push({ ...data });
-      });
-      const sourceData = proxyFilteredArray.find(
-        (data: any) => data.uuid === source.key
+      const copyOfSource = JSON.parse(JSON.stringify(source));
+      copyOfSource.workspaceUUID = dest.workspaceUUID;
+      copyOfSource.id = uuidv4();
+      changeFoldersArrayData(
+        copyOfSource.folders,
+        'workspaceUUID',
+        dest.workspaceUUID
       );
-      const copyOfSource = JSON.parse(JSON.stringify(sourceData));
-      copyOfSource.childOf = dest.uuid;
-      copyOfSource.workSPaceId = dest.workSPaceId;
-      copyOfSource.workSpaceUUID = dest.workSpaceUUID;
-      console.log(copyOfSource, sourceData);
-      // {
-      //   if (data.uuid === source.key) {
-      //     data.childOf = dest.uuid;
-      //     data.workSPaceId = dest.workSPaceId;
-      //     data.workSpaceUUID = dest.workSpaceUUID;
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === dest.workspaceUUID) {
+          const x = searchById(item.folders, dest.id);
+          x.folders.push(copyOfSource);
+        }
+      });
+      state.workspaceFolders.push({
+        childOf: dest.id,
+        name: source.name,
+        type: 'folder',
+        uuid: copyOfSource.id,
+        workSpaceUUID: copyOfSource.workspaceUUID,
+      });
+      insertWorkspaceFolders(source, copyOfSource, state.workspaceFolders);
+      // state.workspaceFolders.map((item, i) => {
+      //   if(item.uuid === source.id){
+      //     item.childOf = dest.id
+      //     item.uuid = copyOfSource.id
+      //     item.workSpaceUUID = dest.workspaceUUID
       //   }
-      //   return data;
+      // })
+      // const copyOfworkSpaceFolders = [...state.workspaceFolders];
+      // const proxyFilteredArray: any = [];
+      // copyOfworkSpaceFolders.forEach((data: any) => {
+      //   proxyFilteredArray.push({ ...data });
       // });
-      proxyFilteredArray.push(copyOfSource);
-      state.workspaceFolders = proxyFilteredArray;
+      // const sourceData = proxyFilteredArray.find(
+      //   (data: any) => data.uuid === source.id
+      // );
+      // const copyOfSource = JSON.parse(JSON.stringify(sourceData));
+      // copyOfSource.childOf = dest.uuid;
+      // // copyOfSource.workSPaceId = dest.workSPaceId;
+      // copyOfSource.workspaceUUID = dest.workSpaceUUID;
+      // console.log(copyOfSource, sourceData);
+      // // {
+      // //   if (data.uuid === source.key) {
+      // //     data.childOf = dest.uuid;
+      // //     data.workSPaceId = dest.workSPaceId;
+      // //     data.workSpaceUUID = dest.workSpaceUUID;
+      // //   }
+      // //   return data;
+      // // });
+      // proxyFilteredArray.push(copyOfSource);
+      // state.workspaceFolders = proxyFilteredArray;
     },
 
     addDuplicateFolders: (state, action: PayloadAction<any>) => {
@@ -992,28 +1052,30 @@ export const workspaceSlice = createSlice({
       // Update The Application Data
       const appData = state.applicationData;
       appData[action.payload.initialDocumentID] = action.payload.docTemplate;
-      console.log("App Data",appData);
+      console.log('App Data', appData);
       state.applicationData = appData;
     },
     changePriority: (state, action: PayloadAction<any>) => {
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.map((doc, index) => {
-        if(doc.uuid == action.payload.id) {
-          console.log("REDUXGOV", state.workSpaceDocs[index].properties[1].value)
+        if (doc.uuid == action.payload.id) {
+          console.log(
+            'REDUXGOV',
+            state.workSpaceDocs[index].properties[1].value
+          );
           state.workSpaceDocs[index].properties[1].value = action.payload.label;
         }
-      })
-      
+      });
     },
     changeStatus: (state, action: PayloadAction<any>) => {
-      console.log("LABEL", action.payload.label)
+      console.log('LABEL', action.payload.label);
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.map((doc, index) => {
-        if(doc.uuid == action.payload.id) {
+        if (doc.uuid == action.payload.id) {
           state.workSpaceDocs[index].properties[2].value = action.payload.label;
         }
-      }) 
-    }
+      });
+    },
   },
 });
 
@@ -1053,6 +1115,6 @@ export const {
   attachDatabaseToDocument,
   createTableDocument,
   changePriority,
-  changeStatus
+  changeStatus,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

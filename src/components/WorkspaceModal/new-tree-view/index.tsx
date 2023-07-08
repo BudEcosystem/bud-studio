@@ -332,7 +332,7 @@ const hexToRGBA = (hex, opacity) => {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 };
 let i = 0;
-const FolderItem = ({
+export const FolderItem = ({
   item,
   parentId,
   openItems,
@@ -493,6 +493,8 @@ const FolderItem = ({
               setShowAddFolder={setShowAddFolder}
               setShowAddFile={setShowAddFile}
               setShowoptionsTree={setShowoptionsTree}
+              node={item}
+              workspaceItem={workspaceItem}
             />
           </div>
         )}
