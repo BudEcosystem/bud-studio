@@ -1,4 +1,8 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-cycle */
+/* eslint-disable no-plusplus */
+/* eslint-disable camelcase */
+import { createSlice, current } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 // uuid
 import { v4 as uuidv4 } from 'uuid';
@@ -31,9 +35,13 @@ export const generateDatabaseInitialState = (): any => {
             name: 'Status',
             type: 'select',
             options: [
-              { title: 'Not Started', key: 'Not Started', color: '#fff' },
-              { title: 'In Progress', key: 'In Progres', color: '#fff' },
-              { title: 'Done', key: 'Done', color: '#fff' },
+              {
+                title: 'Not Started',
+                color: '#fff',
+                key: 'not_started',
+              },
+              { title: 'In Progress', key: 'in_progress', color: '#fff' },
+              { title: 'Done', key: 'done', color: '#fff' },
             ],
           },
           tags: {
@@ -71,7 +79,7 @@ export const generateDatabaseInitialState = (): any => {
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
             childs: [{ documentID: '39b08a3d-12f1-4651-90f7-328952849dca' }],
-            statusKey: 'Not Started',
+            statusKey: 'not_started',
           },
         ],
       },
@@ -98,10 +106,10 @@ export const generateDatabaseInitialState = (): any => {
             name: 'Status',
             type: 'select',
             options: [
-              { title: 'Not Started', color: 'red' },
-              { title: 'In Progress', color: 'yellow' },
-              { title: 'In Review', color: 'blue' },
-              { title: 'Done', color: 'green' },
+              { title: 'Not Started', color: 'red', key: 'not_started' },
+              { title: 'In Progress', color: 'yellow', key: 'in_progress' },
+              { title: 'In Review', color: 'blue', key: 'in_review' },
+              { title: 'Done', color: 'green', key: 'done' },
             ],
           },
         },
@@ -109,7 +117,7 @@ export const generateDatabaseInitialState = (): any => {
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
             childs: [{ documentID: '39b08a3d-12f1-4651-90f7-328952849dca' }],
-            statusKey: 'Not Started',
+            statusKey: 'in_progress',
           },
         ],
       },
@@ -136,15 +144,16 @@ export const generateDatabaseInitialState = (): any => {
             name: 'Status',
             type: 'select',
             options: [
-              { title: 'Not Started', color: '#fff' },
-              { title: 'In Progress', color: '#fff' },
-              { title: 'Done', color: '#fff' },
+              { title: 'Not Started', color: 'red', key: 'not_started' },
+              { title: 'In Progress', color: 'yellow', key: 'in_progress' },
+              { title: 'Done', color: 'green', key: 'done' },
             ],
           },
         },
         entries: [
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
+            statusKey: 'in_progress',
           },
         ],
       },
@@ -183,17 +192,16 @@ export const databaseSlice = createSlice({
       state.databases.push(action.payload.databaseinfo);
     },
     moveDatabaseRow: (state, action: PayloadAction<any>) => {
-      console.log('Move Array!',action);
+      console.log('Move Array!', action);
 
       // get the current database from the state
       const currentDatabase = state.databases;
 
       console.log('Current State: ', currentDatabase.entries);
 
-      currentDatabase.forEach((database, index) => {
+      currentDatabase.forEach((database: any, index: any) => {
         if (database.id === action.payload.databaseID) {
-
-          console.log("Object Found", current(database));
+          console.log('Object Found', current(database));
           // get the current entry
           let currentEntry = database.entries;
           // move the entry to the new position
@@ -214,11 +222,59 @@ export const databaseSlice = createSlice({
 
       state.databases = currentDatabase;
     },
+    changeDatabaseStatusOrder: (state, action: PayloadAction<any>) => {
+      const { dragResult } = action.payload;
+      const copyOfDB = [...state.databases];
+      const newCopyOFDB = copyOfDB.map((data) => {
+        const eachData = { ...data };
+        if (eachData.id === dragResult.destination.droppableId) {
+          const copyOfPropertyPresets = [
+            ...eachData.propertyPresets.status.options,
+          ];
+          const proxyOfPropertyPresets: any = [];
+          copyOfPropertyPresets.forEach((stat) => {
+            proxyOfPropertyPresets.push({ ...stat });
+          });
+          [
+            proxyOfPropertyPresets[dragResult.source.index],
+            proxyOfPropertyPresets[dragResult.destination.index],
+          ] = [
+            proxyOfPropertyPresets[dragResult.destination.index],
+            proxyOfPropertyPresets[dragResult.source.index],
+          ];
+          eachData.propertyPresets.status.options = proxyOfPropertyPresets;
+        }
+        return eachData;
+      });
+      state.databases = newCopyOFDB;
+    },
+    addNewPropertPresetsStatusOptions: (state, action: PayloadAction<any>) => {
+      const { id, newSectionParams } = action.payload;
+      const copyOfDB = [...state.databases];
+      const newCopyOFDB = copyOfDB.map((data) => {
+        const eachData = { ...data };
+        if (eachData.id === id) {
+          const copyOfPropertyPresets = [
+            ...eachData.propertyPresets.status.options,
+          ];
+          const proxyOfPropertyPresets: any = [];
+          copyOfPropertyPresets.forEach((stat) => {
+            proxyOfPropertyPresets.push({ ...stat });
+          });
+          console.log('newSectionParams', newSectionParams);
+          proxyOfPropertyPresets.push(newSectionParams);
+          console.log('newSectionParams', proxyOfPropertyPresets);
+          eachData.propertyPresets.status.options = proxyOfPropertyPresets;
+        }
+        return eachData;
+      });
+      state.databases = newCopyOFDB;
+    },
   },
 });
 
 // Move Array Item
-function moveArrayItemToNewIndex(arr, old_index, new_index) {
+function moveArrayItemToNewIndex(arr: any, old_index: any, new_index: any) {
   if (new_index >= arr.length) {
     let k = new_index - arr.length + 1;
     while (k--) {
@@ -229,7 +285,11 @@ function moveArrayItemToNewIndex(arr, old_index, new_index) {
   return arr;
 }
 
-export const { createNewEmptyDatabase, moveDatabaseRow } =
-  databaseSlice.actions;
+export const {
+  createNewEmptyDatabase,
+  moveDatabaseRow,
+  changeDatabaseStatusOrder,
+  addNewPropertPresetsStatusOptions,
+} = databaseSlice.actions;
 
 export default databaseSlice.reducer;

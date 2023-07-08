@@ -1,5 +1,7 @@
+/* eslint-disable no-use-before-define */
 import React, { useEffect, useRef } from 'react';
 import '../../../ListView/ListViewComponents/ThreeDotsOption/ThreeDotsOption.css';
+import Draggable from 'react-draggable';
 import {
   RightArrow,
   Plus,
@@ -10,9 +12,8 @@ import {
   Archive,
   Delete,
 } from '../../../ListView/ListViewComponents/ThreeDotsOption/ThreeDotsOptionIcons';
-import Draggable from 'react-draggable';
 
-const DragHandle = () => {
+function DragHandle() {
   return (
     <svg
       width="9"
@@ -77,9 +78,9 @@ const DragHandle = () => {
       </g>
     </svg>
   );
-};
+}
 
-const RightClickMenu = ({ left, top, setMenuVisible }: any) => {
+function RightClickMenu({ left, top, setMenuVisible }: any) {
   const wrapperRef = useRef(null);
   const {} = useOutsideAlerter(wrapperRef);
   function useOutsideAlerter(ref: any) {
@@ -97,161 +98,173 @@ const RightClickMenu = ({ left, top, setMenuVisible }: any) => {
     return {};
   }
   return (
-    <div 
-    style={{
-      position: 'fixed',
-      // top: '80px',
-      // left: '260px',
-      height: '100%',
-      width: '100%',
-      pointerEvents: 'none',
-      zIndex: '10',
-    }}>
+    <div
+      style={{
+        position: 'fixed',
+        // top: '80px',
+        // left: '260px',
+        height: '100%',
+        width: '100%',
+        pointerEvents: 'none',
+        zIndex: '10',
+      }}
+    >
       <Draggable bounds="parent" handle=".handle">
-      <div
-        className="threeDotsOptionsModal"
-        style={{ position: 'fixed', left: left, top: top, height: 'unset', pointerEvents: "auto", zIndex: "9" }}
-        ref={wrapperRef}
-      >
-        <div className="threeDotsOptions">
-          <div style={{ marginBottom: '20px' }}>
-            <div
-              className="handle"
-              style={{ marginBottom: '10px', cursor: 'drag', marginTop: "5px" }}
-            >
-              <DragHandle />
-            </div>
-
-            <div className="threeDotsOption">
-              <Rename />
-              <h3
+        <div
+          className="threeDotsOptionsModal"
+          style={{
+            position: 'fixed',
+            left,
+            top,
+            height: 'unset',
+            pointerEvents: 'auto',
+            zIndex: '9',
+          }}
+          ref={wrapperRef}
+        >
+          <div className="threeDotsOptions">
+            <div style={{ marginBottom: '20px' }}>
+              <div
+                className="handle"
                 style={{
-                  marginLeft: '20px',
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: '14px',
+                  marginBottom: '10px',
+                  cursor: 'drag',
+                  marginTop: '5px',
                 }}
               >
-                Rename
-              </h3>
-              <div className="threeDotsRightArrow">
-                <RightArrow />
+                <DragHandle />
+              </div>
+
+              <div className="threeDotsOption">
+                <Rename />
+                <h3
+                  style={{
+                    marginLeft: '20px',
+                    color: 'white',
+                    fontWeight: '400',
+                    fontSize: '14px',
+                  }}
+                >
+                  Rename
+                </h3>
+                <div className="threeDotsRightArrow">
+                  <RightArrow />
+                </div>
+              </div>
+
+              <div className="threeDotsOption">
+                <Plus />
+                <h3
+                  style={{
+                    marginLeft: '20px',
+                    color: 'white',
+                    fontWeight: '400',
+                    fontSize: '14px',
+                  }}
+                >
+                  Add to
+                </h3>
+                <div className="threeDotsRightArrow">
+                  <RightArrow />
+                </div>
+              </div>
+              <div />
+            </div>
+
+            <div style={{ marginBottom: '20px' }}>
+              <div className="threeDotsOption">
+                <Duplicate />
+                <h3
+                  style={{
+                    marginLeft: '20px',
+                    color: 'white',
+                    fontWeight: '400',
+                    fontSize: '14px',
+                  }}
+                >
+                  Duplicate
+                </h3>
+                <div className="threeDotsRightArrow">
+                  <RightArrow />
+                </div>
+              </div>
+
+              <div className="threeDotsOption">
+                <CopyLink />
+                <h3
+                  style={{
+                    marginLeft: '20px',
+                    color: 'white',
+                    fontWeight: '400',
+                    fontSize: '14px',
+                  }}
+                >
+                  Copy Link
+                </h3>
+                <div className="threeDotsRightArrow">
+                  <RightArrow />
+                </div>
+              </div>
+              <div className="threeDotsOption">
+                <Move />
+                <h3
+                  style={{
+                    marginLeft: '20px',
+                    color: 'white',
+                    fontWeight: '400',
+                    fontSize: '14px',
+                  }}
+                >
+                  Move to
+                </h3>
+                <div className="threeDotsRightArrow">
+                  <RightArrow />
+                </div>
               </div>
             </div>
 
-            <div className="threeDotsOption">
-              <Plus />
-              <h3
-                style={{
-                  marginLeft: '20px',
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: '14px',
-                }}
-              >
-                Add to
-              </h3>
-              <div className="threeDotsRightArrow">
-                <RightArrow />
-              </div>
-            </div>
-            <div />
-          </div>
-
-          <div style={{ marginBottom: '20px' }}>
-            <div className="threeDotsOption">
-              <Duplicate />
-              <h3
-                style={{
-                  marginLeft: '20px',
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: '14px',
-                }}
-              >
-                Duplicate
-              </h3>
-              <div className="threeDotsRightArrow">
-                <RightArrow />
+            <div className="Delete">
+              <div className="threeDotsOption">
+                <Archive />
+                <h3
+                  style={{
+                    marginLeft: '20px',
+                    color: 'white',
+                    fontWeight: '400',
+                    fontSize: '14px',
+                  }}
+                >
+                  Archive
+                </h3>
+                <div className="threeDotsRightArrow">
+                  <RightArrow />
+                </div>
               </div>
             </div>
 
-            <div className="threeDotsOption">
-              <CopyLink />
-              <h3
-                style={{
-                  marginLeft: '20px',
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: '14px',
-                }}
-              >
-                Copy Link
-              </h3>
-              <div className="threeDotsRightArrow">
-                <RightArrow />
-              </div>
-            </div>
-            <div className="threeDotsOption">
-              <Move />
-              <h3
-                style={{
-                  marginLeft: '20px',
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: '14px',
-                }}
-              >
-                Move to
-              </h3>
-              <div className="threeDotsRightArrow">
-                <RightArrow />
-              </div>
-            </div>
-          </div>
-
-          <div className="Delete">
-            <div className="threeDotsOption">
-              <Archive />
-              <h3
-                style={{
-                  marginLeft: '20px',
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: '14px',
-                }}
-              >
-                Archive
-              </h3>
-              <div className="threeDotsRightArrow">
-                <RightArrow />
-              </div>
-            </div>
-          </div>
-
-          <div className="Delete">
-            <div className="threeDotsOption">
-              <Delete />
-              <h3
-                style={{
-                  marginLeft: '20px',
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: '14px',
-                }}
-              >
-                Delete
-              </h3>
-              <div className="threeDotsRightArrow">
-                <RightArrow />
+            <div className="Delete">
+              <div className="threeDotsOption">
+                <Delete />
+                <h3
+                  style={{
+                    marginLeft: '20px',
+                    color: 'white',
+                    fontWeight: '400',
+                    fontSize: '14px',
+                  }}
+                >
+                  Delete
+                </h3>
+                <div className="threeDotsRightArrow">
+                  <RightArrow />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </Draggable>
     </div>
   );
-};
+}
 
 export default RightClickMenu;

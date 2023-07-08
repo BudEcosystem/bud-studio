@@ -37,6 +37,7 @@ function WorkspaceMenuItem({
   updateWorkspace,
   newWorkSpace,
   setShowAddWorkspace,
+  setCurrentWorkspaceSelected,
 }: any): JSX.Element {
   const clickListnRef: any = createRef();
   const [isEditMode, setIsEditMode] = useState(false);
@@ -45,9 +46,11 @@ function WorkspaceMenuItem({
     e: any,
     color: any,
     name: any,
-    index: number
+    index: number,
+    workspace: any
   ): any => {
-
+    console.log('props - workspace', workspace);
+    setCurrentWorkspaceSelected(workspace);
     if (clickListnRef.current) {
       clearTimeout(clickListnRef.current);
     }
@@ -148,7 +151,7 @@ function MenuWorkSpaceItem({
           </svg>
         )
       }
-      onClick={(e) => handleOnMenuClick(e, menu.color, menu.name, i)}
+      onClick={(e) => handleOnMenuClick(e, menu.color, menu.name, i, menu)}
       onMouseEnter={() => setHoverColorHandler(menu.color)}
       onMouseLeave={() => setHoverColorOnLeave(menu.color)}
     >

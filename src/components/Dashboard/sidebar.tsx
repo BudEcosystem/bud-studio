@@ -273,10 +273,13 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
       console.log(err);
     }
   };
-
+  const setCurrentWorkspaceSelected = (workspaceObject: any) => {
+    // dispatch(changeColorAndSetName({ ...workspaceObject }));
+  };
   useEffect(() => {
     const handleKeyDown = (event) => {
       workSpaceItems.map((item, i) => {
+        console.log('props - item', item);
         if (event.ctrlKey && event.altKey && event.key === i.toString()) {
           event.preventDefault();
           setWorkspaceModal(false);
@@ -596,6 +599,9 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                           handlerColor={handlerColor}
                           setHoverColorHandler={setHoverColorHandler}
                           setHoverColorOnLeave={setHoverColorOnLeave}
+                          setCurrentWorkspaceSelected={
+                            setCurrentWorkspaceSelected
+                          }
                         />
                       ))}
 
@@ -613,6 +619,9 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                         handlerColor={handlerColor}
                         setHoverColorHandler={setHoverColorHandler}
                         setHoverColorOnLeave={setHoverColorOnLeave}
+                        setCurrentWorkspaceSelected={
+                          setCurrentWorkspaceSelected
+                        }
                       />
                     ))}
                   {showAddWorkspace && (
@@ -627,6 +636,7 @@ function SideBar({ isCollapsed, setCollapsed }: SideBarProps) {
                       setHoverColorHandler={setHoverColorHandler}
                       setHoverColorOnLeave={setHoverColorOnLeave}
                       setShowAddWorkspace={setShowAddWorkspace}
+                      setCurrentWorkspaceSelected={setCurrentWorkspaceSelected}
                     />
                   )}
                   {workSpaceItems.length > 3 && !showMore && (

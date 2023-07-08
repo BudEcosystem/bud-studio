@@ -211,7 +211,7 @@ function HeaderButtons({ label, icon }: any) {
     </ButtonGroup>
   );
 }
-function KanbanUI({ databaseData }: any) {
+function KanbanUI({ id }) {
   const [date, setDate] = useState<String>('');
   const [title, setTitle] = useState('');
   useEffect(() => setDate('13 June 2022'), []);
@@ -224,7 +224,7 @@ function KanbanUI({ databaseData }: any) {
       {/* <div style={{ marginLeft: '38px', marginRight: '63px' }}>
           <GroupByComponent />
         </div> */}
-      <Kanban databaseData={databaseData} />
+      <Kanban dbId={id} />
     </KanbanSection>
   );
 }

@@ -66,7 +66,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
           },
           {
             title: 'Status',
-            value: 'Not Started',
+            value: 'in_progress',
             type: 'status',
             id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
             order: 3,
@@ -229,7 +229,7 @@ export const workspaceSlice = createSlice({
     },
     changeColorAndSetName: (state, action: PayloadAction<any>) => {
       state.color = action.payload.color;
-      state.currentWorkspace = action.payload.name;
+      state.currentWorkspace = action.payload.uuid;
       state.editorInitialised = false;
       state.currentSelectedDocId = null;
     },
@@ -729,6 +729,87 @@ export const workspaceSlice = createSlice({
       // });
       // state.workSpaceDocs = newSetOFDataProcessed;
     },
+    changeKanbanStatusForWorkSpaceDocs: (state, action: PayloadAction<any>) => {
+      const { dragResult } = action.payload;
+      const copyOfWorkSpaceDocs = [...state.workSpaceDocs];
+      const proxyFilteredArray: any = [];
+      copyOfWorkSpaceDocs.forEach((data: any) => {
+        const proxyOfcustomProperties: any = [];
+        data.customProperties.forEach((props: any) => {
+          proxyOfcustomProperties.push({ ...props });
+        });
+        const proxyOfProperties: any = [];
+        data.properties.forEach((props: any) => {
+          proxyOfProperties.push({ ...props });
+        });
+        const newProxyOfProperties = proxyOfProperties.map(
+          (properties: any) => {
+            if (properties.type === 'status') {
+              properties.value = dragResult.destination.droppableId;
+            }
+            return properties;
+          }
+        );
+        proxyFilteredArray.push({
+          ...data,
+          properties: newProxyOfProperties,
+          customProperties: proxyOfcustomProperties,
+        });
+      });
+      console.log(proxyFilteredArray);
+      state.workSpaceDocs = proxyFilteredArray;
+    },
+    addNewWorkSpaceDocument: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
+      let { docId, statusKey, workspaceId } = action.payload;
+      let newWorkSpaceDocObject = {
+        name: 'Welcome To Bud',
+        childOf: null,
+        workSPaceId: 'Private',
+        type: 'doc',
+        uuid: docId,
+        workSpaceUUID: workspaceId,
+        customProperties: [
+          {
+            title: 'Author',
+            value: 'Bud',
+            type: 'text',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc',
+            order: 4,
+          },
+          {
+            title: 'ISBN',
+            value: 'QWDE-DJJC-1234',
+            type: 'text',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee',
+            order: 5,
+          },
+        ], // User defined Properties
+        properties: [
+          {
+            title: 'Tags',
+            value: ['no-tag'],
+            type: 'tags',
+            id: uuidv4(),
+            order: 1,
+          },
+          {
+            title: 'Priority',
+            value: 'Normal',
+            type: 'priority',
+            id: uuidv4(),
+            order: 2,
+          },
+          {
+            title: 'Status',
+            value: statusKey,
+            type: 'status',
+            id: uuidv4(),
+            order: 3,
+          },
+        ],
+      };
+    },
   },
 });
 
@@ -762,5 +843,7 @@ export const {
   copyFolderRedux,
   updateDocumentData,
   attachDatabaseToDocument,
+  changeKanbanStatusForWorkSpaceDocs,
+  addNewWorkSpaceDocument,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

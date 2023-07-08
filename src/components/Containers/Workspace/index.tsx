@@ -59,7 +59,7 @@ export default function Workspace({
 
     if (
       workspace.currentSelectedDocId === currentDocumentID &&
-      currentDocument.length ===
+      currentDocument?.length ===
         workspace.applicationData[currentDocumentID].length
     ) {
       return;
