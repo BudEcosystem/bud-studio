@@ -279,7 +279,9 @@ function SideBar({
       console.log(err);
     }
   };
-
+  const setCurrentWorkspaceSelected = (workspaceObject: any) => {
+    // dispatch(changeColorAndSetName({ ...workspaceObject }));
+  };
   useEffect(() => {
     const handleKeyDown = (event: any) => {
       workSpaceItems.map((item: any, i: any) => {
@@ -618,6 +620,9 @@ function SideBar({
                           handlerColor={handlerColor}
                           setHoverColorHandler={setHoverColorHandler}
                           setHoverColorOnLeave={setHoverColorOnLeave}
+                          setCurrentWorkspaceSelected={
+                            setCurrentWorkspaceSelected
+                          }
                         />
                       ))}
 
@@ -635,6 +640,9 @@ function SideBar({
                         handlerColor={handlerColor}
                         setHoverColorHandler={setHoverColorHandler}
                         setHoverColorOnLeave={setHoverColorOnLeave}
+                        setCurrentWorkspaceSelected={
+                          setCurrentWorkspaceSelected
+                        }
                       />
                     ))}
                   {showAddWorkspace && (
@@ -649,6 +657,7 @@ function SideBar({
                       setHoverColorHandler={setHoverColorHandler}
                       setHoverColorOnLeave={setHoverColorOnLeave}
                       setShowAddWorkspace={setShowAddWorkspace}
+                      setCurrentWorkspaceSelected={setCurrentWorkspaceSelected}
                     />
                   )}
                   {workSpaceItems.length > 3 && !showMore && (
