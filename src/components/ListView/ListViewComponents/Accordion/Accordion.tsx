@@ -16,6 +16,7 @@ import { attachDocumentToDatabase } from '@/redux/slices/database';
 import HeaderSubCompInput from '../HeaderSubCompInput';
 import SubAccordion from './SubAccordion';
 
+
 function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   const dispatch = useDispatch();
 
@@ -31,55 +32,50 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   const [statusPanels, setStatusPanels] = useState(null);
 
   // On List View Load
-  useEffect(() => {
-
-    // Get Database entries
-    const sortedContent = [];
-    databaseData.entries.map((item) => {
-      const document = workspace.workSpaceDocs.filter(
-        (obj) => obj.uuid === item.documentID
-      );
-      sortedContent.push(document[0]);
-    });
-
-    const data: any[] = [];
-    databaseData.propertyPresets.status.options.map((item: any) => {
-
-      const entries = [];
-      // Optimize The Code
-      sortedContent.forEach((entry: any) => {
-
-        entry.properties.forEach((property: any) => {
-          if (property.title === 'Status') {
-            if (property.value === item.title) {
-              entries.push({
-                title: entry.name,
-                description: '',
-                childs: [],
-              });
-            }
-          }
-        });
-
-      });
-
-      data.push({
-        status: item.title,
-        headerText: item.title,
-        colorIcon: item.color,
-        items: entries,
-      });
-    });
-
-    setStatusPanels(data);
-  }, [databaseData]);
+  // useEffect(() => {
+  //   // Get Database entries
+  //   const sortedContent = [];
+  //   databaseData.entries.map((item) => {
+  //     const document = workspace.workSpaceDocs.filter(
+  //       (obj) => obj.uuid === item.documentID
+  //     );
+  //     sortedContent.push(document[0]);
+  //   });
+  //
+  //   const data: any[] = [];
+  //   databaseData.propertyPresets.status.options.map((item: any) => {
+  //     const entries = [];
+  //     // Optimize The Code
+  //     sortedContent.forEach((entry: any) => {
+  //       entry.properties.forEach((property: any) => {
+  //         if (property.title === 'Status') {
+  //           if (property.value === item.title) {
+  //             entries.push({
+  //               title: entry.name,
+  //               description: '',
+  //               childs: [],
+  //             });
+  //           }
+  //         }
+  //       });
+  //     });
+  //
+  //     data.push({
+  //       status: item.title,
+  //       headerText: item.title,
+  //       colorIcon: item.color,
+  //       items: entries,
+  //     });
+  //   });
+  //
+  //   setStatusPanels(data);
+  // }, [databaseData]);
 
   // Local States
   // const [statusPanels, setStatusPanels] = useState(null);
 
   // On List View Load
   useEffect(() => {
-
     // Get Database entries
     const sortedContent = [];
     databaseData.entries.map((item) => {
@@ -91,23 +87,21 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
 
     const data: any[] = [];
     databaseData.propertyPresets.status.options.map((item: any) => {
-
       const entries = [];
       // Optimize The Code
       sortedContent.forEach((entry: any) => {
-
         entry.properties.forEach((property: any) => {
           if (property.title === 'Status') {
             if (property.value === item.title) {
               entries.push({
                 title: entry.name,
-                description: '',
+                description: item.description,
                 childs: [],
+                entry,
               });
             }
           }
         });
-
       });
 
       data.push({
@@ -119,7 +113,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
     });
 
     setStatusPanels(data);
-  }, [databaseData]);
+  }, [databaseData, databaseEntries]);
 
   const toggleAccordion = (index) => {
     const updatedItems = [...expandedItems];
@@ -138,7 +132,8 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   };
 
   const onDragEnd = (result) => {
-    dispatch(updatePosition(result));
+    console.log("Drag End", result);
+   // dispatch(updatePosition(result));
   };
 
   const newDocument = async (item) => {

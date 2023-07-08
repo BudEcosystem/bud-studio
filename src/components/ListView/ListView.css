@@ -584,3 +584,90 @@
 .ant-dropdown-menu-item:hover {
   background-color: #151515 !important;
 }
+
+.list-view-count{
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 5px;
+
+}
+
+.siconContainer{
+  transition: .4s;
+}
+.siconContainer:hover{
+  background-color: var(--bud-primary-color);
+}
+
+.siconContainer .vertical-bar{
+  margin-left: 4px;
+  color: rgba(123, 131, 136, 0.25);
+  transition: .4s;
+  margin-top: -1px;
+}
+
+.siconContainer:hover .vertical-bar{
+  color: #fff;
+}
+
+.list-view-tag-set .ant-popover-title{
+    background-color: var(--bud-primary-color);
+    color: #fff;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+
+
+.list-view-tag-set-pop .ant-popover-title{
+    color: rgba(123, 131, 136, 0.5);
+    font-weight: 400;
+    font-size: 14px;
+    padding-left: 10px;
+  padding-top: 2px;
+}
+
+.list-view-tag-set{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  height: 90px;
+  justify-content: space-around;
+  z-index: 999;
+}
+
+.list-view-tag-set-pop .ant-input {
+  background-color: rgba(217, 217, 217, 0.05);
+  border: none;
+  caret-color: #f9d45d;
+  color: #c6c6c6;
+  border-radius: 4px;
+  height: 30px;
+  outline: none;
+  font-weight: 400;
+  font-size: 14px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.list-view-tag-set .ant-btn{
+  background-color: var(--bud-primary-color);
+  border: none;
+  color: #fff;
+  font-weight: 400;
+  font-size: 14px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 30px;
+  border-radius: 4px;
+  outline: none;
+  opacity: .5;
+}
+
+.list-view-tag-set .ant-btn:hover{
+  opacity: 1;
+  background-color: #9E3F91;
+}

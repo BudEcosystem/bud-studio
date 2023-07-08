@@ -41,6 +41,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
         name: 'Welcome To Bud',
         childOf: null,
         workSPaceId: 'Private',
+        description: '',
         type: 'doc',
         uuid: '39b08a3d-12f1-4651-90f7-328952849dca',
         workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
@@ -247,6 +248,39 @@ export const workspaceSlice = createSlice({
     });
   },
   reducers: {
+    editDocumentTitleById: (state, action: PayloadAction<any>) => {
+      const currentWorkspace = action.payload.documentID;
+
+      const currentEditorIndex = state.workSpaceDocs.findIndex(
+        (data: any) => data.uuid === currentWorkspace
+      );
+
+      const docs = state.workSpaceDocs;
+      docs[currentEditorIndex].name = action.payload.newTitle;
+
+      state.workSpaceDocs = docs;
+
+      // currentEditor.title = action.payload.newTitle;
+    },
+    updateDocumentTagById: (state, action: PayloadAction<any>) => {
+      const currentWorkspace = action.payload.documentID;
+
+      const currentEditorIndex = state.workSpaceDocs.findIndex(
+        (data: any) => data.uuid === currentWorkspace
+      );
+
+      // Get Tag From Index
+      const docs = state.workSpaceDocs;
+      docs[currentEditorIndex].properties.find(
+        (data: any) => data.title === 'Tags'
+      ).value = [action.payload.newTags];
+
+      console.log("Updated Tags", action);
+
+      // docs[currentEditorIndex].tags = [[action.payload.newTags]];
+      //
+      state.workSpaceDocs = docs;
+    },
     addEmptyDoc: (state, action: PayloadAction<any>) => {
       const copyDocStructure = state.workSpaceDocs;
       copyDocStructure.push(action.payload.newDatabaseDocument);
@@ -307,7 +341,7 @@ export const workspaceSlice = createSlice({
       state.workSpaceDocs.push(action.payload.newFileForWorkspaceDocs);
       state.workSpaceItems.map((item, i) => {
         if (item.uuid === action.payload.workspaceUUID) {
-          item['files'].push(action.payload.newFile);
+          item.files.push(action.payload.newFile);
           state.applicationData[action.payload.newFile.id] = [
             {
               root: {
@@ -684,7 +718,12 @@ export const workspaceSlice = createSlice({
       state.editorInitialised = false;
     },
     updateDocumentData: (state, action: PayloadAction<any>) => {
-      const { editorState, currentPage, currentDocumentUUID } = action.payload;
+      const {
+        editorState,
+        currentPage,
+        currentDocumentUUID,
+        editorStateTextString,
+      } = action.payload;
 
       const copyOfApplicationData = state.applicationData;
 
@@ -695,6 +734,18 @@ export const workspaceSlice = createSlice({
       );
 
       state.applicationData = copyOfApplicationData;
+
+      // Get Current Document
+      const currentDocumentIndex = state.workSpaceDocs.findIndex(
+        (data: any) => {
+          return data.uuid === currentDocumentUUID;
+        }
+      );
+
+      const docs = state.workSpaceDocs;
+      docs[currentDocumentIndex].description = editorStateTextString;
+
+      state.workSpaceDocs = docs;
 
       // copyOfApplicationData.forEach(element => {
       //   console
@@ -992,32 +1043,36 @@ export const workspaceSlice = createSlice({
       // Update The Application Data
       const appData = state.applicationData;
       appData[action.payload.initialDocumentID] = action.payload.docTemplate;
-      console.log("App Data",appData);
+      console.log('App Data', appData);
       state.applicationData = appData;
     },
     changePriority: (state, action: PayloadAction<any>) => {
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.map((doc, index) => {
-        if(doc.uuid == action.payload.id) {
-          console.log("REDUXGOV", state.workSpaceDocs[index].properties[1].value)
+        if (doc.uuid == action.payload.id) {
+          console.log(
+            'REDUXGOV',
+            state.workSpaceDocs[index].properties[1].value
+          );
           state.workSpaceDocs[index].properties[1].value = action.payload.label;
         }
-      })
-      
+      });
     },
     changeStatus: (state, action: PayloadAction<any>) => {
-      console.log("LABEL", action.payload.label)
+      console.log('LABEL', action.payload.label);
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.map((doc, index) => {
-        if(doc.uuid == action.payload.id) {
+        if (doc.uuid == action.payload.id) {
           state.workSpaceDocs[index].properties[2].value = action.payload.label;
         }
-      }) 
-    }
+      });
+    },
   },
 });
 
 export const {
+  updateDocumentTagById,
+  editDocumentTitleById,
   addEmptyDoc,
   changeColorAndSetName,
   changeColor,
@@ -1053,6 +1108,6 @@ export const {
   attachDatabaseToDocument,
   createTableDocument,
   changePriority,
-  changeStatus
+  changeStatus,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

@@ -1,4 +1,14 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { editTitle, taskViewDataChange } from 'redux/slices/list';
+import { setCurrentSelectedUI } from 'redux/slices/activestate';
+import {
+  editDocumentTitleById,
+  updateDocumentTagById,
+} from '@/redux/slices/workspace';
+import { Calendar, Button, Popover, Icon, Space, Input } from 'antd';
+import { CalendarOutlined } from '@ant-design/icons';
+import { styled } from 'styled-components';
 import {
   BoxArrow,
   CheckList,
@@ -13,13 +23,10 @@ import {
 import SkillBar from './SkillBar';
 import CircularImageComponent from './CircularImageComponent';
 import CircularBorder from './CircularBorder';
-import { useDispatch } from 'react-redux';
-import { editTitle, taskViewDataChange } from 'redux/slices/list';
-import { setCurrentSelectedUI } from 'redux/slices/activestate';
 
 const data = ['', ''];
 
-const HeaderSubComp = ({
+function HeaderSubComp({
   index,
   childIndex,
   status,
@@ -28,26 +35,34 @@ const HeaderSubComp = ({
   provided,
   expanded,
   toggleSubAccordion,
-}) => { 
+}) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(data.title);
+
+  const { color } = useSelector((state) => state.workspace);
   const handleDoubleClick = (e) => {
     setEditing(true);
-    e.stopPropagation()
+    e.stopPropagation();
   };
   const handleChange = (event) => {
     setNewTitle(event.target.value);
   };
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-
-      // Find The Document & Update The Title
-
-      // dispatch(editTitle({ index, childIndex, newTitle, status }));
-      // setEditing(false);
+      dispatch(
+        editDocumentTitleById({ documentID: data.entry.uuid, newTitle })
+      );
       // setNewTitle('');
+      setEditing(false);
     }
+  };
+
+  // Tag
+  const setTag = (tag) => {
+    dispatch(
+      updateDocumentTagById({ documentID: data.entry.uuid, newTags: 'test' })
+    );
   };
 
   return (
@@ -88,7 +103,10 @@ const HeaderSubComp = ({
             className="datatitleText"
             id="cardTitle"
             style={{ marginLeft: '16px' }}
-            onDoubleClick={(e) => {e.stopPropagation(); handleDoubleClick(e)}}
+            onDoubleClick={(e) => {
+              e.stopPropagation();
+              handleDoubleClick(e);
+            }}
           >
             {data.title}
           </p>
@@ -97,12 +115,8 @@ const HeaderSubComp = ({
           <div className="flexVerticalCenter" style={{ marginLeft: '0px' }}>
             <Sicon />
           </div>
-          <div style={{ marginLeft: '0px' }}>{data.siconValue}</div>
-          <div
-            style={{ marginLeft: '8px', color: 'rgba(123, 131, 136, 0.25)' }}
-          >
-            |
-          </div>
+          <div className="list-view-count">{data.siconValue || 0}</div>
+          <div className="vertical-bar">|</div>
           <div style={{ marginLeft: '5px' }}>+</div>
         </div>
         <div className="checklistContainer">
@@ -110,33 +124,52 @@ const HeaderSubComp = ({
             <CheckList />
           </div>
           <div style={{ marginLeft: '2px' }}>
-            <span>{data.checklist?.checked}</span>/
-            <span>{data.checklist?.total}</span>
+            <span>{data.checklist?.checked || 0}</span>/
+            <span>{data.checklist?.total || 0}</span>
           </div>
         </div>
       </div>
       <div className="flexVerticalCenter">
         <div style={{ marginRight: '40px' }}>
-          <SkillBar
-            percentage={(data.checklist?.checked / data.checklist?.total) * 100}
-          />
+          {data.checklist?.total && (
+            <SkillBar
+              percentage={
+                (data.checklist?.checked / data.checklist?.total) * 100
+              }
+            />
+          )}
         </div>
         <div style={{ marginRight: '40px' }}>
-          {data?.imagesData?.length > 0 ? (
-            <CircularImageComponent images={data.imagesData} />
-          ) : (
-            <div style={{ marginRight: '14px' }}>
-              <CircularBorder icon={<User />} />
-            </div>
-          )}
+          {/* {data?.imagesData?.length > 0 ? ( */}
+          {/*  <CircularImageComponent images={data.imagesData} /> */}
+          {/* ) : ( */}
+          {/*  <div style={{ marginRight: '14px' }}> */}
+          {/*    <CircularBorder icon={<User />} /> */}
+          {/*  </div> */}
+          {/* )} */}
         </div>
         <div className="flexCenter" style={{ marginRight: '40px' }}>
           {data.page ? (
             <FoldedCard />
           ) : (
-            <div style={{ marginRight: '-22px' }}>
-              <CircularBorder icon={<FoldedCard />} />
-            </div>
+            <Popover
+              trigger="click"
+              placement="bottom"
+              arrow={false}
+              content={
+                <div style={{ width: 300 }}>
+                  <Calendar fullscreen={false} />
+                </div>
+              }
+            >
+              <Button type="text">
+                <CircularBorder icon={<FoldedCard />} />
+              </Button>
+            </Popover>
+            // <DatePicker />
+            // <div style={{ marginRight: '-22px' }}>
+            //
+            // </div>
           )}
         </div>
         <div className="flexCenter" style={{ marginRight: '40px' }}>
@@ -149,14 +182,69 @@ const HeaderSubComp = ({
           )}
         </div>
 
-        {data.recurring ? (
-          <p className="recContainer flexCenter">Recurring</p>
+        {true ? (
+          //
+
+          // eslint-disable-next-line react/prop-types
+          <p className="recContainer flexCenter">
+            {
+              data.entry.properties.find(
+                (prop: { title: string; value: any }) => prop.title === 'Tags'
+              )?.value[0]
+            }
+          </p>
         ) : (
-          <CircularBorder icon={<BoxArrow />} />
+          <Popover
+            overlayClassName="list-view-tag-set-pop"
+            content={
+              <div className="list-view-tag-set">
+                <Input defaultValue="Recurring" />
+                <AddTagButton color={color} onClick={setTag}>
+                  Update Tag
+                </AddTagButton>
+              </div>
+            }
+            arrow={false}
+            title="Tag"
+            trigger="click"
+            placement="bottom"
+          >
+            <Button type="text">
+              <CircularBorder icon={<BoxArrow />} />
+            </Button>
+          </Popover>
+          // <CircularBorder icon={<BoxArrow />} />
         )}
       </div>
     </div>
   );
-};
+}
+
+// Styles
+const AddTagButton = styled.div`
+  background-color: ${(props) => props.color};
+  border: none;
+  color: #fff;
+  font-weight: 400;
+  font-size: 14px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 30px;
+  border-radius: 4px;
+  outline: none;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: flex-start;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    opacity: 1;
+  }
+`;
 
 export default HeaderSubComp;
