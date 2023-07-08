@@ -77,7 +77,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
           },
           {
             title: 'Status',
-            value: 'Not Started',
+            value: 'in_progress',
             type: 'status',
             id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
             order: 3,
@@ -264,7 +264,7 @@ export const workspaceSlice = createSlice({
     },
     changeColorAndSetName: (state, action: PayloadAction<any>) => {
       state.color = action.payload.color;
-      state.currentWorkspace = action.payload.name;
+      state.currentWorkspace = action.payload.uuid;
       state.editorInitialised = false;
       state.currentSelectedDocId = null;
     },
@@ -307,7 +307,7 @@ export const workspaceSlice = createSlice({
       state.workSpaceDocs.push(action.payload.newFileForWorkspaceDocs);
       state.workSpaceItems.map((item, i) => {
         if (item.uuid === action.payload.workspaceUUID) {
-          item['files'].push(action.payload.newFile);
+          item.files.push(action.payload.newFile);
           state.applicationData[action.payload.newFile.id] = [
             {
               root: {
@@ -979,6 +979,166 @@ export const workspaceSlice = createSlice({
       // });
       // state.workSpaceDocs = newSetOFDataProcessed;
     },
+    changeKanbanStatusForWorkSpaceDocs: (state, action: PayloadAction<any>) => {
+      const { dragResult } = action.payload;
+      console.log(
+        'newCopyOFDB - changeKanbanStatusForWorkSpaceDocs',
+        action.payload
+      );
+      const copyOfWorkSpaceDocs = [...state.workSpaceDocs];
+      const proxyFilteredArray: any = [];
+      copyOfWorkSpaceDocs.forEach((data: any) => {
+        if (data.uuid === dragResult.draggableId) {
+          const proxyOfcustomProperties: any = [];
+          data.customProperties.forEach((props: any) => {
+            proxyOfcustomProperties.push({ ...props });
+          });
+          const proxyOfProperties: any = [];
+          data.properties.forEach((props: any) => {
+            proxyOfProperties.push({ ...props });
+          });
+          const newProxyOfProperties = proxyOfProperties.map(
+            (properties: any) => {
+              if (properties.type === 'status') {
+                properties.value = dragResult.destination.droppableId;
+              }
+              return properties;
+            }
+          );
+          proxyFilteredArray.push({
+            ...data,
+            properties: newProxyOfProperties,
+            customProperties: proxyOfcustomProperties,
+          });
+        } else {
+          proxyFilteredArray.push({
+            ...data,
+          });
+        }
+      });
+      console.log(proxyFilteredArray);
+      state.workSpaceDocs = proxyFilteredArray;
+    },
+    addNewWorkSpaceDocument: (state, action: PayloadAction<any>) => {
+      console.log('newCopyOFDB - addNewWorkSpaceDocument', action.payload);
+      const copyOfworkSpaceDocs: any = [...state.workSpaceDocs];
+      const copyOfapplicationData: any = { ...state.applicationData };
+
+      const { docId, statusKey, workspaceId, docName } = action.payload;
+      const newWorkSpaceDocObject = {
+        name: docName,
+        childOf: null,
+        workSPaceId: 'Private',
+        type: 'doc',
+        uuid: docId,
+        workSpaceUUID: workspaceId,
+        customProperties: [],
+        properties: [
+          {
+            title: 'Tags',
+            value: ['no-tag'],
+            type: 'tags',
+            id: uuidv4(),
+            order: 1,
+          },
+          {
+            title: 'Priority',
+            value: 'Normal',
+            type: 'priority',
+            id: uuidv4(),
+            order: 2,
+          },
+          {
+            title: 'Status',
+            value: statusKey,
+            type: 'status',
+            id: uuidv4(),
+            order: 3,
+          },
+        ],
+      };
+      console.log('newWorkSpaceDocObject', newWorkSpaceDocObject);
+      copyOfworkSpaceDocs.push(newWorkSpaceDocObject);
+      copyOfapplicationData[docId] = [
+        {
+          root: {
+            children: [
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'How to evolve into a super human with your',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'digital mind place',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [],
+                direction: null,
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'Philosophy, life, misc',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            type: 'root',
+            version: 1,
+          },
+        },
+      ];
+      state.workSpaceDocs = copyOfworkSpaceDocs;
+      state.applicationData = copyOfapplicationData;
+    },
 
     createTableDocument: (state, action: PayloadAction<any>) => {
       console.log('test');
@@ -990,30 +1150,32 @@ export const workspaceSlice = createSlice({
       state.workSpaceDocs = workspaceDocs;
 
       // Update The Application Data
-      const appData = state.applicationData;
+      const appData: any = state.applicationData;
       appData[action.payload.initialDocumentID] = action.payload.docTemplate;
-      console.log("App Data",appData);
+      console.log('App Data', appData);
       state.applicationData = appData;
     },
     changePriority: (state, action: PayloadAction<any>) => {
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.map((doc, index) => {
-        if(doc.uuid == action.payload.id) {
-          console.log("REDUXGOV", state.workSpaceDocs[index].properties[1].value)
+        if (doc.uuid == action.payload.id) {
+          console.log(
+            'REDUXGOV',
+            state.workSpaceDocs[index].properties[1].value
+          );
           state.workSpaceDocs[index].properties[1].value = action.payload.label;
         }
-      })
-      
+      });
     },
     changeStatus: (state, action: PayloadAction<any>) => {
-      console.log("LABEL", action.payload.label)
+      console.log('LABEL', action.payload.label);
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.map((doc, index) => {
-        if(doc.uuid == action.payload.id) {
+        if (doc.uuid == action.payload.id) {
           state.workSpaceDocs[index].properties[2].value = action.payload.label;
         }
-      }) 
-    }
+      });
+    },
   },
 });
 
@@ -1051,8 +1213,10 @@ export const {
   copyFolderRedux,
   updateDocumentData,
   attachDatabaseToDocument,
+  changeKanbanStatusForWorkSpaceDocs,
+  addNewWorkSpaceDocument,
   createTableDocument,
   changePriority,
-  changeStatus
+  changeStatus,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

@@ -15,6 +15,31 @@ import TaskViewKanban from 'components/TaskViewKanban/TaskViewKanban';
 import GroupByModal from 'components/ListView/ListViewComponents/GroupBy/GroupByModal';
 import RightClickMenu from './RightClickMenu';
 import './kanban.css';
+import {
+  PopOveSearchWrapper,
+  PopOverSearchIcon,
+  PopOverSearchInput,
+  PopOverSearchKeybordCommand,
+  PopOverSearchKeybordCommandWrapper,
+  PopOverWrapper,
+  TaskBrancDetailsSeperator,
+  TaskBrancDetailsWrapper,
+  TaskBranchCount,
+  TaskBranchImage,
+  TaskDescription,
+  TaskFooterDueDetails,
+  TaskFooterSection,
+  TaskFooterTagsWrapper,
+  TaskHeader,
+  TaskHeading,
+  TaskImageSection,
+  TaskProgress,
+  TaskProgressBar,
+  TaskType,
+  TaskTypeSpan,
+  TaskUser,
+  TaskUserUI,
+} from '../styled-components';
 
 const TaskContainer = styled.div`
   height: 30px;
@@ -40,223 +65,12 @@ const TaskContainer = styled.div`
 //   transform: isDragging ? 'rotate(-3deg)' : null,
 // });
 
-const TaskHeader = styled.div`
-  font-family: 'Noto Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  color: #ffffff;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-const TaskHeading = styled.div`
-  width: 119px;
-  &:first-letter {
-    text-transform: uppercase;
-  }
-`;
-const TaskProgressBar = styled.div`
-  width: 94px;
-  height: 4px;
-  left: 321px;
-  top: 386px;
-  margin-top: 13px;
-  margin-bottom: 15px;
-  background: #0f0f0f;
-  border-radius: 21px;
-`;
-const TaskProgress = styled.div`
-  width: 64px;
-  height: 4px;
-  background: #939aff;
-  border-radius: 21px;
-`;
-const TaskUserUI = styled.div`
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  padding-bottom: 15px;
-  margin-bottom: 15px;
-  > *:not(:first-child) {
-    left: 10px;
-  }
-`;
-const TaskUser = styled.div`
-  border-radius: 50%;
-  background: grey;
-  width: 18px;
-  height: 18px;
-  position: absolute;
-  border: 0.5px solid #fbf3f3;
-`;
-
-const TaskDescription = styled.span`
-  font-style: normal;
-  font-weight: 400;
+const UserNameDiv = styled.div`
+  color: #bbb;
   font-size: 12px;
-  line-height: 130%;
-  letter-spacing: -0.02em;
-  color: #bbbbbb;
-  // margin-top: 13px;
-  margin-bottom: 20px;
-`;
-
-const TaskFooterSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  > *:not(:first-child) {
-    margin-left: 10px;
-  }
-`;
-
-const TaskFooterTagsWrapper = styled.div`
-  // width: 51.71px;
-  height: 24px;
-  background: #1b1c1e;
-  border-radius: 7.03826px;
-  display: flex;
-  align-items: center;
-  padding: 3.5px 7px 3.5px 7px;
-`;
-
-const TaskFooterDueDetails = styled.span`
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 16px;
-  text-align: right;
-  color: #c6c6c6;
-`;
-
-const TaskBrancDetailsWrapper = styled.div`
-  height: 17px;
-  display: flex;
-  align-items: center;
-`;
-const TaskBranchImage = styled.div``;
-const TaskBranchCount = styled.span`
-  font-family: 'Noto Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 17px;
-  /* identical to box height, or 170% */
-  letter-spacing: -0.0848362px;
-  color: #ffffff;
-  margin-left: 3.5px;
-`;
-const TaskBrancDetailsSeperator = styled.div`
-  width: 7.64px;
-  height: 0px;
-  left: 32.88px;
-  border: 0.848362px solid rgba(255, 255, 255, 0.25);
-  transform: rotate(90deg);
-  margin-left: 7px;
-`;
-const TaskImageSection = styled.div`
-  width: 184px;
-  height: 120px;
-  background: url(${(props: any) => props.image});
-  border-radius: 6px;
-  margin-top: 14px;
-`;
-
-const TaskType = styled.div`
-  width: 59px;
-  height: 18px;
-  left: 832px;
-  top: 480px;
-  background: #3d4047;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  margin-top: 7px;
-`;
-const TaskTypeSpan = styled.span`
-  font-family: 'Noto Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 10px;
+  font-family: Noto Sans;
   line-height: 100%;
-  /* identical to box height, or 10px */
-
-  color: #c6c6c6;
 `;
-const PopOverWrapper = styled.div`
-  width: 221.18px;
-  height: 249.04px;
-  background: #0c0c0c;
-  border: 0.87078px solid #1d1d1d;
-  backdrop-filter: blur(40.4912px);
-  /* Note: backdrop-filter has minimal browser support */
-  border-radius: 12px;
-  display flex;
-  flex-direction:column;
-`;
-const PopOveSearchWrapper = styled.div`
-  width: 192.33px;
-  height: 31.93px;
-  left: calc(50% - 192.33px / 2 - 297.03px);
-  top: 319.8px;
-  background: #171718;
-  border: 0.87078px solid #1d1d1d;
-  border-radius: 10.4494px;
-  margin: 0px auto;
-  margin-top: 14.8px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-const PopOverSearchIcon = styled.img`
-  margin-left: 15px;
-`;
-const PopOverSearchInput = styled.input`
-  width: 100px;
-  margin-left: 15px;
-  background: #171718;
-  border: none;
-  font-family: 'Noto Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 100%;
-  /* identical to box height, or 12px */
-  /* Shortcut */
-  color: #7b8388;
-  outline: none;
-  text-align: left;
-  &::placeholder,
-  &::-webkit-input-placeholder {
-    text-align: left;
-    font-family: 'Noto Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 100%;
-  }
-  &:-ms-input-placeholder {
-    text-align: left;
-    font-family: 'Noto Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 100%;
-  }
-`;
-const PopOverSearchKeybordCommandWrapper = styled.div`
-  width: 20px;
-  height: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-left: 15.59px;
-`;
-const PopOverSearchKeybordCommand = styled.img``;
 
 function PopOverSearch() {
   const arr = ['Me', 'Manu M', 'Frijo johnson', 'Aji', 'Shandra'];
@@ -300,8 +114,6 @@ function Tasks(props: any) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
-  console.log('INDEX MAP', props.task.index);
-
   const handleContextMenu = (event: any) => {
     event.preventDefault();
     const { clientX, clientY } = event;
@@ -317,7 +129,7 @@ function Tasks(props: any) {
   const handleDocumentClick = () => {
     setMenuVisible(false);
   };
-
+  console.log('props - task', props);
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
       {(provided, snapshot) => {
@@ -331,13 +143,11 @@ function Tasks(props: any) {
             isDragging={snapshot.isDragging}
             draggingOver={snapshot.draggingOver}
           >
-            {
-              <TaskViewKanban
-                data={props.task}
-                showKanbanTaskView={showKanbanTaskView}
-                setShowKanbanTaskView={setShowKanbanTaskView}
-              />
-            }
+            <TaskViewKanban
+              data={props.task}
+              showKanbanTaskView={showKanbanTaskView}
+              setShowKanbanTaskView={setShowKanbanTaskView}
+            />
             {menuVisible && (
               <RightClickMenu
                 left={menuPosition.x}

@@ -224,7 +224,7 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
       )}
 
       {databaseData.defaultView === 'Kanban' && databaseEntries.length && (
-        <KanbanUI databaseData={databaseData} />
+        <KanbanUI id={databaseData.id} />
       )}
 
       {databaseData.defaultView === 'List' && databaseEntries.length && (
