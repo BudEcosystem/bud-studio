@@ -28,7 +28,7 @@ const HeaderSubComp = ({
   provided,
   expanded,
   toggleSubAccordion,
-}) => {
+}) => { 
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(data.title);
@@ -41,9 +41,12 @@ const HeaderSubComp = ({
   };
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      dispatch(editTitle({ index, childIndex, newTitle, status }));
-      setEditing(false);
-      setNewTitle('');
+
+      // Find The Document & Update The Title
+
+      // dispatch(editTitle({ index, childIndex, newTitle, status }));
+      // setEditing(false);
+      // setNewTitle('');
     }
   };
 

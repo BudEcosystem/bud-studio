@@ -37,11 +37,17 @@ export const generateDatabaseInitialState = (): any => {
             options: [
               {
                 title: 'Not Started',
-                color: '#fff',
+                key: 'Not Started',
+                color: '#939AFF',
                 key: 'not_started',
               },
-              { title: 'In Progress', key: 'in_progress', color: '#fff' },
-              { title: 'Done', key: 'done', color: '#fff' },
+              {
+                title: 'In Progress',
+                key: 'In Progres',
+                color: '#FFD976',
+                key: 'in_progress',
+              },
+              { title: 'Done', key: 'Done', color: '#36D95A', key: 'done' },
             ],
           },
           tags: {
@@ -112,6 +118,36 @@ export const generateDatabaseInitialState = (): any => {
               { title: 'Done', color: 'green', key: 'done' },
             ],
           },
+          tags: {
+            name: 'tags',
+            type: 'tags',
+            options: [
+              {
+                tag: 'Bug',
+                color: '#ff4d4d35',
+              },
+              {
+                tag: 'Feature',
+                color: '#35f8ff35',
+              },
+              {
+                tag: 'Enhancement',
+                color: '#48ff5735',
+              },
+              {
+                tag: 'First Issue',
+                color: '#436fff35',
+              },
+              {
+                tag: 'PR',
+                color: '#e0ff3235',
+              },
+              {
+                tag: 'Assigned',
+                color: '#ff1eec35',
+              },
+            ],
+          },
         },
         entries: [
           {
@@ -149,11 +185,44 @@ export const generateDatabaseInitialState = (): any => {
               { title: 'Done', color: 'green', key: 'done' },
             ],
           },
+          tags: {
+            name: 'tags',
+            type: 'tags',
+            options: [
+              {
+                tag: 'Bug',
+                color: '#ff4d4d35',
+              },
+              {
+                tag: 'Feature',
+                color: '#35f8ff35',
+              },
+              {
+                tag: 'Enhancement',
+                color: '#48ff5735',
+              },
+              {
+                tag: 'First Issue',
+                color: '#436fff35',
+              },
+              {
+                tag: 'PR',
+                color: '#e0ff3235',
+              },
+              {
+                tag: 'Assigned',
+                color: '#ff1eec35',
+              },
+            ],
+          },
         },
         entries: [
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
             statusKey: 'in_progress',
+          },
+          {
+            documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
           },
         ],
       },
@@ -188,8 +257,33 @@ export const databaseSlice = createSlice({
     });
   },
   reducers: {
+    changeDatabaseDefaultView: (state, action: PayloadAction<any>) => {
+      console.log(action);
+      const localDb = state.databases;
+      const localdbIndex = state.databases.findIndex(
+        (database) => database.id === action.payload.databaseID
+      );
+
+      localDb[localdbIndex].defaultView = action.payload.viewType;
+
+      state.databases = localDb;
+    },
     createNewEmptyDatabase: (state, action: PayloadAction<any>) => {
       state.databases.push(action.payload.databaseinfo);
+    },
+    attachDocumentToDatabase: (state, action: PayloadAction<any>) => {
+      const localDb = state.databases;
+      const localdbIndex = state.databases.findIndex(
+        (database) => database.id === action.payload.databaseData.id
+      );
+
+      // Update Based On Index
+      console.log('Local DB', localdbIndex);
+      localDb[localdbIndex].entries.push({
+        documentID: action.payload.initialDocumentID,
+      });
+
+      state.databases = localDb;
     },
     moveDatabaseRow: (state, action: PayloadAction<any>) => {
       console.log('Move Array!', action);
@@ -290,6 +384,8 @@ export const {
   moveDatabaseRow,
   changeDatabaseStatusOrder,
   addNewPropertPresetsStatusOptions,
+  attachDocumentToDatabase,
+  changeDatabaseDefaultView,
 } = databaseSlice.actions;
 
 export default databaseSlice.reducer;

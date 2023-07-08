@@ -18,7 +18,7 @@ const SubAccordion = ({ status, data, provided, index , title}) => {
   const toggleSubAccordion = () => {
     setExpanded(!expanded);
     setSelected(!selected);
-  };
+  }; 
   const toggleSubAccordionChild = (index) => {
     const updatedExpandedChild = [...expandedChild];
     updatedExpandedChild[index] = !updatedExpandedChild[index];

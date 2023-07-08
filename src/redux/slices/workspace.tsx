@@ -4,13 +4,15 @@ import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import InitialState from 'interfaces/InitialState';
 import { createNewEmptyDatabase } from '@/redux/slices/database';
+import initialData from '@/components/Database/KanbanNew/data/initial-data';
+import { useSelector } from 'react-redux';
 
 export const generateInitialWorkspaceState = (): InitialState => {
   const initialState: InitialState = {
     props: {},
     color: '#939AFF',
     currentWorkspace: null,
-    currentSelectedDocId: '39b08a3d-12f1-4651-90f7-328952849dca', // Current Document
+    currentSelectedDocId: '', // Current Document
     currentSelectedItem: {
       workSpace: null,
       doc: null,
@@ -22,6 +24,15 @@ export const generateInitialWorkspaceState = (): InitialState => {
         id: 'wsp-1',
         uuid: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
         childs: [],
+        files: [
+          {
+            id: '39b08a3d-12f1-4651-90f7-328952849dca',
+            name: 'Welcome to Bud',
+            files: [],
+            workspaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+          },
+        ],
+        folders: [],
       },
     ],
     workspaceFolders: [],
@@ -178,6 +189,30 @@ export const generateInitialWorkspaceState = (): InitialState => {
   return initialState;
 };
 
+const searchById = (structure, id) => {
+  if (!structure || structure.length === 0) {
+    return null;
+  }
+  for (const item of structure) {
+    if (item.id === id) {
+      return item;
+    }
+    if (item.folders && item.folders.length > 0) {
+      const foundInFolders = searchById(item.folders, id);
+      if (foundInFolders) {
+        return foundInFolders;
+      }
+    }
+    // if (item.files && item.files.length > 0) {
+    //   const foundInFiles = searchById(item.files, id);
+    //   if (foundInFiles) {
+    //     return foundInFiles;
+    //   }
+    // }
+  }
+  return null;
+};
+
 export const workspaceSlice = createSlice({
   name: 'workspace',
   initialState: generateInitialWorkspaceState,
@@ -236,6 +271,15 @@ export const workspaceSlice = createSlice({
     changeColor: (state, action: PayloadAction<any>) => {
       state.color = action.payload.color;
     },
+    // createWorkspaces: (state, action: PayloadAction<any>) => {
+    //   if (action.payload.idx !== undefined) {
+    //     state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
+    //     // state.workspaceFolders.push()
+    //   } else {
+    //     // state.workspaceFolders.push(getObj(state.workSpaceItems.length));
+    //   }
+    //   state.workSpaceItems.push({ ...action.payload, uuid: uuidv4() });
+    // },
     createWorkspaces: (state, action: PayloadAction<any>) => {
       if (action.payload.idx !== undefined) {
         state.workspaceFolders.push(state.workspaceFolders[action.payload.idx]);
@@ -243,7 +287,213 @@ export const workspaceSlice = createSlice({
       } else {
         // state.workspaceFolders.push(getObj(state.workSpaceItems.length));
       }
-      state.workSpaceItems.push({ ...action.payload, uuid: uuidv4() });
+      state.workSpaceItems.push({
+        ...action.payload,
+        uuid: uuidv4(),
+        files: [],
+        folders: [],
+      });
+    },
+    addFolderRedux: (state, action: PayloadAction<any>) => {
+      state.workspaceFolders.push(action.payload.newFileForWorkspaceFolder);
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          item.folders.push(action.payload.newFolder);
+        }
+        console.log({ ...item.folders });
+      });
+    },
+    addFileRedux: (state, action: PayloadAction<any>) => {
+      state.workSpaceDocs.push(action.payload.newFileForWorkspaceDocs);
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          item['files'].push(action.payload.newFile);
+          state.applicationData[action.payload.newFile.id] = [
+            {
+              root: {
+                children: [
+                  {
+                    children: [
+                      {
+                        detail: 0,
+                        format: 0,
+                        mode: 'normal',
+                        style: '',
+                        text: `${action.payload.newFile.name}`,
+                        type: 'text',
+                        version: 1,
+                      },
+                    ],
+                    direction: 'ltr',
+                    format: '',
+                    indent: 0,
+                    type: 'heading',
+                    version: 1,
+                    tag: 'h1',
+                  },
+                  {
+                    children: [
+                      {
+                        detail: 0,
+                        format: 0,
+                        mode: 'normal',
+                        style: '',
+                        text: '',
+                        type: 'text',
+                        version: 1,
+                      },
+                    ],
+                    direction: 'ltr',
+                    format: '',
+                    indent: 0,
+                    type: 'heading',
+                    version: 1,
+                    tag: 'h1',
+                  },
+                  {
+                    children: [],
+                    direction: null,
+                    format: '',
+                    indent: 0,
+                    type: 'paragraph',
+                    version: 1,
+                  },
+                  {
+                    children: [
+                      {
+                        detail: 0,
+                        format: 0,
+                        mode: 'normal',
+                        style: '',
+                        text: 'Philosophy, life, misc, ',
+                        type: 'text',
+                        version: 1,
+                      },
+                    ],
+                    direction: 'ltr',
+                    format: '',
+                    indent: 0,
+                    type: 'paragraph',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'root',
+                version: 1,
+              },
+            },
+          ];
+          // setApplicationData({
+          //   workSpaceId: action.payload.workspaceUUID,
+          //   docId: action.payload.newFile.id,
+          //   type: 'editor',
+          //   editorObject: '',
+          // });
+        }
+        console.log({ ...item.files });
+      });
+    },
+    addSubFoldersRedux: (state, action: PayloadAction<any>) => {
+      state.workspaceFolders.push(action.payload.newFileForWorkspaceFolder);
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          const x = searchById(item.folders, action.payload.subFolderId);
+          if (x) {
+            x.folders.push(action.payload.newFolder);
+          }
+        }
+      });
+    },
+    addSubFilesRedux: (state, action: PayloadAction<any>) => {
+      console.log(action.payload.newFileForWorkspaceDocs, 'safd');
+      state.workSpaceDocs.push(action.payload.newFileForWorkspaceDocs);
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === action.payload.workspaceUUID) {
+          const x = searchById(item.folders, action.payload.subFileId);
+          if (x) {
+            x.files.push(action.payload.newFile);
+            state.applicationData[action.payload.newFile.id] = [
+              {
+                root: {
+                  children: [
+                    {
+                      children: [
+                        {
+                          detail: 0,
+                          format: 0,
+                          mode: 'normal',
+                          style: '',
+                          text: `${action.payload.newFile.name}`,
+                          type: 'text',
+                          version: 1,
+                        },
+                      ],
+                      direction: 'ltr',
+                      format: '',
+                      indent: 0,
+                      type: 'heading',
+                      version: 1,
+                      tag: 'h1',
+                    },
+                    {
+                      children: [
+                        {
+                          detail: 0,
+                          format: 0,
+                          mode: 'normal',
+                          style: '',
+                          text: '',
+                          type: 'text',
+                          version: 1,
+                        },
+                      ],
+                      direction: 'ltr',
+                      format: '',
+                      indent: 0,
+                      type: 'heading',
+                      version: 1,
+                      tag: 'h1',
+                    },
+                    {
+                      children: [],
+                      direction: null,
+                      format: '',
+                      indent: 0,
+                      type: 'paragraph',
+                      version: 1,
+                    },
+                    {
+                      children: [
+                        {
+                          detail: 0,
+                          format: 0,
+                          mode: 'normal',
+                          style: '',
+                          text: 'Philosophy, life, misc, ',
+                          type: 'text',
+                          version: 1,
+                        },
+                      ],
+                      direction: 'ltr',
+                      format: '',
+                      indent: 0,
+                      type: 'paragraph',
+                      version: 1,
+                    },
+                  ],
+                  direction: 'ltr',
+                  format: '',
+                  indent: 0,
+                  type: 'root',
+                  version: 1,
+                },
+              },
+            ];
+          }
+        }
+      });
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
       const arr = [...state.workSpaceItems];
@@ -810,6 +1060,43 @@ export const workspaceSlice = createSlice({
         ],
       };
     },
+
+    createTableDocument: (state, action: PayloadAction<any>) => {
+      console.log('test');
+      console.log(action.payload);
+
+      // Setup Workspace Meta
+      const workspaceDocs = state.workSpaceDocs;
+      workspaceDocs.push(action.payload.documentMeta);
+      state.workSpaceDocs = workspaceDocs;
+
+      // Update The Application Data
+      const appData: any = state.applicationData;
+      appData[action.payload.initialDocumentID] = action.payload.docTemplate;
+      console.log('App Data', appData);
+      state.applicationData = appData;
+    },
+    changePriority: (state, action: PayloadAction<any>) => {
+      const copyOfworkSpaceDocs = state.workSpaceDocs;
+      copyOfworkSpaceDocs.map((doc, index) => {
+        if (doc.uuid == action.payload.id) {
+          console.log(
+            'REDUXGOV',
+            state.workSpaceDocs[index].properties[1].value
+          );
+          state.workSpaceDocs[index].properties[1].value = action.payload.label;
+        }
+      });
+    },
+    changeStatus: (state, action: PayloadAction<any>) => {
+      console.log('LABEL', action.payload.label);
+      const copyOfworkSpaceDocs = state.workSpaceDocs;
+      copyOfworkSpaceDocs.map((doc, index) => {
+        if (doc.uuid == action.payload.id) {
+          state.workSpaceDocs[index].properties[2].value = action.payload.label;
+        }
+      });
+    },
   },
 });
 
@@ -839,11 +1126,18 @@ export const {
   addDuplicateDoc,
   addDuplicateEditorApplications,
   updateAppName,
+  addFolderRedux,
+  addFileRedux,
+  addSubFoldersRedux,
+  addSubFilesRedux,
   moveFolderRedux,
   copyFolderRedux,
   updateDocumentData,
   attachDatabaseToDocument,
   changeKanbanStatusForWorkSpaceDocs,
   addNewWorkSpaceDocument,
+  createTableDocument,
+  changePriority,
+  changeStatus,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

@@ -4,9 +4,7 @@ import React, { useEffect, useState } from 'react';
 import HamburgerItems from './HamburgerItems';
 import './Hamburger.css';
 
-
 function Hamburger({ documentData = [], currentPage, setCurrentPage }) {
-
   // Handle Pagination
   const handleOptionClick = (index: any) => {
     if (index === '') {
@@ -23,9 +21,9 @@ function Hamburger({ documentData = [], currentPage, setCurrentPage }) {
           {documentData.map((doc: any, index) => (
             <HamburgerItems
               key={index}
-              title="Document"
               selected={index === currentPage}
               onClick={() => handleOptionClick(index)}
+              databaseID={doc.databaseID}
             />
           ))}
         </>

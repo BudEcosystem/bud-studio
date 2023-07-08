@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
 import HeaderSection from 'components/ListView/HeaderSection';
 import GroupByComponent from 'components/GroupByComponent/GroupByComponent';
+import SortByComponent from 'components/SortByComponent/SortByComponent';
 import Kanban from './kanbanBoard';
 
 const KanbanSection = styled.div`

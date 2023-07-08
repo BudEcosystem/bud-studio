@@ -27,10 +27,15 @@ import {
 } from './WorkspaceIcons';
 import TreeView from './TreeView/TreeView';
 import './WorkspaceModal.css';
-import { enableCreateNewTreeNode } from 'redux/slices/tree';
+import {
+  enableCreateNewTreeNode,
+  setShowAddFile,
+  setShowAddFolder,
+} from 'redux/slices/tree';
 import { v4 as uuidv4 } from 'uuid';
 import TreeStructure from './TreeView/TreeANTD';
 import { setIsMoveTo } from 'redux/slices/activestate';
+import Menu from './new-tree-view';
 
 export function CreatePopupModal() {
   return <div className="createPopupModal" />;
@@ -160,31 +165,57 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
   const showCreatePopup = () => {
     setCreatePopup(!createPopup);
   };
+  // const createNewClickHandler = (type: any) => {
+  //   if (type === 'doc') {
+  //     setCreateDocFlag(true);
+  //   }
+  //   if (type === 'folder') {
+  //     setCreateFolderFlag(true);
+  //   }
+  //   dispatch(enableCreateNewTreeNode({ type }));
+  //   setShowColorDots(false);
+  // };
   const createNewClickHandler = (type: any) => {
     if (type === 'doc') {
-      setCreateDocFlag(true);
+      // setCreateDocFlag(true);
+      dispatch(setShowAddFile(true));
     }
     if (type === 'folder') {
-      setCreateFolderFlag(true);
+      // setCreateFolderFlag(true);
+      dispatch(setShowAddFolder(true));
     }
-    dispatch(enableCreateNewTreeNode({ type }));
+    // dispatch(enableCreateNewTreeNode({ type }));
     setShowColorDots(false);
   };
   const callbackForCreate = () => {
     setCreateDocFlag(false);
     setCreateFolderFlag(false);
   };
-  useEffect(() => {
-    const flyOutMenu = document.getElementById('optionsModal');
-    flyOutMenu?.addEventListener('mouseleave', function (event) {
-      setShowColorDots(false);
-    });
-  });
+  // useEffect(() => {
+  //   const flyOutMenu = document.getElementById('optionsModal');
+  //   flyOutMenu?.addEventListener('mouseleave', function (event) {
+  //     setShowColorDots(false);
+  //   });
+  // });
+
   const searchInputFieldRef =
     useRef() as React.MutableRefObject<HTMLInputElement>;
 
   const moveToHandler = () => {
     dispatch(setIsMoveTo(true));
+  };
+
+  const threeDot = useRef(null);
+  const [leftDots, setLeftDots] = useState();
+  const [topDots, setTopDots] = useState();
+
+  const obtainDotsPosition = () => {
+    if (threeDot.current) {
+      const { top, left, right, bottom, width, height } =
+        threeDot.current.getBoundingClientRect();
+      setTopDots(top);
+      setLeftDots(left);
+    }
   };
 
   return (
@@ -270,6 +301,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                   onClick={() => {
                     setShowColorDots(!showColorDots);
                     setShowDocumentOptions(false);
+                    obtainDotsPosition();
                   }}
                   style={{
                     background: `${
@@ -277,8 +309,10 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                         ? `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, ${workSpaceItems[idx].color} 57.81%, rgba(175, 147, 218, 0.05) 100%)`
                         : ''
                     }`,
+                    position: 'relative',
                   }}
                   className="WorkspaceIconBox"
+                  ref={threeDot}
                 >
                   <div className="WorkspaceIcon">
                     <Dots />
@@ -295,44 +329,49 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                 }}
               >
                 <SearchIcon />
+                <input
+                  className="WorkspaceSearchInput"
+                  type="text"
+                  placeholder="Search"
+                  onInput={filterNode}
+                  ref={searchInputFieldRef}
+                  id="searchFlyout"
+                />
               </div>
-              <input
-                className="WorkspaceSearchInput"
-                type="text"
-                placeholder="Search"
-                onInput={filterNode}
-                ref={searchInputFieldRef}
-                id="searchFlyout"
-              />
-              <SearchIconShortcut />
-            </div>
 
-            {/* <TreeView
-              filter={filterText}
-              setShowColorDots={setShowColorDots}
-              showDocumentOptions={showDocumentOptions}
-              setShowDocumentOptions={setShowDocumentOptions}
-              workSpaceDetails={workSpaceItems[idx]}
-            /> */}
-            <TreeStructure
-              color={workSpaceItems[idx].color}
-              name={workSpaceItems[idx].name}
-              workspaceDetails={workSpaceItems[idx]}
-              createFolderFlag={createFolderFlag}
-              createDocFlag={createDocFlag}
-              callbackForCreate={callbackForCreate}
-              optionModalRef={docOptionModalRef}
-              serachInputValue
-              setShowDocumentOptions={setShowDocumentOptions}
-            />
+              <div style={{ marginRight: '15px' }}>
+                <SearchIconShortcut />
+              </div>
+            </div>
+            <Menu workspaceItem={workSpaceItems[idx]} />
+            {/* <TreeView*/}
+            {/*  filter={filterText}*/}
+            {/*  setShowColorDots={setShowColorDots}*/}
+            {/*  showDocumentOptions={showDocumentOptions}*/}
+            {/*  setShowDocumentOptions={setShowDocumentOptions}*/}
+            {/*  workSpaceDetails={workSpaceItems[idx]}*/}
+            {/*/> */}
+            {/* <TreeStructure*/}
+            {/*  color={workSpaceItems[idx].color}*/}
+            {/*  name={workSpaceItems[idx].name}*/}
+            {/*  workspaceDetails={workSpaceItems[idx]}*/}
+            {/*  createFolderFlag={createFolderFlag}*/}
+            {/*  createDocFlag={createDocFlag}*/}
+            {/*  callbackForCreate={callbackForCreate}*/}
+            {/*  optionModalRef={docOptionModalRef}*/}
+            {/*  serachInputValue*/}
+            {/*  setShowDocumentOptions={setShowDocumentOptions}*/}
+            {/*/>*/}
           </div>
         </Draggable>
+
         {showColorDots && (
           <Draggable bounds="parent" handle=".drag">
             <div
               ref={optionModalRef}
               id="optionsModal"
               className="optionsModal"
+              style={{ top: topDots - 40, left: leftDots - 265 }}
             >
               <div className="secondWorkspaceModal">
                 <div className="drag">
@@ -438,7 +477,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                     </div>
                     <div
                       className="secondWorkspaceOption"
-                      
+                      onClick={moveToHandler}
                     >
                       <Move />
                       <h3

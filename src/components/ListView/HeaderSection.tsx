@@ -13,7 +13,7 @@ import EditorHeader from 'components/EditorHeader';
 import bgImg from '../EditorHeader/images/bgImage.png'
 import iconImg from '../EditorHeader/images/iconImage.png'
 
-function HeaderSection({ view, updateCurrentTitle, title, databaseDescription }: any) {
+function HeaderSection({ view, updateCurrentTitle, title, databaseDescription, changeDatabaseView }: any) {
   const dispatch = useDispatch();
   const { content, list }: any = useSelector((state) => state);
   const { listTitleAndDesc, oneTime } = list;
@@ -115,7 +115,7 @@ function HeaderSection({ view, updateCurrentTitle, title, databaseDescription }:
               </p>
             </div>
             <div className="optionsComponentContainer mgLeft">
-              <OptionsComponent view={view} />
+              <OptionsComponent view={view} changeDatabaseView={changeDatabaseView}/>
             </div>
           </>
         ) : (

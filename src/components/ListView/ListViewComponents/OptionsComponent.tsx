@@ -6,7 +6,7 @@ import NewTaskPanel from './NewTaskPanel';
 
 const imagesArray: Array<any> = ['', '', ''];
 
-function OptionsComponent({ view }: any) {
+function OptionsComponent({ view,changeDatabaseView }: any) {
   const kabuniRef = useRef(null);
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString(undefined, {
@@ -28,7 +28,7 @@ function OptionsComponent({ view }: any) {
         </div>
       </div>
       <div>
-        <NewTaskPanel view={view} />
+        <NewTaskPanel view={view} changeDatabaseView={changeDatabaseView}/>
       </div>
     </div>
   );
