@@ -387,9 +387,9 @@
 }
 
 .recContainer {
-  width: 59px;
+  min-width: 59px;
   height: 18px;
-  padding: 2px;
+  padding: 3px;
   background: #3d4047;
   border-radius: 6px;
   font-style: normal;
@@ -398,6 +398,7 @@
   line-height: 100%;
   color: #c6c6c6;
 }
+
 
 .panelText {
   width: 45%;
@@ -632,8 +633,7 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  height: 90px;
-  justify-content: space-around;
+  height: 40px;
   z-index: 999;
 }
 
@@ -652,22 +652,48 @@
   margin-right: auto;
 }
 
-.list-view-tag-set .ant-btn{
-  background-color: var(--bud-primary-color);
-  border: none;
-  color: #fff;
-  font-weight: 400;
-  font-size: 14px;
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  height: 30px;
-  border-radius: 4px;
-  outline: none;
-  opacity: .5;
-}
+/*.list-view-tag-set .ant-btn{*/
+/*  background-color: var(--bud-primary-color);*/
+/*  border: none;*/
+/*  color: #fff;*/
+/*  font-weight: 400;*/
+/*  font-size: 14px;*/
+/*  width: 80%;*/
+/*  margin-left: auto;*/
+/*  margin-right: auto;*/
+/*  height: 30px;*/
+/*  border-radius: 4px;*/
+/*  outline: none;*/
+/*  opacity: .5;*/
+/*}*/
 
 .list-view-tag-set .ant-btn:hover{
   opacity: 1;
   background-color: #9E3F91;
+}
+
+.list-view-flag-icon{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: space-between;
+  justify-content: center;
+  align-items: center;
+  background-color: #3D4047;
+}
+
+.list-view-flag-high:hover {
+  background-color: #E14F21 !important;
+}
+
+.list-view-flag-medium:hover {
+  background-color: #e1af41 !important;
+}
+
+.list-view-flag-normal:hover {
+  background-color: #3D4047 !important;
+}
+
+.list-view-flag-low:hover {
+  background-color: #3fe142 !important;
 }

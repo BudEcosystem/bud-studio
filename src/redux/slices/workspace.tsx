@@ -275,10 +275,25 @@ export const workspaceSlice = createSlice({
         (data: any) => data.title === 'Tags'
       ).value = [action.payload.newTags];
 
-      console.log("Updated Tags", action);
+      console.log('Updated Tags', action);
 
       // docs[currentEditorIndex].tags = [[action.payload.newTags]];
       //
+      state.workSpaceDocs = docs;
+    },
+    updateDocumentStatusById: (state, action: PayloadAction<any>) => {
+      const currentWorkspace = action.payload.documentID;
+
+      const currentEditorIndex = state.workSpaceDocs.findIndex(
+        (data: any) => data.uuid === currentWorkspace
+      );
+
+      // Get Tag From Index
+      const docs = state.workSpaceDocs;
+      docs[currentEditorIndex].properties.find(
+        (data: any) => data.title === 'Priority'
+      ).value = action.payload.priority;
+
       state.workSpaceDocs = docs;
     },
     addEmptyDoc: (state, action: PayloadAction<any>) => {
@@ -1071,6 +1086,7 @@ export const workspaceSlice = createSlice({
 });
 
 export const {
+  updateDocumentStatusById,
   updateDocumentTagById,
   editDocumentTitleById,
   addEmptyDoc,
