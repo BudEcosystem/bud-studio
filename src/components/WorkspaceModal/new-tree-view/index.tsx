@@ -21,7 +21,7 @@ import {
 } from 'redux/slices/workspace';
 import { setNavigationPath, setNodeIDs } from '@/redux/slices/activestate';
 
-const Menu = ({ workspaceItem }) => {
+const Menu = ({ workspaceItem, setWorkspaceModal }: any) => {
   const [openItems, setOpenItems] = useState([]);
   const dispatch = useDispatch();
   const { tree, workspace }: any = useSelector((state) => state);
@@ -163,6 +163,7 @@ const Menu = ({ workspaceItem }) => {
             openItems={openItems}
             toggleItem={toggleItem}
             workspaceItem={workspaceItem}
+            setWorkspaceModal={setWorkspaceModal}
           />
         ))}
         {workspaceItem.files.map((file) => (
@@ -173,13 +174,14 @@ const Menu = ({ workspaceItem }) => {
             openItems={openItems}
             toggleItem={toggleItem}
             workspaceItem={workspaceItem}
+            setWorkspaceModal={setWorkspaceModal}
           />
         ))}
       </ul>
     </div>
   );
 };
-const FileItem = ({ file, parentId, openItems, toggleItem, workspaceItem }) => {
+const FileItem = ({ file, parentId, openItems, toggleItem, workspaceItem, setWorkspaceModal }: any) => {
   const id = parentId ? `${parentId}.${file.id}` : file.id;
   const [showAddFile, setShowAddFile] = useState(false);
   const { workspace } = useSelector((state) => state);
@@ -228,6 +230,7 @@ const FileItem = ({ file, parentId, openItems, toggleItem, workspaceItem }) => {
   const fileClickHandler = () => {
     // console.log(file);
     dispatch(setCurrentSelectedDocument({ id: null }));
+    setWorkspaceModal(false)
     // navPathHandler(newNode);
     setTimeout(() => {
       dispatch(
@@ -317,7 +320,8 @@ const FolderItem = ({
   toggleItem,
   workspaceItem,
   parent,
-}) => {
+  setWorkspaceModal
+}: any) => {
   const id = parentId ? `${parentId}.${item.id}` : item.id;
   const dispatch = useDispatch();
   const rgbaColor = hexToRGBA(workspaceItem.color, 0.3);
@@ -487,7 +491,7 @@ const FolderItem = ({
           </div>
         )}
         <ul>
-          {item?.folders?.map((folder, folderIndex) => (
+          {item?.folders?.map((folder: any, folderIndex: any) => (
             <FolderItem
               key={folder.id}
               item={folder}
@@ -496,9 +500,10 @@ const FolderItem = ({
               openItems={openItems}
               toggleItem={toggleItem}
               workspaceItem={workspaceItem}
+              setWorkspaceModal={setWorkspaceModal}
             />
           ))}
-          {item.files.map((file, fileIndex) => (
+          {item.files.map((file: any, fileIndex: any) => (
             <FileItem
               key={fileIndex}
               file={file}
@@ -506,6 +511,7 @@ const FolderItem = ({
               openItems={openItems}
               toggleItem={toggleItem}
               workspaceItem={workspaceItem}
+              setWorkspaceModal={setWorkspaceModal}
             />
           ))}
         </ul>
