@@ -75,10 +75,16 @@ function Column(props: any) {
   const inputRefForColumnEdit =
     useRef() as React.MutableRefObject<HTMLInputElement>;
 
+  const addTaskButtonClicked = (flag: any) => {
+    SetAddButtonClickedFromColumn(flag);
+  };
   useEffect(() => {
     const input = document.getElementById(`newtaskinput${props.id}`);
     const inputNameEdit = document.getElementById(`columnNameEdit-${props.id}`);
+    input?.focus();
+    inputNameEdit?.focus();
     input?.addEventListener('keypress', function (event) {
+      alert(event.key);
       if (event.key === 'Enter') {
         event.preventDefault();
         if (inputRef.current?.value && inputRef.current?.value !== '') {
@@ -99,6 +105,7 @@ function Column(props: any) {
             })
           );
           inputRef.current.value = '';
+          addTaskButtonClicked(false);
         }
       }
     });
@@ -120,9 +127,7 @@ function Column(props: any) {
       }
     });
   });
-  const addTaskButtonClicked = (flag: any) => {
-    SetAddButtonClickedFromColumn(flag);
-  };
+
   const columnMenu = () => {
     return (
       <ColumnMenuWrapper>
