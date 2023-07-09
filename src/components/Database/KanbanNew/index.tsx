@@ -10,7 +10,9 @@ const KanbanSection = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-  background: #101010;
+  // background: #101010;
+  align-content: flex-start;
+  background: green;
 `;
 const KanbanHeader = styled.div`
   width: 100%;

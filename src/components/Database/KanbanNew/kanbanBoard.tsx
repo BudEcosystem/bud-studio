@@ -17,9 +17,11 @@ const Container = styled.div`
   flex-direction: row;
 `;
 const ContainerWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin-left: 0px;
+  align-content: flex-start;
 `;
 const ContainerTopBar = styled.div`
   width: 101.5%;
@@ -162,7 +164,12 @@ function Kanban({ dbId }: any) {
     }
   }, [databaseData, dbId]);
   return (
-    <ContainerWrapper style={{ maxWidth: '1180px', overflow: 'scroll' }}>
+    <ContainerWrapper
+      style={{
+        maxWidth: '61.458333333333336vw',
+        overflow: 'scroll',
+      }}
+    >
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
           droppableId={`${kanbanDBData.id}`}
