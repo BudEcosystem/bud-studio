@@ -226,9 +226,9 @@ function KanbanUI({ id }: any) {
 
   return (
     <KanbanSection>
-      {/* <div style={{ marginLeft: '38px', marginRight: '63px' }}>
+      <div style={{ marginLeft: '38px', marginRight: '63px' }}>
           <GroupByComponent />
-        </div> */}
+        </div>
       <Kanban dbId={id} />
     </KanbanSection>
   );

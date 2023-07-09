@@ -94,8 +94,8 @@
 }
 
 .controls-box-path {
-  width: fit-content;
-  max-width: 450px;
+  width: 25%;
+  max-width: 25%;
   height: 32px;
   display: flex;
   justify-content: flex-start;
@@ -129,7 +129,7 @@
   width: 135px;
   height: auto;
   align-items: center;
-  margin-left: 35px;
+  margin-right: 8%;
 }
 
 .controls-switch {
