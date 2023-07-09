@@ -122,6 +122,7 @@ function Kanban({ dbId }: any) {
       if (event.key === 'Enter') {
         event.preventDefault();
         if (inputRef.current?.value) {
+          console.log(inputRef.current?.value);
           const newSectionParams = {
             title: inputRef.current?.value,
             color: 'yellow',
@@ -130,7 +131,7 @@ function Kanban({ dbId }: any) {
           dispatch(
             addNewPropertPresetsStatusOptions({
               newSectionParams,
-              id: kanbanDBData.id,
+              id: dbId,
             })
           );
           inputRef.current.value = '';
