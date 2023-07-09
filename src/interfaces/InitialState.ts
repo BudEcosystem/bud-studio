@@ -15,6 +15,7 @@ interface InitialState {
   applicationData: {}; // Replace 'any' with the appropriate type for applicationData
   editorInitialised: boolean;
   editorApplicationsAdded: string[];
+  workspaceDocsSearchKey: null | string;
 }
 
 export default InitialState;
