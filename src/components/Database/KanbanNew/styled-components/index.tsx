@@ -152,15 +152,16 @@ export const ColumnMenuLabel = styled.span`
 `;
 export const EditColumnWrapper = styled.div`
   width: auto;
-  height: 22px;
-  // background: red;
+  height: auto;
   margin-top: 15px;
   border: 0.5px dashed #2f2f2f;
   padding-right: 5px;
-  margin-left: 5px;
+  margin-left: 15px;
+  position: relative;
 `;
 export const EditColumnNameInput = styled.input`
-  // margin-top: -25px;
+  // position: absolute;
+  // margin-top: -5px;
   width: 90px;
   height: 20px;
   background: #101010;
@@ -170,8 +171,6 @@ export const EditColumnNameInput = styled.input`
   outline: none;
   border: none;
   margin-left: 15px;
-  // padding-left: 10px;
-  // border-top: 0.5px dashed #2f2f2f;
   &::placeholder,
   &::-webkit-input-placeholder {
     font-family: 'Noto Sans';

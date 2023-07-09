@@ -129,7 +129,6 @@ function Tasks(props: any) {
   const handleDocumentClick = () => {
     setMenuVisible(false);
   };
-  console.log('props - task', props);
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
       {(provided, snapshot) => {

@@ -92,19 +92,17 @@ function Kanban({ dbId }: any) {
   const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
   const dispatch = useDispatch();
   const onDragEnd = (result: any) => {
-    console.log(
-      'newCopyOFDB - kanbanDBData',
-      kanbanDBData.propertyPresets.status.options
-    );
-    const statusKeyArray = kanbanDBData.propertyPresets.status.options.map(
-      (statObj: any) => statObj.key
-    );
-    console.log('drag', statusKeyArray);
-
-    if (statusKeyArray.includes(result.draggableId)) {
-      dispatch(changeDatabaseStatusOrder({ dragResult: result }));
-    } else {
-      dispatch(changeKanbanStatusForWorkSpaceDocs({ dragResult: result }));
+    console.log('drag', result);
+    const { destination } = result;
+    if (destination) {
+      const statusKeyArray = kanbanDBData.propertyPresets.status.options.map(
+        (statObj: any) => statObj.key
+      );
+      if (statusKeyArray.includes(result.draggableId)) {
+        dispatch(changeDatabaseStatusOrder({ dragResult: result }));
+      } else {
+        dispatch(changeKanbanStatusForWorkSpaceDocs({ dragResult: result }));
+      }
     }
   };
 
@@ -166,8 +164,6 @@ function Kanban({ dbId }: any) {
   return (
     <ContainerWrapper style={{ maxWidth: '1180px', overflow: 'scroll' }}>
       <DragDropContext onDragEnd={onDragEnd}>
-        {kanbanDBData.id}---------
-        {dbId}
         <Droppable
           droppableId={`${kanbanDBData.id}`}
           direction="horizontal"
