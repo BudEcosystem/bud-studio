@@ -9,12 +9,38 @@ import {
   Plus,
   RightArrow,
 } from '../WorkspaceIcons';
+import { useDispatch } from 'react-redux';
+import {
+  setCopyOrMove,
+  setCurrentMoveToItem,
+  setIsMoveTo,
+  setWorkspaceItem,
+} from '@/redux/slices/activestate';
 
 const OptionsTree = ({
   setShowAddFolder,
   setShowAddFile,
   setShowoptionsTree,
+  node,
+  workspaceItem,
 }) => {
+  const dispatch = useDispatch();
+  console.log(node);
+  const copyHandler = () => {
+    // setShowDocumentOptions(false)
+    dispatch(setCopyOrMove('copy'));
+    dispatch(setIsMoveTo(true));
+    dispatch(setCurrentMoveToItem(node));
+    dispatch(setWorkspaceItem(workspaceItem));
+  };
+
+  const moveToHandler = () => {
+    // setShowDocumentOptions(false)
+    dispatch(setCopyOrMove('move'));
+    dispatch(setIsMoveTo(true));
+    dispatch(setCurrentMoveToItem(node));
+    dispatch(setWorkspaceItem(workspaceItem));
+  };
   return (
     <div id="optionsModal2" className="optionsModal2">
       <div className="secondWorkspaceModal">
@@ -125,7 +151,7 @@ const OptionsTree = ({
                 <RightArrow />
               </div>
             </div>
-            <div className="secondWorkspaceOption">
+            <div className="secondWorkspaceOption" onClick={copyHandler}>
               <Copy />
               <h3
                 style={{
@@ -141,10 +167,7 @@ const OptionsTree = ({
                 <RightArrow />
               </div>
             </div>
-            <div
-              className="secondWorkspaceOption"
-              // onClick={moveToHandler}
-            >
+            <div className="secondWorkspaceOption" onClick={moveToHandler}>
               <Move />
               <h3
                 style={{

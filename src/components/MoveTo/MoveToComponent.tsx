@@ -19,32 +19,34 @@ const MoveToComponent = () => {
   const { workspace, activestate }: any = useSelector((state) => state);
   const { currentMoveToItem, copyOrMove } = activestate;
   const { color } = workspace;
+  console.log(currentMoveToItem);
 
   const [currentWorkSpaceState, setCurrentWorkSpaceState] = useState(() => {
     return workspace.workSpaceItems.find(
-      (item) => item.uuid === currentMoveToItem.workspaceDetails.uuid
+      (item) => item?.uuid === currentMoveToItem?.workspaceUUID
     );
   });
-  console.log(workspace);
+  // console.log(workspace, activestate, currentWorkSpaceState, 'fghd');
 
   const [filteredFolders, setFilteredFolders] = useState([]);
   const [selectedFolder, setSelectedFolder] = useState(null);
 
   useEffect(() => {
-    if (currentWorkSpaceState.name === 'Private') {
-      const filtered = workspace.workspaceFolders.filter(
-        (item) => item.workSPaceId === 'Private'
-      );
-      setFilteredFolders(filtered);
-    } else {
-      const filtered = workspace.workspaceFolders.filter(
-        (item) => item.workSPaceId === currentWorkSpaceState.uuid
-      );
-      setFilteredFolders(filtered);
-    }
+    // if (currentWorkSpaceState?.name === 'Private') {
+    //   const filtered = workspace.workspaceFolders.filter(
+    //     (item) => item.workSPaceId === 'Private'
+    //   );
+    //   setFilteredFolders(filtered);
+    // } else {
+
+    // }
+    const filtered = workspace.workspaceFolders.filter(
+      (item) => item.workSpaceUUID === currentWorkSpaceState?.uuid
+    );
+    setFilteredFolders(filtered);
   }, [currentWorkSpaceState, workspace.workspaceFiles]);
-  console.log(filteredFolders, 'asdgf');
-  console.log(selectedFolder, 'po');
+  // console.log(filteredFolders, 'asdgf');
+  // console.log(selectedFolder, 'po');
 
   // const
   // const otherWorkspaces = workspace.workSpaceItems.filter(
@@ -74,8 +76,8 @@ const MoveToComponent = () => {
           </p>
           <p className="movetobelowtext">
             {copyOrMove === 'copy' ? 'Copy' : 'Move'}{' '}
-            <span style={{ color: currentMoveToItem.color }}>
-              {currentMoveToItem.title}
+            <span style={{ color: activestate.workspaceItem?.color }}>
+              {currentMoveToItem?.name}
             </span>{' '}
             to:
           </p>
@@ -94,7 +96,7 @@ const MoveToComponent = () => {
                   className="folderName"
                   onClick={() => setIsSpacesVisible(!isSpaceVisible)}
                 >
-                  {currentWorkSpaceState.name}
+                  {currentWorkSpaceState?.name}
                 </p>
                 <div
                   style={{
@@ -106,25 +108,18 @@ const MoveToComponent = () => {
                 </div>
               </div>
               {isSpaceVisible && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    marginTop: '6px',
-                    marginLeft: '-5px',
-                    zIndex: '10',
-                  }}
-                >
-                  <Spaces
-                    setIsSpacesVisible={setIsSpacesVisible}
-                    currentWorkSpaceState={currentWorkSpaceState}
-                    setCurrentWorkSpaceState={setCurrentWorkSpaceState}
-                  />
-                </div>
+                <Spaces
+                  setIsSpacesVisible={setIsSpacesVisible}
+                  currentWorkSpaceState={currentWorkSpaceState}
+                  setCurrentWorkSpaceState={setCurrentWorkSpaceState}
+                />
               )}
 
               <div
                 className="moveToSearchBar"
-                style={{ border: `0.5px solid $color` }}
+                style={{
+                  border: `0.5px solid ${activestate.workspaceItem.color}`,
+                }}
               >
                 <div
                   style={{
@@ -147,13 +142,15 @@ const MoveToComponent = () => {
               </div>
             </div>
             <div className="foldersContainer">
-              {filteredFolders.map(
+              {currentWorkSpaceState.folders.map(
                 (folder, i) =>
-                  folder.uuid !== currentMoveToItem.key && (
+                  folder?.uuid !== currentMoveToItem?.id && (
                     <Directory
                       folder={folder}
                       selectedFolder={selectedFolder}
                       setSelectedFolder={setSelectedFolder}
+                      workspaceColor={activestate.workspaceItem.color}
+                      currentMoveToItem={currentMoveToItem}
                     />
                   )
               )}
@@ -189,7 +186,7 @@ const MoveToComponent = () => {
               </div>
               <div
                 className="moveButton"
-                style={{ background: currentMoveToItem.color }}
+                style={{ background: activestate.workspaceItem.color }}
                 onClick={copyOrMoveHandler}
               >
                 {copyOrMove === 'copy' ? 'Copy' : 'Move'}

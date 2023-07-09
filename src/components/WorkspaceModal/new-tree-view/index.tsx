@@ -76,8 +76,30 @@ const Menu = ({ workspaceItem, setWorkspaceModal }: any) => {
     const newFileForWorkspaceDocs = {
       childOf: null,
       customProperties: [],
-      name: newFile.name,
-      properties: [],
+      name: event.target.value,
+      properties: [
+        {
+          title: 'Tags',
+          value: ['no-tag'],
+          type: 'tags',
+          id: uuidv4(),
+          order: 1,
+        },
+        {
+          title: 'Priority',
+          value: 'Normal',
+          type: 'priority',
+          id: uuidv4(),
+          order: 2,
+        },
+        {
+          title: 'Status',
+          value: 'Not Started',
+          type: 'status',
+          id: uuidv4(),
+          order: 3,
+        },
+      ],
       type: 'doc',
       uuid: newFile.id,
       workSpaceUUID: workspaceItem.uuid,
@@ -313,7 +335,7 @@ const hexToRGBA = (hex, opacity) => {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 };
 let i = 0;
-const FolderItem = ({
+export const FolderItem = ({
   item,
   parentId,
   openItems,
@@ -378,7 +400,29 @@ const FolderItem = ({
       childOf: parent,
       customProperties: [],
       name: newFile.name,
-      properties: [],
+      properties: [
+        {
+          title: 'Tags',
+          value: ['no-tag'],
+          type: 'tags',
+          id: uuidv4(),
+          order: 1,
+        },
+        {
+          title: 'Priority',
+          value: 'Normal',
+          type: 'priority',
+          id: uuidv4(),
+          order: 2,
+        },
+        {
+          title: 'Status',
+          value: 'Not Started',
+          type: 'status',
+          id: uuidv4(),
+          order: 3,
+        },
+      ],
       type: 'doc',
       uuid: newFile.id,
       workSpaceUUID: item.workspaceUUID,
@@ -417,7 +461,10 @@ const FolderItem = ({
                 : '',
           }}
         >
-          <div className="showName">
+          <div
+            className="showName"
+            style={{ marginRight: parentId === null ? '140px' : '40px' }}
+          >
             <div className="showName folderArrow">
               {isFolderOpen ? (
                 <FolderArrow color={workspaceItem.color} />
@@ -453,6 +500,8 @@ const FolderItem = ({
               setShowAddFolder={setShowAddFolder}
               setShowAddFile={setShowAddFile}
               setShowoptionsTree={setShowoptionsTree}
+              node={item}
+              workspaceItem={workspaceItem}
             />
           </div>
         )}
