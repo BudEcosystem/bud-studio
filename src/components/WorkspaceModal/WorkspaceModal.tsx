@@ -343,7 +343,7 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                 <SearchIconShortcut />
               </div>
             </div>
-            <Menu workspaceItem={workSpaceItems[idx]} />
+            <Menu workspaceItem={workSpaceItems[idx]} setWorkspaceModal={setWorkspaceModal}/>
             {/* <TreeView*/}
             {/*  filter={filterText}*/}
             {/*  setShowColorDots={setShowColorDots}*/}
