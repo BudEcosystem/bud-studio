@@ -348,6 +348,7 @@ export const databaseSlice = createSlice({
     },
     addNewPropertPresetsStatusOptions: (state, action: PayloadAction<any>) => {
       const { id, newSectionParams } = action.payload;
+      console.log('debug', action.payload);
       const copyOfDB = [...state.databases];
       const newCopyOFDB = copyOfDB.map((data) => {
         const eachData = { ...data };
@@ -364,6 +365,7 @@ export const databaseSlice = createSlice({
         }
         return eachData;
       });
+      console.log('debug', newCopyOFDB);
       state.databases = newCopyOFDB;
     },
     addNewDocumentEntry: (state, action: PayloadAction<any>) => {
