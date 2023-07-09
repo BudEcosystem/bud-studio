@@ -166,7 +166,7 @@ function Kanban({ dbId }: any) {
   return (
     <ContainerWrapper
       style={{
-        maxWidth: '61.458333333333336vw',
+        width: '100%',
         overflow: 'scroll',
       }}
     >
