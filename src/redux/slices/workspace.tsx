@@ -273,18 +273,21 @@ const changeWorkspaceIdOfFiles = (
   }
   for (const files of arr.files) {
     files.workspaceUUID = workspaceId;
-    const copyFileId = files.id;
+    const copyFileId = JSON.parse(JSON.stringify(files.id));
+    files.id = uuidv4();
+    console.log(copyFileId, files.id, '45');
     if (copyOrMove === 'copy') {
       workspaceDocsArr.map((docs, k) => {
-        if (docs.uuid === files.id) {
+        if (docs.uuid === copyFileId) {
           const copyOfDocs = JSON.parse(JSON.stringify(docs));
-          copyOfDocs.uuid = uuidv4();
+          copyOfDocs.uuid = files.id;
           copyOfDocs.childOf = arr.id;
           copyOfDocs.workSpaceUUID = files.workspaceUUID;
           workspaceDocsArr.push(copyOfDocs);
           appDataArr[copyOfDocs.uuid] = JSON.parse(
             JSON.stringify(appDataArr[copyFileId])
           );
+          console.log(copyOfDocs, files.id, '46');
         }
       });
       // files.id = uuidv4()
