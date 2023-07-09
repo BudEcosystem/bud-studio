@@ -457,7 +457,10 @@ export const FolderItem = ({
                 : '',
           }}
         >
-          <div className="showName">
+          <div
+            className="showName"
+            style={{ marginRight: parentId === null ? '140px' : '40px' }}
+          >
             <div className="showName folderArrow">
               {isFolderOpen ? (
                 <FolderArrow color={workspaceItem.color} />

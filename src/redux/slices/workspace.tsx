@@ -274,9 +274,9 @@ const changeWorkspaceIdOfFiles = (
   for (const files of arr.files) {
     files.workspaceUUID = workspaceId;
     const copyFileId = JSON.parse(JSON.stringify(files.id));
-    files.id = uuidv4();
     console.log(copyFileId, files.id, '45');
     if (copyOrMove === 'copy') {
+      files.id = uuidv4();
       workspaceDocsArr.map((docs, k) => {
         if (docs.uuid === copyFileId) {
           const copyOfDocs = JSON.parse(JSON.stringify(docs));
