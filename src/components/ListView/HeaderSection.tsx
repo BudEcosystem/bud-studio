@@ -10,10 +10,16 @@ import { AddCover } from './ListViewIcons';
 import OptionsComponent from './ListViewComponents/OptionsComponent';
 import AppModeHeader from './ListViewComponents/AppModeHeader';
 import EditorHeader from 'components/EditorHeader';
-import bgImg from '../EditorHeader/images/bgImage.png'
-import iconImg from '../EditorHeader/images/iconImage.png'
+import bgImg from '../EditorHeader/images/bgImage.png';
+import iconImg from '../EditorHeader/images/iconImage.png';
 
-function HeaderSection({ view, updateCurrentTitle, title, databaseDescription, changeDatabaseView }: any) {
+function HeaderSection({
+  view,
+  updateCurrentTitle,
+  title,
+  databaseDescription,
+  changeDatabaseView,
+}: any) {
   const dispatch = useDispatch();
   const { content, list }: any = useSelector((state) => state);
   const { listTitleAndDesc, oneTime } = list;
@@ -115,7 +121,10 @@ function HeaderSection({ view, updateCurrentTitle, title, databaseDescription, c
               </p>
             </div>
             <div className="optionsComponentContainer mgLeft">
-              <OptionsComponent view={view} changeDatabaseView={changeDatabaseView}/>
+              <OptionsComponent
+                view={view}
+                changeDatabaseView={changeDatabaseView}
+              />
             </div>
           </>
         ) : (
