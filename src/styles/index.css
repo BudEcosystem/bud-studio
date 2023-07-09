@@ -256,3 +256,7 @@
   opacity: 0.5;
   background-color: green;
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+}

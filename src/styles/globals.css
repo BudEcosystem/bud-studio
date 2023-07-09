@@ -30,7 +30,7 @@
   --primary-bgc: #000000;
   --primary-bgc-2: #1a1a20;
   --primary-bgc-3: #000000;
-  --primary-bgc-light: #1D1D1D;
+  --primary-bgc-light: #1d1d1d;
   --white-color: #fff;
   --light-gray: #565262a4;
   /* --light-gray: #565262; */
@@ -68,7 +68,7 @@
   padding: 0px;
 }
 .ant-popover-arrow {
-  display: none !important;
+  /* display: none !important; */
 }
 .ant-popover {
   background: transparent !important;
@@ -144,7 +144,7 @@
   display: none !important;
 }
 
-.editor-wrapper{
+.editor-wrapper {
   color: #fff;
   margin-left: 50px;
 
@@ -157,6 +157,8 @@
     color: #fff;
     margin-right: 10px;
   } */
-
 }
 
+::-webkit-scrollbar {
+  width: 7px;
+}

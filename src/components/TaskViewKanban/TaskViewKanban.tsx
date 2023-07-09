@@ -167,6 +167,7 @@ const TaskViewKanban = ({
       open={showKanbanTaskView}
       onOk={handleOk}
       onCancel={handleCancel}
+      width={1150}
     >
       <div className="KanbanTaskView">
         <div className="KanbanTaskView__TopBar">
@@ -267,7 +268,7 @@ const TaskViewKanban = ({
         </div>
 
         <div className="KanbanTaskView__Panel">
-          <div className="KanbanTaskView__LeftPanel">
+          <div className="KanbanTaskView-LeftPanel">
             <div className="KanbanTask__Title">{data.content}</div>
             <div className="KanbanTask__subHeading">{data?.description}</div>
 
@@ -346,39 +347,39 @@ const TaskViewKanban = ({
             </div>
           </div>
 
-          <div className="KanbanTaskView__RightPanel">
-            <div className="KanbanRightPanel__Comments">
-              {comments.map((comment) => (
-                <div className="KanbanRightPanel__Comment">
-                  <div
-                    style={{
-                      fontSize: '15px',
-                      fontWeight: '300',
-                      color: '#7B8388',
-                    }}
-                  >
-                    {comment.text}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: '15px',
-                      fontWeight: '300',
-                      color: '#7B8388',
-                      marginRight: '5px',
-                    }}
-                  >
-                    {comment.time}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="KanbanRightPanel__CommentInput">
-              <input
-                className="CommentInput__InputField"
-                placeholder="Comment or type ‘ / ‘ for commands"
-              />
-            </div>
-          </div>
+          {/*<div className="KanbanTaskView__RightPanel">*/}
+          {/*  <div className="KanbanRightPanel__Comments">*/}
+          {/*    {comments.map((comment) => (*/}
+          {/*      <div className="KanbanRightPanel__Comment">*/}
+          {/*        <div*/}
+          {/*          style={{*/}
+          {/*            fontSize: '15px',*/}
+          {/*            fontWeight: '300',*/}
+          {/*            color: '#7B8388',*/}
+          {/*          }}*/}
+          {/*        >*/}
+          {/*          {comment.text}*/}
+          {/*        </div>*/}
+          {/*        <div*/}
+          {/*          style={{*/}
+          {/*            fontSize: '15px',*/}
+          {/*            fontWeight: '300',*/}
+          {/*            color: '#7B8388',*/}
+          {/*            marginRight: '5px',*/}
+          {/*          }}*/}
+          {/*        >*/}
+          {/*          {comment.time}*/}
+          {/*        </div>*/}
+          {/*      </div>*/}
+          {/*    ))}*/}
+          {/*  </div>*/}
+          {/*  <div className="KanbanRightPanel__CommentInput">*/}
+          {/*    <input*/}
+          {/*      className="CommentInput__InputField"*/}
+          {/*      placeholder="Comment or type ‘ / ‘ for commands"*/}
+          {/*    />*/}
+          {/*  </div>*/}
+          {/*</div>*/}
         </div>
       </div>
     </Modal>

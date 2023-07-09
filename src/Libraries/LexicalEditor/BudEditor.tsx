@@ -18,6 +18,7 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin';
 import { HashtagNode } from '@lexical/hashtag';
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
+import {$generateHtmlFromNodes} from '@lexical/html';
 
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 import { TRANSFORMERS } from '@lexical/markdown';
@@ -171,17 +172,11 @@ export default function BudEditor({ data, persistEditorRoot }): JSX.Element {
   };
 
   function onChange(editorState) {
-    // editorStateRef.current = editorState;
-    editorState.read(() => {
-      // const root = $getRoot();
-      // console.log('Updated Content', JSON.stringify(editorState));
-      persistEditorRoot(editorState);
 
-      //   // Read the contents of the EditorState here.
-      //   // const root = $getRoot();
-      //   // const selection = $getSelection();
-      //   // console.log(root, selection);
-      //   // console.log('State', JSON.stringify(editorState.toJSON()));
+    editorState.read(() => {
+      const editorStateTextString = editorState.read(() => $getRoot().getTextContent())
+      persistEditorRoot(editorState,editorStateTextString);
+
     });
   }
 

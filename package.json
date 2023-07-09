@@ -128,6 +128,7 @@
     "@glideapps/glide-data-grid-cells": "^5.2.1",
     "@lexical/code": "^0.11.1",
     "@lexical/hashtag": "^0.11.1",
+    "@lexical/html": "^0.11.1",
     "@lexical/link": "^0.11.1",
     "@lexical/list": "^0.11.1",
     "@lexical/markdown": "^0.11.1",

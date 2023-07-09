@@ -1,15 +1,20 @@
+/* eslint-disable no-unused-vars */
 import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
-import Kanban from './kanbanBoard';
 import HeaderSection from 'components/ListView/HeaderSection';
 import GroupByComponent from 'components/GroupByComponent/GroupByComponent';
 import SortByComponent from 'components/SortByComponent/SortByComponent';
+import Kanban from './kanbanBoard';
 
 const KanbanSection = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
   background: #101010;
+  align-content: flex-start;
+  // background: green;
+  margin-left: 10px;
+  width: 95%;
 `;
 const KanbanHeader = styled.div`
   width: 100%;
@@ -211,7 +216,7 @@ function HeaderButtons({ label, icon }: any) {
     </ButtonGroup>
   );
 }
-function KanbanUI({databaseData}: any) {
+function KanbanUI({ id }: any) {
   const [date, setDate] = useState<String>('');
   const [title, setTitle] = useState('');
   useEffect(() => setDate('13 June 2022'), []);
@@ -221,10 +226,10 @@ function KanbanUI({databaseData}: any) {
 
   return (
     <KanbanSection>
-        {/* <div style={{ marginLeft: '38px', marginRight: '63px' }}>
+      {/* <div style={{ marginLeft: '38px', marginRight: '63px' }}>
           <GroupByComponent />
         </div> */}
-      <Kanban databaseData={databaseData} />
+      <Kanban dbId={id} />
     </KanbanSection>
   );
 }

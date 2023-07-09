@@ -111,10 +111,17 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
         },
         {
           title: 'Status',
-          value: 'Not Started',
+          value: 'not_started',
           type: 'status',
           id: uuidv4(),
           order: 3,
+        },
+        {
+          title: 'Date',
+          value: '',
+          type: 'date',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
+          order: 4,
         },
       ],
     };
@@ -224,7 +231,7 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
       )}
 
       {databaseData.defaultView === 'Kanban' && databaseEntries.length && (
-        <KanbanUI databaseData={databaseData} />
+        <KanbanUI id={databaseData.id} />
       )}
 
       {databaseData.defaultView === 'List' && databaseEntries.length && (
