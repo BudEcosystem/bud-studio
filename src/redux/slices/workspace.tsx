@@ -194,6 +194,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
     },
     editorInitialised: false,
     editorApplicationsAdded: [],
+    workspaceDocsSearchKey: null,
   };
   return initialState;
 };
@@ -1477,6 +1478,10 @@ export const workspaceSlice = createSlice({
         }
       });
     },
+    setSearchDocsKeyword: (state, action: PayloadAction<any>) => {
+      const { searchKey } = action.payload;
+      state.workspaceDocsSearchKey = searchKey;
+    },
   },
 });
 
@@ -1523,5 +1528,6 @@ export const {
   createTableDocument,
   changePriority,
   changeStatus,
+  setSearchDocsKeyword,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
