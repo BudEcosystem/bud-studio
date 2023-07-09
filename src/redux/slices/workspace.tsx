@@ -85,7 +85,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
           },
           {
             title: 'Date',
-            value: '',
+            value: null,
             type: 'date',
             id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
             order: 4,

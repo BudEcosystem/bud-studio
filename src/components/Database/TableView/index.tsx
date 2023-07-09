@@ -169,8 +169,8 @@ export default function TableView({
         return {
           kind: GridCellKind.Text,
           allowOverlay: true,
-          displayData: matchingItem.value,
-          data: matchingItem.value,
+          displayData: matchingItem.value || '',
+          data: matchingItem.value || ' ',
           allowWrapping: true,
         };
       }
@@ -482,14 +482,27 @@ export default function TableView({
     console.log(data);
   };
 
+  const getTaskView = () => {
+    console.log('Changes', taskViewData);
+    const taskViewDataTemp = { ...taskViewData };
+    taskViewDataTemp.entry = taskViewDataTemp;
+
+    console.log("Task View Data", taskViewDataTemp);
+    return taskViewDataTemp;
+  };
+
   return (
     <div className="table-wrapper" id="table-wrapper">
-      <TaskView
-        data={taskViewData}
-        title={databaseData.title}
-        showTaskViewModal={taskViewOpen}
-        setShowTaskViewModal={setTaskViewOpen}
-      />
+      {taskViewOpen && (
+        <TaskView
+          data={getTaskView()}
+          title={databaseData.title}
+          showTaskViewModal={taskViewOpen}
+          setShowTaskViewModal={setTaskViewOpen}
+          item={getTaskView()}
+        />
+      )}
+
       {data && (
         <DataEditor
           {...cellProps}

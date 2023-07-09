@@ -47,7 +47,7 @@ export const generateDatabaseInitialState = (): any => {
               },
               {
                 title: 'In Progress',
-                key: 'In Progres',
+                key: 'In Progress',
                 color: '#FFD976',
                 key: 'in_progress',
               },

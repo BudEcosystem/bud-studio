@@ -10,10 +10,10 @@
 }
 
 .TaskViewModal .ant-modal-content {
-  width: 1550px;
-  right: 420px;
+  /* width: 1550px;
+  right: 420px; */
   background: #1B1C1E;
-  height: 800px;
+  /* height: 800px; */
   padding: 0px !important;
 }
 
@@ -165,12 +165,12 @@
 }
 
 .KanbanTaskView__LeftPanel {
-  width: 55%;
+  width: 100%;
   height: 713px;
   border-bottom-left-radius: 14px;
   overflow: auto;
-  border-right: 1px solid #252525;
-  ;
+  /*border-right: 1px solid #252525;*/
+
 }
 
 .KanbanTask__Title {

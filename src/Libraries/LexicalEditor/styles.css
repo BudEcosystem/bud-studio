@@ -513,3 +513,8 @@
 .PlaygroundEditorTheme__nestedListItem:after {
   display: none;
 }
+
+
+#typeahead-menu{
+  z-index: 9999;
+}

@@ -5,10 +5,11 @@ import {
   setSelectedOption,
 } from 'redux/slices/activestate';
 import TaskView from 'components/TaskView/TaskView';
+
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
 import HeaderSubComp from '../HeaderSubComp';
 
-function SubAccordion({ status, data, provided, index, title }) {
+function SubAccordion({ status, data, provided, index, title,item }) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [expanded, setExpanded] = useState(index === 0);
@@ -44,6 +45,8 @@ function SubAccordion({ status, data, provided, index, title }) {
         title={title}
         showTaskViewModal={showTaskViewModal}
         setShowTaskViewModal={setShowTaskViewModal}
+        status={status}
+        item={item}
       />
 
       <div className="headerSubComponentContainer">

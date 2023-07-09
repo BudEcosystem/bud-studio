@@ -111,7 +111,7 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
         },
         {
           title: 'Status',
-          value: 'Not Started',
+          value: 'not_started',
           type: 'status',
           id: uuidv4(),
           order: 3,

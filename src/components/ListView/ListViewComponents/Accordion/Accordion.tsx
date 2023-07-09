@@ -92,7 +92,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
       sortedContent.forEach((entry: any) => {
         entry.properties.forEach((property: any) => {
           if (property.title === 'Status') {
-            if (property.value === item.title) {
+            if (property.value === item.key) {
               entries.push({
                 title: entry.name,
                 description: item.description,
@@ -175,7 +175,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
         },
         {
           title: 'Status',
-          value: item.headerText,
+          value: item.headerText.toLowerCase().replaceAll(' ', '_'),
           type: 'status',
           id: '',
           order: 3,
@@ -306,6 +306,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
                                     provided={provided}
                                     index={j}
                                     title={title}
+                                    item={item}
                                   />
                                 </motion.div>
                               </div>
