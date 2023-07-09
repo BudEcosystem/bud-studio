@@ -41,6 +41,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
         name: 'Welcome To Bud',
         childOf: null,
         workSPaceId: 'Private',
+        description: '',
         type: 'doc',
         uuid: '39b08a3d-12f1-4651-90f7-328952849dca',
         workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
@@ -82,7 +83,15 @@ export const generateInitialWorkspaceState = (): InitialState => {
             id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
             order: 3,
           },
+          {
+            title: 'Date',
+            value: null,
+            type: 'date',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
+            order: 4,
+          },
         ],
+
         // System Defined Properties
         // {
         //   tags: ['no-tag'],
@@ -247,6 +256,69 @@ export const workspaceSlice = createSlice({
     });
   },
   reducers: {
+    editDocumentTitleById: (state, action: PayloadAction<any>) => {
+      const currentWorkspace = action.payload.documentID;
+
+      const currentEditorIndex = state.workSpaceDocs.findIndex(
+        (data: any) => data.uuid === currentWorkspace
+      );
+
+      const docs = state.workSpaceDocs;
+      docs[currentEditorIndex].name = action.payload.newTitle;
+
+      state.workSpaceDocs = docs;
+
+      // currentEditor.title = action.payload.newTitle;
+    },
+    updateDocumentTagById: (state, action: PayloadAction<any>) => {
+      const currentWorkspace = action.payload.documentID;
+
+      const currentEditorIndex = state.workSpaceDocs.findIndex(
+        (data: any) => data.uuid === currentWorkspace
+      );
+
+      // Get Tag From Index
+      const docs = state.workSpaceDocs;
+      docs[currentEditorIndex].properties.find(
+        (data: any) => data.title === 'Tags'
+      ).value = [action.payload.newTags];
+
+      console.log('Updated Tags', action);
+
+      // docs[currentEditorIndex].tags = [[action.payload.newTags]];
+      //
+      state.workSpaceDocs = docs;
+    },
+    updateDocumentStatusById: (state, action: PayloadAction<any>) => {
+      const currentWorkspace = action.payload.documentID;
+
+      const currentEditorIndex = state.workSpaceDocs.findIndex(
+        (data: any) => data.uuid === currentWorkspace
+      );
+
+      // Get Tag From Index
+      const docs = state.workSpaceDocs;
+      docs[currentEditorIndex].properties.find(
+        (data: any) => data.title === 'Priority'
+      ).value = action.payload.priority;
+
+      state.workSpaceDocs = docs;
+    },
+    updateDocumentDueDateById: (state, action: PayloadAction<any>) => {
+      const currentWorkspace = action.payload.documentID;
+
+      const currentEditorIndex = state.workSpaceDocs.findIndex(
+        (data: any) => data.uuid === currentWorkspace
+      );
+
+      // Get Tag From Index
+      const docs = state.workSpaceDocs;
+      docs[currentEditorIndex].properties.find(
+        (data: any) => data.title === 'Date'
+      ).value = action.payload.dueDate;
+
+      state.workSpaceDocs = docs;
+    },
     addEmptyDoc: (state, action: PayloadAction<any>) => {
       const copyDocStructure = state.workSpaceDocs;
       copyDocStructure.push(action.payload.newDatabaseDocument);
@@ -684,7 +756,12 @@ export const workspaceSlice = createSlice({
       state.editorInitialised = false;
     },
     updateDocumentData: (state, action: PayloadAction<any>) => {
-      const { editorState, currentPage, currentDocumentUUID } = action.payload;
+      const {
+        editorState,
+        currentPage,
+        currentDocumentUUID,
+        editorStateTextString,
+      } = action.payload;
 
       const copyOfApplicationData = state.applicationData;
 
@@ -695,6 +772,18 @@ export const workspaceSlice = createSlice({
       );
 
       state.applicationData = copyOfApplicationData;
+
+      // Get Current Document
+      const currentDocumentIndex = state.workSpaceDocs.findIndex(
+        (data: any) => {
+          return data.uuid === currentDocumentUUID;
+        }
+      );
+
+      const docs = state.workSpaceDocs;
+      docs[currentDocumentIndex].description = editorStateTextString;
+
+      state.workSpaceDocs = docs;
 
       // copyOfApplicationData.forEach(element => {
       //   console
@@ -1180,6 +1269,10 @@ export const workspaceSlice = createSlice({
 });
 
 export const {
+  updateDocumentDueDateById,
+  updateDocumentStatusById,
+  updateDocumentTagById,
+  editDocumentTitleById,
   addEmptyDoc,
   changeColorAndSetName,
   changeColor,

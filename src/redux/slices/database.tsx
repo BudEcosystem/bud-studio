@@ -21,6 +21,10 @@ export const generateDatabaseInitialState = (): any => {
         created_at: '',
         updated_at: '',
         propertyPresets: {
+          date: {
+            name: 'Date',
+            type: 'date',
+          },
           priority: {
             name: 'Priority',
             type: 'select',
@@ -43,7 +47,7 @@ export const generateDatabaseInitialState = (): any => {
               },
               {
                 title: 'In Progress',
-                key: 'In Progres',
+                key: 'In Progress',
                 color: '#FFD976',
                 key: 'in_progress',
               },

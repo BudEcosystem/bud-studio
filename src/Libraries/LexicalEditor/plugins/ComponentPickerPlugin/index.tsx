@@ -283,9 +283,9 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
                 name: 'Status',
                 type: 'select',
                 options: [
-                  { title: 'Not Started', color: '#fff' },
-                  { title: 'In Progress', color: '#fff' },
-                  { title: 'Done', color: '#fff' },
+                  { title: 'Not Started', color: 'red', key: 'not_started' },
+                  { title: 'In Progress', color: 'yellow', key: 'in_progress' },
+                  { title: 'Done', color: 'green', key: 'done' },
                 ],
               },
               tags: {
@@ -352,90 +352,80 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
               },
               {
                 title: 'Status',
-                value: 'Not Started',
+                value: 'not_started',
                 type: 'status',
                 id: uuidv4(),
                 order: 3,
+              },
+              {
+                title: 'Date',
+                value: null,
+                type: 'date',
+                id: uuidv4(),
+                order: 4,
               },
             ],
           };
 
           // Initial Document Template
-          const initialDocument = {
-            root: {
-              children: [
-                {
-                  children: [
-                    {
-                      detail: 0,
-                      format: 0,
-                      mode: 'normal',
-                      style: '',
-                      text: 'How to evolve into a super human with your',
-                      type: 'text',
-                      version: 1,
-                    },
-                  ],
-                  direction: 'ltr',
-                  format: '',
-                  indent: 0,
-                  type: 'heading',
-                  version: 1,
-                  tag: 'h1',
-                },
-                {
-                  children: [
-                    {
-                      detail: 0,
-                      format: 0,
-                      mode: 'normal',
-                      style: '',
-                      text: 'digital mind place',
-                      type: 'text',
-                      version: 1,
-                    },
-                  ],
-                  direction: 'ltr',
-                  format: '',
-                  indent: 0,
-                  type: 'heading',
-                  version: 1,
-                  tag: 'h1',
-                },
-                {
-                  children: [],
-                  direction: null,
-                  format: '',
-                  indent: 0,
-                  type: 'paragraph',
-                  version: 1,
-                },
-                {
-                  children: [
-                    {
-                      detail: 0,
-                      format: 0,
-                      mode: 'normal',
-                      style: '',
-                      text: 'Philosophy, life, misc',
-                      type: 'text',
-                      version: 1,
-                    },
-                  ],
-                  direction: 'ltr',
-                  format: '',
-                  indent: 0,
-                  type: 'paragraph',
-                  version: 1,
-                },
-              ],
-              direction: 'ltr',
-              format: '',
-              indent: 0,
-              type: 'root',
-              version: 1,
+          const initialDocument = [
+            {
+              root: {
+                children: [
+                  {
+                    children: [
+                      {
+                        detail: 0,
+                        format: 0,
+                        mode: 'normal',
+                        style: '',
+                        text: 'Untitled',
+                        type: 'text',
+                        version: 1,
+                      },
+                    ],
+                    direction: 'ltr',
+                    format: '',
+                    indent: 0,
+                    type: 'heading',
+                    version: 1,
+                    tag: 'h1',
+                  },
+                  {
+                    children: [],
+                    direction: null,
+                    format: '',
+                    indent: 0,
+                    type: 'paragraph',
+                    version: 1,
+                  },
+                  {
+                    children: [
+                      {
+                        detail: 0,
+                        format: 0,
+                        mode: 'normal',
+                        style: '',
+                        text: '#Bud',
+                        type: 'text',
+                        version: 1,
+                      },
+                    ],
+                    direction: 'ltr',
+                    format: '',
+                    indent: 0,
+                    type: 'paragraph',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'root',
+                version: 1,
+              },
             },
-          };
+          ];
 
           // Prepare Document
 

@@ -53,7 +53,7 @@ export default function Workspace({
 
   // Utils
   const getDocumentByID = (id: string) => {
-    const doc = workspace.workSpaceDocs.filter((item) => item.uuid === id);
+    const doc = workspace.workSpaceDocs.filter((item: { uuid: string; }) => item.uuid === id);
     return doc[0];
   };
 
@@ -208,7 +208,7 @@ function WorkspaceEditor({
     }
   };
 
-  const persistEditorRoot = (editorState: any) => {
+  const persistEditorRoot = (editorState: any, editorStateTextString: any) => {
     console.log('persistEditorRoot', editorState);
     console.log('Current Document Raw', data);
 
@@ -221,6 +221,7 @@ function WorkspaceEditor({
         editorState,
         currentPage,
         currentDocumentUUID,
+        editorStateTextString,
       })
     );
 

@@ -1,42 +1,53 @@
 import React, { useEffect, useState } from 'react';
-import HeaderSubComp from '../HeaderSubComp';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { setCurrentSelectedUI, setSelectedOption } from 'redux/slices/activestate';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setCurrentSelectedUI,
+  setSelectedOption,
+} from 'redux/slices/activestate';
 import TaskView from 'components/TaskView/TaskView';
+
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
+import HeaderSubComp from '../HeaderSubComp';
 
-
-const SubAccordion = ({ status, data, provided, index , title}) => {
+function SubAccordion({ status, data, provided, index, title,item }) {
   const { workspace }: any = useSelector((state) => state);
-  let { color } = workspace;
-  const [expanded, setExpanded] = useState(index === 0 ? true : false);
+  const { color } = workspace;
+  const [expanded, setExpanded] = useState(index === 0);
   const [expandedChild, setExpandedChild] = useState(
     Array(data.childs.length).fill(false)
   );
-  const [selected, setSelected] = useState(index === 0 ? false : true);
+  const [selected, setSelected] = useState(index !== 0);
   const toggleSubAccordion = () => {
     setExpanded(!expanded);
     setSelected(!selected);
-  }; 
+  };
   const toggleSubAccordionChild = (index) => {
     const updatedExpandedChild = [...expandedChild];
     updatedExpandedChild[index] = !updatedExpandedChild[index];
     setExpandedChild(updatedExpandedChild);
   };
   const [showTaskViewModal, setShowTaskViewModal] = useState(false);
+
   return (
     <div
-      className={`subAccordionParent`}
+      className="subAccordionParent"
       style={{
         border: selected ? '' : `0.8px solid ${color}`,
         background: selected ? `#28272C` : '#1B1C1E',
-        cursor: "pointer"
-        
+        cursor: 'pointer',
       }}
-      onDoubleClick={() => {setShowTaskViewModal(true)}}
+      onDoubleClick={() => {
+        setShowTaskViewModal(true);
+      }}
     >
-      {<TaskView data={data} title={title} showTaskViewModal={showTaskViewModal} setShowTaskViewModal={setShowTaskViewModal}/>}
+      <TaskView
+        data={data}
+        title={title}
+        showTaskViewModal={showTaskViewModal}
+        setShowTaskViewModal={setShowTaskViewModal}
+        status={status}
+        item={item}
+      />
 
       <div className="headerSubComponentContainer">
         <HeaderSubComp
@@ -52,7 +63,9 @@ const SubAccordion = ({ status, data, provided, index , title}) => {
       </div>
       {expanded && (
         <div className="subChildComponent">
-          <p className="description">{data?.description}</p>
+          <p className="description">
+            <TextClippingComponent text={data.entry.description || ''} limit={100} />
+          </p>
           {data?.childs.length > 0 &&
             data.childs.map((subItem, i) => (
               <div style={{ marginBottom: '16px' }}>
@@ -61,7 +74,7 @@ const SubAccordion = ({ status, data, provided, index , title}) => {
                   childIndex={i}
                   status={status}
                   data={subItem}
-                  subChild={true}
+                  subChild
                   provided={provided}
                   expanded={expandedChild[i]}
                   toggleSubAccordion={() => toggleSubAccordionChild(i)}
@@ -72,6 +85,27 @@ const SubAccordion = ({ status, data, provided, index , title}) => {
       )}
     </div>
   );
-};
+}
+
+class TextClippingComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      clippedText: this.clipText(props.text, props.limit),
+    };
+  }
+
+  clipText(text, limit) {
+    if (text.length <= limit) {
+      return text;
+    }
+    return `${text.slice(0, limit)}...`;
+  }
+
+  render() {
+    return <span>{this.state.clippedText}</span>;
+  }
+}
+
 
 export default SubAccordion;

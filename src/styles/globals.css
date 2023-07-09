@@ -68,7 +68,7 @@
   padding: 0px;
 }
 .ant-popover-arrow {
-  display: none !important;
+  /* display: none !important; */
 }
 .ant-popover {
   background: transparent !important;
