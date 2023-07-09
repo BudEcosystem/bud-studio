@@ -78,13 +78,17 @@ function Column(props: any) {
   const addTaskButtonClicked = (flag: any) => {
     SetAddButtonClickedFromColumn(flag);
   };
+  const onEscapeButtonPressed = (event: any) => {
+    if (event.code === 'Escape') {
+      addTaskButtonClicked(false);
+    }
+  };
   useEffect(() => {
     const input = document.getElementById(`newtaskinput${props.id}`);
     const inputNameEdit = document.getElementById(`columnNameEdit-${props.id}`);
     input?.focus();
     inputNameEdit?.focus();
     input?.addEventListener('keypress', function (event) {
-      alert(event.key);
       if (event.key === 'Enter') {
         event.preventDefault();
         if (inputRef.current?.value && inputRef.current?.value !== '') {
@@ -220,6 +224,7 @@ function Column(props: any) {
               {nameEditable ? (
                 <EditColumnWrapper>
                   <EditColumnNameInput
+                    onKeyDown={() => setNameEditable(false)}
                     id={`columnNameEdit-${props.id}`}
                     ref={inputRefForColumnEdit}
                   />
@@ -306,6 +311,7 @@ function Column(props: any) {
             <AddNewTaskWrapper>
               <AddNewTaskColoredBorderLeft />
               <AddNewTaskinput
+                onKeyDown={onEscapeButtonPressed}
                 placeholder="Enter new task"
                 ref={inputRef}
                 id={`newtaskinput${props.id}`}
