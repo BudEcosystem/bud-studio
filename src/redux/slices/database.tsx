@@ -321,7 +321,6 @@ export const databaseSlice = createSlice({
       state.databases = currentDatabase;
     },
     changeDatabaseStatusOrder: (state, action: PayloadAction<any>) => {
-      console.log('newCopyOFDB - changeDatabaseStatusOrder', action.payload);
       const { dragResult } = action.payload;
       const copyOfDB = [...state.databases];
       const newCopyOFDB = copyOfDB.map((data) => {
@@ -360,9 +359,7 @@ export const databaseSlice = createSlice({
           copyOfPropertyPresets.forEach((stat) => {
             proxyOfPropertyPresets.push({ ...stat });
           });
-          console.log('newSectionParams', newSectionParams);
           proxyOfPropertyPresets.push(newSectionParams);
-          console.log('newSectionParams', proxyOfPropertyPresets);
           eachData.propertyPresets.status.options = proxyOfPropertyPresets;
         }
         return eachData;
@@ -370,14 +367,11 @@ export const databaseSlice = createSlice({
       state.databases = newCopyOFDB;
     },
     addNewDocumentEntry: (state, action: PayloadAction<any>) => {
-      console.log('newCopyOFDB-addNewDocumentEntry', action.payload);
       const { docId, statusKey: sk, dbId } = action.payload;
       const sampleObjectToPush = {
         documentID: docId,
         statusKey: sk,
       };
-
-      // const { id, newSectionParams } = action.payload;
       const copyOfDB = [...state.databases];
       const newCopyOFDB = copyOfDB.map((data) => {
         const eachData = { ...data };
@@ -392,7 +386,29 @@ export const databaseSlice = createSlice({
         }
         return eachData;
       });
-      console.log('newCopyOFDB', newCopyOFDB);
+      state.databases = newCopyOFDB;
+    },
+    editPropertPresetsStatusOptions: (state, action: PayloadAction<any>) => {
+      console.log('editPropertPresetsStatusOptions', action.payload);
+      const { id, statusKey, name } = action.payload;
+      const copyOfDB = [...state.databases];
+      const newCopyOFDB = copyOfDB.map((data) => {
+        const eachData = { ...data };
+        if (eachData.id === id) {
+          const copyOfPropertyPresets = [
+            ...eachData.propertyPresets.status.options,
+          ];
+          const newPropertyPresets = copyOfPropertyPresets.map((stat) => {
+            if (stat.key === statusKey) {
+              stat.title = name;
+            }
+            return stat;
+          });
+          eachData.propertyPresets.status.options = newPropertyPresets;
+        }
+        return eachData;
+      });
+      console.log(newCopyOFDB);
       state.databases = newCopyOFDB;
     },
   },
@@ -418,6 +434,7 @@ export const {
   attachDocumentToDatabase,
   changeDatabaseDefaultView,
   addNewDocumentEntry,
+  editPropertPresetsStatusOptions,
 } = databaseSlice.actions;
 
 export default databaseSlice.reducer;

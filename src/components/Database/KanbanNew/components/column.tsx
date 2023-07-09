@@ -10,7 +10,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Popover } from 'antd';
 import { EnterOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
 import { createNewTaskOnEnter, editColumnName } from 'redux/slices/kanban';
-import Tasks from './tasks';
+import { addNewWorkSpaceDocument } from '@/redux/slices/workspace';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  addNewDocumentEntry,
+  editPropertPresetsStatusOptions,
+} from '@/redux/slices/database';
 import {
   ColumnMenuItems,
   ColumnMenuLabel,
@@ -32,9 +37,7 @@ import {
   AddNewTaskinput,
   TaskList,
 } from '../styled-components';
-import { addNewWorkSpaceDocument } from '@/redux/slices/workspace';
-import { v4 as uuidv4 } from 'uuid';
-import { addNewDocumentEntry } from '@/redux/slices/database';
+import Tasks from './tasks';
 
 interface Task {
   index: any;
@@ -54,7 +57,16 @@ function Column(props: any) {
   const [showNewTaskUI, setNewTaskUI] = useState(false);
   const [addButtonClickedFromColumn, SetAddButtonClickedFromColumn] =
     useState(false);
-
+  const [nameEditable, setNameEditable] = useState(false);
+  const [open, setOpen] = useState(false);
+  const hide = () => {
+    setNameEditable(true);
+    setOpen(false);
+  };
+  const handleOpenChange = (newOpen: boolean) => {
+    setNameEditable(false);
+    setOpen(newOpen);
+  };
   const { workspace }: any = useSelector((state) => state);
   console.log('workspace', workspace);
   const { workSpaceDocs, currentWorkspace } = workspace;
@@ -93,23 +105,23 @@ function Column(props: any) {
     inputNameEdit?.addEventListener('keypress', function (event) {
       if (event.key === 'Enter') {
         event.preventDefault();
-        // if (inputRefForColumnEdit.current?.value) {
-        // }
+        if (inputRefForColumnEdit.current?.value) {
+          dispatch(
+            editPropertPresetsStatusOptions({
+              id: props?.databaseData?.id,
+              statusKey: props?.currentKey,
+              name: inputRefForColumnEdit.current?.value,
+            })
+          );
+          setNameEditable(false);
+          setOpen(false);
+          inputRefForColumnEdit.current.value = '';
+        }
       }
     });
   });
   const addTaskButtonClicked = (flag: any) => {
     SetAddButtonClickedFromColumn(flag);
-  };
-  const [nameEditable, setNameEditable] = useState(false);
-  const [open, setOpen] = useState(false);
-  const hide = () => {
-    setNameEditable(true);
-    setOpen(false);
-  };
-  const handleOpenChange = (newOpen: boolean) => {
-    setNameEditable(false);
-    setOpen(newOpen);
   };
   const columnMenu = () => {
     return (
@@ -126,14 +138,7 @@ function Column(props: any) {
   };
   const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
   useEffect(() => {
-    console.log('newCopyOFDB - props', props);
-    console.log('newCopyOFDB - workSpaceDocs', workSpaceDocs);
     const TaskArray: any = [];
-    // const statusOrder = workSpaceDocs[0]?.properties?.find(
-    //   (data: any) => data.type === 'status'
-    // );
-    // console.log('newCopyOFDB - statusOrder', statusOrder);
-
     props?.entries?.forEach((entry: any, index: any) => {
       workSpaceDocs?.forEach((doc: any, index: any) => {
         const statusOrder = doc.properties?.find(
@@ -143,9 +148,6 @@ function Column(props: any) {
           doc.uuid === entry.documentID &&
           props.currentKey === statusOrder.value
         ) {
-          console.log('newCopyOFDB', doc.uuid, entry.documentID);
-          console.log('newCopyOFDB', props.currentKey, statusOrder.value);
-          console.log(doc.uuid);
           const docId = entry.documentID;
           const mappedTask: Task = {
             index,
@@ -160,7 +162,6 @@ function Column(props: any) {
             type: '',
           };
           TaskArray.push(mappedTask);
-          // return <Tasks key={mappedTask.id} task={mappedTask} />;
         }
       });
     });
