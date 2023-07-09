@@ -5,8 +5,9 @@
 
 .tree {
   --spacing: 1.5rem;
-  /* --radius: 10px; */
-  /* margin-left: -35px; */
+  --plusSpacing: 35px
+    /* --radius: 10px; */
+    /* margin-left: -35px; */
 }
 
 .tree li {
@@ -68,6 +69,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  /* margin-right: 60px; */
 }
 
 .tree summary::marker,
@@ -99,7 +101,7 @@
   /* background: #696 url("expand-collapse.svg") 0 0; */
 }
 
-.tree details[open] > summary::before {
+.tree details[open]>summary::before {
   background-position: calc(-2 * var(--radius)) 0;
 }
 
@@ -108,11 +110,11 @@
   background: var(--bud-tertiary-background);
 }
 
-details > summary {
+details>summary {
   list-style-type: none;
 }
 
-details > summary::-webkit-details-marker {
+details>summary::-webkit-details-marker {
   display: none;
 }
 
@@ -367,7 +369,7 @@ details > summary::-webkit-details-marker {
 .folder-name {
   color: #fff;
   margin-left: 8px;
-  margin-right: calc(var(--spacing) + 10px);
+  /* margin-right: calc(var(--plusSpacing)); */
 }
 
 .rootFolderLi {
@@ -397,10 +399,12 @@ details > summary::-webkit-details-marker {
 .summaryChild {
   /* margin-left: 8px; */
 }
+
 .childFile {
   margin-top: 12px;
 }
-.childFile > details > summary {
+
+.childFile>details>summary {
   margin-left: 20px;
   width: 100%;
   /* margin-top: 10px; */
@@ -438,7 +442,7 @@ details > summary::-webkit-details-marker {
   z-index: 15;
 }
 
-.subMenu > ul {
+.subMenu>ul {
   margin: unset;
 }
 

@@ -6,9 +6,9 @@
     backdrop-filter: blur(46.5px);
     border-radius: 12px;
     padding: 28px 16px;
-    position: absolute;
-    top: 45.5%;
-    left: 32%;
+    position: relative;
+    top: 400px;
+    left: 290px;
     pointer-events: auto;
     z-index: 9;
 }

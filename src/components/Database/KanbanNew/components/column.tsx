@@ -69,7 +69,7 @@ function Column(props: any) {
   };
   const { workspace }: any = useSelector((state) => state);
   console.log('workspace', workspace);
-  const { workSpaceDocs, currentWorkspace } = workspace;
+  const { workSpaceDocs, currentWorkspace, workspaceDocsSearchKey } = workspace;
 
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const inputRefForColumnEdit =
@@ -153,24 +153,48 @@ function Column(props: any) {
         const statusOrder = doc.properties?.find(
           (data: any) => data.type === 'status'
         );
-        if (
-          doc.uuid === entry.documentID &&
-          props.currentKey === statusOrder.value
-        ) {
-          const docId = entry.documentID;
-          const mappedTask: Task = {
-            index,
-            id: docId,
-            content: `${doc?.name}`,
-            heading: `${doc?.name}`,
-            progress: '',
-            user: '',
-            description: 'Make hay',
-            footer: '',
-            image: '',
-            type: '',
-          };
-          TaskArray.push(mappedTask);
+        if (workspaceDocsSearchKey) {
+          const name = doc.name.toLowerCase();
+          if (
+            doc.uuid === entry.documentID &&
+            props.currentKey === statusOrder.value &&
+            name.includes(workspaceDocsSearchKey)
+          ) {
+            const docId = entry.documentID;
+            const mappedTask: Task = {
+              index,
+              id: docId,
+              content: `${doc?.name}`,
+              heading: `${doc?.name}`,
+              progress: '',
+              user: '',
+              description: 'Make hay',
+              footer: '',
+              image: '',
+              type: '',
+            };
+            TaskArray.push(mappedTask);
+          }
+        } else if (!workspaceDocsSearchKey) {
+          if (
+            doc.uuid === entry.documentID &&
+            props.currentKey === statusOrder.value
+          ) {
+            const docId = entry.documentID;
+            const mappedTask: Task = {
+              index,
+              id: docId,
+              content: `${doc?.name}`,
+              heading: `${doc?.name}`,
+              progress: '',
+              user: '',
+              description: 'Make hay',
+              footer: '',
+              image: '',
+              type: '',
+            };
+            TaskArray.push(mappedTask);
+          }
         }
       });
     });

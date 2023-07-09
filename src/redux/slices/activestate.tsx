@@ -20,6 +20,7 @@ const generateInitialState = (): any => {
     sortBy: false,
     sortByOption: '',
     displayToggleSortBy: false,
+    workspaceItem: {},
   };
   return initialState;
 };
@@ -76,6 +77,9 @@ export const activestateSlice = createSlice({
     setDisplayToggleSortBy: (state, action: PayloadAction<any>) => {
       state.displayToggleSortBy = action.payload;
     },
+    setWorkspaceItem: (state, action: PayloadAction<any>) => {
+      state.workspaceItem = action.payload;
+    },
   },
 });
 export const {
@@ -93,5 +97,6 @@ export const {
   setSortBy,
   setSortByOption,
   setDisplayToggleSortBy,
+  setWorkspaceItem,
 } = activestateSlice.actions;
 export default activestateSlice.reducer;
