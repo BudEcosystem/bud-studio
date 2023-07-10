@@ -67,8 +67,8 @@ function Column(props: any) {
     setNameEditable(false);
     setOpen(newOpen);
   };
+
   const { workspace }: any = useSelector((state) => state);
-  console.log('workspace', workspace);
   const { workSpaceDocs, currentWorkspace, workspaceDocsSearchKey } = workspace;
 
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -174,7 +174,9 @@ function Column(props: any) {
               type: '',
               ...doc,
               ...entry,
-              status: props.currentKey
+              status: props.title,
+              color: props.color,
+              dbHeader: props.databaseData.title
             };
             TaskArray.push(mappedTask);
           }
@@ -197,7 +199,9 @@ function Column(props: any) {
               type: '',
               ...doc,
               ...entry,
-              status: props.currentKey
+              status: props.title,
+              color: props.color,
+              dbHeader: props.databaseData.title
             };
             TaskArray.push(mappedTask);
           }
