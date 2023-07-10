@@ -131,11 +131,13 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      dispatch(duplicateWorkspace({name: `${workSpaceItems[idx].name}[copy]`, idx}))
+      dispatch(
+        duplicateWorkspace({ name: `${workSpaceItems[idx].name}[copy]`, idx })
+      );
       // dispatch(
       //   createWorkspaces({
       //     name: `${workSpaceItems[idx].name}[copy]`,
-      //     color, 
+      //     color,
       //     idx,
       //     uuid: uuidv4(),
       //   })
@@ -345,7 +347,10 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                 <SearchIconShortcut />
               </div>
             </div>
-            <Menu workspaceItem={workSpaceItems[idx]} setWorkspaceModal={setWorkspaceModal}/>
+            <Menu
+              workspaceItem={workSpaceItems[idx]}
+              setWorkspaceModal={setWorkspaceModal}
+            />
             {/* <TreeView*/}
             {/*  filter={filterText}*/}
             {/*  setShowColorDots={setShowColorDots}*/}
