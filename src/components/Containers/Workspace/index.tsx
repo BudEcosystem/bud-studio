@@ -89,8 +89,8 @@ export default function Workspace({
       {showFlyoutMenu && (
         <WorkspaceModal
           idx={idx}
-          workspaceModal
-          setWorkspaceModal={() => console.log('ok')}
+          workspaceModal={showFlyoutMenu}
+          setWorkspaceModal={setShowFlyoutMenu}
         />
       )}
 
