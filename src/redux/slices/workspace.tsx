@@ -93,136 +93,10 @@ export const generateInitialWorkspaceState = (): InitialState => {
           },
         ],
         todos: [
-          {id: '39b08a3d-12f1-4651-90f7-32895284wxyz'},
-          {id: '39b08a3d-12f1-4651-90f7-32895284abcd'},
-      ]
+          { id: '39b08a3d-12f1-4651-90f7-32895284wxyz' },
+          { id: '39b08a3d-12f1-4651-90f7-32895284abcd' },
+        ],
 
-        // System Defined Properties
-        // {
-        //   tags: ['no-tag'],
-        //   priority: 'Normal',
-        //   status: 'Not Started',
-        //   date: null,
-        // },
-      },
-      {
-        name: 'Complete Bud Task',
-        childOf: null,
-        workSPaceId: 'Private',
-        description: '',
-        type: 'doc',
-        uuid: '39b08a3d-12f1-4651-90f7-32895284wxyz',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        customProperties: [
-          {
-            title: 'Author',
-            value: 'Bud',
-            type: 'text',
-            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc',
-            order: 4,
-          },
-          {
-            title: 'ISBN',
-            value: 'QWDE-DJJC-1234',
-            type: 'text',
-            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee',
-            order: 5,
-          },
-        ], // User defined Properties
-        properties: [
-          {
-            title: 'Tags',
-            value: ['no-tag'],
-            type: 'tags',
-            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc1',
-            order: 1,
-          },
-          {
-            title: 'Priority',
-            value: 'Normal',
-            type: 'priority',
-            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc2',
-            order: 2,
-          },
-          {
-            title: 'Status',
-            value: 'in_progress',
-            type: 'status',
-            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
-            order: 3,
-          },
-          {
-            title: 'Date',
-            value: null,
-            type: 'date',
-            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
-            order: 4,
-          },
-        ],
-  
-        // System Defined Properties
-        // {
-        //   tags: ['no-tag'],
-        //   priority: 'Normal',
-        //   status: 'Not Started',
-        //   date: null,
-        // },
-      },
-      {
-        name: 'Check Mails and Repair Laptop',
-        childOf: null,
-        workSPaceId: 'Private',
-        description: '',
-        type: 'doc',
-        uuid: '39b08a3d-12f1-4651-90f7-32895284abcd',
-        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
-        customProperties: [
-          {
-            title: 'Author',
-            value: 'Bud',
-            type: 'text',
-            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc',
-            order: 4,
-          },
-          {
-            title: 'ISBN',
-            value: 'QWDE-DJJC-1234',
-            type: 'text',
-            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee',
-            order: 5,
-          },
-        ], // User defined Properties
-        properties: [
-          {
-            title: 'Tags',
-            value: ['no-tag'],
-            type: 'tags',
-            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc1',
-            order: 1,
-          },
-          {
-            title: 'Priority',
-            value: 'Normal',
-            type: 'priority',
-            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc2',
-            order: 2,
-          },
-          {
-            title: 'Status',
-            value: 'in_progress',
-            type: 'status',
-            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
-            order: 3,
-          },
-          {
-            title: 'Date',
-            value: null,
-            type: 'date',
-            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
-            order: 4,
-          },
-        ],
-  
         // System Defined Properties
         // {
         //   tags: ['no-tag'],
@@ -327,6 +201,134 @@ export const generateInitialWorkspaceState = (): InitialState => {
     editorApplicationsAdded: [],
     workspaceDocsSearchKey: null,
     dropdownBreadcrumbs: [],
+    workspacestodos: [
+      {
+        name: 'Complete Bud Task',
+        childOf: null,
+        workSPaceId: 'Private',
+        description: '',
+        type: 'doc',
+        uuid: '39b08a3d-12f1-4651-90f7-32895284wxyz',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        customProperties: [
+          {
+            title: 'Author',
+            value: 'Bud',
+            type: 'text',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc',
+            order: 4,
+          },
+          {
+            title: 'ISBN',
+            value: 'QWDE-DJJC-1234',
+            type: 'text',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee',
+            order: 5,
+          },
+        ], // User defined Properties
+        properties: [
+          {
+            title: 'Tags',
+            value: ['no-tag'],
+            type: 'tags',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc1',
+            order: 1,
+          },
+          {
+            title: 'Priority',
+            value: 'Normal',
+            type: 'priority',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc2',
+            order: 2,
+          },
+          {
+            title: 'Status',
+            value: 'in_progress',
+            type: 'status',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
+            order: 3,
+          },
+          {
+            title: 'Date',
+            value: null,
+            type: 'date',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
+            order: 4,
+          },
+        ],
+
+        // System Defined Properties
+        // {
+        //   tags: ['no-tag'],
+        //   priority: 'Normal',
+        //   status: 'Not Started',
+        //   date: null,
+        // },
+      },
+      {
+        name: 'Check Mails and Repair Laptop',
+        childOf: null,
+        workSPaceId: 'Private',
+        description: '',
+        type: 'doc',
+        uuid: '39b08a3d-12f1-4651-90f7-32895284abcd',
+        workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+        customProperties: [
+          {
+            title: 'Author',
+            value: 'Bud',
+            type: 'text',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc',
+            order: 4,
+          },
+          {
+            title: 'ISBN',
+            value: 'QWDE-DJJC-1234',
+            type: 'text',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee',
+            order: 5,
+          },
+        ], // User defined Properties
+        properties: [
+          {
+            title: 'Tags',
+            value: ['no-tag'],
+            type: 'tags',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc1',
+            order: 1,
+          },
+          {
+            title: 'Priority',
+            value: 'Normal',
+            type: 'priority',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc2',
+            order: 2,
+          },
+          {
+            title: 'Status',
+            value: 'in_progress',
+            type: 'status',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
+            order: 3,
+          },
+          {
+            title: 'Date',
+            value: null,
+            type: 'date',
+            id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
+            order: 4,
+          },
+        ],
+
+        // System Defined Properties
+        // {
+        //   tags: ['no-tag'],
+        //   priority: 'Normal',
+        //   status: 'Not Started',
+        //   date: null,
+        // },
+      },
+    ],
   };
   return initialState;
 };
@@ -341,6 +343,32 @@ const searchById = (structure, id) => {
     }
     if (item.folders && item.folders.length > 0) {
       const foundInFolders = searchById(item.folders, id);
+      if (foundInFolders) {
+        return foundInFolders;
+      }
+    }
+    // if (item.files && item.files.length > 0) {
+    //   const foundInFiles = searchById(item.files, id);
+    //   if (foundInFiles) {
+    //     return foundInFiles;
+    //   }
+    // }
+  }
+  return null;
+};
+
+const searchFileById = (structure, id) => {
+  if (!structure || structure.length === 0) {
+    return null;
+  }
+  for(const file of structure.files){
+    if(file.id === id){
+      return file
+    }
+  }
+  for (const item of structure) {
+    if (item.folders && item.folders.length > 0) {
+      const foundInFolders = searchFileById(item.folders, id);
       if (foundInFolders) {
         return foundInFolders;
       }
@@ -1634,6 +1662,18 @@ export const workspaceSlice = createSlice({
       const { searchKey } = action.payload;
       state.workspaceDocsSearchKey = searchKey;
     },
+    setWorkspacestodos: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
+      state.workspacestodos.push(action.payload);
+      // state.workSpaceItems.map(item => {
+      //   if(item.uuid === action.payload.workSpaceUUID){
+      //     const y = searchFileById(item, action.payload.childOf)
+      //     console.log({...y})
+      //   }
+      // })
+      const x = state.workSpaceDocs.find(item => item.uuid === action.payload.childOf)
+      x.todos.push(action.payload)
+    },
     setDropdownBreadcrumbs: (state) => {
       const parentOfCurrentSelectedDoc = state.workSpaceDocs.find(
         (item) => item.uuid === state.currentSelectedDocId
@@ -1698,5 +1738,6 @@ export const {
   changePriority,
   changeStatus,
   setSearchDocsKeyword,
+  setWorkspacestodos,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
