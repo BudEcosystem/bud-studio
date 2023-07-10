@@ -18,6 +18,7 @@ import {
   addSubFoldersRedux,
   changeColor,
   setCurrentSelectedDocument,
+  setDropdownBreadcrumbs,
 } from 'redux/slices/workspace';
 import { setNavigationPath, setNodeIDs } from '@/redux/slices/activestate';
 
@@ -203,7 +204,14 @@ const Menu = ({ workspaceItem, setWorkspaceModal }: any) => {
     </div>
   );
 };
-const FileItem = ({ file, parentId, openItems, toggleItem, workspaceItem, setWorkspaceModal }: any) => {
+const FileItem = ({
+  file,
+  parentId,
+  openItems,
+  toggleItem,
+  workspaceItem,
+  setWorkspaceModal,
+}: any) => {
   const id = parentId ? `${parentId}.${file.id}` : file.id;
   const [showAddFile, setShowAddFile] = useState(false);
   const { workspace } = useSelector((state) => state);
@@ -252,7 +260,7 @@ const FileItem = ({ file, parentId, openItems, toggleItem, workspaceItem, setWor
   const fileClickHandler = () => {
     // console.log(file);
     dispatch(setCurrentSelectedDocument({ id: null }));
-    setWorkspaceModal(false)
+    setWorkspaceModal(false);
     // navPathHandler(newNode);
     setTimeout(() => {
       dispatch(
@@ -276,6 +284,7 @@ const FileItem = ({ file, parentId, openItems, toggleItem, workspaceItem, setWor
         solveRec(par);
       }
       dispatch(setNavigationPath({ name: workspaceItem.name }));
+      dispatch(setDropdownBreadcrumbs());
     });
   };
   return (
@@ -342,7 +351,7 @@ export const FolderItem = ({
   toggleItem,
   workspaceItem,
   parent,
-  setWorkspaceModal
+  setWorkspaceModal,
 }: any) => {
   const id = parentId ? `${parentId}.${item.id}` : item.id;
   const dispatch = useDispatch();
@@ -463,7 +472,7 @@ export const FolderItem = ({
         >
           <div
             className="showName"
-            style={{ marginRight: parentId === null ? '140px' : '40px' }}
+            style={{ marginRight: parentId === null ? '140px' : '100px' }}
           >
             <div className="showName folderArrow">
               {isFolderOpen ? (
