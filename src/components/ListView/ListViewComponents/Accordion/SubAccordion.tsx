@@ -28,6 +28,8 @@ function SubAccordion({ status, data, provided, index, title,item }) {
   };
   const [showTaskViewModal, setShowTaskViewModal] = useState(false);
 
+  console.log("HHHHHH", data)
+
   return (
     <div
       className="subAccordionParent"

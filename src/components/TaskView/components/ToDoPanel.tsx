@@ -7,27 +7,24 @@ import InputComponent from './InputComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TextComponent from './TextComponent';
 
-const ToDoPanel = ({dataId, data}: any) => {
+const ToDoPanel = ({dataId}: any) => {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
   const [childData, setChildData] = useState(dataId);
   const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
-
+  const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs)
 
   useEffect(() => {
     const TaskArray: any = [];
     dataId?.forEach((entry: any, index: any) => {
-      data?.forEach((doc: any, index: any) => {
+      workspaceDocs?.forEach((doc: any, index: any) => {
         if(entry.id == doc.uuid) {
           TaskArray.push(doc);
         }
       });
     });
     SetTaskArrayForRender(TaskArray);
-  }, [dataId]);
-
-
-  console.log("TASKRENDER", TaskArrayForRender)
+  }, [dataId, workspaceDocs]);
 
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
