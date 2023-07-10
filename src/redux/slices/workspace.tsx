@@ -413,6 +413,26 @@ export const workspaceSlice = createSlice({
       //
       state.workSpaceDocs = docs;
     },
+    updateDocumentStatusByStatusAndID: (state, action: PayloadAction<any>) => {
+      const currentWorkspace = action.payload.documentID;
+
+      const currentEditorIndex = state.workSpaceDocs.findIndex(
+        (data: any) => data.uuid === currentWorkspace
+      );
+
+      const docs = state.workSpaceDocs;
+      docs[currentEditorIndex].properties.find(
+        (data: any) => data.title === 'Status'
+      ).value = action.payload.status.toLowerCase().replaceAll(' ', '_');
+
+      // Get Tag From Index
+      //  const docs = state.workSpaceDocs;
+      // const doc =  docs[currentEditorIndex].properties.find(
+      //    (data: any) => data.title === 'Status'
+      //  ).value = action.payload.priority;
+
+      state.workSpaceDocs = docs;
+    },
     updateDocumentStatusById: (state, action: PayloadAction<any>) => {
       const currentWorkspace = action.payload.documentID;
 
@@ -1503,6 +1523,7 @@ export const workspaceSlice = createSlice({
 });
 
 export const {
+  updateDocumentStatusByStatusAndID,
   setDropdownBreadcrumbs,
   updateDocumentDueDateById,
   updateDocumentStatusById,

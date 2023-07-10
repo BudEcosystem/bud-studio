@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import './Accordion.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,11 +11,16 @@ import {
 import { motion } from 'framer-motion';
 import { generateListTemplate } from 'utils/dataTemplates';
 import { v4 as uuidv4 } from 'uuid';
-import { createTableDocument } from '@/redux/slices/workspace';
-import { attachDocumentToDatabase } from '@/redux/slices/database';
+import {
+  createTableDocument,
+  updateDocumentStatusByStatusAndID,
+} from '@/redux/slices/workspace';
+import {
+  attachDocumentToDatabase,
+  sortEntryByArray,
+} from '@/redux/slices/database';
 import HeaderSubCompInput from '../HeaderSubCompInput';
 import SubAccordion from './SubAccordion';
-
 
 function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   const dispatch = useDispatch();
@@ -75,7 +80,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   // const [statusPanels, setStatusPanels] = useState(null);
 
   // On List View Load
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Get Database entries
     const sortedContent = [];
     databaseData.entries.map((item) => {
@@ -132,8 +137,63 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   };
 
   const onDragEnd = (result) => {
-    console.log("Drag End", result);
-   // dispatch(updatePosition(result));
+    console.log('Drag End', result);
+    console.log('sortedContent', statusPanels);
+    // dispatch(updatePosition(result));
+
+    // Check if source and destination are not same
+    if (result.destination.droppableId === result.source.droppableId) {
+      const item = statusPanels.find(
+        (item) => item.headerText === result.destination.droppableId
+      );
+      const [reorderedItem] = item.items.splice(result.source.index, 1);
+      item.items.splice(result.destination.index, 0, reorderedItem);
+     // setStatusPanels([...statusPanels]);
+    }
+
+    // Check if Destinations are different
+    if (result.destination.droppableId !== result.source.droppableId) {
+      const sourceItem = statusPanels.find(
+        (item) => item.headerText === result.source.droppableId
+      );
+      const destinationItem = statusPanels.find(
+        (item) => item.headerText === result.destination.droppableId
+      );
+      const [reorderedItem] = sourceItem.items.splice(result.source.index, 1);
+      destinationItem.items.splice(result.destination.index, 0, reorderedItem);
+
+      console.log('Source Item', sourceItem);
+      console.log(
+        'Destination Item',
+        destinationItem.items[result.destination.index]
+      );
+
+      // Dispatch The Status Change
+      const payload = {
+        status: result.destination.droppableId,
+        documentID: destinationItem.items[result.destination.index].entry.uuid,
+      };
+
+      dispatch(updateDocumentStatusByStatusAndID(payload));
+      //setStatusPanels([...statusPanels]);
+    }
+
+    // get each entry from setStatusPanels and push to an array in order
+    // const sortedContent = [];
+    // const entryOrder: string[] = [];
+    //
+    // console.log('Database Entries', databaseData);
+    //
+    // statusPanels.forEach((item) => {
+    //   console.log('Item', item);
+    //   item.items.forEach((entry) => {
+    //     sortedContent.push(entry.entry);
+    //     entryOrder.push(entry.entry.uuid);
+    //   });
+    // });
+
+    // Sort the database entries
+    // dispatch(sortEntryByArray({ entryOrder, databaseID: databaseData.id }));
   };
 
   const newDocument = async (item) => {

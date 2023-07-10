@@ -261,6 +261,42 @@ export const databaseSlice = createSlice({
     });
   },
   reducers: {
+    sortEntryByArray: (state, action: PayloadAction<any>) => {
+      // find db by  action.payload
+      const localDb = state.databases;
+
+      // for each string in array action.payload
+      const localdbIndex = state.databases.findIndex(
+        (database) => database.id === action.payload.databaseID
+      );
+
+      const compareFunction = (a: string, b: string) => {
+        const aIndex = action.payload.entryOrder.indexOf(a.documentID);
+        const bIndex = action.payload.entryOrder.indexOf(b.documentID);
+
+        // If both elements are found in the first array, compare their indices
+        if (aIndex !== -1 && bIndex !== -1) {
+          return aIndex - bIndex;
+        }
+
+        // If only one of the elements is found in the first array, prioritize the found element
+        if (aIndex !== -1) {
+          return -1;
+        }
+        if (bIndex !== -1) {
+          return 1;
+        }
+
+        // If neither element is found in the first array, maintain the original order
+        return 0;
+      };
+
+      localDb[localdbIndex].entries.sort(compareFunction);
+
+      console.log('SordtedDB', localDb[localdbIndex].entries);
+
+      state.databases = localDb;
+    },
     changeDatabaseDefaultView: (state, action: PayloadAction<any>) => {
       console.log(action);
       const localDb = state.databases;
@@ -429,6 +465,7 @@ function moveArrayItemToNewIndex(arr: any, old_index: any, new_index: any) {
 }
 
 export const {
+  sortEntryByArray,
   createNewEmptyDatabase,
   moveDatabaseRow,
   changeDatabaseStatusOrder,
