@@ -1,5 +1,6 @@
 import React from 'react';
 import './ToggleFileComponent.css';
+import { useSelector } from 'react-redux';
 
 export const FileLogo = () => {
   return (
@@ -24,21 +25,22 @@ export const FileLogo = () => {
 };
 
 export const ToggleFileComponent = () => {
+  const { workspace }: any = useSelector((state) => state);
+  const { dropdownBreadcrumbs, currentSelectedDocId } = workspace;
+  console.log(dropdownBreadcrumbs);
   return (
     <div className="toggleFileWrapper">
       <div className="toggleMainContainer">
-        <div className="toggleFile">
-          <FileLogo />
-          <p className="fileNameToggle">Investoren</p>
-        </div>
-        <div className="toggleFile">
-          <FileLogo />
-          <p className="fileNameToggle">Project token</p>
-        </div>
-        <div className="toggleFile">
-          <FileLogo />
-          <p className="fileNameToggle">Analysing Input</p>
-        </div>
+        {dropdownBreadcrumbs?.map((item, i) => {
+          if (item.id !== currentSelectedDocId) {
+            return (
+              <div className="toggleFile">
+                <FileLogo />
+                <p className="fileNameToggle">{item.name}</p>
+              </div>
+            );
+          }
+        })}
       </div>
     </div>
   );

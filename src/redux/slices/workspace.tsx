@@ -6,6 +6,7 @@ import InitialState from 'interfaces/InitialState';
 import { createNewEmptyDatabase } from '@/redux/slices/database';
 import initialData from '@/components/Database/KanbanNew/data/initial-data';
 import { useSelector } from 'react-redux';
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 export const generateInitialWorkspaceState = (): InitialState => {
   const initialState: InitialState = {
@@ -195,6 +196,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
     editorInitialised: false,
     editorApplicationsAdded: [],
     workspaceDocsSearchKey: null,
+    dropdownBreadcrumbs: [],
   };
   return initialState;
 };
@@ -1502,11 +1504,27 @@ export const workspaceSlice = createSlice({
       const { searchKey } = action.payload;
       state.workspaceDocsSearchKey = searchKey;
     },
+    setDropdownBreadcrumbs: (state) => {
+      const parentOfCurrentSelectedDoc = state.workSpaceDocs.find(
+        (item) => item.uuid === state.currentSelectedDocId
+      );
+      console.log({ ...parentOfCurrentSelectedDoc });
+      state.workSpaceItems.map((item, i) => {
+        if (item.uuid === parentOfCurrentSelectedDoc?.workSpaceUUID) {
+          const x = searchById(
+            item.folders,
+            parentOfCurrentSelectedDoc.childOf
+          );
+          state.dropdownBreadcrumbs = x.files;
+        }
+      });
+    },
   },
 });
 
 export const {
   updateDocumentStatusByStatusAndID,
+  setDropdownBreadcrumbs,
   updateDocumentDueDateById,
   updateDocumentStatusById,
   updateDocumentTagById,
