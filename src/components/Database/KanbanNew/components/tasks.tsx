@@ -114,6 +114,8 @@ function Tasks(props: any) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
+  // console.log("PROPSGOV", props.task)
+
   const handleContextMenu = (event: any) => {
     event.preventDefault();
     const { clientX, clientY } = event;
@@ -197,12 +199,12 @@ function Tasks(props: any) {
             )}
             {props.task.description && (
               <TaskDescription>
-                Make note of any appointments or meetings.
+                {props.task.description}
               </TaskDescription>
             )}
             {props.task.type && (
               <TaskType>
-                <TaskTypeSpan>Recurring</TaskTypeSpan>
+                <TaskTypeSpan>{props.task.type}</TaskTypeSpan>
               </TaskType>
             )}
             {props.task.footer && (

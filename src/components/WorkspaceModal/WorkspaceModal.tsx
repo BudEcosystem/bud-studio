@@ -10,6 +10,7 @@ import {
   duplicateWorkspaceItem,
   createWorkspaces,
   editWorkspaceItem,
+  duplicateWorkspace,
 } from 'redux/slices/workspace';
 import {
   Pin,
@@ -40,7 +41,7 @@ import Menu from './new-tree-view';
 export function CreatePopupModal() {
   return <div className="createPopupModal" />;
 }
-function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
+function WorkspaceModal({ idx, workspaceModal, setWorkspaceModal }: any) {
   const [filterText, setFilterText] = useState(null);
   const [showColorPin, setShowColorPin] = useState(false);
   const [showColorDots, setShowColorDots] = useState(false);
@@ -131,13 +132,16 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
     setTimeout(() => {
       setIsLoading(false);
       dispatch(
-        createWorkspaces({
-          name: `${workSpaceItems[idx].name}[copy]`,
-          color,
-          idx,
-          uuid: uuidv4(),
-        })
+        duplicateWorkspace({ name: `${workSpaceItems[idx].name}[copy]`, idx })
       );
+      // dispatch(
+      //   createWorkspaces({
+      //     name: `${workSpaceItems[idx].name}[copy]`,
+      //     color,
+      //     idx,
+      //     uuid: uuidv4(),
+      //   })
+      // );
     }, 2000);
   };
 
@@ -343,7 +347,10 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
                 <SearchIconShortcut />
               </div>
             </div>
-            <Menu workspaceItem={workSpaceItems[idx]} setWorkspaceModal={setWorkspaceModal}/>
+            <Menu
+              workspaceItem={workSpaceItems[idx]}
+              setWorkspaceModal={setWorkspaceModal}
+            />
             {/* <TreeView*/}
             {/*  filter={filterText}*/}
             {/*  setShowColorDots={setShowColorDots}*/}
