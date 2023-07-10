@@ -40,7 +40,7 @@ import Menu from './new-tree-view';
 export function CreatePopupModal() {
   return <div className="createPopupModal" />;
 }
-function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
+function WorkspaceModal({ idx, workspaceModal, setWorkspaceModal }: any) {
   const [filterText, setFilterText] = useState(null);
   const [showColorPin, setShowColorPin] = useState(false);
   const [showColorDots, setShowColorDots] = useState(false);

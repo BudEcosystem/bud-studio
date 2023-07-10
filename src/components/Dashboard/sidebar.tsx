@@ -306,9 +306,8 @@ function SideBar({
 
   useEffect(() => {
     const handleKeyDown = (event: any) => {
-      if (event.ctrlKey && event.key === 'n') {
+      if (event.ctrlKey && event.key === 'b') {
         setShowAddWorkspace(!showAddWorkspace);
-        console.log('NIGGA PRESS');
       }
     };
 

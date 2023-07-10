@@ -22,7 +22,7 @@ const TaskViewKanban = ({
   showKanbanTaskView,
   setShowKanbanTaskView,
 }: any) => {
-  const { workspace, list }: any = useSelector((state) => state);
+  const { workspace}: any = useSelector((state) => state);
   const { color } = workspace;
   const [isDragOver, setIsDragOver] = useState(false);
 
@@ -269,7 +269,7 @@ const TaskViewKanban = ({
 
         <div className="KanbanTaskView__Panel">
           <div className="KanbanTaskView-LeftPanel">
-            <div className="KanbanTask__Title">{data.content}</div>
+            <div className="KanbanTask__Title">{data?.content}</div>
             <div className="KanbanTask__subHeading">{data?.description}</div>
 
             <div className="KabuniPanel__WriteContent">
