@@ -3,6 +3,16 @@
   margin: auto;
   min-width: 889px;
 
+.placeholder{
+  color: #696969;
+  font-family: Noto Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: -10px;
+}
+
   h1 {
     color: #ffffff;
     font-family: 'Noto Sans';
@@ -518,3 +528,4 @@
 #typeahead-menu{
   z-index: 9999;
 }
+
