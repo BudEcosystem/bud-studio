@@ -95,7 +95,7 @@
 
 .controls-box-path {
   width: 25%;
-  max-width: 25%;
+  /* max-width: 25%; */
   height: 32px;
   display: flex;
   justify-content: flex-start;

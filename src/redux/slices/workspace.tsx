@@ -1587,15 +1587,27 @@ export const workspaceSlice = createSlice({
         (item) => item.uuid === state.currentSelectedDocId
       );
       console.log({ ...parentOfCurrentSelectedDoc });
-      state.workSpaceItems.map((item, i) => {
-        if (item.uuid === parentOfCurrentSelectedDoc?.workSpaceUUID) {
-          const x = searchById(
-            item.folders,
-            parentOfCurrentSelectedDoc.childOf
-          );
-          state.dropdownBreadcrumbs = x?.files;
-        }
-      });
+      if (parentOfCurrentSelectedDoc.childOf !== null) {
+        state.workSpaceItems.map((item, i) => {
+          if (item.uuid === parentOfCurrentSelectedDoc?.workSpaceUUID) {
+            const x = searchById(
+              item.folders,
+              parentOfCurrentSelectedDoc.childOf
+            );
+            state.dropdownBreadcrumbs = x?.files;
+          }
+        });
+      } else {
+        console.log(
+          { ...parentOfCurrentSelectedDoc },
+          state.currentSelectedDocId
+        );
+        state.workSpaceItems.map((item, i) => {
+          if (item.uuid === parentOfCurrentSelectedDoc?.workSpaceUUID) {
+            state.dropdownBreadcrumbs = item?.files;
+          }
+        });
+      }
     },
   },
 });
