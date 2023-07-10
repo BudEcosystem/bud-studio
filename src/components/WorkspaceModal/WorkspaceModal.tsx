@@ -10,6 +10,7 @@ import {
   duplicateWorkspaceItem,
   createWorkspaces,
   editWorkspaceItem,
+  duplicateWorkspace,
 } from 'redux/slices/workspace';
 import {
   Pin,
@@ -131,13 +132,16 @@ function WorkspaceModal({ idx, workspaceModal, setWorkspaceModal }: any) {
     setTimeout(() => {
       setIsLoading(false);
       dispatch(
-        createWorkspaces({
-          name: `${workSpaceItems[idx].name}[copy]`,
-          color,
-          idx,
-          uuid: uuidv4(),
-        })
+        duplicateWorkspace({ name: `${workSpaceItems[idx].name}[copy]`, idx })
       );
+      // dispatch(
+      //   createWorkspaces({
+      //     name: `${workSpaceItems[idx].name}[copy]`,
+      //     color,
+      //     idx,
+      //     uuid: uuidv4(),
+      //   })
+      // );
     }, 2000);
   };
 
@@ -343,7 +347,10 @@ function WorkspaceModal({ idx, workspaceModal, setWorkspaceModal }: any) {
                 <SearchIconShortcut />
               </div>
             </div>
-            <Menu workspaceItem={workSpaceItems[idx]} setWorkspaceModal={setWorkspaceModal}/>
+            <Menu
+              workspaceItem={workSpaceItems[idx]}
+              setWorkspaceModal={setWorkspaceModal}
+            />
             {/* <TreeView*/}
             {/*  filter={filterText}*/}
             {/*  setShowColorDots={setShowColorDots}*/}

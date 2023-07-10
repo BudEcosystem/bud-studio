@@ -250,7 +250,8 @@ const insertWorkspaceFolders = (sourceArr, copySource, wf) => {
     const obj = {
       childOf: copySource.id,
       name: item.name,
-      uuid: item.id,
+      uuid: item.id || item.uuid,
+      type: 'folder',
       workSpaceUUID: copySource.workspaceUUID,
     };
     wf.push(obj);
@@ -269,6 +270,60 @@ const changeFoldersArrayData = (arr, prop, propVal) => {
     item[prop] = propVal;
     if (item.folders && item.folders.length > 0) {
       changeFoldersArrayData(item.folders, prop, propVal);
+    }
+  }
+};
+
+const changeFoldersArrayData2 = (arr, prop, propVal) => {
+  if (!arr || arr.length === 0) {
+    return;
+  }
+  for (const item of arr) {
+    item[prop] = propVal;
+    if (item.folders && item.folders.length > 0) {
+      changeFoldersArrayData(item.folders, prop, propVal);
+    } else {
+      item.id = uuidv4();
+    }
+  }
+};
+
+const changeFilesOfWorkspace = (
+  obj,
+  workspaceUUID,
+  workspaceDocsArr,
+  appDataArr
+) => {
+  if (!obj || obj.length === 0) {
+    return;
+  }
+  console.log({ ...obj }, '11sdfasdf');
+  for (const files of obj.files) {
+    files.workspaceUUID = workspaceUUID;
+    const copyFileId = JSON.parse(JSON.stringify(files.id));
+    console.log(copyFileId, files.id, '45sadgf');
+    files.id = uuidv4();
+    workspaceDocsArr.map((docs, k) => {
+      if (docs.uuid === copyFileId) {
+        const copyOfDocs = JSON.parse(JSON.stringify(docs));
+        copyOfDocs.uuid = files.id;
+        copyOfDocs.childOf = obj.id || null;
+        copyOfDocs.workSpaceUUID = files.workspaceUUID;
+        workspaceDocsArr.push(copyOfDocs);
+        appDataArr[copyOfDocs.uuid] = JSON.parse(
+          JSON.stringify(appDataArr[copyFileId])
+        );
+        console.log(copyOfDocs, files.id, '4556');
+      }
+    });
+    console.log(files, 'poiojf');
+  }
+
+  for (const item of obj.folders) {
+    console.log(item, 'h2llo', obj);
+
+    if (item.files && item.files.length > 0) {
+      changeFilesOfWorkspace(item, workspaceUUID, workspaceDocsArr, appDataArr);
     }
   }
 };
@@ -1200,6 +1255,29 @@ export const workspaceSlice = createSlice({
       // proxyFilteredArray.push(copyOfSource);
       // state.workspaceFolders = proxyFilteredArray;
     },
+    duplicateWorkspace: (state, action: PayloadAction<any>) => {
+      const { name, idx } = action.payload;
+      const obj = {
+        color: state.workSpaceItems[idx].color,
+        files: JSON.parse(JSON.stringify(state.workSpaceItems[idx].files)),
+        folders: JSON.parse(JSON.stringify(state.workSpaceItems[idx].folders)),
+        name,
+        uuid: uuidv4(),
+      };
+      changeFoldersArrayData(obj.folders, 'workspaceUUID', obj.uuid);
+      insertWorkspaceFolders(
+        obj,
+        { id: null, workspaceUUID: obj.uuid },
+        state.workspaceFolders
+      );
+      changeFilesOfWorkspace(
+        obj,
+        obj.uuid,
+        state.workSpaceDocs,
+        state.applicationData
+      );
+      state.workSpaceItems.splice(idx + 1, 0, obj);
+    },
 
     addDuplicateFolders: (state, action: PayloadAction<any>) => {
       console.log(
@@ -1509,15 +1587,27 @@ export const workspaceSlice = createSlice({
         (item) => item.uuid === state.currentSelectedDocId
       );
       console.log({ ...parentOfCurrentSelectedDoc });
-      state.workSpaceItems.map((item, i) => {
-        if (item.uuid === parentOfCurrentSelectedDoc?.workSpaceUUID) {
-          const x = searchById(
-            item.folders,
-            parentOfCurrentSelectedDoc.childOf
-          );
-          state.dropdownBreadcrumbs = x.files;
-        }
-      });
+      if (parentOfCurrentSelectedDoc.childOf !== null) {
+        state.workSpaceItems.map((item, i) => {
+          if (item.uuid === parentOfCurrentSelectedDoc?.workSpaceUUID) {
+            const x = searchById(
+              item.folders,
+              parentOfCurrentSelectedDoc.childOf
+            );
+            state.dropdownBreadcrumbs = x?.files;
+          }
+        });
+      } else {
+        console.log(
+          { ...parentOfCurrentSelectedDoc },
+          state.currentSelectedDocId
+        );
+        state.workSpaceItems.map((item, i) => {
+          if (item.uuid === parentOfCurrentSelectedDoc?.workSpaceUUID) {
+            state.dropdownBreadcrumbs = item?.files;
+          }
+        });
+      }
     },
   },
 });
@@ -1568,5 +1658,6 @@ export const {
   changePriority,
   changeStatus,
   setSearchDocsKeyword,
+  duplicateWorkspace,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
