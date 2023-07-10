@@ -10,6 +10,7 @@ import {
   duplicateWorkspaceItem,
   createWorkspaces,
   editWorkspaceItem,
+  duplicateWorkspace,
 } from 'redux/slices/workspace';
 import {
   Pin,
@@ -130,14 +131,15 @@ function WorkspaceModal({ idx, name, setWorkspaceModal, workspaceModal }: any) {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      dispatch(
-        createWorkspaces({
-          name: `${workSpaceItems[idx].name}[copy]`,
-          color,
-          idx,
-          uuid: uuidv4(),
-        })
-      );
+      dispatch(duplicateWorkspace({name: `${workSpaceItems[idx].name}[copy]`, idx}))
+      // dispatch(
+      //   createWorkspaces({
+      //     name: `${workSpaceItems[idx].name}[copy]`,
+      //     color, 
+      //     idx,
+      //     uuid: uuidv4(),
+      //   })
+      // );
     }, 2000);
   };
 
