@@ -77,6 +77,140 @@ function TaskView({
     );
   };
 
+  const [toDoList, setToDoList] = useState ([
+    {
+      name: 'Complete Bud Task',
+      childOf: null,
+      workSPaceId: 'Private',
+      description: '',
+      type: 'doc',
+      uuid: '39b08a3d-12f1-4651-90f7-32895284wxyz',
+      workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+      customProperties: [
+        {
+          title: 'Author',
+          value: 'Bud',
+          type: 'text',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc',
+          order: 4,
+        },
+        {
+          title: 'ISBN',
+          value: 'QWDE-DJJC-1234',
+          type: 'text',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee',
+          order: 5,
+        },
+      ], // User defined Properties
+      properties: [
+        {
+          title: 'Tags',
+          value: ['no-tag'],
+          type: 'tags',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc1',
+          order: 1,
+        },
+        {
+          title: 'Priority',
+          value: 'Normal',
+          type: 'priority',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc2',
+          order: 2,
+        },
+        {
+          title: 'Status',
+          value: 'in_progress',
+          type: 'status',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
+          order: 3,
+        },
+        {
+          title: 'Date',
+          value: null,
+          type: 'date',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
+          order: 4,
+        },
+      ],
+
+      // System Defined Properties
+      // {
+      //   tags: ['no-tag'],
+      //   priority: 'Normal',
+      //   status: 'Not Started',
+      //   date: null,
+      // },
+    },
+    {
+      name: 'Check Mails and homework',
+      childOf: null,
+      workSPaceId: 'Private',
+      description: '',
+      type: 'doc',
+      uuid: '39b08a3d-12f1-4651-90f7-32895284abcd',
+      workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+      customProperties: [
+        {
+          title: 'Author',
+          value: 'Bud',
+          type: 'text',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc',
+          order: 4,
+        },
+        {
+          title: 'ISBN',
+          value: 'QWDE-DJJC-1234',
+          type: 'text',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee',
+          order: 5,
+        },
+      ], // User defined Properties
+      properties: [
+        {
+          title: 'Tags',
+          value: ['no-tag'],
+          type: 'tags',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc1',
+          order: 1,
+        },
+        {
+          title: 'Priority',
+          value: 'Normal',
+          type: 'priority',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc2',
+          order: 2,
+        },
+        {
+          title: 'Status',
+          value: 'in_progress',
+          type: 'status',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
+          order: 3,
+        },
+        {
+          title: 'Date',
+          value: null,
+          type: 'date',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
+          order: 4,
+        },
+      ],
+
+      // System Defined Properties
+      // {
+      //   tags: ['no-tag'],
+      //   priority: 'Normal',
+      //   status: 'Not Started',
+      //   date: null,
+      // },
+    },
+  ])
+
+  const [todoID, setToDoId] = useState([
+      {id: '39b08a3d-12f1-4651-90f7-32895284wxyz'},
+      {id: '39b08a3d-12f1-4651-90f7-32895284abcd'},
+  ])
+
   // Local State
   const [priorityPopoverVisible, setPriorityPopoverVisible] = useState(false);
   const setPriority = (priority) => {
@@ -432,9 +566,9 @@ function TaskView({
                   )}
                 </div>
 
-                {data?.tasks && (
+                {todoID && (
                   <div style={{ marginTop: '20px' }}>
-                    <ToDoPanel data={data} />
+                    <ToDoPanel dataId={todoID} data={toDoList}/>
                   </div>
                 )}
 
