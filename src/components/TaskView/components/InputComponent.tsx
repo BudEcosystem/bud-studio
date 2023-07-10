@@ -10,31 +10,98 @@ import {
   FourDots,
 } from '../../ListView/ListViewIcons';
 import '../TaskView.css';
+import { v4 as uuidv4 } from 'uuid';
 import CircularBorder from '../../ListView/ListViewComponents/CircularBorder';
 import { useSelector, useDispatch } from 'react-redux';
 import { Arrow } from '../TaskViewIcons';
+import { setWorkspacestodos } from '@/redux/slices/workspace';
 
 const InputComponent = () => {
-  //   const dispatch = useDispatch();
-  //   const [titleInput, setTitleInput] = useState('');
+    const dispatch = useDispatch();
+    const [titleInput, setTitleInput] = useState('');
+    const { workspace }: any = useSelector((state) => state);
 
-  //   useEffect(() => {
-  //     document.getElementById('listInput')?.focus();
-  //   }, []);
+    useEffect(() => {
+      document.getElementById('listInput')?.focus();
+    }, []);
 
-  //   const crossClickHandler = () => {
-  //     dispatch(setNewTaskClicked(false));
-  //   };
-  //   const titleInputHandler = (e: any) => {
-  //     setTitleInput(e.target.value);
-  //   };
-  //   const titleChangeHandler = (e: any) => {
-  //     if (e.key === 'Enter' && !!e.target.value) {
-  //       dispatch(createNewTask({ selectedItem, titleInput }));
-  //       crossClickHandler();
-  //       setTitleInput('');
-  //     }
-  //   };
+    // const crossClickHandler = () => {
+    //   dispatch(setNewTaskClicked(false));
+    // };
+    const titleInputHandler = (e: any) => {
+      setTitleInput(e.target.value);
+    };
+    const titleChangeHandler = (e: any) => {
+      const obj = {
+        name: titleInput,
+        childOf: workspace.currentSelectedDocId,
+        description: '',
+        type: 'doc',
+        uuid: uuidv4(),
+        workSpaceUUID: workspace.currentWorkspace,
+        customProperties: [
+          {
+            title: 'Author',
+            value: 'Bud',
+            type: 'text',
+            id: uuidv4(),
+            order: 4,
+          },
+          {
+            title: 'ISBN',
+            value: 'QWDE-DJJC-1234',
+            type: 'text',
+            id: uuidv4(),
+            order: 5,
+          },
+        ], // User defined Properties
+        properties: [
+          {
+            title: 'Tags',
+            value: ['no-tag'],
+            type: 'tags',
+            id: uuidv4(),
+            order: 1,
+          },
+          {
+            title: 'Priority',
+            value: 'Normal',
+            type: 'priority',
+            id: uuidv4(),
+            order: 2,
+          },
+          {
+            title: 'Status',
+            value: 'in_progress',
+            type: 'status',
+            id: uuidv4(),
+            order: 3,
+          },
+          {
+            title: 'Date',
+            value: null,
+            type: 'date',
+            id: uuidv4(),
+            order: 4,
+          },
+        ],
+  
+        // System Defined Properties
+        // {
+        //   tags: ['no-tag'],
+        //   priority: 'Normal',
+        //   status: 'Not Started',
+        //   date: null,
+        // },
+      }
+      if (e.key === 'Enter' && !!e.target.value) {
+        dispatch(setWorkspacestodos(obj))
+        // dispatch(createNewTask({ selectedItem, titleInput }));
+        // crossClickHandler();
+        setTitleInput('');
+        console.log(workspace)
+      }
+    };
   return (
     <div className="headerComponentInputParent">
       <div className="flex">
@@ -53,9 +120,9 @@ const InputComponent = () => {
           type="text"
           placeholder="Enter new subtask"
           // onBlur={onBlurHandler}
-          //   value={titleInput}
-          //   onKeyUp={titleChangeHandler}
-          //   onInput={titleInputHandler}
+            value={titleInput}
+            onKeyUp={titleChangeHandler}
+            onInput={titleInputHandler}
           className="workspaceTextBox"
         />
       </div>

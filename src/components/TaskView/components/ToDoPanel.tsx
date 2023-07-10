@@ -9,22 +9,23 @@ import TextComponent from './TextComponent';
 
 const ToDoPanel = ({dataId}: any) => {
   const { workspace, list }: any = useSelector((state) => state);
-  const { color } = workspace;
+  const { color, workspacestodos } = workspace;
   const [childData, setChildData] = useState(dataId);
   const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
   const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs)
+  console.log(workspace)
 
   useEffect(() => {
     const TaskArray: any = [];
     dataId?.forEach((entry: any, index: any) => {
-      workspaceDocs?.forEach((doc: any, index: any) => {
+      workspacestodos?.forEach((doc: any, index: any) => {
         if(entry.id == doc.uuid) {
           TaskArray.push(doc);
         }
       });
-    });
+    }); 
     SetTaskArrayForRender(TaskArray);
-  }, [dataId, workspaceDocs]);
+  }, [dataId, workspaceDocs, workspacestodos]);
 
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
