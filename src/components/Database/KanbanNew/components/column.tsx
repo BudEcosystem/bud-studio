@@ -172,6 +172,9 @@ function Column(props: any) {
               footer: '',
               image: '',
               type: '',
+              ...doc,
+              ...entry,
+              status: props.currentKey
             };
             TaskArray.push(mappedTask);
           }
@@ -192,6 +195,9 @@ function Column(props: any) {
               footer: '',
               image: '',
               type: '',
+              ...doc,
+              ...entry,
+              status: props.currentKey
             };
             TaskArray.push(mappedTask);
           }
