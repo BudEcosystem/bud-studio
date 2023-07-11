@@ -27,6 +27,8 @@ function ListView({ databaseData, databaseEntries }: any) {
   const [isAppMode, setIsAppMode] = useState(false);
   const [title, setTitle] = useState('');
 
+  console.log("GOVIDATA", databaseEntries)
+
   // useEffect(() => {
   //   if (oneTime) {
   //     setTimeout(() => {
@@ -69,13 +71,14 @@ function ListView({ databaseData, databaseEntries }: any) {
 
   return (
     <div className="mainListComponentContainer">
-      {/* <MainListComponent /> */}
       <Accordion
         isAppMode={false}
         title={databaseData.title}
         databaseData={databaseData}
         databaseEntries={{ databaseEntries }}
       />
+
+      <div style={{fontStyle: "Noto Sans", fontWeight: "400", fontSize: "16px"}}>Count: {databaseEntries.length}</div>
     </div>
   );
 }

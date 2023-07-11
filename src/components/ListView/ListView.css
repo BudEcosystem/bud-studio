@@ -322,6 +322,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .customCollapse .ant-collapse-header-text {
