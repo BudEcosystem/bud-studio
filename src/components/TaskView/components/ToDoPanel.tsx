@@ -27,6 +27,8 @@ const ToDoPanel = ({dataId}: any) => {
     SetTaskArrayForRender(TaskArray);
   }, [dataId, workspaceDocs, workspacestodos]);
 
+  console.log("ARUNS", dataId)
+
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
     const newRowOrder = Array.from(childData);

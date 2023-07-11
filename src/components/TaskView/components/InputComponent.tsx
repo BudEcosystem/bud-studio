@@ -21,10 +21,6 @@ const InputComponent = () => {
     const [titleInput, setTitleInput] = useState('');
     const { workspace }: any = useSelector((state) => state);
 
-    useEffect(() => {
-      document.getElementById('listInput')?.focus();
-    }, []);
-
     // const crossClickHandler = () => {
     //   dispatch(setNewTaskClicked(false));
     // };

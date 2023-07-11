@@ -351,7 +351,7 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
             className="BreadCrumb"
           >
             {navigationPathArray?.length > 1 &&
-              (navigationPathArray?.length > 4 ? (
+              (navigationPathArray?.length > 3 ? (
                 <>
                   <Breadcrumb.Item>
                     <>
@@ -394,6 +394,19 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
                         <>
                           <FileIcon themeColor={color} />
                           <span style={{ color: color }}>{item}</span>
+                          <div
+                            style={{ marginLeft: '8px', position: 'relative' }}
+                            onClick={() =>
+                              setToggleFileButton(!toggleFileButton)
+                            }
+                          >
+                            <UpandDownArrow />
+                          </div>
+                          {toggleFileButton && (
+                            <div className={classes['toggleContainer']}>
+                              <ToggleFileComponent />
+                            </div>
+                          )}
                         </>
                       ) : (
                         <>

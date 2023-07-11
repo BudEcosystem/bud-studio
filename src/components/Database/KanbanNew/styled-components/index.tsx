@@ -38,6 +38,7 @@ export const TitleHeaderColoured = styled.div`
   background: ${(props) => props.color};
   border-radius: 4px;
   margin-left: 7px;
+  color: white;
 `;
 export const Title = styled.h3`
   padding: 10px;

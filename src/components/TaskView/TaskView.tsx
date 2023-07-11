@@ -442,7 +442,7 @@ function TaskView({
                   )}
                 </div>
 
-                {todoID && (
+                {(
                   <div style={{ marginTop: '20px' }}>
                     <ToDoPanel dataId={todoID}/>
                   </div>
