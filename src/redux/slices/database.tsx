@@ -223,7 +223,10 @@ export const generateDatabaseInitialState = (): any => {
         entries: [
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
-            childs: [{ documentID: '39b08a3d-12f1-4651-90f7-32895284wxyz' }, { documentID: '39b08a3d-12f1-4651-90f7-32895284abcd' }],
+            childs: [
+              { documentID: '39b08a3d-12f1-4651-90f7-32895284wxyz' },
+              { documentID: '39b08a3d-12f1-4651-90f7-32895284abcd' },
+            ],
             statusKey: 'in_progress',
           },
           {
@@ -324,6 +327,8 @@ export const databaseSlice = createSlice({
       console.log('Local DB', localdbIndex);
       localDb[localdbIndex].entries.push({
         documentID: action.payload.initialDocumentID,
+        childs: [],
+        statusKey: 'in_progress',
       });
 
       state.databases = localDb;
@@ -429,6 +434,17 @@ export const databaseSlice = createSlice({
       });
       state.databases = newCopyOFDB;
     },
+    addTodos: (state, action: PayloadAction<any>) => {
+      state.databases.map((database) => {
+        if (database.defaultView === 'List') {
+          database.entries.map((item, i) => {
+            if (item.documentID === action.payload.id) {
+              item?.childs?.push({ documentID: action.payload.newId });
+            }
+          });
+        }
+      });
+    },
     editPropertPresetsStatusOptions: (state, action: PayloadAction<any>) => {
       console.log('editPropertPresetsStatusOptions', action.payload);
       const { id, statusKey, name } = action.payload;
@@ -477,6 +493,7 @@ export const {
   changeDatabaseDefaultView,
   addNewDocumentEntry,
   editPropertPresetsStatusOptions,
+  addTodos,
 } = databaseSlice.actions;
 
 export default databaseSlice.reducer;

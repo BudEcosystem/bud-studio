@@ -9,7 +9,15 @@ import TaskView from 'components/TaskView/TaskView';
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
 import HeaderSubComp from '../HeaderSubComp';
 
-function SubAccordion({ status, data, provided, index, title,item }: any) {
+function SubAccordion({
+  status,
+  data,
+  provided,
+  index,
+  title,
+  item,
+  databaseEntries,
+}: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [expanded, setExpanded] = useState(index === 0);
@@ -28,7 +36,7 @@ function SubAccordion({ status, data, provided, index, title,item }: any) {
   };
   const [showTaskViewModal, setShowTaskViewModal] = useState(false);
 
-  console.log("HHHHHH", data)
+  console.log('HHHHHH', data);
 
   return (
     <div
@@ -49,6 +57,7 @@ function SubAccordion({ status, data, provided, index, title,item }: any) {
         setShowTaskViewModal={setShowTaskViewModal}
         status={status}
         item={item}
+        databaseEntries={databaseEntries}
       />
 
       <div className="headerSubComponentContainer">
@@ -67,7 +76,10 @@ function SubAccordion({ status, data, provided, index, title,item }: any) {
       {expanded && (
         <div className="subChildComponent">
           <p className="description">
-            <TextClippingComponent text={data.entry.description || ''} limit={100} />
+            <TextClippingComponent
+              text={data.entry.description || ''}
+              limit={100}
+            />
           </p>
           {data?.childs.length > 0 &&
             data.childs.map((subItem: any, i: any) => (
@@ -110,6 +122,5 @@ class TextClippingComponent extends React.Component {
     return <span>{this.state.clippedText}</span>;
   }
 }
-
 
 export default SubAccordion;

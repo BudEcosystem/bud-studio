@@ -52,7 +52,7 @@ function HeaderSubComp({
   provided,
   expanded,
   toggleSubAccordion,
-  setShowTaskViewModal
+  setShowTaskViewModal,
 }) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -91,7 +91,7 @@ function HeaderSubComp({
     );
   };
 
-  console.log("HEADER", data?.entry?.todos?.length)
+  console.log('HEADER', data?.entry?.todos?.length);
 
   // Hooks
   useEffect(() => {
@@ -134,7 +134,6 @@ function HeaderSubComp({
 
   // Update Due Date
   const updateDueDate = (date) => {
-
     dispatch(
       updateDocumentDueDateById({ documentID: data.entry.uuid, dueDate: date })
     );
@@ -190,11 +189,18 @@ function HeaderSubComp({
             {data.title}
           </p>
         )}
-        <div onClick={() => {setShowTaskViewModal(true)}}  className="siconContainer">
+        <div
+          onClick={() => {
+            setShowTaskViewModal(true);
+          }}
+          className="siconContainer"
+        >
           <div className="flexVerticalCenter" style={{ marginLeft: '0px' }}>
             <Sicon />
           </div>
-          <div className="list-view-count">{data?.entry?.todos?.length || 0}</div>
+          <div className="list-view-count">
+            {data?.entry?.todos?.length || 0}
+          </div>
           <div className="vertical-bar">|</div>
           <div style={{ marginLeft: '5px' }}>+</div>
         </div>
