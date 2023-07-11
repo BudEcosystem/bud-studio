@@ -7,7 +7,7 @@ import InputComponent from './InputComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TextComponent from './TextComponent';
 
-const ToDoPanel = ({data}: any) => {
+function ToDoPanel({ data }: any) {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
   const [childData, setChildData] = useState(data.childs);
@@ -22,7 +22,7 @@ const ToDoPanel = ({data}: any) => {
   return (
     <div className="KanbanPanel__todo">
       <div style={{ display: 'flex' }}>
-        <div style={{ color: "white", fontSize: '16px' }}>To Do</div>
+        <div style={{ color: 'white', fontSize: '16px' }}>To Do</div>
         <div
           style={{
             marginLeft: '10px',
@@ -52,8 +52,12 @@ const ToDoPanel = ({data}: any) => {
               {...provided.droppableProps}
               style={{ marginTop: '8px' }}
             >
-              {childData.map((item, i) => (
-                <Draggable key={`todo-${i}`} draggableId={`todo-${i}`} index={i}>
+              {childData?.map((item, i) => (
+                <Draggable
+                  key={`todo-${i}`}
+                  draggableId={`todo-${i}`}
+                  index={i}
+                >
                   {(provided, snapshot) => (
                     <div ref={provided.innerRef} {...provided.draggableProps}>
                       <TextComponent
@@ -79,6 +83,6 @@ const ToDoPanel = ({data}: any) => {
       </DragDropContext>
     </div>
   );
-};
+}
 
 export default ToDoPanel;
