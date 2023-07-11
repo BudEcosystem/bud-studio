@@ -92,10 +92,6 @@ export const generateInitialWorkspaceState = (): InitialState => {
             order: 4,
           },
         ],
-        todos: [
-          { id: '39b08a3d-12f1-4651-90f7-32895284wxyz' },
-          { id: '39b08a3d-12f1-4651-90f7-32895284abcd' },
-        ],
 
         // System Defined Properties
         // {
@@ -105,103 +101,6 @@ export const generateInitialWorkspaceState = (): InitialState => {
         //   date: null,
         // },
       },
-    ],
-    applicationData: {
-      '39b08a3d-12f1-4651-90f7-328952849dca': [
-        {
-          root: {
-            children: [
-              {
-                children: [
-                  {
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: 'How to evolve into a super human with your',
-                    type: 'text',
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                type: 'heading',
-                version: 1,
-                tag: 'h1',
-              },
-              {
-                children: [
-                  {
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: 'digital mind place',
-                    type: 'text',
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                type: 'heading',
-                version: 1,
-                tag: 'h1',
-              },
-              {
-                children: [],
-                direction: null,
-                format: '',
-                indent: 0,
-                type: 'paragraph',
-                version: 1,
-              },
-              {
-                children: [
-                  {
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: 'Philosophy, life, misc',
-                    type: 'text',
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                type: 'paragraph',
-                version: 1,
-              },
-            ],
-            direction: 'ltr',
-            format: '',
-            indent: 0,
-            type: 'root',
-            version: 1,
-          },
-        },
-        {
-          type: 'Database',
-          databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4gr',
-        },
-        {
-          type: 'Database',
-          databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4gg',
-        },
-        {
-          type: 'Database',
-          databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4g2',
-        },
-      ],
-    },
-    editorInitialised: false,
-    editorApplicationsAdded: [],
-    workspaceDocsSearchKey: null,
-    dropdownBreadcrumbs: [],
-    workspacestodos: [
       {
         name: 'Complete Bud Task',
         childOf: null,
@@ -328,6 +227,258 @@ export const generateInitialWorkspaceState = (): InitialState => {
         //   date: null,
         // },
       },
+    ],
+    applicationData: {
+      '39b08a3d-12f1-4651-90f7-328952849dca': [
+        {
+          root: {
+            children: [
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'How to evolve into a super human with your',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'digital mind place',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [],
+                direction: null,
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'Philosophy, life, misc',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            type: 'root',
+            version: 1,
+          },
+        },
+        {
+          type: 'Database',
+          databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4gr',
+        },
+        {
+          type: 'Database',
+          databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4gg',
+        },
+        {
+          type: 'Database',
+          databaseID: '39b08a3d-12f1-4651-90f7-3289524fr4g2',
+        },
+      ],
+      '39b08a3d-12f1-4651-90f7-32895284wxyz': [
+        {
+          root: {
+            children: [
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'How to evolve into a super human with your',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'digital mind place',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [],
+                direction: null,
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'Philosophy, life, misc',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            type: 'root',
+            version: 1,
+          },
+        },
+      ],
+      '39b08a3d-12f1-4651-90f7-32895284abcd': [
+        {
+          root: {
+            children: [
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'How to evolve into a super human with your',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'digital mind place',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [],
+                direction: null,
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'Philosophy, life, misc',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            type: 'root',
+            version: 1,
+          },
+        },
+      ]
+    },
+    editorInitialised: false,
+    editorApplicationsAdded: [],
+    workspaceDocsSearchKey: null,
+    dropdownBreadcrumbs: [],
+    workspacestodos: [
+      
     ],
   };
   return initialState;
