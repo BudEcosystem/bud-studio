@@ -114,6 +114,7 @@ const Menu = ({ workspaceItem, setWorkspaceModal }: any) => {
         newFileForWorkspaceDocs,
       })
     );
+    dispatch(setDropdownBreadcrumbs());
   };
   const toggleItem = (event, id) => {
     // console.log('clicked', id, event);
@@ -232,7 +233,7 @@ const FileItem = ({
         workspaceUUID: file.workspaceUUID,
       })
     );
-
+    dispatch(setDropdownBreadcrumbs());
     setShowAddFile(false);
   };
 

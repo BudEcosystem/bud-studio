@@ -175,7 +175,7 @@ function TaskView({
           open={showTaskViewModal}
           onOk={handleOk}
           onCancel={handleCancel}
-          width="auto"
+          // width="auto"
           // bodyStyle={{width: 'auto',marginLeft: '270px',marginRight: '2%'}}
         >
           <div className="KanbanTaskView">
