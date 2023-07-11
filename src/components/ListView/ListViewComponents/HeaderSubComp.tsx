@@ -53,6 +53,7 @@ function HeaderSubComp({
   expanded,
   toggleSubAccordion,
   setShowTaskViewModal,
+  databaseEntries
 }) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -65,6 +66,7 @@ function HeaderSubComp({
   const [tagPopoverVisible, setTagPopoverVisible] = useState(false);
   const [priorityPopoverVisible, setPriorityPopoverVisible] = useState(false);
   const [datePopoverVisible, setDatePopoverVisible] = useState(false);
+  const [siconValue, setSiconValue] = useState(0)
   const inputTagRef = useRef<InputRef>(null);
   const { color } = useSelector((state) => state.workspace);
   // Priority Flags
@@ -91,7 +93,7 @@ function HeaderSubComp({
     );
   };
 
-  console.log('HEADER', data?.entry?.todos?.length);
+  console.log('HEADER', data);
 
   // Hooks
   useEffect(() => {
@@ -140,6 +142,16 @@ function HeaderSubComp({
 
     setDatePopoverVisible(false);
   };
+
+  console.log("DATAHEAD", data)
+
+  useEffect(() => {
+    databaseEntries.forEach((doc) => {
+      if(data.entry.uuid == doc.documentID) {
+        setSiconValue(doc?.childs?.length)
+      }
+    })
+  }, [data])
 
   // @ts-ignore
   // @ts-ignore
@@ -199,7 +211,7 @@ function HeaderSubComp({
             <Sicon />
           </div>
           <div className="list-view-count">
-            {data?.entry?.todos?.length || 0}
+            {siconValue}
           </div>
           <div className="vertical-bar">|</div>
           <div style={{ marginLeft: '5px' }}>+</div>
@@ -210,16 +222,16 @@ function HeaderSubComp({
           </div>
           <div style={{ marginLeft: '2px' }}>
             <span>{data.checklist?.checked || 0}</span>/
-            <span>{data?.entry?.todos?.length || 0}</span>
+            <span>{siconValue}</span>
           </div>
         </div>
       </div>
       <div className="flexVerticalCenter">
         <div style={{ marginRight: '40px' }}>
-          {data?.entry?.todos?.length && (
+          {siconValue && (
             <SkillBar
               percentage={
-                (data.checklist?.checked / data?.entry?.todos?.length) * 100
+                ((siconValue/2) / siconValue) * 100
               }
             />
           )}

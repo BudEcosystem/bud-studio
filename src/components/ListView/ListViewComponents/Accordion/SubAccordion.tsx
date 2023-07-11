@@ -36,7 +36,7 @@ function SubAccordion({
   };
   const [showTaskViewModal, setShowTaskViewModal] = useState(false);
 
-  console.log('HHHHHH', data);
+  console.log('HHHHHH', databaseEntries);
 
   return (
     <div
@@ -71,6 +71,7 @@ function SubAccordion({
           expanded={expanded}
           toggleSubAccordion={toggleSubAccordion}
           setShowTaskViewModal={setShowTaskViewModal}
+          databaseEntries={databaseEntries}
         />
       </div>
       {expanded && (
@@ -94,6 +95,7 @@ function SubAccordion({
                   expanded={expandedChild[i]}
                   toggleSubAccordion={() => toggleSubAccordionChild(i)}
                   setShowTaskViewModal={setShowTaskViewModal}
+                  databaseEntries={databaseEntries}
                 />
               </div>
             ))}
