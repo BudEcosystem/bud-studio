@@ -5,7 +5,8 @@
   width: auto;
   margin-left: 270px;
   margin-right: 2%;
-  min-width: 84%;
+  min-width: 84vw;
+  height: 85vh;
 }
 
 .TaskViewModal .ant-modal-close {
