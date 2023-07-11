@@ -16,9 +16,6 @@
 @media (min-resolution: 1.25dppx) {
   .ant-modal-content {
     width: 79.5vw;
-    /* height: 50vh; */
-    /* height: 80vh; */
-    /* Adjusted styles for higher resolution screens */
   }
 }
 
