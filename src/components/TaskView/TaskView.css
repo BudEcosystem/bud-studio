@@ -5,7 +5,8 @@
   width: auto;
   margin-left: 270px;
   margin-right: 2%;
-  min-width: 84%;
+  min-width: 84vw;
+  height: 85vh;
 }
 
 .TaskViewModal .ant-modal-close {
@@ -34,7 +35,7 @@
 
 .KanbanTaskView__TopBar {
   height: 70px;
-  /*border-bottom: 1px solid #252525;*/
+  border-bottom: 1px solid #252525;
   display: flex;
   align-items: center;
   justify-content: space-between;
