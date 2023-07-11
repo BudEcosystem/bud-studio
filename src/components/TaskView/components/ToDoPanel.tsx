@@ -7,27 +7,27 @@ import InputComponent from './InputComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TextComponent from './TextComponent';
 
-const ToDoPanel = ({dataId}: any) => {
+const ToDoPanel = ({ dataId, data }: any) => {
   const { workspace, list }: any = useSelector((state) => state);
   const { color, workspacestodos } = workspace;
   const [childData, setChildData] = useState(dataId);
   const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
-  const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs)
-  console.log(workspace)
+  const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs);
+  console.log(workspace);
 
   useEffect(() => {
     const TaskArray: any = [];
     dataId?.forEach((entry: any, index: any) => {
       workspacestodos?.forEach((doc: any, index: any) => {
-        if(entry.id == doc.uuid) {
+        if (entry.id == doc.uuid) {
           TaskArray.push(doc);
         }
       });
-    }); 
+    });
     SetTaskArrayForRender(TaskArray);
   }, [dataId, workspaceDocs, workspacestodos]);
 
-  console.log("ARUNS", dataId)
+  console.log('ARUNS', dataId);
 
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
@@ -39,7 +39,7 @@ const ToDoPanel = ({dataId}: any) => {
   return (
     <div className="KanbanPanel__todo">
       <div style={{ display: 'flex' }}>
-        <div style={{ color: "white", fontSize: '16px' }}>To Do</div>
+        <div style={{ color: 'white', fontSize: '16px' }}>To Do</div>
         <div
           style={{
             marginLeft: '10px',
@@ -69,7 +69,7 @@ const ToDoPanel = ({dataId}: any) => {
               {...provided.droppableProps}
               style={{ marginTop: '8px' }}
             >
-              {TaskArrayForRender?.map((item: any, i: any) => (
+              {dataId?.map((item: any, i: any) => (
                 <Draggable
                   key={`todo-${i}`}
                   draggableId={`todo-${i}`}
@@ -87,7 +87,7 @@ const ToDoPanel = ({dataId}: any) => {
                 </Draggable>
               ))}
               {provided.placeholder}
-              <InputComponent />
+              <InputComponent data={data} />
             </div>
           )}
         </Droppable>

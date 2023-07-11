@@ -27,7 +27,7 @@ function ListView({ databaseData, databaseEntries }: any) {
   const [isAppMode, setIsAppMode] = useState(false);
   const [title, setTitle] = useState('');
 
-  console.log("GOVIDATA", databaseEntries)
+  console.log('GOVIDATA', databaseEntries);
 
   // useEffect(() => {
   //   if (oneTime) {
@@ -78,7 +78,11 @@ function ListView({ databaseData, databaseEntries }: any) {
         databaseEntries={{ databaseEntries }}
       />
 
-      <div style={{fontStyle: "Noto Sans", fontWeight: "400", fontSize: "16px"}}>Count: {databaseEntries.length}</div>
+      <div
+        style={{ fontStyle: 'Noto Sans', fontWeight: '400', fontSize: '16px' }}
+      >
+        Count: {databaseEntries.length}
+      </div>
     </div>
   );
 }

@@ -471,15 +471,13 @@ export const generateInitialWorkspaceState = (): InitialState => {
             version: 1,
           },
         },
-      ]
+      ],
     },
     editorInitialised: false,
     editorApplicationsAdded: [],
     workspaceDocsSearchKey: null,
     dropdownBreadcrumbs: [],
-    workspacestodos: [
-      
-    ],
+    workspacestodos: [],
   };
   return initialState;
 };
@@ -512,9 +510,9 @@ const searchFileById = (structure, id) => {
   if (!structure || structure.length === 0) {
     return null;
   }
-  for(const file of structure.files){
-    if(file.id === id){
-      return file
+  for (const file of structure.files) {
+    if (file.id === id) {
+      return file;
     }
   }
   for (const item of structure) {
@@ -1893,15 +1891,92 @@ export const workspaceSlice = createSlice({
     },
     setWorkspacestodos: (state, action: PayloadAction<any>) => {
       console.log(action.payload);
-      state.workspacestodos.push(action.payload);
+      state.workSpaceDocs.push(action.payload);
+      state.applicationData[action.payload.uuid] = [
+        {
+          root: {
+            children: [
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'Untitled',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'digital mind place',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [],
+                direction: null,
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'Philosophy, life, misc',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            type: 'root',
+            version: 1,
+          },
+        },
+      ];
       // state.workSpaceItems.map(item => {
       //   if(item.uuid === action.payload.workSpaceUUID){
       //     const y = searchFileById(item, action.payload.childOf)
       //     console.log({...y})
       //   }
       // })
-      const x = state.workSpaceDocs.find(item => item.uuid === action.payload.childOf)
-      x.todos.push({id: action.payload.uuid})
+      // const x = state.workSpaceDocs.find(item => item.uuid === action.payload.childOf)
+      // x.todos.push({id: action.payload.uuid})
     },
     setDropdownBreadcrumbs: (state) => {
       const parentOfCurrentSelectedDoc = state.workSpaceDocs.find(
@@ -1980,6 +2055,6 @@ export const {
   changeStatus,
   setSearchDocsKeyword,
   setWorkspacestodos,
-  duplicateWorkspace
+  duplicateWorkspace,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
