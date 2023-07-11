@@ -9,7 +9,15 @@ import TaskView from 'components/TaskView/TaskView';
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
 import HeaderSubComp from '../HeaderSubComp';
 
-function SubAccordion({ status, data, provided, index, title,item }) {
+function SubAccordion({
+  status,
+  data,
+  provided,
+  index,
+  title,
+  item,
+  databaseEntries,
+}: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [expanded, setExpanded] = useState(index === 0);
@@ -21,12 +29,14 @@ function SubAccordion({ status, data, provided, index, title,item }) {
     setExpanded(!expanded);
     setSelected(!selected);
   };
-  const toggleSubAccordionChild = (index) => {
+  const toggleSubAccordionChild = (index: any) => {
     const updatedExpandedChild = [...expandedChild];
     updatedExpandedChild[index] = !updatedExpandedChild[index];
     setExpandedChild(updatedExpandedChild);
   };
   const [showTaskViewModal, setShowTaskViewModal] = useState(false);
+
+  console.log('HHHHHH', databaseEntries);
 
   return (
     <div
@@ -47,6 +57,7 @@ function SubAccordion({ status, data, provided, index, title,item }) {
         setShowTaskViewModal={setShowTaskViewModal}
         status={status}
         item={item}
+        databaseEntries={databaseEntries}
       />
 
       <div className="headerSubComponentContainer">
@@ -59,15 +70,20 @@ function SubAccordion({ status, data, provided, index, title,item }) {
           provided={provided}
           expanded={expanded}
           toggleSubAccordion={toggleSubAccordion}
+          setShowTaskViewModal={setShowTaskViewModal}
+          databaseEntries={databaseEntries}
         />
       </div>
       {expanded && (
         <div className="subChildComponent">
           <p className="description">
-            <TextClippingComponent text={data.entry.description || ''} limit={100} />
+            <TextClippingComponent
+              text={data.entry.description || ''}
+              limit={100}
+            />
           </p>
           {data?.childs.length > 0 &&
-            data.childs.map((subItem, i) => (
+            data.childs.map((subItem: any, i: any) => (
               <div style={{ marginBottom: '16px' }}>
                 <HeaderSubComp
                   index={index}
@@ -78,6 +94,8 @@ function SubAccordion({ status, data, provided, index, title,item }) {
                   provided={provided}
                   expanded={expandedChild[i]}
                   toggleSubAccordion={() => toggleSubAccordionChild(i)}
+                  setShowTaskViewModal={setShowTaskViewModal}
+                  databaseEntries={databaseEntries}
                 />
               </div>
             ))}
@@ -106,6 +124,5 @@ class TextClippingComponent extends React.Component {
     return <span>{this.state.clippedText}</span>;
   }
 }
-
 
 export default SubAccordion;

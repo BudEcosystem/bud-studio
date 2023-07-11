@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ArrowIcon } from '../TaskViewIcons';
 import '../TaskView.css';
@@ -7,12 +7,29 @@ import InputComponent from './InputComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TextComponent from './TextComponent';
 
-const ToDoPanel = ({data}: any) => {
+const ToDoPanel = ({ dataId, data }: any) => {
   const { workspace, list }: any = useSelector((state) => state);
-  const { color } = workspace;
-  const [childData, setChildData] = useState(data?.childs);
+  const { color, workspacestodos } = workspace;
+  const [childData, setChildData] = useState(dataId);
+  const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
+  const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs);
+  console.log(workspace);
 
-  const handleDragEnd = (result) => {
+  useEffect(() => {
+    const TaskArray: any = [];
+    dataId?.forEach((entry: any, index: any) => {
+      workspacestodos?.forEach((doc: any, index: any) => {
+        if (entry.id == doc.uuid) {
+          TaskArray.push(doc);
+        }
+      });
+    });
+    SetTaskArrayForRender(TaskArray);
+  }, [dataId, workspaceDocs, workspacestodos]);
+
+  console.log('ARUNS', dataId);
+
+  const handleDragEnd = (result: any) => {
     if (!result.destination) return;
     const newRowOrder = Array.from(childData);
     const [removed] = newRowOrder.splice(result.source.index, 1);
@@ -22,7 +39,7 @@ const ToDoPanel = ({data}: any) => {
   return (
     <div className="KanbanPanel__todo">
       <div style={{ display: 'flex' }}>
-        <div style={{ color: "white", fontSize: '16px' }}>To Do</div>
+        <div style={{ color: 'white', fontSize: '16px' }}>To Do</div>
         <div
           style={{
             marginLeft: '10px',
@@ -52,21 +69,25 @@ const ToDoPanel = ({data}: any) => {
               {...provided.droppableProps}
               style={{ marginTop: '8px' }}
             >
-              {childData?.map((item, i) => (
-                <Draggable key={`todo-${i}`} draggableId={`todo-${i}`} index={i}>
+              {dataId?.map((item: any, i: any) => (
+                <Draggable
+                  key={`todo-${i}`}
+                  draggableId={`todo-${i}`}
+                  index={i}
+                >
                   {(provided, snapshot) => (
                     <div ref={provided.innerRef} {...provided.draggableProps}>
                       <TextComponent
                         provided={provided}
                         snapshot={snapshot}
-                        text={item.title}
+                        text={item.name}
                       />
                     </div>
                   )}
                 </Draggable>
               ))}
               {provided.placeholder}
-              <InputComponent />
+              <InputComponent data={data} />
             </div>
           )}
         </Droppable>

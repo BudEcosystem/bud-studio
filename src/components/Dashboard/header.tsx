@@ -380,7 +380,7 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
                       </div>
                       {toggleFileButton && (
                         <div className={classes['toggleContainer']}>
-                          <ToggleFileComponent />
+                          <ToggleFileComponent setToggleFileButton={setToggleFileButton} />
                         </div>
                       )}
                     </>
@@ -404,7 +404,7 @@ function HeaderComp({ isCollapsed, slideFn }: HeaderProps) {
                           </div>
                           {toggleFileButton && (
                             <div className={classes['toggleContainer']}>
-                              <ToggleFileComponent />
+                              <ToggleFileComponent setToggleFileButton={setToggleFileButton} />
                             </div>
                           )}
                         </>

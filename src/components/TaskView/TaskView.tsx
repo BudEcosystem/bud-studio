@@ -45,12 +45,32 @@ function TaskView({
   setShowTaskViewModal,
   status,
   item,
+  databaseEntries,
 }: any) {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
   const [isDragOver, setIsDragOver] = useState(false);
   const [localState, setLocalState] = useState(null);
   const [datePopoverVisible, setDatePopoverVisible] = useState(false);
+  const [todoID, setToDoId] = useState([]);
+  console.log(data, databaseEntries, 'taskViewConsole');
+
+  useEffect(() => {
+    const TaskArray: any = [];
+    databaseEntries.map((dbentry, i) => {
+      if (dbentry.documentID === data.entry.uuid) {
+        console.log(dbentry);
+        dbentry?.childs?.map((child, j) => {
+          workspace.workSpaceDocs.forEach((doc: any, i: any) => {
+            if (doc.uuid == child.documentID) {
+              TaskArray.push(doc);
+            }
+          });
+        });
+      }
+    });
+    setToDoId(TaskArray);
+  }, [data, workspace]);
 
   const dispatch = useDispatch();
   const flagcolors = {
@@ -86,7 +106,7 @@ function TaskView({
   };
 
   useEffect(() => {
-    console.log('task View', data);
+    // console.log('task View', data);
     if (!localState) {
       const localData = workspace.applicationData[data.entry.uuid];
       setLocalState(localData[0]);
@@ -115,7 +135,7 @@ function TaskView({
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       // Perform file upload or any other desired operation
-      console.log('Uploaded file:', file.name);
+      // console.log('Uploaded file:', file.name);
     }
   };
 
@@ -432,11 +452,11 @@ function TaskView({
                   )}
                 </div>
 
-                {data?.tasks && (
+                {
                   <div style={{ marginTop: '20px' }}>
-                    <ToDoPanel data={data} />
+                    <ToDoPanel dataId={todoID} data={data} />
                   </div>
-                )}
+                }
 
                 <div
                   style={{

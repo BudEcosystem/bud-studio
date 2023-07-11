@@ -52,6 +52,8 @@ function HeaderSubComp({
   provided,
   expanded,
   toggleSubAccordion,
+  setShowTaskViewModal,
+  databaseEntries
 }) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -64,6 +66,7 @@ function HeaderSubComp({
   const [tagPopoverVisible, setTagPopoverVisible] = useState(false);
   const [priorityPopoverVisible, setPriorityPopoverVisible] = useState(false);
   const [datePopoverVisible, setDatePopoverVisible] = useState(false);
+  const [siconValue, setSiconValue] = useState(0)
   const inputTagRef = useRef<InputRef>(null);
   const { color } = useSelector((state) => state.workspace);
   // Priority Flags
@@ -89,6 +92,8 @@ function HeaderSubComp({
       </svg>
     );
   };
+
+  console.log('HEADER', data);
 
   // Hooks
   useEffect(() => {
@@ -131,13 +136,22 @@ function HeaderSubComp({
 
   // Update Due Date
   const updateDueDate = (date) => {
-
     dispatch(
       updateDocumentDueDateById({ documentID: data.entry.uuid, dueDate: date })
     );
 
     setDatePopoverVisible(false);
   };
+
+  console.log("DATAHEAD", data)
+
+  useEffect(() => {
+    databaseEntries.forEach((doc) => {
+      if(data.entry.uuid == doc.documentID) {
+        setSiconValue(doc?.childs?.length)
+      }
+    })
+  }, [data])
 
   // @ts-ignore
   // @ts-ignore
@@ -187,11 +201,18 @@ function HeaderSubComp({
             {data.title}
           </p>
         )}
-        <div className="siconContainer">
+        <div
+          onClick={() => {
+            setShowTaskViewModal(true);
+          }}
+          className="siconContainer"
+        >
           <div className="flexVerticalCenter" style={{ marginLeft: '0px' }}>
             <Sicon />
           </div>
-          <div className="list-view-count">{data.siconValue || 0}</div>
+          <div className="list-view-count">
+            {siconValue}
+          </div>
           <div className="vertical-bar">|</div>
           <div style={{ marginLeft: '5px' }}>+</div>
         </div>
@@ -201,16 +222,16 @@ function HeaderSubComp({
           </div>
           <div style={{ marginLeft: '2px' }}>
             <span>{data.checklist?.checked || 0}</span>/
-            <span>{data.checklist?.total || 0}</span>
+            <span>{siconValue}</span>
           </div>
         </div>
       </div>
       <div className="flexVerticalCenter">
         <div style={{ marginRight: '40px' }}>
-          {data.checklist?.total && (
+          {siconValue && (
             <SkillBar
               percentage={
-                (data.checklist?.checked / data.checklist?.total) * 100
+                ((siconValue/2) / siconValue) * 100
               }
             />
           )}
