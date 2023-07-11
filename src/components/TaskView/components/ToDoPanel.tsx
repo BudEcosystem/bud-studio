@@ -19,7 +19,7 @@ const ToDoPanel = ({dataId}: any) => {
     const TaskArray: any = [];
     dataId?.forEach((entry: any, index: any) => {
       workspacestodos?.forEach((doc: any, index: any) => {
-        if(entry.id == doc.uuid || entry.uuid == doc.uuid) {
+        if(entry.id == doc.uuid) {
           TaskArray.push(doc);
         }
       });
