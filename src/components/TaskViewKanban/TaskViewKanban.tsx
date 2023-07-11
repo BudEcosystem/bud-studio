@@ -239,7 +239,7 @@ const TaskViewKanban = ({
     >
       <div className="KanbanTaskView">
         <div className="KanbanTaskView__TopBar">
-          <div className="TopBar__LeftSide">
+          <div className="TaskView__LeftSide">
             <div className="LogoAndProgress">
               <div className="kabuniLogo" style={{ background: `${color}` }}>
                 <span className="tick">L</span>
