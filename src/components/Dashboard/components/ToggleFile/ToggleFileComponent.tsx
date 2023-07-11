@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './ToggleFileComponent.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -30,10 +30,27 @@ export const FileLogo = ({color}) => {
   );
 };
 
-export const ToggleFileComponent = () => {
+export const ToggleFileComponent = ({setToggleFileButton}: any) => {
   const { workspace }: any = useSelector((state) => state);
   const { dropdownBreadcrumbs, currentSelectedDocId, color } = workspace;
   const dispatch = useDispatch();
+  const wrapperRef = useRef(null);
+  const {} = useOutsideAlerter(wrapperRef);
+  function useOutsideAlerter(ref: any) {
+    useEffect(() => {
+      function handleClickOutside(event: any) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setToggleFileButton(false)
+        }
+      }
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [ref]);
+    return {};
+  }
+
   const findParent = (x: any) => {
     const find = workspace.workSpaceDocs.find((y: any) => y?.uuid === x);
     return find;
@@ -103,7 +120,7 @@ export const ToggleFileComponent = () => {
   };
 
   return (
-    <div className="toggleFileWrapper">
+    <div ref={wrapperRef} className="toggleFileWrapper">
       <div className="toggleMainContainer">{handler()}</div>
     </div>
   );
