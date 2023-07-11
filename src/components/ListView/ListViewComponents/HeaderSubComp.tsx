@@ -228,7 +228,7 @@ function HeaderSubComp({
       </div>
       <div className="flexVerticalCenter">
         <div style={{ marginRight: '40px' }}>
-          {siconValue && (
+          {siconValue!==0 && (
             <SkillBar
               percentage={
                 ((siconValue/2) / siconValue) * 100
