@@ -1672,7 +1672,7 @@ export const workspaceSlice = createSlice({
       //   }
       // })
       const x = state.workSpaceDocs.find(item => item.uuid === action.payload.childOf)
-      x.todos.push(action.payload)
+      x.todos.push(action.payload.uuid)
     },
     setDropdownBreadcrumbs: (state) => {
       const parentOfCurrentSelectedDoc = state.workSpaceDocs.find(
