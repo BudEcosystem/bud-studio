@@ -1,40 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ArrowIcon } from '../TaskViewIcons';
 import '../TaskView.css';
 import HeaderSubCompInput from 'components/ListView/ListViewComponents/HeaderSubCompInput';
 import InputComponent from './InputComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TextComponent from './TextComponent';
+import { changeRowOrderTodos } from '@/redux/slices/database';
 
 const ToDoPanel = ({ dataId, data }: any) => {
+  const dispatch = useDispatch()
   const { workspace, list }: any = useSelector((state) => state);
   const { color, workspacestodos } = workspace;
   const [childData, setChildData] = useState(dataId);
-  const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
-  const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs);
+  // const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
+  // const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs);
   console.log(workspace);
 
-  useEffect(() => {
-    const TaskArray: any = [];
-    dataId?.forEach((entry: any, index: any) => {
-      workspacestodos?.forEach((doc: any, index: any) => {
-        if (entry.id == doc.uuid) {
-          TaskArray.push(doc);
-        }
-      });
-    });
-    SetTaskArrayForRender(TaskArray);
-  }, [dataId, workspaceDocs, workspacestodos]);
+  // useEffect(() => {
+  //   const TaskArray: any = [];
+  //   dataId?.forEach((entry: any, index: any) => {
+  //     workspacestodos?.forEach((doc: any, index: any) => {
+  //       if (entry.id == doc.uuid) {
+  //         TaskArray.push(doc);
+  //       }
+  //     });
+  //   });
+  //   SetTaskArrayForRender(TaskArray);
+  // }, [dataId, workspaceDocs, workspacestodos]);
 
-  console.log('ARUNS', dataId);
+  // console.log('ARUNS', dataId);
 
   const handleDragEnd = (result: any) => {
-    if (!result.destination) return;
-    const newRowOrder = Array.from(childData);
-    const [removed] = newRowOrder.splice(result.source.index, 1);
-    newRowOrder.splice(result.destination.index, 0, removed);
-    setChildData(newRowOrder);
+    dispatch(changeRowOrderTodos({id: data.entry.uuid, result}))
+    // if (!result.destination) return;
+    // const newRowOrder = Array.from(childData);
+    // const [removed] = newRowOrder.splice(result.source.index, 1);
+    // newRowOrder.splice(result.destination.index, 0, removed);
+    // setChildData(newRowOrder);
   };
   return (
     <div className="KanbanPanel__todo">

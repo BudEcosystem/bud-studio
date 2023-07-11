@@ -460,6 +460,22 @@ export const databaseSlice = createSlice({
       console.log(newCopyOFDB);
       state.databases = newCopyOFDB;
     },
+    changeRowOrderTodos: (state, action: PayloadAction<any>) => {
+      const { id, result } = action.payload;
+      const { source, destination } = result;
+      state.databases.map((database) => {
+        if (database.defaultView === 'List') {
+          database.entries.map((item, i) => {
+            if (item.documentID === action.payload.id) {
+              const newRowOrder = Array.from(item.childs);
+              const [removed] = newRowOrder.splice(source.index, 1);
+              newRowOrder.splice(destination.index, 0, removed);
+              item.childs = newRowOrder;
+            }
+          });
+        }
+      });
+    },
   },
 });
 
@@ -486,6 +502,7 @@ export const {
   addNewDocumentEntry,
   editPropertPresetsStatusOptions,
   addTodos,
+  changeRowOrderTodos,
 } = databaseSlice.actions;
 
 export default databaseSlice.reducer;
