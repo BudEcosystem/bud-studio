@@ -16,6 +16,11 @@
     border: 0.5px dashed var(--border-Color);
     border-radius: 12px;
     margin-bottom: 18px;
+    transition: border 0.5s ease-in-out;
+}
+
+.statusParent:hover{
+    border: 0.5px dashed var(--bud-primary-color);
 }
 
 .titleContainerParent {

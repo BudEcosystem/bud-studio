@@ -551,7 +551,7 @@ export default function TableView({
           }
           trailingRowOptions={{
             // How to get the trailing row to look right
-            sticky: true,
+            sticky: false,
             tint: true,
             hint: 'Add',
           }}

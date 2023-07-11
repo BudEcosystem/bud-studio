@@ -176,7 +176,7 @@ function Column(props: any) {
               ...entry,
               status: props.title,
               color: props.color,
-              dbHeader: props.databaseData.title
+              dbHeader: props.databaseData.title,
             };
             TaskArray.push(mappedTask);
           }
@@ -201,7 +201,7 @@ function Column(props: any) {
               ...entry,
               status: props.title,
               color: props.color,
-              dbHeader: props.databaseData.title
+              dbHeader: props.databaseData.title,
             };
             TaskArray.push(mappedTask);
           }
@@ -252,7 +252,7 @@ function Column(props: any) {
                     transform="rotate(-90 7.5 7.5)"
                     fill="#242424"
                   />
-                </svg>
+                </svg>{' '}
               </TitleHeaderDragable>
               <TitleHeaderColoured color={props.color} />
               {nameEditable ? (
@@ -265,7 +265,10 @@ function Column(props: any) {
                   <EnterOutlined rev={undefined} />
                 </EditColumnWrapper>
               ) : (
-                <Title>{props.title}</Title>
+                <Title>
+                  {props.title}
+                  {`     (${TaskArrayForRender.length})`}
+                </Title>
               )}
             </TitleHeaderFirst>
             <TitleHeaderSecond>

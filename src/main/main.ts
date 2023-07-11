@@ -79,9 +79,9 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     show: false,
     minHeight: 728,
-    minWidth: 1200,
+    minWidth: 1550,
     height: 850,
-    width: 1400,
+    width: 1550,
     transparent: true,
     visualEffectState: 'active',
     vibrancy: 'under-window',
