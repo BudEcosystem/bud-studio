@@ -34,7 +34,7 @@
 
 .KanbanTaskView__TopBar {
   height: 70px;
-  /*border-bottom: 1px solid #252525;*/
+  border-bottom: 1px solid #252525;
   display: flex;
   align-items: center;
   justify-content: space-between;
