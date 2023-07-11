@@ -52,6 +52,7 @@ function HeaderSubComp({
   provided,
   expanded,
   toggleSubAccordion,
+  setShowTaskViewModal
 }) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -89,6 +90,8 @@ function HeaderSubComp({
       </svg>
     );
   };
+
+  console.log("HEADER", data?.entry?.todos?.length)
 
   // Hooks
   useEffect(() => {
@@ -187,11 +190,11 @@ function HeaderSubComp({
             {data.title}
           </p>
         )}
-        <div className="siconContainer">
+        <div onClick={() => {setShowTaskViewModal(true)}}  className="siconContainer">
           <div className="flexVerticalCenter" style={{ marginLeft: '0px' }}>
             <Sicon />
           </div>
-          <div className="list-view-count">{data.siconValue || 0}</div>
+          <div className="list-view-count">{data?.entry?.todos?.length || 0}</div>
           <div className="vertical-bar">|</div>
           <div style={{ marginLeft: '5px' }}>+</div>
         </div>
@@ -201,16 +204,16 @@ function HeaderSubComp({
           </div>
           <div style={{ marginLeft: '2px' }}>
             <span>{data.checklist?.checked || 0}</span>/
-            <span>{data.checklist?.total || 0}</span>
+            <span>{data?.entry?.todos?.length || 0}</span>
           </div>
         </div>
       </div>
       <div className="flexVerticalCenter">
         <div style={{ marginRight: '40px' }}>
-          {data.checklist?.total && (
+          {data?.entry?.todos?.length && (
             <SkillBar
               percentage={
-                (data.checklist?.checked / data.checklist?.total) * 100
+                (data.checklist?.checked / data?.entry?.todos?.length) * 100
               }
             />
           )}

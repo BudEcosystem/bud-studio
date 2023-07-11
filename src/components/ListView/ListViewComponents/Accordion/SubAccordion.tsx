@@ -9,7 +9,7 @@ import TaskView from 'components/TaskView/TaskView';
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
 import HeaderSubComp from '../HeaderSubComp';
 
-function SubAccordion({ status, data, provided, index, title,item }) {
+function SubAccordion({ status, data, provided, index, title,item }: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [expanded, setExpanded] = useState(index === 0);
@@ -21,7 +21,7 @@ function SubAccordion({ status, data, provided, index, title,item }) {
     setExpanded(!expanded);
     setSelected(!selected);
   };
-  const toggleSubAccordionChild = (index) => {
+  const toggleSubAccordionChild = (index: any) => {
     const updatedExpandedChild = [...expandedChild];
     updatedExpandedChild[index] = !updatedExpandedChild[index];
     setExpandedChild(updatedExpandedChild);
@@ -61,6 +61,7 @@ function SubAccordion({ status, data, provided, index, title,item }) {
           provided={provided}
           expanded={expanded}
           toggleSubAccordion={toggleSubAccordion}
+          setShowTaskViewModal={setShowTaskViewModal}
         />
       </div>
       {expanded && (
@@ -69,7 +70,7 @@ function SubAccordion({ status, data, provided, index, title,item }) {
             <TextClippingComponent text={data.entry.description || ''} limit={100} />
           </p>
           {data?.childs.length > 0 &&
-            data.childs.map((subItem, i) => (
+            data.childs.map((subItem: any, i: any) => (
               <div style={{ marginBottom: '16px' }}>
                 <HeaderSubComp
                   index={index}
@@ -80,6 +81,7 @@ function SubAccordion({ status, data, provided, index, title,item }) {
                   provided={provided}
                   expanded={expandedChild[i]}
                   toggleSubAccordion={() => toggleSubAccordionChild(i)}
+                  setShowTaskViewModal={setShowTaskViewModal}
                 />
               </div>
             ))}
