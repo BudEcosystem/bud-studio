@@ -223,15 +223,7 @@ export const generateDatabaseInitialState = (): any => {
         entries: [
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
-            childs: [
-              { documentID: '39b08a3d-12f1-4651-90f7-32895284wxyz' },
-              { documentID: '39b08a3d-12f1-4651-90f7-32895284abcd' },
-            ],
-            statusKey: 'in_progress',
-          },
-          {
-            documentID: '39b08a3d-12f1-4651-90f7-32895284abcd',
-            childs: [{ documentID: '39b08a3d-12f1-4651-90f7-32895284wxyz' }],
+            childs: [],
             statusKey: 'in_progress',
           },
         ],
