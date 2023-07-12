@@ -54,6 +54,7 @@ function HeaderSubComp({
   toggleSubAccordion,
   setShowTaskViewModal,
   databaseEntries,
+  descHeight,
 }) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -153,29 +154,58 @@ function HeaderSubComp({
     });
   }, [data]);
 
+  // const [descHeight, setDescHeight] = useState(null)
+  // useEffect(() => {
+  //   const myDiv = document.getElementById("descriptionHeight");
+  //   setDescHeight(myDiv.offsetHeight)
+  // })
+
+  const style = {
+    '--treeTop': `36px`,
+    '--lineColor': color,
+  };
+  // console.log(descHeight, "lkjlkj", style)
+
+  if (descHeight < 36) {
+    style['--treeTop'] = '18px';
+  } else {
+    style['--treeTop'] = '0px';
+  }
+
   // @ts-ignore
   // @ts-ignore
   return (
-    <div className="flexVerticalCenter HeaderSubCompParent">
+    <div className={`flexVerticalCenter HeaderSubCompParent`} style={style}>
       <div className="flexVerticalCenter">
-        <div className="iconsContainer">
+        <div
+          className="iconsContainer"
+          style={{
+            marginLeft: subChild ? '12px' : '',
+          }}
+        >
           <div
             {...provided?.dragHandleProps}
             style={{
               display: subChild ? 'none' : '',
+              position: 'relative',
             }}
           >
             <FourDots />
           </div>
           <div
-            style={{
-              transform: !expanded ? 'rotate(-90deg)' : '',
-              transition: 'all 0.2s ease',
-              marginLeft: '5px',
-            }}
-            onClick={() => toggleSubAccordion()}
+            className={`${subChild ? 'subchildTree' : ''}`}
+            style={{ position: 'absolute' }}
           >
-            <DownArrow />
+            <div
+              style={{
+                transform: !expanded ? 'rotate(-90deg)' : '',
+                transition: 'all 0.2s ease',
+                marginLeft: subChild ? '0px' : '-5px',
+              }}
+              onClick={() => toggleSubAccordion()}
+            >
+              <DownArrow />
+            </div>
           </div>
           {!subChild && <div className="textIcon22" />}
         </div>
@@ -192,7 +222,7 @@ function HeaderSubComp({
           <p
             className="datatitleText"
             id="cardTitle"
-            style={{ marginLeft: '16px' }}
+            style={{ marginLeft: '14px' }}
             onDoubleClick={(e) => {
               e.stopPropagation();
               handleDoubleClick(e);
@@ -226,12 +256,8 @@ function HeaderSubComp({
       </div>
       <div className="flexVerticalCenter">
         <div style={{ marginRight: '40px' }}>
-          {siconValue!==0 && (
-            <SkillBar
-              percentage={
-                ((siconValue/2) / siconValue) * 100
-              }
-            />
+          {siconValue !== 0 && (
+            <SkillBar percentage={(siconValue / 2 / siconValue) * 100} />
           )}
         </div>
         <div style={{ marginRight: '40px' }}>

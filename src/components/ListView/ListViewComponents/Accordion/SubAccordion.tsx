@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setCurrentSelectedUI,
@@ -51,8 +51,8 @@ function SubAccordion({
                 childs: [],
                 description: '',
                 entry: doc,
-                title: doc.name
-              }
+                title: doc.name,
+              };
               TaskArray.push(obj);
             }
           });
@@ -62,7 +62,15 @@ function SubAccordion({
     setToDoId(TaskArray);
   }, [data, workspace]);
 
-  console.log(todoID)
+  const descriptionRef = useRef(null);
+  const [descHeight, setDescHeight] = useState(null);
+  useEffect(() => {
+    if (descriptionRef.current) {
+      setDescHeight(descriptionRef.current.offsetHeight);
+    }
+  }, [status]);
+
+  console.log(todoID);
   return (
     <div
       className="subAccordionParent"
@@ -101,7 +109,7 @@ function SubAccordion({
       </div>
       {expanded && (
         <div className="subChildComponent">
-          <p className="description">
+          <p className="description" ref={descriptionRef}>
             <TextClippingComponent
               text={data.entry.description || ''}
               limit={100}
@@ -121,6 +129,7 @@ function SubAccordion({
                   toggleSubAccordion={() => toggleSubAccordionChild(i)}
                   setShowTaskViewModal={setShowTaskViewModal}
                   databaseEntries={databaseEntries}
+                  descHeight={descHeight}
                 />
               </div>
             ))}
