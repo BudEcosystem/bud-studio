@@ -9,15 +9,14 @@ import TextComponent from './TextComponent';
 import { changeRowOrderTodos } from '@/redux/slices/database';
 
 const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { workspace, list }: any = useSelector((state) => state);
   const { color, workspacestodos } = workspace;
   const [childData, setChildData] = useState(dataId);
   // const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
   // const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs);
-  
 
-  console.log("GOVDATA", data)
+  console.log('GOVDATA', data);
 
   // useEffect(() => {
   //   const TaskArray: any = [];
@@ -34,7 +33,7 @@ const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
   // console.log('ARUNS', dataId);
 
   const handleDragEnd = (result: any) => {
-    dispatch(changeRowOrderTodos({id: data.entry.uuid, result}))
+    dispatch(changeRowOrderTodos({ id: data.entry.uuid, result }));
     // if (!result.destination) return;
     // const newRowOrder = Array.from(childData);
     // const [removed] = newRowOrder.splice(result.source.index, 1);
