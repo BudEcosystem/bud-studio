@@ -453,3 +453,8 @@
     height: 16px;
     cursor: pointer;
   }
+
+   :where(.css-dev-only-do-not-override-k9tb46).ant-btn {
+    width: 100% !important;
+    height: 100% !important;
+  }

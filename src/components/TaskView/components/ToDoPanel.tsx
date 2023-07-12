@@ -8,14 +8,16 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TextComponent from './TextComponent';
 import { changeRowOrderTodos } from '@/redux/slices/database';
 
-const ToDoPanel = ({ dataId, data }: any) => {
+const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
   const dispatch = useDispatch()
   const { workspace, list }: any = useSelector((state) => state);
   const { color, workspacestodos } = workspace;
   const [childData, setChildData] = useState(dataId);
   // const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
   // const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs);
-  console.log(workspace);
+  
+
+  console.log("GOVDATA", data)
 
   // useEffect(() => {
   //   const TaskArray: any = [];
@@ -81,9 +83,12 @@ const ToDoPanel = ({ dataId, data }: any) => {
                   {(provided, snapshot) => (
                     <div ref={provided.innerRef} {...provided.draggableProps}>
                       <TextComponent
+                        id={item.uuid}
                         provided={provided}
                         snapshot={snapshot}
                         text={item.name}
+                        dataId={dataId}
+                        statusPanels={statusPanels}
                       />
                     </div>
                   )}

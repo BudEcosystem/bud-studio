@@ -79,7 +79,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
           },
           {
             title: 'Status',
-            value: 'in_progress',
+            value: 'not_started',
             type: 'status',
             id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
             order: 3,
@@ -1606,8 +1606,9 @@ export const workspaceSlice = createSlice({
     },
     setSearchDocsKeyword: (state, action: PayloadAction<any>) => {
       const { searchKey } = action.payload;
-      state.workspaceDocsSearchKey = searchKey;
+      state.workspaceDocsSearchKey = searchKey;    
     },
+
     setWorkspacestodos: (state, action: PayloadAction<any>) => {
       console.log(action.payload);
       state.workSpaceDocs.push(action.payload);

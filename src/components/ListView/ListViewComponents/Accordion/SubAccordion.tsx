@@ -17,6 +17,7 @@ function SubAccordion({
   title,
   item,
   databaseEntries,
+  statusPanels
 }: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -58,6 +59,7 @@ function SubAccordion({
         status={status}
         item={item}
         databaseEntries={databaseEntries}
+        statusPanels={statusPanels}
       />
 
       <div className="headerSubComponentContainer">

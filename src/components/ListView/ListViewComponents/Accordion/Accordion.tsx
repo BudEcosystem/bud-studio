@@ -377,6 +377,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
                                       title={title}
                                       item={item}
                                       databaseEntries={databaseData.entries}
+                                      statusPanels={statusPanels}
                                     />
                                   </>
                                 </motion.div>
