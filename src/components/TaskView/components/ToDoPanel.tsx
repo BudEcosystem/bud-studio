@@ -84,6 +84,7 @@ const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
                     <div ref={provided.innerRef} {...provided.draggableProps}>
                       <TextComponent
                         id={item.uuid}
+                        removeBox={true}
                         provided={provided}
                         snapshot={snapshot}
                         text={item.name}
@@ -102,8 +103,8 @@ const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
 
         <div className="subtaskText">2 Checklists +</div>
         <div style={{ marginTop: '8px' }}>
-          <TextComponent text="Create group mails" />
-          <TextComponent text="Add Checklist" />
+          <TextComponent removeBox={false} text="Create group mails" />
+          <TextComponent removeBox={false} text="Add Checklist" />
         </div>
       </DragDropContext>
     </div>

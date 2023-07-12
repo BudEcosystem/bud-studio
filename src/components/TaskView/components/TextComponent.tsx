@@ -19,7 +19,7 @@ import { Arrow } from '../TaskViewIcons';
 import { data } from '@/components/TableviewNew/data';
 import { changeStatus, setSubTaskStatus } from '@/redux/slices/workspace';
 
-const TextComponent = ({id, provided, snapshot, text, dataId, statusPanels }: any) => {
+const TextComponent = ({removeBox, id, provided, snapshot, text, dataId, statusPanels }: any) => {
 
   const [status,setStatus] = useState("");
   const [dropList, setDropList] = useState([]);
@@ -84,6 +84,7 @@ statusObj?.forEach((status: any, i: any) => {
           <div className="flexCenter" style={{ marginRight: '8px' }}>
             <Arrow />
           </div>
+          {!removeBox && <div className="textIcon22"></div>}
         </div>
         <div className="textTodo">{text}</div>
       </div>
