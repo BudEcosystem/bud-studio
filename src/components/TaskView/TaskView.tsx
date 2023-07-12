@@ -46,6 +46,7 @@ function TaskView({
   status,
   item,
   databaseEntries,
+  statusPanels
 }: any) {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -454,7 +455,7 @@ function TaskView({
 
                 {
                   <div style={{ marginTop: '20px' }}>
-                    <ToDoPanel dataId={todoID} data={data} />
+                    <ToDoPanel dataId={todoID} data={data} statusPanels={statusPanels} />
                   </div>
                 }
 
