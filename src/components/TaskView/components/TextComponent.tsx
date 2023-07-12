@@ -14,7 +14,7 @@ import CircularBorder from '../../ListView/ListViewComponents/CircularBorder';
 import { useSelector, useDispatch } from 'react-redux';
 import { Arrow } from '../TaskViewIcons';
 
-const TextComponent = ({ provided, snapshot, text }) => {
+const TextComponent = ({ removeBox, provided, snapshot, text }) => {
   return (
     <div
       className="headerComponentInputParent"
@@ -33,7 +33,7 @@ const TextComponent = ({ provided, snapshot, text }) => {
           <div className="flexCenter" style={{ marginRight: '8px' }}>
             <Arrow />
           </div>
-          <div className="textIcon22"></div>
+          {!removeBox && <div className="textIcon22"></div>}
         </div>
         <div className="textTodo">{text}</div>
       </div>

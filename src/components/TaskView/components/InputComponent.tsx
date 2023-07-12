@@ -112,7 +112,7 @@ const InputComponent = ({data}) => {
           <div className="flexCenter" style={{ marginRight: '8px' }}>
             <Arrow />
           </div>
-          <div className="textIcon22"></div>
+          {/* <div className="textIcon22"></div> */}
           <div className="yellowbar"></div>
         </div>
         <input
