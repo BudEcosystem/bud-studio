@@ -35,9 +35,34 @@ function SubAccordion({
     setExpandedChild(updatedExpandedChild);
   };
   const [showTaskViewModal, setShowTaskViewModal] = useState(false);
+  const [todoID, setToDoId] = useState([]);
 
-  console.log('HHHHHH', databaseEntries);
+  console.log('HHHHHH', databaseEntries, data);
 
+  useEffect(() => {
+    const TaskArray: any = [];
+    databaseEntries.map((dbentry, i) => {
+      if (dbentry.documentID === data.entry.uuid) {
+        console.log(dbentry);
+        dbentry?.childs?.map((child, j) => {
+          workspace.workSpaceDocs.forEach((doc: any, i: any) => {
+            if (doc.uuid == child.documentID) {
+              const obj = {
+                childs: [],
+                description: '',
+                entry: doc,
+                title: doc.name
+              }
+              TaskArray.push(obj);
+            }
+          });
+        });
+      }
+    });
+    setToDoId(TaskArray);
+  }, [data, workspace]);
+
+  console.log(todoID)
   return (
     <div
       className="subAccordionParent"
@@ -82,15 +107,15 @@ function SubAccordion({
               limit={100}
             />
           </p>
-          {data?.childs.length > 0 &&
-            data.childs.map((subItem: any, i: any) => (
+          {todoID.length > 0 &&
+            todoID?.map((subItem: any, i: any) => (
               <div style={{ marginBottom: '16px' }}>
                 <HeaderSubComp
                   index={index}
                   childIndex={i}
                   status={status}
                   data={subItem}
-                  subChild
+                  subChild={true}
                   provided={provided}
                   expanded={expandedChild[i]}
                   toggleSubAccordion={() => toggleSubAccordionChild(i)}

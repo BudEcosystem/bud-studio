@@ -53,7 +53,7 @@ function HeaderSubComp({
   expanded,
   toggleSubAccordion,
   setShowTaskViewModal,
-  databaseEntries
+  databaseEntries,
 }) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -66,7 +66,7 @@ function HeaderSubComp({
   const [tagPopoverVisible, setTagPopoverVisible] = useState(false);
   const [priorityPopoverVisible, setPriorityPopoverVisible] = useState(false);
   const [datePopoverVisible, setDatePopoverVisible] = useState(false);
-  const [siconValue, setSiconValue] = useState(0)
+  const [siconValue, setSiconValue] = useState(0);
   const inputTagRef = useRef<InputRef>(null);
   const { color } = useSelector((state) => state.workspace);
   // Priority Flags
@@ -143,15 +143,15 @@ function HeaderSubComp({
     setDatePopoverVisible(false);
   };
 
-  console.log("DATAHEAD", data)
+  console.log('DATAHEAD', data);
 
   useEffect(() => {
     databaseEntries.forEach((doc) => {
-      if(data.entry.uuid == doc.documentID) {
-        setSiconValue(doc?.childs?.length)
+      if (data.entry.uuid == doc.documentID) {
+        setSiconValue(doc?.childs?.length);
       }
-    })
-  }, [data])
+    });
+  }, [data]);
 
   // @ts-ignore
   // @ts-ignore
@@ -177,7 +177,7 @@ function HeaderSubComp({
           >
             <DownArrow />
           </div>
-          <div className="textIcon22" />
+          {!subChild && <div className="textIcon22" />}
         </div>
         {editing ? (
           <input
@@ -210,9 +210,7 @@ function HeaderSubComp({
           <div className="flexVerticalCenter" style={{ marginLeft: '0px' }}>
             <Sicon />
           </div>
-          <div className="list-view-count">
-            {siconValue}
-          </div>
+          <div className="list-view-count">{siconValue}</div>
           <div className="vertical-bar">|</div>
           <div style={{ marginLeft: '5px' }}>+</div>
         </div>
@@ -229,11 +227,7 @@ function HeaderSubComp({
       <div className="flexVerticalCenter">
         <div style={{ marginRight: '40px' }}>
           {siconValue && (
-            <SkillBar
-              percentage={
-                ((siconValue/2) / siconValue) * 100
-              }
-            />
+            <SkillBar percentage={(siconValue / 2 / siconValue) * 100} />
           )}
         </div>
         <div style={{ marginRight: '40px' }}>
