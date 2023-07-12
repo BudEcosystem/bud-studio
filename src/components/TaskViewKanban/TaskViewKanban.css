@@ -2,10 +2,10 @@
 
 
 .TaskViewModal{
-  width: 1500px;
+  /* width: 1500px; */
   margin-left: 270px;
   margin-right: 2%;
-  min-width: 83% !important;
+  /* min-width: 83% !important; */
 }
 
 .TaskViewModal .ant-modal-close {
@@ -180,8 +180,8 @@
 }
 
 .KanbanTaskView-LeftPanel {
-  width: 100%;
-  height: 713px;
+  /* width: 100%;
+  height: 713px; */
   border-bottom-left-radius: 14px;
   overflow: auto;
 }
