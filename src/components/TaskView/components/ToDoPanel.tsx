@@ -7,6 +7,8 @@ import InputComponent from './InputComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TextComponent from './TextComponent';
 import { changeRowOrderTodos } from '@/redux/slices/database';
+import CheckList from './CheckList';
+import CheckListInput from './CheckListInput';
 
 const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
   const dispatch = useDispatch()
@@ -65,7 +67,7 @@ const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
           </div>
         </div>
       </div>
-      <div className="subtaskText">1 Subtask</div>
+      <div className="subtaskText">{dataId.length} Subtask</div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="todo">
           {(provided, snapshot) => (
@@ -100,14 +102,45 @@ const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
             </div>
           )}
         </Droppable>
+        </DragDropContext>
 
         <div className="subtaskText">2 Checklists +</div>
-        <div style={{ marginTop: '8px' }}>
-          <TextComponent removeBox={false} text="Create group mails" />
-          <TextComponent removeBox={false} text="Add Checklist" />
-        </div>
-      </DragDropContext>
-    </div>
+        <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="todo">
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              style={{ marginTop: '8px' }}
+            >
+              {dataId?.map((item: any, i: any) => (
+                <Draggable
+                  key={`todo-${i}`}
+                  draggableId={`todo-${i}`}
+                  index={i}
+                >
+                  {(provided, snapshot) => (
+                    <div ref={provided.innerRef} {...provided.draggableProps}>
+                      <CheckList
+                        id={item.uuid}
+                        provided={provided}
+                        snapshot={snapshot}
+                        text={item.name}
+                        dataId={dataId}
+                        statusPanels={statusPanels}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+              <CheckListInput data={data} />
+            </div>
+          )}
+        </Droppable>
+        </DragDropContext>
+        
+      </div>
   );
 };
 

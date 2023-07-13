@@ -481,3 +481,7 @@
   border-radius: 4px !important;
   font-size: 14px;
 }
+
+:where(.css-dev-only-do-not-override-k9tb46).ant-checkbox {
+  color: blue !important;
+}
