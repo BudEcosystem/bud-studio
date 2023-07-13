@@ -30,11 +30,12 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
 
   // const [expandedItems, setExpandedItems] = useState([0]);
   // const [selectedItemIndex, setSelectedItemIndex] = useState(0);
-  const { workspace }: any = useSelector((state) => state);
+  const { workspace, database }: any = useSelector((state) => state);
   const { color, currentSelectedDocId, workSpaceDocs } = workspace;
 
   // Local States
   const [statusPanels, setStatusPanels] = useState(null);
+  console.log(workspace, 'lkjlkj', database);
 
   // On List View Load
   // useEffect(() => {
@@ -148,7 +149,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
       );
       const [reorderedItem] = item.items.splice(result.source.index, 1);
       item.items.splice(result.destination.index, 0, reorderedItem);
-     // setStatusPanels([...statusPanels]);
+      // setStatusPanels([...statusPanels]);
     }
 
     // Check if Destinations are different
@@ -197,14 +198,14 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   };
 
   const newDocument = async (item) => {
-    console.log('New Doc Requested', item, databaseData);
+    // console.log('New Doc Requested', item, databaseData);
     const initialDocumentID = uuidv4();
 
     const workspaceDetails = workSpaceDocs.filter(
       (doc: any) => doc.uuid === currentSelectedDocId
     )[0];
 
-    console.log('Current Workspace', workspaceDetails);
+    // console.log('Current Workspace', workspaceDetails);
 
     // Get Current Workspace Info
 
@@ -360,14 +361,25 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
                                     hidden: { opacity: 0, scale: 0.5 },
                                   }}
                                 >
-                                  <SubAccordion
-                                    status={item.status}
-                                    data={subItems}
-                                    provided={provided}
-                                    index={j}
-                                    title={title}
-                                    item={item}
-                                  />
+                                  <>
+                                    {console.log(
+                                      item,
+                                      subItems,
+                                      databaseEntries,
+                                      databaseData,
+                                      statusPanels
+                                    )}
+                                    <SubAccordion
+                                      status={item.status}
+                                      data={subItems}
+                                      provided={provided}
+                                      index={j}
+                                      title={title}
+                                      item={item}
+                                      databaseEntries={databaseData.entries}
+                                      statusPanels={statusPanels}
+                                    />
+                                  </>
                                 </motion.div>
                               </div>
                             )}

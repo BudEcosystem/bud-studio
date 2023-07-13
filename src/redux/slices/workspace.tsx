@@ -79,7 +79,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
           },
           {
             title: 'Status',
-            value: 'in_progress',
+            value: 'not_started',
             type: 'status',
             id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
             order: 3,
@@ -211,6 +211,32 @@ const searchById = (structure, id) => {
     }
     if (item.folders && item.folders.length > 0) {
       const foundInFolders = searchById(item.folders, id);
+      if (foundInFolders) {
+        return foundInFolders;
+      }
+    }
+    // if (item.files && item.files.length > 0) {
+    //   const foundInFiles = searchById(item.files, id);
+    //   if (foundInFiles) {
+    //     return foundInFiles;
+    //   }
+    // }
+  }
+  return null;
+};
+
+const searchFileById = (structure, id) => {
+  if (!structure || structure.length === 0) {
+    return null;
+  }
+  for (const file of structure.files) {
+    if (file.id === id) {
+      return file;
+    }
+  }
+  for (const item of structure) {
+    if (item.folders && item.folders.length > 0) {
+      const foundInFolders = searchFileById(item.folders, id);
       if (foundInFolders) {
         return foundInFolders;
       }
@@ -1580,7 +1606,97 @@ export const workspaceSlice = createSlice({
     },
     setSearchDocsKeyword: (state, action: PayloadAction<any>) => {
       const { searchKey } = action.payload;
-      state.workspaceDocsSearchKey = searchKey;
+      state.workspaceDocsSearchKey = searchKey;    
+    },
+
+    setWorkspacestodos: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
+      state.workSpaceDocs.push(action.payload);
+      state.applicationData[action.payload.uuid] = [
+        {
+          root: {
+            children: [
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'Untitled',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'digital mind place',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'heading',
+                version: 1,
+                tag: 'h1',
+              },
+              {
+                children: [],
+                direction: null,
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+              {
+                children: [
+                  {
+                    detail: 0,
+                    format: 0,
+                    mode: 'normal',
+                    style: '',
+                    text: 'Philosophy, life, misc',
+                    type: 'text',
+                    version: 1,
+                  },
+                ],
+                direction: 'ltr',
+                format: '',
+                indent: 0,
+                type: 'paragraph',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            type: 'root',
+            version: 1,
+          },
+        },
+      ];
+      // state.workSpaceItems.map(item => {
+      //   if(item.uuid === action.payload.workSpaceUUID){
+      //     const y = searchFileById(item, action.payload.childOf)
+      //     console.log({...y})
+      //   }
+      // })
+      // const x = state.workSpaceDocs.find(item => item.uuid === action.payload.childOf)
+      // x.todos.push({id: action.payload.uuid})
     },
     setDropdownBreadcrumbs: (state) => {
       const parentOfCurrentSelectedDoc = state.workSpaceDocs.find(
@@ -1658,6 +1774,7 @@ export const {
   changePriority,
   changeStatus,
   setSearchDocsKeyword,
+  setWorkspacestodos,
   duplicateWorkspace,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

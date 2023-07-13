@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 
+.TaskViewModal{
+  /* width: 1500px; */
+  margin-left: 270px;
+  margin-right: 2%;
+  /* min-width: 83% !important; */
+}
+
 .TaskViewModal .ant-modal-close {
   display: none;
 }
@@ -27,15 +34,22 @@
 
 .KanbanTaskView__TopBar {
   height: 70px;
-  border-bottom: 1px solid #252525;
+  /*border-bottom: 1px solid #252525;*/
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.TopBar__LeftSide {
+.TaskView__HorizontalBar {
+  background: #252525;
+  box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.77);
+  width: 100%;
+  height: 1px;
+}
+
+.TaskView__LeftSide {
   display: flex;
-  margin-left: 40px;
+  margin-left: 24px;
 }
 
 .LogoAndProgress {
@@ -126,6 +140,7 @@
   width: 24px;
   size: 20px;
   cursor: pointer;
+
 }
 
 .TopBar__RightSide {
@@ -164,13 +179,11 @@
   display: flex;
 }
 
-.KanbanTaskView__LeftPanel {
-  width: 100%;
-  height: 713px;
+.KanbanTaskView-LeftPanel {
+  /* width: 100%;
+  height: 713px; */
   border-bottom-left-radius: 14px;
   overflow: auto;
-  /*border-right: 1px solid #252525;*/
-
 }
 
 .KanbanTask__Title {
@@ -198,17 +211,20 @@
   margin-left: 30px;
   margin-top: 15px;
   max-width: 700px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
-.KabuniPanel__WriteContent {
-  width: 94%;
-  height: 90px;
-  border: 0.5px dashed #2F2F2F;
+.TaskView__WriteContent {
   border-radius: 12px;
-  margin-top: 30px;
-  margin-left: 30px;
-  display: grid;
-  place-items: center;
+  border: 0.5px dashed #2F2F2F;
+  text-align: left;
+  min-height: 300px;
+  padding: 18px;
+  display: flex;
+  margin: 24px;
 }
 
 .KabuniPanel__TextArea {
@@ -424,4 +440,27 @@
     background: #171718;
     color: white;
     caret-color: #F9D45D;
+  }
+
+  .taskview-duedate{
+    margin-left: 24px;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  .task-view-priority-chooser{
+    width: 11.815px;
+    height: 16px;
+    cursor: pointer;
+  }
+
+  :where(.css-dev-only-do-not-override-k9tb46).ant-btn {
+    width: fit-content !important;
+    min-width: 100%;
+    height: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px !important;
+    font-size: 14px;
   }

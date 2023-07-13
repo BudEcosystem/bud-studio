@@ -223,10 +223,8 @@ export const generateDatabaseInitialState = (): any => {
         entries: [
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
+            childs: [],
             statusKey: 'in_progress',
-          },
-          {
-            documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
           },
         ],
       },
@@ -321,6 +319,8 @@ export const databaseSlice = createSlice({
       console.log('Local DB', localdbIndex);
       localDb[localdbIndex].entries.push({
         documentID: action.payload.initialDocumentID,
+        childs: [],
+        statusKey: 'in_progress',
       });
 
       state.databases = localDb;
@@ -426,6 +426,17 @@ export const databaseSlice = createSlice({
       });
       state.databases = newCopyOFDB;
     },
+    addTodos: (state, action: PayloadAction<any>) => {
+      state.databases.map((database) => {
+        if (database.defaultView === 'List') {
+          database.entries.map((item, i) => {
+            if (item.documentID === action.payload.id) {
+              item?.childs?.push({ documentID: action.payload.newId });
+            }
+          });
+        }
+      });
+    },
     editPropertPresetsStatusOptions: (state, action: PayloadAction<any>) => {
       const { id, statusKey, name } = action.payload;
       const copyOfDB = [...state.databases];
@@ -446,6 +457,22 @@ export const databaseSlice = createSlice({
         return eachData;
       });
       state.databases = newCopyOFDB;
+    },
+    changeRowOrderTodos: (state, action: PayloadAction<any>) => {
+      const { id, result } = action.payload;
+      const { source, destination } = result;
+      state.databases.map((database) => {
+        if (database.defaultView === 'List') {
+          database.entries.map((item, i) => {
+            if (item.documentID === action.payload.id) {
+              const newRowOrder = Array.from(item.childs);
+              const [removed] = newRowOrder.splice(source.index, 1);
+              newRowOrder.splice(destination.index, 0, removed);
+              item.childs = newRowOrder;
+            }
+          });
+        }
+      });
     },
   },
 });
@@ -472,6 +499,8 @@ export const {
   changeDatabaseDefaultView,
   addNewDocumentEntry,
   editPropertPresetsStatusOptions,
+  addTodos,
+  changeRowOrderTodos,
 } = databaseSlice.actions;
 
 export default databaseSlice.reducer;

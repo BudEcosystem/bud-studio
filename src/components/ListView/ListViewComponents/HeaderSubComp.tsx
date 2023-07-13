@@ -52,6 +52,9 @@ function HeaderSubComp({
   provided,
   expanded,
   toggleSubAccordion,
+  setShowTaskViewModal,
+  databaseEntries,
+  descHeight,
 }) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -64,6 +67,7 @@ function HeaderSubComp({
   const [tagPopoverVisible, setTagPopoverVisible] = useState(false);
   const [priorityPopoverVisible, setPriorityPopoverVisible] = useState(false);
   const [datePopoverVisible, setDatePopoverVisible] = useState(false);
+  const [siconValue, setSiconValue] = useState(0);
   const inputTagRef = useRef<InputRef>(null);
   const { color } = useSelector((state) => state.workspace);
   // Priority Flags
@@ -89,6 +93,8 @@ function HeaderSubComp({
       </svg>
     );
   };
+
+  console.log('HEADER', data);
 
   // Hooks
   useEffect(() => {
@@ -131,7 +137,6 @@ function HeaderSubComp({
 
   // Update Due Date
   const updateDueDate = (date) => {
-
     dispatch(
       updateDocumentDueDateById({ documentID: data.entry.uuid, dueDate: date })
     );
@@ -139,31 +144,70 @@ function HeaderSubComp({
     setDatePopoverVisible(false);
   };
 
+  console.log('DATAHEAD', data);
+
+  useEffect(() => {
+    databaseEntries.forEach((doc) => {
+      if (data.entry.uuid == doc.documentID) {
+        setSiconValue(doc?.childs?.length);
+      }
+    });
+  }, [data]);
+
+  // const [descHeight, setDescHeight] = useState(null)
+  // useEffect(() => {
+  //   const myDiv = document.getElementById("descriptionHeight");
+  //   setDescHeight(myDiv.offsetHeight)
+  // })
+
+  const style = {
+    '--treeTop': `36px`,
+    '--lineColor': color,
+  };
+  // console.log(descHeight, "lkjlkj", style)
+
+  if (descHeight < 36) {
+    style['--treeTop'] = '18px';
+  } else {
+    style['--treeTop'] = '0px';
+  }
+
   // @ts-ignore
   // @ts-ignore
   return (
-    <div className="flexVerticalCenter HeaderSubCompParent">
+    <div className={`flexVerticalCenter HeaderSubCompParent`} style={style}>
       <div className="flexVerticalCenter">
-        <div className="iconsContainer">
+        <div
+          className="iconsContainer"
+          style={{
+            marginLeft: subChild ? '12px' : '',
+          }}
+        >
           <div
             {...provided?.dragHandleProps}
             style={{
               display: subChild ? 'none' : '',
+              position: 'relative',
             }}
           >
             <FourDots />
           </div>
           <div
-            style={{
-              transform: !expanded ? 'rotate(-90deg)' : '',
-              transition: 'all 0.2s ease',
-              marginLeft: '5px',
-            }}
-            onClick={() => toggleSubAccordion()}
+            className={`${subChild ? 'subchildTree' : ''}`}
+            style={{ position: 'absolute' }}
           >
-            <DownArrow />
+            <div
+              style={{
+                transform: !expanded ? 'rotate(-90deg)' : '',
+                transition: 'all 0.2s ease',
+                marginLeft: subChild ? '0px' : '-5px',
+              }}
+              onClick={() => toggleSubAccordion()}
+            >
+              <DownArrow />
+            </div>
           </div>
-          <div className="textIcon22" />
+          {!subChild && <div className="textIcon22" />}
         </div>
         {editing ? (
           <input
@@ -178,7 +222,7 @@ function HeaderSubComp({
           <p
             className="datatitleText"
             id="cardTitle"
-            style={{ marginLeft: '16px' }}
+            style={{ marginLeft: '14px' }}
             onDoubleClick={(e) => {
               e.stopPropagation();
               handleDoubleClick(e);
@@ -187,11 +231,16 @@ function HeaderSubComp({
             {data.title}
           </p>
         )}
-        <div className="siconContainer">
+        <div
+          onClick={() => {
+            setShowTaskViewModal(true);
+          }}
+          className="siconContainer"
+        >
           <div className="flexVerticalCenter" style={{ marginLeft: '0px' }}>
             <Sicon />
           </div>
-          <div className="list-view-count">{data.siconValue || 0}</div>
+          <div className="list-view-count">{siconValue}</div>
           <div className="vertical-bar">|</div>
           <div style={{ marginLeft: '5px' }}>+</div>
         </div>
@@ -201,18 +250,14 @@ function HeaderSubComp({
           </div>
           <div style={{ marginLeft: '2px' }}>
             <span>{data.checklist?.checked || 0}</span>/
-            <span>{data.checklist?.total || 0}</span>
+            <span>{siconValue}</span>
           </div>
         </div>
       </div>
       <div className="flexVerticalCenter">
         <div style={{ marginRight: '40px' }}>
-          {data.checklist?.total && (
-            <SkillBar
-              percentage={
-                (data.checklist?.checked / data.checklist?.total) * 100
-              }
-            />
+          {siconValue !== 0 && (
+            <SkillBar percentage={(siconValue / 2 / siconValue) * 100} />
           )}
         </div>
         <div style={{ marginRight: '40px' }}>
