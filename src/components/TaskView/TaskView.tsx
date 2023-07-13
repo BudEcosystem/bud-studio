@@ -54,7 +54,8 @@ function TaskView({
   const [localState, setLocalState] = useState(null);
   const [datePopoverVisible, setDatePopoverVisible] = useState(false);
   const [todoID, setToDoId] = useState([]);
-  console.log(data, databaseEntries, 'taskViewConsole');
+  const [statusColor, setStatusColor] = useState();
+  console.log(data, databaseEntries, 'taskViewConsole', status);
 
   useEffect(() => {
     const TaskArray: any = [];
@@ -72,6 +73,17 @@ function TaskView({
     });
     setToDoId(TaskArray);
   }, [data, workspace]);
+
+  useEffect(() => {
+    statusPanels.map((item, i) => {
+      const formattedStatus = status
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, (match) => match.toUpperCase());
+      if (item.status === formattedStatus) {
+        setStatusColor(item.colorIcon);
+      }
+    });
+  });
 
   const dispatch = useDispatch();
   const flagcolors = {
@@ -194,7 +206,7 @@ function TaskView({
                   <h2 className="TopBar__Title">{title}</h2>
                   <div
                     className="TopBar__ProgressText"
-                    style={{ background: `${item.colorIcon || '#fff'}` }}
+                    style={{ background: `${statusColor || '#fff'}` }}
                   >
                     {status}
                   </div>

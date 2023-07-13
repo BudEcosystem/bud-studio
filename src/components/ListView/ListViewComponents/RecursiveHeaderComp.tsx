@@ -6,6 +6,8 @@ const RecursiveHeaderComp = ({
   provided,
   item,
   expanded,
+  title,
+  status,
   toggleSubAccordion,
   showTaskViewModal,
   setShowTaskViewModal,
@@ -24,9 +26,10 @@ const RecursiveHeaderComp = ({
             <HeaderSubComp
               // index={index}
               childIndex={i}
-              status={status}
+              status={subItem.entry.properties[2].value}
               data={subItem}
               subChild={true}
+              title={title}
               item={item}
               provided={provided}
               expanded={expanded[i]}

@@ -1606,7 +1606,7 @@ export const workspaceSlice = createSlice({
     },
     setSearchDocsKeyword: (state, action: PayloadAction<any>) => {
       const { searchKey } = action.payload;
-      state.workspaceDocsSearchKey = searchKey;    
+      state.workspaceDocsSearchKey = searchKey;
     },
 
     setWorkspacestodos: (state, action: PayloadAction<any>) => {

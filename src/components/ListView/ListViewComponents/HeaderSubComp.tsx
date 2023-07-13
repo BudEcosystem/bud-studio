@@ -51,6 +51,7 @@ function HeaderSubComp({
   subChild,
   provided,
   expanded,
+  title,
   item,
   toggleSubAccordion,
   showTaskViewModal,
@@ -99,7 +100,7 @@ function HeaderSubComp({
     );
   };
 
-  console.log('HEADER', data);
+  console.log('HEADER', data, status);
 
   // Hooks
   useEffect(() => {
@@ -187,7 +188,7 @@ function HeaderSubComp({
       {activeHeaderSubComp === data.entry.uuid && (
         <TaskView
           data={data}
-          title={data.entry.name}
+          title={title}
           showTaskViewModal={showTaskViewModal}
           setShowTaskViewModal={setShowTaskViewModal}
           status={status}

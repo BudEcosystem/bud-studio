@@ -73,7 +73,7 @@ function SubAccordion({
     }
   }, [status]);
 
-  console.log(todoID);
+  console.log(todoID, 'asdfjhads');
   return (
     <div
       className="subAccordionParent"
@@ -100,6 +100,7 @@ function SubAccordion({
       <div className="headerSubComponentContainer">
         <HeaderSubComp
           index={index}
+          title={title}
           item={item}
           childIndex={null}
           status={status}
@@ -129,6 +130,8 @@ function SubAccordion({
             provided={provided}
             expanded={expandedChild}
             item={item}
+            title={title}
+            status={status}
             toggleSubAccordion={toggleSubAccordionChild}
             showTaskViewModal={showTaskViewModal}
             setShowTaskViewModal={setShowTaskViewModal}
