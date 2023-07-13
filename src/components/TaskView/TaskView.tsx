@@ -47,7 +47,8 @@ function TaskView({
   item,
   databaseEntries,
   statusPanels,
-  subChild
+  subChild,
+  checkedNum
 }: any) {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -288,19 +289,7 @@ function TaskView({
                     >
                       <DocIcon />
                     </div>
-                    <div className="progressBar">
-                      <div
-                        style={{
-                          backgroundColor: `${color}`,
-                          width: `${
-                            (data?.checklist?.checked /
-                              data?.checklist?.total) *
-                            100
-                          }%`,
-                        }}
-                        className="progress"
-                      />
-                    </div>{' '}
+                    {' '}
                   </div>
                 ) : (
                   <div
@@ -413,7 +402,7 @@ function TaskView({
                         </Tooltip>
                       </Popover>
                     </div>
-                    <div className="" style={{ marginRight: '40px' }}>
+                    <div className="" style={{ marginRight: '0px' }}>
                       <Popover
                         trigger="click"
                         overlayClassName="list-view-tag-set-pop"
@@ -470,6 +459,19 @@ function TaskView({
                     {/* <div className="DashedCircleIcons"> */}
                     {/*  <PersonIcon /> */}
                     {/* </div> */}
+                    <div className="progressBar">
+                      <div
+                        style={{
+                          backgroundColor: `${color}`,
+                          width: `${
+                            (checkedNum /
+                              data?.entry?.checkList?.length) *
+                            100
+                          }%`,
+                        }}
+                        className="progress"
+                      />
+                    </div>
                   </div>
                 )}
               </div>

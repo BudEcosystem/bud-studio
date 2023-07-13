@@ -1514,6 +1514,9 @@ export const workspaceSlice = createSlice({
             order: 3,
           },
         ],
+        checkList: [
+
+        ],
       };
       console.log('newWorkSpaceDocObject', newWorkSpaceDocObject);
       copyOfworkSpaceDocs.push(newWorkSpaceDocObject);
@@ -1658,7 +1661,7 @@ export const workspaceSlice = createSlice({
       copyOfworkSpaceDocs.map((doc, index) => {
         console.log("ITTT", action.payload.label)
         if (doc.uuid == action.payload.parentId) {
-          state.workSpaceDocs[index].checkList.push(action.payload.obj)  
+          state.workSpaceDocs[index].checkList?.push(action.payload.obj)  
         }
       });
     },

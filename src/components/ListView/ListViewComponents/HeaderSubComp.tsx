@@ -103,7 +103,7 @@ function HeaderSubComp({
 
   var checkedNum = 0;
 
-  data.entry.checkList.forEach((item) => {
+  data?.entry?.checkList?.forEach((item) => {
     if(item.checked ==  true) {
       checkedNum++;
     }
@@ -235,6 +235,7 @@ function HeaderSubComp({
           databaseEntries={databaseEntries}
           statusPanels={statusPanels}
           subChild={subChild}
+          checkedNum={checkedNum}
         />
       )}
       <div className={`flexVerticalCenter HeaderSubCompParent`} style={style}>
@@ -307,22 +308,22 @@ function HeaderSubComp({
             <div className="vertical-bar">|</div>
             <div style={{ marginLeft: '5px' }}>+</div>
           </div>
-          {!subChild && (
+          {!subChild && data?.entry?.checkList?.length && (
             <div className="checklistContainer">
               <div style={{ marginLeft: '0px' }}>
                 <CheckList />
               </div>
               <div style={{ marginLeft: '2px' }}>
-                <span>{checkedNum || 0}</span>/
-                <span>{data?.entry.checkList.length}</span>
+                <span>{checkedNum}</span>/
+                <span>{data?.entry.checkList?.length}</span>
               </div>
             </div>
           )}
         </div>
         <div className="flexVerticalCenter">
-          {!subChild && (
+          {!subChild && data?.entry.checkList?.length && (
             <div style={{ marginRight: '40px' }}>
-              <SkillBar percentage={(checkedNum / data?.entry.checkList.length) * 100} />
+              <SkillBar percentage={(checkedNum / data?.entry.checkList?.length) * 100} />
           </div>
           )}
           
