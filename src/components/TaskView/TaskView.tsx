@@ -47,6 +47,7 @@ function TaskView({
   item,
   databaseEntries,
   statusPanels,
+  subChild
 }: any) {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -55,7 +56,7 @@ function TaskView({
   const [datePopoverVisible, setDatePopoverVisible] = useState(false);
   const [todoID, setToDoId] = useState([]);
   const [statusColor, setStatusColor] = useState();
-  console.log(data, databaseEntries, 'taskViewConsole', status);
+  console.log("FFFFFF", data);
 
   const solveRec = (structure, id) => {
     console.log({ ...structure }, id, 'rec1');
@@ -509,6 +510,7 @@ function TaskView({
                       dataId={todoID}
                       data={data}
                       statusPanels={statusPanels}
+                      subChild={subChild}
                     />
                   </div>
                 }

@@ -40,6 +40,7 @@ import {
 import SkillBar from './SkillBar';
 import CircularImageComponent from './CircularImageComponent';
 import CircularBorder from './CircularBorder';
+import { check } from 'prettier';
 
 const data = ['', ''];
 
@@ -100,7 +101,15 @@ function HeaderSubComp({
     );
   };
 
-  console.log('HEADER', data, status);
+  var checkedNum = 0;
+
+  data.entry.checkList.forEach((item) => {
+    if(item.checked ==  true) {
+      checkedNum++;
+    }
+  })
+
+  console.log('HEADER', checkedNum);
 
   // Hooks
   useEffect(() => {
@@ -225,6 +234,7 @@ function HeaderSubComp({
           item={item}
           databaseEntries={databaseEntries}
           statusPanels={statusPanels}
+          subChild={subChild}
         />
       )}
       <div className={`flexVerticalCenter HeaderSubCompParent`} style={style}>
@@ -303,18 +313,21 @@ function HeaderSubComp({
                 <CheckList />
               </div>
               <div style={{ marginLeft: '2px' }}>
-                <span>{data.checklist?.checked || 0}</span>/
-                <span>{siconValue}</span>
+                <span>{checkedNum || 0}</span>/
+                <span>{data?.entry.checkList.length}</span>
               </div>
             </div>
           )}
         </div>
         <div className="flexVerticalCenter">
-          <div style={{ marginRight: '40px' }}>
+          {!subChild && (
+            <div style={{ marginRight: '40px' }}>
             {siconValue !== 0 && (
-              <SkillBar percentage={(siconValue / 2 / siconValue) * 100} />
+              <SkillBar percentage={(checkedNum / data?.entry.checkList.length) * 100} />
             )}
           </div>
+          )}
+          
           <div style={{ marginRight: '40px' }}>
             {/* {data?.imagesData?.length > 0 ? ( */}
             {/*  <CircularImageComponent images={data.imagesData} /> */}

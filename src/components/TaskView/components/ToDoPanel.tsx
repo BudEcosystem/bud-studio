@@ -7,16 +7,18 @@ import InputComponent from './InputComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TextComponent from './TextComponent';
 import { changeRowOrderTodos } from '@/redux/slices/database';
+import CheckList from './CheckList';
+import CheckListInput from './CheckListInput';
 
-const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
+const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
   const dispatch = useDispatch();
   const { workspace, list }: any = useSelector((state) => state);
   const { color, workspacestodos } = workspace;
   const [childData, setChildData] = useState(dataId);
+  const checkListInput = data.entry.checkList;
+  const [showCheckListInput, setShowCheckListInput] = useState(false)
   // const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
   // const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs);
-
-  console.log('GOVDATA', data, dataId);
 
   // useEffect(() => {
   //   const TaskArray: any = [];
@@ -30,7 +32,16 @@ const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
   //   SetTaskArrayForRender(TaskArray);
   // }, [dataId, workspaceDocs, workspacestodos]);
 
-  // console.log('ARUNS', dataId);
+  console.log('ARUNS', data);
+
+  const sortedArray = [...checkListInput].sort((a, b) => {
+    if (a.checked && !b.checked) {
+      return 1;
+    } else if (!a.checked && b.checked) {
+      return -1;
+    }
+    return 0;
+  });
 
   const handleDragEnd = (result: any) => {
     dispatch(changeRowOrderTodos({ id: data.entry.uuid, result }));
@@ -64,7 +75,7 @@ const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
           </div>
         </div>
       </div>
-      <div className="subtaskText">1 Subtask</div>
+      <div className="subtaskText">{dataId.length} Subtask</div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="todo">
           {(provided, snapshot) => (
@@ -99,14 +110,49 @@ const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
             </div>
           )}
         </Droppable>
+        </DragDropContext>
 
-        <div className="subtaskText">2 Checklists +</div>
-        <div style={{ marginTop: '8px' }}>
-          <TextComponent removeBox={false} text="Create group mails" />
-          <TextComponent removeBox={false} text="Add Checklist" />
-        </div>
-      </DragDropContext>
-    </div>
+        {!subChild && 
+        (<>
+        <div onClick={()=> {setShowCheckListInput(!showCheckListInput)}} style={{cursor: "pointer"}} className="subtaskText">{sortedArray.length} Checklists +</div>
+        <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="todo">
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              style={{ marginTop: '8px' }}
+            >
+              {sortedArray.map((item: any, i: any) => (
+                <Draggable
+                  key={`todo-${i}`}
+                  draggableId={`todo-${i}`}
+                  index={i}
+                >
+                  {(provided, snapshot) => (
+                    <div ref={provided.innerRef} {...provided.draggableProps}>
+                      <CheckList
+                        provided={provided}
+                        snapshot={snapshot} 
+                        item={item}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+              {showCheckListInput &&
+              <CheckListInput setShowCheckListInput={setShowCheckListInput} />
+              }
+            </div>
+          )}
+        </Droppable>
+        </DragDropContext>
+        </>
+        )
+      }
+        
+      </div>
   );
 };
 
