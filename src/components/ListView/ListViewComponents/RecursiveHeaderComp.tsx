@@ -22,46 +22,46 @@ const RecursiveHeaderComp = ({
   const { workspace }: any = useSelector((state) => state);
   const { workSpaceDocs } = workspace;
   const [todoArr, setTodoArr] = useState([]);
-  const solveRec = (structure, id) => {
-    console.log({ ...structure }, id, 'rec1');
-    if (!structure || structure.length === 0) {
-      return null;
-    }
-    for (const item of structure) {
-      console.log({ ...structure }, id, { ...item }, 'rec2');
-      if (item.documentID === id) {
-        console.log(structure, id, { ...item }, 'rec3');
-        return item;
-      }
-      if (item.childs && item.childs.length > 0) {
-        const foundInFolders = solveRec(item.childs, id);
-        if (foundInFolders) {
-          console.log(foundInFolders, 'rec4');
-          return foundInFolders;
-        }
-      }
-    }
-    return null;
-  };
-  useEffect(() => {
-    const x = solveRec(databaseEntries, todoId[0]?.entry.uuid);
-    console.log(x, 'oopopo');
-    const tempArr = [];
-    x?.childs?.map((it, i) => {
-      workSpaceDocs.map((doc, j) => {
-        if (doc.uuid === it.documentID) {
-          const obj = {
-            childs: [],
-            description: '',
-            entry: doc,
-            title: doc.name,
-          };
-          tempArr.push(obj);
-        }
-      });
-    });
-    setTodoArr(tempArr);
-  });
+  // const solveRec = (structure, id) => {
+  //   console.log({ ...structure }, id, 'rec1');
+  //   if (!structure || structure.length === 0) {
+  //     return null;
+  //   }
+  //   for (const item of structure) {
+  //     console.log({ ...structure }, id, { ...item }, 'rec2');
+  //     if (item.documentID === id) {
+  //       console.log(structure, id, { ...item }, 'rec3');
+  //       return item;
+  //     }
+  //     if (item.childs && item.childs.length > 0) {
+  //       const foundInFolders = solveRec(item.childs, id);
+  //       if (foundInFolders) {
+  //         console.log(foundInFolders, 'rec4');
+  //         return foundInFolders;
+  //       }
+  //     }
+  //   }
+  //   return null;
+  // };
+  // useEffect(() => {
+  //   const x = solveRec(databaseEntries, todoId[0]?.entry.uuid);
+  //   console.log(x, 'oopopo');
+  //   const tempArr = [];
+  //   x?.childs?.map((it, i) => {
+  //     workSpaceDocs.map((doc, j) => {
+  //       if (doc.uuid === it.documentID) {
+  //         const obj = {
+  //           childs: [],
+  //           description: '',
+  //           entry: doc,
+  //           title: doc.name,
+  //         };
+  //         tempArr.push(obj);
+  //       }
+  //     });
+  //   });
+  //   setTodoArr(tempArr);
+  // });
   // const subChildsHandler = (subItem) => {
   //   const x = solveRec(databaseEntries, subItem.entry.uuid);
   //   console.log(x, 'oopopo');
