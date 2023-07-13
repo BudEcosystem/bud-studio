@@ -46,7 +46,7 @@ function TaskView({
   status,
   item,
   databaseEntries,
-  statusPanels
+  statusPanels,
 }: any) {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -54,24 +54,74 @@ function TaskView({
   const [localState, setLocalState] = useState(null);
   const [datePopoverVisible, setDatePopoverVisible] = useState(false);
   const [todoID, setToDoId] = useState([]);
-  console.log(data, databaseEntries, 'taskViewConsole');
+  const [statusColor, setStatusColor] = useState();
+  console.log(data, databaseEntries, 'taskViewConsole', status);
+
+  const solveRec = (structure, id) => {
+    console.log({ ...structure }, id, 'rec1');
+    if (!structure || structure.length === 0) {
+      return null;
+    }
+    for (const item of structure) {
+      console.log({ ...structure }, id, { ...item }, 'rec2');
+      if (item.documentID === id) {
+        console.log(structure, id, { ...item }, 'rec3');
+        return item;
+      }
+      if (item.childs && item.childs.length > 0) {
+        const foundInFolders = solveRec(item.childs, id);
+        if (foundInFolders) {
+          console.log(foundInFolders, 'rec4');
+          return foundInFolders;
+        }
+      }
+      // if (item.files && item.files.length > 0) {
+      //   const foundInFiles = searchById(item.files, id);
+      //   if (foundInFiles) {
+      //     return foundInFiles;
+      //   }
+      // }
+    }
+    return null;
+  };
 
   useEffect(() => {
     const TaskArray: any = [];
-    databaseEntries.map((dbentry, i) => {
-      if (dbentry.documentID === data.entry.uuid) {
-        console.log(dbentry);
-        dbentry?.childs?.map((child, j) => {
-          workspace.workSpaceDocs.forEach((doc: any, i: any) => {
-            if (doc.uuid == child.documentID) {
-              TaskArray.push(doc);
-            }
-          });
-        });
-      }
+    const x = solveRec(databaseEntries, data.entry.uuid);
+    console.log(x, 'hello');
+    x.childs.map((child, i) => {
+      workspace.workSpaceDocs.forEach((doc, j) => {
+        if (doc.uuid == child.documentID) {
+          TaskArray.push(doc);
+        }
+      });
     });
+
+    // databaseEntries.map((dbentry, i) => {
+    //   if (dbentry.documentID === data.entry.uuid) {
+    //     console.log(dbentry);
+    //     dbentry?.childs?.map((child, j) => {
+    //       workspace.workSpaceDocs.forEach((doc: any, i: any) => {
+    //         if (doc.uuid == child.documentID) {
+    //           TaskArray.push(doc);
+    //         }
+    //       });
+    //     });
+    //   }
+    // });
     setToDoId(TaskArray);
   }, [data, workspace]);
+
+  useEffect(() => {
+    statusPanels.map((item, i) => {
+      const formattedStatus = status
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, (match) => match.toUpperCase());
+      if (item.status === formattedStatus) {
+        setStatusColor(item.colorIcon);
+      }
+    });
+  });
 
   const dispatch = useDispatch();
   const flagcolors = {
@@ -194,7 +244,7 @@ function TaskView({
                   <h2 className="TopBar__Title">{title}</h2>
                   <div
                     className="TopBar__ProgressText"
-                    style={{ background: `${item.colorIcon || '#fff'}` }}
+                    style={{ background: `${statusColor || '#fff'}` }}
                   >
                     {status}
                   </div>
@@ -455,7 +505,11 @@ function TaskView({
 
                 {
                   <div style={{ marginTop: '20px' }}>
-                    <ToDoPanel dataId={todoID} data={data} statusPanels={statusPanels} />
+                    <ToDoPanel
+                      dataId={todoID}
+                      data={data}
+                      statusPanels={statusPanels}
+                    />
                   </div>
                 }
 

@@ -199,7 +199,7 @@
 
 @media (min-resolution: 1.25dppx) {
   .KanbanTaskView-LeftPanel {
-    height: 70vh;
+    height: 70vh !important;
   }
 }
 

@@ -94,7 +94,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
         ],
 
         // System Defined Properties
-        // {
+        // {39b08a3d-12f1-4651-90f7-328952849xyz
         //   tags: ['no-tag'],
         //   priority: 'Normal',
         //   status: 'Not Started',
@@ -1606,7 +1606,7 @@ export const workspaceSlice = createSlice({
     },
     setSearchDocsKeyword: (state, action: PayloadAction<any>) => {
       const { searchKey } = action.payload;
-      state.workspaceDocsSearchKey = searchKey;    
+      state.workspaceDocsSearchKey = searchKey;
     },
 
     setWorkspacestodos: (state, action: PayloadAction<any>) => {

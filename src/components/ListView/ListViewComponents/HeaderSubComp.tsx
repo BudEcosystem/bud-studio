@@ -22,7 +22,7 @@ import {
   ConfigProvider,
   theme,
 } from 'antd';
-
+import TaskView from '../../TaskView/TaskView';
 import { CalendarOutlined, SearchOutlined } from '@ant-design/icons';
 import { styled } from 'styled-components';
 import * as dayjs from 'dayjs';
@@ -51,10 +51,16 @@ function HeaderSubComp({
   subChild,
   provided,
   expanded,
+  title,
+  item,
   toggleSubAccordion,
+  showTaskViewModal,
   setShowTaskViewModal,
   databaseEntries,
   descHeight,
+  statusPanels,
+  activeHeaderSubComp,
+  setActiveHeaderSubComp,
 }) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -94,7 +100,7 @@ function HeaderSubComp({
     );
   };
 
-  console.log('HEADER', data);
+  console.log('HEADER', data, status);
 
   // Hooks
   useEffect(() => {
@@ -143,16 +149,49 @@ function HeaderSubComp({
 
     setDatePopoverVisible(false);
   };
+  let i = 0;
 
-  console.log('DATAHEAD', data);
+  console.log('DATAHEAD', data, i++);
+
+  const solveRec = (structure, id) => {
+    console.log({ ...structure }, id, 'rec1');
+    if (!structure || structure.length === 0) {
+      return null;
+    }
+    for (const item of structure) {
+      console.log({ ...structure }, id, { ...item }, 'rec2');
+      if (item.documentID === id) {
+        console.log(structure, id, { ...item }, 'rec3');
+        return item;
+      }
+      if (item.childs && item.childs.length > 0) {
+        const foundInFolders = solveRec(item.childs, id);
+        if (foundInFolders) {
+          console.log(foundInFolders, 'rec4');
+          return foundInFolders;
+        }
+      }
+      // if (item.files && item.files.length > 0) {
+      //   const foundInFiles = searchById(item.files, id);
+      //   if (foundInFiles) {
+      //     return foundInFiles;
+      //   }
+      // }
+    }
+    return null;
+  };
 
   useEffect(() => {
-    databaseEntries.forEach((doc) => {
-      if (data.entry.uuid == doc.documentID) {
-        setSiconValue(doc?.childs?.length);
-      }
-    });
+    const x = solveRec(databaseEntries, data.entry.uuid);
+    setSiconValue(x?.childs?.length);
+    // databaseEntries.forEach((doc) => {
+    //   if (data.entry.uuid == doc.documentID) {
+    //     setSiconValue(doc?.childs?.length);
+    //   }
+    // });
   }, [data]);
+
+  // const showTaskViewModal = activeHeaderSubComp === index;
 
   // const [descHeight, setDescHeight] = useState(null)
   // useEffect(() => {
@@ -175,299 +214,316 @@ function HeaderSubComp({
   // @ts-ignore
   // @ts-ignore
   return (
-    <div className={`flexVerticalCenter HeaderSubCompParent`} style={style}>
-      <div className="flexVerticalCenter">
-        <div
-          className="iconsContainer"
-          style={{
-            marginLeft: subChild ? '12px' : '',
-          }}
-        >
+    <>
+      {activeHeaderSubComp === data.entry.uuid && (
+        <TaskView
+          data={data}
+          title={title}
+          showTaskViewModal={showTaskViewModal}
+          setShowTaskViewModal={setShowTaskViewModal}
+          status={status}
+          item={item}
+          databaseEntries={databaseEntries}
+          statusPanels={statusPanels}
+        />
+      )}
+      <div className={`flexVerticalCenter HeaderSubCompParent`} style={style}>
+        <div className="flexVerticalCenter">
           <div
-            {...provided?.dragHandleProps}
+            className="iconsContainer"
             style={{
-              display: subChild ? 'none' : '',
-              position: 'relative',
+              marginLeft: subChild ? '12px' : '',
             }}
-          >
-            <FourDots />
-          </div>
-          <div
-            className={`${subChild ? 'subchildTree' : ''}`}
-            style={{ position: 'absolute' }}
           >
             <div
+              {...provided?.dragHandleProps}
               style={{
-                transform: !expanded ? 'rotate(-90deg)' : '',
-                transition: 'all 0.2s ease',
-                marginLeft: subChild ? '0px' : '-5px',
+                display: subChild ? 'none' : '',
+                position: 'relative',
               }}
-              onClick={() => toggleSubAccordion()}
             >
-              <DownArrow />
+              <FourDots />
             </div>
+            <div
+              className={`${subChild ? 'subchildTree' : ''}`}
+              style={{ position: 'absolute' }}
+            >
+              <div
+                style={{
+                  transform: !expanded ? 'rotate(-90deg)' : '',
+                  transition: 'all 0.2s ease',
+                  marginLeft: subChild ? '0px' : '-5px',
+                }}
+                onClick={() => toggleSubAccordion()}
+              >
+                <DownArrow />
+              </div>
+            </div>
+            {!subChild && <div className="textIcon22" />}
           </div>
-          {!subChild && <div className="textIcon22" />}
-        </div>
-        {editing ? (
-          <input
-            className="titleInput"
-            type="text"
-            value={newTitle}
-            onChange={handleChange}
-            onKeyPress={handleKeyPress}
-            onBlur={() => setEditing(false)}
-          />
-        ) : (
-          <p
-            className="datatitleText"
-            id="cardTitle"
-            style={{ marginLeft: '14px' }}
-            onDoubleClick={(e) => {
-              e.stopPropagation();
-              handleDoubleClick(e);
+          {editing ? (
+            <input
+              className="titleInput"
+              type="text"
+              value={newTitle}
+              onChange={handleChange}
+              onKeyPress={handleKeyPress}
+              onBlur={() => setEditing(false)}
+            />
+          ) : (
+            <p
+              className="datatitleText"
+              id="cardTitle"
+              style={{ marginLeft: '14px' }}
+              onDoubleClick={(e) => {
+                e.stopPropagation();
+                handleDoubleClick(e);
+              }}
+            >
+              {data.title}
+            </p>
+          )}
+          <div
+            onClick={() => {
+              setActiveHeaderSubComp(data.entry.uuid);
+              setShowTaskViewModal(true);
             }}
+            className="siconContainer"
           >
-            {data.title}
-          </p>
-        )}
-        <div
-          onClick={() => {
-            setShowTaskViewModal(true);
-          }}
-          className="siconContainer"
-        >
-          <div className="flexVerticalCenter" style={{ marginLeft: '0px' }}>
-            <Sicon />
+            <div className="flexVerticalCenter" style={{ marginLeft: '0px' }}>
+              <Sicon />
+            </div>
+            <div className="list-view-count">{siconValue}</div>
+            <div className="vertical-bar">|</div>
+            <div style={{ marginLeft: '5px' }}>+</div>
           </div>
-          <div className="list-view-count">{siconValue}</div>
-          <div className="vertical-bar">|</div>
-          <div style={{ marginLeft: '5px' }}>+</div>
-        </div>
-        <div className="checklistContainer">
-          <div style={{ marginLeft: '0px' }}>
-            <CheckList />
-          </div>
-          <div style={{ marginLeft: '2px' }}>
-            <span>{data.checklist?.checked || 0}</span>/
-            <span>{siconValue}</span>
-          </div>
-        </div>
-      </div>
-      <div className="flexVerticalCenter">
-        <div style={{ marginRight: '40px' }}>
-          {siconValue !== 0 && (
-            <SkillBar percentage={(siconValue / 2 / siconValue) * 100} />
+          {!subChild && (
+            <div className="checklistContainer">
+              <div style={{ marginLeft: '0px' }}>
+                <CheckList />
+              </div>
+              <div style={{ marginLeft: '2px' }}>
+                <span>{data.checklist?.checked || 0}</span>/
+                <span>{siconValue}</span>
+              </div>
+            </div>
           )}
         </div>
-        <div style={{ marginRight: '40px' }}>
-          {/* {data?.imagesData?.length > 0 ? ( */}
-          {/*  <CircularImageComponent images={data.imagesData} /> */}
-          {/* ) : ( */}
-          {/*  <div style={{ marginRight: '14px' }}> */}
-          {/*    <CircularBorder icon={<User />} /> */}
-          {/*  </div> */}
-          {/* )} */}
-        </div>
-        <div className="flexCenter" style={{ marginRight: '40px' }}>
-          {data.page ? (
-            <FoldedCard />
-          ) : (
-            <Popover
-              trigger="click"
-              overlayClassName="list-view-tag-set-pop"
-              placement="bottom"
-              arrow={false}
-              title="Due Date"
-              open={datePopoverVisible}
-              onOpenChange={(visible) => setDatePopoverVisible(visible)}
-              content={
-                <div style={{ width: 300 }}>
-                  <ConfigProvider
-                    theme={{
-                      components: {
-                        Calendar: {
-                          colorBgContainer: '#0c0c0c',
-                          colorBgDateSelected: color,
-                          colorPrimary: color,
-                          colorText: '#fff',
-                          colorTextDisabled: '#ffffff21',
-                          fontFamily: 'Nano Sans',
+        <div className="flexVerticalCenter">
+          <div style={{ marginRight: '40px' }}>
+            {siconValue !== 0 && (
+              <SkillBar percentage={(siconValue / 2 / siconValue) * 100} />
+            )}
+          </div>
+          <div style={{ marginRight: '40px' }}>
+            {/* {data?.imagesData?.length > 0 ? ( */}
+            {/*  <CircularImageComponent images={data.imagesData} /> */}
+            {/* ) : ( */}
+            {/*  <div style={{ marginRight: '14px' }}> */}
+            {/*    <CircularBorder icon={<User />} /> */}
+            {/*  </div> */}
+            {/* )} */}
+          </div>
+          <div className="flexCenter" style={{ marginRight: '40px' }}>
+            {data.page ? (
+              <FoldedCard />
+            ) : (
+              <Popover
+                trigger="click"
+                overlayClassName="list-view-tag-set-pop"
+                placement="bottom"
+                arrow={false}
+                title="Due Date"
+                open={datePopoverVisible}
+                onOpenChange={(visible) => setDatePopoverVisible(visible)}
+                content={
+                  <div style={{ width: 300 }}>
+                    <ConfigProvider
+                      theme={{
+                        components: {
+                          Calendar: {
+                            colorBgContainer: '#0c0c0c',
+                            colorBgDateSelected: color,
+                            colorPrimary: color,
+                            colorText: '#fff',
+                            colorTextDisabled: '#ffffff21',
+                            fontFamily: 'Nano Sans',
+                          },
                         },
-                      },
-                    }}
-                  >
-                    <Calendar fullscreen={false} onChange={updateDueDate} />
-                  </ConfigProvider>
+                      }}
+                    >
+                      <Calendar fullscreen={false} onChange={updateDueDate} />
+                    </ConfigProvider>
+                  </div>
+                }
+              >
+                {data.entry.properties.find(
+                  (prop: { title: string; value: any }) => prop.title === 'Date'
+                )?.value ? (
+                  <>
+                    {dayjs(
+                      data.entry.properties.find(
+                        (prop: { title: string; value: any }) =>
+                          prop.title === 'Date'
+                      )?.value
+                    ).format('DD MMM YYYY')}
+                  </>
+                ) : (
+                  <Button type="text">
+                    <CircularBorder icon={<FoldedCard />} />
+                  </Button>
+                )}
+              </Popover>
+            )}
+          </div>
+          <div className="flexCenter" style={{ marginRight: '40px' }}>
+            <Popover
+              overlayClassName="list-view-tag-set-pop"
+              content={
+                <div className="list-view-tag-set">
+                  <Space direction="vertical">
+                    <Space wrap>
+                      <Tooltip title="High">
+                        <Button
+                          className="list-view-flag-icon list-view-flag-high"
+                          type="dashed"
+                          shape="circle"
+                          onClick={() => {
+                            setPriority('High');
+                            setPriorityPopoverVisible(false);
+                          }}
+                          icon={<Flag />}
+                        />
+                      </Tooltip>
+
+                      <Tooltip title="Medium">
+                        <Button
+                          className="list-view-flag-icon list-view-flag-medium"
+                          onClick={() => {
+                            setPriority('Medium');
+                            setPriorityPopoverVisible(false);
+                          }}
+                          type="dashed"
+                          shape="circle"
+                          icon={<Flag />}
+                        />
+                      </Tooltip>
+                      <Tooltip title="Normal">
+                        <Button
+                          className="list-view-flag-icon list-view-flag-normal"
+                          onClick={() => {
+                            setPriority('Normal');
+                            setPriorityPopoverVisible(false);
+                          }}
+                          type="dashed"
+                          shape="circle"
+                          icon={<Flag />}
+                        />
+                      </Tooltip>
+                      <Tooltip title="Low">
+                        <Button
+                          className="list-view-flag-icon list-view-flag-low"
+                          type="dashed"
+                          shape="circle"
+                          onClick={() => {
+                            setPriority('Low');
+                            setPriorityPopoverVisible(false);
+                          }}
+                          icon={<Flag />}
+                        />
+                      </Tooltip>
+                    </Space>
+                  </Space>
                 </div>
               }
+              arrow={false}
+              title="Priority"
+              trigger="click"
+              placement="bottom"
+              open={priorityPopoverVisible}
+              onOpenChange={setPriorityPopoverVisible}
             >
-              {data.entry.properties.find(
-                (prop: { title: string; value: any }) => prop.title === 'Date'
-              )?.value ? (
-                <>
-                  {dayjs(
+              <Tooltip
+                title={
+                  data.entry.properties.find(
+                    (prop: { title: string; value: any }) =>
+                      prop.title === 'Priority'
+                  )?.value
+                }
+                color={
+                  flagcolors[
                     data.entry.properties.find(
                       (prop: { title: string; value: any }) =>
-                        prop.title === 'Date'
+                        prop.title === 'Priority'
                     )?.value
-                  ).format('DD MMM YYYY')}
-                </>
-              ) : (
-                <Button type="text">
-                  <CircularBorder icon={<FoldedCard />} />
-                </Button>
-              )}
+                  ]
+                }
+                key={
+                  flagcolors[
+                    data.entry.properties.find(
+                      (prop: { title: string; value: any }) =>
+                        prop.title === 'Priority'
+                    )?.value
+                  ]
+                }
+              >
+                {getFlagColor(
+                  flagcolors[
+                    data.entry.properties.find(
+                      (prop: { title: string; value: any }) =>
+                        prop.title === 'Priority'
+                    )?.value
+                  ]
+                )}
+              </Tooltip>
             </Popover>
-          )}
-        </div>
-        <div className="flexCenter" style={{ marginRight: '40px' }}>
+          </div>
+
           <Popover
             overlayClassName="list-view-tag-set-pop"
+            open={tagPopoverVisible}
+            onOpenChange={(visible) => {
+              setTagPopoverVisible(visible);
+            }}
             content={
               <div className="list-view-tag-set">
-                <Space direction="vertical">
-                  <Space wrap>
-                    <Tooltip title="High">
-                      <Button
-                        className="list-view-flag-icon list-view-flag-high"
-                        type="dashed"
-                        shape="circle"
-                        onClick={() => {
-                          setPriority('High');
-                          setPriorityPopoverVisible(false);
-                        }}
-                        icon={<Flag />}
-                      />
-                    </Tooltip>
-
-                    <Tooltip title="Medium">
-                      <Button
-                        className="list-view-flag-icon list-view-flag-medium"
-                        onClick={() => {
-                          setPriority('Medium');
-                          setPriorityPopoverVisible(false);
-                        }}
-                        type="dashed"
-                        shape="circle"
-                        icon={<Flag />}
-                      />
-                    </Tooltip>
-                    <Tooltip title="Normal">
-                      <Button
-                        className="list-view-flag-icon list-view-flag-normal"
-                        onClick={() => {
-                          setPriority('Normal');
-                          setPriorityPopoverVisible(false);
-                        }}
-                        type="dashed"
-                        shape="circle"
-                        icon={<Flag />}
-                      />
-                    </Tooltip>
-                    <Tooltip title="Low">
-                      <Button
-                        className="list-view-flag-icon list-view-flag-low"
-                        type="dashed"
-                        shape="circle"
-                        onClick={() => {
-                          setPriority('Low');
-                          setPriorityPopoverVisible(false);
-                        }}
-                        icon={<Flag />}
-                      />
-                    </Tooltip>
-                  </Space>
-                </Space>
+                <Input
+                  defaultValue={
+                    data.entry.properties.find(
+                      (prop: { title: string; value: any }) =>
+                        prop.title === 'Tags'
+                    )?.value[0]
+                  }
+                  onChange={(e) => setNewTags(e.target.value)}
+                  onKeyDown={(e) => {
+                    e.key === 'Enter' && setTag();
+                  }}
+                  ref={inputTagRef}
+                />
+                {/* <AddTagButton color={color} onClick={setTag}> */}
+                {/*  Update Tag */}
+                {/* </AddTagButton> */}
               </div>
             }
             arrow={false}
-            title="Priority"
+            title="Tag"
             trigger="click"
             placement="bottom"
-            open={priorityPopoverVisible}
-            onOpenChange={setPriorityPopoverVisible}
           >
-            <Tooltip
-              title={
+            <TagContainer color={color}>
+              {
                 data.entry.properties.find(
-                  (prop: { title: string; value: any }) =>
-                    prop.title === 'Priority'
-                )?.value
+                  (prop: { title: string; value: any }) => prop.title === 'Tags'
+                )?.value[0]
               }
-              color={
-                flagcolors[
-                  data.entry.properties.find(
-                    (prop: { title: string; value: any }) =>
-                      prop.title === 'Priority'
-                  )?.value
-                ]
-              }
-              key={
-                flagcolors[
-                  data.entry.properties.find(
-                    (prop: { title: string; value: any }) =>
-                      prop.title === 'Priority'
-                  )?.value
-                ]
-              }
-            >
-              {getFlagColor(
-                flagcolors[
-                  data.entry.properties.find(
-                    (prop: { title: string; value: any }) =>
-                      prop.title === 'Priority'
-                  )?.value
-                ]
-              )}
-            </Tooltip>
+            </TagContainer>
+            {/* <Button type="text"> */}
+            {/*  <CircularBorder icon={<BoxArrow />} /> */}
+            {/* </Button> */}
           </Popover>
         </div>
-
-        <Popover
-          overlayClassName="list-view-tag-set-pop"
-          open={tagPopoverVisible}
-          onOpenChange={(visible) => {
-            setTagPopoverVisible(visible);
-          }}
-          content={
-            <div className="list-view-tag-set">
-              <Input
-                defaultValue={
-                  data.entry.properties.find(
-                    (prop: { title: string; value: any }) =>
-                      prop.title === 'Tags'
-                  )?.value[0]
-                }
-                onChange={(e) => setNewTags(e.target.value)}
-                onKeyDown={(e) => {
-                  e.key === 'Enter' && setTag();
-                }}
-                ref={inputTagRef}
-              />
-              {/* <AddTagButton color={color} onClick={setTag}> */}
-              {/*  Update Tag */}
-              {/* </AddTagButton> */}
-            </div>
-          }
-          arrow={false}
-          title="Tag"
-          trigger="click"
-          placement="bottom"
-        >
-          <TagContainer color={color}>
-            {
-              data.entry.properties.find(
-                (prop: { title: string; value: any }) => prop.title === 'Tags'
-              )?.value[0]
-            }
-          </TagContainer>
-          {/* <Button type="text"> */}
-          {/*  <CircularBorder icon={<BoxArrow />} /> */}
-          {/* </Button> */}
-        </Popover>
       </div>
-    </div>
+    </>
   );
 }
 
