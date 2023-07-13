@@ -431,7 +431,10 @@ export const databaseSlice = createSlice({
         if (database.defaultView === 'List') {
           database.entries.map((item, i) => {
             if (item.documentID === action.payload.id) {
-              item?.childs?.push({ documentID: action.payload.newId });
+              item?.childs?.push({
+                documentID: action.payload.newId,
+                childs: [],
+              });
             }
           });
         }
