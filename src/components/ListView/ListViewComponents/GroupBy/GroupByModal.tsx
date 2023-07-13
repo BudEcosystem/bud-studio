@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './GroupByModal.css';
 import {
+  setDisplayToggle,
+  setGroupBy,
+  setGroupByOption,
+} from 'redux/slices/activestate';
+import { useDispatch } from 'react-redux';
+import {
   Rename,
   Assign,
   Priority,
@@ -10,14 +16,8 @@ import {
   Plus,
   Name,
 } from './GroupByModalIcons';
-import {
-  setDisplayToggle,
-  setGroupBy,
-  setGroupByOption,
-} from 'redux/slices/activestate';
-import { useDispatch } from 'react-redux';
 
-const GroupByModal = ({ setShowGroupBy }: any) => {
+function GroupByModal({ setShowGroupBy, placeholder }: any) {
   const dispatch = useDispatch();
   const wrapperRef = useRef(null);
   const {} = useOutsideAlerter(wrapperRef);
@@ -50,7 +50,7 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
         <input
           className="GroupBySearchInput"
           type="text"
-          placeholder="Group by..."
+          placeholder={placeholder}
         />
         <Shortcut />
       </div>
@@ -66,12 +66,12 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
         >
           <Name />
           <h3
-            style={{left: "60px",
+            style={{
+              left: '60px',
               color: 'white',
               fontWeight: '400',
               fontSize: '14px',
-              position: "absolute",
-
+              position: 'absolute',
             }}
           >
             Name
@@ -81,12 +81,12 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
         <div className="GroupByOption">
           <Assign />
           <h3
-            style={{left: "60px",
+            style={{
+              left: '60px',
               color: 'white',
               fontWeight: '400',
               fontSize: '14px',
-              position: "absolute",
-
+              position: 'absolute',
             }}
           >
             Assign
@@ -96,12 +96,12 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
         <div className="GroupByOption">
           <Priority />
           <h3
-            style={{left: "60px",
+            style={{
+              left: '60px',
               color: 'white',
               fontWeight: '400',
               fontSize: '14px',
-              position: "absolute",
-
+              position: 'absolute',
             }}
           >
             Priority
@@ -111,12 +111,12 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
         <div className="GroupByOption">
           <Status />
           <h3
-            style={{left: "60px",
+            style={{
+              left: '60px',
               color: 'white',
               fontWeight: '400',
               fontSize: '14px',
-              position: "absolute",
-
+              position: 'absolute',
             }}
           >
             Status
@@ -124,7 +124,7 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
         </div>
       </div>
 
-      <div className="GroupByLine"></div>
+      <div className="GroupByLine" />
 
       <div
         className="GroupByAdd"
@@ -148,6 +148,6 @@ const GroupByModal = ({ setShowGroupBy }: any) => {
       </div>
     </div>
   );
-};
+}
 
 export default GroupByModal;

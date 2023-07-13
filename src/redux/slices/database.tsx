@@ -427,7 +427,6 @@ export const databaseSlice = createSlice({
       state.databases = newCopyOFDB;
     },
     editPropertPresetsStatusOptions: (state, action: PayloadAction<any>) => {
-      console.log('editPropertPresetsStatusOptions', action.payload);
       const { id, statusKey, name } = action.payload;
       const copyOfDB = [...state.databases];
       const newCopyOFDB = copyOfDB.map((data) => {
@@ -446,7 +445,6 @@ export const databaseSlice = createSlice({
         }
         return eachData;
       });
-      console.log(newCopyOFDB);
       state.databases = newCopyOFDB;
     },
   },

@@ -13,28 +13,13 @@ import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 import { styled } from 'styled-components';
+import { setSearchDocsKeyword } from '@/redux/slices/workspace';
 import { GroupBy, Sort, ThreeDots, Union, Views } from '../ListViewIcons';
 import ThreeDotsOption from './ThreeDotsOption/ThreeDotsOption';
 import GroupByModal from './GroupBy/GroupByModal';
 import SortByModal from './SortBy/SortByModal';
 import '../ListView.css';
-import { setSearchDocsKeyword } from '@/redux/slices/workspace';
 // Design
-
-const nameAndLogoArray = [
-  {
-    name: 'Search',
-    logo: <Union />,
-  },
-  {
-    name: 'Sort',
-    logo: <Sort />,
-  },
-  {
-    name: 'Group by',
-    logo: <GroupBy />,
-  },
-];
 
 export const AddNewTaskinput = styled.input`
   width: 105px;
@@ -81,7 +66,59 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
   const [showThreeDotsOption, setShowThreeDotsOption] = useState(false);
   const [showGroupBy, setShowGroupBy] = useState(false);
   const [showSortBy, setShowSortBy] = useState(false);
+  const [searchClicked, setSearchClicked] = useState(false);
+  const [currentNameAndLogoArray, setCurrentNameAndLogoArray] = useState([
+    {
+      name: 'Search',
+      logo: <Union />,
+    },
+    {
+      name: 'Sort',
+      logo: <Sort />,
+    },
+    {
+      name: 'Group by',
+      logo: <GroupBy />,
+    },
+    {
+      name: 'Filter',
+      logo: <GroupBy />,
+    },
+  ]);
 
+  useEffect(() => {
+    const nameAndLogoArray = [
+      {
+        name: 'Search',
+        logo: <Union />,
+      },
+      {
+        name: 'Sort',
+        logo: <Sort />,
+      },
+      {
+        name: 'Group by',
+        logo: <GroupBy />,
+      },
+      {
+        name: 'Filter',
+        logo: <GroupBy />,
+      },
+    ];
+    let nameAndLogoArrayMod: any;
+    if (view) {
+      if (view === 'Kanban') {
+        nameAndLogoArrayMod = nameAndLogoArray.filter(
+          (each) => each.name !== 'Group by'
+        );
+      }
+    } else {
+      nameAndLogoArrayMod = nameAndLogoArray.filter(
+        (each) => each.name !== 'Filter'
+      );
+    }
+    setCurrentNameAndLogoArray(nameAndLogoArrayMod);
+  }, []);
   // Menu Items
   const items: MenuProps['items'] = [
     {
@@ -111,10 +148,10 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
     }
   };
 
-  const handleOptionClick = (name: any) => {
-    if (name == 'Group by') {
+  const handleOptionClick = (namePassed: any) => {
+    if (namePassed === 'Group by' || namePassed === 'Filter') {
       setShowGroupBy(!showGroupBy);
-    } else if (name == 'Sort') {
+    } else if (namePassed === 'Sort') {
       setShowSortBy(!showSortBy);
     }
   };
@@ -123,28 +160,27 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
     const input = document.getElementById(`searchInputHeader`);
     input?.focus();
   });
+  const onEscapeButtonPressed = (event: any) => {
+    if (event.code === 'Escape') {
+      setSearchClicked(false);
+      dispatch(
+        setSearchDocsKeyword({
+          searchKey: null,
+        })
+      );
+    }
+    if (event.code === 'Enter') {
+      dispatch(
+        setSearchDocsKeyword({
+          searchKey:
+            inputRef?.current?.value?.length > 0
+              ? inputRef?.current?.value.toLowerCase()
+              : null,
+        })
+      );
+    }
+  };
   const conditionalOptions = (item: any, i: any) => {
-    const [searchClicked, setSearchClicked] = useState(false);
-    const onEscapeButtonPressed = (event: any) => {
-      if (event.code === 'Escape') {
-        setSearchClicked(false);
-        dispatch(
-          setSearchDocsKeyword({
-            searchKey: null,
-          })
-        );
-      }
-      if (event.code === 'Enter') {
-        dispatch(
-          setSearchDocsKeyword({
-            searchKey:
-              inputRef?.current?.value?.length > 0
-                ? inputRef?.current?.value.toLowerCase()
-                : null,
-          })
-        );
-      }
-    };
     if (item.name === 'Search') {
       return (
         <div
@@ -168,7 +204,7 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
               {item.name}
             </p>
           )}
-          {i === nameAndLogoArray.length - 1 ? undefined : (
+          {i === currentNameAndLogoArray?.length - 1 ? undefined : (
             <div className="verticalLine">|</div>
           )}
         </div>
@@ -185,12 +221,23 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
         {item.logo}
 
         <p className="itemName">{item.name}</p>
-        {i === nameAndLogoArray.length - 1 ? undefined : (
+        {i === currentNameAndLogoArray?.length - 1 ? undefined : (
           <div className="verticalLine">|</div>
+        )}
+        {item.name === 'Filter' && showGroupBy && (
+          <div className="groupbyOptions">
+            <GroupByModal
+              setShowGroupBy={setShowGroupBy}
+              placeholder="Filter by"
+            />
+          </div>
         )}
         {item.name === 'Group by' && showGroupBy && (
           <div className="groupbyOptions">
-            <GroupByModal setShowGroupBy={setShowGroupBy} />
+            <GroupByModal
+              setShowGroupBy={setShowGroupBy}
+              placeholder="Group by"
+            />
           </div>
         )}
         {item.name === 'Sort' && showSortBy && (
@@ -201,9 +248,11 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
       </div>
     );
   };
+
   return (
     <div className="flexCenter">
-      {nameAndLogoArray.map((item, i) => conditionalOptions(item, i))}
+      {currentNameAndLogoArray &&
+        currentNameAndLogoArray?.map((item, i) => conditionalOptions(item, i))}
 
       <div className="verticalLine">|</div>
 

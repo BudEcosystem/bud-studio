@@ -226,9 +226,6 @@ function KanbanUI({ id }: any) {
 
   return (
     <KanbanSection>
-      <div style={{ marginLeft: '38px', marginRight: '63px' }}>
-          <GroupByComponent />
-        </div>
       <Kanban dbId={id} />
     </KanbanSection>
   );

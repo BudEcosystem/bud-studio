@@ -260,3 +260,56 @@
 ::-webkit-scrollbar {
   width: 7px;
 }
+.ant-select-selector {
+  background-color: #1d1d1d !important;
+  color: #ffffff !important;
+  border: 1px solid #25272b !important;
+}
+.ant-select {
+  border: none !important;
+}
+.ant-select-selection-item {
+  color: var(--shortcut, #7b8388) !important;
+  /* Regular white 14 */
+  font-family: Noto Sans !important;
+  font-size: 14px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  /* line-height: 100% !important; */
+}
+.ant-select-open {
+  border: none !important;
+}
+.filter-key-selector .ant-select-selector {
+  background-color: #0c0c0c !important;
+  color: #ffffff !important;
+  border: none !important;
+  /* padding: 0px !important; */
+}
+
+.filter-key-selector .ant-select {
+  border: none !important;
+}
+
+.ant-select-selector:focus {
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+.ant-select-focused .ant-select-selector,
+.ant-select-selector:focus,
+.ant-select-selector:active,
+.ant-select-open .ant-select-selector {
+  border-color: none !important;
+  box-shadow: none !important;
+}
+
+.ant-select-arrow {
+  color: #3d4047 !important;
+}
+
+.ant-select-dropdown {
+  background-color: #3d4047 !important;
+  width: auto !important;
+}
