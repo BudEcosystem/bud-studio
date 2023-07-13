@@ -153,12 +153,42 @@ function HeaderSubComp({
 
   console.log('DATAHEAD', data, i++);
 
-  useEffect(() => {
-    databaseEntries.forEach((doc) => {
-      if (data.entry.uuid == doc.documentID) {
-        setSiconValue(doc?.childs?.length);
+  const solveRec = (structure, id) => {
+    console.log({ ...structure }, id, 'rec1');
+    if (!structure || structure.length === 0) {
+      return null;
+    }
+    for (const item of structure) {
+      console.log({ ...structure }, id, { ...item }, 'rec2');
+      if (item.documentID === id) {
+        console.log(structure, id, { ...item }, 'rec3');
+        return item;
       }
-    });
+      if (item.childs && item.childs.length > 0) {
+        const foundInFolders = solveRec(item.childs, id);
+        if (foundInFolders) {
+          console.log(foundInFolders, 'rec4');
+          return foundInFolders;
+        }
+      }
+      // if (item.files && item.files.length > 0) {
+      //   const foundInFiles = searchById(item.files, id);
+      //   if (foundInFiles) {
+      //     return foundInFiles;
+      //   }
+      // }
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    const x = solveRec(databaseEntries, data.entry.uuid);
+    setSiconValue(x?.childs?.length);
+    // databaseEntries.forEach((doc) => {
+    //   if (data.entry.uuid == doc.documentID) {
+    //     setSiconValue(doc?.childs?.length);
+    //   }
+    // });
   }, [data]);
 
   // const showTaskViewModal = activeHeaderSubComp === index;
@@ -267,15 +297,17 @@ function HeaderSubComp({
             <div className="vertical-bar">|</div>
             <div style={{ marginLeft: '5px' }}>+</div>
           </div>
-          <div className="checklistContainer">
-            <div style={{ marginLeft: '0px' }}>
-              <CheckList />
+          {!subChild && (
+            <div className="checklistContainer">
+              <div style={{ marginLeft: '0px' }}>
+                <CheckList />
+              </div>
+              <div style={{ marginLeft: '2px' }}>
+                <span>{data.checklist?.checked || 0}</span>/
+                <span>{siconValue}</span>
+              </div>
             </div>
-            <div style={{ marginLeft: '2px' }}>
-              <span>{data.checklist?.checked || 0}</span>/
-              <span>{siconValue}</span>
-            </div>
-          </div>
+          )}
         </div>
         <div className="flexVerticalCenter">
           <div style={{ marginRight: '40px' }}>

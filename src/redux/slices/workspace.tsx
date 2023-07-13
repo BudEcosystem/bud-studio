@@ -94,7 +94,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
         ],
 
         // System Defined Properties
-        // {
+        // {39b08a3d-12f1-4651-90f7-328952849xyz
         //   tags: ['no-tag'],
         //   priority: 'Normal',
         //   status: 'Not Started',

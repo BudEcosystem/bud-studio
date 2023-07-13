@@ -16,7 +16,7 @@ const ToDoPanel = ({ dataId, data, statusPanels }: any) => {
   // const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
   // const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs);
 
-  console.log('GOVDATA', data);
+  console.log('GOVDATA', data, dataId);
 
   // useEffect(() => {
   //   const TaskArray: any = [];
