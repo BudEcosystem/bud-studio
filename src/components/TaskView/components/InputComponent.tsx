@@ -84,6 +84,9 @@ const InputComponent = ({data}) => {
           },
         ],
   
+        checkList: [
+
+        ],
         // System Defined Properties
         // {
         //   tags: ['no-tag'],
@@ -91,8 +94,9 @@ const InputComponent = ({data}) => {
         //   status: 'Not Started',
         //   date: null,
         // },
-        setNewObj(obj)
+    
       }
+
       if (e.key === 'Enter' && !!e.target.value) {
         dispatch(setWorkspacestodos(obj))
         // dispatch(createNewTask({ selectedItem, titleInput }));

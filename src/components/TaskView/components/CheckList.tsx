@@ -20,10 +20,10 @@ import { data } from '@/components/TableviewNew/data';
 import { changeStatus, setSubTaskStatus } from '@/redux/slices/workspace';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 
-const CheckList = ({ id, provided, snapshot, text, dataId, statusPanels }: any) => {
+const CheckList = ({ provided, snapshot, item }: any) => {
     
 const dispatch = useDispatch();
-const [checked, setChecked] = useState(false)
+const [checked, setChecked] = useState(item.checked)
 
   const onChange = (e: CheckboxChangeEvent) => {
     console.log(`GOCHECKED = ${e.target.checked}`);
@@ -55,9 +55,9 @@ const [checked, setChecked] = useState(false)
           <div className="flexCenter" style={{ marginRight: '8px' }}>
             <Arrow />
           </div>
-          <Checkbox onChange={onChange}></Checkbox>
+          <Checkbox defaultChecked={checked} onChange={onChange}></Checkbox>
         </div>
-        <div style={{textDecoration : `${checked ? 'line-through' : ''}`}} className="textTodo">{text}</div>
+        <div style={{textDecoration : `${checked ? 'line-through' : ''}`}} className="textTodo">{item.title}</div>
       </div>
     </div>
   );

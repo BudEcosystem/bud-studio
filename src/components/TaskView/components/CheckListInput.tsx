@@ -17,7 +17,7 @@ import { Arrow } from '../TaskViewIcons';
 import { setWorkspacestodos } from '@/redux/slices/workspace';
 import { addTodos } from '@/redux/slices/database';
 
-const CheckListInput = ({data}) => {
+const CheckListInput = ({data, setShowCheckListInput}: any) => {
     const dispatch = useDispatch();
     const [titleInput, setTitleInput] = useState('');
     const [newObj, setNewObj] = useState(null)
@@ -94,10 +94,8 @@ const CheckListInput = ({data}) => {
         setNewObj(obj)
       }
       if (e.key === 'Enter' && !!e.target.value) {
-        dispatch(setWorkspacestodos(obj))
-        // dispatch(createNewTask({ selectedItem, titleInput }));
-        // crossClickHandler();
-        dispatch(addTodos({id: data.entry.uuid, newId: obj.uuid}))
+        // dispatch(setWorkspacestodos(obj))
+        // dispatch(addTodos({id: data.entry.uuid, newId: obj.uuid}))
         setTitleInput('');
         console.log(workspace)
       }
@@ -125,21 +123,13 @@ const CheckListInput = ({data}) => {
           className="workspaceTextBox"
         />
       </div>
-      <div className="rightSideOptions">
-        <CircularBorder icon={<CheckList />} />
-        <CircularBorder icon={<Sicon />} />
-        <CircularBorder icon={<FoldedCard />} />
-        <CircularBorder icon={<SmallerFlag />} />
-        <CircularBorder icon={<BoxArrow />} />
-        <div className="saveText flexCenter">Save</div>
         <div
           className="flexCenter cross"
-          //  onClick={crossClickHandler}
+           onClick={() => setShowCheckListInput(false)}
         >
           <Cross />
         </div>
       </div>
-    </div>
   );
 };
 

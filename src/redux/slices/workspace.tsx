@@ -92,6 +92,36 @@ export const generateInitialWorkspaceState = (): InitialState => {
             order: 4,
           },
         ],
+        checkList: [
+            {
+            id: "abcd",
+            checked: false,
+            title: "Do homework",
+            createdAt: "",
+            updatedAt: "",
+            },
+            {
+            id: "efjh",
+            checked: true,
+            title: "Buy Milk",
+            createdAt: "",
+            updatedAt: "",
+            },
+            {
+            id: "ijkl",
+            checked: false,
+            title: "Repair something",
+            createdAt: "",
+            updatedAt: "",
+            },
+            {
+            id: "mnop",
+            checked: true,
+            title: "Lol key",
+            createdAt: "",
+            updatedAt: "",
+            },
+        ]
 
         // System Defined Properties
         // {39b08a3d-12f1-4651-90f7-328952849xyz

@@ -468,3 +468,8 @@
   :where(.css-dev-only-do-not-override-k9tb46).ant-checkbox {
     color: blue;
   }
+
+  .ant-checkbox-input {
+    width: fit-content;
+    color: blue !important;
+  }
