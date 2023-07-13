@@ -103,13 +103,11 @@ function HeaderSubComp({
 
   var checkedNum = 0;
 
-  data?.entry?.checkList?.forEach((item) => {
+  data?.entry?.checkList.forEach((item) => {
     if(item.checked ==  true) {
       checkedNum++;
     }
   })
-
-  console.log('HEADER', checkedNum);
 
   // Hooks
   useEffect(() => {
@@ -308,22 +306,22 @@ function HeaderSubComp({
             <div className="vertical-bar">|</div>
             <div style={{ marginLeft: '5px' }}>+</div>
           </div>
-          {!subChild && data?.entry?.checkList?.length && (
+          {!subChild && (
             <div className="checklistContainer">
               <div style={{ marginLeft: '0px' }}>
                 <CheckList />
               </div>
               <div style={{ marginLeft: '2px' }}>
                 <span>{checkedNum}</span>/
-                <span>{data?.entry.checkList?.length}</span>
+                <span>{data?.entry.checkList.length}</span>
               </div>
             </div>
           )}
         </div>
         <div className="flexVerticalCenter">
-          {!subChild && data?.entry.checkList?.length && (
+          {!subChild && checkedNum!==0 && (
             <div style={{ marginRight: '40px' }}>
-              <SkillBar percentage={(checkedNum / data?.entry.checkList?.length) * 100} />
+              <SkillBar percentage={(checkedNum / data?.entry.checkList.length) * 100} />
           </div>
           )}
           

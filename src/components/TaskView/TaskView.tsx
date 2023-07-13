@@ -459,7 +459,8 @@ function TaskView({
                     {/* <div className="DashedCircleIcons"> */}
                     {/*  <PersonIcon /> */}
                     {/* </div> */}
-                    <div className="progressBar">
+                    {!subChild && (
+                      <div className="progressBar">
                       <div
                         style={{
                           backgroundColor: `${color}`,
@@ -472,6 +473,8 @@ function TaskView({
                         className="progress"
                       />
                     </div>
+                    )}
+                    
                   </div>
                 )}
               </div>
