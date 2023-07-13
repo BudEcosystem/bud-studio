@@ -121,7 +121,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
             createdAt: "",
             updatedAt: "",
             },
-        ]
+        ],
 
         // System Defined Properties
         // {39b08a3d-12f1-4651-90f7-328952849xyz
@@ -1639,6 +1639,32 @@ export const workspaceSlice = createSlice({
       state.workspaceDocsSearchKey = searchKey;
     },
 
+    setCheckedReducer: (state, action: PayloadAction<any>) => {
+      const copyOfworkSpaceDocs = state.workSpaceDocs;
+      copyOfworkSpaceDocs.map((doc, index) => {
+        console.log("ITTT", action.payload.label)
+        if (doc.uuid == action.payload.parentId) {
+          state.workSpaceDocs[index].checkList.map((item, i) => {
+            if(item.id==action.payload.id) {
+              state.workSpaceDocs[index].checkList[i].checked = action.payload.label
+            }
+          })  
+        }
+      });
+    },
+
+    setCheckedAddItem: (state, action: PayloadAction<any>) => {
+      const copyOfworkSpaceDocs = state.workSpaceDocs;
+      copyOfworkSpaceDocs.map((doc, index) => {
+        console.log("ITTT", action.payload.label)
+        if (doc.uuid == action.payload.parentId) {
+          state.workSpaceDocs[index].checkList.push(action.payload.obj)  
+        }
+      });
+    },
+
+    
+
     setWorkspacestodos: (state, action: PayloadAction<any>) => {
       console.log(action.payload);
       state.workSpaceDocs.push(action.payload);
@@ -1806,5 +1832,7 @@ export const {
   setSearchDocsKeyword,
   setWorkspacestodos,
   duplicateWorkspace,
+  setCheckedReducer,
+  setCheckedAddItem
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

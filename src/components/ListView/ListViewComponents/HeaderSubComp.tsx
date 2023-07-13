@@ -322,9 +322,7 @@ function HeaderSubComp({
         <div className="flexVerticalCenter">
           {!subChild && (
             <div style={{ marginRight: '40px' }}>
-            {siconValue !== 0 && (
               <SkillBar percentage={(checkedNum / data?.entry.checkList.length) * 100} />
-            )}
           </div>
           )}
           

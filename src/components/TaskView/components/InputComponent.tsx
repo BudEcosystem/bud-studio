@@ -103,7 +103,6 @@ const InputComponent = ({data}) => {
         // crossClickHandler();
         dispatch(addTodos({id: data.entry.uuid, newId: obj.uuid}))
         setTitleInput('');
-        console.log(workspace, data, obj, "ppppppp")
       }
     };
   return (

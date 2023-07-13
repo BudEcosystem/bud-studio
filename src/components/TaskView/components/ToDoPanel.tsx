@@ -34,14 +34,14 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
 
   console.log('ARUNS', data);
 
-  const sortedArray = [...checkListInput].sort((a, b) => {
-    if (a.checked && !b.checked) {
-      return 1;
-    } else if (!a.checked && b.checked) {
-      return -1;
-    }
-    return 0;
-  });
+  // const sortedArray = [...checkListInput].sort((a, b) => {
+  //   if (a.checked && !b.checked) {
+  //     return 1;
+  //   } else if (!a.checked && b.checked) {
+  //     return -1;
+  //   }
+  //   return 0;
+  // });
 
   const handleDragEnd = (result: any) => {
     dispatch(changeRowOrderTodos({ id: data.entry.uuid, result }));
@@ -114,7 +114,7 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
 
         {!subChild && 
         (<>
-        <div onClick={()=> {setShowCheckListInput(!showCheckListInput)}} style={{cursor: "pointer"}} className="subtaskText">{sortedArray.length} Checklists +</div>
+        <div onClick={()=> {setShowCheckListInput(!showCheckListInput)}} style={{cursor: "pointer"}} className="subtaskText">{data.entry.checkList.length} Checklists +</div>
         <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="todo">
           {(provided, snapshot) => (
@@ -123,7 +123,7 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
               {...provided.droppableProps}
               style={{ marginTop: '8px' }}
             >
-              {sortedArray.map((item: any, i: any) => (
+              {data.entry.checkList.map((item: any, i: any) => (
                 <Draggable
                   key={`todo-${i}`}
                   draggableId={`todo-${i}`}
@@ -135,6 +135,7 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
                         provided={provided}
                         snapshot={snapshot} 
                         item={item}
+                        parentId={data.entry.uuid}
                       />
                     </div>
                   )}
@@ -142,7 +143,7 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
               ))}
               {provided.placeholder}
               {showCheckListInput &&
-              <CheckListInput setShowCheckListInput={setShowCheckListInput} />
+              <CheckListInput parentId={data.entry.uuid} setShowCheckListInput={setShowCheckListInput} />
               }
             </div>
           )}

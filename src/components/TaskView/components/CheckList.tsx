@@ -1,41 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import {
-  CheckList,
-  SmallerFlag,
-  FoldedCard,
-  Sicon,
-  BoxArrow,
-  Cross,
-  DownArrow,
   FourDots,
 } from '../../ListView/ListViewIcons';
 import '../TaskView.css';
-import CircularBorder from '../../ListView/ListViewComponents/CircularBorder';
-import { useSelector, useDispatch } from 'react-redux';
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Dropdown, message, Space, Tooltip } from 'antd';
-import type { MenuProps } from 'antd';
+import { useDispatch } from 'react-redux';
+import { Checkbox } from 'antd';
 import { Arrow } from '../TaskViewIcons';
-import { data } from '@/components/TableviewNew/data';
-import { changeStatus, setSubTaskStatus } from '@/redux/slices/workspace';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { setCheckedReducer } from '@/redux/slices/workspace';
 
-const CheckList = ({ provided, snapshot, item }: any) => {
+const CheckList = ({ provided, snapshot, item, parentId }: any) => {
     
 const dispatch = useDispatch();
 const [checked, setChecked] = useState(item.checked)
 
   const onChange = (e: CheckboxChangeEvent) => {
-    console.log(`GOCHECKED = ${e.target.checked}`);
     if(e.target.checked) {
         setChecked(true)
     }
     else {
         setChecked(false)
     }
+    var id = item.id;
+    var label = e.target.checked;
+    dispatch(setCheckedReducer({parentId, id, label}))
   };
-  
-
   
   return (
     <div
@@ -55,7 +44,7 @@ const [checked, setChecked] = useState(item.checked)
           <div className="flexCenter" style={{ marginRight: '8px' }}>
             <Arrow />
           </div>
-          <Checkbox defaultChecked={checked} onChange={onChange}></Checkbox>
+          <Checkbox defaultChecked={item.checked} onChange={onChange}></Checkbox>
         </div>
         <div style={{textDecoration : `${checked ? 'line-through' : ''}`}} className="textTodo">{item.title}</div>
       </div>
