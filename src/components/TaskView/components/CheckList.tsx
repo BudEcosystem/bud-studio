@@ -3,7 +3,7 @@ import {
   FourDots,
 } from '../../ListView/ListViewIcons';
 import '../TaskView.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Checkbox } from 'antd';
 import { Arrow } from '../TaskViewIcons';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
@@ -13,6 +13,9 @@ const CheckList = ({ provided, snapshot, item, parentId }: any) => {
     
 const dispatch = useDispatch();
 const [checked, setChecked] = useState(item.checked)
+const { workspace }: any = useSelector((state) => state);
+const { color } = workspace;
+const style = { '--bg-color': color };
 
   const onChange = (e: CheckboxChangeEvent) => {
     if(e.target.checked) {
@@ -44,7 +47,9 @@ const [checked, setChecked] = useState(item.checked)
           <div className="flexCenter" style={{ marginRight: '8px' }}>
             <Arrow />
           </div>
+          <div style={style} className='checkListBox'>
           <Checkbox defaultChecked={item.checked} onChange={onChange}></Checkbox>
+          </div>
         </div>
         <div style={{textDecoration : `${checked ? 'line-through' : ''}`}} className="textTodo">{item.title}</div>
       </div>

@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import {
-  CheckList,
-  SmallerFlag,
-  FoldedCard,
-  Sicon,
-  BoxArrow,
-  Cross,
-  DownArrow,
   FourDots,
 } from '../../ListView/ListViewIcons';
 import '../TaskView.css';
-import CircularBorder from '../../ListView/ListViewComponents/CircularBorder';
-import { useSelector, useDispatch } from 'react-redux';
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Dropdown, message, Space, Tooltip } from 'antd';
+import { useDispatch } from 'react-redux';
+import { DownOutlined } from '@ant-design/icons';
+import { Button, Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
 import { Arrow } from '../TaskViewIcons';
-import { data } from '@/components/TableviewNew/data';
-import { changeStatus, setSubTaskStatus } from '@/redux/slices/workspace';
+import {changeStatus} from '@/redux/slices/workspace';
 
 const TextComponent = ({
-  removeBox,
   id,
   provided,
   snapshot,
@@ -29,7 +19,6 @@ const TextComponent = ({
   statusPanels,
 }: any) => {
   const [status, setStatus] = useState('');
-  const [dropList, setDropList] = useState([]);
   const dispatch = useDispatch();
   const [statusObj, setStatusObj] = useState(statusPanels);
 
@@ -38,9 +27,8 @@ const TextComponent = ({
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     items.forEach((item) => {
       if (item?.key == e.key) {
-        console.log('GGG', item.label);
         var label = item.label;
-        setStatus(item.label);
+        setStatus(label);
         dispatch(changeStatus({ id, label }));
       }
     });
@@ -62,7 +50,7 @@ const TextComponent = ({
         const temp = doc.properties[2].value;
         const formattedStatus = temp
           .replace(/_/g, ' ')
-          .replace(/\b\w/g, (match) => match.toUpperCase());
+          .replace(/\b\w/g, (match: string) => match.toUpperCase());
         setStatus(formattedStatus);
       }
     });
@@ -86,13 +74,12 @@ const TextComponent = ({
           <div className="flexCenter" style={{ marginRight: '8px' }}>
             <Arrow />
           </div>
-          {!removeBox && <div className="textIcon22"></div>}
         </div>
         <div className="textTodo">{text}</div>
       </div>
 
       <div style={{ display: 'flex' }}>
-        <div style={{ width: '100px', height: '18px' }}>
+        <div className='SubtaskDrop' style={{ width: '100px', height: '24px' }}>
           <Dropdown
             className="SubTaskDropDown"
             menu={menuProps}
@@ -100,7 +87,7 @@ const TextComponent = ({
           >
             <Button>
               {status}
-              <DownOutlined />
+              <DownOutlined rev={undefined} />
             </Button>
           </Dropdown>
         </div>

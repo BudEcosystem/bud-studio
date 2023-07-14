@@ -129,12 +129,12 @@ const InputComponent = ({data}) => {
         />
       </div>
       <div className="rightSideOptions">
-        <CircularBorder icon={<CheckList />} />
+        {/* <CircularBorder icon={<CheckList />} />
         <CircularBorder icon={<Sicon />} />
         <CircularBorder icon={<FoldedCard />} />
         <CircularBorder icon={<SmallerFlag />} />
         <CircularBorder icon={<BoxArrow />} />
-        <div className="saveText flexCenter">Save</div>
+        <div className="saveText flexCenter">Save</div> */}
         <div
           className="flexCenter cross"
           //  onClick={crossClickHandler}
