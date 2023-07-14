@@ -411,6 +411,19 @@
   border-radius: 0px 9px;
 }
 
+/* .subSubChildTree::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: calc(var(--spacing) - 40px);
+  left: -22px;
+  width: calc(var(--spacing) - 14px);
+  height: calc(var(--spacing) + 1px);
+  border: solid var(--lineColor);
+  border-width: 0 0 2px 2px;
+  border-radius: 0px 9px;
+} */
+
 .skillBar {
   width: 77px;
   height: 4px;

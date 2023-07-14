@@ -32,17 +32,18 @@ function SubAccordion({
       return acc;
     }, {});
   });
-  console.log(docsDictionary, "jkjkjkjkjk")
+  console.log(docsDictionary, 'jkjkjkjkjk');
   const [selected, setSelected] = useState(index !== 0);
   const toggleSubAccordion = () => {
     setExpanded(!expanded);
     setSelected(!selected);
   };
-  const toggleSubAccordionChild = (index: any, childUUID) => {
+  const toggleSubAccordionChild = (index: any) => {
     const updatedExpandedChild = [...expandedChild];
     updatedExpandedChild[index] = !updatedExpandedChild[index];
     setExpandedChild(updatedExpandedChild);
-
+  };
+  const toggleSubAccordionChild2 = (childUUID) => {
     setDocsDictionary((prevState) => {
       const updatedState = { ...prevState };
       updatedState[childUUID] = !updatedState[childUUID];
@@ -121,13 +122,15 @@ function SubAccordion({
           subChild={false}
           provided={provided}
           expanded={expanded}
-          toggleSubAccordion={() => toggleSubAccordion(index, data.entry.uuid)}
+          toggleSubAccordion={toggleSubAccordion}
           showTaskViewModal={showTaskViewModal}
           setShowTaskViewModal={setShowTaskViewModal}
           databaseEntries={databaseEntries}
           statusPanels={statusPanels}
           activeHeaderSubComp={activeHeaderSubComp}
           setActiveHeaderSubComp={setActiveHeaderSubComp}
+          toggleSubAccordionChild2={toggleSubAccordionChild2}
+          docsDictionary={docsDictionary}
         />
       </div>
       {expanded && (
@@ -154,6 +157,8 @@ function SubAccordion({
             activeHeaderSubComp={activeHeaderSubComp}
             setActiveHeaderSubComp={setActiveHeaderSubComp}
             removeLine={false}
+            toggleSubAccordionChild2={toggleSubAccordionChild2}
+            docsDictionary={docsDictionary}
           />
           {/* {todoID.length > 0 &&
             todoID?.map((subItem: any, i: any) => (

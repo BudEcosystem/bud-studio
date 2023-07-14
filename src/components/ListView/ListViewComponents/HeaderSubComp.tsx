@@ -62,7 +62,9 @@ function HeaderSubComp({
   statusPanels,
   activeHeaderSubComp,
   setActiveHeaderSubComp,
-  removeLine
+  removeLine,
+  toggleSubAccordionChild2,
+  docsDictionary,
 }) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -105,10 +107,10 @@ function HeaderSubComp({
   var checkedNum = 0;
 
   data?.entry?.checkList.forEach((item) => {
-    if(item.checked ==  true) {
+    if (item.checked == true) {
       checkedNum++;
     }
-  })
+  });
 
   // Hooks
   useEffect(() => {
@@ -221,6 +223,15 @@ function HeaderSubComp({
 
   // @ts-ignore
   // @ts-ignore
+
+  const arrowClickHandler = () => {
+    if (!removeLine) {
+      toggleSubAccordion();
+      toggleSubAccordionChild2(data.entry.uuid);
+    } else {
+      toggleSubAccordionChild2(data.entry.uuid);
+    }
+  };
   return (
     <>
       {activeHeaderSubComp === data.entry.uuid && (
@@ -255,16 +266,21 @@ function HeaderSubComp({
               <FourDots />
             </div>
             <div
-              className={`${(removeLine != true && subChild) ? 'subchildTree' : ''}`}
+              className={`${
+                removeLine != true && subChild ? 'subchildTree' : ''
+              } ${removeLine === true ? 'subSubChildTree' : ''}`}
               style={{ position: 'absolute' }}
             >
               <div
                 style={{
-                  transform: !expanded ? 'rotate(-90deg)' : '',
+                  transform:
+                    !docsDictionary[data.entry.uuid] || !expanded
+                      ? 'rotate(-90deg)'
+                      : '',
                   transition: 'all 0.2s ease',
                   marginLeft: subChild ? '0px' : '-5px',
                 }}
-                onClick={() => toggleSubAccordion()}
+                onClick={arrowClickHandler}
               >
                 <DownArrow />
               </div>
@@ -320,12 +336,14 @@ function HeaderSubComp({
           )}
         </div>
         <div className="flexVerticalCenter">
-          {!subChild && checkedNum!==0 && (
+          {!subChild && checkedNum !== 0 && (
             <div style={{ marginRight: '40px' }}>
-              <SkillBar percentage={(checkedNum / data?.entry.checkList.length) * 100} />
-          </div>
+              <SkillBar
+                percentage={(checkedNum / data?.entry.checkList.length) * 100}
+              />
+            </div>
           )}
-          
+
           <div style={{ marginRight: '40px' }}>
             {/* {data?.imagesData?.length > 0 ? ( */}
             {/*  <CircularImageComponent images={data.imagesData} /> */}

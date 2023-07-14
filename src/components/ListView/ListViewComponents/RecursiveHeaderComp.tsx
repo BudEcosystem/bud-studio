@@ -17,7 +17,9 @@ const RecursiveHeaderComp = ({
   statusPanels,
   activeHeaderSubComp,
   setActiveHeaderSubComp,
-  removeLine
+  removeLine,
+  toggleSubAccordionChild2,
+  docsDictionary,
 }) => {
   console.log(todoId, 'asdkfjadshj');
   const { workspace }: any = useSelector((state) => state);
@@ -61,7 +63,7 @@ const RecursiveHeaderComp = ({
     setTodoArr(tempArr2);
   }, [databaseEntries, todoId, workSpaceDocs]);
 
-  console.log('todoARR', todoArr, todoId);
+  console.log('todoARR', todoArr, todoId, docsDictionary);
   return (
     <div>
       {todoId.length > 0 &&
@@ -86,29 +88,33 @@ const RecursiveHeaderComp = ({
               activeHeaderSubComp={activeHeaderSubComp}
               setActiveHeaderSubComp={setActiveHeaderSubComp}
               removeLine={removeLine}
+              toggleSubAccordionChild2={toggleSubAccordionChild2}
+              docsDictionary={docsDictionary}
             />
-            {todoArr[i]?.length > 0 && (
-             <div style={{marginLeft: '20px', marginBottom: '10px'}}>
-               <RecursiveHeaderComp
-                todoId={todoArr[i]}
-                provided={provided}
-                expanded={expanded}
-                item={item}
-                title={title}
-                status={status}
-                toggleSubAccordion={toggleSubAccordion}
-                showTaskViewModal={showTaskViewModal}
-                setShowTaskViewModal={setShowTaskViewModal}
-                databaseEntries={databaseEntries}
-                descHeight={descHeight}
-                statusPanels={statusPanels}
-                activeHeaderSubComp={activeHeaderSubComp}
-                setActiveHeaderSubComp={setActiveHeaderSubComp}
-                removeLine={true}
-              />
-
-             </div>
-            )}
+            {docsDictionary[subItem.entry.uuid] === true &&
+              todoArr[i]?.length > 0 && (
+                <div style={{ marginLeft: '25px', marginBottom: '10px' }}>
+                  <RecursiveHeaderComp
+                    todoId={todoArr[i]}
+                    provided={provided}
+                    expanded={expanded}
+                    item={item}
+                    title={title}
+                    status={status}
+                    toggleSubAccordion={toggleSubAccordion}
+                    showTaskViewModal={showTaskViewModal}
+                    setShowTaskViewModal={setShowTaskViewModal}
+                    databaseEntries={databaseEntries}
+                    descHeight={descHeight}
+                    statusPanels={statusPanels}
+                    activeHeaderSubComp={activeHeaderSubComp}
+                    setActiveHeaderSubComp={setActiveHeaderSubComp}
+                    removeLine={true}
+                    toggleSubAccordionChild2={toggleSubAccordionChild2}
+                    docsDictionary={docsDictionary}
+                  />
+                </div>
+              )}
           </div>
         ))}
     </div>

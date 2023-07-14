@@ -249,9 +249,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
           order: 6,
         },
       ],
-      checkList: [
-
-      ],
+      checkList: [],
     };
 
     // Create Document With Status
