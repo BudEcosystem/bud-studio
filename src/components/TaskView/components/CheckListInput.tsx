@@ -14,10 +14,11 @@ import { v4 as uuidv4 } from 'uuid';
 import CircularBorder from '../../ListView/ListViewComponents/CircularBorder';
 import { useSelector, useDispatch } from 'react-redux';
 import { Arrow } from '../TaskViewIcons';
-import { setWorkspacestodos } from '@/redux/slices/workspace';
+import { setCheckedAddItem, setWorkspacestodos } from '@/redux/slices/workspace';
 import { addTodos } from '@/redux/slices/database';
+import dayjs from 'dayjs';
 
-const CheckListInput = ({data, setShowCheckListInput}: any) => {
+const CheckListInput = ({parentId, setShowCheckListInput}: any) => {
     const dispatch = useDispatch();
     const [titleInput, setTitleInput] = useState('');
     const [newObj, setNewObj] = useState(null)
@@ -31,73 +32,16 @@ const CheckListInput = ({data, setShowCheckListInput}: any) => {
     };
     const titleChangeHandler = (e: any) => {
       const obj = {
-        name: titleInput,
-        childOf: workspace.currentSelectedDocId,
-        description: '',
-        type: 'doc',
-        uuid: uuidv4(),
-        workSpaceUUID: workspace.currentWorkspace,
-        customProperties: [
-          {
-            title: 'Author',
-            value: 'Bud',
-            type: 'text',
-            id: uuidv4(),
-            order: 4,
-          },
-          {
-            title: 'ISBN',
-            value: 'QWDE-DJJC-1234',
-            type: 'text',
-            id: uuidv4(),
-            order: 5,
-          },
-        ], // User defined Properties
-        properties: [
-          {
-            title: 'Tags',
-            value: ['no-tag'],
-            type: 'tags',
-            id: uuidv4(),
-            order: 1,
-          },
-          {
-            title: 'Priority',
-            value: 'Normal',
-            type: 'priority',
-            id: uuidv4(),
-            order: 2,
-          },
-          {
-            title: 'Status',
-            value: 'in_progress',
-            type: 'status',
-            id: uuidv4(),
-            order: 3,
-          },
-          {
-            title: 'Date',
-            value: null,
-            type: 'date',
-            id: uuidv4(),
-            order: 4,
-          },
-        ],
-  
-        // System Defined Properties
-        // {
-        //   tags: ['no-tag'],
-        //   priority: 'Normal',
-        //   status: 'Not Started',
-        //   date: null,
-        // },
-        setNewObj(obj)
-      }
+          id: uuidv4(),
+          checked: false,
+          title: titleInput,
+          createdAt: dayjs().unix(),
+          updatedAt: dayjs().unix(),
+          }
+
       if (e.key === 'Enter' && !!e.target.value) {
-        // dispatch(setWorkspacestodos(obj))
-        // dispatch(addTodos({id: data.entry.uuid, newId: obj.uuid}))
+        dispatch(setCheckedAddItem({parentId, obj}))
         setTitleInput('');
-        console.log(workspace)
       }
     };
   return (
