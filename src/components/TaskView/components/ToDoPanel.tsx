@@ -16,7 +16,7 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
   const { color, workspacestodos } = workspace;
   const [childData, setChildData] = useState(dataId);
   const checkListInput = data.entry.checkList;
-  const [showCheckListInput, setShowCheckListInput] = useState(false)
+  const [showCheckListInput, setShowCheckListInput] = useState(false);
   // const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
   // const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs);
 
@@ -33,10 +33,8 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
   // }, [dataId, workspaceDocs, workspacestodos]);
 
   console.log('ARUNS', data);
-  
-  const [sortedArray, setSortedArray] = useState([])
-  
- 
+
+  const [sortedArray, setSortedArray] = useState([]);
 
   const handleDragEnd = (result: any) => {
     dispatch(changeRowOrderTodos({ id: data.entry.uuid, result }));
@@ -105,50 +103,92 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
             </div>
           )}
         </Droppable>
-        </DragDropContext>
+      </DragDropContext>
 
-        {!subChild && 
-        (<>
-        <div onClick={()=> {setShowCheckListInput(!showCheckListInput)}} style={{cursor: "pointer"}} className="subtaskText">{data.entry.checkList?.length} Checklists +</div>
-        <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="todo">
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              style={{ marginTop: '8px' }}
-            >
-              {data.entry.checkList?.map((item: any, i: any) => (
-                <Draggable
-                  key={`todo-${i}`}
-                  draggableId={`todo-${i}`}
-                  index={i}
+      {!subChild && (
+        <>
+          <div
+            onClick={() => {
+              setShowCheckListInput(!showCheckListInput);
+            }}
+            style={{ cursor: 'pointer' }}
+            className="subtaskText"
+          >
+            {data.entry.checkList?.length} Checklists +
+          </div>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="todo">
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  style={{ marginTop: '8px' }}
                 >
-                  {(provided, snapshot) => (
-                    <div ref={provided.innerRef} {...provided.draggableProps}>
-                      <CheckList
-                        provided={provided}
-                        snapshot={snapshot} 
-                        item={item}
-                        parentId={data.entry.uuid}
-                      />
-                    </div>
+                  {data.entry.checkList?.map((item: any, i: any) => (
+                    <>
+                      {!item.checked && (
+                        <Draggable
+                          key={`todo-${i}`}
+                          draggableId={`todo-${i}`}
+                          index={i}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                            >
+                              <CheckList
+                                provided={provided}
+                                snapshot={snapshot}
+                                item={item}
+                                parentId={data.entry.uuid}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      )}
+                    </>
+                  ))}
+                  {provided.placeholder}
+                  {data.entry.checkList?.map((item: any, i: any) => (
+                    <>
+                      {item.checked && (
+                        <Draggable
+                          key={`todo-${i}`}
+                          draggableId={`todo-${i}`}
+                          index={i}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                            >
+                              <CheckList
+                                provided={provided}
+                                snapshot={snapshot}
+                                item={item}
+                                parentId={data.entry.uuid}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      )}
+                    </>
+                  ))}
+                  {provided.placeholder}
+                  {showCheckListInput && (
+                    <CheckListInput
+                      parentId={data.entry.uuid}
+                      setShowCheckListInput={setShowCheckListInput}
+                    />
                   )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-              {showCheckListInput &&
-              <CheckListInput parentId={data.entry.uuid} setShowCheckListInput={setShowCheckListInput} />
-              }
-            </div>
-          )}
-        </Droppable>
-        </DragDropContext>
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </>
-        )
-      }
-        
-      </div>
+      )}
+    </div>
   );
 };
 
