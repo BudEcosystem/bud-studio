@@ -62,6 +62,7 @@ function HeaderSubComp({
   statusPanels,
   activeHeaderSubComp,
   setActiveHeaderSubComp,
+  removeLine
 }) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -158,7 +159,7 @@ function HeaderSubComp({
   };
   let i = 0;
 
-  console.log('DATAHEAD', data, i++);
+  console.log('DATAHEAD', data, expanded);
 
   const solveRec = (structure, id) => {
     console.log({ ...structure }, id, 'rec1');
@@ -254,7 +255,7 @@ function HeaderSubComp({
               <FourDots />
             </div>
             <div
-              className={`${subChild ? 'subchildTree' : ''}`}
+              className={`${(removeLine != true && subChild) ? 'subchildTree' : ''}`}
               style={{ position: 'absolute' }}
             >
               <div
