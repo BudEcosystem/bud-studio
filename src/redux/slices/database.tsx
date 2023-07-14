@@ -234,6 +234,49 @@ export const generateDatabaseInitialState = (): any => {
   return initialState;
 };
 
+const solveRec = (structure, id) => {
+  console.log({ ...structure }, id, 'rec1');
+  if (!structure || structure.length === 0) {
+    return null;
+  }
+  for (const item of structure) {
+    console.log({ ...structure }, id, { ...item }, 'rec2');
+    if (item.documentID === id) {
+      console.log(structure, id, { ...item }, 'rec3');
+      return item;
+    }
+    if (item.childs && item.childs.length > 0) {
+      const foundInFolders = solveRec(item.childs, id);
+      if (foundInFolders) {
+        console.log(foundInFolders, 'rec4');
+        return foundInFolders;
+      }
+    }
+    // if (item.files && item.files.length > 0) {
+    //   const foundInFiles = searchById(item.files, id);
+    //   if (foundInFiles) {
+    //     return foundInFiles;
+    //   }
+    // }
+  }
+  return null;
+};
+
+// const solveRec = (obj, id, newId) => {
+//   if(!obj){
+//     return
+//   }
+//   if(obj.documentID === id){
+//   console.log({...obj}, "poipo", JSON.stringify(id))
+//     return obj;
+//   }
+//   else{
+//     obj.childs.forEach(element => {
+//       solveRec(element, id, newId)
+//     });
+//   }
+// }
+
 // Database Slice
 export const databaseSlice = createSlice({
   name: 'database',
@@ -429,11 +472,28 @@ export const databaseSlice = createSlice({
     addTodos: (state, action: PayloadAction<any>) => {
       state.databases.map((database) => {
         if (database.defaultView === 'List') {
-          database.entries.map((item, i) => {
-            if (item.documentID === action.payload.id) {
-              item?.childs?.push({ documentID: action.payload.newId });
-            }
+          const x = solveRec(database.entries, action.payload.id);
+          console.log({ ...x }, 'addTodo');
+          x.childs.push({
+            documentID: action.payload.newId,
+            childs: [],
           });
+          //   database.entries.forEach((item, i) => {
+          //  const x = solveRec(item, action.payload.id, action.payload.newId)
+          //  console.log({...x})
+          //  if(x) {
+          //   x.childs.push({
+          //         documentID: action.payload.newId,
+          //         childs: [],
+          //       })
+          //  }
+          // if (item.documentID === action.payload.id) {
+          //   item?.childs?.push({
+          //     documentID: action.payload.newId,
+          //     childs: [],
+          //   });
+          // }
+          // });
         }
       });
     },

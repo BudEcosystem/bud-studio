@@ -365,6 +365,9 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
                 order: 4,
               },
             ],
+            checkList: [
+
+            ],
           };
 
           // Initial Document Template

@@ -8,6 +8,7 @@ import TaskView from 'components/TaskView/TaskView';
 
 import { taskViewDataChange, taskViewTitleChange } from 'redux/slices/list';
 import HeaderSubComp from '../HeaderSubComp';
+import RecursiveHeaderComp from '../RecursiveHeaderComp';
 
 function SubAccordion({
   status,
@@ -17,7 +18,7 @@ function SubAccordion({
   title,
   item,
   databaseEntries,
-  statusPanels
+  statusPanels,
 }: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -25,6 +26,13 @@ function SubAccordion({
   const [expandedChild, setExpandedChild] = useState(
     Array(data.childs.length).fill(false)
   );
+  const [docsDictionary, setDocsDictionary] = useState(() => {
+    return workspace.workSpaceDocs.reduce((acc, doc) => {
+      acc[doc.uuid] = false;
+      return acc;
+    }, {});
+  });
+  console.log(docsDictionary, 'jkjkjkjkjk');
   const [selected, setSelected] = useState(index !== 0);
   const toggleSubAccordion = () => {
     setExpanded(!expanded);
@@ -35,8 +43,16 @@ function SubAccordion({
     updatedExpandedChild[index] = !updatedExpandedChild[index];
     setExpandedChild(updatedExpandedChild);
   };
+  const toggleSubAccordionChild2 = (childUUID) => {
+    setDocsDictionary((prevState) => {
+      const updatedState = { ...prevState };
+      updatedState[childUUID] = !updatedState[childUUID];
+      return updatedState;
+    });
+  };
   const [showTaskViewModal, setShowTaskViewModal] = useState(false);
   const [todoID, setToDoId] = useState([]);
+  const [activeHeaderSubComp, setActiveHeaderSubComp] = useState(null);
 
   console.log('HHHHHH', databaseEntries, data);
 
@@ -71,7 +87,7 @@ function SubAccordion({
     }
   }, [status]);
 
-  console.log(todoID);
+  console.log(todoID, 'asdfjhads');
   return (
     <div
       className="subAccordionParent"
@@ -84,7 +100,7 @@ function SubAccordion({
         setShowTaskViewModal(true);
       }}
     >
-      <TaskView
+      {/* <TaskView
         data={data}
         title={title}
         showTaskViewModal={showTaskViewModal}
@@ -93,11 +109,13 @@ function SubAccordion({
         item={item}
         databaseEntries={databaseEntries}
         statusPanels={statusPanels}
-      />
+      /> */}
 
       <div className="headerSubComponentContainer">
         <HeaderSubComp
           index={index}
+          title={title}
+          item={item}
           childIndex={null}
           status={status}
           data={data}
@@ -105,8 +123,14 @@ function SubAccordion({
           provided={provided}
           expanded={expanded}
           toggleSubAccordion={toggleSubAccordion}
+          showTaskViewModal={showTaskViewModal}
           setShowTaskViewModal={setShowTaskViewModal}
           databaseEntries={databaseEntries}
+          statusPanels={statusPanels}
+          activeHeaderSubComp={activeHeaderSubComp}
+          setActiveHeaderSubComp={setActiveHeaderSubComp}
+          toggleSubAccordionChild2={toggleSubAccordionChild2}
+          docsDictionary={docsDictionary}
         />
       </div>
       {expanded && (
@@ -117,7 +141,26 @@ function SubAccordion({
               limit={100}
             />
           </p>
-          {todoID.length > 0 &&
+          <RecursiveHeaderComp
+            todoId={todoID}
+            provided={provided}
+            expanded={expandedChild}
+            item={item}
+            title={title}
+            status={status}
+            toggleSubAccordion={toggleSubAccordionChild}
+            showTaskViewModal={showTaskViewModal}
+            setShowTaskViewModal={setShowTaskViewModal}
+            databaseEntries={databaseEntries}
+            descHeight={descHeight}
+            statusPanels={statusPanels}
+            activeHeaderSubComp={activeHeaderSubComp}
+            setActiveHeaderSubComp={setActiveHeaderSubComp}
+            removeLine={false}
+            toggleSubAccordionChild2={toggleSubAccordionChild2}
+            docsDictionary={docsDictionary}
+          />
+          {/* {todoID.length > 0 &&
             todoID?.map((subItem: any, i: any) => (
               <div style={{ marginBottom: '16px' }}>
                 <HeaderSubComp
@@ -134,7 +177,7 @@ function SubAccordion({
                   descHeight={descHeight}
                 />
               </div>
-            ))}
+            ))} */}
         </div>
       )}
     </div>

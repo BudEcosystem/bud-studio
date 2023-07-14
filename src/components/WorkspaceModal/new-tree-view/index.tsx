@@ -101,6 +101,9 @@ const Menu = ({ workspaceItem, setWorkspaceModal }: any) => {
           order: 3,
         },
       ],
+      checkList: [
+
+      ],
       type: 'doc',
       uuid: newFile.id,
       workSpaceUUID: workspaceItem.uuid,
@@ -432,6 +435,9 @@ export const FolderItem = ({
           id: uuidv4(),
           order: 3,
         },
+      ],
+      checkList: [
+
       ],
       type: 'doc',
       uuid: newFile.id,
