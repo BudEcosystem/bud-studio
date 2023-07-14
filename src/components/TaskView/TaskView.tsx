@@ -48,7 +48,7 @@ function TaskView({
   databaseEntries,
   statusPanels,
   subChild,
-  checkedNum
+  checkedNum,
 }: any) {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -57,7 +57,7 @@ function TaskView({
   const [datePopoverVisible, setDatePopoverVisible] = useState(false);
   const [todoID, setToDoId] = useState([]);
   const [statusColor, setStatusColor] = useState();
-  console.log("FFFFFF", data);
+  console.log('FFFFFF', data);
 
   const solveRec = (structure, id) => {
     console.log({ ...structure }, id, 'rec1');
@@ -288,8 +288,7 @@ function TaskView({
                       }}
                     >
                       <DocIcon />
-                    </div>
-                    {' '}
+                    </div>{' '}
                   </div>
                 ) : (
                   <div
@@ -461,20 +460,18 @@ function TaskView({
                     {/* </div> */}
                     {!subChild && (
                       <div className="progressBar">
-                      <div
-                        style={{
-                          backgroundColor: `${color}`,
-                          width: `${
-                            (checkedNum /
-                              data?.entry?.checkList?.length) *
-                            100
-                          }%`,
-                        }}
-                        className="progress"
-                      />
-                    </div>
+                        <div
+                          style={{
+                            backgroundColor: `${color}`,
+                            width: `${
+                              (checkedNum / data?.entry?.checkList?.length) *
+                              100
+                            }%`,
+                          }}
+                          className="progress"
+                        />
+                      </div>
                     )}
-                    
                   </div>
                 )}
               </div>
