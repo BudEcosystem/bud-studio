@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 import React, { useRef, useState } from 'react';
 import { Button, Select } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import * as _ from 'lodash';
 import {
   ArrowDown,
   AssignIcon,
@@ -11,6 +12,7 @@ import {
   SelectorChar,
   ThreeDot,
 } from '../../SVGs';
+import CustomDropDown from './CustomDropDown';
 
 const Wrapper = styled.div`
   width: auto;
@@ -22,6 +24,8 @@ const Wrapper = styled.div`
   margin-top: 10px;
   display: flex;
   flex-direction: column;
+  padding-right: 24px;
+  padding-left: 24px;
 `;
 const HeaderPart = styled.div`
   display: flex;
@@ -39,7 +43,7 @@ const HeaderPartSecond = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const HeaderFilterIndicator = styled.span`
+const HeaderFilterIndicator = styled.div`
   color: #8a8b8b;
   font-family: Noto Sans;
   font-size: 14px;
@@ -47,6 +51,8 @@ const HeaderFilterIndicator = styled.span`
   font-weight: 400;
   line-height: normal;
   margin-left: 5.87px;
+  min-width: 97px;
+  width: 40px;
 `;
 const InputWrapper = styled.div`
   padding-right: 18px;
@@ -99,14 +105,14 @@ const EachFilterRuleSection = styled.div`
   flex-direction: row;
   padding-top: 14px;
   align-items: center;
-  padding-bottom: 20px;
-  padding-left: 24px;
-  padding-right: 24px;
 `;
 const EachFilterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  &:last-child {
+    margin-bottom: 24px;
+  }
 `;
 const EachFilterKeySection = styled.div`
   width: 111px;
@@ -117,7 +123,7 @@ const EachFilterKeySection = styled.div`
   background: #0c0c0c;
   display: flex;
   align-items: center;
-  margin-left: 20px;
+  margin-left: ${(props: any) => (props?.index === 0 ? '7px' : '7px')};
 `;
 
 const FilterKeyIndicator = styled.span`
@@ -188,9 +194,52 @@ const AddFilterSection = styled.div`
   display: flex;
   width: 445px;
   margin-bottom: 14px;
+  margin-top: 24px;
   flex-direction: row;
 `;
-
+const keyBinding: any = [
+  {
+    value: 'Assign',
+    filterArray: [
+      { value: 'is', label: 'Is' },
+      { value: 'is_not', label: 'Is not' },
+      { value: 'contains', label: 'Contains' },
+      { value: 'does_not_contains', label: 'Does not contains' },
+      { value: 'starts_with', label: 'Starts with' },
+      { value: 'ends_with', label: 'Ends with' },
+      { value: 'is_empty', label: 'Is empty' },
+      { value: 'is_not_empty', label: 'Is not empty' },
+    ],
+  },
+  {
+    value: 'Name',
+    filterArray: [
+      { value: 'is', label: 'Is' },
+      { value: 'is_not', label: 'Is not' },
+      { value: 'contains', label: 'Contains' },
+      { value: 'does_not_contains', label: 'Does not contains' },
+      { value: 'starts_with', label: 'Starts with' },
+      { value: 'ends_with', label: 'Ends with' },
+      { value: 'is_empty', label: 'Is empty' },
+      { value: 'is_not_empty', label: 'Is not empty' },
+    ],
+  },
+  {
+    value: 'Priority',
+    filterArray: [
+      { value: 'is', label: 'Is' },
+      { value: 'is_not', label: 'Is not' },
+    ],
+  },
+  {
+    value: 'Status',
+    filterArray: [
+      { value: 'is', label: 'Is' },
+      { value: 'is_not', label: 'Is not' },
+    ],
+  },
+];
+const CustomDropDownWrapper = styled.div``;
 function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const onKeyDownHandlerForInput = (event: any) => {
@@ -200,7 +249,8 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
       const filterRuleObject = {
         key: 'Name',
         query: valuePassed,
-        op: 'contains',
+        op: 'is',
+        condition: null,
       };
       copyOfFIlterRules.push(filterRuleObject);
       callBackOnNewFilter(copyOfFIlterRules);
@@ -209,9 +259,10 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
   const addNewFilterWithEmptyPrompts = () => {
     const copyOfFIlterRules: any = filterRules;
     const filterRuleObject = {
-      key: '',
+      key: 'Name',
       query: '',
       op: 'contains',
+      condition: 'and',
     };
     copyOfFIlterRules.push(filterRuleObject);
     callBackOnNewFilter(copyOfFIlterRules);
@@ -228,15 +279,15 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
   const deterMineIcons = (tag: string) => {
     switch (tag) {
       case 'Assign':
-        return <AssignIcon style={{ marginLeft: '9px', minWidth: '18px' }} />;
+        return <AssignIcon />;
       case 'Name':
-        return <SelectorChar style={{ marginLeft: '9px', minWidth: '18px' }} />;
+        return <SelectorChar />;
       case 'Priority':
-        return <PriorityIcon style={{ marginLeft: '9px', minWidth: '18px' }} />;
+        return <PriorityIcon />;
       case 'Status':
-        return <STatusIcon style={{ marginLeft: '9px', minWidth: '18px' }} />;
+        return <STatusIcon />;
       default:
-        return <SelectorChar style={{ marginLeft: '9px', minWidth: '18px' }} />;
+        return <SelectorChar />;
     }
   };
   const changePropertyUsingIndex = (value: any, index: any) => {
@@ -244,6 +295,22 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
     copyOfFIlterRules[index].key = value;
     callBackOnNewFilter(copyOfFIlterRules);
   };
+  const changeConditionUsingIndex = (value: any, index: any) => {
+    const copyOfFIlterRules: any = filterRules;
+    copyOfFIlterRules[index].condition = value;
+    callBackOnNewFilter(copyOfFIlterRules);
+  };
+  const changeQueryUsingIndex = (value: any, index: any) => {
+    const copyOfFIlterRules: any = filterRules;
+    copyOfFIlterRules[index].query = value;
+    callBackOnNewFilter(copyOfFIlterRules);
+  };
+  const changeOperationUsingIndex = (value: any, index: any) => {
+    const copyOfFIlterRules: any = filterRules;
+    copyOfFIlterRules[index].query = value;
+    callBackOnNewFilter(copyOfFIlterRules);
+  };
+  console.log('filterRules', filterRules);
   return (
     <Wrapper>
       {filterRules?.length < 1 ? (
@@ -251,9 +318,15 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
           {' '}
           <HeaderPart>
             <HeaderPartFirst>
-              <HeaderFilterIndicator>Name</HeaderFilterIndicator>
+              <HeaderFilterIndicator style={{ minWidth: '40px' }}>
+                Name
+              </HeaderFilterIndicator>
               <HeaderFilterIndicator
-                style={{ color: 'var(--shortcut, #7B8388)' }}
+                style={{
+                  color: 'var(--shortcut, #7B8388)',
+                  minWidth: '56px',
+                  marginLeft: '10px',
+                }}
               >
                 contains
               </HeaderFilterIndicator>
@@ -275,46 +348,99 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
         <EachFilterWrapper>
           {filterRules.map((eachRule: any, index: any) => (
             <EachFilterRuleSection>
-              <HeaderFilterIndicator>Where</HeaderFilterIndicator>
-              <EachFilterKeySection>
-                {deterMineIcons(eachRule.key)}
+              {index === 0 && (
+                <HeaderFilterIndicator
+                  style={{
+                    minWidth: '91px',
+                  }}
+                >
+                  Where
+                </HeaderFilterIndicator>
+              )}
+              {index !== 0 && (
+                <Select
+                  popupClassName="condition-render-select"
+                  defaultValue="and"
+                  style={{
+                    minWidth: '97px',
+                    maxWidth: '97px',
+                  }}
+                  onChange={(value) => changeConditionUsingIndex(value, index)}
+                  options={[
+                    { value: 'and', label: 'And' },
+                    { value: 'or', label: 'OR' },
+                  ]}
+                />
+              )}
+              <EachFilterKeySection index={index}>
+                {/* {deterMineIcons(eachRule.key)} */}
                 <Select
                   className="filter-key-selector"
-                  defaultValue="Name"
+                  popupClassName="condition-key-select"
+                  defaultValue={eachRule.key || 'Name'}
                   onChange={(value) => changePropertyUsingIndex(value, index)}
+                  showArrow
+                  dropdownRender={(menu) => CustomDropDown({ menu })}
                   options={[
                     { value: 'Assign', label: 'Assign' },
                     { value: 'Name', label: 'Name' },
                     { value: 'Priority', label: 'Priority' },
                     { value: 'Status', label: 'Status' },
-                  ]}
-                  showArrow
+                  ].map((data) => {
+                    return {
+                      value: data.value,
+                      label: (
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'flex-start',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'flex-start',
+                              width: '30px',
+                            }}
+                          >
+                            {deterMineIcons(data.label)}
+                          </div>
+                          <span>{data.label}</span>
+                        </div>
+                      ),
+                    };
+                  })}
                 />
               </EachFilterKeySection>
               <Select
-                defaultValue="Contains"
+                popupClassName="condition-render-select"
+                defaultValue={
+                  keyBinding.filter(
+                    (eachKey: any) => eachKey.value === filterRules[index].key
+                  )[0]?.filterArray[0].value
+                }
                 style={{
                   width: 120,
                   marginLeft: '8px',
                 }}
-                onChange={() => {}}
-                options={[
-                  { value: 'is', label: 'Is' },
-                  { value: 'is_not', label: 'Is not' },
-                  { value: 'contains', label: 'Contains' },
-                  { value: 'does_not_contains', label: 'Does not contains' },
-                  { value: 'starts_with', label: 'Starts with' },
-                  { value: 'ends_with', label: 'Ends with' },
-                  { value: 'is_empty', label: 'Is empty' },
-                  { value: 'is_not_empty', label: 'Is not empty' },
-                ]}
+                onChange={(value) => {
+                  changeOperationUsingIndex(value, index);
+                }}
+                options={
+                  keyBinding.filter(
+                    (eachKey: any) => eachKey.value === filterRules[index].key
+                  )[0]?.filterArray
+                }
               />
               <InputWrapperFilterEntry>
                 <InputFieldFilterEntry
-                  ref={inputRef}
+                  // ref={inputRef}
                   placeholder="Value"
                   value={eachRule.query}
-                  onKeyDown={onKeyDownHandlerForInput}
+                  onChange={(event) =>
+                    changeQueryUsingIndex(event.target.value, index)
+                  }
                 />
               </InputWrapperFilterEntry>{' '}
               <DeleteOutlined
@@ -326,46 +452,60 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
           ))}
           <AddFilterSection>
             {' '}
-            <Button
-              type="text"
-              shape="round"
-              icon={<PlusOutlined rev={undefined} />}
+            <div
               style={{
-                color: 'var(--shortcut, #7B8388)',
-                fontFamily: 'Noto Sans',
-                fontSize: '14px',
-                fontStyle: 'normal',
-                fontWeight: 400,
-                lineHeight: ' 155%',
-                padding: '0px',
-                marginLeft: '24px',
+                maxWidth: '111px',
+                // marginLeft: '24px',
               }}
-              onClick={addNewFilterWithEmptyPrompts}
             >
-              Add filter rule
-            </Button>
+              {' '}
+              <Button
+                className="add-new-filter-button"
+                type="text"
+                shape="round"
+                icon={<PlusOutlined rev={undefined} />}
+                style={{
+                  color: 'var(--shortcut, #7B8388)',
+                  fontFamily: 'Noto Sans',
+                  fontSize: '14px',
+                  fontStyle: 'normal',
+                  fontWeight: 400,
+                  lineHeight: ' 155%',
+                  padding: '0px',
+                }}
+                onClick={addNewFilterWithEmptyPrompts}
+              >
+                Add filter rule
+              </Button>
+            </div>
           </AddFilterSection>
 
           <FooterTopLine />
           <FilterViewFooterSection>
             <FilterViewFooterButtonSection>
               {' '}
-              <Button
-                onClick={deleteAllFilterRules}
+              <div
                 style={{
-                  color: 'var(--shortcut, #7B8388)',
-                  fontFamily: 'Noto Sans',
-                  fontSize: '12px',
-                  fontStyle: 'normal',
-                  fontWeight: 400,
-                  lineHeight: ' 100%',
-                  marginLeft: '24px',
-                  padding: '0px',
+                  maxWidth: '65px',
+                  // marginLeft: '24px',
                 }}
-                type="text"
               >
-                Delete Filter
-              </Button>
+                <Button
+                  onClick={deleteAllFilterRules}
+                  style={{
+                    color: 'var(--shortcut, #7B8388)',
+                    fontFamily: 'Noto Sans',
+                    fontSize: '12px',
+                    fontStyle: 'normal',
+                    fontWeight: 400,
+                    lineHeight: ' 100%',
+                    padding: '0px',
+                  }}
+                  type="text"
+                >
+                  Delete Filter
+                </Button>
+              </div>
             </FilterViewFooterButtonSection>
           </FilterViewFooterSection>
         </EachFilterWrapper>

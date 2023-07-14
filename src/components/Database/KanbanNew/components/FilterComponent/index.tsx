@@ -36,14 +36,7 @@ const KanbanFilterIndicator = styled.span`
   line-height: normal;
   margin-left: 5.87px;
 `;
-function KanbanFilter() {
-  const [filterRules, setFilterRules] = useState<object>([]);
-  // const [filterRules, setFilterRules] = useState([]);
-  console.log('filters filterRules', filterRules);
-  const callBackOnNewFilter = (arrayPassed: any) => {
-    console.log('filters - callbackfunction');
-    setFilterRules([...arrayPassed]);
-  };
+function KanbanFilter({ filterRules, callBackOnNewFilter }: any) {
   return (
     <KanbanFilterWrapper>
       <KanbanFilterFirstHalf>

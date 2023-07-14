@@ -163,6 +163,10 @@ function Kanban({ dbId }: any) {
       setKanbanDBData(kanbanRelatedDBData);
     }
   }, [databaseData, dbId]);
+  const [filterRules, setFilterRules] = useState<object>([]);
+  const callBackOnNewFilter = (arrayPassed: any) => {
+    setFilterRules([...arrayPassed]);
+  };
   return (
     <ContainerWrapper
       style={{
@@ -170,7 +174,10 @@ function Kanban({ dbId }: any) {
         overflow: 'scroll',
       }}
     >
-      <KanbanFilter />
+      <KanbanFilter
+        filterRules={filterRules}
+        callBackOnNewFilter={callBackOnNewFilter}
+      />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
           droppableId={`${kanbanDBData.id}`}
@@ -198,6 +205,7 @@ function Kanban({ dbId }: any) {
                       index={index}
                       color={column?.color}
                       dbId={dbId}
+                      filterRules={filterRules}
                     />
                   );
                 }

@@ -194,3 +194,17 @@ export const STatusIcon = ({ style }: any) => {
     </svg>
   );
 };
+
+export const UnderLineDropDown = () => {
+  return (
+    <svg
+      width="174"
+      height="2"
+      viewBox="0 0 174 2"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path id="Vector 2112" d="M0 1L174 0.999985" stroke="#242424" />
+    </svg>
+  );
+};

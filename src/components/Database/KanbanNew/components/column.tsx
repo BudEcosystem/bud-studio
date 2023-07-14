@@ -147,7 +147,49 @@ function Column(props: any) {
   };
   const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
   useEffect(() => {
+    //   [
+    //     {
+    //         "key": "Status",
+    //         "query": "dcdc",
+    //         "op": "contains",
+    //         "condition": null
+    //     },
+    //     {
+    //         "key": "Name",
+    //         "query": "is_not",
+    //         "op": "contains",
+    //         "condition": "and"
+    //     },
+    //     {
+    //         "key": "Status",
+    //         "query": "ttt",
+    //         "op": "contains",
+    //         "condition": "or"
+    //     },
+    //     {
+    //         "key": "Priority",
+    //         "query": "high",
+    //         "op": "contains",
+    //         "condition": "and"
+    //     },
+    //     {
+    //         "key": "Name",
+    //         "query": "",
+    //         "op": "contains",
+    //         "condition": "and"
+    //     }
+    // ]
     const TaskArray: any = [];
+    let { filterRules } = props;
+    let filterRulesGenerated;
+    if (filterRules && filterRules.length > 0) {
+      filterRules.forEach((filter: any, index: any) => {
+        let { key, query, op, condition } = filter;
+        if (!condition) {
+        }
+        console.log('filter - column', filter, index);
+      });
+    }
     props?.entries?.forEach((entry: any, index: any) => {
       workSpaceDocs?.forEach((doc: any, index: any) => {
         const statusOrder = doc.properties?.find(
@@ -210,6 +252,7 @@ function Column(props: any) {
     });
     SetTaskArrayForRender(TaskArray);
   }, [props, workSpaceDocs, workspace]);
+  console.log('TaskArrayForRender', TaskArrayForRender);
   return (
     <Draggable draggableId={props.currentKey} index={props.index}>
       {(provided: any) => (
