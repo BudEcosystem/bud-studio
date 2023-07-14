@@ -93,34 +93,34 @@ export const generateInitialWorkspaceState = (): InitialState => {
           },
         ],
         checkList: [
-            {
-            id: "abcd",
+          {
+            id: 'abcd',
             checked: false,
-            title: "Do homework",
-            createdAt: "",
-            updatedAt: "",
-            },
-            {
-            id: "efjh",
+            title: 'Do homework',
+            createdAt: '',
+            updatedAt: '',
+          },
+          {
+            id: 'efjh',
             checked: true,
-            title: "Buy Milk",
-            createdAt: "",
-            updatedAt: "",
-            },
-            {
-            id: "ijkl",
+            title: 'Buy Milk',
+            createdAt: '',
+            updatedAt: '',
+          },
+          {
+            id: 'ijkl',
             checked: false,
-            title: "Repair something",
-            createdAt: "",
-            updatedAt: "",
-            },
-            {
-            id: "mnop",
+            title: 'Repair something',
+            createdAt: '',
+            updatedAt: '',
+          },
+          {
+            id: 'mnop',
             checked: true,
-            title: "Lol key",
-            createdAt: "",
-            updatedAt: "",
-            },
+            title: 'Lol key',
+            createdAt: '',
+            updatedAt: '',
+          },
         ],
 
         // System Defined Properties
@@ -1514,9 +1514,7 @@ export const workspaceSlice = createSlice({
             order: 3,
           },
         ],
-        checkList: [
-
-        ],
+        checkList: [],
       };
       console.log('newWorkSpaceDocObject', newWorkSpaceDocObject);
       copyOfworkSpaceDocs.push(newWorkSpaceDocObject);
@@ -1644,29 +1642,43 @@ export const workspaceSlice = createSlice({
 
     setCheckedReducer: (state, action: PayloadAction<any>) => {
       const copyOfworkSpaceDocs = state.workSpaceDocs;
-      copyOfworkSpaceDocs.map((doc, index) => {
-        console.log("ITTT", action.payload.label)
+      copyOfworkSpaceDocs.forEach((doc, index) => {
+        console.log('ITTT', action.payload.label);
         if (doc.uuid == action.payload.parentId) {
-          state.workSpaceDocs[index].checkList.map((item, i) => {
-            if(item.id==action.payload.id) {
-              state.workSpaceDocs[index].checkList[i].checked = action.payload.label
+          const newRowOrder = Array.from(doc.checkList);
+          newRowOrder.forEach((item, i) => {
+            if (item.id == action.payload.id) {
+              item.checked = action.payload.label;
             }
-          })  
+          });
+          doc.checkList = newRowOrder;
         }
       });
     },
 
     setCheckedAddItem: (state, action: PayloadAction<any>) => {
       const copyOfworkSpaceDocs = state.workSpaceDocs;
-      copyOfworkSpaceDocs.map((doc, index) => {
-        console.log("ITTT", action.payload.label)
+      copyOfworkSpaceDocs.forEach((doc, index) => {
+        console.log('ITTT', action.payload.label);
         if (doc.uuid == action.payload.parentId) {
-          state.workSpaceDocs[index].checkList?.push(action.payload.obj)  
+          doc.checkList?.push(action.payload.obj);
         }
       });
     },
 
-    
+    setCheckListRow: (state, action: PayloadAction<any>) => {
+      const { result, parentId } = action.payload;
+      const { source, destination } = result;
+      state.workSpaceDocs.forEach((doc, index) => {
+        // console.log("ITTT", action.payload.label)
+        if (doc.uuid == parentId) {
+          const newRowOrder = Array.from(doc.checkList);
+          const [removed] = newRowOrder.splice(source.index, 1);
+          newRowOrder.splice(destination.index, 0, removed);
+          doc.checkList = newRowOrder;
+        }
+      });
+    },
 
     setWorkspacestodos: (state, action: PayloadAction<any>) => {
       console.log(action.payload);
@@ -1836,6 +1848,7 @@ export const {
   setWorkspacestodos,
   duplicateWorkspace,
   setCheckedReducer,
-  setCheckedAddItem
+  setCheckedAddItem,
+  setCheckListRow,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

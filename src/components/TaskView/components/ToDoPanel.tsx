@@ -9,6 +9,7 @@ import TextComponent from './TextComponent';
 import { changeRowOrderTodos } from '@/redux/slices/database';
 import CheckList from './CheckList';
 import CheckListInput from './CheckListInput';
+import { setCheckListRow } from '@/redux/slices/workspace';
 
 const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
   const dispatch = useDispatch();
@@ -33,6 +34,14 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
   // }, [dataId, workspaceDocs, workspacestodos]);
 
   console.log('ARUNS', data);
+  const [checkList, setCheckList] = useState();
+  useEffect(() => {
+    workspace.workSpaceDocs.forEach((it, i) => {
+      if (it.uuid === data.entry.uuid) {
+        setCheckList(it.checkList);
+      }
+    });
+  }, [data, workspace, data.entry.checkList]);
 
   const [sortedArray, setSortedArray] = useState([]);
 
@@ -43,6 +52,9 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
     // const [removed] = newRowOrder.splice(result.source.index, 1);
     // newRowOrder.splice(result.destination.index, 0, removed);
     // setChildData(newRowOrder);
+  };
+  const handleDragEndForChecklist = (result: any) => {
+    dispatch(setCheckListRow({ result, parentId: data.entry.uuid }));
   };
   return (
     <div className="KanbanPanel__todo">
@@ -116,41 +128,38 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
           >
             {data.entry.checkList?.length} Checklists +
           </div>
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="todo">
+          <DragDropContext onDragEnd={handleDragEndForChecklist}>
+            <Droppable droppableId="todo2">
               {(provided, snapshot) => (
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                   style={{ marginTop: '8px' }}
                 >
-                  {data.entry.checkList?.map((item: any, i: any) => (
-                    <>
-                      {!item.checked && (
-                        <Draggable
-                          key={`todo-${i}`}
-                          draggableId={`todo-${i}`}
-                          index={i}
+                  {checkList?.map((it: any, i: any) => (
+                    <Draggable
+                      key={`check-${i}`}
+                      draggableId={`check-${i}`}
+                      index={i}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
                         >
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                            >
-                              <CheckList
-                                provided={provided}
-                                snapshot={snapshot}
-                                item={item}
-                                parentId={data.entry.uuid}
-                              />
-                            </div>
-                          )}
-                        </Draggable>
+                          <CheckList
+                            provided={provided}
+                            snapshot={snapshot}
+                            item={it}
+                            parentId={data.entry.uuid}
+                            color={color}
+                          />
+                        </div>
                       )}
-                    </>
+                    </Draggable>
                   ))}
                   {provided.placeholder}
-                  {data.entry.checkList?.map((item: any, i: any) => (
+                  {/* {data.entry.checkList?.map((item: any, i: any) => (
                     <>
                       {item.checked && (
                         <Draggable
@@ -174,8 +183,8 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
                         </Draggable>
                       )}
                     </>
-                  ))}
-                  {provided.placeholder}
+                  ))} */}
+                  {/* {provided.placeholder} */}
                   {showCheckListInput && (
                     <CheckListInput
                       parentId={data.entry.uuid}
