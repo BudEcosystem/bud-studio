@@ -273,10 +273,9 @@ function HeaderSubComp({
             >
               <div
                 style={{
-                  transform:
-                    !docsDictionary[data.entry.uuid] || !expanded
-                      ? 'rotate(-90deg)'
-                      : '',
+                  transform: !docsDictionary[data.entry.uuid]
+                    ? 'rotate(-90deg)'
+                    : '',
                   transition: 'all 0.2s ease',
                   marginLeft: subChild ? '0px' : '-5px',
                 }}

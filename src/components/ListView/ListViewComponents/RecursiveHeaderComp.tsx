@@ -91,7 +91,7 @@ const RecursiveHeaderComp = ({
               toggleSubAccordionChild2={toggleSubAccordionChild2}
               docsDictionary={docsDictionary}
             />
-            {docsDictionary[subItem.entry.uuid] === true &&
+            {/* {docsDictionary[subItem.entry.uuid] === true &&
               todoArr[i]?.length > 0 && (
                 <div style={{ marginLeft: '25px', marginBottom: '10px' }}>
                   <RecursiveHeaderComp
@@ -114,7 +114,7 @@ const RecursiveHeaderComp = ({
                     docsDictionary={docsDictionary}
                   />
                 </div>
-              )}
+              )} */}
           </div>
         ))}
     </div>
