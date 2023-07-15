@@ -146,107 +146,206 @@ function Column(props: any) {
     );
   };
   const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
+  let { filterRules } = props;
   useEffect(() => {
-    //   [
-    //     {
-    //         "key": "Status",
-    //         "query": "dcdc",
-    //         "op": "contains",
-    //         "condition": null
-    //     },
-    //     {
-    //         "key": "Name",
-    //         "query": "is_not",
-    //         "op": "contains",
-    //         "condition": "and"
-    //     },
-    //     {
-    //         "key": "Status",
-    //         "query": "ttt",
-    //         "op": "contains",
-    //         "condition": "or"
-    //     },
-    //     {
-    //         "key": "Priority",
-    //         "query": "high",
-    //         "op": "contains",
-    //         "condition": "and"
-    //     },
-    //     {
-    //         "key": "Name",
-    //         "query": "",
-    //         "op": "contains",
-    //         "condition": "and"
-    //     }
-    // ]
+    if (filterRules.length > 0) {
+      let filterRulesGenerated: any = '';
+      const filterRulesWhere = filterRules.filter(
+        (data: any) => data.condition === null
+      );
+      const filterRulesAnd = filterRules.filter(
+        (data: any) => data.condition === 'and'
+      );
+      const filterRulesOr = filterRules.filter(
+        (data: any) => data.condition === 'or'
+      );
+      console.log('filterRulesGenerated', filterRulesWhere);
+      console.log('filterRulesGenerated', filterRulesAnd);
+      console.log('filterRulesGenerated', filterRulesOr);
+      const whereConditionArray: any = [];
+      const andConditionArray: any = [];
+      const orConditionArray: any = [];
+      filterRulesWhere.forEach((data: any) => {
+        console.log('filterRules Where', data);
+        let { op, key, query } = data;
+        switch (op) {
+          case 'is':
+            whereConditionArray.push(`${key}===${query}`);
+            break;
+          case 'is_not':
+            // filterRulesGenerated += filterRulesGenerated + `${key}!==${query}`;
+            whereConditionArray.push(`${key}!==${query}`);
+            break;
+          case 'contains':
+            whereConditionArray.push(`${key}.includes(${query})`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `${key}.includes(${query})`;
+            break;
+          case 'does_not_contains':
+            whereConditionArray.push(`!${key}.includes(${query})`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `!${key}.includes(${query})`;
+            break;
+          case 'starts_with':
+            whereConditionArray.push(`${key}.startsWith(${query})`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `${key}.startsWith(${query})`;
+            break;
+          case 'ends_with':
+            whereConditionArray.push(`${key}.endsWith(${query})`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `${key}.endsWith(${query})`;
+            break;
+          case 'is_empty':
+            whereConditionArray.push(`${key} === '' ||${key} === null`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `${key} === '' ||${key} === null`;
+            break;
+          case 'is_not_empty':
+            whereConditionArray.push(`${key} !== '' ||${key} !== null`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `${key} !== '' ||${key} !== null`;
+            break;
+        }
+      });
+      filterRulesAnd.forEach((data: any) => {
+        console.log('filterRules And', data);
+        let { op, key, query } = data;
+        switch (op) {
+          case 'is':
+            andConditionArray.push(`${key}===${query}`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `&&${key}===${query}`;
+            break;
+          case 'is_not':
+            andConditionArray.push(`${key}!==${query}`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&${key}!==${query}`;
+            break;
+          case 'contains':
+            andConditionArray.push(`${key}.includes(${query})`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&${key}.includes(${query})`;
+            break;
+          case 'does_not_contains':
+            andConditionArray.push(`!${key}.includes(${query})`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&!${key}.includes(${query})`;
+            break;
+          case 'starts_with':
+            andConditionArray.push(`${key}.startsWith(${query})`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&${key}.startsWith(${query})`;
+            break;
+          case 'ends_with':
+            andConditionArray.push(`${key}.endsWith(${query})`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&${key}.endsWith(${query})`;
+            break;
+          case 'is_empty':
+            andConditionArray.push(`${key} === '' ||${key} === null`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&${key} === '' ||${key} === null`;
+            break;
+          case 'is_not_empty':
+            andConditionArray.push(`${key} !== '' ||${key} !== null`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&${key} !== '' ||${key} !== null`;
+            break;
+        }
+      });
+      filterRulesOr.forEach((data: any) => {
+        console.log('filterRules OR', data);
+        let { op, key, query } = data;
+        switch (op) {
+          case 'is':
+            orConditionArray.push(`${key}===${query}`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key}===${query}`;
+            break;
+          case 'is_not':
+            orConditionArray.push(`${key}!==${query}`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key}!==${query}`;
+            break;
+          case 'contains':
+            orConditionArray.push(`${key}.includes(${query})`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key}.includes(${query})`;
+            break;
+          case 'does_not_contains':
+            orConditionArray.push(`!${key}.includes(${query})`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||!${key}.includes(${query})`;
+            break;
+          case 'starts_with':
+            orConditionArray.push(`${key}.startsWith(${query})`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key}.startsWith(${query})`;
+            break;
+          case 'ends_with':
+            orConditionArray.push(`${key}.endsWith(${query})`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key}.endsWith(${query})`;
+            break;
+          case 'is_empty':
+            orConditionArray.push(`${key} === '' ||${key} === null`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key} === '' ||${key} === null`;
+            break;
+          case 'is_not_empty':
+            orConditionArray.push(`${key} !== '' ||${key} !== null`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key} !== '' ||${key} !== null`;
+            break;
+        }
+      });
+      console.log('whereConditionArray - where', whereConditionArray);
+      console.log('whereConditionArray - or', orConditionArray);
+      console.log('whereConditionArray - and', andConditionArray);
+    }
+  }, [filterRules]);
+  useEffect(() => {
     const TaskArray: any = [];
     let { filterRules } = props;
-    let filterRulesGenerated;
-    if (filterRules && filterRules.length > 0) {
-      filterRules.forEach((filter: any, index: any) => {
-        let { key, query, op, condition } = filter;
-        if (!condition) {
-        }
-        console.log('filter - column', filter, index);
-      });
-    }
     props?.entries?.forEach((entry: any, index: any) => {
       workSpaceDocs?.forEach((doc: any, index: any) => {
         const statusOrder = doc.properties?.find(
           (data: any) => data.type === 'status'
         );
-        if (workspaceDocsSearchKey) {
-          const name = doc.name.toLowerCase();
-          if (
-            doc.uuid === entry.documentID &&
+        const name = doc.name.toLowerCase();
+        let condition = workspaceDocsSearchKey
+          ? doc.uuid === entry.documentID &&
             props.currentKey === statusOrder.value &&
             name.includes(workspaceDocsSearchKey)
-          ) {
-            const docId = entry.documentID;
-            const mappedTask: Task = {
-              index,
-              id: docId,
-              content: `${doc?.name}`,
-              heading: `${doc?.name}`,
-              progress: '',
-              user: '',
-              description: 'Make hay',
-              footer: '',
-              image: '',
-              type: '',
-              ...doc,
-              ...entry,
-              status: props.title,
-              color: props.color,
-              dbHeader: props.databaseData.title,
-            };
-            TaskArray.push(mappedTask);
-          }
-        } else if (!workspaceDocsSearchKey) {
-          if (
-            doc.uuid === entry.documentID &&
-            props.currentKey === statusOrder.value
-          ) {
-            const docId = entry.documentID;
-            const mappedTask: Task = {
-              index,
-              id: docId,
-              content: `${doc?.name}`,
-              heading: `${doc?.name}`,
-              progress: '',
-              user: '',
-              description: 'Make hay',
-              footer: '',
-              image: '',
-              type: '',
-              ...doc,
-              ...entry,
-              status: props.title,
-              color: props.color,
-              dbHeader: props.databaseData.title,
-            };
-            TaskArray.push(mappedTask);
-          }
+          : doc.uuid === entry.documentID &&
+            props.currentKey === statusOrder.value;
+        if (condition) {
+          const docId = entry.documentID;
+          const mappedTask: Task = {
+            index,
+            id: docId,
+            Name: doc.name,
+            content: `${doc?.name}`,
+            heading: `${doc?.name}`,
+            progress: '',
+            user: '',
+            description: 'Make hay',
+            footer: '',
+            image: '',
+            type: '',
+            Priority: doc.properties.find(
+              (data: any) => data.type === 'priority'
+            ).value,
+            ...doc,
+            ...entry,
+            status: props.title,
+            color: props.color,
+            dbHeader: props.databaseData.title,
+            Status: entry.statusKey,
+            User: '',
+          };
+          TaskArray.push(mappedTask);
         }
       });
     });

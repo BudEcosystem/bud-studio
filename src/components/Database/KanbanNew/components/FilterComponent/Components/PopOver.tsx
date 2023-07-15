@@ -261,7 +261,7 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
     const filterRuleObject = {
       key: 'Name',
       query: '',
-      op: 'contains',
+      op: 'is',
       condition: 'and',
     };
     copyOfFIlterRules.push(filterRuleObject);
@@ -307,7 +307,7 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
   };
   const changeOperationUsingIndex = (value: any, index: any) => {
     const copyOfFIlterRules: any = filterRules;
-    copyOfFIlterRules[index].query = value;
+    copyOfFIlterRules[index].op = value;
     callBackOnNewFilter(copyOfFIlterRules);
   };
   console.log('filterRules', filterRules);
@@ -421,7 +421,8 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
                   )[0]?.filterArray[0].value
                 }
                 style={{
-                  width: 120,
+                  maxWidth: 112,
+                  minWidth: 112,
                   marginLeft: '8px',
                 }}
                 onChange={(value) => {
