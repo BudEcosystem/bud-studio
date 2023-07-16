@@ -197,6 +197,28 @@ const AddFilterSection = styled.div`
   margin-top: 24px;
   flex-direction: row;
 `;
+const PriorityArray = [
+  { label: 'High', value: 'High', color: '#fff' },
+  { label: 'Low', value: 'Low', color: '#fff' },
+  { label: 'Medium', value: 'Medium', color: '#fff' },
+  { label: 'Normal', value: 'Normal', color: '#fff' },
+];
+const StatusArray = [
+  {
+    label: 'Not Started',
+    value: 'not_started',
+    color: 'red',
+    key: 'not_started',
+  },
+  {
+    label: 'In Progress',
+    value: 'in_progress',
+    color: 'yellow',
+    key: 'in_progress',
+  },
+  { label: 'In Review', value: 'in_review', color: 'blue', key: 'in_review' },
+  { label: 'Done', value: 'done', color: 'green', key: 'done' },
+];
 const keyBinding: any = [
   {
     value: 'Assign',
@@ -293,6 +315,11 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
   const changePropertyUsingIndex = (value: any, index: any) => {
     const copyOfFIlterRules: any = filterRules;
     copyOfFIlterRules[index].key = value;
+    if (value === 'Status') {
+      copyOfFIlterRules[index].query = 'not_started';
+    } else if (value === 'Priority') {
+      copyOfFIlterRules[index].query = 'High';
+    }
     callBackOnNewFilter(copyOfFIlterRules);
   };
   const changeConditionUsingIndex = (value: any, index: any) => {
@@ -373,7 +400,6 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
                 />
               )}
               <EachFilterKeySection index={index}>
-                {/* {deterMineIcons(eachRule.key)} */}
                 <Select
                   className="filter-key-selector"
                   popupClassName="condition-key-select"
@@ -434,16 +460,38 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
                   )[0]?.filterArray
                 }
               />
-              <InputWrapperFilterEntry>
-                <InputFieldFilterEntry
-                  // ref={inputRef}
-                  placeholder="Value"
-                  value={eachRule.query}
-                  onChange={(event) =>
-                    changeQueryUsingIndex(event.target.value, index)
+              {['Priority', 'Status'].includes(eachRule.key) ? (
+                <Select
+                  popupClassName="condition-render-select"
+                  defaultValue={
+                    eachRule.key === 'Priority'
+                      ? PriorityArray[0].value
+                      : StatusArray[0].value
+                  }
+                  style={{
+                    maxWidth: 80,
+                    minWidth: 80,
+                    marginLeft: '8px',
+                  }}
+                  onChange={(value) => {
+                    changeQueryUsingIndex(value, index);
+                  }}
+                  options={
+                    eachRule.key === 'Priority' ? PriorityArray : StatusArray
                   }
                 />
-              </InputWrapperFilterEntry>{' '}
+              ) : (
+                <InputWrapperFilterEntry>
+                  <InputFieldFilterEntry
+                    // ref={inputRef}
+                    placeholder="Value"
+                    value={eachRule.query}
+                    onChange={(event) =>
+                      changeQueryUsingIndex(event.target.value, index)
+                    }
+                  />
+                </InputWrapperFilterEntry>
+              )}
               <DeleteOutlined
                 rev={undefined}
                 style={{ color: 'red', fontSize: '18px', marginLeft: '8px' }}
