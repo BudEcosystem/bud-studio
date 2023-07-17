@@ -471,28 +471,26 @@ export const databaseSlice = createSlice({
     },
     addTodos: (state, action: PayloadAction<any>) => {
       state.databases.map((database) => {
-        if (database.defaultView === "List") {
+        if (database.defaultView === 'List') {
           const x = solveRec(database.entries, action.payload.id);
           console.log({ ...x }, 'addTodo');
           x.childs.push({
             documentID: action.payload.newId,
             childs: [],
           });
-         
         }
       });
     },
 
     addTodosKanban: (state, action: PayloadAction<any>) => {
       state.databases.map((database) => {
-        if (database.defaultView === "Kanban") {
+        if (database.defaultView === 'Kanban') {
           const x = solveRec(database.entries, action.payload.id);
           console.log({ ...x }, 'addTodo');
           x.childs.push({
             documentID: action.payload.newId,
             childs: [],
           });
-         
         }
       });
     },
@@ -521,16 +519,26 @@ export const databaseSlice = createSlice({
     changeRowOrderTodos: (state, action: PayloadAction<any>) => {
       const { id, result } = action.payload;
       const { source, destination } = result;
-      state.databases.map((database) => {
+      state.databases.forEach((database) => {
         if (database.defaultView === 'List') {
-          database.entries.map((item, i) => {
-            if (item.documentID === action.payload.id) {
-              const newRowOrder = Array.from(item.childs);
-              const [removed] = newRowOrder.splice(source.index, 1);
-              newRowOrder.splice(destination.index, 0, removed);
-              item.childs = newRowOrder;
-            }
-          });
+          const x = solveRec(database.entries, action.payload.id);
+          const newRowOrder = Array.from(x.childs);
+          const [removed] = newRowOrder.splice(source.index, 1);
+          newRowOrder.splice(destination.index, 0, removed);
+          x.childs = newRowOrder;
+        }
+      });
+    },
+    changeRowOrderTodosKanban: (state, action: PayloadAction<any>) => {
+      const { id, result } = action.payload;
+      const { source, destination } = result;
+      state.databases.map((database) => {
+        if (database.defaultView === 'Kanban') {
+          const x = solveRec(database.entries, action.payload.id);
+          const newRowOrder = Array.from(x.childs);
+          const [removed] = newRowOrder.splice(source.index, 1);
+          newRowOrder.splice(destination.index, 0, removed);
+          x.childs = newRowOrder;
         }
       });
     },
@@ -561,7 +569,8 @@ export const {
   editPropertPresetsStatusOptions,
   addTodos,
   changeRowOrderTodos,
-  addTodosKanban
+  addTodosKanban,
+  changeRowOrderTodosKanban,
 } = databaseSlice.actions;
 
 export default databaseSlice.reducer;

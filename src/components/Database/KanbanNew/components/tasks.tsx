@@ -200,9 +200,7 @@ function Tasks(props: any) {
               </TaskUserUI>
             )}
             {props.task.description && (
-              <TaskDescription>
-                {props.task.description}
-              </TaskDescription>
+              <TaskDescription>{props.task.description}</TaskDescription>
             )}
             {props.task.type && (
               <TaskType>

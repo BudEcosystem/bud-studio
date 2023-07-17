@@ -15,9 +15,21 @@ import {
 } from './TaskViewIcons';
 import ToDoPanel from './components/ToDoPanel';
 import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
-import { Button, Calendar, ConfigProvider, Modal, Popover, Space, Tooltip } from 'antd';
+import {
+  Button,
+  Calendar,
+  ConfigProvider,
+  Modal,
+  Popover,
+  Space,
+  Tooltip,
+} from 'antd';
 import BudEditor from '@/Libraries/LexicalEditor/BudEditor';
-import { updateDocumentData, updateDocumentDueDateById, updateDocumentStatusById } from '@/redux/slices/workspace';
+import {
+  updateDocumentData,
+  updateDocumentDueDateById,
+  updateDocumentStatusById,
+} from '@/redux/slices/workspace';
 import { Flag, FoldedCard } from '../ListView/ListViewIcons';
 import CircularBorder from '../ListView/ListViewComponents/CircularBorder';
 import dayjs from 'dayjs';
@@ -27,9 +39,9 @@ const TaskViewKanban = ({
   showKanbanTaskView,
   setShowKanbanTaskView,
   statusPanels,
-  databaseEntries
+  databaseEntries,
 }: any) => {
-  const { workspace}: any = useSelector((state) => state);
+  const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [isDragOver, setIsDragOver] = useState(false);
   const [localState, setLocalState] = useState(null);
@@ -116,8 +128,8 @@ const TaskViewKanban = ({
     );
   };
 
-  console.log("TASKKAN", data)
-  
+  console.log('TASKKAN', data);
+
   const handleDragOver = (event: any) => {
     event.preventDefault();
     setIsDragOver(true);
@@ -145,9 +157,7 @@ const TaskViewKanban = ({
   };
 
   const updateDueDate = (date: any) => {
-    dispatch(
-      updateDocumentDueDateById({ documentID: data.id, dueDate: date })
-    );
+    dispatch(updateDocumentDueDateById({ documentID: data.id, dueDate: date }));
 
     setDatePopoverVisible(false);
   };
@@ -261,9 +271,7 @@ const TaskViewKanban = ({
 
   const [priorityPopoverVisible, setPriorityPopoverVisible] = useState(false);
   const setPriority = (priority: any) => {
-    dispatch(
-      updateDocumentStatusById({ documentID: data.id, priority })
-    );
+    dispatch(updateDocumentStatusById({ documentID: data.id, priority }));
   };
 
   useEffect(() => {
@@ -285,7 +293,7 @@ const TaskViewKanban = ({
     );
   };
 
-  console.log("DATAGOV", data)
+  console.log('DATAGOV', data);
 
   return (
     <Modal
@@ -305,7 +313,12 @@ const TaskViewKanban = ({
                 <span className="tick">L</span>
               </div>
               <h2 className="TopBar__Title">{data.dbHeader}</h2>
-              <div style={{background: `${data?.color}`}} className="TopBar__ProgressText">{data?.status}</div>
+              <div
+                style={{ background: `${data?.color}` }}
+                className="TopBar__ProgressText"
+              >
+                {data?.status}
+              </div>
             </div>
 
             {data?.user ? (
@@ -366,164 +379,160 @@ const TaskViewKanban = ({
                   marginLeft: '30px',
                 }}
               >
-
-                    <div className="task-view-priority-chooser">
-                      <Popover
-                        overlayClassName="list-view-tag-set-pop"
-                        content={
-                          <div className="list-view-tag-set">
-                            <Space direction="vertical">
-                              <Space wrap>
-                                <Tooltip title="High">
-                                  <Button
-                                    className="list-view-flag-icon list-view-flag-high"
-                                    type="dashed"
-                                    shape="circle"
-                                    onClick={() => {
-                                      setPriority('High');
-                                      setPriorityPopoverVisible(false);
-                                    }}
-                                    icon={<Flag />}
-                                  />
-                                </Tooltip>
-
-                                <Tooltip title="Medium">
-                                  <Button
-                                    className="list-view-flag-icon list-view-flag-medium"
-                                    onClick={() => {
-                                      setPriority('Medium');
-                                      setPriorityPopoverVisible(false);
-                                    }}
-                                    type="dashed"
-                                    shape="circle"
-                                    icon={<Flag />}
-                                  />
-                                </Tooltip>
-                                <Tooltip title="Normal">
-                                  <Button
-                                    className="list-view-flag-icon list-view-flag-normal"
-                                    onClick={() => {
-                                      setPriority('Normal');
-                                      setPriorityPopoverVisible(false);
-                                    }}
-                                    type="dashed"
-                                    shape="circle"
-                                    icon={<Flag />}
-                                  />
-                                </Tooltip>
-                                <Tooltip title="Low">
-                                  <Button
-                                    className="list-view-flag-icon list-view-flag-low"
-                                    type="dashed"
-                                    shape="circle"
-                                    onClick={() => {
-                                      setPriority('Low');
-                                      setPriorityPopoverVisible(false);
-                                    }}
-                                    icon={<Flag />}
-                                  />
-                                </Tooltip>
-                              </Space>
-                            </Space>
-                          </div>
-                        }
-                        arrow={false}
-                        title="Priority"
-                        trigger="click"
-                        placement="bottom"
-                        open={priorityPopoverVisible}
-                        onOpenChange={setPriorityPopoverVisible}
-                      >
-                        <Tooltip
-                          title={
-                            data.properties.find(
-                              (prop: { title: string; value: any }) =>
-                                prop.title === 'Priority'
-                            )?.value
-                          }
-                          color={
-                            flagcolors[
-                              data.properties.find(
-                                (prop: { title: string; value: any }) =>
-                                  prop.title === 'Priority'
-                              )?.value
-                            ]
-                          }
-                          key={
-                            flagcolors[
-                              data.properties.find(
-                                (prop: { title: string; value: any }) =>
-                                  prop.title === 'Priority'
-                              )?.value
-                            ]
-                          }
-                        >
-                          {getFlagColor(
-                            flagcolors[
-                              data.properties.find(
-                                (prop: { title: string; value: any }) =>
-                                  prop.title === 'Priority'
-                              )?.value
-                            ]
-                          )}
-                        </Tooltip>
-                      </Popover>
-                    </div>
-                    <div className="" style={{ marginRight: '40px' }}>
-                      <Popover
-                        trigger="click"
-                        overlayClassName="list-view-tag-set-pop"
-                        placement="bottom"
-                        arrow={false}
-                        title="Due Date"
-                        open={datePopoverVisible}
-                        onOpenChange={(visible) =>
-                          setDatePopoverVisible(visible)
-                        }
-                        content={
-                          <div style={{ width: 300 }}>
-                            <ConfigProvider
-                              theme={{
-                                components: {
-                                  Calendar: {
-                                    colorBgContainer: '#0c0c0c',
-                                    colorBgDateSelected: color,
-                                    colorPrimary: color,
-                                    colorText: '#fff',
-                                    colorTextDisabled: '#ffffff21',
-                                    fontFamily: 'Nano Sans',
-                                  },
-                                },
-                              }}
-                            >
-                              <Calendar
-                                fullscreen={false}
-                                onChange={updateDueDate}
+                <div className="task-view-priority-chooser">
+                  <Popover
+                    overlayClassName="list-view-tag-set-pop"
+                    content={
+                      <div className="list-view-tag-set">
+                        <Space direction="vertical">
+                          <Space wrap>
+                            <Tooltip title="High">
+                              <Button
+                                className="list-view-flag-icon list-view-flag-high"
+                                type="dashed"
+                                shape="circle"
+                                onClick={() => {
+                                  setPriority('High');
+                                  setPriorityPopoverVisible(false);
+                                }}
+                                icon={<Flag />}
                               />
-                            </ConfigProvider>
-                          </div>
-                        }
-                      >
-                        {data.properties.find(
-                          (prop: { title: string; value: any }) =>
-                            prop.title === 'Date'
-                        )?.value ? (
-                          <div className="taskview-duedate">
-                            {dayjs(
-                              data.properties.find(
-                                (prop: { title: string; value: any }) =>
-                                  prop.title === 'Date'
-                              )?.value
-                            ).fromNow()}
-                          </div>
-                        ) : (
-                          <Button type="text">
-                            <CircularBorder icon={<FoldedCard />} />
-                          </Button>
-                        )}
-                      </Popover>
-                    </div>
+                            </Tooltip>
 
+                            <Tooltip title="Medium">
+                              <Button
+                                className="list-view-flag-icon list-view-flag-medium"
+                                onClick={() => {
+                                  setPriority('Medium');
+                                  setPriorityPopoverVisible(false);
+                                }}
+                                type="dashed"
+                                shape="circle"
+                                icon={<Flag />}
+                              />
+                            </Tooltip>
+                            <Tooltip title="Normal">
+                              <Button
+                                className="list-view-flag-icon list-view-flag-normal"
+                                onClick={() => {
+                                  setPriority('Normal');
+                                  setPriorityPopoverVisible(false);
+                                }}
+                                type="dashed"
+                                shape="circle"
+                                icon={<Flag />}
+                              />
+                            </Tooltip>
+                            <Tooltip title="Low">
+                              <Button
+                                className="list-view-flag-icon list-view-flag-low"
+                                type="dashed"
+                                shape="circle"
+                                onClick={() => {
+                                  setPriority('Low');
+                                  setPriorityPopoverVisible(false);
+                                }}
+                                icon={<Flag />}
+                              />
+                            </Tooltip>
+                          </Space>
+                        </Space>
+                      </div>
+                    }
+                    arrow={false}
+                    title="Priority"
+                    trigger="click"
+                    placement="bottom"
+                    open={priorityPopoverVisible}
+                    onOpenChange={setPriorityPopoverVisible}
+                  >
+                    <Tooltip
+                      title={
+                        data.properties.find(
+                          (prop: { title: string; value: any }) =>
+                            prop.title === 'Priority'
+                        )?.value
+                      }
+                      color={
+                        flagcolors[
+                          data.properties.find(
+                            (prop: { title: string; value: any }) =>
+                              prop.title === 'Priority'
+                          )?.value
+                        ]
+                      }
+                      key={
+                        flagcolors[
+                          data.properties.find(
+                            (prop: { title: string; value: any }) =>
+                              prop.title === 'Priority'
+                          )?.value
+                        ]
+                      }
+                    >
+                      {getFlagColor(
+                        flagcolors[
+                          data.properties.find(
+                            (prop: { title: string; value: any }) =>
+                              prop.title === 'Priority'
+                          )?.value
+                        ]
+                      )}
+                    </Tooltip>
+                  </Popover>
+                </div>
+                <div className="" style={{ marginRight: '40px' }}>
+                  <Popover
+                    trigger="click"
+                    overlayClassName="list-view-tag-set-pop"
+                    placement="bottom"
+                    arrow={false}
+                    title="Due Date"
+                    open={datePopoverVisible}
+                    onOpenChange={(visible) => setDatePopoverVisible(visible)}
+                    content={
+                      <div style={{ width: 300 }}>
+                        <ConfigProvider
+                          theme={{
+                            components: {
+                              Calendar: {
+                                colorBgContainer: '#0c0c0c',
+                                colorBgDateSelected: color,
+                                colorPrimary: color,
+                                colorText: '#fff',
+                                colorTextDisabled: '#ffffff21',
+                                fontFamily: 'Nano Sans',
+                              },
+                            },
+                          }}
+                        >
+                          <Calendar
+                            fullscreen={false}
+                            onChange={updateDueDate}
+                          />
+                        </ConfigProvider>
+                      </div>
+                    }
+                  >
+                    {data.properties.find(
+                      (prop: { title: string; value: any }) =>
+                        prop.title === 'Date'
+                    )?.value ? (
+                      <div className="taskview-duedate">
+                        {dayjs(
+                          data.properties.find(
+                            (prop: { title: string; value: any }) =>
+                              prop.title === 'Date'
+                          )?.value
+                        ).fromNow()}
+                      </div>
+                    ) : (
+                      <Button type="text">
+                        <CircularBorder icon={<FoldedCard />} />
+                      </Button>
+                    )}
+                  </Popover>
+                </div>
 
                 {/* <div className="DashedCircleIcons">
                   <FlagSmall />
@@ -558,22 +567,22 @@ const TaskViewKanban = ({
             <div className="KanbanTask__subHeading">{data?.description}</div>
 
             <div className="KabuniPanel__WriteContent">
-            {localState && (
-                    <BudEditor
-                      data={localState}
-                      persistEditorRoot={persistEditorRoot}
-                    />
-                  )}
+              {localState && (
+                <BudEditor
+                  data={localState}
+                  persistEditorRoot={persistEditorRoot}
+                />
+              )}
             </div>
 
-            <div style={{marginTop: "20px"}}>
-            <ToDoPanel 
-            dataId={todoID}
-            data={data}
-            statusPanels={statusPanels} 
-            subChild={false}
-            />
-          </div>
+            <div style={{ marginTop: '20px' }}>
+              <ToDoPanel
+                dataId={todoID}
+                data={data}
+                statusPanels={statusPanels}
+                subChild={false}
+              />
+            </div>
 
             <div
               style={{
