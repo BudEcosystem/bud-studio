@@ -156,7 +156,7 @@ export const generateDatabaseInitialState = (): any => {
         entries: [
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
-            childs: [{ documentID: '39b08a3d-12f1-4651-90f7-328952849dca' }],
+            childs: [],
             statusKey: 'in_progress',
           },
         ],
@@ -471,32 +471,32 @@ export const databaseSlice = createSlice({
     },
     addTodos: (state, action: PayloadAction<any>) => {
       state.databases.map((database) => {
-        if (database.defaultView === 'List') {
+        if (database.defaultView === "List") {
           const x = solveRec(database.entries, action.payload.id);
           console.log({ ...x }, 'addTodo');
           x.childs.push({
             documentID: action.payload.newId,
             childs: [],
           });
-          //   database.entries.forEach((item, i) => {
-          //  const x = solveRec(item, action.payload.id, action.payload.newId)
-          //  console.log({...x})
-          //  if(x) {
-          //   x.childs.push({
-          //         documentID: action.payload.newId,
-          //         childs: [],
-          //       })
-          //  }
-          // if (item.documentID === action.payload.id) {
-          //   item?.childs?.push({
-          //     documentID: action.payload.newId,
-          //     childs: [],
-          //   });
-          // }
-          // });
+         
         }
       });
     },
+
+    addTodosKanban: (state, action: PayloadAction<any>) => {
+      state.databases.map((database) => {
+        if (database.defaultView === "Kanban") {
+          const x = solveRec(database.entries, action.payload.id);
+          console.log({ ...x }, 'addTodo');
+          x.childs.push({
+            documentID: action.payload.newId,
+            childs: [],
+          });
+         
+        }
+      });
+    },
+
     editPropertPresetsStatusOptions: (state, action: PayloadAction<any>) => {
       const { id, statusKey, name } = action.payload;
       const copyOfDB = [...state.databases];
@@ -561,6 +561,7 @@ export const {
   editPropertPresetsStatusOptions,
   addTodos,
   changeRowOrderTodos,
+  addTodosKanban
 } = databaseSlice.actions;
 
 export default databaseSlice.reducer;

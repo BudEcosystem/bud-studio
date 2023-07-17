@@ -7,7 +7,7 @@
 /* eslint-disable react/destructuring-assignment */
 import { styled } from 'styled-components';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Popover } from 'antd';
 import { EnterOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
@@ -61,6 +61,7 @@ function Column(props: any) {
     useState(false);
   const [nameEditable, setNameEditable] = useState(false);
   const [open, setOpen] = useState(false);
+  const [statusPanels, setStatusPanels] = useState(null)
   const hide = () => {
     setNameEditable(true);
     setOpen(false);
@@ -133,6 +134,47 @@ function Column(props: any) {
       }
     });
   });
+
+  console.log("KKKK", props.databaseData)
+  useLayoutEffect(() => {
+    // Get Database entries
+    const sortedContent = [];
+    props.databaseData.entries.map((item: any) => {
+      const document = workspace.workSpaceDocs.filter(
+        (obj: any) => obj.uuid === item.documentID
+      );
+      sortedContent.push(document[0]);
+    });
+
+    const data: any[] = [];
+    props.databaseData.propertyPresets.status.options.map((item: any) => {
+      const entries = [];
+      // Optimize The Code
+      sortedContent.forEach((entry: any) => {
+        entry.properties.forEach((property: any) => {
+          if (property.title === 'Status') {
+            if (property.value === item.key) {
+              entries.push({
+                title: entry.name,
+                description: item.description,
+                childs: [],
+                entry,
+              });
+            }
+          }
+        });
+      });
+
+      data.push({
+        status: item.title,
+        headerText: item.title,
+        colorIcon: item.color,
+        items: entries,
+      });
+    });
+
+    setStatusPanels(data);
+  }, [props.databaseData]);
 
   const columnMenu = () => {
     return (
@@ -358,6 +400,8 @@ function Column(props: any) {
             dbHeader: props.databaseData.title,
             Status: entry.statusKey,
             User: '',
+            statusPanels: statusPanels,
+            databaseEntries: props.entries
           };
           TaskArray.push(mappedTask);
         }

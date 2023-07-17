@@ -148,6 +148,8 @@ function Tasks(props: any) {
               data={props.task}
               showKanbanTaskView={showKanbanTaskView}
               setShowKanbanTaskView={setShowKanbanTaskView}
+              statusPanels={props.task.statusPanels}
+              databaseEntries={props.task.databaseEntries}
             />
             {menuVisible && (
               <RightClickMenu

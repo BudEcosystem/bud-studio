@@ -26,11 +26,14 @@ const TaskViewKanban = ({
   data,
   showKanbanTaskView,
   setShowKanbanTaskView,
+  statusPanels,
+  databaseEntries
 }: any) => {
   const { workspace}: any = useSelector((state) => state);
   const { color } = workspace;
   const [isDragOver, setIsDragOver] = useState(false);
   const [localState, setLocalState] = useState(null);
+  const [todoID, setToDoId] = useState([]);
   const dispatch = useDispatch();
   const [datePopoverVisible, setDatePopoverVisible] = useState(false);
 
@@ -40,6 +43,61 @@ const TaskViewKanban = ({
     Medium: '#e1af41',
     Normal: '#3D4047',
   };
+
+  const solveRec = (structure, id) => {
+    console.log({ ...structure }, id, 'rec1');
+    if (!structure || structure.length === 0) {
+      return null;
+    }
+    for (const item of structure) {
+      console.log({ ...structure }, id, { ...item }, 'rec2');
+      if (item.documentID === id) {
+        console.log(structure, id, { ...item }, 'rec3');
+        return item;
+      }
+      if (item.childs && item.childs.length > 0) {
+        const foundInFolders = solveRec(item.childs, id);
+        if (foundInFolders) {
+          console.log(foundInFolders, 'rec4');
+          return foundInFolders;
+        }
+      }
+      // if (item.files && item.files.length > 0) {
+      //   const foundInFiles = searchById(item.files, id);
+      //   if (foundInFiles) {
+      //     return foundInFiles;
+      //   }
+      // }
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    const TaskArray: any = [];
+    const x = solveRec(databaseEntries, data.uuid);
+    console.log(x, 'hello');
+    x.childs.map((child: any, i: any) => {
+      workspace.workSpaceDocs.forEach((doc: any, j: any) => {
+        if (doc.uuid == child.documentID) {
+          TaskArray.push(doc);
+        }
+      });
+    });
+
+    // databaseEntries.map((dbentry, i) => {
+    //   if (dbentry.documentID === data.entry.uuid) {
+    //     console.log(dbentry);
+    //     dbentry?.childs?.map((child, j) => {
+    //       workspace.workSpaceDocs.forEach((doc: any, i: any) => {
+    //         if (doc.uuid == child.documentID) {
+    //           TaskArray.push(doc);
+    //         }
+    //       });
+    //     });
+    //   }
+    // });
+    setToDoId(TaskArray);
+  }, [data, workspace]);
 
   const getFlagColor = (flagColor: any) => {
     return (
@@ -58,6 +116,8 @@ const TaskViewKanban = ({
     );
   };
 
+  console.log("TASKKAN", data)
+  
   const handleDragOver = (event: any) => {
     event.preventDefault();
     setIsDragOver(true);
@@ -193,12 +253,10 @@ const TaskViewKanban = ({
 
   const handleCancel = () => {
     setShowKanbanTaskView(false);
-    console.log('CLOSE');
   };
 
   const handleOk = () => {
     setShowKanbanTaskView(false);
-    console.log('CLOSE');
   };
 
   const [priorityPopoverVisible, setPriorityPopoverVisible] = useState(false);
@@ -227,7 +285,7 @@ const TaskViewKanban = ({
     );
   };
 
-  console.log("DATAGOV", data.properties)
+  console.log("DATAGOV", data)
 
   return (
     <Modal
@@ -509,7 +567,12 @@ const TaskViewKanban = ({
             </div>
 
             <div style={{marginTop: "20px"}}>
-            <ToDoPanel data={data} />
+            <ToDoPanel 
+            dataId={todoID}
+            data={data}
+            statusPanels={statusPanels} 
+            subChild={false}
+            />
           </div>
 
             <div
