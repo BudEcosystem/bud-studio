@@ -5,13 +5,15 @@ import { useEffect, useRef, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { styled } from 'styled-components';
 import { createNewColumn, updateColumnPosition } from 'redux/slices/kanban';
-import Column from './components/column';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeKanbanStatusForWorkSpaceDocs } from '@/redux/slices/workspace';
 import {
   addNewPropertPresetsStatusOptions,
   changeDatabaseStatusOrder,
 } from '@/redux/slices/database';
+import Column from './components/column';
+import KanbanFilter from './components/FilterComponent';
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -94,7 +96,6 @@ function Kanban({ dbId }: any) {
   const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
   const dispatch = useDispatch();
   const onDragEnd = (result: any) => {
-    console.log('drag', result);
     const { destination } = result;
     if (destination) {
       const statusKeyArray = kanbanDBData.propertyPresets.status.options.map(
@@ -122,7 +123,6 @@ function Kanban({ dbId }: any) {
       if (event.key === 'Enter') {
         event.preventDefault();
         if (inputRef.current?.value) {
-          console.log(inputRef.current?.value);
           const newSectionParams = {
             title: inputRef.current?.value,
             color: 'yellow',
@@ -149,7 +149,6 @@ function Kanban({ dbId }: any) {
   const { database: databaseData, workspace }: any = useSelector(
     (state) => state
   );
-  console.log('props - workspace', workspace);
   useEffect(() => {
     if (workspace) {
       const { currentWorkspace: cw } = workspace;
@@ -164,6 +163,10 @@ function Kanban({ dbId }: any) {
       setKanbanDBData(kanbanRelatedDBData);
     }
   }, [databaseData, dbId]);
+  const [filterRules, setFilterRules] = useState<object>([]);
+  const callBackOnNewFilter = (arrayPassed: any) => {
+    setFilterRules([...arrayPassed]);
+  };
   return (
     <ContainerWrapper
       style={{
@@ -171,6 +174,10 @@ function Kanban({ dbId }: any) {
         overflow: 'scroll',
       }}
     >
+      <KanbanFilter
+        filterRules={filterRules}
+        callBackOnNewFilter={callBackOnNewFilter}
+      />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
           droppableId={`${kanbanDBData.id}`}
@@ -198,6 +205,7 @@ function Kanban({ dbId }: any) {
                       index={index}
                       color={column?.color}
                       dbId={dbId}
+                      filterRules={filterRules}
                     />
                   );
                 }

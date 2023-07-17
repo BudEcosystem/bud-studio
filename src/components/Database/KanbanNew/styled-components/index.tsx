@@ -222,7 +222,7 @@ export const TaskProgressBar = styled.div`
   border-radius: 21px;
 `;
 export const TaskProgress = styled.div`
-  width: 64px;
+  width: ${(props: any) => (props?.progress)}%;
   height: 4px;
   background: #939aff;
   border-radius: 21px;

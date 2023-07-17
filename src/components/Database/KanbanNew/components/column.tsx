@@ -1,3 +1,5 @@
+/* eslint-disable no-eval */
+/* eslint-disable default-case */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
@@ -5,7 +7,7 @@
 /* eslint-disable react/destructuring-assignment */
 import { styled } from 'styled-components';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Popover } from 'antd';
 import { EnterOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
@@ -59,6 +61,7 @@ function Column(props: any) {
     useState(false);
   const [nameEditable, setNameEditable] = useState(false);
   const [open, setOpen] = useState(false);
+  const [statusPanels, setStatusPanels] = useState(null);
   const hide = () => {
     setNameEditable(true);
     setOpen(false);
@@ -132,6 +135,47 @@ function Column(props: any) {
     });
   });
 
+  console.log('KKKK', props.databaseData);
+  useLayoutEffect(() => {
+    // Get Database entries
+    const sortedContent = [];
+    props.databaseData.entries.map((item: any) => {
+      const document = workspace.workSpaceDocs.filter(
+        (obj: any) => obj.uuid === item.documentID
+      );
+      sortedContent.push(document[0]);
+    });
+
+    const data: any[] = [];
+    props.databaseData.propertyPresets.status.options.map((item: any) => {
+      const entries = [];
+      // Optimize The Code
+      sortedContent.forEach((entry: any) => {
+        entry.properties.forEach((property: any) => {
+          if (property.title === 'Status') {
+            if (property.value === item.key) {
+              entries.push({
+                title: entry.name,
+                description: item.description,
+                childs: [],
+                entry,
+              });
+            }
+          }
+        });
+      });
+
+      data.push({
+        status: item.title,
+        headerText: item.title,
+        colorIcon: item.color,
+        items: entries,
+      });
+    });
+
+    setStatusPanels(data);
+  }, [props.databaseData]);
+
   const columnMenu = () => {
     return (
       <ColumnMenuWrapper>
@@ -146,70 +190,237 @@ function Column(props: any) {
     );
   };
   const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
+  const { filterRules } = props;
+  const [filterConditionsGenerated, setFilterConditionsGenerated] =
+    useState('');
+  useEffect(() => {
+    if (filterRules.length > 0) {
+      const filterRulesGenerated: any = '';
+      const filterRulesWhere = filterRules.filter(
+        (data: any) => data.condition === null
+      );
+      const filterRulesAnd = filterRules.filter(
+        (data: any) => data.condition === 'and'
+      );
+      const filterRulesOr = filterRules.filter(
+        (data: any) => data.condition === 'or'
+      );
+      console.log('filterRulesGenerated', filterRulesWhere);
+      console.log('filterRulesGenerated', filterRulesAnd);
+      console.log('filterRulesGenerated', filterRulesOr);
+      const whereConditionArray: any = [];
+      const andConditionArray: any = [];
+      const orConditionArray: any = [];
+      filterRulesWhere.forEach((data: any) => {
+        console.log('filterRules Where', data);
+        const { op, key, query } = data;
+        switch (op) {
+          case 'is':
+            whereConditionArray.push(`${key}==='${query}'`);
+            break;
+          case 'is_not':
+            // filterRulesGenerated += filterRulesGenerated + `${key}!=='${query}'`;
+            whereConditionArray.push(`${key}!=='${query}'`);
+            break;
+          case 'contains':
+            whereConditionArray.push(`${key}.includes('${query}')`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `${key}.includes('${query}')`;
+            break;
+          case 'does_not_contains':
+            whereConditionArray.push(`!${key}.includes('${query}')`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `!${key}.includes('${query}')`;
+            break;
+          case 'starts_with':
+            whereConditionArray.push(`${key}.startsWith('${query}')`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `${key}.startsWith('${query}')`;
+            break;
+          case 'ends_with':
+            whereConditionArray.push(`${key}.endsWith('${query}')`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `${key}.endsWith('${query}')`;
+            break;
+          case 'is_empty':
+            whereConditionArray.push(`${key} === '' ||${key} === null`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `${key} === '' ||${key} === null`;
+            break;
+          case 'is_not_empty':
+            whereConditionArray.push(`${key} !== '' ||${key} !== null`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `${key} !== '' ||${key} !== null`;
+            break;
+        }
+      });
+      filterRulesAnd.forEach((data: any) => {
+        console.log('filterRules And', data);
+        const { op, key, query } = data;
+        switch (op) {
+          case 'is':
+            andConditionArray.push(`${key}==='${query}'`);
+            // filterRulesGenerated +=
+            //   filterRulesGenerated + `&&${key}==='${query}'`;
+            break;
+          case 'is_not':
+            andConditionArray.push(`${key}!=='${query}'`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&${key}!=='${query}'`;
+            break;
+          case 'contains':
+            andConditionArray.push(`${key}.includes('${query}')`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&${key}.includes('${query}')`;
+            break;
+          case 'does_not_contains':
+            andConditionArray.push(`!${key}.includes('${query}')`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&!${key}.includes('${query}')`;
+            break;
+          case 'starts_with':
+            andConditionArray.push(`${key}.startsWith('${query}')`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&${key}.startsWith('${query}')`;
+            break;
+          case 'ends_with':
+            andConditionArray.push(`${key}.endsWith('${query}')`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&${key}.endsWith('${query}')`;
+            break;
+          case 'is_empty':
+            andConditionArray.push(`${key} === '' ||${key} === null`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&${key} === '' ||${key} === null`;
+            break;
+          case 'is_not_empty':
+            andConditionArray.push(`${key} !== '' ||${key} !== null`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `&&${key} !== '' ||${key} !== null`;
+            break;
+        }
+      });
+      filterRulesOr.forEach((data: any) => {
+        console.log('filterRules OR', data);
+        const { op, key, query } = data;
+        switch (op) {
+          case 'is':
+            orConditionArray.push(`${key}==='${query}'`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key}==='${query}'`;
+            break;
+          case 'is_not':
+            orConditionArray.push(`${key}!=='${query}'`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key}!=='${query}'`;
+            break;
+          case 'contains':
+            orConditionArray.push(`${key}.includes('${query}')`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key}.includes('${query}')`;
+            break;
+          case 'does_not_contains':
+            orConditionArray.push(`!${key}.includes('${query}')`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||!${key}.includes('${query}')`;
+            break;
+          case 'starts_with':
+            orConditionArray.push(`${key}.startsWith('${query}')`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key}.startsWith('${query}')`;
+            break;
+          case 'ends_with':
+            orConditionArray.push(`${key}.endsWith('${query}')`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key}.endsWith('${query}')`;
+            break;
+          case 'is_empty':
+            orConditionArray.push(`${key} === '' ||${key} === null`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key} === '' ||${key} === null`;
+            break;
+          case 'is_not_empty':
+            orConditionArray.push(`${key} !== '' ||${key} !== null`);
+            // filterRulesGenerated +=
+            // filterRulesGenerated + `||${key} !== '' ||${key} !== null`;
+            break;
+        }
+      });
+      console.log('whereConditionArray - where', whereConditionArray);
+      console.log('whereConditionArray - or', orConditionArray);
+      console.log('whereConditionArray - and', andConditionArray);
+      const whereConditionGenerated = whereConditionArray.toString();
+      const orConditionGenerated = orConditionArray.join(' || ');
+      const andConditionGenerated = andConditionArray.join(' && ');
+      console.log('whereConditionArray - where', whereConditionGenerated);
+      console.log('whereConditionArray - or', orConditionGenerated);
+      console.log('whereConditionArray - and', andConditionGenerated);
+      setFilterConditionsGenerated(
+        `${whereConditionGenerated} && ${andConditionGenerated} && (${orConditionGenerated})`
+      );
+    }
+  }, [filterRules]);
   useEffect(() => {
     const TaskArray: any = [];
+    const { filterRules } = props;
     props?.entries?.forEach((entry: any, index: any) => {
       workSpaceDocs?.forEach((doc: any, index: any) => {
         const statusOrder = doc.properties?.find(
           (data: any) => data.type === 'status'
         );
-        if (workspaceDocsSearchKey) {
-          const name = doc.name.toLowerCase();
-          if (
-            doc.uuid === entry.documentID &&
+        const name = doc.name.toLowerCase();
+        const condition = workspaceDocsSearchKey
+          ? doc.uuid === entry.documentID &&
             props.currentKey === statusOrder.value &&
             name.includes(workspaceDocsSearchKey)
-          ) {
-            const docId = entry.documentID;
-            const mappedTask: Task = {
-              index,
-              id: docId,
-              content: `${doc?.name}`,
-              heading: `${doc?.name}`,
-              progress: '',
-              user: '',
-              description: 'Make hay',
-              footer: '',
-              image: '',
-              type: '',
-              ...doc,
-              ...entry,
-              status: props.title,
-              color: props.color,
-              dbHeader: props.databaseData.title,
-            };
-            TaskArray.push(mappedTask);
-          }
-        } else if (!workspaceDocsSearchKey) {
-          if (
-            doc.uuid === entry.documentID &&
-            props.currentKey === statusOrder.value
-          ) {
-            const docId = entry.documentID;
-            const mappedTask: Task = {
-              index,
-              id: docId,
-              content: `${doc?.name}`,
-              heading: `${doc?.name}`,
-              progress: '',
-              user: '',
-              description: 'Make hay',
-              footer: '',
-              image: '',
-              type: '',
-              ...doc,
-              ...entry,
-              status: props.title,
-              color: props.color,
-              dbHeader: props.databaseData.title,
-            };
-            TaskArray.push(mappedTask);
+          : doc.uuid === entry.documentID &&
+            props.currentKey === statusOrder.value;
+
+        if (condition) {
+          const docId = entry.documentID;
+          const mappedTask: Task = {
+            index,
+            id: docId,
+            Name: doc.name,
+            content: `${doc?.name}`,
+            heading: `${doc?.name}`,
+            progress: '',
+            user: '',
+            description: 'Make hay',
+            footer: '',
+            image: '',
+            type: '',
+            Priority: doc.properties.find(
+              (data: any) => data.type === 'priority'
+            ).value,
+            ...doc,
+            ...entry,
+            status: props.title,
+            color: props.color,
+            dbHeader: props.databaseData.title,
+            Status: entry.statusKey,
+            User: '',
+            statusPanels: statusPanels,
+            databaseEntries: props.entries,
+          };
+          TaskArray.push(mappedTask);
+        }
+        if (filterConditionsGenerated.length > 1) {
+          // condition =
+          console.log('whereConditionArray', filterConditionsGenerated);
+          // console.log('whereConditionArray', eval(filterConditionsGenerated));
+          if (eval(filterConditionsGenerated)) {
+            console.log(
+              'whereConditionArray ddddddddddd',
+              filterConditionsGenerated
+            );
           }
         }
       });
     });
     SetTaskArrayForRender(TaskArray);
   }, [props, workSpaceDocs, workspace]);
+  console.log('TaskArrayForRender', TaskArrayForRender);
   return (
     <Draggable draggableId={props.currentKey} index={props.index}>
       {(provided: any) => (
