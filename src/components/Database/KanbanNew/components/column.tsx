@@ -61,7 +61,7 @@ function Column(props: any) {
     useState(false);
   const [nameEditable, setNameEditable] = useState(false);
   const [open, setOpen] = useState(false);
-  const [statusPanels, setStatusPanels] = useState(null)
+  const [statusPanels, setStatusPanels] = useState(null);
   const hide = () => {
     setNameEditable(true);
     setOpen(false);
@@ -135,7 +135,7 @@ function Column(props: any) {
     });
   });
 
-  console.log("KKKK", props.databaseData)
+  console.log('KKKK', props.databaseData);
   useLayoutEffect(() => {
     // Get Database entries
     const sortedContent = [];
@@ -401,7 +401,7 @@ function Column(props: any) {
             Status: entry.statusKey,
             User: '',
             statusPanels: statusPanels,
-            databaseEntries: props.entries
+            databaseEntries: props.entries,
           };
           TaskArray.push(mappedTask);
         }

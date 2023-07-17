@@ -6,7 +6,10 @@ import HeaderSubCompInput from 'components/ListView/ListViewComponents/HeaderSub
 import InputComponent from './InputComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TextComponent from './TextComponent';
-import { changeRowOrderTodos } from '@/redux/slices/database';
+import {
+  changeRowOrderTodos,
+  changeRowOrderTodosKanban,
+} from '@/redux/slices/database';
 import CheckList from './CheckList';
 import CheckListInput from './CheckListInput';
 import { setCheckListRow } from '@/redux/slices/workspace';
@@ -45,8 +48,8 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
 
   const [sortedArray, setSortedArray] = useState([]);
 
-  const handleDragEnd = (result: any) => {
-    dispatch(changeRowOrderTodos({ id: data.uuid, result }));
+  const handleDragEndKanban = (result: any) => {
+    dispatch(changeRowOrderTodosKanban({ id: data.uuid, result }));
     // if (!result.destination) return;
     // const newRowOrder = Array.from(childData);
     // const [removed] = newRowOrder.splice(result.source.index, 1);
@@ -81,7 +84,7 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
         </div>
       </div>
       <div className="subtaskText">{dataId.length} Subtask</div>
-      <DragDropContext onDragEnd={handleDragEnd}>
+      <DragDropContext onDragEnd={handleDragEndKanban}>
         <Droppable droppableId="todo">
           {(provided, snapshot) => (
             <div
