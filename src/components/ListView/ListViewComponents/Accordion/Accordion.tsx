@@ -249,6 +249,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
           order: 6,
         },
       ],
+      checkList: [],
     };
 
     // Create Document With Status
@@ -367,7 +368,8 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
                                       subItems,
                                       databaseEntries,
                                       databaseData,
-                                      statusPanels
+                                      statusPanels,
+                                      'uioui'
                                     )}
                                     <SubAccordion
                                       status={item.status}

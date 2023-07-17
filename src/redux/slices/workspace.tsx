@@ -92,9 +92,39 @@ export const generateInitialWorkspaceState = (): InitialState => {
             order: 4,
           },
         ],
+        checkList: [
+          {
+            id: 'abcd',
+            checked: false,
+            title: 'Do homework',
+            createdAt: '',
+            updatedAt: '',
+          },
+          {
+            id: 'efjh',
+            checked: true,
+            title: 'Buy Milk',
+            createdAt: '',
+            updatedAt: '',
+          },
+          {
+            id: 'ijkl',
+            checked: false,
+            title: 'Repair something',
+            createdAt: '',
+            updatedAt: '',
+          },
+          {
+            id: 'mnop',
+            checked: true,
+            title: 'Lol key',
+            createdAt: '',
+            updatedAt: '',
+          },
+        ],
 
         // System Defined Properties
-        // {
+        // {39b08a3d-12f1-4651-90f7-328952849xyz
         //   tags: ['no-tag'],
         //   priority: 'Normal',
         //   status: 'Not Started',
@@ -1484,6 +1514,7 @@ export const workspaceSlice = createSlice({
             order: 3,
           },
         ],
+        checkList: [],
       };
       console.log('newWorkSpaceDocObject', newWorkSpaceDocObject);
       copyOfworkSpaceDocs.push(newWorkSpaceDocObject);
@@ -1606,7 +1637,47 @@ export const workspaceSlice = createSlice({
     },
     setSearchDocsKeyword: (state, action: PayloadAction<any>) => {
       const { searchKey } = action.payload;
-      state.workspaceDocsSearchKey = searchKey;    
+      state.workspaceDocsSearchKey = searchKey;
+    },
+
+    setCheckedReducer: (state, action: PayloadAction<any>) => {
+      const copyOfworkSpaceDocs = state.workSpaceDocs;
+      copyOfworkSpaceDocs.forEach((doc, index) => {
+        console.log('ITTT', action.payload.label);
+        if (doc.uuid == action.payload.parentId) {
+          const newRowOrder = Array.from(doc.checkList);
+          newRowOrder.forEach((item, i) => {
+            if (item.id == action.payload.id) {
+              item.checked = action.payload.label;
+            }
+          });
+          doc.checkList = newRowOrder;
+        }
+      });
+    },
+
+    setCheckedAddItem: (state, action: PayloadAction<any>) => {
+      const copyOfworkSpaceDocs = state.workSpaceDocs;
+      copyOfworkSpaceDocs.forEach((doc, index) => {
+        console.log('ITTT', action.payload.label);
+        if (doc.uuid == action.payload.parentId) {
+          doc.checkList?.push(action.payload.obj);
+        }
+      });
+    },
+
+    setCheckListRow: (state, action: PayloadAction<any>) => {
+      const { result, parentId } = action.payload;
+      const { source, destination } = result;
+      state.workSpaceDocs.forEach((doc, index) => {
+        // console.log("ITTT", action.payload.label)
+        if (doc.uuid == parentId) {
+          const newRowOrder = Array.from(doc.checkList);
+          const [removed] = newRowOrder.splice(source.index, 1);
+          newRowOrder.splice(destination.index, 0, removed);
+          doc.checkList = newRowOrder;
+        }
+      });
     },
 
     setWorkspacestodos: (state, action: PayloadAction<any>) => {
@@ -1776,5 +1847,8 @@ export const {
   setSearchDocsKeyword,
   setWorkspacestodos,
   duplicateWorkspace,
+  setCheckedReducer,
+  setCheckedAddItem,
+  setCheckListRow,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
