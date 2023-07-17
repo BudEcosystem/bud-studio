@@ -299,7 +299,7 @@ function TaskView({
                       marginLeft: '30px',
                     }}
                   >
-                    <div className="task-view-priority-chooser">
+                    <div style={{marginRight: "5px"}} className="task-view-priority-chooser">
                       <Popover
                         overlayClassName="list-view-tag-set-pop"
                         content={

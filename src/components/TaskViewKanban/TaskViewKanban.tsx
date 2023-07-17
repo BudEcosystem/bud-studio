@@ -56,7 +56,15 @@ const TaskViewKanban = ({
     Normal: '#3D4047',
   };
 
-  const solveRec = (structure, id) => {
+  var checkedNum = 0;
+
+  data?.checkList.forEach((item: any) => {
+    if (item.checked == true) {
+      checkedNum++;
+    }
+  });
+
+  const solveRec = (structure: any, id: any) => {
     console.log({ ...structure }, id, 'rec1');
     if (!structure || structure.length === 0) {
       return null;
@@ -127,8 +135,6 @@ const TaskViewKanban = ({
       </svg>
     );
   };
-
-  console.log('TASKKAN', data);
 
   const handleDragOver = (event: any) => {
     event.preventDefault();
@@ -358,17 +364,7 @@ const TaskViewKanban = ({
                 >
                   <DocIcon />
                 </div>
-                <div className="progressBar">
-                  <div
-                    style={{
-                      backgroundColor: `${color}`,
-                      width: `${
-                        (data.checklist?.checked / data.checklist?.total) * 100
-                      }%`,
-                    }}
-                    className="progress"
-                  ></div>
-                </div>{' '}
+                {' '}
               </div>
             ) : (
               <div
@@ -379,7 +375,7 @@ const TaskViewKanban = ({
                   marginLeft: '30px',
                 }}
               >
-                <div className="task-view-priority-chooser">
+                <div style={{marginRight: "5px"}} className="task-view-priority-chooser">
                   <Popover
                     overlayClassName="list-view-tag-set-pop"
                     content={
@@ -481,7 +477,7 @@ const TaskViewKanban = ({
                     </Tooltip>
                   </Popover>
                 </div>
-                <div className="" style={{ marginRight: '40px' }}>
+                <div className="" style={{ marginRight: '10px' }}>
                   <Popover
                     trigger="click"
                     overlayClassName="list-view-tag-set-pop"
@@ -534,6 +530,10 @@ const TaskViewKanban = ({
                   </Popover>
                 </div>
 
+                <div className="progressBar">
+                  <div style={{backgroundColor: `${color}`, width: `${(checkedNum / data?.checkList?.length) * 100}%`}} className="progress"></div>
+                  </div>
+
                 {/* <div className="DashedCircleIcons">
                   <FlagSmall />
                 </div>
@@ -559,6 +559,7 @@ const TaskViewKanban = ({
               <ThreeDots />
             </div>
           </div>
+
         </div>
 
         <div className="KanbanTaskView__Panel">
