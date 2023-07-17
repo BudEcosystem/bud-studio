@@ -314,7 +314,9 @@ function Column(props: any) {
       console.log('whereConditionArray - or', orConditionGenerated);
       console.log('whereConditionArray - and', andConditionGenerated);
       setFilterConditionsGenerated(
-        `${whereConditionGenerated} && ${andConditionGenerated} && (${orConditionGenerated})`
+        `${whereConditionGenerated} && ${
+          andConditionGenerated.length > 0 ? andConditionGenerated : ''
+        } && (${orConditionGenerated.length > 0 ? orConditionGenerated : ''})`
       );
     }
   }, [filterRules]);
@@ -361,21 +363,27 @@ function Column(props: any) {
           };
           TaskArray.push(mappedTask);
         }
-        if (filterConditionsGenerated.length > 1) {
-          // condition =
-          console.log('whereConditionArray', filterConditionsGenerated);
-          // console.log('whereConditionArray', eval(filterConditionsGenerated));
-          if (eval(filterConditionsGenerated)) {
-            console.log(
-              'whereConditionArray ddddddddddd',
-              filterConditionsGenerated
-            );
-          }
-        }
+        // if (filterConditionsGenerated.length > 1) {
+        //   // condition =
+        //   console.log('whereConditionArray', filterConditionsGenerated);
+        //   // console.log('whereConditionArray', eval(filterConditionsGenerated));
+        //   if (eval(filterConditionsGenerated)) {
+        //     console.log(
+        //       'whereConditionArray ddddddddddd',
+        //       filterConditionsGenerated
+        //     );
+        //   }
+        // }
       });
     });
     SetTaskArrayForRender(TaskArray);
-  }, [props, workSpaceDocs, workspace]);
+  }, [
+    filterConditionsGenerated,
+    props,
+    workSpaceDocs,
+    workspace,
+    workspaceDocsSearchKey,
+  ]);
   console.log('TaskArrayForRender', TaskArrayForRender);
   return (
     <Draggable draggableId={props.currentKey} index={props.index}>
