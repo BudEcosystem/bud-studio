@@ -77,7 +77,6 @@ function ListView({ databaseData, databaseEntries }: any) {
         databaseData={databaseData}
         databaseEntries={{ databaseEntries }}
       />
-
       <div
         style={{ fontStyle: 'Noto Sans', fontWeight: '400', fontSize: '16px' }}
       >

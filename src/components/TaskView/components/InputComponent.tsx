@@ -84,6 +84,9 @@ const InputComponent = ({data}) => {
           },
         ],
   
+        checkList: [
+
+        ],
         // System Defined Properties
         // {
         //   tags: ['no-tag'],
@@ -91,15 +94,15 @@ const InputComponent = ({data}) => {
         //   status: 'Not Started',
         //   date: null,
         // },
-        setNewObj(obj)
+    
       }
+
       if (e.key === 'Enter' && !!e.target.value) {
         dispatch(setWorkspacestodos(obj))
         // dispatch(createNewTask({ selectedItem, titleInput }));
         // crossClickHandler();
         dispatch(addTodos({id: data.entry.uuid, newId: obj.uuid}))
         setTitleInput('');
-        console.log(workspace)
       }
     };
   return (
@@ -126,12 +129,12 @@ const InputComponent = ({data}) => {
         />
       </div>
       <div className="rightSideOptions">
-        <CircularBorder icon={<CheckList />} />
+        {/* <CircularBorder icon={<CheckList />} />
         <CircularBorder icon={<Sicon />} />
         <CircularBorder icon={<FoldedCard />} />
         <CircularBorder icon={<SmallerFlag />} />
         <CircularBorder icon={<BoxArrow />} />
-        <div className="saveText flexCenter">Save</div>
+        <div className="saveText flexCenter">Save</div> */}
         <div
           className="flexCenter cross"
           //  onClick={crossClickHandler}
