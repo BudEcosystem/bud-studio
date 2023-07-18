@@ -16,6 +16,8 @@ interface InitialState {
   editorInitialised: boolean;
   editorApplicationsAdded: string[];
   workspaceDocsSearchKey: null | string;
+  workSpaceFilterKey: null | string;
+  workSpaceFiltertype: null | string;
 }
 
 export default InitialState;

@@ -193,171 +193,26 @@ function Column(props: any) {
   const { filterRules } = props;
   const [filterConditionsGenerated, setFilterConditionsGenerated] =
     useState('');
+  const [filterRulesWhereArray, setFilterRulesWhere] = useState([]);
+  const [filterRulesOrArray, setFilterRulesOr] = useState([]);
+  const [filterRulesAndArray, setFilterRulesAnd] = useState([]);
+
   useEffect(() => {
     if (filterRules.length > 0) {
       const filterRulesGenerated: any = '';
       const filterRulesWhere = filterRules.filter(
         (data: any) => data.condition === null
       );
+      setFilterRulesWhere(filterRulesWhere);
       const filterRulesAnd = filterRules.filter(
         (data: any) => data.condition === 'and'
       );
+      setFilterRulesAnd(filterRulesAnd);
       const filterRulesOr = filterRules.filter(
         (data: any) => data.condition === 'or'
       );
-      console.log('filterRulesGenerated', filterRulesWhere);
-      console.log('filterRulesGenerated', filterRulesAnd);
-      console.log('filterRulesGenerated', filterRulesOr);
+      setFilterRulesOr(filterRulesOr);
       const whereConditionArray: any = [];
-      const andConditionArray: any = [];
-      const orConditionArray: any = [];
-      filterRulesWhere.forEach((data: any) => {
-        console.log('filterRules Where', data);
-        const { op, key, query } = data;
-        switch (op) {
-          case 'is':
-            whereConditionArray.push(`${key}==='${query}'`);
-            break;
-          case 'is_not':
-            // filterRulesGenerated += filterRulesGenerated + `${key}!=='${query}'`;
-            whereConditionArray.push(`${key}!=='${query}'`);
-            break;
-          case 'contains':
-            whereConditionArray.push(`${key}.includes('${query}')`);
-            // filterRulesGenerated +=
-            //   filterRulesGenerated + `${key}.includes('${query}')`;
-            break;
-          case 'does_not_contains':
-            whereConditionArray.push(`!${key}.includes('${query}')`);
-            // filterRulesGenerated +=
-            //   filterRulesGenerated + `!${key}.includes('${query}')`;
-            break;
-          case 'starts_with':
-            whereConditionArray.push(`${key}.startsWith('${query}')`);
-            // filterRulesGenerated +=
-            //   filterRulesGenerated + `${key}.startsWith('${query}')`;
-            break;
-          case 'ends_with':
-            whereConditionArray.push(`${key}.endsWith('${query}')`);
-            // filterRulesGenerated +=
-            //   filterRulesGenerated + `${key}.endsWith('${query}')`;
-            break;
-          case 'is_empty':
-            whereConditionArray.push(`${key} === '' ||${key} === null`);
-            // filterRulesGenerated +=
-            //   filterRulesGenerated + `${key} === '' ||${key} === null`;
-            break;
-          case 'is_not_empty':
-            whereConditionArray.push(`${key} !== '' ||${key} !== null`);
-            // filterRulesGenerated +=
-            //   filterRulesGenerated + `${key} !== '' ||${key} !== null`;
-            break;
-        }
-      });
-      filterRulesAnd.forEach((data: any) => {
-        console.log('filterRules And', data);
-        const { op, key, query } = data;
-        switch (op) {
-          case 'is':
-            andConditionArray.push(`${key}==='${query}'`);
-            // filterRulesGenerated +=
-            //   filterRulesGenerated + `&&${key}==='${query}'`;
-            break;
-          case 'is_not':
-            andConditionArray.push(`${key}!=='${query}'`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `&&${key}!=='${query}'`;
-            break;
-          case 'contains':
-            andConditionArray.push(`${key}.includes('${query}')`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `&&${key}.includes('${query}')`;
-            break;
-          case 'does_not_contains':
-            andConditionArray.push(`!${key}.includes('${query}')`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `&&!${key}.includes('${query}')`;
-            break;
-          case 'starts_with':
-            andConditionArray.push(`${key}.startsWith('${query}')`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `&&${key}.startsWith('${query}')`;
-            break;
-          case 'ends_with':
-            andConditionArray.push(`${key}.endsWith('${query}')`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `&&${key}.endsWith('${query}')`;
-            break;
-          case 'is_empty':
-            andConditionArray.push(`${key} === '' ||${key} === null`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `&&${key} === '' ||${key} === null`;
-            break;
-          case 'is_not_empty':
-            andConditionArray.push(`${key} !== '' ||${key} !== null`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `&&${key} !== '' ||${key} !== null`;
-            break;
-        }
-      });
-      filterRulesOr.forEach((data: any) => {
-        console.log('filterRules OR', data);
-        const { op, key, query } = data;
-        switch (op) {
-          case 'is':
-            orConditionArray.push(`${key}==='${query}'`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `||${key}==='${query}'`;
-            break;
-          case 'is_not':
-            orConditionArray.push(`${key}!=='${query}'`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `||${key}!=='${query}'`;
-            break;
-          case 'contains':
-            orConditionArray.push(`${key}.includes('${query}')`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `||${key}.includes('${query}')`;
-            break;
-          case 'does_not_contains':
-            orConditionArray.push(`!${key}.includes('${query}')`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `||!${key}.includes('${query}')`;
-            break;
-          case 'starts_with':
-            orConditionArray.push(`${key}.startsWith('${query}')`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `||${key}.startsWith('${query}')`;
-            break;
-          case 'ends_with':
-            orConditionArray.push(`${key}.endsWith('${query}')`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `||${key}.endsWith('${query}')`;
-            break;
-          case 'is_empty':
-            orConditionArray.push(`${key} === '' ||${key} === null`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `||${key} === '' ||${key} === null`;
-            break;
-          case 'is_not_empty':
-            orConditionArray.push(`${key} !== '' ||${key} !== null`);
-            // filterRulesGenerated +=
-            // filterRulesGenerated + `||${key} !== '' ||${key} !== null`;
-            break;
-        }
-      });
-      console.log('whereConditionArray - where', whereConditionArray);
-      console.log('whereConditionArray - or', orConditionArray);
-      console.log('whereConditionArray - and', andConditionArray);
-      const whereConditionGenerated = whereConditionArray.toString();
-      const orConditionGenerated = orConditionArray.join(' || ');
-      const andConditionGenerated = andConditionArray.join(' && ');
-      console.log('whereConditionArray - where', whereConditionGenerated);
-      console.log('whereConditionArray - or', orConditionGenerated);
-      console.log('whereConditionArray - and', andConditionGenerated);
-      setFilterConditionsGenerated(
-        `${whereConditionGenerated} && ${andConditionGenerated} && (${orConditionGenerated})`
-      );
     }
   }, [filterRules]);
   useEffect(() => {
@@ -405,21 +260,225 @@ function Column(props: any) {
           };
           TaskArray.push(mappedTask);
         }
-        if (filterConditionsGenerated.length > 1) {
-          // condition =
-          console.log('whereConditionArray', filterConditionsGenerated);
-          // console.log('whereConditionArray', eval(filterConditionsGenerated));
-          if (eval(filterConditionsGenerated)) {
-            console.log(
-              'whereConditionArray ddddddddddd',
-              filterConditionsGenerated
-            );
+      });
+    });
+    const whereFlagArray: any = [];
+    const AndFlagArray: any = [];
+    const orFlagArray: any = [];
+    const filteredArray: any = [];
+    TaskArray.forEach((data: any) => {
+      filterRulesWhereArray.forEach((ruleData: any) => {
+        const { op, key, query } = ruleData;
+        console.log('FlagArray - query', query, query !== '' && query !== null);
+        if (query !== '' && query !== null) {
+          switch (op) {
+            case 'is':
+              whereFlagArray.push(
+                data[`${key}`]?.toLowerCase() === `${query.toLowerCase()}`
+              );
+              break;
+            case 'is_not':
+              whereFlagArray.push(
+                data[`${key}`]?.toLowerCase() !== `${query.toLowerCase()}`
+              );
+              break;
+            case 'contains':
+              whereFlagArray.push(
+                data[`${key}`]?.toLowerCase().includes(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'does_not_contains':
+              whereFlagArray.push(
+                !data[`${key}`]
+                  ?.toLowerCase()
+                  .includes(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'starts_with':
+              whereFlagArray.push(
+                data[`${key}`]
+                  ?.toLowerCase()
+                  .startsWith(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'ends_with':
+              whereFlagArray.push(
+                data[`${key}`]?.toLowerCase().endsWith(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'is_empty':
+              whereFlagArray.push(
+                data[`${key}`] === '' || data[`${key}`] === null
+              );
+              break;
+            case 'is_not_empty':
+              whereFlagArray.push(
+                data[`${key}`] !== '' || data[`${key}`] !== null
+              );
+              break;
           }
         }
       });
+      filterRulesAndArray.forEach((ruleData: any) => {
+        const { op, key, query } = ruleData;
+        if (query !== '' && query !== null) {
+          switch (op) {
+            case 'is':
+              AndFlagArray.push(
+                data[`${key}`].toLowerCase() === `${query.toLowerCase()}`
+              );
+              break;
+            case 'is_not':
+              AndFlagArray.push(
+                data[`${key}`].toLowerCase() !== `${query.toLowerCase()}`
+              );
+              break;
+            case 'contains':
+              AndFlagArray.push(
+                data[`${key}`].toLowerCase().includes(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'does_not_contains':
+              AndFlagArray.push(
+                !data[`${key}`].toLowerCase().includes(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'starts_with':
+              AndFlagArray.push(
+                data[`${key}`]
+                  .toLowerCase()
+                  .startsWith(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'ends_with':
+              AndFlagArray.push(
+                data[`${key}`].toLowerCase().endsWith(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'is_empty':
+              AndFlagArray.push(
+                data[`${key}`] === '' || data[`${key}`] === null
+              );
+              break;
+            case 'is_not_empty':
+              AndFlagArray.push(
+                data[`${key}`] !== '' || data[`${key}`] !== null
+              );
+              break;
+          }
+        }
+      });
+      filterRulesOrArray.forEach((ruleData: any) => {
+        const { op, key, query } = ruleData;
+        if (query !== '' && query !== null) {
+          switch (op) {
+            case 'is':
+              orFlagArray.push(
+                data[`${key}`].toLowerCase() === `${query.toLowerCase()}`
+              );
+              break;
+            case 'is_not':
+              orFlagArray.push(
+                data[`${key}`].toLowerCase() !== `${query.toLowerCase()}`
+              );
+              break;
+            case 'contains':
+              orFlagArray.push(
+                data[`${key}`].toLowerCase().includes(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'does_not_contains':
+              orFlagArray.push(
+                !data[`${key}`].toLowerCase().includes(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'starts_with':
+              orFlagArray.push(
+                data[`${key}`]
+                  .toLowerCase()
+                  .startsWith(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'ends_with':
+              orFlagArray.push(
+                data[`${key}`].toLowerCase().endsWith(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'is_empty':
+              orFlagArray.push(
+                data[`${key}`] === '' || data[`${key}`] === null
+              );
+              break;
+            case 'is_not_empty':
+              orFlagArray.push(
+                data[`${key}`] !== '' || data[`${key}`] !== null
+              );
+              break;
+          }
+        }
+      });
+      const andWhereArray = [];
+      const OrArray = [];
+      if (whereFlagArray.length > 0) {
+        andWhereArray.push(
+          whereFlagArray.reduce(
+            (accumulator: any, currentValue: any) => accumulator && currentValue
+          )
+        );
+      }
+      if (AndFlagArray.length > 0) {
+        andWhereArray.push(
+          AndFlagArray.reduce(
+            (accumulator: any, currentValue: any) => accumulator && currentValue
+          )
+        );
+      }
+      if (orFlagArray.length > 0) {
+        OrArray.push(
+          orFlagArray.reduce(
+            (accumulator: any, currentValue: any) => accumulator || currentValue
+          )
+        );
+      }
+      console.log('FlagArray -andWhereArray ', andWhereArray);
+      console.log('FlagArray -OrArray ', OrArray);
+
+      const finalArray = [];
+      if (andWhereArray.length > 0) {
+        finalArray.push(
+          andWhereArray.reduce(
+            (accumulator: any, currentValue: any) => accumulator && currentValue
+          )
+        );
+      }
+      if (OrArray.length > 0) {
+        finalArray.push(
+          OrArray.reduce(
+            (accumulator: any, currentValue: any) => accumulator || currentValue
+          )
+        );
+      }
+      let finalFlag = true;
+      if (finalArray.length > 0) {
+        finalFlag = finalArray.reduce(
+          (accumulator: any, currentValue: any) => accumulator || currentValue
+        );
+      }
+      if (finalFlag) {
+        filteredArray.push(data);
+      }
     });
-    SetTaskArrayForRender(TaskArray);
-  }, [props, workSpaceDocs, workspace]);
+    SetTaskArrayForRender(filteredArray);
+  }, [
+    filterConditionsGenerated,
+    filterRulesAndArray,
+    filterRulesOrArray,
+    filterRulesWhereArray,
+    props,
+    workSpaceDocs,
+    workspace,
+    workspaceDocsSearchKey,
+  ]);
   console.log('TaskArrayForRender', TaskArrayForRender);
   return (
     <Draggable draggableId={props.currentKey} index={props.index}>
