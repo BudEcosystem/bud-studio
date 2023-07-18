@@ -145,7 +145,6 @@ function KanbanFilter({ filterRules, callBackOnNewFilter, filterType }: any) {
       </AddNewWrapper>
     );
   };
-  console.log('filterRules', filterRules);
   return (
     <KanbanFilterWrapper>
       <KanbanFilterFirstHalf>
