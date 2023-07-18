@@ -15,7 +15,7 @@ const ButtonWrapper = styled.div`
   margin-top: 14px;
   margin-bottom: 14px;
 `;
-function CustomDropDown({ menu }: any) {
+function CustomDropDown({ menu, disableAddGroupButton }: any) {
   return (
     <CustomDropDownWrapper>
       <Input
@@ -24,24 +24,31 @@ function CustomDropDown({ menu }: any) {
         className="custom-key-render-input"
       />
       {menu}
-      <UnderLineDropDown />
-      <ButtonWrapper>
-        {' '}
-        <Button
-          icon={<PlusOutlined style={{ color: '#3D4047' }} rev={undefined} />}
-          style={{
-            color: '#3D4047',
-            fontFamily: 'DM Sans',
-            fontSize: '14px',
-            fontStyle: 'normal',
-            fontWeight: '400',
-            lineHeight: 'normal',
-          }}
-          type="text"
-        >
-          Add Group
-        </Button>
-      </ButtonWrapper>
+      {disableAddGroupButton && (
+        <>
+          {' '}
+          <UnderLineDropDown />
+          <ButtonWrapper>
+            {' '}
+            <Button
+              icon={
+                <PlusOutlined style={{ color: '#3D4047' }} rev={undefined} />
+              }
+              style={{
+                color: '#3D4047',
+                fontFamily: 'DM Sans',
+                fontSize: '14px',
+                fontStyle: 'normal',
+                fontWeight: '400',
+                lineHeight: 'normal',
+              }}
+              type="text"
+            >
+              Add Group
+            </Button>
+          </ButtonWrapper>
+        </>
+      )}
     </CustomDropDownWrapper>
   );
 }

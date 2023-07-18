@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { setCheckListRow } from '@/redux/slices/workspace';
 import { ArrowIcon } from '../TaskViewIcons';
 import '../../TaskView/TaskView.css';
 import HeaderSubCompInput from 'components/ListView/ListViewComponents/HeaderSubCompInput';
@@ -12,9 +13,8 @@ import {
 } from '@/redux/slices/database';
 import CheckList from './CheckList';
 import CheckListInput from './CheckListInput';
-import { setCheckListRow } from '@/redux/slices/workspace';
 
-const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
+function ToDoPanel({ dataId, data, statusPanels, subChild }: any) {
   const dispatch = useDispatch();
   const { workspace, list }: any = useSelector((state) => state);
   const { color, workspacestodos } = workspace;
@@ -102,7 +102,7 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
                     <div ref={provided.innerRef} {...provided.draggableProps}>
                       <TextComponent
                         id={item.uuid}
-                        removeBox={true}
+                        removeBox
                         provided={provided}
                         snapshot={snapshot}
                         text={item.name}
@@ -202,6 +202,6 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
       )}
     </div>
   );
-};
+}
 
 export default ToDoPanel;

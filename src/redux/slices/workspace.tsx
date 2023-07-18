@@ -227,6 +227,8 @@ export const generateInitialWorkspaceState = (): InitialState => {
     editorApplicationsAdded: [],
     workspaceDocsSearchKey: null,
     dropdownBreadcrumbs: [],
+    workSpaceFilterKey: null,
+    workSpaceFiltertype: null,
   };
   return initialState;
 };
@@ -311,7 +313,6 @@ const insertWorkspaceFolders = (sourceArr, copySource, wf) => {
       workSpaceUUID: copySource.workspaceUUID,
     };
     wf.push(obj);
-    console.log(obj, 'dfg');
     if (item.folders && item.folders.length > 0) {
       insertWorkspaceFolders(item, item, wf);
     }
@@ -353,11 +354,9 @@ const changeFilesOfWorkspace = (
   if (!obj || obj.length === 0) {
     return;
   }
-  console.log({ ...obj }, '11sdfasdf');
   for (const files of obj.files) {
     files.workspaceUUID = workspaceUUID;
     const copyFileId = JSON.parse(JSON.stringify(files.id));
-    console.log(copyFileId, files.id, '45sadgf');
     files.id = uuidv4();
     workspaceDocsArr.map((docs, k) => {
       if (docs.uuid === copyFileId) {
@@ -369,15 +368,11 @@ const changeFilesOfWorkspace = (
         appDataArr[copyOfDocs.uuid] = JSON.parse(
           JSON.stringify(appDataArr[copyFileId])
         );
-        console.log(copyOfDocs, files.id, '4556');
       }
     });
-    console.log(files, 'poiojf');
   }
 
   for (const item of obj.folders) {
-    console.log(item, 'h2llo', obj);
-
     if (item.files && item.files.length > 0) {
       changeFilesOfWorkspace(item, workspaceUUID, workspaceDocsArr, appDataArr);
     }
@@ -397,7 +392,6 @@ const changeWorkspaceIdOfFiles = (
   for (const files of arr.files) {
     files.workspaceUUID = workspaceId;
     const copyFileId = JSON.parse(JSON.stringify(files.id));
-    console.log(copyFileId, files.id, '45');
     if (copyOrMove === 'copy') {
       files.id = uuidv4();
       workspaceDocsArr.map((docs, k) => {
@@ -410,7 +404,6 @@ const changeWorkspaceIdOfFiles = (
           appDataArr[copyOfDocs.uuid] = JSON.parse(
             JSON.stringify(appDataArr[copyFileId])
           );
-          console.log(copyOfDocs, files.id, '46');
         }
       });
       // files.id = uuidv4()
@@ -517,8 +510,6 @@ export const workspaceSlice = createSlice({
       docs[currentEditorIndex].properties.find(
         (data: any) => data.title === 'Tags'
       ).value = [action.payload.newTags];
-
-      console.log('Updated Tags', action);
 
       // docs[currentEditorIndex].tags = [[action.payload.newTags]];
       //
@@ -627,7 +618,6 @@ export const workspaceSlice = createSlice({
         if (item.uuid === action.payload.workspaceUUID) {
           item.folders.push(action.payload.newFolder);
         }
-        console.log({ ...item.folders });
       });
     },
     addFileRedux: (state, action: PayloadAction<any>) => {
@@ -719,7 +709,6 @@ export const workspaceSlice = createSlice({
           //   editorObject: '',
           // });
         }
-        console.log({ ...item.files });
       });
     },
     addSubFoldersRedux: (state, action: PayloadAction<any>) => {
@@ -734,7 +723,6 @@ export const workspaceSlice = createSlice({
       });
     },
     addSubFilesRedux: (state, action: PayloadAction<any>) => {
-      console.log(action.payload.newFileForWorkspaceDocs, 'safd');
       state.workSpaceDocs.push(action.payload.newFileForWorkspaceDocs);
       state.workSpaceItems.map((item, i) => {
         if (item.uuid === action.payload.workspaceUUID) {
@@ -824,7 +812,6 @@ export const workspaceSlice = createSlice({
     },
     editWorkspaceItem: (state, action: PayloadAction<any>) => {
       const arr = [...state.workSpaceItems];
-      console.log(JSON.stringify(arr));
       if (action.payload.editColor) {
         arr[action.payload.index].name = action.payload.value.name;
         arr[action.payload.index].color = action.payload.value.color;
@@ -1020,8 +1007,6 @@ export const workspaceSlice = createSlice({
 
       const copyOfApplicationData = state.applicationData;
 
-      console.log(JSON.stringify(editorState));
-
       copyOfApplicationData[currentDocumentUUID][currentPage] = JSON.parse(
         JSON.stringify(editorState)
       );
@@ -1146,7 +1131,6 @@ export const workspaceSlice = createSlice({
     },
     updateAppData: (state, action: PayloadAction<any>) => {
       const { appID, appData } = action.payload;
-      console.log(action.payload);
       const copyOfEditorApplicationsAdded = [...state.editorApplicationsAdded];
       const proxyFilteredArray: any = [];
       copyOfEditorApplicationsAdded.forEach((data): any => {
@@ -1156,11 +1140,9 @@ export const workspaceSlice = createSlice({
         }
         proxyFilteredArray.push({ ...currentData });
       });
-      console.log('copyOfEditorApplicationsAdded', proxyFilteredArray);
       state.editorApplicationsAdded = proxyFilteredArray;
     },
     editFolderName: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       const { id, name } = action.payload;
       const copyOfworkSpaceFolders = [...state.workspaceFolders];
       const proxyFilteredArray: any = [];
@@ -1176,7 +1158,6 @@ export const workspaceSlice = createSlice({
       state.workspaceFolders = newSetOFDataProcessed;
     },
     moveFolderRedux: (state, action: PayloadAction<any>) => {
-      console.log(action.payload, 'move123');
       const { dest, source } = action.payload;
       const copyOfSource = JSON.parse(JSON.stringify(source));
       copyOfSource.workspaceUUID = dest.workspaceUUID;
@@ -1210,9 +1191,7 @@ export const workspaceSlice = createSlice({
           if (parentOfSource) {
             const x = searchById(item.folders, parentOfSource);
             // x.folders.push(copyOfSource);
-            console.log({ ...x });
             const y = deleteObjectById(x, source.id);
-            console.log({ ...x }, { ...y });
           } else {
             const index = item.folders.findIndex(
               (item) => item.id === source.id
@@ -1249,7 +1228,6 @@ export const workspaceSlice = createSlice({
       // state.workspaceFolders = newSetOFDataProcessed;
     },
     copyFolderRedux: (state, action: PayloadAction<any>) => {
-      console.log(action.payload, 'copy123');
       const { dest, source } = action.payload;
       const copyOfSource = JSON.parse(JSON.stringify(source));
       copyOfSource.workspaceUUID = dest.workspaceUUID;
@@ -1336,10 +1314,6 @@ export const workspaceSlice = createSlice({
     },
 
     addDuplicateFolders: (state, action: PayloadAction<any>) => {
-      console.log(
-        'duplicateFolder - addDuplicateFolders - payload',
-        action.payload
-      );
       const copyFolderStructure = state.workspaceFolders;
       const { newObjectArray } = action.payload;
       const proxyFilteredArray: any = [];
@@ -1347,14 +1321,9 @@ export const workspaceSlice = createSlice({
         proxyFilteredArray.push({ ...data });
       });
       const newArrayGenerated = proxyFilteredArray.concat(newObjectArray);
-      console.log('duplicateFolder - addDuplicateFolders', newArrayGenerated);
       state.workspaceFolders = newArrayGenerated;
     },
     addDuplicateDoc: (state, action: PayloadAction<any>) => {
-      console.log(
-        'duplicateFolder - addDuplicateDoc - payload',
-        action.payload
-      );
       const copyDocStructure = state.workSpaceDocs;
       const { newObjectArray } = action.payload;
       const proxyFilteredArray: any = [];
@@ -1366,15 +1335,10 @@ export const workspaceSlice = createSlice({
         proxyFilteredArray.push({ ...data });
       });
       const newArrayGenerated = proxyFilteredArray.concat(newObjectArray);
-      console.log('duplicateFolder - addDuplicateDoc', newArrayGenerated);
       state.workSpaceDocs = newArrayGenerated;
       // }
     },
     addDuplicateEditorApplications: (state, action: PayloadAction<any>) => {
-      console.log(
-        'duplicateFolder - addDuplicateDoc - payload',
-        action.payload
-      );
       const copyDocStructure = state.editorApplicationsAdded;
       const { newObjectArray } = action.payload;
       const proxyFilteredArray: any = [];
@@ -1382,14 +1346,11 @@ export const workspaceSlice = createSlice({
         proxyFilteredArray.push({ ...data });
       });
       const newArrayGenerated = proxyFilteredArray.concat(newObjectArray);
-      console.log('duplicateFolder - addDuplicateDoc', newArrayGenerated);
       state.editorApplicationsAdded = newArrayGenerated;
       // }
     },
     updateAppName: (state, action: PayloadAction<any>) => {
-      console.log('applicationsDataFiltered', action.payload);
       const { appID, titleForDoc } = action.payload;
-      console.log(action.payload);
       const copyOfEditorApplicationsAdded = [...state.editorApplicationsAdded];
       const proxyFilteredArray: any = [];
       copyOfEditorApplicationsAdded.forEach((data): any => {
@@ -1399,12 +1360,9 @@ export const workspaceSlice = createSlice({
         }
         proxyFilteredArray.push({ ...currentData });
       });
-      console.log('copyOfEditorApplicationsAdded', proxyFilteredArray);
       state.editorApplicationsAdded = proxyFilteredArray;
     },
     attachDatabaseToDocument: (state, action: PayloadAction<any>) => {
-      console.log('attachDatabaseToDocument', action.payload);
-
       const { docId, databaseId } = action.payload;
       // const copyOfworkSpaceDocs = [...state.workSpaceDocs];
       // const proxyFilteredArray: any = [];
@@ -1439,10 +1397,6 @@ export const workspaceSlice = createSlice({
     },
     changeKanbanStatusForWorkSpaceDocs: (state, action: PayloadAction<any>) => {
       const { dragResult } = action.payload;
-      console.log(
-        'newCopyOFDB - changeKanbanStatusForWorkSpaceDocs',
-        action.payload
-      );
       const copyOfWorkSpaceDocs = [...state.workSpaceDocs];
       const proxyFilteredArray: any = [];
       copyOfWorkSpaceDocs.forEach((data: any) => {
@@ -1474,11 +1428,9 @@ export const workspaceSlice = createSlice({
           });
         }
       });
-      console.log(proxyFilteredArray);
       state.workSpaceDocs = proxyFilteredArray;
     },
     addNewWorkSpaceDocument: (state, action: PayloadAction<any>) => {
-      console.log('newCopyOFDB - addNewWorkSpaceDocument', action.payload);
       const copyOfworkSpaceDocs: any = [...state.workSpaceDocs];
       const copyOfapplicationData: any = { ...state.applicationData };
 
@@ -1516,7 +1468,6 @@ export const workspaceSlice = createSlice({
         ],
         checkList: [],
       };
-      console.log('newWorkSpaceDocObject', newWorkSpaceDocObject);
       copyOfworkSpaceDocs.push(newWorkSpaceDocObject);
       copyOfapplicationData[docId] = [
         {
@@ -1600,9 +1551,6 @@ export const workspaceSlice = createSlice({
     },
 
     createTableDocument: (state, action: PayloadAction<any>) => {
-      console.log('test');
-      console.log(action.payload);
-
       // Setup Workspace Meta
       const workspaceDocs = state.workSpaceDocs;
       workspaceDocs.push(action.payload.documentMeta);
@@ -1611,23 +1559,17 @@ export const workspaceSlice = createSlice({
       // Update The Application Data
       const appData: any = state.applicationData;
       appData[action.payload.initialDocumentID] = action.payload.docTemplate;
-      console.log('App Data', appData);
       state.applicationData = appData;
     },
     changePriority: (state, action: PayloadAction<any>) => {
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.map((doc, index) => {
         if (doc.uuid == action.payload.id) {
-          console.log(
-            'REDUXGOV',
-            state.workSpaceDocs[index].properties[1].value
-          );
           state.workSpaceDocs[index].properties[1].value = action.payload.label;
         }
       });
     },
     changeStatus: (state, action: PayloadAction<any>) => {
-      console.log('LABEL', action.payload.label);
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.map((doc, index) => {
         if (doc.uuid == action.payload.id) {
@@ -1643,7 +1585,6 @@ export const workspaceSlice = createSlice({
     setCheckedReducer: (state, action: PayloadAction<any>) => {
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.forEach((doc, index) => {
-        console.log('ITTT', action.payload.label);
         if (doc.uuid == action.payload.parentId) {
           const newRowOrder = Array.from(doc.checkList);
           newRowOrder.forEach((item, i) => {
@@ -1659,7 +1600,6 @@ export const workspaceSlice = createSlice({
     setCheckedAddItem: (state, action: PayloadAction<any>) => {
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.forEach((doc, index) => {
-        console.log('ITTT', action.payload.label);
         if (doc.uuid == action.payload.parentId) {
           doc.checkList?.push(action.payload.obj);
         }
@@ -1681,7 +1621,6 @@ export const workspaceSlice = createSlice({
     },
 
     setWorkspacestodos: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       state.workSpaceDocs.push(action.payload);
       state.applicationData[action.payload.uuid] = [
         {
@@ -1773,7 +1712,6 @@ export const workspaceSlice = createSlice({
       const parentOfCurrentSelectedDoc = state.workSpaceDocs.find(
         (item) => item.uuid === state.currentSelectedDocId
       );
-      console.log({ ...parentOfCurrentSelectedDoc });
       if (parentOfCurrentSelectedDoc.childOf !== null) {
         state.workSpaceItems.map((item, i) => {
           if (item.uuid === parentOfCurrentSelectedDoc?.workSpaceUUID) {
@@ -1785,15 +1723,21 @@ export const workspaceSlice = createSlice({
           }
         });
       } else {
-        console.log(
-          { ...parentOfCurrentSelectedDoc },
-          state.currentSelectedDocId
-        );
         state.workSpaceItems.map((item, i) => {
           if (item.uuid === parentOfCurrentSelectedDoc?.workSpaceUUID) {
             state.dropdownBreadcrumbs = item?.files;
           }
         });
+      }
+    },
+    setWorkSpaceFilterKey: (state, action: PayloadAction<any>) => {
+      const { keySelected } = action.payload;
+      if (keySelected !== 'Group by') {
+        state.workSpaceFilterKey = keySelected;
+        state.workSpaceFiltertype = 'chain';
+      } else {
+        state.workSpaceFilterKey = null;
+        state.workSpaceFiltertype = 'group';
       }
     },
   },
@@ -1850,5 +1794,6 @@ export const {
   setCheckedReducer,
   setCheckedAddItem,
   setCheckListRow,
+  setWorkSpaceFilterKey,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

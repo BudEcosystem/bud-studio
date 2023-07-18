@@ -229,6 +229,7 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
             <GroupByModal
               setShowGroupBy={setShowGroupBy}
               placeholder="Filter by"
+              type={item.name}
             />
           </div>
         )}
@@ -237,6 +238,7 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
             <GroupByModal
               setShowGroupBy={setShowGroupBy}
               placeholder="Group by"
+              type={item.name}
             />
           </div>
         )}
