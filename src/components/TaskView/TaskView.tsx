@@ -513,7 +513,7 @@ function TaskView({
                       data={data}
                       statusPanels={statusPanels}
                       subChild={subChild}
-                      title={"abcd"}
+                      title={title}
                       showTaskViewModal={showTaskViewModal}
                       setShowTaskViewModal={setShowTaskViewModal}
                       status={status}

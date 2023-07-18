@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FourDots } from '../../ListView/ListViewIcons';
 import '../TaskView.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
@@ -30,6 +30,8 @@ const TextComponent = ({
   const [status, setStatus] = useState('');
   const dispatch = useDispatch();
   const [statusObj, setStatusObj] = useState(statusPanels);
+  const { workspace }: any = useSelector((state) => state);
+  const { color } = workspace;
 
   const items: MenuProps['items'] = [];
 
@@ -117,10 +119,10 @@ const TextComponent = ({
             </div>
           </div>
           <div className="textTodo">{text}</div>
-          <button onClick={insideClickHandler}>click</button>
         </div>
 
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', alignItems: "center" }}>
+        <div style={{marginRight: "10px", display: "grid", placeItems: "center", cursor: "pointer", color: "white", background: `${color}`, height: "20px", width: "50px", borderRadius: "5px"}} onClick={insideClickHandler}>View</div>
           <div
             className="SubtaskDrop"
             style={{ width: '100px', height: '24px' }}
@@ -142,7 +144,7 @@ const TextComponent = ({
               height: '10px',
               background: 'transparent',
             }}
-          ></div>
+          ></div>    
         </div>
       </div>
     </>
