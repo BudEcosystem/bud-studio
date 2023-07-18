@@ -212,14 +212,7 @@ function Column(props: any) {
         (data: any) => data.condition === 'or'
       );
       setFilterRulesOr(filterRulesOr);
-      console.log('filterRulesGenerated -filterRulesWhere', filterRulesWhere);
-      console.log('filterRulesGenerated - filterRulesAnd', filterRulesAnd);
-      console.log('filterRulesGenerated - filterRulesOr', filterRulesOr);
       const whereConditionArray: any = [];
-      console.log(
-        'filterRulesGenerated - whereConditionArray',
-        whereConditionArray
-      );
     }
   }, [filterRules]);
   useEffect(() => {
@@ -276,10 +269,10 @@ function Column(props: any) {
     TaskArray.forEach((data: any) => {
       filterRulesWhereArray.forEach((ruleData: any) => {
         const { op, key, query } = ruleData;
-        if (query !== '' || query !== null) {
+        console.log('FlagArray - query', query, query !== '' && query !== null);
+        if (query !== '' && query !== null) {
           switch (op) {
             case 'is':
-              console.log('FlagArray cond', data[`${key}`], `${query}`);
               whereFlagArray.push(
                 data[`${key}`]?.toLowerCase() === `${query.toLowerCase()}`
               );
@@ -328,7 +321,7 @@ function Column(props: any) {
       });
       filterRulesAndArray.forEach((ruleData: any) => {
         const { op, key, query } = ruleData;
-        if (query !== '' || query !== null) {
+        if (query !== '' && query !== null) {
           switch (op) {
             case 'is':
               AndFlagArray.push(
@@ -377,7 +370,7 @@ function Column(props: any) {
       });
       filterRulesOrArray.forEach((ruleData: any) => {
         const { op, key, query } = ruleData;
-        if (query !== '' || query !== null) {
+        if (query !== '' && query !== null) {
           switch (op) {
             case 'is':
               orFlagArray.push(
@@ -424,30 +417,6 @@ function Column(props: any) {
           }
         }
       });
-      console.log(
-        'FlagArray - where',
-        whereFlagArray,
-        whereFlagArray.length > 0 &&
-          whereFlagArray.reduce(
-            (accumulator: any, currentValue: any) => accumulator && currentValue
-          )
-      );
-      console.log(
-        'FlagArray And',
-        AndFlagArray,
-        AndFlagArray.length > 0 &&
-          AndFlagArray.reduce(
-            (accumulator: any, currentValue: any) => accumulator && currentValue
-          )
-      );
-      console.log(
-        'FlagArray Or',
-        orFlagArray,
-        orFlagArray.length > 0 &&
-          orFlagArray.reduce(
-            (accumulator: any, currentValue: any) => accumulator && currentValue
-          )
-      );
       const andWhereArray = [];
       const OrArray = [];
       if (whereFlagArray.length > 0) {
@@ -471,6 +440,9 @@ function Column(props: any) {
           )
         );
       }
+      console.log('FlagArray -andWhereArray ', andWhereArray);
+      console.log('FlagArray -OrArray ', OrArray);
+
       const finalArray = [];
       if (andWhereArray.length > 0) {
         finalArray.push(

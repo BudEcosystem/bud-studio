@@ -397,6 +397,34 @@ function PopOverContent({
               onKeyDown={onKeyDownHandlerForInput}
             />
           </InputWrapper>{' '}
+          <FooterTopLine />
+          <FilterViewFooterSection>
+            <FilterViewFooterButtonSection>
+              {' '}
+              <div
+                style={{
+                  maxWidth: '65px',
+                  // marginLeft: '24px',
+                }}
+              >
+                <Button
+                  onClick={deleteAllFilterRules}
+                  style={{
+                    color: 'var(--shortcut, #7B8388)',
+                    fontFamily: 'Noto Sans',
+                    fontSize: '12px',
+                    fontStyle: 'normal',
+                    fontWeight: 400,
+                    lineHeight: ' 100%',
+                    padding: '0px',
+                  }}
+                  type="text"
+                >
+                  Delete Filter
+                </Button>
+              </div>
+            </FilterViewFooterButtonSection>
+          </FilterViewFooterSection>
         </>
       )}
       {filterType === 'group' && (

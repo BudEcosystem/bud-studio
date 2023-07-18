@@ -163,7 +163,7 @@ function Kanban({ dbId }: any) {
       setKanbanDBData(kanbanRelatedDBData);
     }
   }, [databaseData, dbId]);
-  const [filterRules, setFilterRules] = useState<object>([]);
+  const [filterRules, setFilterRules] = useState<any>([]);
   const [filterType, setFilterType] = useState<string>('chain');
   const { workSpaceFilterKey, workSpaceFiltertype } = workspace;
   useEffect(() => {
@@ -200,11 +200,13 @@ function Kanban({ dbId }: any) {
         overflow: 'scroll',
       }}
     >
-      <KanbanFilter
-        filterRules={filterRules}
-        callBackOnNewFilter={callBackOnNewFilter}
-        filterType={filterType}
-      />
+      {filterRules?.length > 0 && (
+        <KanbanFilter
+          filterRules={filterRules}
+          callBackOnNewFilter={callBackOnNewFilter}
+          filterType={filterType}
+        />
+      )}
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
           droppableId={`${kanbanDBData.id}`}
