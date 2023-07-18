@@ -96,7 +96,7 @@ const TextComponent = ({
           item={item}
           databaseEntries={databaseEntries}
           statusPanels={statusPanels}
-          subChild={subChild}
+          subChild={true}
           checkedNum={checkedNum}
         />
       )}
