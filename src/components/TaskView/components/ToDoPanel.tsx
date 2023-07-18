@@ -23,6 +23,7 @@ const ToDoPanel = ({
   item,
   databaseEntries,
   checkedNum,
+  level,
 }: any) => {
   const dispatch = useDispatch();
   const { workspace, list }: any = useSelector((state) => state);
@@ -127,13 +128,14 @@ const ToDoPanel = ({
                         subChild={subChild}
                         databaseEntries={databaseEntries}
                         checkedNum={checkedNum}
+                        level={level + 1}
                       />
                     </div>
                   )}
                 </Draggable>
               ))}
               {provided.placeholder}
-              <InputComponent data={data} />
+              {level < 4 && <InputComponent data={data} />}
             </div>
           )}
         </Droppable>

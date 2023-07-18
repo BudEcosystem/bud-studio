@@ -90,6 +90,7 @@ const RecursiveHeaderComp = ({
               removeLine={removeLine}
               toggleSubAccordionChild2={toggleSubAccordionChild2}
               docsDictionary={docsDictionary}
+              level={1}
             />
             {/* {docsDictionary[subItem.entry.uuid] === true &&
               todoArr[i]?.length > 0 && (

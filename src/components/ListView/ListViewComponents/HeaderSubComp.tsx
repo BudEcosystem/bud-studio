@@ -65,6 +65,7 @@ function HeaderSubComp({
   removeLine,
   toggleSubAccordionChild2,
   docsDictionary,
+  level,
 }) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -80,7 +81,7 @@ function HeaderSubComp({
   const [siconValue, setSiconValue] = useState(0);
   const inputTagRef = useRef<InputRef>(null);
   const { color } = useSelector((state) => state.workspace);
-  console.log(data, "kjjlkjk")
+  console.log(data, 'kjjlkjk');
   // Priority Flags
   const flagcolors = {
     High: '#E14F21',
@@ -247,6 +248,7 @@ function HeaderSubComp({
           statusPanels={statusPanels}
           subChild={subChild}
           checkedNum={checkedNum}
+          level={level}
         />
       )}
       <div className={`flexVerticalCenter HeaderSubCompParent`} style={style}>

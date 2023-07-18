@@ -26,6 +26,7 @@ const TextComponent = ({
   checkedNum,
   subChild,
   taskViewData,
+  level,
 }: any) => {
   const [status, setStatus] = useState('');
   const dispatch = useDispatch();
@@ -64,7 +65,7 @@ const TextComponent = ({
       entry: taskViewData,
       title: taskViewData.name,
     });
-  });
+  }, [data]);
 
   useEffect(() => {
     dataId?.forEach((doc: any) => {
@@ -98,6 +99,7 @@ const TextComponent = ({
           statusPanels={statusPanels}
           subChild={true}
           checkedNum={checkedNum}
+          level={level + 1}
         />
       )}
       <div
@@ -121,8 +123,23 @@ const TextComponent = ({
           <div className="textTodo">{text}</div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: "center" }}>
-        <div style={{marginRight: "10px", display: "grid", placeItems: "center", cursor: "pointer", color: "white", background: `${color}`, height: "20px", width: "50px", borderRadius: "5px"}} onClick={insideClickHandler}>View</div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div
+            style={{
+              marginRight: '10px',
+              display: 'grid',
+              placeItems: 'center',
+              cursor: 'pointer',
+              color: 'white',
+              background: `${color}`,
+              height: '20px',
+              width: '50px',
+              borderRadius: '5px',
+            }}
+            onClick={insideClickHandler}
+          >
+            View
+          </div>
           <div
             className="SubtaskDrop"
             style={{ width: '100px', height: '24px' }}
@@ -144,7 +161,7 @@ const TextComponent = ({
               height: '10px',
               background: 'transparent',
             }}
-          ></div>    
+          ></div>
         </div>
       </div>
     </>

@@ -131,6 +131,7 @@ function SubAccordion({
           setActiveHeaderSubComp={setActiveHeaderSubComp}
           toggleSubAccordionChild2={toggleSubAccordionChild2}
           docsDictionary={docsDictionary}
+          level={0}
         />
       </div>
       {expanded && (
