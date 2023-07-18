@@ -49,6 +49,7 @@ function TaskView({
   statusPanels,
   subChild,
   checkedNum,
+  level,
 }: any) {
   const { workspace, list }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -299,7 +300,10 @@ function TaskView({
                       marginLeft: '30px',
                     }}
                   >
-                    <div style={{marginRight: "5px"}} className="task-view-priority-chooser">
+                    <div
+                      style={{ marginRight: '5px' }}
+                      className="task-view-priority-chooser"
+                    >
                       <Popover
                         overlayClassName="list-view-tag-set-pop"
                         content={
@@ -513,6 +517,14 @@ function TaskView({
                       data={data}
                       statusPanels={statusPanels}
                       subChild={subChild}
+                      title={title}
+                      showTaskViewModal={showTaskViewModal}
+                      setShowTaskViewModal={setShowTaskViewModal}
+                      status={status}
+                      item={item}
+                      databaseEntries={databaseEntries}
+                      checkedNum={checkedNum}
+                      level={level}
                     />
                   </div>
                 }
