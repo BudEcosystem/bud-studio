@@ -16,8 +16,9 @@ import {
   Plus,
   Name,
 } from './GroupByModalIcons';
+import { setWorkSpaceFilterKey } from '@/redux/slices/workspace';
 
-function GroupByModal({ setShowGroupBy, placeholder }: any) {
+function GroupByModal({ setShowGroupBy, placeholder, type }: any) {
   const dispatch = useDispatch();
   const wrapperRef = useRef(null);
   const {} = useOutsideAlerter(wrapperRef);
@@ -35,6 +36,19 @@ function GroupByModal({ setShowGroupBy, placeholder }: any) {
     }, [ref]);
     return {};
   }
+  const setFilterKeySelected = (value: any) => {
+    dispatch(setWorkSpaceFilterKey({ keySelected: value }));
+  };
+  const onMenuSelect = (value: any) => {
+    if (type === 'Filter') {
+      setFilterKeySelected(value);
+    } else {
+      dispatch(setGroupBy(true));
+      dispatch(setDisplayToggle(true));
+      dispatch(setGroupByOption('Name'));
+    }
+  };
+
   return (
     <div className="GroupByModal" ref={wrapperRef}>
       <div className="GroupBySearchBar">
@@ -56,14 +70,7 @@ function GroupByModal({ setShowGroupBy, placeholder }: any) {
       </div>
 
       <div className="GroupByOptions">
-        <div
-          className="GroupByOption"
-          onClick={() => {
-            dispatch(setGroupBy(true));
-            dispatch(setDisplayToggle(true));
-            dispatch(setGroupByOption('Name'));
-          }}
-        >
+        <div className="GroupByOption" onClick={() => onMenuSelect('Name')}>
           <Name />
           <h3
             style={{
@@ -78,7 +85,7 @@ function GroupByModal({ setShowGroupBy, placeholder }: any) {
           </h3>
         </div>
 
-        <div className="GroupByOption">
+        <div className="GroupByOption" onClick={() => onMenuSelect('Assign')}>
           <Assign />
           <h3
             style={{
@@ -93,7 +100,7 @@ function GroupByModal({ setShowGroupBy, placeholder }: any) {
           </h3>
         </div>
 
-        <div className="GroupByOption">
+        <div className="GroupByOption" onClick={() => onMenuSelect('Priority')}>
           <Priority />
           <h3
             style={{
@@ -108,7 +115,7 @@ function GroupByModal({ setShowGroupBy, placeholder }: any) {
           </h3>
         </div>
 
-        <div className="GroupByOption">
+        <div className="GroupByOption" onClick={() => onMenuSelect('Status')}>
           <Status />
           <h3
             style={{
@@ -126,14 +133,7 @@ function GroupByModal({ setShowGroupBy, placeholder }: any) {
 
       <div className="GroupByLine" />
 
-      <div
-        className="GroupByAdd"
-        onClick={() => {
-          dispatch(setGroupBy(true));
-          dispatch(setDisplayToggle(true));
-          dispatch(setGroupByOption('AddGroup'));
-        }}
-      >
+      <div className="GroupByAdd" onClick={() => onMenuSelect('Group by')}>
         <Plus />
         <div
           style={{

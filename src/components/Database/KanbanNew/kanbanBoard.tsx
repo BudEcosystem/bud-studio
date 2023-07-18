@@ -164,6 +164,32 @@ function Kanban({ dbId }: any) {
     }
   }, [databaseData, dbId]);
   const [filterRules, setFilterRules] = useState<object>([]);
+  const [filterType, setFilterType] = useState<string>('chain');
+  const { workSpaceFilterKey, workSpaceFiltertype } = workspace;
+  useEffect(() => {
+    if (workspace) {
+      if (workSpaceFiltertype === 'chain') {
+        setFilterType('chain');
+        const filterRuleObject = {
+          key: workSpaceFilterKey,
+          query: '',
+          op: 'is',
+          condition: null,
+        };
+        setFilterRules([filterRuleObject]);
+      } else if (workSpaceFiltertype === 'group') {
+        setFilterRules([
+          {
+            key: 'Name',
+            query: '',
+            op: 'is',
+            condition: null,
+          },
+        ]);
+        setFilterType('group');
+      }
+    }
+  }, [workSpaceFilterKey, workSpaceFiltertype, workspace]);
   const callBackOnNewFilter = (arrayPassed: any) => {
     setFilterRules([...arrayPassed]);
   };
@@ -177,6 +203,7 @@ function Kanban({ dbId }: any) {
       <KanbanFilter
         filterRules={filterRules}
         callBackOnNewFilter={callBackOnNewFilter}
+        filterType={filterType}
       />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable

@@ -227,6 +227,8 @@ export const generateInitialWorkspaceState = (): InitialState => {
     editorApplicationsAdded: [],
     workspaceDocsSearchKey: null,
     dropdownBreadcrumbs: [],
+    workSpaceFilterKey: null,
+    workSpaceFiltertype: null,
   };
   return initialState;
 };
@@ -1796,6 +1798,16 @@ export const workspaceSlice = createSlice({
         });
       }
     },
+    setWorkSpaceFilterKey: (state, action: PayloadAction<any>) => {
+      const { keySelected } = action.payload;
+      if (keySelected !== 'Group by') {
+        state.workSpaceFilterKey = keySelected;
+        state.workSpaceFiltertype = 'chain';
+      } else {
+        state.workSpaceFilterKey = null;
+        state.workSpaceFiltertype = 'group';
+      }
+    },
   },
 });
 
@@ -1850,5 +1862,6 @@ export const {
   setCheckedReducer,
   setCheckedAddItem,
   setCheckListRow,
+  setWorkSpaceFilterKey,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

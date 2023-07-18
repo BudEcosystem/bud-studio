@@ -261,20 +261,23 @@ const keyBinding: any = [
     ],
   },
 ];
-const CustomDropDownWrapper = styled.div``;
-function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
+function PopOverContent({
+  filterRules,
+  callBackOnNewFilter,
+  defaultKey,
+  filterType,
+}: any) {
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const onKeyDownHandlerForInput = (event: any) => {
     if (event.code === 'Enter' || event.code === 'NumpadEnter') {
       const copyOfFIlterRules: any = filterRules;
       const valuePassed = inputRef.current.value;
-      const filterRuleObject = {
-        key: 'Name',
-        query: valuePassed,
-        op: 'is',
-        condition: null,
-      };
-      copyOfFIlterRules.push(filterRuleObject);
+      copyOfFIlterRules.map((data: any) => {
+        if (data.key === defaultKey) {
+          data.query = valuePassed;
+        }
+        return data;
+      });
       callBackOnNewFilter(copyOfFIlterRules);
     }
   };
@@ -337,27 +340,51 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
     copyOfFIlterRules[index].op = value;
     callBackOnNewFilter(copyOfFIlterRules);
   };
+  const changeOperationUsingdefaulkey = (value: any, index: any) => {
+    const copyOfFIlterRules: any = filterRules;
+    copyOfFIlterRules.map((data: any) => {
+      if (data.key === index) {
+        data.op = value;
+      }
+      return data;
+    });
+    callBackOnNewFilter(copyOfFIlterRules);
+  };
   console.log('filterRules', filterRules);
   return (
     <Wrapper>
-      {filterRules?.length < 1 ? (
+      {filterType === 'chain' && (
         <>
           {' '}
           <HeaderPart>
             <HeaderPartFirst>
               <HeaderFilterIndicator style={{ minWidth: '40px' }}>
-                Name
+                {defaultKey || 'Name'}
               </HeaderFilterIndicator>
-              <HeaderFilterIndicator
+              <Select
+                bordered={false}
+                popupClassName="condition-render-select"
+                defaultValue={
+                  keyBinding.filter(
+                    (eachKey: any) => eachKey.value === defaultKey
+                  )[0]?.filterArray[0].value
+                }
                 style={{
-                  color: 'var(--shortcut, #7B8388)',
-                  minWidth: '56px',
-                  marginLeft: '10px',
+                  maxWidth: 112,
+                  minWidth: 112,
+                  marginLeft: '8px',
+                  marginTop: '-6px',
                 }}
-              >
-                contains
-              </HeaderFilterIndicator>
-              <ArrowDown style={{ marginLeft: '10px', marginTop: '7px' }} />
+                onChange={(value) => {
+                  changeOperationUsingdefaulkey(value, defaultKey);
+                }}
+                options={
+                  keyBinding.filter(
+                    (eachKey: any) => eachKey.value === defaultKey
+                  )[0]?.filterArray
+                }
+              />
+              {/* <ArrowDown style={{ marginLeft: '10px', marginTop: '7px' }} /> */}
             </HeaderPartFirst>
             <HeaderPartSecond>
               <ThreeDot />
@@ -371,7 +398,8 @@ function PopOverContent({ filterRules, callBackOnNewFilter }: any) {
             />
           </InputWrapper>{' '}
         </>
-      ) : (
+      )}
+      {filterType === 'group' && (
         <EachFilterWrapper>
           {filterRules.map((eachRule: any, index: any) => (
             <EachFilterRuleSection>
