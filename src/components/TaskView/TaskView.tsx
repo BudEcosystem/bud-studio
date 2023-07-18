@@ -513,6 +513,13 @@ function TaskView({
                       data={data}
                       statusPanels={statusPanels}
                       subChild={subChild}
+                      title={"abcd"}
+                      showTaskViewModal={showTaskViewModal}
+                      setShowTaskViewModal={setShowTaskViewModal}
+                      status={status}
+                      item={item}
+                      databaseEntries={databaseEntries}
+                      checkedNum={checkedNum}
                     />
                   </div>
                 }

@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import {
-  FourDots,
-} from '../../ListView/ListViewIcons';
+import { FourDots } from '../../ListView/ListViewIcons';
 import '../TaskView.css';
 import { useDispatch } from 'react-redux';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
 import { Arrow } from '../TaskViewIcons';
-import {changeStatus} from '@/redux/slices/workspace';
+import { changeStatus } from '@/redux/slices/workspace';
+import TaskView from '../TaskView';
 
 const TextComponent = ({
   id,
   provided,
   snapshot,
   text,
+  data,
   dataId,
   statusPanels,
+  title,
+  showTaskViewModal,
+  setShowTaskViewModal,
+  statuss,
+  item,
+  databaseEntries,
+  checkedNum,
+  subChild,
+  taskViewData,
 }: any) => {
   const [status, setStatus] = useState('');
   const dispatch = useDispatch();
@@ -44,6 +53,17 @@ const TextComponent = ({
     items.push(obj);
   });
 
+  const [dataTaskView, setDataTaskView] = useState();
+
+  useEffect(() => {
+    setDataTaskView({
+      childs: [],
+      description: '',
+      entry: taskViewData,
+      title: taskViewData.name,
+    });
+  });
+
   useEffect(() => {
     dataId?.forEach((doc: any) => {
       if (id == doc.uuid) {
@@ -56,46 +76,76 @@ const TextComponent = ({
     });
   }, [dataId]);
 
-  return (
-    <div
-      className="headerComponentInputParent"
-      style={{ background: snapshot?.isDragging ? '#25272B' : 'none' }}
-      // style={{ background: 'none' }}
-    >
-      <div className="flex">
-        <div className="iconsContainer">
-          <div
-            className="flexCenter"
-            style={{ marginRight: '8px' }}
-            {...provided?.dragHandleProps}
-          >
-            <FourDots />
-          </div>
-          <div className="flexCenter" style={{ marginRight: '8px' }}>
-            <Arrow />
-          </div>
-        </div>
-        <div className="textTodo">{text}</div>
-      </div>
+  const [insideTaskView, setInsideTaskView] = useState(false);
 
-      <div style={{ display: 'flex' }}>
-        <div className='SubtaskDrop' style={{ width: '100px', height: '24px' }}>
-          <Dropdown
-            className="SubTaskDropDown"
-            menu={menuProps}
-            trigger={['click']}
-          >
-            <Button>
-              {status}
-              <DownOutlined rev={undefined} />
-            </Button>
-          </Dropdown>
+  const insideClickHandler = () => {
+    setInsideTaskView(true);
+  };
+
+  return (
+    <>
+      {insideTaskView && (
+        <TaskView
+          data={dataTaskView}
+          title={title}
+          showTaskViewModal={insideTaskView}
+          setShowTaskViewModal={setInsideTaskView}
+          status={statuss}
+          item={item}
+          databaseEntries={databaseEntries}
+          statusPanels={statusPanels}
+          subChild={subChild}
+          checkedNum={checkedNum}
+        />
+      )}
+      <div
+        className="headerComponentInputParent"
+        style={{ background: snapshot?.isDragging ? '#25272B' : 'none' }}
+        // style={{ background: 'none' }}
+      >
+        <div className="flex">
+          <div className="iconsContainer">
+            <div
+              className="flexCenter"
+              style={{ marginRight: '8px' }}
+              {...provided?.dragHandleProps}
+            >
+              <FourDots />
+            </div>
+            <div className="flexCenter" style={{ marginRight: '8px' }}>
+              <Arrow />
+            </div>
+          </div>
+          <div className="textTodo">{text}</div>
+          <button onClick={insideClickHandler}>click</button>
         </div>
-        <div
-          style={{ width: '135px', height: '10px', background: 'transparent' }}
-        ></div>
+
+        <div style={{ display: 'flex' }}>
+          <div
+            className="SubtaskDrop"
+            style={{ width: '100px', height: '24px' }}
+          >
+            <Dropdown
+              className="SubTaskDropDown"
+              menu={menuProps}
+              trigger={['click']}
+            >
+              <Button>
+                {status}
+                <DownOutlined rev={undefined} />
+              </Button>
+            </Dropdown>
+          </div>
+          <div
+            style={{
+              width: '135px',
+              height: '10px',
+              background: 'transparent',
+            }}
+          ></div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

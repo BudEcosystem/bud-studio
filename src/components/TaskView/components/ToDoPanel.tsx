@@ -11,7 +11,19 @@ import CheckList from './CheckList';
 import CheckListInput from './CheckListInput';
 import { setCheckListRow } from '@/redux/slices/workspace';
 
-const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
+const ToDoPanel = ({
+  dataId,
+  data,
+  statusPanels,
+  subChild,
+  title,
+  showTaskViewModal,
+  setShowTaskViewModal,
+  status,
+  item,
+  databaseEntries,
+  checkedNum,
+}: any) => {
   const dispatch = useDispatch();
   const { workspace, list }: any = useSelector((state) => state);
   const { color, workspacestodos } = workspace;
@@ -33,7 +45,7 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
   //   SetTaskArrayForRender(TaskArray);
   // }, [dataId, workspaceDocs, workspacestodos]);
 
-  console.log('ARUNS', data);
+  console.log('ARUNS', data, dataId, databaseEntries);
   const [checkList, setCheckList] = useState();
   useEffect(() => {
     workspace.workSpaceDocs.forEach((it, i) => {
@@ -103,8 +115,18 @@ const ToDoPanel = ({ dataId, data, statusPanels, subChild }: any) => {
                         provided={provided}
                         snapshot={snapshot}
                         text={item.name}
+                        data={data}
                         dataId={dataId}
+                        taskViewData={dataId[i]}
                         statusPanels={statusPanels}
+                        title={title}
+                        showTaskViewModal={showTaskViewModal}
+                        setShowTaskViewModal={setShowTaskViewModal}
+                        statuss={status}
+                        item={item}
+                        subChild={subChild}
+                        databaseEntries={databaseEntries}
+                        checkedNum={checkedNum}
                       />
                     </div>
                   )}
