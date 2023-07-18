@@ -156,7 +156,7 @@ export const generateDatabaseInitialState = (): any => {
         entries: [
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
-            childs: [{ documentID: '39b08a3d-12f1-4651-90f7-328952849dca' }],
+            childs: [],
             statusKey: 'in_progress',
           },
         ],
@@ -478,25 +478,23 @@ export const databaseSlice = createSlice({
             documentID: action.payload.newId,
             childs: [],
           });
-          //   database.entries.forEach((item, i) => {
-          //  const x = solveRec(item, action.payload.id, action.payload.newId)
-          //  console.log({...x})
-          //  if(x) {
-          //   x.childs.push({
-          //         documentID: action.payload.newId,
-          //         childs: [],
-          //       })
-          //  }
-          // if (item.documentID === action.payload.id) {
-          //   item?.childs?.push({
-          //     documentID: action.payload.newId,
-          //     childs: [],
-          //   });
-          // }
-          // });
         }
       });
     },
+
+    addTodosKanban: (state, action: PayloadAction<any>) => {
+      state.databases.map((database) => {
+        if (database.defaultView === 'Kanban') {
+          const x = solveRec(database.entries, action.payload.id);
+          console.log({ ...x }, 'addTodo');
+          x.childs.push({
+            documentID: action.payload.newId,
+            childs: [],
+          });
+        }
+      });
+    },
+
     editPropertPresetsStatusOptions: (state, action: PayloadAction<any>) => {
       const { id, statusKey, name } = action.payload;
       const copyOfDB = [...state.databases];
@@ -521,16 +519,26 @@ export const databaseSlice = createSlice({
     changeRowOrderTodos: (state, action: PayloadAction<any>) => {
       const { id, result } = action.payload;
       const { source, destination } = result;
-      state.databases.map((database) => {
+      state.databases.forEach((database) => {
         if (database.defaultView === 'List') {
-          database.entries.map((item, i) => {
-            if (item.documentID === action.payload.id) {
-              const newRowOrder = Array.from(item.childs);
-              const [removed] = newRowOrder.splice(source.index, 1);
-              newRowOrder.splice(destination.index, 0, removed);
-              item.childs = newRowOrder;
-            }
-          });
+          const x = solveRec(database.entries, action.payload.id);
+          const newRowOrder = Array.from(x.childs);
+          const [removed] = newRowOrder.splice(source.index, 1);
+          newRowOrder.splice(destination.index, 0, removed);
+          x.childs = newRowOrder;
+        }
+      });
+    },
+    changeRowOrderTodosKanban: (state, action: PayloadAction<any>) => {
+      const { id, result } = action.payload;
+      const { source, destination } = result;
+      state.databases.map((database) => {
+        if (database.defaultView === 'Kanban') {
+          const x = solveRec(database.entries, action.payload.id);
+          const newRowOrder = Array.from(x.childs);
+          const [removed] = newRowOrder.splice(source.index, 1);
+          newRowOrder.splice(destination.index, 0, removed);
+          x.childs = newRowOrder;
         }
       });
     },
@@ -561,6 +569,8 @@ export const {
   editPropertPresetsStatusOptions,
   addTodos,
   changeRowOrderTodos,
+  addTodosKanban,
+  changeRowOrderTodosKanban,
 } = databaseSlice.actions;
 
 export default databaseSlice.reducer;

@@ -131,6 +131,18 @@ function Tasks(props: any) {
   const handleDocumentClick = () => {
     setMenuVisible(false);
   };
+
+  var checkedNum = 0;
+  var progressWidth = 0;
+
+  props.task?.checkList.forEach((item: any) => {
+    if (item.checked == true) {
+      checkedNum++;
+    }
+    progressWidth = (checkedNum / props?.task?.checkList.length)* 100;
+  });
+
+
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
       {(provided, snapshot) => {
@@ -148,6 +160,8 @@ function Tasks(props: any) {
               data={props.task}
               showKanbanTaskView={showKanbanTaskView}
               setShowKanbanTaskView={setShowKanbanTaskView}
+              statusPanels={props.task.statusPanels}
+              databaseEntries={props.task.databaseEntries}
             />
             {menuVisible && (
               <RightClickMenu
@@ -179,9 +193,9 @@ function Tasks(props: any) {
             {props?.task?.image && (
               <TaskImageSection image="/images/other/sampleImage.svg" />
             )}
-            {!props?.task?.progress && (
+            {props?.task?.checkList.length > 0 && (
               <TaskProgressBar>
-                <TaskProgress />
+                <TaskProgress progress={progressWidth} />
               </TaskProgressBar>
             )}
             {props.task.user && (
@@ -198,9 +212,7 @@ function Tasks(props: any) {
               </TaskUserUI>
             )}
             {props.task.description && (
-              <TaskDescription>
-                {props.task.description}
-              </TaskDescription>
+              <TaskDescription>{props.task.description}</TaskDescription>
             )}
             {props.task.type && (
               <TaskType>
