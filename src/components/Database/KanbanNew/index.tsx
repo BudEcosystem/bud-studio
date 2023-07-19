@@ -218,7 +218,7 @@ function HeaderButtons({ label, icon }: any) {
     </ButtonGroup>
   );
 }
-function KanbanUI({ id }: any) {
+function KanbanUI({ id, showSubtask, setShowSubtask }: any) {
   const [date, setDate] = useState<String>('');
   const [title, setTitle] = useState('');
   useEffect(() => setDate('13 June 2022'), []);
@@ -239,7 +239,7 @@ function KanbanUI({ id }: any) {
 
   return (
     <KanbanSection>
-      <Kanban dbId={id} />
+      <Kanban dbId={id} showSubtask={showSubtask} setShowSubtask={setShowSubtask} />
       <div style={{fontStyle: 'Noto Sans', fontWeight: '400', fontSize: '16px', marginTop: "20px"}}>Count: {itemCount}</div>
     </KanbanSection>
   );

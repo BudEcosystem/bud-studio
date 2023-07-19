@@ -91,7 +91,7 @@ const AddNewColumnInput = styled.input`
     color: #bbbbbb;
   }
 `;
-function Kanban({ dbId }: any) {
+function Kanban({ dbId, showSubtask, setShowSubtask }: any) {
   const [kanbanDBData, setKanbanDBData] = useState<any>({});
   const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
   const dispatch = useDispatch();
@@ -235,6 +235,8 @@ function Kanban({ dbId }: any) {
                       color={column?.color}
                       dbId={dbId}
                       filterRules={filterRules}
+                      showSubtask={showSubtask}
+                      setShowSubtask={setShowSubtask}
                     />
                   );
                 }

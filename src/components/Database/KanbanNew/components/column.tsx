@@ -241,7 +241,7 @@ function Column(props: any) {
             heading: `${doc?.name}`,
             progress: '',
             user: '',
-            description: 'Make hay',
+            description: '',
             footer: '',
             image: '',
             type: '',
