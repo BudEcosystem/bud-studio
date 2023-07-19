@@ -139,9 +139,8 @@ function Tasks(props: any) {
     if (item.checked == true) {
       checkedNum++;
     }
-    progressWidth = (checkedNum / props?.task?.checkList.length)* 100;
+    progressWidth = (checkedNum / props?.task?.checkList.length) * 100;
   });
-
 
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
@@ -162,6 +161,7 @@ function Tasks(props: any) {
               setShowKanbanTaskView={setShowKanbanTaskView}
               statusPanels={props.task.statusPanels}
               databaseEntries={props.task.databaseEntries}
+              level={0}
             />
             {menuVisible && (
               <RightClickMenu

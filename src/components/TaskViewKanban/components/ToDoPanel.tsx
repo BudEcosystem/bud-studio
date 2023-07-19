@@ -14,7 +14,15 @@ import {
 import CheckList from './CheckList';
 import CheckListInput from './CheckListInput';
 
-function ToDoPanel({ dataId, data, statusPanels, subChild }: any) {
+function ToDoPanel({
+  dataId,
+  data,
+  statusPanels,
+  subChild,
+  databaseEntries,
+  dbHeader,
+  level,
+}: any) {
   const dispatch = useDispatch();
   const { workspace, list }: any = useSelector((state) => state);
   const { color, workspacestodos } = workspace;
@@ -36,7 +44,7 @@ function ToDoPanel({ dataId, data, statusPanels, subChild }: any) {
   //   SetTaskArrayForRender(TaskArray);
   // }, [dataId, workspaceDocs, workspacestodos]);
 
-  console.log('TODOKAN', dataId);
+  console.log('TODOKAN', dataId, data);
   const [checkList, setCheckList] = useState();
   useEffect(() => {
     workspace.workSpaceDocs.forEach((it: any, i: any) => {
@@ -107,14 +115,18 @@ function ToDoPanel({ dataId, data, statusPanels, subChild }: any) {
                         snapshot={snapshot}
                         text={item.name}
                         dataId={dataId}
+                        data={dataId[i]}
                         statusPanels={statusPanels}
+                        databaseEntries={databaseEntries}
+                        dbHeader={dbHeader}
+                        level={level}
                       />
                     </div>
                   )}
                 </Draggable>
               ))}
               {provided.placeholder}
-              <InputComponent data={data} />
+              {level < 3 && <InputComponent data={data} />}
             </div>
           )}
         </Droppable>

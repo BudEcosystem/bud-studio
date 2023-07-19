@@ -40,6 +40,7 @@ const TaskViewKanban = ({
   setShowKanbanTaskView,
   statusPanels,
   databaseEntries,
+  level,
 }: any) => {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -363,8 +364,7 @@ const TaskViewKanban = ({
                   }}
                 >
                   <DocIcon />
-                </div>
-                {' '}
+                </div>{' '}
               </div>
             ) : (
               <div
@@ -375,7 +375,10 @@ const TaskViewKanban = ({
                   marginLeft: '30px',
                 }}
               >
-                <div style={{marginRight: "5px"}} className="task-view-priority-chooser">
+                <div
+                  style={{ marginRight: '5px' }}
+                  className="task-view-priority-chooser"
+                >
                   <Popover
                     overlayClassName="list-view-tag-set-pop"
                     content={
@@ -531,8 +534,14 @@ const TaskViewKanban = ({
                 </div>
 
                 <div className="progressBar">
-                  <div style={{backgroundColor: `${color}`, width: `${(checkedNum / data?.checkList?.length) * 100}%`}} className="progress"></div>
-                  </div>
+                  <div
+                    style={{
+                      backgroundColor: `${color}`,
+                      width: `${(checkedNum / data?.checkList?.length) * 100}%`,
+                    }}
+                    className="progress"
+                  ></div>
+                </div>
 
                 {/* <div className="DashedCircleIcons">
                   <FlagSmall />
@@ -559,7 +568,6 @@ const TaskViewKanban = ({
               <ThreeDots />
             </div>
           </div>
-
         </div>
 
         <div className="KanbanTaskView__Panel">
@@ -582,6 +590,9 @@ const TaskViewKanban = ({
                 data={data}
                 statusPanels={statusPanels}
                 subChild={false}
+                databaseEntries={databaseEntries}
+                dbHeader={data.dbHeader}
+                level={level}
               />
             </div>
 

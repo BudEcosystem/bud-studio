@@ -227,11 +227,10 @@ function KanbanUI({ id }: any) {
   var itemCount = 0;
 
   database.databases.forEach((doc: any, i: any) => {
-    if(doc.id == id) {
+    if (doc.id == id) {
       itemCount = doc.entries.length;
     }
-  })
-
+  });
 
   // const onNewTaskButtonClicked = () => {
   //   dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
@@ -240,7 +239,16 @@ function KanbanUI({ id }: any) {
   return (
     <KanbanSection>
       <Kanban dbId={id} />
-      <div style={{fontStyle: 'Noto Sans', fontWeight: '400', fontSize: '16px', marginTop: "20px"}}>Count: {itemCount}</div>
+      <div
+        style={{
+          fontStyle: 'Noto Sans',
+          fontWeight: '400',
+          fontSize: '16px',
+          marginTop: '20px',
+        }}
+      >
+        Count: {itemCount}
+      </div>
     </KanbanSection>
   );
 }
