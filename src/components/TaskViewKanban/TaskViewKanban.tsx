@@ -1,19 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './TaskViewkanban.css';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  ArrowIcon,
-  DocIcon,
-  DocSmall,
-  FlagIcon,
-  FlagSmall,
-  FourLines,
-  PersonIcon,
-  ThreeDots,
-  UploadIcon,
-  WindowIcon,
-} from './TaskViewIcons';
-import ToDoPanel from './components/ToDoPanel';
 import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
 import {
   Button,
@@ -30,17 +17,30 @@ import {
   updateDocumentDueDateById,
   updateDocumentStatusById,
 } from '@/redux/slices/workspace';
+import dayjs from 'dayjs';
 import { Flag, FoldedCard } from '../ListView/ListViewIcons';
 import CircularBorder from '../ListView/ListViewComponents/CircularBorder';
-import dayjs from 'dayjs';
+import ToDoPanel from './components/ToDoPanel';
+import {
+  ArrowIcon,
+  DocIcon,
+  DocSmall,
+  FlagIcon,
+  FlagSmall,
+  FourLines,
+  PersonIcon,
+  ThreeDots,
+  UploadIcon,
+  WindowIcon,
+} from './TaskViewIcons';
 
-const TaskViewKanban = ({
+function TaskViewKanban({
   data,
   showKanbanTaskView,
   setShowKanbanTaskView,
   statusPanels,
   databaseEntries,
-}: any) => {
+}: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [isDragOver, setIsDragOver] = useState(false);
@@ -56,9 +56,9 @@ const TaskViewKanban = ({
     Normal: '#3D4047',
   };
 
-  var checkedNum = 0;
+  let checkedNum = 0;
 
-  data?.checkList.forEach((item: any) => {
+  data?.checkList?.forEach((item: any) => {
     if (item.checked == true) {
       checkedNum++;
     }
@@ -150,7 +150,7 @@ const TaskViewKanban = ({
     event.preventDefault();
     setIsDragOver(false);
 
-    const files = event.dataTransfer.files;
+    const { files } = event.dataTransfer;
     handleFiles(files);
   };
 
@@ -363,8 +363,7 @@ const TaskViewKanban = ({
                   }}
                 >
                   <DocIcon />
-                </div>
-                {' '}
+                </div>{' '}
               </div>
             ) : (
               <div
@@ -375,7 +374,10 @@ const TaskViewKanban = ({
                   marginLeft: '30px',
                 }}
               >
-                <div style={{marginRight: "5px"}} className="task-view-priority-chooser">
+                <div
+                  style={{ marginRight: '5px' }}
+                  className="task-view-priority-chooser"
+                >
                   <Popover
                     overlayClassName="list-view-tag-set-pop"
                     content={
@@ -531,8 +533,14 @@ const TaskViewKanban = ({
                 </div>
 
                 <div className="progressBar">
-                  <div style={{backgroundColor: `${color}`, width: `${(checkedNum / data?.checkList?.length) * 100}%`}} className="progress"></div>
-                  </div>
+                  <div
+                    style={{
+                      backgroundColor: `${color}`,
+                      width: `${(checkedNum / data?.checkList?.length) * 100}%`,
+                    }}
+                    className="progress"
+                  />
+                </div>
 
                 {/* <div className="DashedCircleIcons">
                   <FlagSmall />
@@ -552,14 +560,13 @@ const TaskViewKanban = ({
               <div style={{ color: '#8A8B8B' }}>Created</div>
               <div style={{ color: 'white' }}>May 9, 11:20am</div>
             </div>
-            <div className="Bar"></div>
+            <div className="Bar" />
             <div className="Share">Share</div>
-            <div className="Bar"></div>
+            <div className="Bar" />
             <div style={{ marginLeft: '10px' }}>
               <ThreeDots />
             </div>
           </div>
-
         </div>
 
         <div className="KanbanTaskView__Panel">
@@ -649,43 +656,43 @@ const TaskViewKanban = ({
             </div>
           </div>
 
-          {/*<div className="KanbanTaskView__RightPanel">*/}
-          {/*  <div className="KanbanRightPanel__Comments">*/}
-          {/*    {comments.map((comment) => (*/}
-          {/*      <div className="KanbanRightPanel__Comment">*/}
-          {/*        <div*/}
-          {/*          style={{*/}
-          {/*            fontSize: '15px',*/}
-          {/*            fontWeight: '300',*/}
-          {/*            color: '#7B8388',*/}
-          {/*          }}*/}
-          {/*        >*/}
-          {/*          {comment.text}*/}
-          {/*        </div>*/}
-          {/*        <div*/}
-          {/*          style={{*/}
-          {/*            fontSize: '15px',*/}
-          {/*            fontWeight: '300',*/}
-          {/*            color: '#7B8388',*/}
-          {/*            marginRight: '5px',*/}
-          {/*          }}*/}
-          {/*        >*/}
-          {/*          {comment.time}*/}
-          {/*        </div>*/}
-          {/*      </div>*/}
-          {/*    ))}*/}
-          {/*  </div>*/}
-          {/*  <div className="KanbanRightPanel__CommentInput">*/}
-          {/*    <input*/}
-          {/*      className="CommentInput__InputField"*/}
-          {/*      placeholder="Comment or type ‘ / ‘ for commands"*/}
-          {/*    />*/}
-          {/*  </div>*/}
-          {/*</div>*/}
+          {/* <div className="KanbanTaskView__RightPanel"> */}
+          {/*  <div className="KanbanRightPanel__Comments"> */}
+          {/*    {comments.map((comment) => ( */}
+          {/*      <div className="KanbanRightPanel__Comment"> */}
+          {/*        <div */}
+          {/*          style={{ */}
+          {/*            fontSize: '15px', */}
+          {/*            fontWeight: '300', */}
+          {/*            color: '#7B8388', */}
+          {/*          }} */}
+          {/*        > */}
+          {/*          {comment.text} */}
+          {/*        </div> */}
+          {/*        <div */}
+          {/*          style={{ */}
+          {/*            fontSize: '15px', */}
+          {/*            fontWeight: '300', */}
+          {/*            color: '#7B8388', */}
+          {/*            marginRight: '5px', */}
+          {/*          }} */}
+          {/*        > */}
+          {/*          {comment.time} */}
+          {/*        </div> */}
+          {/*      </div> */}
+          {/*    ))} */}
+          {/*  </div> */}
+          {/*  <div className="KanbanRightPanel__CommentInput"> */}
+          {/*    <input */}
+          {/*      className="CommentInput__InputField" */}
+          {/*      placeholder="Comment or type ‘ / ‘ for commands" */}
+          {/*    /> */}
+          {/*  </div> */}
+          {/* </div> */}
         </div>
       </div>
     </Modal>
   );
-};
+}
 
 export default TaskViewKanban;
