@@ -238,7 +238,8 @@ function Kanban({ dbId, showSubtask, setShowSubtask, setTaskCount }: any) {
       var childArray = getChildsArrayForDocumentID(kanbanDBData.entries, id);
       const addObj = {
         childs: childArray,
-        documentID: `${id}`
+        documentID: `${id}`,
+        statusKey: "not_started",
       }
       temp.push(addObj)
     });
