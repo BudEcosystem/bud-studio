@@ -5,13 +5,15 @@ import HeaderSection from 'components/ListView/HeaderSection';
 import GroupByComponent from 'components/GroupByComponent/GroupByComponent';
 import SortByComponent from 'components/SortByComponent/SortByComponent';
 import Kanban from './kanbanBoard';
+import { useSelector } from 'react-redux';
 
 const KanbanSection = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
   background: #101010;
-  align-content: flex-start;
+  align-items: center;
+  justify-content: center
   // background: green;
   margin-left: 10px;
   width: 95%;
@@ -220,6 +222,17 @@ function KanbanUI({ id }: any) {
   const [date, setDate] = useState<String>('');
   const [title, setTitle] = useState('');
   useEffect(() => setDate('13 June 2022'), []);
+
+  const { database }: any = useSelector((state) => state);
+  var itemCount = 0;
+
+  database.databases.forEach((doc: any, i: any) => {
+    if(doc.id == id) {
+      itemCount = doc.entries.length;
+    }
+  })
+
+
   // const onNewTaskButtonClicked = () => {
   //   dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
   // };
@@ -227,6 +240,7 @@ function KanbanUI({ id }: any) {
   return (
     <KanbanSection>
       <Kanban dbId={id} />
+      <div style={{fontStyle: 'Noto Sans', fontWeight: '400', fontSize: '16px', marginTop: "20px"}}>Count: {itemCount}</div>
     </KanbanSection>
   );
 }
