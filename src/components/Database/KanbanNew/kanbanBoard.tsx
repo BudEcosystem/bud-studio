@@ -228,18 +228,57 @@ function Kanban({ dbId, showSubtask, setShowSubtask, setTaskCount }: any) {
     return targetChilds;
   }
 
+  function isDocumentIdInParentLevel(data, documentId) {
+    for (let item of data) {
+      if (item.documentID === documentId) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function findParentDocumentId(data, inputDocumentId, parentDocumentId = null) {
+    for (let item of data) {
+      if (item.documentID === inputDocumentId) {
+        return parentDocumentId;
+      }
+      if (item.childs.length > 0) {
+        const foundParent = findParentDocumentId(item.childs, inputDocumentId, item.documentID);
+        if (foundParent !== null) {
+          return foundParent;
+        }
+      }
+    }
+    return null; // If the input document ID is not found or is already at the parent level in the array.
+  }
+
+  console.log("AAA", kanbanDBData.entries)
+
   var temp = [];
-  console.log("PPPP", kanbanDBData.entries)
 
   if(showSubtask) {
     const docIds = getDocumentIds(kanbanDBData.entries)
-    setTaskCount(docIds.length)
     docIds.forEach((id: any, i: any) => {
+      var parentName = "";
+      var subChild = isDocumentIdInParentLevel(kanbanDBData.entries, id);
+      if(subChild == true) {
+        parentName = findParentDocumentId(kanbanDBData.entries, id)
+        if(parentName) {
+          workspace.workSpaceDocs.map((doc: any) => {
+            if(parentName == doc.uuid) {
+              parentName = doc.name
+            }
+          })
+        }
+      }
       var childArray = getChildsArrayForDocumentID(kanbanDBData.entries, id);
+      
       const addObj = {
         childs: childArray,
         documentID: `${id}`,
         statusKey: "not_started",
+        subChild: subChild,
+        parentName: parentName
       }
       temp.push(addObj)
     });
@@ -290,6 +329,7 @@ function Kanban({ dbId, showSubtask, setShowSubtask, setTaskCount }: any) {
                       filterRules={filterRules}
                       showSubtask={showSubtask}
                       setShowSubtask={setShowSubtask}
+                      setTaskCount={setTaskCount}
                     />
                   );
                 }

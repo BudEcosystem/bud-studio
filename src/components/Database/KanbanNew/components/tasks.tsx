@@ -14,6 +14,8 @@ import { useState } from 'react';
 import TaskViewKanban from 'components/TaskViewKanban/TaskViewKanban';
 import GroupByModal from 'components/ListView/ListViewComponents/GroupBy/GroupByModal';
 import RightClickMenu from './RightClickMenu';
+import { Sicon } from '@/components/ListView/ListViewIcons';
+import { Tooltip } from 'antd';
 import './kanban.css';
 import {
   PopOveSearchWrapper,
@@ -114,6 +116,8 @@ function Tasks(props: any) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
+  console.log("PODA", props?.task?.databaseEntries);
+
   const handleContextMenu = (event: any) => {
     event.preventDefault();
     const { clientX, clientY } = event;
@@ -133,12 +137,26 @@ function Tasks(props: any) {
   var checkedNum = 0;
   var progressWidth = 0;
 
+
+
   props.task?.checkList?.forEach((item: any) => {
     if (item.checked == true) {
       checkedNum++;
     }
     progressWidth = (checkedNum / props?.task?.checkList.length) * 100;
   });
+
+  var sub = false;
+  var parentId = ""
+  if(props?.task?.databaseEntries[0].subChild == false) {
+  props?.task?.databaseEntries.map((doc: any) => {
+    if(doc.documentID == props?.task?.uuid) {
+      sub = doc.subChild
+      parentId = doc.parentName
+    }
+  })
+}
+
 
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
@@ -172,8 +190,10 @@ function Tasks(props: any) {
               {props?.task?.heading && (
                 <TaskHeading {...provided.dragHandleProps}>
                   {props?.task?.content}
+                  {sub && (<Tooltip title={`Subtask of ${parentId}`}><span style={{cursor: "help", marginLeft: "10px"}}><Sicon /></span></Tooltip>)} 
                 </TaskHeading>
-              )}
+              )} 
+
               <svg
                 width="9"
                 height="13"
