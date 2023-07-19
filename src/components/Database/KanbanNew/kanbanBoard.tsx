@@ -91,9 +91,10 @@ const AddNewColumnInput = styled.input`
     color: #bbbbbb;
   }
 `;
-function Kanban({ dbId, showSubtask, setShowSubtask }: any) {
+function Kanban({ dbId, showSubtask, setShowSubtask, setTaskCount }: any) {
   const [kanbanDBData, setKanbanDBData] = useState<any>({});
   const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
+  const [docSubtasks, setDocSubtasks] = useState<any>([])
   const dispatch = useDispatch();
   const onDragEnd = (result: any) => {
     const { destination } = result;
@@ -140,12 +141,7 @@ function Kanban({ dbId, showSubtask, setShowSubtask }: any) {
     });
   });
 
-  const columnOrder = ['Not Started', 'In Progress', 'In Review', 'Done'];
 
-  const tasks: { [key: string]: object } = {
-    'task-1': { id: 'task-1', content: 'check for mails' },
-    'task-2': { id: 'task-2', content: 'check for messages' },
-  };
   const { database: databaseData, workspace }: any = useSelector(
     (state) => state
   );
@@ -193,6 +189,62 @@ function Kanban({ dbId, showSubtask, setShowSubtask }: any) {
   const callBackOnNewFilter = (arrayPassed: any) => {
     setFilterRules([...arrayPassed]);
   };
+
+  function getDocumentIds(obj: any) {
+    let documentIds: any[] = [];
+  
+    function traverse(obj: any) {
+      if (typeof obj === "object" && obj !== null) {
+        if ("documentID" in obj) {
+          documentIds.push(obj["documentID"]);
+        }
+  
+        for (const key in obj) {
+          traverse(obj[key]);
+        }
+      }
+    }
+  
+    traverse(obj);
+    return documentIds;
+  }
+
+  function getChildsArrayForDocumentID(obj: any, targetDocumentID: any) {
+    let targetChilds: never[] = [];
+  
+    function traverse(obj: any) {
+      if (typeof obj === "object" && obj !== null) {
+        if ("documentID" in obj && obj["documentID"] === targetDocumentID) {
+          targetChilds = obj["childs"];
+        }
+  
+        for (const key in obj) {
+          traverse(obj[key]);
+        }
+      }
+    }
+  
+    traverse(obj);
+    return targetChilds;
+  }
+
+  var temp = [];
+  console.log("PPPP", kanbanDBData.entries)
+
+  if(showSubtask) {
+    const docIds = getDocumentIds(kanbanDBData.entries)
+    setTaskCount(docIds.length)
+    docIds.forEach((id: any, i: any) => {
+      var childArray = getChildsArrayForDocumentID(kanbanDBData.entries, id);
+      const addObj = {
+        childs: childArray,
+        documentID: `${id}`
+      }
+      temp.push(addObj)
+    });
+     console.log("PPPP", temp)
+  }
+
   return (
     <ContainerWrapper
       style={{
@@ -228,7 +280,7 @@ function Kanban({ dbId, showSubtask, setShowSubtask }: any) {
                       key={column?.key}
                       currentKey={column?.key}
                       title={column?.title}
-                      entries={kanbanDBData?.entries}
+                      entries={showSubtask ? temp : kanbanDBData?.entries}
                       databaseData={kanbanDBData}
                       id={columnId?.key}
                       index={index}
