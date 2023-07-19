@@ -229,6 +229,7 @@ export const generateInitialWorkspaceState = (): InitialState => {
     dropdownBreadcrumbs: [],
     workSpaceFilterKey: null,
     workSpaceFiltertype: null,
+    triggerTaskCreation: false,
   };
   return initialState;
 };
@@ -1740,6 +1741,15 @@ export const workspaceSlice = createSlice({
         state.workSpaceFiltertype = 'group';
       }
     },
+    clearWorkSpaceFilterKey: (state) => {
+      state.workSpaceFilterKey = null;
+      state.workSpaceFiltertype = null;
+    },
+    triggerDefaultNewTask: (state, action: PayloadAction<any>) => {
+      console.log('triggerTaskCreation', action.payload);
+      const { triggerFlag } = action.payload;
+      state.triggerTaskCreation = triggerFlag;
+    },
   },
 });
 
@@ -1795,5 +1805,7 @@ export const {
   setCheckedAddItem,
   setCheckListRow,
   setWorkSpaceFilterKey,
+  clearWorkSpaceFilterKey,
+  triggerDefaultNewTask,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

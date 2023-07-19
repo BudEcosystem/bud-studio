@@ -103,7 +103,9 @@ function HeaderSection({
                       outline: 'none',
                     }}
                     contentEditable
+                    onClick={() => alert('clicked')}
                     onKeyDown={keyHandler}
+                    type="input"
                   >
                     {title}
                   </p>

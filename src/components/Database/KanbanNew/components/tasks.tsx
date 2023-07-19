@@ -135,13 +135,12 @@ function Tasks(props: any) {
   var checkedNum = 0;
   var progressWidth = 0;
 
-  props.task?.checkList.forEach((item: any) => {
+  props.task?.checkList?.forEach((item: any) => {
     if (item.checked == true) {
       checkedNum++;
     }
-    progressWidth = (checkedNum / props?.task?.checkList.length)* 100;
+    progressWidth = (checkedNum / props?.task?.checkList.length) * 100;
   });
-
 
   return (
     <Draggable draggableId={props.task.id} index={props.task.index}>
@@ -193,7 +192,7 @@ function Tasks(props: any) {
             {props?.task?.image && (
               <TaskImageSection image="/images/other/sampleImage.svg" />
             )}
-            {props?.task?.checkList.length > 0 && (
+            {props?.task?.checkList?.length > 0 && (
               <TaskProgressBar>
                 <TaskProgress progress={progressWidth} />
               </TaskProgressBar>

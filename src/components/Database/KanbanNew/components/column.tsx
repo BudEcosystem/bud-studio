@@ -12,7 +12,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Popover } from 'antd';
 import { EnterOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
 import { createNewTaskOnEnter, editColumnName } from 'redux/slices/kanban';
-import { addNewWorkSpaceDocument } from '@/redux/slices/workspace';
+import {
+  addNewWorkSpaceDocument,
+  triggerDefaultNewTask,
+} from '@/redux/slices/workspace';
 import { v4 as uuidv4 } from 'uuid';
 import {
   addNewDocumentEntry,
@@ -72,7 +75,14 @@ function Column(props: any) {
   };
 
   const { workspace }: any = useSelector((state) => state);
-  const { workSpaceDocs, currentWorkspace, workspaceDocsSearchKey } = workspace;
+  console.log('triggerTaskCreation', workspace);
+  console.log('triggerTaskCreation - props', props);
+  const {
+    workSpaceDocs,
+    currentWorkspace,
+    workspaceDocsSearchKey,
+    triggerTaskCreation,
+  } = workspace;
 
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const inputRefForColumnEdit =
@@ -84,6 +94,7 @@ function Column(props: any) {
   const onEscapeButtonPressed = (event: any) => {
     if (event.code === 'Escape') {
       addTaskButtonClicked(false);
+      dispatch(triggerDefaultNewTask({ triggerFlag: false }));
     }
   };
   useEffect(() => {
@@ -135,7 +146,6 @@ function Column(props: any) {
     });
   });
 
-  console.log('KKKK', props.databaseData);
   useLayoutEffect(() => {
     // Get Database entries
     const sortedContent = [];
@@ -255,7 +265,7 @@ function Column(props: any) {
             dbHeader: props.databaseData.title,
             Status: entry.statusKey,
             User: '',
-            statusPanels: statusPanels,
+            statusPanels,
             databaseEntries: props.entries,
           };
           TaskArray.push(mappedTask);
@@ -269,7 +279,6 @@ function Column(props: any) {
     TaskArray.forEach((data: any) => {
       filterRulesWhereArray.forEach((ruleData: any) => {
         const { op, key, query } = ruleData;
-        console.log('FlagArray - query', query, query !== '' && query !== null);
         if (query !== '' && query !== null) {
           switch (op) {
             case 'is':
@@ -440,8 +449,6 @@ function Column(props: any) {
           )
         );
       }
-      console.log('FlagArray -andWhereArray ', andWhereArray);
-      console.log('FlagArray -OrArray ', OrArray);
 
       const finalArray = [];
       if (andWhereArray.length > 0) {
@@ -475,11 +482,17 @@ function Column(props: any) {
     filterRulesOrArray,
     filterRulesWhereArray,
     props,
+    statusPanels,
     workSpaceDocs,
     workspace,
     workspaceDocsSearchKey,
   ]);
-  console.log('TaskArrayForRender', TaskArrayForRender);
+  useEffect(() => {
+    const { index } = props;
+    if (index === 0) {
+      setNewTaskUI(triggerTaskCreation);
+    }
+  }, [triggerTaskCreation, props]);
   return (
     <Draggable draggableId={props.currentKey} index={props.index}>
       {(provided: any) => (
@@ -629,7 +642,6 @@ function Column(props: any) {
             {(provided) => (
               <TaskList ref={provided.innerRef} {...provided.droppableProps}>
                 {TaskArrayForRender?.map((mappedTask: any) => {
-                  console.log('mappedTask', mappedTask);
                   return <Tasks key={mappedTask.id} task={mappedTask} />;
                 })}
                 {provided.placeholder}
