@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setNewTaskClicked, createNewTask } from 'redux/slices/list';
 import {
   CheckList,
   SmallerFlag,
@@ -10,10 +12,8 @@ import {
   FourDots,
 } from '../ListViewIcons';
 import CircularBorder from './CircularBorder';
-import { useSelector, useDispatch } from 'react-redux';
-import { setNewTaskClicked, createNewTask } from 'redux/slices/list';
 
-const HeaderSubCompInput = ({ provided, selectedItem }) => {
+function HeaderSubCompInput({ provided, selectedItem }) {
   const dispatch = useDispatch();
   const [titleInput, setTitleInput] = useState('');
 
@@ -44,8 +44,8 @@ const HeaderSubCompInput = ({ provided, selectedItem }) => {
           <div style={{ marginLeft: '6px', transform: 'rotate(-90deg)' }}>
             <DownArrow />
           </div>
-          <div className="textIcon22"></div>
-          <div className='yellowbar'></div>
+          <div className="textIcon22" />
+          <div className="yellowbar" />
         </div>
         <input
           id="listInput"
@@ -71,6 +71,6 @@ const HeaderSubCompInput = ({ provided, selectedItem }) => {
       </div>
     </div>
   );
-};
+}
 
 export default HeaderSubCompInput;

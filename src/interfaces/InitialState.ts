@@ -18,6 +18,7 @@ interface InitialState {
   workspaceDocsSearchKey: null | string;
   workSpaceFilterKey: null | string;
   workSpaceFiltertype: null | string;
+  triggerTaskCreation: boolean;
 }
 
 export default InitialState;
