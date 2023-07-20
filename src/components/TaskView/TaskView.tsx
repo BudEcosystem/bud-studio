@@ -501,9 +501,6 @@ function TaskView({
             <div className="KanbanTaskView__Panel">
               <div className="KanbanTaskView-LeftPanel">
                 <div className="KanbanTask__Title">{data?.entry.name}</div>
-                <div className="KanbanTask__subHeading">
-                  {data?.entry.description}
-                </div>
 
                 <div className="TaskView__WriteContent">
                   {localState && (
