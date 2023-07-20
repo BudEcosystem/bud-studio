@@ -96,7 +96,7 @@ function TaskViewKanban({
     const TaskArray: any = [];
     const x = solveRec(databaseEntries, data.uuid);
     console.log(x, 'hello');
-    x.childs.map((child: any, i: any) => {
+    x?.childs?.map((child: any, i: any) => {
       workspace.workSpaceDocs.forEach((doc: any, j: any) => {
         if (doc.uuid == child.documentID) {
           TaskArray.push(doc);
@@ -572,9 +572,8 @@ function TaskViewKanban({
         <div className="KanbanTaskView__Panel">
           <div className="KanbanTaskView-LeftPanel">
             <div className="KanbanTask__Title">{data?.content}</div>
-            <div className="KanbanTask__subHeading">{data?.description}</div>
 
-            <div className="KabuniPanel__WriteContent">
+            <div className="TaskView__WriteContent">
               {localState && (
                 <BudEditor
                   data={localState}

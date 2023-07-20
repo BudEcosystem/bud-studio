@@ -19,6 +19,8 @@ function HeaderSection({
   title,
   databaseDescription,
   changeDatabaseView,
+  showSubtask,
+  setShowSubtask
 }: any) {
   const dispatch = useDispatch();
   const { content, list }: any = useSelector((state) => state);
@@ -126,6 +128,8 @@ function HeaderSection({
               <OptionsComponent
                 view={view}
                 changeDatabaseView={changeDatabaseView}
+                showSubtask={showSubtask}
+                setShowSubtask={setShowSubtask}
               />
             </div>
           </>

@@ -228,7 +228,7 @@ function Column(props: any) {
   useEffect(() => {
     const TaskArray: any = [];
     const { filterRules } = props;
-    props?.entries?.forEach((entry: any, index: any) => {
+    props?.entries?.forEach((entry: any, i: any) => {
       workSpaceDocs?.forEach((doc: any, index: any) => {
         const statusOrder = doc.properties?.find(
           (data: any) => data.type === 'status'
@@ -251,7 +251,7 @@ function Column(props: any) {
             heading: `${doc?.name}`,
             progress: '',
             user: '',
-            description: 'Make hay',
+            description: '',
             footer: '',
             image: '',
             type: '',
@@ -551,6 +551,7 @@ function Column(props: any) {
                 <Title>
                   {props.title}
                   {`     (${TaskArrayForRender.length})`}
+                  
                 </Title>
               )}
             </TitleHeaderFirst>
@@ -638,8 +639,10 @@ function Column(props: any) {
               />
             </AddNewTaskWrapper>
           )}
+          {}
           <Droppable droppableId={props.id} type="task">
-            {(provided) => (
+            {
+            (provided) => (
               <TaskList ref={provided.innerRef} {...provided.droppableProps}>
                 {TaskArrayForRender?.map((mappedTask: any) => {
                   return <Tasks key={mappedTask.id} task={mappedTask} />;
