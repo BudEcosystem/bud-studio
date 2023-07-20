@@ -241,7 +241,7 @@ function KanbanUI({ id, showSubtask, setShowSubtask }: any) {
 
   return (
     <KanbanSection>
-      <Kanban dbId={id} showSubtask={showSubtask} setShowSubtask={setShowSubtask} setTaskCount={setTaskCount}/>
+      <Kanban dbId={id} showSubtask={showSubtask} setShowSubtask={setShowSubtask} setTaskCount={setTaskCount} taskCount={taskCount}/>
       <div style={{fontStyle: 'Noto Sans', fontWeight: '400', fontSize: '16px', marginTop: "20px"}}>Count: {showSubtask? taskCount : itemCount}</div>
     </KanbanSection>
   );

@@ -91,7 +91,7 @@ const AddNewColumnInput = styled.input`
     color: #bbbbbb;
   }
 `;
-function Kanban({ dbId, showSubtask, setShowSubtask, setTaskCount }: any) {
+function Kanban({ dbId, showSubtask, setShowSubtask, setTaskCount, taskCount }: any) {
   const [kanbanDBData, setKanbanDBData] = useState<any>({});
   const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
   const [docSubtasks, setDocSubtasks] = useState<any>([])
@@ -228,7 +228,7 @@ function Kanban({ dbId, showSubtask, setShowSubtask, setTaskCount }: any) {
     return targetChilds;
   }
 
-  function isDocumentIdInParentLevel(data, documentId) {
+  function isDocumentIdInParentLevel(data: any, documentId: any) {
     for (let item of data) {
       if (item.documentID === documentId) {
         return false;
@@ -237,7 +237,7 @@ function Kanban({ dbId, showSubtask, setShowSubtask, setTaskCount }: any) {
     return true;
   }
 
-  function findParentDocumentId(data, inputDocumentId, parentDocumentId = null) {
+  function findParentDocumentId(data: any, inputDocumentId: any, parentDocumentId = null) {
     for (let item of data) {
       if (item.documentID === inputDocumentId) {
         return parentDocumentId;
@@ -254,7 +254,7 @@ function Kanban({ dbId, showSubtask, setShowSubtask, setTaskCount }: any) {
 
   console.log("AAA", kanbanDBData.entries)
 
-  var temp = [];
+  var temp: { childs: never[]; documentID: string; statusKey: string; subChild /* eslint-disable react/jsx-props-no-spreading */: boolean; parentName: string; }[] = [];
 
   if(showSubtask) {
     const docIds = getDocumentIds(kanbanDBData.entries)
@@ -330,6 +330,7 @@ function Kanban({ dbId, showSubtask, setShowSubtask, setTaskCount }: any) {
                       showSubtask={showSubtask}
                       setShowSubtask={setShowSubtask}
                       setTaskCount={setTaskCount}
+                      taskCount={taskCount}
                     />
                   );
                 }
