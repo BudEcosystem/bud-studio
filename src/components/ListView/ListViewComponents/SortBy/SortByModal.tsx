@@ -1,25 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import './SortByModal.css';
 import {
-  Rename,
+  setDisplayToggleSortBy,
+  setSortBy,
+  setSortByOption,
+} from 'redux/slices/activestate';
+import { useDispatch } from 'react-redux';
+import {
   Assign,
   Priority,
   Status,
   Search,
   Shortcut,
-  Plus,
   Name,
 } from './SortByModalIcons';
-import {
-  setDisplayToggle,
-  setDisplayToggleSortBy,
-  setGroupBy,
-  setSortBy,
-  setSortByOption,
-} from 'redux/slices/activestate';
-import { useDispatch } from 'react-redux';
 
-const SortByModal = ({ setShowSortBy }: any) => {
+function SortByModal({ setShowSortBy }: any) {
   const dispatch = useDispatch();
   const wrapperRef = useRef(null);
   const {} = useOutsideAlerter(wrapperRef);
@@ -125,10 +121,8 @@ const SortByModal = ({ setShowSortBy }: any) => {
           </h3>
         </div>
       </div>
-
-      <div className="SortByLine"></div>
-
-      <div
+      {/* <div className="SortByLine" /> */}
+      {/* <div
         className="SortByAdd"
         onClick={() => {
           dispatch(setSortBy(true));
@@ -148,9 +142,9 @@ const SortByModal = ({ setShowSortBy }: any) => {
         >
           Add Sort
         </div>
-      </div>
+      </div> */}
     </div>
   );
-};
+}
 
 export default SortByModal;
