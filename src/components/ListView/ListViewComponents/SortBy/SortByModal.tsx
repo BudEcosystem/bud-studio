@@ -14,6 +14,7 @@ import {
   Shortcut,
   Name,
 } from './SortByModalIcons';
+import { setWorkSpaceSortKey } from '@/redux/slices/workspace';
 
 function SortByModal({ setShowSortBy }: any) {
   const dispatch = useDispatch();
@@ -33,6 +34,12 @@ function SortByModal({ setShowSortBy }: any) {
     }, [ref]);
     return {};
   }
+  const onMenuSelect = (value: any) => {
+    dispatch(setWorkSpaceSortKey({ keySelected: value }));
+    dispatch(setDisplayToggleSortBy(true));
+    dispatch(setSortBy(true));
+    dispatch(setSortByOption('Name'));
+  };
   return (
     <div className="SortByModal" ref={wrapperRef}>
       <div className="SortBySearchBar">
@@ -57,9 +64,7 @@ function SortByModal({ setShowSortBy }: any) {
         <div
           className="SortByOption"
           onClick={() => {
-            dispatch(setDisplayToggleSortBy(true));
-            dispatch(setSortBy(true));
-            dispatch(setSortByOption('Name'));
+            onMenuSelect('Name');
           }}
         >
           <Name />
@@ -76,7 +81,7 @@ function SortByModal({ setShowSortBy }: any) {
           </h3>
         </div>
 
-        <div className="SortByOption">
+        <div className="SortByOption" onClick={() => onMenuSelect('Assign')}>
           <Assign />
           <h3
             style={{
@@ -91,7 +96,7 @@ function SortByModal({ setShowSortBy }: any) {
           </h3>
         </div>
 
-        <div className="SortByOption">
+        <div className="SortByOption" onClick={() => onMenuSelect('Priority')}>
           <Priority />
           <h3
             style={{
@@ -106,7 +111,7 @@ function SortByModal({ setShowSortBy }: any) {
           </h3>
         </div>
 
-        <div className="SortByOption">
+        <div className="SortByOption" onClick={() => onMenuSelect('Status')}>
           <Status />
           <h3
             style={{
@@ -121,28 +126,6 @@ function SortByModal({ setShowSortBy }: any) {
           </h3>
         </div>
       </div>
-      {/* <div className="SortByLine" /> */}
-      {/* <div
-        className="SortByAdd"
-        onClick={() => {
-          dispatch(setSortBy(true));
-          dispatch(setGroupBy(false));
-          dispatch(setDisplayToggleSortBy(true));
-          dispatch(setSortByOption('AddSort'));
-        }}
-      >
-        <Plus />
-        <div
-          style={{
-            color: '#3D4047',
-            fontSize: '14px',
-            fontWeight: '400',
-            marginLeft: '20px',
-          }}
-        >
-          Add Sort
-        </div>
-      </div> */}
     </div>
   );
 }

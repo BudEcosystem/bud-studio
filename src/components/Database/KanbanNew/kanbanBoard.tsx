@@ -13,6 +13,7 @@ import {
 } from '@/redux/slices/database';
 import Column from './components/column';
 import KanbanFilter from './components/FilterComponent';
+import KanbanSort from './components/SortComponent';
 
 const Container = styled.div`
   display: flex;
@@ -164,8 +165,17 @@ function Kanban({ dbId }: any) {
     }
   }, [databaseData, dbId]);
   const [filterRules, setFilterRules] = useState<any>([]);
+  const [sortRules, setSortRules] = useState<any>([]);
+
   const [filterType, setFilterType] = useState<string>('chain');
-  const { workSpaceFilterKey, workSpaceFiltertype } = workspace;
+  const [sortType, setSortType] = useState<string>('chain');
+
+  const {
+    workSpaceFilterKey,
+    workSpaceFiltertype,
+    workSpaceSortKey,
+    workSpaceSortType,
+  } = workspace;
   useEffect(() => {
     if (workspace) {
       if (workSpaceFiltertype === 'chain') {
@@ -188,11 +198,28 @@ function Kanban({ dbId }: any) {
         ]);
         setFilterType('group');
       }
+      if (workSpaceSortType === 'chain') {
+        setSortType('chain');
+        const sortRuleObject = {
+          key: workSpaceSortKey,
+          query: '',
+          op: 'is',
+          condition: null,
+        };
+        setSortRules([sortRuleObject]);
+      }
     }
-  }, [workSpaceFilterKey, workSpaceFiltertype, workspace]);
+  }, [
+    workSpaceFilterKey,
+    workSpaceFiltertype,
+    workspace,
+    workSpaceSortKey,
+    workSpaceSortType,
+  ]);
   const callBackOnNewFilter = (arrayPassed: any) => {
     setFilterRules([...arrayPassed]);
   };
+  console.log('sort', sortRules);
   return (
     <ContainerWrapper
       style={{
@@ -205,6 +232,13 @@ function Kanban({ dbId }: any) {
           filterRules={filterRules}
           callBackOnNewFilter={callBackOnNewFilter}
           filterType={filterType}
+        />
+      )}
+      {sortRules?.length > 0 && (
+        <KanbanSort
+          sortRules={sortRules}
+          callBackOnNewFilter={callBackOnNewFilter}
+          filterType={sortType}
         />
       )}
       <DragDropContext onDragEnd={onDragEnd}>

@@ -59,7 +59,8 @@ const AddNewWrapper = styled.span`
   margin-left: 5.87px;
   margin-top: 10px;
 `;
-function KanbanFilter({ filterRules, callBackOnNewFilter, filterType }: any) {
+function KanbanSort({ sortRules, callBackOnNewFilter, filterType }: any) {
+  console.log('sort', sortRules, callBackOnNewFilter, filterType);
   const deterMineIcons = (tag: string) => {
     switch (tag) {
       case 'Assign':
@@ -75,26 +76,25 @@ function KanbanFilter({ filterRules, callBackOnNewFilter, filterType }: any) {
     }
   };
   const addNewConditionToChain = (value: string) => {
-    const copyOfFilterRules = Array.from(filterRules);
+    const copyOfsortRules = Array.from(sortRules);
     const filterRuleObject = {
       key: value,
       query: '',
       op: 'is',
       condition: null,
     };
-    copyOfFilterRules.push(filterRuleObject);
-    callBackOnNewFilter(copyOfFilterRules);
+    copyOfsortRules.push(filterRuleObject);
+    callBackOnNewFilter(copyOfsortRules);
   };
   const renderAddNewDropDown = () => {
-    const filterRulesKeys = filterRules.map((data: any) => data.key);
+    const sortRulesKeys = sortRules.map((data: any) => data.key);
     let displayFlag =
       [
         { value: 'Assign', label: 'Assign' },
         { value: 'Name', label: 'Name' },
         { value: 'Priority', label: 'Priority' },
         { value: 'Status', label: 'Status' },
-      ].filter((eachSet) => !filterRulesKeys.includes(eachSet.value)).length >
-      0;
+      ].filter((eachSet) => !sortRulesKeys.includes(eachSet.value)).length > 0;
     return (
       <AddNewWrapper>
         {displayFlag && (
@@ -113,7 +113,7 @@ function KanbanFilter({ filterRules, callBackOnNewFilter, filterType }: any) {
               { value: 'Priority', label: 'Priority' },
               { value: 'Status', label: 'Status' },
             ]
-              .filter((eachSet) => !filterRulesKeys.includes(eachSet.value))
+              .filter((eachSet) => !sortRulesKeys.includes(eachSet.value))
               .map((data) => {
                 return {
                   value: data.value,
@@ -149,7 +149,7 @@ function KanbanFilter({ filterRules, callBackOnNewFilter, filterType }: any) {
     <KanbanFilterWrapper>
       <KanbanFilterFirstHalf>
         {filterType === 'chain' &&
-          filterRules.map((eachChainFilter: any) => (
+          sortRules.map((eachChainFilter: any) => (
             <KanbanFilterSelectorWrapper>
               <Popover
                 placement="bottomLeft"
@@ -158,7 +158,7 @@ function KanbanFilter({ filterRules, callBackOnNewFilter, filterType }: any) {
                 trigger="click"
                 content={
                   <PopOverContent
-                    filterRules={filterRules}
+                    sortRules={sortRules}
                     callBackOnNewFilter={callBackOnNewFilter}
                     defaultKey={eachChainFilter.key}
                     filterType={filterType}
@@ -174,26 +174,6 @@ function KanbanFilter({ filterRules, callBackOnNewFilter, filterType }: any) {
               </Popover>
             </KanbanFilterSelectorWrapper>
           ))}
-        {filterType === 'group' && (
-          <KanbanFilterSelectorWrapper>
-            <Popover
-              placement="bottomLeft"
-              arrow={false}
-              trigger="click"
-              content={
-                <PopOverContent
-                  filterType={filterType}
-                  filterRules={filterRules}
-                  callBackOnNewFilter={callBackOnNewFilter}
-                />
-              }
-            >
-              <HamburgerIcon style={{ marginLeft: '9px' }} />
-              <KanbanFilterIndicator>{`${filterRules.length} rule`}</KanbanFilterIndicator>
-              <ArrowDown style={{ marginLeft: '10px', marginTop: '5px' }} />
-            </Popover>
-          </KanbanFilterSelectorWrapper>
-        )}
         {filterType === 'chain' && renderAddNewDropDown()}
       </KanbanFilterFirstHalf>
       <KanbanFilterSecondHalf />
@@ -201,4 +181,4 @@ function KanbanFilter({ filterRules, callBackOnNewFilter, filterType }: any) {
   );
 }
 
-export default KanbanFilter;
+export default KanbanSort;
