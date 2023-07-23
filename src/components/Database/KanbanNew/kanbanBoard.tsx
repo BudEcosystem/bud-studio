@@ -203,7 +203,7 @@ function Kanban({ dbId }: any) {
         const sortRuleObject = {
           key: workSpaceSortKey,
           query: '',
-          op: 'is',
+          op: 'ASC',
           condition: null,
         };
         setSortRules([sortRuleObject]);
@@ -218,6 +218,9 @@ function Kanban({ dbId }: any) {
   ]);
   const callBackOnNewFilter = (arrayPassed: any) => {
     setFilterRules([...arrayPassed]);
+  };
+  const callBackOnNewSort = (arrayPassed: any) => {
+    setSortRules([...arrayPassed]);
   };
   console.log('sort', sortRules);
   return (
@@ -237,7 +240,7 @@ function Kanban({ dbId }: any) {
       {sortRules?.length > 0 && (
         <KanbanSort
           sortRules={sortRules}
-          callBackOnNewFilter={callBackOnNewFilter}
+          callBackOnNewFilter={callBackOnNewSort}
           filterType={sortType}
         />
       )}
@@ -269,6 +272,7 @@ function Kanban({ dbId }: any) {
                       color={column?.color}
                       dbId={dbId}
                       filterRules={filterRules}
+                      sortRules={sortRules}
                     />
                   );
                 }

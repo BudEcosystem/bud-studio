@@ -96,7 +96,7 @@ function TaskViewKanban({
     const TaskArray: any = [];
     const x = solveRec(databaseEntries, data.uuid);
     console.log(x, 'hello');
-    x.childs.map((child: any, i: any) => {
+    x?.childs?.map((child: any, i: any) => {
       workspace.workSpaceDocs.forEach((doc: any, j: any) => {
         if (doc.uuid == child.documentID) {
           TaskArray.push(doc);

@@ -3,6 +3,8 @@ import React, { useRef, useState } from 'react';
 import { Button, Select } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import * as _ from 'lodash';
+import { useDispatch } from 'react-redux';
+import { clearWorkSpaceFilterKey } from '@/redux/slices/workspace';
 import {
   ArrowDown,
   AssignIcon,
@@ -13,8 +15,6 @@ import {
   ThreeDot,
 } from '../../SVGs';
 import CustomDropDown from './CustomDropDown';
-import { useDispatch } from 'react-redux';
-import { clearWorkSpaceFilterKey } from '@/redux/slices/workspace';
 
 const Wrapper = styled.div`
   // margin-left: ${(props: any) => (props?.index === 0 ? '7px' : '7px')};
@@ -34,8 +34,9 @@ const HeaderPart = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-right: 24px;
-  padding-left: 24px;
+  padding-right: 14px;
+  // padding-left: 14px;
+  padding-bottom: 24px;
   margin-top: 11px;
 `;
 const HeaderPartFirst = styled.div`
@@ -102,7 +103,7 @@ const InputField = styled.input`
   }
 `;
 
-const EachFilterRuleSection = styled.div`
+const EachsortRulesection = styled.div`
   width: 445px;
   display: flex;
   flex-direction: row;
@@ -224,7 +225,7 @@ const StatusArray = [
 ];
 const keyBinding: any = [
   {
-    value: 'Assign',
+    value: 'ASC',
     filterArray: [
       { value: 'is', label: 'Is' },
       { value: 'is_not', label: 'Is not' },
@@ -237,7 +238,7 @@ const keyBinding: any = [
     ],
   },
   {
-    value: 'Name',
+    value: 'DSC',
     filterArray: [
       { value: 'is', label: 'Is' },
       { value: 'is_not', label: 'Is not' },
@@ -247,25 +248,11 @@ const keyBinding: any = [
       { value: 'ends_with', label: 'Ends with' },
       { value: 'is_empty', label: 'Is empty' },
       { value: 'is_not_empty', label: 'Is not empty' },
-    ],
-  },
-  {
-    value: 'Priority',
-    filterArray: [
-      { value: 'is', label: 'Is' },
-      { value: 'is_not', label: 'Is not' },
-    ],
-  },
-  {
-    value: 'Status',
-    filterArray: [
-      { value: 'is', label: 'Is' },
-      { value: 'is_not', label: 'Is not' },
     ],
   },
 ];
 function PopOverContent({
-  filterRules,
+  sortRules,
   callBackOnNewFilter,
   defaultKey,
   filterType,
@@ -274,36 +261,36 @@ function PopOverContent({
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const onKeyDownHandlerForInput = (event: any) => {
     if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-      const copyOfFIlterRules: any = filterRules;
+      const copyOfsortRules: any = sortRules;
       const valuePassed = inputRef.current.value;
-      copyOfFIlterRules.map((data: any) => {
+      copyOfsortRules.map((data: any) => {
         if (data.key === defaultKey) {
           data.query = valuePassed;
         }
         return data;
       });
-      callBackOnNewFilter(copyOfFIlterRules);
+      callBackOnNewFilter(copyOfsortRules);
     }
   };
   const addNewFilterWithEmptyPrompts = () => {
-    const copyOfFIlterRules: any = filterRules;
+    const copyOfsortRules: any = sortRules;
     const filterRuleObject = {
       key: 'Name',
       query: '',
       op: 'is',
       condition: 'and',
     };
-    copyOfFIlterRules.push(filterRuleObject);
-    callBackOnNewFilter(copyOfFIlterRules);
+    copyOfsortRules.push(filterRuleObject);
+    callBackOnNewFilter(copyOfsortRules);
   };
   const deleteFilterRule = (index: any) => {
-    const copyOfFIlterRules: any = filterRules;
-    copyOfFIlterRules.splice(index, 1);
-    callBackOnNewFilter(copyOfFIlterRules);
+    const copyOfsortRules: any = sortRules;
+    copyOfsortRules.splice(index, 1);
+    callBackOnNewFilter(copyOfsortRules);
   };
-  const deleteAllFilterRules = () => {
-    const copyOfFIlterRules: any = [];
-    callBackOnNewFilter(copyOfFIlterRules);
+  const deleteAllsortRules = () => {
+    const copyOfsortRules: any = [];
+    callBackOnNewFilter(copyOfsortRules);
     dispatch(clearWorkSpaceFilterKey());
   };
   const deterMineIcons = (tag: string) => {
@@ -321,42 +308,42 @@ function PopOverContent({
     }
   };
   const changePropertyUsingIndex = (value: any, index: any) => {
-    const copyOfFIlterRules: any = filterRules;
-    copyOfFIlterRules[index].key = value;
+    const copyOfsortRules: any = sortRules;
+    copyOfsortRules[index].key = value;
     if (value === 'Status') {
-      copyOfFIlterRules[index].query = 'not_started';
+      copyOfsortRules[index].query = 'not_started';
     } else if (value === 'Priority') {
-      copyOfFIlterRules[index].query = 'High';
+      copyOfsortRules[index].query = 'High';
     }
-    callBackOnNewFilter(copyOfFIlterRules);
+    callBackOnNewFilter(copyOfsortRules);
   };
   const changeConditionUsingIndex = (value: any, index: any) => {
-    const copyOfFIlterRules: any = filterRules;
-    copyOfFIlterRules[index].condition = value;
-    callBackOnNewFilter(copyOfFIlterRules);
+    const copyOfsortRules: any = sortRules;
+    copyOfsortRules[index].condition = value;
+    callBackOnNewFilter(copyOfsortRules);
   };
   const changeQueryUsingIndex = (value: any, index: any) => {
-    const copyOfFIlterRules: any = filterRules;
-    copyOfFIlterRules[index].query = value;
-    callBackOnNewFilter(copyOfFIlterRules);
+    const copyOfsortRules: any = sortRules;
+    copyOfsortRules[index].query = value;
+    callBackOnNewFilter(copyOfsortRules);
   };
   const changeOperationUsingIndex = (value: any, index: any) => {
-    const copyOfFIlterRules: any = filterRules;
-    copyOfFIlterRules[index].op = value;
-    callBackOnNewFilter(copyOfFIlterRules);
+    const copyOfsortRules: any = sortRules;
+    copyOfsortRules[index].op = value;
+    callBackOnNewFilter(copyOfsortRules);
   };
   const changeOperationUsingdefaulkey = (value: any, index: any) => {
-    const copyOfFIlterRules: any = filterRules;
-    copyOfFIlterRules.map((data: any) => {
+    const copyOfsortRules: any = sortRules;
+    copyOfsortRules.map((data: any) => {
       if (data.key === index) {
         data.op = value;
       }
       return data;
     });
-    callBackOnNewFilter(copyOfFIlterRules);
+    callBackOnNewFilter(copyOfsortRules);
   };
   return (
-    <Wrapper widthSet={filterType === 'chain' ? 386 : 486}>
+    <Wrapper widthSet={filterType === 'chain' ? 236 : 486}>
       {filterType === 'chain' && (
         <>
           {' '}
@@ -368,11 +355,7 @@ function PopOverContent({
               <Select
                 bordered={false}
                 popupClassName="condition-render-select"
-                defaultValue={
-                  keyBinding.filter(
-                    (eachKey: any) => eachKey.value === defaultKey
-                  )[0]?.filterArray[0].value
-                }
+                defaultValue={keyBinding[0].value}
                 style={{
                   maxWidth: 112,
                   minWidth: 112,
@@ -382,37 +365,20 @@ function PopOverContent({
                 onChange={(value) => {
                   changeOperationUsingdefaulkey(value, defaultKey);
                 }}
-                options={
-                  keyBinding.filter(
-                    (eachKey: any) => eachKey.value === defaultKey
-                  )[0]?.filterArray
-                }
+                options={keyBinding}
               />
-              {/* <ArrowDown style={{ marginLeft: '10px', marginTop: '7px' }} /> */}
             </HeaderPartFirst>
-            <HeaderPartSecond>
-              <ThreeDot />
-            </HeaderPartSecond>
           </HeaderPart>
-          <InputWrapper>
-            <InputField
-              ref={inputRef}
-              placeholder="Type a value"
-              onKeyDown={onKeyDownHandlerForInput}
-            />
-          </InputWrapper>{' '}
-          <FooterTopLine />
           <FilterViewFooterSection>
             <FilterViewFooterButtonSection>
               {' '}
               <div
                 style={{
                   maxWidth: '65px',
-                  // marginLeft: '24px',
                 }}
               >
                 <Button
-                  onClick={deleteAllFilterRules}
+                  onClick={deleteAllsortRules}
                   style={{
                     color: 'var(--shortcut, #7B8388)',
                     fontFamily: 'Noto Sans',

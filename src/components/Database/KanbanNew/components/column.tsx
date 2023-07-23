@@ -227,7 +227,8 @@ function Column(props: any) {
   }, [filterRules]);
   useEffect(() => {
     const TaskArray: any = [];
-    const { filterRules } = props;
+    const { sortRules } = props;
+    console.log('sortRules', sortRules);
     props?.entries?.forEach((entry: any, index: any) => {
       workSpaceDocs?.forEach((doc: any, index: any) => {
         const statusOrder = doc.properties?.find(
@@ -475,9 +476,98 @@ function Column(props: any) {
         filteredArray.push(data);
       }
     });
+    if (sortRules.length > 0) {
+      const priorityOrder: any = {
+        High: 0,
+        Medium: 1,
+        Low: 3,
+        Normal: 2,
+      };
+      const StatusOrder: any = {
+        not_started: 0,
+        in_progress: 1,
+        in_review: 2,
+        done: 3,
+      };
+      const { key, op } = sortRules[0];
+      console.log('sortRules - sorted', key);
+      if (key === 'Name') {
+        if (op === 'ASC') {
+          filteredArray.sort((a: any, b: any) => {
+            const nameA = a.Name.toLowerCase();
+            const nameB = b.Name.toLowerCase();
+
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            return 0;
+          });
+        }
+        if (op === 'DSC') {
+          filteredArray.sort((a: any, b: any) => {
+            const nameA = a.Name.toLowerCase();
+            const nameB = b.Name.toLowerCase();
+
+            if (nameA > nameB) return -1;
+            if (nameA < nameB) return 1;
+            return 0;
+          });
+        }
+      }
+      if (key === 'Priority') {
+        if (op === 'ASC') {
+          filteredArray.sort((a: any, b: any) => {
+            const priorityA = a.Priority;
+            const priorityB = b.Priority;
+            // Compare the priorities based on the custom order mapping
+            const orderA = priorityOrder[priorityA];
+            const orderB = priorityOrder[priorityB];
+            // Subtract orderA from orderB to determine the correct sorting order
+            return orderA - orderB;
+          });
+        }
+        if (op === 'DSC') {
+          filteredArray.sort((a: any, b: any) => {
+            const priorityA = a.Priority;
+            const priorityB = b.Priority;
+            // Compare the priorities based on the custom order mapping
+            const orderA = priorityOrder[priorityA];
+            const orderB = priorityOrder[priorityB];
+            // Subtract orderB from orderA to determine the correct sorting order
+            return orderB - orderA;
+          });
+        }
+      }
+      if (key === 'Status') {
+        if (op === 'ASC') {
+          filteredArray.sort((a: any, b: any) => {
+            const priorityA = a.Priority;
+            const priorityB = b.Priority;
+            // Compare the priorities based on the custom order mapping
+            const orderA = StatusOrder[priorityA];
+            const orderB = StatusOrder[priorityB];
+            // Subtract orderA from orderB to determine the correct sorting order
+            return orderA - orderB;
+          });
+        }
+        if (op === 'DSC') {
+          filteredArray.sort((a: any, b: any) => {
+            const priorityA = a.Priority;
+            const priorityB = b.Priority;
+            // Compare the priorities based on the custom order mapping
+            const orderA = StatusOrder[priorityA];
+            const orderB = StatusOrder[priorityB];
+            // Subtract orderB from orderA to determine the correct sorting order
+            return orderB - orderA;
+          });
+        }
+      }
+      console.log('sortRules - sorted', filteredArray);
+      // SetTaskArrayForRender(filteredArray);
+    }
     SetTaskArrayForRender(filteredArray);
   }, [
     filterConditionsGenerated,
+    filterRules,
     filterRulesAndArray,
     filterRulesOrArray,
     filterRulesWhereArray,
