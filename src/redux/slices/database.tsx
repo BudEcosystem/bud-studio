@@ -452,6 +452,7 @@ export const databaseSlice = createSlice({
       const sampleObjectToPush = {
         documentID: docId,
         statusKey: sk,
+        childs: [],
       };
       const copyOfDB = [...state.databases];
       const newCopyOFDB = copyOfDB.map((data) => {
@@ -487,7 +488,7 @@ export const databaseSlice = createSlice({
         if (database.defaultView === 'Kanban') {
           const x = solveRec(database.entries, action.payload.id);
           console.log({ ...x }, 'addTodo');
-          x.childs.push({
+          x?.childs?.push({
             documentID: action.payload.newId,
             childs: [],
           });

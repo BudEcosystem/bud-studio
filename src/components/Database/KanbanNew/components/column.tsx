@@ -228,7 +228,6 @@ function Column(props: any) {
   useEffect(() => {
     const TaskArray: any = [];
     const { sortRules } = props;
-    console.log('sortRules', sortRules);
     props?.entries?.forEach((entry: any, index: any) => {
       workSpaceDocs?.forEach((doc: any, index: any) => {
         const statusOrder = doc.properties?.find(
@@ -252,7 +251,7 @@ function Column(props: any) {
             heading: `${doc?.name}`,
             progress: '',
             user: '',
-            description: 'Make hay',
+            description: '',
             footer: '',
             image: '',
             type: '',
@@ -728,6 +727,7 @@ function Column(props: any) {
               />
             </AddNewTaskWrapper>
           )}
+          {}
           <Droppable droppableId={props.id} type="task">
             {(provided) => (
               <TaskList ref={provided.innerRef} {...provided.droppableProps}>

@@ -3,11 +3,22 @@ import { DateLogo } from '../ListViewIcons';
 import '../ListView.css';
 import CircularImageComponent from './CircularImageComponent';
 import NewTaskPanel from './NewTaskPanel';
+import { Switch } from 'antd';
+import { useSelector } from 'react-redux';
 
 const imagesArray: Array<any> = ['', '', ''];
 
-function OptionsComponent({ view,changeDatabaseView }: any) {
+function OptionsComponent({ view,changeDatabaseView, showSubtask, setShowSubtask }: any) {
+  const { workspace }: any = useSelector((state) => state);
+  const { color } = workspace;
+  const style = { '--bg-color': color };
   const kabuniRef = useRef(null);
+
+  const showSubtasks = (checked: boolean) => {
+    console.log(`switch to ${checked}`);
+    setShowSubtask(checked)
+  };
+
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString(undefined, {
     day: 'numeric',
@@ -25,6 +36,11 @@ function OptionsComponent({ view,changeDatabaseView }: any) {
         </div>
         <div className="circularImageComponentContainer">
           <CircularImageComponent images={imagesArray} />
+        </div>
+        <div style={style} className="subTaskToggle">
+          <div style={{fontSize: "12px", marginRight: "10px"}}>Tasks Only</div>
+          <Switch size="small" onChange={showSubtasks} />
+          <div style={{fontSize: "12px", marginLeft: "10px"}}>Show Subtasks</div>
         </div>
       </div>
       <div>

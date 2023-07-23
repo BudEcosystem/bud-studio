@@ -23,6 +23,7 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
   const { workspace } = useSelector((state) => state);
   const [databaseEntries, setDatabaseEntries] = useState<any[]>([]);
   const { database }: any = useSelector((state) => state);
+  const [showSubtask, setShowSubtask] = useState(false)
 
   // console.log("DATABASE RAHUL", databaseData)
 
@@ -224,6 +225,8 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
         title={databaseData.title}
         databaseDescription={databaseData.description}
         changeDatabaseView={changeDatabaseView}
+        showSubtask={showSubtask}
+        setShowSubtask={setShowSubtask}
       />
       {databaseData.defaultView === 'Table' && databaseEntries.length && (
         <TableView
@@ -234,7 +237,10 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
       )}
 
       {databaseData.defaultView === 'Kanban' && databaseEntries.length && (
-        <KanbanUI id={databaseData.id} />
+        <KanbanUI 
+        id={databaseData.id} 
+        showSubtask={showSubtask}
+        setShowSubtask={setShowSubtask} />
       )}
 
       {databaseData.defaultView === 'List' && databaseEntries.length && (

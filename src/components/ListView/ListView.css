@@ -3,7 +3,8 @@
 :root {
   --lineColor: cornflowerblue;
   --spacing: 1.5rem;
-  --treeTop: 71px
+  --treeTop: 71px;
+  --bg-color: #9068fd;
 }
 
 .listViewContainer {
@@ -745,4 +746,19 @@
 
 .list-view-flag-low:hover {
   background-color: #3fe142 !important;
+}
+
+.ant-switch .ant-switch-checked {
+  background-color: var(--bg-color) !important;
+}
+
+.ant-switch  {
+  background-color: var(--bg-color)  !important;
+}
+
+.subTaskToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 20px;
 }

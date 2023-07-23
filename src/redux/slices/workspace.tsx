@@ -1573,10 +1573,14 @@ export const workspaceSlice = createSlice({
       });
     },
     changeStatus: (state, action: PayloadAction<any>) => {
+      function convertToSnakeCase(inputText: any) {
+        return inputText.toLowerCase().replace(/\s+/g, '_');
+      }
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.map((doc, index) => {
         if (doc.uuid == action.payload.id) {
-          state.workSpaceDocs[index].properties[2].value = action.payload.label;
+          var lab = convertToSnakeCase(action.payload.label)
+          state.workSpaceDocs[index].properties[2].value = lab;
         }
       });
     },

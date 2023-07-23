@@ -11,3 +11,7 @@
   line-height: 100%;
   margin-left: 8px;
 }
+
+.ant-tooltip {
+  color: purple !important;
+}
