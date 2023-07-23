@@ -230,6 +230,8 @@ export const generateInitialWorkspaceState = (): InitialState => {
     workSpaceFilterKey: null,
     workSpaceFiltertype: null,
     triggerTaskCreation: false,
+    workSpaceSortKey: null,
+    workSpaceSortType: null,
   };
   return initialState;
 };
@@ -1754,6 +1756,11 @@ export const workspaceSlice = createSlice({
       const { triggerFlag } = action.payload;
       state.triggerTaskCreation = triggerFlag;
     },
+    setWorkSpaceSortKey: (state, action: PayloadAction<any>) => {
+      const { keySelected } = action.payload;
+      state.workSpaceSortKey = keySelected;
+      state.workSpaceSortType = 'chain';
+    },
   },
 });
 
@@ -1811,5 +1818,6 @@ export const {
   setWorkSpaceFilterKey,
   clearWorkSpaceFilterKey,
   triggerDefaultNewTask,
+  setWorkSpaceSortKey,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
