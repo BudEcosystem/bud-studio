@@ -229,6 +229,9 @@ export const generateInitialWorkspaceState = (): InitialState => {
     dropdownBreadcrumbs: [],
     workSpaceFilterKey: null,
     workSpaceFiltertype: null,
+    triggerTaskCreation: false,
+    workSpaceSortKey: null,
+    workSpaceSortType: null,
   };
   return initialState;
 };
@@ -1570,10 +1573,14 @@ export const workspaceSlice = createSlice({
       });
     },
     changeStatus: (state, action: PayloadAction<any>) => {
+      function convertToSnakeCase(inputText: any) {
+        return inputText.toLowerCase().replace(/\s+/g, '_');
+      }
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.map((doc, index) => {
         if (doc.uuid == action.payload.id) {
-          state.workSpaceDocs[index].properties[2].value = action.payload.label;
+          var lab = convertToSnakeCase(action.payload.label)
+          state.workSpaceDocs[index].properties[2].value = lab;
         }
       });
     },
@@ -1740,6 +1747,20 @@ export const workspaceSlice = createSlice({
         state.workSpaceFiltertype = 'group';
       }
     },
+    clearWorkSpaceFilterKey: (state) => {
+      state.workSpaceFilterKey = null;
+      state.workSpaceFiltertype = null;
+    },
+    triggerDefaultNewTask: (state, action: PayloadAction<any>) => {
+      console.log('triggerTaskCreation', action.payload);
+      const { triggerFlag } = action.payload;
+      state.triggerTaskCreation = triggerFlag;
+    },
+    setWorkSpaceSortKey: (state, action: PayloadAction<any>) => {
+      const { keySelected } = action.payload;
+      state.workSpaceSortKey = keySelected;
+      state.workSpaceSortType = 'chain';
+    },
   },
 });
 
@@ -1795,5 +1816,8 @@ export const {
   setCheckedAddItem,
   setCheckListRow,
   setWorkSpaceFilterKey,
+  clearWorkSpaceFilterKey,
+  triggerDefaultNewTask,
+  setWorkSpaceSortKey,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

@@ -13,9 +13,12 @@ import {
   ThreeDot,
 } from '../../SVGs';
 import CustomDropDown from './CustomDropDown';
+import { useDispatch } from 'react-redux';
+import { clearWorkSpaceFilterKey } from '@/redux/slices/workspace';
 
 const Wrapper = styled.div`
-  width: auto;
+  // margin-left: ${(props: any) => (props?.index === 0 ? '7px' : '7px')};
+  width: ${(props: any) => props?.widthSet}px;
   height: auto;
   flex-shrink: 0;
   border-radius: 8px;
@@ -267,6 +270,7 @@ function PopOverContent({
   defaultKey,
   filterType,
 }: any) {
+  const dispatch = useDispatch();
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const onKeyDownHandlerForInput = (event: any) => {
     if (event.code === 'Enter' || event.code === 'NumpadEnter') {
@@ -300,6 +304,7 @@ function PopOverContent({
   const deleteAllFilterRules = () => {
     const copyOfFIlterRules: any = [];
     callBackOnNewFilter(copyOfFIlterRules);
+    dispatch(clearWorkSpaceFilterKey());
   };
   const deterMineIcons = (tag: string) => {
     switch (tag) {
@@ -350,9 +355,8 @@ function PopOverContent({
     });
     callBackOnNewFilter(copyOfFIlterRules);
   };
-  console.log('filterRules', filterRules);
   return (
-    <Wrapper>
+    <Wrapper widthSet={filterType === 'chain' ? 386 : 486}>
       {filterType === 'chain' && (
         <>
           {' '}

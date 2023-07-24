@@ -12,7 +12,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Popover } from 'antd';
 import { EnterOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
 import { createNewTaskOnEnter, editColumnName } from 'redux/slices/kanban';
-import { addNewWorkSpaceDocument } from '@/redux/slices/workspace';
+import {
+  addNewWorkSpaceDocument,
+  triggerDefaultNewTask,
+} from '@/redux/slices/workspace';
 import { v4 as uuidv4 } from 'uuid';
 import {
   addNewDocumentEntry,
@@ -72,7 +75,14 @@ function Column(props: any) {
   };
 
   const { workspace }: any = useSelector((state) => state);
-  const { workSpaceDocs, currentWorkspace, workspaceDocsSearchKey } = workspace;
+  console.log('triggerTaskCreation', workspace);
+  console.log('triggerTaskCreation - props', props);
+  const {
+    workSpaceDocs,
+    currentWorkspace,
+    workspaceDocsSearchKey,
+    triggerTaskCreation,
+  } = workspace;
 
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const inputRefForColumnEdit =
@@ -84,6 +94,7 @@ function Column(props: any) {
   const onEscapeButtonPressed = (event: any) => {
     if (event.code === 'Escape') {
       addTaskButtonClicked(false);
+      dispatch(triggerDefaultNewTask({ triggerFlag: false }));
     }
   };
   useEffect(() => {
@@ -135,7 +146,6 @@ function Column(props: any) {
     });
   });
 
-  console.log('KKKK', props.databaseData);
   useLayoutEffect(() => {
     // Get Database entries
     const sortedContent = [];
@@ -217,7 +227,7 @@ function Column(props: any) {
   }, [filterRules]);
   useEffect(() => {
     const TaskArray: any = [];
-    const { filterRules } = props;
+    const { sortRules } = props;
     props?.entries?.forEach((entry: any, index: any) => {
       workSpaceDocs?.forEach((doc: any, index: any) => {
         const statusOrder = doc.properties?.find(
@@ -241,7 +251,7 @@ function Column(props: any) {
             heading: `${doc?.name}`,
             progress: '',
             user: '',
-            description: 'Make hay',
+            description: '',
             footer: '',
             image: '',
             type: '',
@@ -255,7 +265,7 @@ function Column(props: any) {
             dbHeader: props.databaseData.title,
             Status: entry.statusKey,
             User: '',
-            statusPanels: statusPanels,
+            statusPanels,
             databaseEntries: props.entries,
           };
           TaskArray.push(mappedTask);
@@ -269,7 +279,6 @@ function Column(props: any) {
     TaskArray.forEach((data: any) => {
       filterRulesWhereArray.forEach((ruleData: any) => {
         const { op, key, query } = ruleData;
-        console.log('FlagArray - query', query, query !== '' && query !== null);
         if (query !== '' && query !== null) {
           switch (op) {
             case 'is':
@@ -440,8 +449,6 @@ function Column(props: any) {
           )
         );
       }
-      console.log('FlagArray -andWhereArray ', andWhereArray);
-      console.log('FlagArray -OrArray ', OrArray);
 
       const finalArray = [];
       if (andWhereArray.length > 0) {
@@ -468,18 +475,113 @@ function Column(props: any) {
         filteredArray.push(data);
       }
     });
+    if (sortRules.length > 0) {
+      const priorityOrder: any = {
+        High: 0,
+        Medium: 1,
+        Low: 3,
+        Normal: 2,
+      };
+      const StatusOrder: any = {
+        not_started: 0,
+        in_progress: 1,
+        in_review: 2,
+        done: 3,
+      };
+      const { key, op } = sortRules[0];
+      console.log('sortRules - sorted', key);
+      if (key === 'Name') {
+        if (op === 'ASC') {
+          filteredArray.sort((a: any, b: any) => {
+            const nameA = a.Name.toLowerCase();
+            const nameB = b.Name.toLowerCase();
+
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            return 0;
+          });
+        }
+        if (op === 'DSC') {
+          filteredArray.sort((a: any, b: any) => {
+            const nameA = a.Name.toLowerCase();
+            const nameB = b.Name.toLowerCase();
+
+            if (nameA > nameB) return -1;
+            if (nameA < nameB) return 1;
+            return 0;
+          });
+        }
+      }
+      if (key === 'Priority') {
+        if (op === 'ASC') {
+          filteredArray.sort((a: any, b: any) => {
+            const priorityA = a.Priority;
+            const priorityB = b.Priority;
+            // Compare the priorities based on the custom order mapping
+            const orderA = priorityOrder[priorityA];
+            const orderB = priorityOrder[priorityB];
+            // Subtract orderA from orderB to determine the correct sorting order
+            return orderA - orderB;
+          });
+        }
+        if (op === 'DSC') {
+          filteredArray.sort((a: any, b: any) => {
+            const priorityA = a.Priority;
+            const priorityB = b.Priority;
+            // Compare the priorities based on the custom order mapping
+            const orderA = priorityOrder[priorityA];
+            const orderB = priorityOrder[priorityB];
+            // Subtract orderB from orderA to determine the correct sorting order
+            return orderB - orderA;
+          });
+        }
+      }
+      if (key === 'Status') {
+        if (op === 'ASC') {
+          filteredArray.sort((a: any, b: any) => {
+            const priorityA = a.Priority;
+            const priorityB = b.Priority;
+            // Compare the priorities based on the custom order mapping
+            const orderA = StatusOrder[priorityA];
+            const orderB = StatusOrder[priorityB];
+            // Subtract orderA from orderB to determine the correct sorting order
+            return orderA - orderB;
+          });
+        }
+        if (op === 'DSC') {
+          filteredArray.sort((a: any, b: any) => {
+            const priorityA = a.Priority;
+            const priorityB = b.Priority;
+            // Compare the priorities based on the custom order mapping
+            const orderA = StatusOrder[priorityA];
+            const orderB = StatusOrder[priorityB];
+            // Subtract orderB from orderA to determine the correct sorting order
+            return orderB - orderA;
+          });
+        }
+      }
+      console.log('sortRules - sorted', filteredArray);
+      // SetTaskArrayForRender(filteredArray);
+    }
     SetTaskArrayForRender(filteredArray);
   }, [
     filterConditionsGenerated,
+    filterRules,
     filterRulesAndArray,
     filterRulesOrArray,
     filterRulesWhereArray,
     props,
+    statusPanels,
     workSpaceDocs,
     workspace,
     workspaceDocsSearchKey,
   ]);
-  console.log('TaskArrayForRender', TaskArrayForRender);
+  useEffect(() => {
+    const { index } = props;
+    if (index === 0) {
+      setNewTaskUI(triggerTaskCreation);
+    }
+  }, [triggerTaskCreation, props]);
   return (
     <Draggable draggableId={props.currentKey} index={props.index}>
       {(provided: any) => (
@@ -625,11 +727,11 @@ function Column(props: any) {
               />
             </AddNewTaskWrapper>
           )}
+          {}
           <Droppable droppableId={props.id} type="task">
             {(provided) => (
               <TaskList ref={provided.innerRef} {...provided.droppableProps}>
                 {TaskArrayForRender?.map((mappedTask: any) => {
-                  console.log('mappedTask', mappedTask);
                   return <Tasks key={mappedTask.id} task={mappedTask} />;
                 })}
                 {provided.placeholder}

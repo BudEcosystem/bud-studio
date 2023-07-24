@@ -13,6 +13,7 @@ import {
 } from '@/redux/slices/database';
 import Column from './components/column';
 import KanbanFilter from './components/FilterComponent';
+import KanbanSort from './components/SortComponent';
 
 const Container = styled.div`
   display: flex;
@@ -91,9 +92,16 @@ const AddNewColumnInput = styled.input`
     color: #bbbbbb;
   }
 `;
-function Kanban({ dbId }: any) {
+function Kanban({
+  dbId,
+  showSubtask,
+  setShowSubtask,
+  setTaskCount,
+  taskCount,
+}: any) {
   const [kanbanDBData, setKanbanDBData] = useState<any>({});
   const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
+  const [docSubtasks, setDocSubtasks] = useState<any>([]);
   const dispatch = useDispatch();
   const onDragEnd = (result: any) => {
     const { destination } = result;
@@ -140,12 +148,6 @@ function Kanban({ dbId }: any) {
     });
   });
 
-  const columnOrder = ['Not Started', 'In Progress', 'In Review', 'Done'];
-
-  const tasks: { [key: string]: object } = {
-    'task-1': { id: 'task-1', content: 'check for mails' },
-    'task-2': { id: 'task-2', content: 'check for messages' },
-  };
   const { database: databaseData, workspace }: any = useSelector(
     (state) => state
   );
@@ -164,8 +166,17 @@ function Kanban({ dbId }: any) {
     }
   }, [databaseData, dbId]);
   const [filterRules, setFilterRules] = useState<any>([]);
+  const [sortRules, setSortRules] = useState<any>([]);
+
   const [filterType, setFilterType] = useState<string>('chain');
-  const { workSpaceFilterKey, workSpaceFiltertype } = workspace;
+  const [sortType, setSortType] = useState<string>('chain');
+
+  const {
+    workSpaceFilterKey,
+    workSpaceFiltertype,
+    workSpaceSortKey,
+    workSpaceSortType,
+  } = workspace;
   useEffect(() => {
     if (workspace) {
       if (workSpaceFiltertype === 'chain') {
@@ -188,11 +199,141 @@ function Kanban({ dbId }: any) {
         ]);
         setFilterType('group');
       }
+      if (workSpaceSortType === 'chain') {
+        setSortType('chain');
+        const sortRuleObject = {
+          key: workSpaceSortKey,
+          query: '',
+          op: 'ASC',
+          condition: null,
+        };
+        setSortRules([sortRuleObject]);
+      }
     }
-  }, [workSpaceFilterKey, workSpaceFiltertype, workspace]);
+  }, [
+    workSpaceFilterKey,
+    workSpaceFiltertype,
+    workspace,
+    workSpaceSortKey,
+    workSpaceSortType,
+  ]);
   const callBackOnNewFilter = (arrayPassed: any) => {
     setFilterRules([...arrayPassed]);
   };
+  const callBackOnNewSort = (arrayPassed: any) => {
+    setSortRules([...arrayPassed]);
+  };
+  console.log('sort', sortRules);
+
+  function getDocumentIds(obj: any) {
+    let documentIds: any[] = [];
+
+    function traverse(obj: any) {
+      if (typeof obj === 'object' && obj !== null) {
+        if ('documentID' in obj) {
+          documentIds.push(obj['documentID']);
+        }
+
+        for (const key in obj) {
+          traverse(obj[key]);
+        }
+      }
+    }
+
+    traverse(obj);
+    return documentIds;
+  }
+
+  function getChildsArrayForDocumentID(obj: any, targetDocumentID: any) {
+    let targetChilds: never[] = [];
+
+    function traverse(obj: any) {
+      if (typeof obj === 'object' && obj !== null) {
+        if ('documentID' in obj && obj['documentID'] === targetDocumentID) {
+          targetChilds = obj['childs'];
+        }
+
+        for (const key in obj) {
+          traverse(obj[key]);
+        }
+      }
+    }
+
+    traverse(obj);
+    return targetChilds;
+  }
+
+  function isDocumentIdInParentLevel(data: any, documentId: any) {
+    for (let item of data) {
+      if (item.documentID === documentId) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function findParentDocumentId(
+    data: any,
+    inputDocumentId: any,
+    parentDocumentId = null
+  ) {
+    for (let item of data) {
+      if (item.documentID === inputDocumentId) {
+        return parentDocumentId;
+      }
+      if (item.childs.length > 0) {
+        const foundParent = findParentDocumentId(
+          item.childs,
+          inputDocumentId,
+          item.documentID
+        );
+        if (foundParent !== null) {
+          return foundParent;
+        }
+      }
+    }
+    return null; // If the input document ID is not found or is already at the parent level in the array.
+  }
+
+  console.log('AAA', kanbanDBData.entries);
+
+  var temp: {
+    childs: never[];
+    documentID: string;
+    statusKey: string;
+    subChild: /* eslint-disable react/jsx-props-no-spreading */ boolean;
+    parentName: string;
+  }[] = [];
+
+  if (showSubtask) {
+    const docIds = getDocumentIds(kanbanDBData.entries);
+    docIds.forEach((id: any, i: any) => {
+      var parentName = '';
+      var subChild = isDocumentIdInParentLevel(kanbanDBData.entries, id);
+      if (subChild == true) {
+        parentName = findParentDocumentId(kanbanDBData.entries, id);
+        if (parentName) {
+          workspace.workSpaceDocs.map((doc: any) => {
+            if (parentName == doc.uuid) {
+              parentName = doc.name;
+            }
+          });
+        }
+      }
+      var childArray = getChildsArrayForDocumentID(kanbanDBData.entries, id);
+
+      const addObj = {
+        childs: childArray,
+        documentID: `${id}`,
+        statusKey: 'not_started',
+        subChild: subChild,
+        parentName: parentName,
+      };
+      temp.push(addObj);
+    });
+    console.log('PPPP', temp);
+  }
+
   return (
     <ContainerWrapper
       style={{
@@ -205,6 +346,13 @@ function Kanban({ dbId }: any) {
           filterRules={filterRules}
           callBackOnNewFilter={callBackOnNewFilter}
           filterType={filterType}
+        />
+      )}
+      {sortRules?.length > 0 && (
+        <KanbanSort
+          sortRules={sortRules}
+          callBackOnNewFilter={callBackOnNewSort}
+          filterType={sortType}
         />
       )}
       <DragDropContext onDragEnd={onDragEnd}>
@@ -228,13 +376,18 @@ function Kanban({ dbId }: any) {
                       key={column?.key}
                       currentKey={column?.key}
                       title={column?.title}
-                      entries={kanbanDBData?.entries}
+                      entries={showSubtask ? temp : kanbanDBData?.entries}
                       databaseData={kanbanDBData}
                       id={columnId?.key}
                       index={index}
                       color={column?.color}
                       dbId={dbId}
                       filterRules={filterRules}
+                      sortRules={sortRules}
+                      showSubtask={showSubtask}
+                      setShowSubtask={setShowSubtask}
+                      setTaskCount={setTaskCount}
+                      taskCount={taskCount}
                     />
                   );
                 }

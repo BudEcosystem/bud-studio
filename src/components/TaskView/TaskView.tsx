@@ -115,6 +115,10 @@ function TaskView({
     setToDoId(TaskArray);
   }, [data, workspace]);
 
+  const formattedStatus = status
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, (match) => match.toUpperCase());
+
   useEffect(() => {
     statusPanels.map((item, i) => {
       const formattedStatus = status
@@ -249,7 +253,7 @@ function TaskView({
                     className="TopBar__ProgressText"
                     style={{ background: `${statusColor || '#fff'}` }}
                   >
-                    {status}
+                    {formattedStatus}
                   </div>
                 </div>
 
@@ -497,9 +501,6 @@ function TaskView({
             <div className="KanbanTaskView__Panel">
               <div className="KanbanTaskView-LeftPanel">
                 <div className="KanbanTask__Title">{data?.entry.name}</div>
-                <div className="KanbanTask__subHeading">
-                  {data?.entry.description}
-                </div>
 
                 <div className="TaskView__WriteContent">
                   {localState && (

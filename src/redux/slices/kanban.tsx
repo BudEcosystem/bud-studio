@@ -142,9 +142,9 @@ export const kanbanSlice = createSlice({
         }
       }
     },
-    triggerDefaultNewTask: (state, action: PayloadAction<any>) => {
-      state.triggerTaskCreation = action.payload.triggerTaskCreation;
-    },
+    // triggerDefaultNewTask: (state, action: PayloadAction<any>) => {
+    //   state.triggerTaskCreation = action.payload.triggerTaskCreation;
+    // },
     createNewTaskOnEnter: (state, action: PayloadAction<any>) => {
       const { task: value, props } = action.payload;
       const { id } = props;
@@ -234,7 +234,6 @@ export const kanbanSlice = createSlice({
 export const {
   updateCardPosition,
   updateColumnPosition,
-  triggerDefaultNewTask,
   createNewTaskOnEnter,
   createNewColumn,
   editColumnName,

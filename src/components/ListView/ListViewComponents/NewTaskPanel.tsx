@@ -7,13 +7,15 @@ import {
   setExpandedItems,
   setNewTaskClicked,
 } from 'redux/slices/list';
-import { triggerDefaultNewTask } from 'redux/slices/kanban';
 import { setNewTaskClickedtable } from 'redux/slices/table';
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 import { styled } from 'styled-components';
-import { setSearchDocsKeyword } from '@/redux/slices/workspace';
+import {
+  setSearchDocsKeyword,
+  triggerDefaultNewTask,
+} from '@/redux/slices/workspace';
 import { GroupBy, Sort, ThreeDots, Union, Views } from '../ListViewIcons';
 import ThreeDotsOption from './ThreeDotsOption/ThreeDotsOption';
 import GroupByModal from './GroupBy/GroupByModal';
@@ -136,12 +138,13 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
   ];
 
   const newTaskHandler = () => {
+    alert(view);
     if (view === 'list') {
       setName(view);
       dispatch(setNewTaskClicked(!newTaskClicked));
       dispatch(checkToggle(selectedItemIndex));
-    } else if (view === 'kanban') {
-      dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
+    } else if (view === 'Kanban') {
+      dispatch(triggerDefaultNewTask({ triggerFlag: true }));
     } else if (view === 'table') {
       setName('row');
       dispatch(setNewTaskClickedtable(!newTaskClickedtable));
