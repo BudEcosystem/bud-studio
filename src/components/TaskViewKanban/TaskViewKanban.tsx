@@ -96,7 +96,7 @@ function TaskViewKanban({
       });
     });
     setToDoId(TaskArray);
-  }, [data, workspace]);
+  }, [data, workspace, databaseEntries]);
 
   const getFlagColor = (flagColor: any) => {
     return (

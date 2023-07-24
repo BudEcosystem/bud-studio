@@ -113,19 +113,6 @@ const TextComponent = ({
           databaseEntries={databaseEntries}
           level={level + 1}
         />
-        // <TaskView
-        //   data={dataTaskView}
-        //   title={title}
-        //   showTaskViewModal={insideTaskView}
-        //   setShowTaskViewModal={setInsideTaskView}
-        //   status={statuss}
-        //   item={item}
-        //   databaseEntries={databaseEntries}
-        //   statusPanels={statusPanels}
-        //   subChild={true}
-        //   checkedNum={checkedNum}
-        //   level={level + 1}
-        // />
       )}
       <div
         className="headerComponentInputParent"
