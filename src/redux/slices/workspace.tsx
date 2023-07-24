@@ -90,6 +90,8 @@ export const generateInitialWorkspaceState = (): InitialState => {
             type: 'date',
             id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
             order: 4,
+            startDate: null,
+            endDate: null
           },
         ],
         checkList: [
@@ -553,6 +555,22 @@ export const workspaceSlice = createSlice({
 
       state.workSpaceDocs = docs;
     },
+    updateDocumentStartDateById: (state, action: PayloadAction<any>) => {
+      const currentWorkspace = action.payload.documentID;
+
+      const currentEditorIndex = state.workSpaceDocs.findIndex(
+        (data: any) => data.uuid === currentWorkspace
+      );
+
+      // Get Tag From Index
+      const docs = state.workSpaceDocs;
+      docs[currentEditorIndex].properties.find(
+        (data: any) => data.title === 'Date'
+      ).startDate = action.payload.dueDate;
+
+      state.workSpaceDocs = docs;
+    },
+
     updateDocumentDueDateById: (state, action: PayloadAction<any>) => {
       const currentWorkspace = action.payload.documentID;
 
@@ -564,7 +582,7 @@ export const workspaceSlice = createSlice({
       const docs = state.workSpaceDocs;
       docs[currentEditorIndex].properties.find(
         (data: any) => data.title === 'Date'
-      ).value = action.payload.dueDate;
+      ).endDate = action.payload.dueDate;
 
       state.workSpaceDocs = docs;
     },
@@ -1767,6 +1785,7 @@ export const workspaceSlice = createSlice({
 export const {
   updateDocumentStatusByStatusAndID,
   setDropdownBreadcrumbs,
+  updateDocumentStartDateById,
   updateDocumentDueDateById,
   updateDocumentStatusById,
   updateDocumentTagById,

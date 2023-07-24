@@ -15,6 +15,7 @@ import BudEditor from '@/Libraries/LexicalEditor/BudEditor';
 import {
   updateDocumentData,
   updateDocumentDueDateById,
+  updateDocumentStartDateById,
   updateDocumentStatusById,
 } from '@/redux/slices/workspace';
 import dayjs from 'dayjs';
@@ -47,7 +48,8 @@ function TaskViewKanban({
   const [localState, setLocalState] = useState(null);
   const [todoID, setToDoId] = useState([]);
   const dispatch = useDispatch();
-  const [datePopoverVisible, setDatePopoverVisible] = useState(false);
+  const [startDatePopoverVisible, setStartDatePopoverVisible] = useState(false);
+  const [endDatePopoverVisible, setEndDatePopoverVisible] = useState(false);
 
   const flagcolors = {
     High: '#E14F21',
@@ -162,10 +164,16 @@ function TaskViewKanban({
     }
   };
 
-  const updateDueDate = (date: any) => {
+  const updateStartDate = (date: any) => {
+    dispatch(updateDocumentStartDateById({ documentID: data.id, dueDate: date }));
+
+    setStartDatePopoverVisible(false);
+  };
+
+  const updateEndDate = (date: any) => {
     dispatch(updateDocumentDueDateById({ documentID: data.id, dueDate: date }));
 
-    setDatePopoverVisible(false);
+    setEndDatePopoverVisible(false);
   };
 
   const comments = [
@@ -479,15 +487,17 @@ function TaskViewKanban({
                     </Tooltip>
                   </Popover>
                 </div>
-                <div className="" style={{ marginRight: '10px' }}>
+
+                <div className="" style={{display: "flex", alignItems:"center"}}>
+                  <div style={{fontFamily: "Noto Sans", color:  `${color}`, fontWeight: "600", marginLeft: "20px"}}>Starts :</div> 
                   <Popover
                     trigger="click"
                     overlayClassName="list-view-tag-set-pop"
                     placement="bottom"
                     arrow={false}
-                    title="Due Date"
-                    open={datePopoverVisible}
-                    onOpenChange={(visible) => setDatePopoverVisible(visible)}
+                    title="Start Date"
+                    open={startDatePopoverVisible}
+                    onOpenChange={(visible) => setStartDatePopoverVisible(visible)}
                     content={
                       <div style={{ width: 300 }}>
                         <ConfigProvider
@@ -506,22 +516,76 @@ function TaskViewKanban({
                         >
                           <Calendar
                             fullscreen={false}
-                            onChange={updateDueDate}
+                            onChange={updateStartDate}
                           />
                         </ConfigProvider>
                       </div>
                     }
                   >
                     {data.properties.find(
-                      (prop: { title: string; value: any }) =>
+                      (prop: { title: string; startDate: any }) =>
                         prop.title === 'Date'
-                    )?.value ? (
+                    )?.startDate ? (
                       <div className="taskview-duedate">
                         {dayjs(
                           data.properties.find(
-                            (prop: { title: string; value: any }) =>
+                            (prop: { title: string; startDate: any }) =>
                               prop.title === 'Date'
-                          )?.value
+                          )?.startDate
+                        ).fromNow()}
+                      </div>
+                    ) : (
+                      <Button type="text">
+                        <CircularBorder icon={<FoldedCard />} />
+                      </Button>
+                    )}
+                  </Popover>
+                </div>
+                
+                <div className="" style={{ marginRight: '10px', display: "flex", alignItems:"center", justifyContent: "center" }}>
+                  <div style={{fontFamily: "Noto Sans", color:  `${color}`, fontWeight: "600", marginLeft: "20px"}}>Ends :</div> 
+                  <Popover
+                    trigger="click"
+                    overlayClassName="list-view-tag-set-pop"
+                    placement="bottom"
+                    arrow={false}
+                    title="End Date"
+                    open={endDatePopoverVisible}
+                    onOpenChange={(visible) => setEndDatePopoverVisible(visible)}
+                    content={
+                      <div style={{ width: 300 }}>
+                        <ConfigProvider
+                          theme={{
+                            components: {
+                              Calendar: {
+                                colorBgContainer: '#0c0c0c',
+                                colorBgDateSelected: color,
+                                colorPrimary: color,
+                                colorText: '#fff',
+                                colorTextDisabled: '#ffffff21',
+                                fontFamily: 'Nano Sans',
+                              },
+                            },
+                          }}
+                        >
+                          <Calendar
+                            fullscreen={false}
+                            onChange={updateEndDate}
+                          />
+                        </ConfigProvider>
+                      </div>
+                    }
+                  >
+                    {data.properties.find(
+                      (prop: { title: string; endDate: any }) =>
+                        prop.title === 'Date'
+                    )?.endDate ? (
+                      <div className="taskview-duedate">
+                        {dayjs(
+                          data.properties.find(
+                            (prop: { title: string; endDate: any }) =>
+                              prop.title === 'Date'
+                          )?.endDate
                         ).fromNow()}
                       </div>
                     ) : (
