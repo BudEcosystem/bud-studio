@@ -80,6 +80,8 @@ const InputComponent = ({data}: any) => {
             value: null,
             type: 'date',
             id: uuidv4(),
+            startDate: null,
+            endDate: null,
             order: 4,
           },
         ],
