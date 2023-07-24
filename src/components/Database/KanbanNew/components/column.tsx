@@ -267,6 +267,7 @@ function Column(props: any) {
             User: '',
             statusPanels,
             databaseEntries: props.entries,
+            databaseId: props.databaseData.id
           };
           TaskArray.push(mappedTask);
         }

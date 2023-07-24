@@ -41,6 +41,7 @@ function TaskViewKanban({
   setShowKanbanTaskView,
   statusPanels,
   databaseEntries,
+  level,
 }: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -652,6 +653,9 @@ function TaskViewKanban({
                 data={data}
                 statusPanels={statusPanels}
                 subChild={false}
+                databaseEntries={databaseEntries}
+                dbHeader={data.dbHeader}
+                level={level}
               />
             </div>
 

@@ -295,7 +295,22 @@ function Kanban({
     return null; // If the input document ID is not found or is already at the parent level in the array.
   }
 
-  console.log('AAA', kanbanDBData.entries);
+  function findLevel(data, targetId, currentLevel = 0) {
+    for (const item of data) {
+        if (item.documentID === targetId) {
+            return currentLevel;
+        }
+        if (item.childs.length > 0) {
+            const nestedLevel = findLevel(item.childs, targetId, currentLevel + 1);
+            if (nestedLevel !== null) {
+                return nestedLevel;
+            }
+        }
+    }
+    return null; // Return null if the targetId is not found in the object
+}
+
+  console.log('AAA', kanbanDBData);
 
   var temp: {
     childs: never[];
@@ -310,6 +325,8 @@ function Kanban({
     docIds.forEach((id: any, i: any) => {
       var parentName = '';
       var subChild = isDocumentIdInParentLevel(kanbanDBData.entries, id);
+      var level = findLevel(kanbanDBData.entries, id)
+
       if (subChild == true) {
         parentName = findParentDocumentId(kanbanDBData.entries, id);
         if (parentName) {
@@ -328,6 +345,7 @@ function Kanban({
         statusKey: 'not_started',
         subChild: subChild,
         parentName: parentName,
+        level: level
       };
       temp.push(addObj);
     });
