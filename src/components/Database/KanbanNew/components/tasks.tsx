@@ -148,11 +148,14 @@ function Tasks(props: any) {
 
   var sub = false;
   var parentId = ""
+  var levelOrder = 0;
+
   if(props?.task?.databaseEntries[0].subChild == false) {
   props?.task?.databaseEntries.map((doc: any) => {
     if(doc.documentID == props?.task?.uuid) {
       sub = doc.subChild
       parentId = doc.parentName
+      levelOrder = doc.level
     }
   })
 }
@@ -177,7 +180,7 @@ function Tasks(props: any) {
               setShowKanbanTaskView={setShowKanbanTaskView}
               statusPanels={props.task.statusPanels}
               databaseEntries={props.task.databaseEntries}
-              level={0}
+              level={levelOrder}
             />
             {menuVisible && (
               <RightClickMenu

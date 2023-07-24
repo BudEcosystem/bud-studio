@@ -115,6 +115,7 @@ function ToDoPanel({
                         snapshot={snapshot}
                         text={item.name}
                         dataId={dataId}
+                        completeData={data}
                         data={dataId[i]}
                         statusPanels={statusPanels}
                         databaseEntries={databaseEntries}

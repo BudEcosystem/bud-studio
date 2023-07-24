@@ -41,7 +41,7 @@ function TaskViewKanban({
   statusPanels,
   databaseEntries,
   level,
-}: any) => {
+}: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [isDragOver, setIsDragOver] = useState(false);

@@ -16,6 +16,7 @@ const TextComponent = ({
   text,
   dataId,
   data,
+  completeData,
   statusPanels,
   databaseEntries,
   dbHeader,
@@ -24,10 +25,10 @@ const TextComponent = ({
   const [status, setStatus] = useState('');
   const dispatch = useDispatch();
   const [statusObj, setStatusObj] = useState(statusPanels);
-  const { workspace }: any = useSelector((state) => state);
+  const { workspace, database }: any = useSelector((state) => state);
   const { color } = workspace;
 
-  console.log(data, dataId, 'oipoipoi');
+  console.log("JJJJJ", completeData);
 
   const items: MenuProps['items'] = [];
 
@@ -63,6 +64,20 @@ const TextComponent = ({
     });
   }, [dataId]);
 
+  const statusText = data.properties[2].value.replace(/_/g, ' ').replace(/\b\w/g, (match: string) => match.toUpperCase());
+
+  var statusColor = "";
+
+  database.databases.map((db: any) => {
+    if(db.id ==  completeData.databaseId) {
+      db.propertyPresets.status.options.map((op: any) => {
+        if(op.title == statusText) {
+          statusColor = op.color
+        }
+      })
+    }
+  })
+
   const [dataTaskView, setDataTaskView] = useState();
 
   useEffect(() => {
@@ -71,11 +86,11 @@ const TextComponent = ({
       Name: data.name,
       id: data.uuid,
       dbHeader: dbHeader,
-      description: 'hello',
-      Priority: 'Normal',
-      status: 'status',
-      color: 'red',
-      heading: 'lkjl',
+      description: '',
+      Priority: data.properties[1].value,
+      status: statusText,
+      color: statusColor,
+      heading: data.name,
       statusPanels: statusPanels,
       databaseEntries: databaseEntries,
       content: data.name,
