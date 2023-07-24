@@ -28,20 +28,6 @@ function ToDoPanel({
   const { color } = workspace;
   const checkListInput = data.checkList;
   const [showCheckListInput, setShowCheckListInput] = useState(false);
-  // const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
-  // const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs);
-
-  // useEffect(() => {
-  //   const TaskArray: any = [];
-  //   dataId?.forEach((entry: any, index: any) => {
-  //     workspacestodos?.forEach((doc: any, index: any) => {
-  //       if (entry.id == doc.uuid) {
-  //         TaskArray.push(doc);
-  //       }
-  //     });
-  //   });
-  //   SetTaskArrayForRender(TaskArray);
-  // }, [dataId, workspaceDocs, workspacestodos]);
 
   const [checkList, setCheckList] = useState();
   useEffect(() => {
@@ -54,11 +40,6 @@ function ToDoPanel({
 
   const handleDragEndKanban = (result: any) => {
     dispatch(changeRowOrderTodosKanban({ id: data.uuid, result }));
-    // if (!result.destination) return;
-    // const newRowOrder = Array.from(childData);
-    // const [removed] = newRowOrder.splice(result.source.index, 1);
-    // newRowOrder.splice(result.destination.index, 0, removed);
-    // setChildData(newRowOrder);
   };
   const handleDragEndForChecklist = (result: any) => {
     dispatch(setCheckListRow({ result, parentId: data.uuid }));
@@ -110,7 +91,6 @@ function ToDoPanel({
               {dataId?.map((item: any, i: any) => {
                 var statusText = dataId[i].properties[2].value.replace(/_/g, ' ').replace(/\b\w/g, (match: string) => match.toUpperCase());
                 const statusColor = findStatusColor(statusText, data);
-                // alert(statusColor)
                 return (
                   <Draggable
                   key={`todo-${i}`}

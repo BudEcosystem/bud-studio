@@ -26,10 +26,8 @@ const TextComponent = ({
   const [status, setStatus] = useState('');
   const dispatch = useDispatch();
   const [statusObj, setStatusObj] = useState(statusPanels);
-  const { workspace, database }: any = useSelector((state) => state);
+  const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
-
-  console.log("JJJJJ", statusColor);
 
   const items: MenuProps['items'] = [];
 
@@ -103,8 +101,6 @@ const TextComponent = ({
   const insideClickHandler = () => {
     setInsideTaskView(true);
   };
-
-  console.log('dataTask', dataTaskView);
 
   return (
     <>

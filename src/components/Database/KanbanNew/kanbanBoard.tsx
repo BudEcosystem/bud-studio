@@ -310,8 +310,6 @@ function Kanban({
     return null; // Return null if the targetId is not found in the object
 }
 
-  console.log('AAA', kanbanDBData);
-
   var temp: {
     childs: never[];
     documentID: string;
@@ -349,7 +347,6 @@ function Kanban({
       };
       temp.push(addObj);
     });
-    console.log('PPPP', temp);
   }
 
   return (

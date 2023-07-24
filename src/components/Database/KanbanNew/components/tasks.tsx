@@ -116,8 +116,6 @@ function Tasks(props: any) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
-  console.log("PODA", props?.task?.databaseEntries);
-
   const handleContextMenu = (event: any) => {
     event.preventDefault();
     const { clientX, clientY } = event;
