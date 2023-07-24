@@ -24,9 +24,8 @@ function ToDoPanel({
   level,
 }: any) {
   const dispatch = useDispatch();
-  const { workspace, list }: any = useSelector((state) => state);
-  const { color, workspacestodos } = workspace;
-  const [childData, setChildData] = useState(dataId);
+  const { workspace, database }: any = useSelector((state) => state);
+  const { color } = workspace;
   const checkListInput = data.checkList;
   const [showCheckListInput, setShowCheckListInput] = useState(false);
   // const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
@@ -44,7 +43,6 @@ function ToDoPanel({
   //   SetTaskArrayForRender(TaskArray);
   // }, [dataId, workspaceDocs, workspacestodos]);
 
-  console.log('TODOKAN', dataId, data);
   const [checkList, setCheckList] = useState();
   useEffect(() => {
     workspace.workSpaceDocs.forEach((it: any, i: any) => {
@@ -53,8 +51,6 @@ function ToDoPanel({
       }
     });
   }, [data, workspace, data.checkList]);
-
-  const [sortedArray, setSortedArray] = useState([]);
 
   const handleDragEndKanban = (result: any) => {
     dispatch(changeRowOrderTodosKanban({ id: data.uuid, result }));
@@ -67,6 +63,17 @@ function ToDoPanel({
   const handleDragEndForChecklist = (result: any) => {
     dispatch(setCheckListRow({ result, parentId: data.uuid }));
   };
+
+  const findStatusColor = (statusText: any, data: any) => {
+    var stCol = "";
+    statusPanels.map((st: any) => {
+      if(st.status == statusText) {
+        stCol = st.colorIcon
+      }
+    })
+    return stCol
+  }
+
   return (
     <div className="KanbanPanel__todo">
       <div style={{ display: 'flex' }}>
@@ -100,8 +107,12 @@ function ToDoPanel({
               {...provided.droppableProps}
               style={{ marginTop: '8px' }}
             >
-              {dataId?.map((item: any, i: any) => (
-                <Draggable
+              {dataId?.map((item: any, i: any) => {
+                var statusText = dataId[i].properties[2].value.replace(/_/g, ' ').replace(/\b\w/g, (match: string) => match.toUpperCase());
+                const statusColor = findStatusColor(statusText, data);
+                // alert(statusColor)
+                return (
+                  <Draggable
                   key={`todo-${i}`}
                   draggableId={`todo-${i}`}
                   index={i}
@@ -121,11 +132,13 @@ function ToDoPanel({
                         databaseEntries={databaseEntries}
                         dbHeader={dbHeader}
                         level={level}
+                        statusColor={statusColor}
                       />
                     </div>
                   )}
                 </Draggable>
-              ))}
+                )
+                })}
               {provided.placeholder}
               {level < 3 && <InputComponent data={data} />}
             </div>

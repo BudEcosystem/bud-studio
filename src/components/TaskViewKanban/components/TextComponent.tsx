@@ -21,6 +21,7 @@ const TextComponent = ({
   databaseEntries,
   dbHeader,
   level,
+  statusColor
 }: any) => {
   const [status, setStatus] = useState('');
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const TextComponent = ({
   const { workspace, database }: any = useSelector((state) => state);
   const { color } = workspace;
 
-  console.log("JJJJJ", completeData);
+  console.log("JJJJJ", statusColor);
 
   const items: MenuProps['items'] = [];
 
@@ -66,17 +67,17 @@ const TextComponent = ({
 
   const statusText = data.properties[2].value.replace(/_/g, ' ').replace(/\b\w/g, (match: string) => match.toUpperCase());
 
-  var statusColor = "";
+  // var statusColor = "";
 
-  database.databases.map((db: any) => {
-    if(db.id ==  completeData.databaseId) {
-      db.propertyPresets.status.options.map((op: any) => {
-        if(op.title == statusText) {
-          statusColor = op.color
-        }
-      })
-    }
-  })
+  // database.databases.map((db: any) => {
+  //   if(db.id ==  completeData.databaseId) {
+  //     db.propertyPresets.status.options.map((op: any) => {
+  //       if(op.title == statusText) {
+  //         statusColor = op.color
+  //       }
+  //     })
+  //   }
+  // })
 
   const [dataTaskView, setDataTaskView] = useState();
 
@@ -95,7 +96,7 @@ const TextComponent = ({
       databaseEntries: databaseEntries,
       content: data.name,
     });
-  }, [data, workspace]);
+  }, [data]);
 
   const [insideTaskView, setInsideTaskView] = useState(false);
 
