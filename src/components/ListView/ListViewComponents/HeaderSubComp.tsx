@@ -163,8 +163,6 @@ function HeaderSubComp({
   };
   let i = 0;
 
-  console.log('DATAHEAD', data, expanded);
-
   const solveRec = (structure, id) => {
     console.log({ ...structure }, id, 'rec1');
     if (!structure || structure.length === 0) {

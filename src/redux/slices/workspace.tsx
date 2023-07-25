@@ -1635,7 +1635,6 @@ export const workspaceSlice = createSlice({
       const { result, parentId } = action.payload;
       const { source, destination } = result;
       state.workSpaceDocs.forEach((doc, index) => {
-        // console.log("ITTT", action.payload.label)
         if (doc.uuid == parentId) {
           const newRowOrder = Array.from(doc.checkList);
           const [removed] = newRowOrder.splice(source.index, 1);
