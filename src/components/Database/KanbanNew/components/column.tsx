@@ -209,7 +209,6 @@ function Column(props: any) {
 
   useEffect(() => {
     if (filterRules.length > 0) {
-      const filterRulesGenerated: any = '';
       const filterRulesWhere = filterRules.filter(
         (data: any) => data.condition === null
       );
@@ -222,7 +221,6 @@ function Column(props: any) {
         (data: any) => data.condition === 'or'
       );
       setFilterRulesOr(filterRulesOr);
-      const whereConditionArray: any = [];
     }
   }, [filterRules]);
   useEffect(() => {

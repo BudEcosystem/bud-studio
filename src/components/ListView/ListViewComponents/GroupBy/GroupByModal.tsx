@@ -43,6 +43,7 @@ function GroupByModal({ setShowGroupBy, placeholder, type }: any) {
     if (type === 'Filter') {
       setFilterKeySelected(value);
     } else {
+      setFilterKeySelected(value);
       dispatch(setGroupBy(true));
       dispatch(setDisplayToggle(true));
       dispatch(setGroupByOption('Name'));

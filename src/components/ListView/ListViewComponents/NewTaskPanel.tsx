@@ -108,10 +108,15 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
       },
     ];
     let nameAndLogoArrayMod: any;
+    console.log('nameAndLogoArrayMod view', view);
     if (view) {
       if (view === 'Kanban') {
         nameAndLogoArrayMod = nameAndLogoArray.filter(
           (each) => each.name !== 'Group by'
+        );
+      } else {
+        nameAndLogoArrayMod = nameAndLogoArray.filter(
+          (each) => each.name !== 'Filter'
         );
       }
     } else {
@@ -119,6 +124,7 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
         (each) => each.name !== 'Filter'
       );
     }
+    console.log('nameAndLogoArrayMod', nameAndLogoArrayMod);
     setCurrentNameAndLogoArray(nameAndLogoArrayMod);
   }, []);
   // Menu Items
@@ -138,7 +144,6 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
   ];
 
   const newTaskHandler = () => {
-    alert(view);
     if (view === 'list') {
       setName(view);
       dispatch(setNewTaskClicked(!newTaskClicked));
@@ -258,9 +263,7 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
     <div className="flexCenter">
       {currentNameAndLogoArray &&
         currentNameAndLogoArray?.map((item, i) => conditionalOptions(item, i))}
-
       <div className="verticalLine">|</div>
-
       <Dropdown
         menu={{ items, selectable: true, defaultSelectedKeys: ['1'] }}
         trigger={['click']}
@@ -274,7 +277,6 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
           <p className="itemName">Views</p>
         </div>
       </Dropdown>
-
       <div className="newTaskContainer" onClick={newTaskHandler}>
         <div className="plusContainer flexCenter" style={{ color }}>
           +
