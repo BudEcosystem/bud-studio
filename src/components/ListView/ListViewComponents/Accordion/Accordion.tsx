@@ -28,59 +28,12 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   const { panelArray, newTaskClicked, expandedItems, selectedItemIndex } =
     useSelector((state) => state.list);
 
-  // const [expandedItems, setExpandedItems] = useState([0]);
-  // const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const { workspace, database }: any = useSelector((state) => state);
   const { color, currentSelectedDocId, workSpaceDocs } = workspace;
 
   // Local States
   const [statusPanels, setStatusPanels] = useState(null);
-  console.log(workspace, 'lkjlkj', database);
 
-  // On List View Load
-  // useEffect(() => {
-  //   // Get Database entries
-  //   const sortedContent = [];
-  //   databaseData.entries.map((item) => {
-  //     const document = workspace.workSpaceDocs.filter(
-  //       (obj) => obj.uuid === item.documentID
-  //     );
-  //     sortedContent.push(document[0]);
-  //   });
-  //
-  //   const data: any[] = [];
-  //   databaseData.propertyPresets.status.options.map((item: any) => {
-  //     const entries = [];
-  //     // Optimize The Code
-  //     sortedContent.forEach((entry: any) => {
-  //       entry.properties.forEach((property: any) => {
-  //         if (property.title === 'Status') {
-  //           if (property.value === item.title) {
-  //             entries.push({
-  //               title: entry.name,
-  //               description: '',
-  //               childs: [],
-  //             });
-  //           }
-  //         }
-  //       });
-  //     });
-  //
-  //     data.push({
-  //       status: item.title,
-  //       headerText: item.title,
-  //       colorIcon: item.color,
-  //       items: entries,
-  //     });
-  //   });
-  //
-  //   setStatusPanels(data);
-  // }, [databaseData]);
-
-  // Local States
-  // const [statusPanels, setStatusPanels] = useState(null);
-
-  // On List View Load
   useLayoutEffect(() => {
     // Get Database entries
     const sortedContent = [];
@@ -178,23 +131,6 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
       dispatch(updateDocumentStatusByStatusAndID(payload));
       //setStatusPanels([...statusPanels]);
     }
-
-    // get each entry from setStatusPanels and push to an array in order
-    // const sortedContent = [];
-    // const entryOrder: string[] = [];
-    //
-    // console.log('Database Entries', databaseData);
-    //
-    // statusPanels.forEach((item) => {
-    //   console.log('Item', item);
-    //   item.items.forEach((entry) => {
-    //     sortedContent.push(entry.entry);
-    //     entryOrder.push(entry.entry.uuid);
-    //   });
-    // });
-
-    // Sort the database entries
-    // dispatch(sortEntryByArray({ entryOrder, databaseID: databaseData.id }));
   };
 
   const newDocument = async (item) => {
