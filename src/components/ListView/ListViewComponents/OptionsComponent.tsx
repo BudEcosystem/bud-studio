@@ -37,11 +37,14 @@ function OptionsComponent({ view,changeDatabaseView, showSubtask, setShowSubtask
         <div className="circularImageComponentContainer">
           <CircularImageComponent images={imagesArray} />
         </div>
-        <div style={style} className="subTaskToggle">
+        {view === 'Kanban' && (
+          <div style={style} className="subTaskToggle">
           <div style={{fontSize: "12px", marginRight: "10px"}}>Tasks Only</div>
           <Switch size="small" onChange={showSubtasks} />
           <div style={{fontSize: "12px", marginLeft: "10px"}}>Show Subtasks</div>
         </div>
+        )}
+        
       </div>
       <div>
         <NewTaskPanel view={view} changeDatabaseView={changeDatabaseView}/>

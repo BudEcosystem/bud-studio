@@ -15,6 +15,7 @@ import BudEditor from '@/Libraries/LexicalEditor/BudEditor';
 import {
   updateDocumentData,
   updateDocumentDueDateById,
+  updateDocumentStartDateById,
   updateDocumentStatusById,
 } from '@/redux/slices/workspace';
 import dayjs from 'dayjs';
@@ -40,6 +41,7 @@ function TaskViewKanban({
   setShowKanbanTaskView,
   statusPanels,
   databaseEntries,
+  level,
 }: any) {
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
@@ -47,7 +49,8 @@ function TaskViewKanban({
   const [localState, setLocalState] = useState(null);
   const [todoID, setToDoId] = useState([]);
   const dispatch = useDispatch();
-  const [datePopoverVisible, setDatePopoverVisible] = useState(false);
+  const [startDatePopoverVisible, setStartDatePopoverVisible] = useState(false);
+  const [endDatePopoverVisible, setEndDatePopoverVisible] = useState(false);
 
   const flagcolors = {
     High: '#E14F21',
@@ -65,29 +68,19 @@ function TaskViewKanban({
   });
 
   const solveRec = (structure: any, id: any) => {
-    console.log({ ...structure }, id, 'rec1');
     if (!structure || structure.length === 0) {
       return null;
     }
     for (const item of structure) {
-      console.log({ ...structure }, id, { ...item }, 'rec2');
       if (item.documentID === id) {
-        console.log(structure, id, { ...item }, 'rec3');
         return item;
       }
       if (item.childs && item.childs.length > 0) {
         const foundInFolders = solveRec(item.childs, id);
         if (foundInFolders) {
-          console.log(foundInFolders, 'rec4');
           return foundInFolders;
         }
       }
-      // if (item.files && item.files.length > 0) {
-      //   const foundInFiles = searchById(item.files, id);
-      //   if (foundInFiles) {
-      //     return foundInFiles;
-      //   }
-      // }
     }
     return null;
   };
@@ -95,7 +88,6 @@ function TaskViewKanban({
   useEffect(() => {
     const TaskArray: any = [];
     const x = solveRec(databaseEntries, data.uuid);
-    console.log(x, 'hello');
     x?.childs?.map((child: any, i: any) => {
       workspace.workSpaceDocs.forEach((doc: any, j: any) => {
         if (doc.uuid == child.documentID) {
@@ -103,21 +95,8 @@ function TaskViewKanban({
         }
       });
     });
-
-    // databaseEntries.map((dbentry, i) => {
-    //   if (dbentry.documentID === data.entry.uuid) {
-    //     console.log(dbentry);
-    //     dbentry?.childs?.map((child, j) => {
-    //       workspace.workSpaceDocs.forEach((doc: any, i: any) => {
-    //         if (doc.uuid == child.documentID) {
-    //           TaskArray.push(doc);
-    //         }
-    //       });
-    //     });
-    //   }
-    // });
     setToDoId(TaskArray);
-  }, [data, workspace]);
+  }, [data, workspace, databaseEntries]);
 
   const getFlagColor = (flagColor: any) => {
     return (
@@ -162,10 +141,16 @@ function TaskViewKanban({
     }
   };
 
-  const updateDueDate = (date: any) => {
+  const updateStartDate = (date: any) => {
+    dispatch(updateDocumentStartDateById({ documentID: data.id, dueDate: date }));
+
+    setStartDatePopoverVisible(false);
+  };
+
+  const updateEndDate = (date: any) => {
     dispatch(updateDocumentDueDateById({ documentID: data.id, dueDate: date }));
 
-    setDatePopoverVisible(false);
+    setEndDatePopoverVisible(false);
   };
 
   const comments = [
@@ -281,7 +266,6 @@ function TaskViewKanban({
   };
 
   useEffect(() => {
-    console.log('task View', data);
     if (!localState) {
       const localData = workspace.applicationData[data.id];
       setLocalState(localData[0]);
@@ -298,8 +282,6 @@ function TaskViewKanban({
       })
     );
   };
-
-  console.log('DATAGOV', data);
 
   return (
     <Modal
@@ -479,15 +461,17 @@ function TaskViewKanban({
                     </Tooltip>
                   </Popover>
                 </div>
-                <div className="" style={{ marginRight: '10px' }}>
+
+                <div className="" style={{display: "flex", alignItems:"center"}}>
+                  <div style={{fontFamily: "Noto Sans", color:  `${color}`, fontWeight: "600", marginLeft: "20px"}}>Starts :</div> 
                   <Popover
                     trigger="click"
                     overlayClassName="list-view-tag-set-pop"
                     placement="bottom"
                     arrow={false}
-                    title="Due Date"
-                    open={datePopoverVisible}
-                    onOpenChange={(visible) => setDatePopoverVisible(visible)}
+                    title="Start Date"
+                    open={startDatePopoverVisible}
+                    onOpenChange={(visible) => setStartDatePopoverVisible(visible)}
                     content={
                       <div style={{ width: 300 }}>
                         <ConfigProvider
@@ -506,22 +490,76 @@ function TaskViewKanban({
                         >
                           <Calendar
                             fullscreen={false}
-                            onChange={updateDueDate}
+                            onChange={updateStartDate}
                           />
                         </ConfigProvider>
                       </div>
                     }
                   >
                     {data.properties.find(
-                      (prop: { title: string; value: any }) =>
+                      (prop: { title: string; startDate: any }) =>
                         prop.title === 'Date'
-                    )?.value ? (
+                    )?.startDate ? (
                       <div className="taskview-duedate">
                         {dayjs(
                           data.properties.find(
-                            (prop: { title: string; value: any }) =>
+                            (prop: { title: string; startDate: any }) =>
                               prop.title === 'Date'
-                          )?.value
+                          )?.startDate
+                        ).fromNow()}
+                      </div>
+                    ) : (
+                      <Button type="text">
+                        <CircularBorder icon={<FoldedCard />} />
+                      </Button>
+                    )}
+                  </Popover>
+                </div>
+                
+                <div className="" style={{ marginRight: '10px', display: "flex", alignItems:"center", justifyContent: "center" }}>
+                  <div style={{fontFamily: "Noto Sans", color:  `${color}`, fontWeight: "600", marginLeft: "20px"}}>Ends :</div> 
+                  <Popover
+                    trigger="click"
+                    overlayClassName="list-view-tag-set-pop"
+                    placement="bottom"
+                    arrow={false}
+                    title="End Date"
+                    open={endDatePopoverVisible}
+                    onOpenChange={(visible) => setEndDatePopoverVisible(visible)}
+                    content={
+                      <div style={{ width: 300 }}>
+                        <ConfigProvider
+                          theme={{
+                            components: {
+                              Calendar: {
+                                colorBgContainer: '#0c0c0c',
+                                colorBgDateSelected: color,
+                                colorPrimary: color,
+                                colorText: '#fff',
+                                colorTextDisabled: '#ffffff21',
+                                fontFamily: 'Nano Sans',
+                              },
+                            },
+                          }}
+                        >
+                          <Calendar
+                            fullscreen={false}
+                            onChange={updateEndDate}
+                          />
+                        </ConfigProvider>
+                      </div>
+                    }
+                  >
+                    {data.properties.find(
+                      (prop: { title: string; endDate: any }) =>
+                        prop.title === 'Date'
+                    )?.endDate ? (
+                      <div className="taskview-duedate">
+                        {dayjs(
+                          data.properties.find(
+                            (prop: { title: string; endDate: any }) =>
+                              prop.title === 'Date'
+                          )?.endDate
                         ).fromNow()}
                       </div>
                     ) : (
@@ -588,6 +626,9 @@ function TaskViewKanban({
                 data={data}
                 statusPanels={statusPanels}
                 subChild={false}
+                databaseEntries={databaseEntries}
+                dbHeader={data.dbHeader}
+                level={level}
               />
             </div>
 

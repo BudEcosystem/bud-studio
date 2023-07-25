@@ -16,6 +16,7 @@ import BudEditor from '@/Libraries/LexicalEditor/BudEditor';
 import {
   updateDocumentData,
   updateDocumentDueDateById,
+  updateDocumentStartDateById,
   updateDocumentStatusById,
 } from '@/redux/slices/workspace';
 import { Flag, FoldedCard } from '@/components/ListView/ListViewIcons';
@@ -51,16 +52,16 @@ function TaskView({
   checkedNum,
   level,
 }: any) {
-  const { workspace, list }: any = useSelector((state) => state);
+  const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [isDragOver, setIsDragOver] = useState(false);
   const [localState, setLocalState] = useState(null);
-  const [datePopoverVisible, setDatePopoverVisible] = useState(false);
+  const [startDatePopoverVisible, setStartDatePopoverVisible] = useState(false);
+  const [endDatePopoverVisible, setEndDatePopoverVisible] = useState(false);
   const [todoID, setToDoId] = useState([]);
   const [statusColor, setStatusColor] = useState();
-  console.log('FFFFFF', data);
 
-  const solveRec = (structure, id) => {
+  const solveRec = (structure: any, id: any) => {
     console.log({ ...structure }, id, 'rec1');
     if (!structure || structure.length === 0) {
       return null;
@@ -217,12 +218,16 @@ function TaskView({
     );
   };
 
-  const updateDueDate = (date) => {
-    dispatch(
-      updateDocumentDueDateById({ documentID: data.entry.uuid, dueDate: date })
-    );
+  const updateStartDate = (date: any) => {
+    dispatch(updateDocumentStartDateById({ documentID: data.entry.uuid, dueDate: date }));
 
-    setDatePopoverVisible(false);
+    setStartDatePopoverVisible(false);
+  };
+
+  const updateEndDate = (date: any) => {
+    dispatch(updateDocumentDueDateById({ documentID: data.entry.uuid, dueDate: date }));
+
+    setEndDatePopoverVisible(false);
   };
 
   return (
@@ -409,60 +414,116 @@ function TaskView({
                         </Tooltip>
                       </Popover>
                     </div>
-                    <div className="" style={{ marginRight: '0px' }}>
-                      <Popover
-                        trigger="click"
-                        overlayClassName="list-view-tag-set-pop"
-                        placement="bottom"
-                        arrow={false}
-                        title="Due Date"
-                        open={datePopoverVisible}
-                        onOpenChange={(visible) =>
-                          setDatePopoverVisible(visible)
-                        }
-                        content={
-                          <div style={{ width: 300 }}>
-                            <ConfigProvider
-                              theme={{
-                                components: {
-                                  Calendar: {
-                                    colorBgContainer: '#0c0c0c',
-                                    colorBgDateSelected: color,
-                                    colorPrimary: color,
-                                    colorText: '#fff',
-                                    colorTextDisabled: '#ffffff21',
-                                    fontFamily: 'Nano Sans',
-                                  },
-                                },
-                              }}
-                            >
-                              <Calendar
-                                fullscreen={false}
-                                onChange={updateDueDate}
-                              />
-                            </ConfigProvider>
-                          </div>
-                        }
-                      >
-                        {data.entry.properties.find(
-                          (prop: { title: string; value: any }) =>
-                            prop.title === 'Date'
-                        )?.value ? (
-                          <div className="taskview-duedate">
-                            {dayjs(
-                              data.entry.properties.find(
-                                (prop: { title: string; value: any }) =>
-                                  prop.title === 'Date'
-                              )?.value
-                            ).fromNow()}
-                          </div>
-                        ) : (
-                          <Button type="text">
-                            <CircularBorder icon={<FoldedCard />} />
-                          </Button>
-                        )}
-                      </Popover>
-                    </div>
+                    
+                    <div className="" style={{display: "flex", alignItems:"center"}}>
+                  <div style={{fontFamily: "Noto Sans", color:  `${color}`, fontWeight: "600", marginLeft: "20px"}}>Starts :</div> 
+                  <Popover
+                    trigger="click"
+                    overlayClassName="list-view-tag-set-pop"
+                    placement="bottom"
+                    arrow={false}
+                    title="Start Date"
+                    open={startDatePopoverVisible}
+                    onOpenChange={(visible) => setStartDatePopoverVisible(visible)}
+                    content={
+                      <div style={{ width: 300 }}>
+                        <ConfigProvider
+                          theme={{
+                            components: {
+                              Calendar: {
+                                colorBgContainer: '#0c0c0c',
+                                colorBgDateSelected: color,
+                                colorPrimary: color,
+                                colorText: '#fff',
+                                colorTextDisabled: '#ffffff21',
+                                fontFamily: 'Nano Sans',
+                              },
+                            },
+                          }}
+                        >
+                          <Calendar
+                            fullscreen={false}
+                            onChange={updateStartDate}
+                          />
+                        </ConfigProvider>
+                      </div>
+                    }
+                  >
+                    {data.entry.properties.find(
+                      (prop: { title: string; startDate: any }) =>
+                        prop.title === 'Date'
+                    )?.startDate ? (
+                      <div className="taskview-duedate">
+                        {dayjs(
+                          data.entry.properties.find(
+                            (prop: { title: string; startDate: any }) =>
+                              prop.title === 'Date'
+                          )?.startDate
+                        ).fromNow()}
+                      </div>
+                    ) : (
+                      <Button type="text">
+                        <CircularBorder icon={<FoldedCard />} />
+                      </Button>
+                    )}
+                  </Popover>
+                </div>
+                
+                <div className="" style={{ marginRight: '10px', display: "flex", alignItems:"center", justifyContent: "center" }}>
+                  <div style={{fontFamily: "Noto Sans", color:  `${color}`, fontWeight: "600", marginLeft: "20px"}}>Ends :</div> 
+                  <Popover
+                    trigger="click"
+                    overlayClassName="list-view-tag-set-pop"
+                    placement="bottom"
+                    arrow={false}
+                    title="End Date"
+                    open={endDatePopoverVisible}
+                    onOpenChange={(visible) => setEndDatePopoverVisible(visible)}
+                    content={
+                      <div style={{ width: 300 }}>
+                        <ConfigProvider
+                          theme={{
+                            components: {
+                              Calendar: {
+                                colorBgContainer: '#0c0c0c',
+                                colorBgDateSelected: color,
+                                colorPrimary: color,
+                                colorText: '#fff',
+                                colorTextDisabled: '#ffffff21',
+                                fontFamily: 'Nano Sans',
+                              },
+                            },
+                          }}
+                        >
+                          <Calendar
+                            fullscreen={false}
+                            onChange={updateEndDate}
+                          />
+                        </ConfigProvider>
+                      </div>
+                    }
+                  >
+                    {data.entry.properties.find(
+                      (prop: { title: string; endDate: any }) =>
+                        prop.title === 'Date'
+                    )?.endDate ? (
+                      <div className="taskview-duedate">
+                        {dayjs(
+                          data.entry.properties.find(
+                            (prop: { title: string; endDate: any }) =>
+                              prop.title === 'Date'
+                          )?.endDate
+                        ).fromNow()}
+                      </div>
+                    ) : (
+                      <Button type="text">
+                        <CircularBorder icon={<FoldedCard />} />
+                      </Button>
+                    )}
+                  </Popover>
+                </div>
+
+
                     {/* <div className="DashedCircleIcons"> */}
                     {/*  <PersonIcon /> */}
                     {/* </div> */}

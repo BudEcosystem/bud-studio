@@ -116,8 +116,6 @@ function Tasks(props: any) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
-  console.log("PODA", props?.task?.databaseEntries);
-
   const handleContextMenu = (event: any) => {
     event.preventDefault();
     const { clientX, clientY } = event;
@@ -148,11 +146,14 @@ function Tasks(props: any) {
 
   var sub = false;
   var parentId = ""
+  var levelOrder = 0;
+
   if(props?.task?.databaseEntries[0].subChild == false) {
   props?.task?.databaseEntries.map((doc: any) => {
     if(doc.documentID == props?.task?.uuid) {
       sub = doc.subChild
       parentId = doc.parentName
+      levelOrder = doc.level
     }
   })
 }
@@ -177,6 +178,7 @@ function Tasks(props: any) {
               setShowKanbanTaskView={setShowKanbanTaskView}
               statusPanels={props.task.statusPanels}
               databaseEntries={props.task.databaseEntries}
+              level={levelOrder}
             />
             {menuVisible && (
               <RightClickMenu

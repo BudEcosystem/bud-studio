@@ -15,19 +15,8 @@ import AppModeHeader from './ListViewComponents/AppModeHeader';
 import HeaderSection from './HeaderSection';
 
 function ListView({ databaseData, databaseEntries }: any) {
-  const dispatch = useDispatch();
-  const { content, list, workspace }: any = useSelector((state) => state);
-  const { listTitleAndDesc, oneTime } = list;
-  // const { title, description } = listTitleAndDesc;
-  // const kabuniRef = useRef(null);
-  // const [isSticky, setIsSticky] = useState(false);
-  // const [oneTime, setOneTime] = useState(true);
-  // const { color } = workspace;
   const [currentFileName, setCurrentFileName] = useState('');
   const [isAppMode, setIsAppMode] = useState(false);
-  const [title, setTitle] = useState('');
-
-  console.log('GOVIDATA', databaseEntries);
 
   // useEffect(() => {
   //   if (oneTime) {
@@ -66,8 +55,6 @@ function ListView({ databaseData, databaseEntries }: any) {
     //   }
     // }
   }, []);
-
-  useEffect(() => {}, [list]);
 
   return (
     <div className="mainListComponentContainer">

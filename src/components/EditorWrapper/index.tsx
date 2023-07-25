@@ -343,8 +343,6 @@ function EditorWrapper() {
     });
   };
 
-  // console.log("WORKSPACEGOCIND", workspace)
-
   useEffect(() => {
     colorRef.current = `${color}75`;
     checkForMentions();

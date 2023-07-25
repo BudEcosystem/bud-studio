@@ -58,8 +58,6 @@ function SubAccordion({
   const [todoID, setToDoId] = useState([]);
   const [activeHeaderSubComp, setActiveHeaderSubComp] = useState(null);
 
-  console.log('HHHHHH', databaseEntries, data);
-
   useEffect(() => {
     const TaskArray: any = [];
     databaseEntries?.map((dbentry, i) => {

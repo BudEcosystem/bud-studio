@@ -25,8 +25,6 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
   const { database }: any = useSelector((state) => state);
   const [showSubtask, setShowSubtask] = useState(false)
 
-  // console.log("DATABASE RAHUL", databaseData)
-
   const dispatch = useDispatch();
 
   /*
@@ -123,6 +121,8 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
           type: 'date',
           id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
           order: 4,
+          startDate: null,
+          endDate: null
         },
       ],
       checkList: [
