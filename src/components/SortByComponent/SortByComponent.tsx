@@ -24,7 +24,6 @@ const SortByComponent = () => {
   function useOutsideAlerter(ref: any) {
     useEffect(() => {
       function handleClickOutside(event: any) {
-        console.log('DISPLAY TOGGLE', displayToggleSortBy);
         if (
           ref.current &&
           !ref.current.contains(event.target) &&

@@ -60,7 +60,6 @@ function TaskView({
   const [endDatePopoverVisible, setEndDatePopoverVisible] = useState(false);
   const [todoID, setToDoId] = useState([]);
   const [statusColor, setStatusColor] = useState();
-  console.log('FFFFFF', data);
 
   const solveRec = (structure: any, id: any) => {
     console.log({ ...structure }, id, 'rec1');

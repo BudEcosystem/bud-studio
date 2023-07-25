@@ -25,8 +25,6 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
   const { database }: any = useSelector((state) => state);
   const [showSubtask, setShowSubtask] = useState(false)
 
-  // console.log("DATABASE RAHUL", databaseData)
-
   const dispatch = useDispatch();
 
   /*

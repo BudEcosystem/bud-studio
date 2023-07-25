@@ -24,7 +24,6 @@ const GroupByComponent = () => {
   function useOutsideAlerter(ref: any) {
     useEffect(() => {
       function handleClickOutside(event: any) {
-        console.log('DISPLAY TOGGLE', displayToggle);
         if (
           ref.current &&
           !ref.current.contains(event.target) &&
