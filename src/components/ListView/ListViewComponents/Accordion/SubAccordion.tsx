@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -19,12 +20,15 @@ function SubAccordion({
   item,
   databaseEntries,
   statusPanels,
+  filterRules,
+  sortRules,
 }: any) {
+  console.log('sf data', data);
   const { workspace }: any = useSelector((state) => state);
   const { color } = workspace;
   const [expanded, setExpanded] = useState(index === 0);
   const [expandedChild, setExpandedChild] = useState(
-    Array(data.childs.length).fill(false)
+    Array(data?.childs?.length).fill(false)
   );
   const [docsDictionary, setDocsDictionary] = useState(() => {
     return workspace.workSpaceDocs.reduce((acc, doc) => {
@@ -32,8 +36,8 @@ function SubAccordion({
       return acc;
     }, {});
   });
-  console.log(docsDictionary, 'jkjkjkjkjk');
   const [selected, setSelected] = useState(index !== 0);
+  const [currentItem, setCurrentItem] = useState({});
   const toggleSubAccordion = () => {
     setExpanded(!expanded);
     setSelected(!selected);
@@ -56,8 +60,8 @@ function SubAccordion({
 
   useEffect(() => {
     const TaskArray: any = [];
-    databaseEntries.map((dbentry, i) => {
-      if (dbentry.documentID === data.entry.uuid) {
+    databaseEntries?.map((dbentry, i) => {
+      if (dbentry.documentID === data?.entry?.uuid) {
         console.log(dbentry);
         dbentry?.childs?.map((child, j) => {
           workspace.workSpaceDocs.forEach((doc: any, i: any) => {
@@ -66,7 +70,7 @@ function SubAccordion({
                 childs: [],
                 description: '',
                 entry: doc,
-                title: doc.name,
+                title: doc?.name || '',
               };
               TaskArray.push(obj);
             }
@@ -84,8 +88,13 @@ function SubAccordion({
       setDescHeight(descriptionRef.current.offsetHeight);
     }
   }, [status]);
+  useState(() => {
+    if (item) {
+      setCurrentItem(item);
+    }
+  }, [item]);
 
-  console.log(todoID, 'asdfjhads');
+  console.log('sf ----- currentItem', currentItem);
   return (
     <div
       className="subAccordionParent"
@@ -108,12 +117,11 @@ function SubAccordion({
         databaseEntries={databaseEntries}
         statusPanels={statusPanels}
       /> */}
-
       <div className="headerSubComponentContainer">
         <HeaderSubComp
           index={index}
           title={title}
-          item={item}
+          item={currentItem}
           childIndex={null}
           status={status}
           data={data}
@@ -136,7 +144,7 @@ function SubAccordion({
         <div className="subChildComponent">
           <p className="description" ref={descriptionRef}>
             <TextClippingComponent
-              text={data.entry.description || ''}
+              text={data?.entry?.description || ''}
               limit={100}
             />
           </p>
@@ -144,7 +152,7 @@ function SubAccordion({
             todoId={todoID}
             provided={provided}
             expanded={expandedChild}
-            item={item}
+            item={currentItem}
             title={title}
             status={status}
             toggleSubAccordion={toggleSubAccordionChild}

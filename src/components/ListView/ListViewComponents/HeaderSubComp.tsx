@@ -71,7 +71,7 @@ function HeaderSubComp({
   const [editing, setEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(data.title);
   const [newTags, setNewTags] = useState(
-    data.entry.properties.find(
+    data?.entry?.properties?.find(
       (prop: { title: string; value: any }) => prop.title === 'Tags'
     )?.value[0]
   );
@@ -163,6 +163,8 @@ function HeaderSubComp({
   };
   let i = 0;
 
+  // console.log('DATAHEAD', data, expanded);
+
   const solveRec = (structure, id) => {
     console.log({ ...structure }, id, 'rec1');
     if (!structure || structure.length === 0) {
@@ -192,7 +194,7 @@ function HeaderSubComp({
   };
 
   useEffect(() => {
-    const x = solveRec(databaseEntries, data.entry.uuid);
+    const x = solveRec(databaseEntries, data?.entry?.uuid);
     setSiconValue(x?.childs?.length);
     // databaseEntries.forEach((doc) => {
     //   if (data.entry.uuid == doc.documentID) {
@@ -234,7 +236,7 @@ function HeaderSubComp({
   };
   return (
     <>
-      {activeHeaderSubComp === data.entry.uuid && (
+      {activeHeaderSubComp === data?.entry?.uuid && (
         <TaskView
           data={data}
           title={title}
@@ -274,7 +276,7 @@ function HeaderSubComp({
             >
               <div
                 style={{
-                  transform: !docsDictionary[data.entry.uuid]
+                  transform: !docsDictionary[data?.entry?.uuid]
                     ? ''
                     : 'rotate(-90deg)',
                   transition: 'all 0.2s ease',
@@ -330,7 +332,7 @@ function HeaderSubComp({
               </div>
               <div style={{ marginLeft: '2px' }}>
                 <span>{checkedNum}</span>/
-                <span>{data?.entry.checkList.length}</span>
+                <span>{data?.entry?.checkList?.length}</span>
               </div>
             </div>
           )}
@@ -386,12 +388,13 @@ function HeaderSubComp({
                   </div>
                 }
               >
-                {data.entry.properties.find(
-                  (prop: { title: string; endDate: any }) => prop.title === 'Date'
+                {data?.entry?.properties?.find(
+                  (prop: { title: string; endDate: any }) =>
+                    prop.title === 'Date'
                 )?.endDate ? (
                   <>
                     {dayjs(
-                      data.entry.properties.find(
+                      data?.entry?.properties?.find(
                         (prop: { title: string; endDate: any }) =>
                           prop.title === 'Date'
                       )?.endDate
@@ -474,14 +477,14 @@ function HeaderSubComp({
             >
               <Tooltip
                 title={
-                  data.entry.properties.find(
+                  data?.entry?.properties?.find(
                     (prop: { title: string; value: any }) =>
                       prop.title === 'Priority'
                   )?.value
                 }
                 color={
                   flagcolors[
-                    data.entry.properties.find(
+                    data?.entry?.properties?.find(
                       (prop: { title: string; value: any }) =>
                         prop.title === 'Priority'
                     )?.value
@@ -489,7 +492,7 @@ function HeaderSubComp({
                 }
                 key={
                   flagcolors[
-                    data.entry.properties.find(
+                    data?.entry?.properties?.find(
                       (prop: { title: string; value: any }) =>
                         prop.title === 'Priority'
                     )?.value
@@ -498,7 +501,7 @@ function HeaderSubComp({
               >
                 {getFlagColor(
                   flagcolors[
-                    data.entry.properties.find(
+                    data?.entry?.properties?.find(
                       (prop: { title: string; value: any }) =>
                         prop.title === 'Priority'
                     )?.value
@@ -518,7 +521,7 @@ function HeaderSubComp({
               <div className="list-view-tag-set">
                 <Input
                   defaultValue={
-                    data.entry.properties.find(
+                    data?.entry?.properties.find(
                       (prop: { title: string; value: any }) =>
                         prop.title === 'Tags'
                     )?.value[0]
@@ -541,7 +544,7 @@ function HeaderSubComp({
           >
             <TagContainer color={color}>
               {
-                data.entry.properties.find(
+                data?.entry?.properties?.find(
                   (prop: { title: string; value: any }) => prop.title === 'Tags'
                 )?.value[0]
               }

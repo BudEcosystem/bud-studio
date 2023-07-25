@@ -1,3 +1,7 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import './Accordion.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -21,6 +25,9 @@ import {
 } from '@/redux/slices/database';
 import HeaderSubCompInput from '../HeaderSubCompInput';
 import SubAccordion from './SubAccordion';
+import ListViewFilter from '../FilterComponent';
+import AccordionDraggable from './AccordionDraggable';
+import ListSort from '../SortComponent';
 
 function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
   const dispatch = useDispatch();
@@ -129,7 +136,7 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
       };
 
       dispatch(updateDocumentStatusByStatusAndID(payload));
-      //setStatusPanels([...statusPanels]);
+      // setStatusPanels([...statusPanels]);
     }
   };
 
@@ -209,9 +216,85 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
       attachDocumentToDatabase({ databaseData, initialDocumentID })
     );
   };
-
+  const [filterRules, setFilterRules] = useState<any>([]);
+  const [filterType, setFilterType] = useState<string>('chain');
+  const [sortType, setSortType] = useState<string>('chain');
+  const [sortRules, setSortRules] = useState<any>([]);
+  const callBackOnNewSort = (arrayPassed: any) => {
+    setSortRules([...arrayPassed]);
+  };
+  const callBackOnNewFilter = (arrayPassed: any) => {
+    setFilterRules([...arrayPassed]);
+  };
+  const {
+    workSpaceFilterKey,
+    workSpaceFiltertype,
+    workSpaceSortKey,
+    workSpaceSortType,
+    workspaceDocsSearchKey,
+  } = workspace;
+  useEffect(() => {
+    if (workspace) {
+      if (workSpaceFiltertype === 'chain') {
+        setFilterType('chain');
+        const filterRuleObject = {
+          key: workSpaceFilterKey,
+          query: '',
+          op: 'is',
+          condition: null,
+        };
+        setFilterRules([filterRuleObject]);
+      } else if (workSpaceFiltertype === 'group') {
+        setFilterRules([
+          {
+            key: 'Name',
+            query: '',
+            op: 'is',
+            condition: null,
+          },
+        ]);
+        setFilterType('group');
+      } else if (workSpaceFiltertype === null) {
+        setFilterRules([]);
+        setFilterType('chain');
+      }
+      if (workSpaceSortType === 'chain') {
+        setSortType('chain');
+        const sortRuleObject = {
+          key: workSpaceSortKey,
+          query: '',
+          op: 'ASC',
+          condition: null,
+        };
+        setSortRules([sortRuleObject]);
+      } else if (workSpaceSortType === null) {
+        setSortType('chain');
+        setSortRules([]);
+      }
+    }
+  }, [
+    workSpaceFilterKey,
+    workSpaceFiltertype,
+    workspace,
+    workSpaceSortKey,
+    workSpaceSortType,
+  ]);
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+      {filterRules?.length > 0 && (
+        <ListViewFilter
+          filterRules={filterRules}
+          callBackOnNewFilter={callBackOnNewFilter}
+          filterType={filterType}
+        />
+      )}
+      {sortRules?.length > 0 && (
+        <ListSort
+          sortRules={sortRules}
+          callBackOnNewFilter={callBackOnNewSort}
+          filterType={sortType}
+        />
+      )}
       <div
         className="accordionParent"
         style={{
@@ -220,136 +303,104 @@ function Accordion({ isAppMode, title, databaseData, databaseEntries }: any) {
         }}
       >
         {statusPanels &&
-          statusPanels?.map((item, i) => (
-            <Droppable droppableId={item.status} key={i}>
-              {(provided, snapshot) => (
-                <div
-                  className="statusParent"
-                  key={i}
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  onClick={() => selectItem(i)}
-                  // style={{
-                  //   border:
-                  //     selectedItemIndex === i
-                  //       ? `0.5px dashed ${color}`
-                  //       : `0.5px dashed #2F2F2F`,
-                  // }}
-                >
-                  <div className="titleContainerParent">
-                    <div className="arrowAndTitleContainer">
-                      <div className="flex">
-                        <div
-                          className="arrowContainer"
-                          onClick={() => toggleAccordion(i)}
-                          style={{
-                            transform: expandedItems?.includes(i)
-                              ? ''
-                              : 'rotate(-90deg)',
-                          }}
-                        >
-                          <Arrow />
-                        </div>
-                        <div className="titleContainer">
+          statusPanels?.map((item, i) => {
+            return (
+              <Droppable droppableId={item.status} key={i}>
+                {(provided, snapshot) => (
+                  <div
+                    className="statusParent"
+                    key={i}
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    onClick={() => selectItem(i)}
+                    // style={{
+                    //   border:
+                    //     selectedItemIndex === i
+                    //       ? `0.5px dashed ${color}`
+                    //       : `0.5px dashed #2F2F2F`,
+                    // }}
+                  >
+                    <div className="titleContainerParent">
+                      <div className="arrowAndTitleContainer">
+                        <div className="flex">
                           <div
-                            className="textIcon"
-                            style={{ background: item.colorIcon }}
-                          />
-                          <p
-                            className="textHeader"
-                            style={{ marginLeft: '8px' }}
+                            className="arrowContainer"
+                            onClick={() => toggleAccordion(i)}
+                            style={{
+                              transform: expandedItems?.includes(i)
+                                ? ''
+                                : 'rotate(-90deg)',
+                            }}
                           >
-                            {item.headerText}
-                          </p>
+                            <Arrow />
+                          </div>
+                          <div className="titleContainer">
+                            <div
+                              className="textIcon"
+                              style={{ background: item.colorIcon }}
+                            />
+                            <p
+                              className="textHeader"
+                              style={{ marginLeft: '8px' }}
+                            >
+                              {item.headerText}
+                            </p>
+                          </div>
                         </div>
+                        {expandedItems?.includes(i) && (
+                          <div
+                            className="newTaskText2"
+                            onClick={(e) => newDocument(item)}
+                          >
+                            New Task <span style={{ color: '#8A8B8B' }}>+</span>
+                          </div>
+                        )}
                       </div>
                       {expandedItems?.includes(i) && (
-                        <div
-                          className="newTaskText2"
-                          onClick={(e) => newDocument(item)}
-                        >
-                          New Task <span style={{ color: '#8A8B8B' }}>+</span>
+                        <div className="subAccordionContainer">
+                          {item.items.length === 0 && (
+                            <div className="empty-list">
+                              Add a task or drag here.
+                            </div>
+                          )}
+                          {item.items.length > 0 && (
+                            <AccordionDraggable
+                              i={i}
+                              item={item}
+                              title={title}
+                              databaseData={databaseData}
+                              statusPanels={statusPanels}
+                              filterRules={filterRules}
+                              sortRules={sortRules}
+                              workspaceDocsSearchKey={workspaceDocsSearchKey}
+                            />
+                          )}
+                          {/* <Draggable key={10} draggableId="draggable33" index={10}> */}
+                          {/*  {(provided, snapshot) => ( */}
+                          {/*    <div */}
+                          {/*      ref={provided.innerRef} */}
+                          {/*      {...provided.draggableProps} */}
+                          {/*    > */}
+                          {/*      {newTaskClicked && i === selectedItemIndex && ( */}
+                          {/*        <div className="subAccordionParent"> */}
+                          {/*          <HeaderSubCompInput */}
+                          {/*            provided={provided} */}
+                          {/*            selectedItem={selectedItemIndex} */}
+                          {/*          /> */}
+                          {/*        </div> */}
+                          {/*      )} */}
+                          {/*    </div> */}
+                          {/*  )} */}
+                          {/* </Draggable> */}
                         </div>
                       )}
                     </div>
-                    {expandedItems?.includes(i) && (
-                      <div className="subAccordionContainer">
-                        {item.items.length === 0 && (
-                          <div className="empty-list">
-                            Add a task or drag here.
-                          </div>
-                        )}
-                        {item.items.map((subItems, j) => (
-                          <Draggable
-                            key={j}
-                            draggableId={`draggable${i}${j}`}
-                            index={j}
-                          >
-                            {(provided, snapshot) => (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                              >
-                                <motion.div
-                                  initial="hidden"
-                                  whileInView="visible"
-                                  viewport={{ once: true }}
-                                  transition={{ duration: 0.3 }}
-                                  variants={{
-                                    visible: { opacity: 1, scale: 1 },
-                                    hidden: { opacity: 0, scale: 0.5 },
-                                  }}
-                                >
-                                  <>
-                                    {console.log(
-                                      item,
-                                      subItems,
-                                      databaseEntries,
-                                      databaseData,
-                                      statusPanels,
-                                      'uioui'
-                                    )}
-                                    <SubAccordion
-                                      status={item.status}
-                                      data={subItems}
-                                      provided={provided}
-                                      index={j}
-                                      title={title}
-                                      item={item}
-                                      databaseEntries={databaseData.entries}
-                                      statusPanels={statusPanels}
-                                    />
-                                  </>
-                                </motion.div>
-                              </div>
-                            )}
-                          </Draggable>
-                        ))}
-                        {/* <Draggable key={10} draggableId="draggable33" index={10}> */}
-                        {/*  {(provided, snapshot) => ( */}
-                        {/*    <div */}
-                        {/*      ref={provided.innerRef} */}
-                        {/*      {...provided.draggableProps} */}
-                        {/*    > */}
-                        {/*      {newTaskClicked && i === selectedItemIndex && ( */}
-                        {/*        <div className="subAccordionParent"> */}
-                        {/*          <HeaderSubCompInput */}
-                        {/*            provided={provided} */}
-                        {/*            selectedItem={selectedItemIndex} */}
-                        {/*          /> */}
-                        {/*        </div> */}
-                        {/*      )} */}
-                        {/*    </div> */}
-                        {/*  )} */}
-                        {/* </Draggable> */}
-                      </div>
-                    )}
+                    {provided.placeholder}
                   </div>
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          ))}
+                )}
+              </Droppable>
+            );
+          })}
       </div>
     </DragDropContext>
   );

@@ -1597,7 +1597,7 @@ export const workspaceSlice = createSlice({
       const copyOfworkSpaceDocs = state.workSpaceDocs;
       copyOfworkSpaceDocs.map((doc, index) => {
         if (doc.uuid == action.payload.id) {
-          var lab = convertToSnakeCase(action.payload.label)
+          var lab = convertToSnakeCase(action.payload.label);
           state.workSpaceDocs[index].properties[2].value = lab;
         }
       });
@@ -1778,6 +1778,10 @@ export const workspaceSlice = createSlice({
       state.workSpaceSortKey = keySelected;
       state.workSpaceSortType = 'chain';
     },
+    clearWorkSpaceSortKey: (state) => {
+      state.workSpaceSortKey = null;
+      state.workSpaceSortType = null;
+    },
   },
 });
 
@@ -1837,5 +1841,6 @@ export const {
   clearWorkSpaceFilterKey,
   triggerDefaultNewTask,
   setWorkSpaceSortKey,
+  clearWorkSpaceSortKey,
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
