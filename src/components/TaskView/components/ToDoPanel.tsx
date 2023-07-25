@@ -102,8 +102,10 @@ const ToDoPanel = ({
               {...provided.droppableProps}
               style={{ marginTop: '8px' }}
             >
-              {dataId?.map((item: any, i: any) => (
-                <Draggable
+              {dataId?.map((item: any, i: any) => {
+                var statusText = dataId[i].properties[2].value.replace(/_/g, ' ').replace(/\b\w/g, (match: string) => match.toUpperCase());
+                return (
+                  <Draggable
                   key={`todo-${i}`}
                   draggableId={`todo-${i}`}
                   index={i}
@@ -123,7 +125,7 @@ const ToDoPanel = ({
                         title={title}
                         showTaskViewModal={showTaskViewModal}
                         setShowTaskViewModal={setShowTaskViewModal}
-                        statuss={status}
+                        statuss={statusText}
                         item={item}
                         subChild={subChild}
                         databaseEntries={databaseEntries}
@@ -133,7 +135,10 @@ const ToDoPanel = ({
                     </div>
                   )}
                 </Draggable>
-              ))}
+                )
+              }
+                
+              )}
               {provided.placeholder}
               {level < 4 && <InputComponent data={data} />}
             </div>

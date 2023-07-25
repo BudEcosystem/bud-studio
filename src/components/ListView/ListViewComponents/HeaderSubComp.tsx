@@ -364,7 +364,7 @@ function HeaderSubComp({
                 overlayClassName="list-view-tag-set-pop"
                 placement="bottom"
                 arrow={false}
-                title="Due Date"
+                title="End Date"
                 open={datePopoverVisible}
                 onOpenChange={(visible) => setDatePopoverVisible(visible)}
                 content={
@@ -389,14 +389,14 @@ function HeaderSubComp({
                 }
               >
                 {data.entry.properties.find(
-                  (prop: { title: string; value: any }) => prop.title === 'Date'
-                )?.value ? (
+                  (prop: { title: string; endDate: any }) => prop.title === 'Date'
+                )?.endDate ? (
                   <>
                     {dayjs(
                       data.entry.properties.find(
-                        (prop: { title: string; value: any }) =>
+                        (prop: { title: string; endDate: any }) =>
                           prop.title === 'Date'
-                      )?.value
+                      )?.endDate
                     ).format('DD MMM YYYY')}
                   </>
                 ) : (
