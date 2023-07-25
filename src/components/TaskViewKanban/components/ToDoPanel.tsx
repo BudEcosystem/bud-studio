@@ -14,29 +14,21 @@ import {
 import CheckList from './CheckList';
 import CheckListInput from './CheckListInput';
 
-function ToDoPanel({ dataId, data, statusPanels, subChild }: any) {
+function ToDoPanel({
+  dataId,
+  data,
+  statusPanels,
+  subChild,
+  databaseEntries,
+  dbHeader,
+  level,
+}: any) {
   const dispatch = useDispatch();
-  const { workspace, list }: any = useSelector((state) => state);
-  const { color, workspacestodos } = workspace;
-  const [childData, setChildData] = useState(dataId);
+  const { workspace, database }: any = useSelector((state) => state);
+  const { color } = workspace;
   const checkListInput = data.checkList;
   const [showCheckListInput, setShowCheckListInput] = useState(false);
-  // const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
-  // const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs);
 
-  // useEffect(() => {
-  //   const TaskArray: any = [];
-  //   dataId?.forEach((entry: any, index: any) => {
-  //     workspacestodos?.forEach((doc: any, index: any) => {
-  //       if (entry.id == doc.uuid) {
-  //         TaskArray.push(doc);
-  //       }
-  //     });
-  //   });
-  //   SetTaskArrayForRender(TaskArray);
-  // }, [dataId, workspaceDocs, workspacestodos]);
-
-  console.log('TODOKAN', dataId);
   const [checkList, setCheckList] = useState();
   useEffect(() => {
     workspace.workSpaceDocs.forEach((it: any, i: any) => {
@@ -46,19 +38,23 @@ function ToDoPanel({ dataId, data, statusPanels, subChild }: any) {
     });
   }, [data, workspace, data.checkList]);
 
-  const [sortedArray, setSortedArray] = useState([]);
-
   const handleDragEndKanban = (result: any) => {
     dispatch(changeRowOrderTodosKanban({ id: data.uuid, result }));
-    // if (!result.destination) return;
-    // const newRowOrder = Array.from(childData);
-    // const [removed] = newRowOrder.splice(result.source.index, 1);
-    // newRowOrder.splice(result.destination.index, 0, removed);
-    // setChildData(newRowOrder);
   };
   const handleDragEndForChecklist = (result: any) => {
     dispatch(setCheckListRow({ result, parentId: data.uuid }));
   };
+
+  const findStatusColor = (statusText: any, data: any) => {
+    var stCol = "";
+    statusPanels.map((st: any) => {
+      if(st.status == statusText) {
+        stCol = st.colorIcon
+      }
+    })
+    return stCol
+  }
+
   return (
     <div className="KanbanPanel__todo">
       <div style={{ display: 'flex' }}>
@@ -92,8 +88,11 @@ function ToDoPanel({ dataId, data, statusPanels, subChild }: any) {
               {...provided.droppableProps}
               style={{ marginTop: '8px' }}
             >
-              {dataId?.map((item: any, i: any) => (
-                <Draggable
+              {dataId?.map((item: any, i: any) => {
+                var statusText = dataId[i].properties[2].value.replace(/_/g, ' ').replace(/\b\w/g, (match: string) => match.toUpperCase());
+                const statusColor = findStatusColor(statusText, data);
+                return (
+                  <Draggable
                   key={`todo-${i}`}
                   draggableId={`todo-${i}`}
                   index={i}
@@ -107,14 +106,21 @@ function ToDoPanel({ dataId, data, statusPanels, subChild }: any) {
                         snapshot={snapshot}
                         text={item.name}
                         dataId={dataId}
+                        completeData={data}
+                        data={dataId[i]}
                         statusPanels={statusPanels}
+                        databaseEntries={databaseEntries}
+                        dbHeader={dbHeader}
+                        level={level}
+                        statusColor={statusColor}
                       />
                     </div>
                   )}
                 </Draggable>
-              ))}
+                )
+                })}
               {provided.placeholder}
-              <InputComponent data={data} />
+              {level < 3 && <InputComponent data={data} />}
             </div>
           )}
         </Droppable>
