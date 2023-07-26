@@ -229,12 +229,12 @@ function Kanban({
   console.log('sort', sortRules);
 
   function getDocumentIds(obj: any) {
-    let documentIds: any[] = [];
+    const documentIds: any[] = [];
 
     function traverse(obj: any) {
       if (typeof obj === 'object' && obj !== null) {
         if ('documentID' in obj) {
-          documentIds.push(obj['documentID']);
+          documentIds.push(obj.documentID);
         }
 
         for (const key in obj) {
@@ -252,8 +252,8 @@ function Kanban({
 
     function traverse(obj: any) {
       if (typeof obj === 'object' && obj !== null) {
-        if ('documentID' in obj && obj['documentID'] === targetDocumentID) {
-          targetChilds = obj['childs'];
+        if ('documentID' in obj && obj.documentID === targetDocumentID) {
+          targetChilds = obj.childs;
         }
 
         for (const key in obj) {
@@ -267,7 +267,7 @@ function Kanban({
   }
 
   function isDocumentIdInParentLevel(data: any, documentId: any) {
-    for (let item of data) {
+    for (const item of data) {
       if (item.documentID === documentId) {
         return false;
       }
@@ -280,7 +280,7 @@ function Kanban({
     inputDocumentId: any,
     parentDocumentId = null
   ) {
-    for (let item of data) {
+    for (const item of data) {
       if (item.documentID === inputDocumentId) {
         return parentDocumentId;
       }
@@ -313,7 +313,7 @@ function Kanban({
     return null; // Return null if the targetId is not found in the object
   }
 
-  var temp: {
+  const temp: {
     childs: never[];
     documentID: string;
     statusKey: string;
@@ -324,9 +324,9 @@ function Kanban({
   if (showSubtask) {
     const docIds = getDocumentIds(kanbanDBData.entries);
     docIds.forEach((id: any, i: any) => {
-      var parentName = '';
-      var subChild = isDocumentIdInParentLevel(kanbanDBData.entries, id);
-      var level = findLevel(kanbanDBData.entries, id);
+      let parentName = '';
+      const subChild = isDocumentIdInParentLevel(kanbanDBData.entries, id);
+      const level = findLevel(kanbanDBData.entries, id);
 
       if (subChild == true) {
         parentName = findParentDocumentId(kanbanDBData.entries, id);
@@ -338,20 +338,20 @@ function Kanban({
           });
         }
       }
-      var childArray = getChildsArrayForDocumentID(kanbanDBData.entries, id);
+      const childArray = getChildsArrayForDocumentID(kanbanDBData.entries, id);
 
       const addObj = {
         childs: childArray,
         documentID: `${id}`,
         statusKey: 'not_started',
-        subChild: subChild,
-        parentName: parentName,
-        level: level,
+        subChild,
+        parentName,
+        level,
       };
       temp.push(addObj);
     });
   }
-
+  console.log('ttt filterRules', filterRules);
   return (
     <ContainerWrapper
       style={{

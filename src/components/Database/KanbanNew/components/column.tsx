@@ -221,6 +221,10 @@ function Column(props: any) {
         (data: any) => data.condition === 'or'
       );
       setFilterRulesOr(filterRulesOr);
+    } else if (filterRules.length === 0) {
+      setFilterRulesAnd([]);
+      setFilterRulesOr([]);
+      setFilterRulesWhere([]);
     }
   }, [filterRules]);
   useEffect(() => {

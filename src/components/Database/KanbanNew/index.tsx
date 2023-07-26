@@ -229,7 +229,7 @@ function KanbanUI({ id, showSubtask, setShowSubtask }: any) {
 
   if (!showSubtask) {
     database.databases.forEach((doc: any, i: any) => {
-      if (doc.id == id) {
+      if (doc.id === id) {
         itemCount = doc.entries.length;
       }
     });

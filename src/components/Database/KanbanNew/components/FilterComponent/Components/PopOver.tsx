@@ -301,6 +301,7 @@ function PopOverContent({
     const copyOfFIlterRules: any = filterRules;
     copyOfFIlterRules.splice(index, 1);
     callBackOnNewFilter(copyOfFIlterRules);
+    dispatch(clearWorkSpaceFilterKey());
   };
   const deleteAllFilterRules = () => {
     const copyOfFIlterRules: any = [];
