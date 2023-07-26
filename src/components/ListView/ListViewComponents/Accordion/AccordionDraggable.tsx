@@ -432,7 +432,7 @@ function AccordionDraggable({
                   }}
                 >
                   <SubAccordion
-                    status={subItems?.status}
+                    status={subItems.entry.properties[2].value}
                     data={subItems}
                     provided={provided}
                     index={j}
