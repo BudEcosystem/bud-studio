@@ -29,7 +29,7 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import { moveDatabaseRow } from '@/redux/slices/database';
-import TaskView from '@/components/TaskView/TaskView';
+import TaskViewTable from '@/components/TaskViewTable/TaskViewTable';
 import { changePriority, changeStatus } from '@/redux/slices/workspace';
 import DocumentCellRenderer, { DocumentCell } from './Cells/DocumentCell';
 import PriorityCellRenderer, { PriorityCell } from './Cells/PriorityCell';
@@ -539,7 +539,7 @@ export default function TableView({
   return (
     <div className="table-wrapper" id="table-wrapper">
       {taskViewOpen && (
-        <TaskView
+        <TaskViewTable
           data={getTaskView()}
           title={databaseData.title}
           showTaskViewModal={taskViewOpen}
