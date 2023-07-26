@@ -269,6 +269,7 @@ function PopOverContent({
   callBackOnNewFilter,
   defaultKey,
   filterType,
+  popOverIndex,
 }: any) {
   const dispatch = useDispatch();
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -300,6 +301,7 @@ function PopOverContent({
     const copyOfFIlterRules: any = filterRules;
     copyOfFIlterRules.splice(index, 1);
     callBackOnNewFilter(copyOfFIlterRules);
+    dispatch(clearWorkSpaceFilterKey());
   };
   const deleteAllFilterRules = () => {
     const copyOfFIlterRules: any = [];
@@ -412,7 +414,7 @@ function PopOverContent({
                 }}
               >
                 <Button
-                  onClick={deleteAllFilterRules}
+                  onClick={() => deleteFilterRule(popOverIndex)}
                   style={{
                     color: 'var(--shortcut, #7B8388)',
                     fontFamily: 'Noto Sans',

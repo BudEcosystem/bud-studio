@@ -149,7 +149,7 @@ function KanbanFilter({ filterRules, callBackOnNewFilter, filterType }: any) {
     <KanbanFilterWrapper>
       <KanbanFilterFirstHalf>
         {filterType === 'chain' &&
-          filterRules.map((eachChainFilter: any) => (
+          filterRules.map((eachChainFilter: any, index: any) => (
             <KanbanFilterSelectorWrapper>
               <Popover
                 placement="bottomLeft"
@@ -162,6 +162,7 @@ function KanbanFilter({ filterRules, callBackOnNewFilter, filterType }: any) {
                     callBackOnNewFilter={callBackOnNewFilter}
                     defaultKey={eachChainFilter.key}
                     filterType={filterType}
+                    popOverIndex={index}
                   />
                 }
               >

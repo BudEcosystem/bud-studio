@@ -4,7 +4,10 @@ import { Button, Select } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import * as _ from 'lodash';
 import { useDispatch } from 'react-redux';
-import { clearWorkSpaceFilterKey } from '@/redux/slices/workspace';
+import {
+  clearWorkSpaceFilterKey,
+  clearWorkSpaceSortKey,
+} from '@/redux/slices/workspace';
 import {
   ArrowDown,
   AssignIcon,
@@ -291,7 +294,7 @@ function PopOverContent({
   const deleteAllsortRules = () => {
     const copyOfsortRules: any = [];
     callBackOnNewFilter(copyOfsortRules);
-    dispatch(clearWorkSpaceFilterKey());
+    dispatch(clearWorkSpaceSortKey());
   };
   const deterMineIcons = (tag: string) => {
     switch (tag) {
