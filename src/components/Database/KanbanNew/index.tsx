@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import HeaderSection from 'components/ListView/HeaderSection';
 import GroupByComponent from 'components/GroupByComponent/GroupByComponent';
 import SortByComponent from 'components/SortByComponent/SortByComponent';
-import Kanban from './kanbanBoard';
 import { useSelector } from 'react-redux';
+import Kanban from './kanbanBoard';
 
 const KanbanSection = styled.div`
   height: auto;
@@ -221,19 +221,19 @@ function HeaderButtons({ label, icon }: any) {
 function KanbanUI({ id, showSubtask, setShowSubtask }: any) {
   const [date, setDate] = useState<String>('');
   const [title, setTitle] = useState('');
-  const [taskCount, setTaskCount] = useState(0)
+  const [taskCount, setTaskCount] = useState(0);
   useEffect(() => setDate('13 June 2022'), []);
 
   const { database }: any = useSelector((state) => state);
-  var itemCount = 0;
+  let itemCount = 0;
 
-  if(!showSubtask) {
-  database.databases.forEach((doc: any, i: any) => {
-    if(doc.id == id) {
-       itemCount = doc.entries.length
-    }
-  })
-}
+  if (!showSubtask) {
+    database.databases.forEach((doc: any, i: any) => {
+      if (doc.id == id) {
+        itemCount = doc.entries.length;
+      }
+    });
+  }
 
   // const onNewTaskButtonClicked = () => {
   //   dispatch(triggerDefaultNewTask({ triggerTaskCreation: true }));
@@ -241,8 +241,23 @@ function KanbanUI({ id, showSubtask, setShowSubtask }: any) {
 
   return (
     <KanbanSection>
-      <Kanban dbId={id} showSubtask={showSubtask} setShowSubtask={setShowSubtask} setTaskCount={setTaskCount} taskCount={taskCount}/>
-      <div style={{fontStyle: 'Noto Sans', fontWeight: '400', fontSize: '16px', marginTop: "20px"}}>Count: {showSubtask? taskCount : itemCount}</div>
+      <Kanban
+        dbId={id}
+        showSubtask={showSubtask}
+        setShowSubtask={setShowSubtask}
+        setTaskCount={setTaskCount}
+        taskCount={taskCount}
+      />
+      <div
+        style={{
+          fontStyle: 'Noto Sans',
+          fontWeight: '400',
+          fontSize: '16px',
+          marginTop: '20px',
+        }}
+      >
+        Count: {showSubtask ? taskCount : itemCount}
+      </div>
     </KanbanSection>
   );
 }

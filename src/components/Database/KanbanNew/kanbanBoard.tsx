@@ -208,6 +208,9 @@ function Kanban({
           condition: null,
         };
         setSortRules([sortRuleObject]);
+      } else if (workSpaceSortType === null) {
+        setSortType('chain');
+        setSortRules([]);
       }
     }
   }, [
@@ -297,18 +300,18 @@ function Kanban({
 
   function findLevel(data, targetId, currentLevel = 0) {
     for (const item of data) {
-        if (item.documentID === targetId) {
-            return currentLevel;
+      if (item.documentID === targetId) {
+        return currentLevel;
+      }
+      if (item.childs.length > 0) {
+        const nestedLevel = findLevel(item.childs, targetId, currentLevel + 1);
+        if (nestedLevel !== null) {
+          return nestedLevel;
         }
-        if (item.childs.length > 0) {
-            const nestedLevel = findLevel(item.childs, targetId, currentLevel + 1);
-            if (nestedLevel !== null) {
-                return nestedLevel;
-            }
-        }
+      }
     }
     return null; // Return null if the targetId is not found in the object
-}
+  }
 
   var temp: {
     childs: never[];
@@ -323,7 +326,7 @@ function Kanban({
     docIds.forEach((id: any, i: any) => {
       var parentName = '';
       var subChild = isDocumentIdInParentLevel(kanbanDBData.entries, id);
-      var level = findLevel(kanbanDBData.entries, id)
+      var level = findLevel(kanbanDBData.entries, id);
 
       if (subChild == true) {
         parentName = findParentDocumentId(kanbanDBData.entries, id);
@@ -343,7 +346,7 @@ function Kanban({
         statusKey: 'not_started',
         subChild: subChild,
         parentName: parentName,
-        level: level
+        level: level,
       };
       temp.push(addObj);
     });

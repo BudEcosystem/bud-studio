@@ -265,17 +265,17 @@ function Column(props: any) {
             User: '',
             statusPanels,
             databaseEntries: props.entries,
-            databaseId: props.databaseData.id
+            databaseId: props.databaseData.id,
           };
           TaskArray.push(mappedTask);
         }
       });
     });
-    const whereFlagArray: any = [];
-    const AndFlagArray: any = [];
-    const orFlagArray: any = [];
     const filteredArray: any = [];
     TaskArray.forEach((data: any) => {
+      const whereFlagArray: any = [];
+      const AndFlagArray: any = [];
+      const orFlagArray: any = [];
       filterRulesWhereArray.forEach((ruleData: any) => {
         const { op, key, query } = ruleData;
         if (query !== '' && query !== null) {
@@ -425,6 +425,9 @@ function Column(props: any) {
           }
         }
       });
+      console.log('ttt whereFlagArray', whereFlagArray);
+      console.log('ttt AndFlagArray', AndFlagArray);
+      console.log('ttt orFlagArray', orFlagArray);
       const andWhereArray = [];
       const OrArray = [];
       if (whereFlagArray.length > 0) {
