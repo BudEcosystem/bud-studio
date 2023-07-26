@@ -56,7 +56,7 @@ const ToDoPanel = ({
     });
   }, [data, workspace, data.entry.checkList]);
 
-  const [sortedArray, setSortedArray] = useState([]);
+  console.log("CLL", dataId)
 
   const handleDragEnd = (result: any) => {
     dispatch(changeRowOrderTodos({ id: data.entry.uuid, result }));

@@ -91,10 +91,10 @@ function TaskView({
 
   useEffect(() => {
     const TaskArray: any = [];
+    console.log("CLL", databaseEntries)
     const x = solveRec(databaseEntries, data.entry.uuid);
-    console.log(x, 'hello');
-    x.childs.map((child, i) => {
-      workspace.workSpaceDocs.forEach((doc, j) => {
+    x.childs.map((child: any, i: any) => {
+      workspace.workSpaceDocs.forEach((doc: any, j: any) => {
         if (doc.uuid == child.documentID) {
           TaskArray.push(doc);
         }
@@ -114,7 +114,7 @@ function TaskView({
     //   }
     // });
     setToDoId(TaskArray);
-  }, [data, workspace]);
+  }, [data, workspace, databaseEntries]);
 
   const formattedStatus = status
         .replace(/_/g, ' ')

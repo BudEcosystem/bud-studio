@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import {
   DataEditor,
@@ -58,9 +58,10 @@ export default function TableView({
   const [columns, setColumns] = useState<GridColumn[]>([]);
   const [hoverRow, setHoverRow] = React.useState<number | undefined>(undefined);
   const [taskViewOpen, setTaskViewOpen] = useState(false);
-  const { workSpace }: any = useSelector((state) => state);
+  const { workspace }: any = useSelector((state) => state);
   const { database }: any = useSelector((state) => state);
   const [taskViewData, setTaskViewData] = useState();
+  const [statusPanels, setStatusPanels] = useState(null);
 
   // Row Hover Effect
   const onItemHovered = React.useCallback((args: GridMouseEventArgs) => {
@@ -482,6 +483,46 @@ export default function TableView({
     console.log(data);
   };
 
+  useLayoutEffect(() => {
+    // Get Database entries
+    const sortedContent = [];
+    databaseData.entries.map((item) => {
+      const document = workspace.workSpaceDocs.filter(
+        (obj) => obj.uuid === item.documentID
+      );
+      sortedContent.push(document[0]);
+    });
+
+    const data: any[] = [];
+    databaseData.propertyPresets.status.options.map((item: any) => {
+      const entries = [];
+      // Optimize The Code
+      sortedContent.forEach((entry: any) => {
+        entry.properties.forEach((property: any) => {
+          if (property.title === 'Status') {
+            if (property.value === item.key) {
+              entries.push({
+                title: entry.name,
+                description: item.description,
+                childs: [],
+                entry,
+              });
+            }
+          }
+        });
+      });
+
+      data.push({
+        status: item.title,
+        headerText: item.title,
+        colorIcon: item.color,
+        items: entries,
+      });
+    });
+
+    setStatusPanels(data);
+  }, [databaseData, databaseEntries]);
+
   const getTaskView = () => {
     console.log('Changes', taskViewData);
     const taskViewDataTemp = { ...taskViewData };
@@ -491,6 +532,10 @@ export default function TableView({
     return taskViewDataTemp;
   };
 
+  console.log("VAYYA", getTaskView())
+
+  var checkedNum = 0;
+
   return (
     <div className="table-wrapper" id="table-wrapper">
       {taskViewOpen && (
@@ -498,8 +543,14 @@ export default function TableView({
           data={getTaskView()}
           title={databaseData.title}
           showTaskViewModal={taskViewOpen}
+          databaseEntries={databaseData.entries}
           setShowTaskViewModal={setTaskViewOpen}
           item={getTaskView()}
+          status={getTaskView()?.properties[2].value}
+          level={0}
+          checkedNum={checkedNum}
+          subChild={false}
+          statusPanels={statusPanels}
         />
       )}
 

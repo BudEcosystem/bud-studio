@@ -42,16 +42,16 @@ export const generateDatabaseInitialState = (): any => {
               {
                 title: 'Not Started',
                 key: 'Not Started',
-                color: '#939AFF',
+                color: 'red',
                 key: 'not_started',
               },
               {
                 title: 'In Progress',
                 key: 'In Progress',
-                color: '#FFD976',
+                color: 'yellow',
                 key: 'in_progress',
               },
-              { title: 'Done', key: 'Done', color: '#36D95A', key: 'done' },
+              { title: 'Done', key: 'Done', color: 'green', key: 'done' },
             ],
           },
           tags: {
@@ -88,8 +88,8 @@ export const generateDatabaseInitialState = (): any => {
         entries: [
           {
             documentID: '39b08a3d-12f1-4651-90f7-328952849dca',
-            childs: [{ documentID: '39b08a3d-12f1-4651-90f7-328952849dca' }],
-            statusKey: 'not_started',
+            childs: [],
+            statusKey: 'in_progress',
           },
         ],
       },
@@ -483,6 +483,19 @@ export const databaseSlice = createSlice({
       });
     },
 
+    addTodosTable: (state, action: PayloadAction<any>) => {
+      state.databases.map((database) => {
+        if (database.defaultView === 'Table') {
+          const x = solveRec(database.entries, action.payload.id);
+          console.log({ ...x }, 'addTodo');
+          x.childs.push({
+            documentID: action.payload.newId,
+            childs: [],
+          });
+        }
+      });
+    },
+
     addTodosKanban: (state, action: PayloadAction<any>) => {
       state.databases.map((database) => {
         if (database.defaultView === 'Kanban') {
@@ -569,6 +582,7 @@ export const {
   addNewDocumentEntry,
   editPropertPresetsStatusOptions,
   addTodos,
+  addTodosTable,
   changeRowOrderTodos,
   addTodosKanban,
   changeRowOrderTodosKanban,
