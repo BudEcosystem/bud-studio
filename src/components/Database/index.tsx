@@ -6,9 +6,8 @@ import './database.css';
 import { v4 as uuidv4 } from 'uuid';
 import { addEmptyDoc } from 'redux/slices/workspace';
 import ListView from '@/components/ListView/ListView';
-import KanbanUI from './KanbanNew';
 import { changeDatabaseDefaultView } from '@/redux/slices/database';
-import ListView from '../ListView/ListView';
+import KanbanUI from './KanbanNew';
 // TODO : Update The Interface With Required Data
 interface DatabaseProps {
   databaseData: any;
@@ -23,7 +22,7 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
   const { workspace } = useSelector((state) => state);
   const [databaseEntries, setDatabaseEntries] = useState<any[]>([]);
   const { database }: any = useSelector((state) => state);
-  const [showSubtask, setShowSubtask] = useState(false)
+  const [showSubtask, setShowSubtask] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -122,12 +121,10 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
           id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
           order: 4,
           startDate: null,
-          endDate: null
+          endDate: null,
         },
       ],
-      checkList: [
-
-      ],
+      checkList: [],
     };
 
     // initial document
@@ -237,10 +234,11 @@ export default function Database({ databaseData }: DatabaseProps): JSX.Element {
       )}
 
       {databaseData.defaultView === 'Kanban' && databaseEntries.length && (
-        <KanbanUI 
-        id={databaseData.id} 
-        showSubtask={showSubtask}
-        setShowSubtask={setShowSubtask} />
+        <KanbanUI
+          id={databaseData.id}
+          showSubtask={showSubtask}
+          setShowSubtask={setShowSubtask}
+        />
       )}
 
       {databaseData.defaultView === 'List' && databaseEntries.length && (
