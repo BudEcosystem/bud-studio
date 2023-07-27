@@ -293,6 +293,8 @@ export const databaseSlice = createSlice({
         if (database.id === action.payload.databaseID) {
           database.entries.push({
             documentID: action.payload.initialDocumentID,
+            childs: [],
+            statusKey: 'in_progress',
           });
           break;
         }

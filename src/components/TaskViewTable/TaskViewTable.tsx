@@ -102,7 +102,7 @@ function TaskViewTable({
     });
 
     setToDoId(TaskArray);
-  }, [data, workspace, databaseEntries]);
+  }, [data, workspace, databaseEntries, item]);
 
   const formattedStatus = status
         .replace(/_/g, ' ')
@@ -117,7 +117,7 @@ function TaskViewTable({
         setStatusColor(item.colorIcon);
       }
     });
-  }, [databaseEntries, data, workspace]);
+  }, [databaseEntries, data, workspace, item]);
 
   const dispatch = useDispatch();
   const flagcolors = {
@@ -158,7 +158,7 @@ function TaskViewTable({
       const localData = workspace.applicationData[data.entry.uuid];
       setLocalState(localData[0]);
     }
-  }, [data, databaseEntries, workspace]);
+  }, [data, databaseEntries, workspace, item]);
 
   const handleDragOver = (event: any) => {
     event.preventDefault();
