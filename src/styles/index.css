@@ -45,7 +45,11 @@
   font-size: 2.5819265143992056vh;
 }
 
-//body
+.ant-popover-inner {
+  padding: 0px !important;
+  background-color: transparent !important;
+}
+/* body */ 
 .kanban-body-wrap {
   display: flex;
 }
@@ -251,7 +255,7 @@
   order: 0;
   flex-grow: 0;
 }
-//drag
+/* drag */
 .draggable .dragging {
   opacity: 0.5;
   background-color: green;

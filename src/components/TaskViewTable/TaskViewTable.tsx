@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './TaskView.css';
+import './TaskViewTable.css';
 import { useSelector, useDispatch } from 'react-redux';
 import CircularImageComponent from 'components/ListView/ListViewComponents/CircularImageComponent';
 import {
@@ -39,7 +39,7 @@ import ToDoPanel from './components/ToDoPanel';
 
 dayjs.extend(relativeTime);
 
-function TaskView({
+function TaskViewTable({
   data,
   title,
   showTaskViewModal,
@@ -101,35 +101,23 @@ function TaskView({
       });
     });
 
-    // databaseEntries.map((dbentry, i) => {
-    //   if (dbentry.documentID === data.entry.uuid) {
-    //     console.log(dbentry);
-    //     dbentry?.childs?.map((child, j) => {
-    //       workspace.workSpaceDocs.forEach((doc: any, i: any) => {
-    //         if (doc.uuid == child.documentID) {
-    //           TaskArray.push(doc);
-    //         }
-    //       });
-    //     });
-    //   }
-    // });
     setToDoId(TaskArray);
-  }, [data, workspace, databaseEntries]);
+  }, [data, workspace, databaseEntries, item]);
 
   const formattedStatus = status
         .replace(/_/g, ' ')
-        .replace(/\b\w/g, (match) => match.toUpperCase());
+        .replace(/\b\w/g, (match: any) => match.toUpperCase());
 
   useEffect(() => {
-    statusPanels.map((item, i) => {
+    statusPanels.map((item: any, i: any) => {
       const formattedStatus = status
         .replace(/_/g, ' ')
-        .replace(/\b\w/g, (match) => match.toUpperCase());
+        .replace(/\b\w/g, (match: any) => match.toUpperCase());
       if (item.status === formattedStatus) {
         setStatusColor(item.colorIcon);
       }
     });
-  });
+  }, [databaseEntries, data, workspace, item]);
 
   const dispatch = useDispatch();
   const flagcolors = {
@@ -139,7 +127,7 @@ function TaskView({
     Normal: '#3D4047',
   };
 
-  const getFlagColor = (flagColor) => {
+  const getFlagColor = (flagColor: any) => {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +146,7 @@ function TaskView({
 
   // Local State
   const [priorityPopoverVisible, setPriorityPopoverVisible] = useState(false);
-  const setPriority = (priority) => {
+  const setPriority = (priority: any) => {
     dispatch(
       updateDocumentStatusById({ documentID: data.entry.uuid, priority })
     );
@@ -170,7 +158,7 @@ function TaskView({
       const localData = workspace.applicationData[data.entry.uuid];
       setLocalState(localData[0]);
     }
-  }, [data]);
+  }, [data, databaseEntries, workspace, item]);
 
   const handleDragOver = (event: any) => {
     event.preventDefault();
@@ -662,4 +650,4 @@ function TaskView({
   );
 }
 
-export default TaskView;
+export default TaskViewTable;

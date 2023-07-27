@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArrowIcon } from '../TaskViewIcons';
-import '../TaskView.css';
+import '../TaskViewTable.css';
 import HeaderSubCompInput from 'components/ListView/ListViewComponents/HeaderSubCompInput';
 import InputComponent from './InputComponent';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -31,20 +31,6 @@ const ToDoPanel = ({
   const [childData, setChildData] = useState(dataId);
   const checkListInput = data.entry.checkList;
   const [showCheckListInput, setShowCheckListInput] = useState(false);
-  // const [TaskArrayForRender, SetTaskArrayForRender] = useState([]);
-  // const [workspaceDocs, setWorkspaceDocs] = useState(workspace.workSpaceDocs);
-
-  // useEffect(() => {
-  //   const TaskArray: any = [];
-  //   dataId?.forEach((entry: any, index: any) => {
-  //     workspacestodos?.forEach((doc: any, index: any) => {
-  //       if (entry.id == doc.uuid) {
-  //         TaskArray.push(doc);
-  //       }
-  //     });
-  //   });
-  //   SetTaskArrayForRender(TaskArray);
-  // }, [dataId, workspaceDocs, workspacestodos]);
 
   console.log('ARUNS', data, dataId, databaseEntries);
   const [checkList, setCheckList] = useState();

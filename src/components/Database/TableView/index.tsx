@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import {
   DataEditor,
@@ -29,7 +29,7 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import { moveDatabaseRow } from '@/redux/slices/database';
-import TaskView from '@/components/TaskView/TaskView';
+import TaskViewTable from '@/components/TaskViewTable/TaskViewTable';
 import { changePriority, changeStatus } from '@/redux/slices/workspace';
 import DocumentCellRenderer, { DocumentCell } from './Cells/DocumentCell';
 import PriorityCellRenderer, { PriorityCell } from './Cells/PriorityCell';
@@ -58,15 +58,104 @@ export default function TableView({
   const [columns, setColumns] = useState<GridColumn[]>([]);
   const [hoverRow, setHoverRow] = React.useState<number | undefined>(undefined);
   const [taskViewOpen, setTaskViewOpen] = useState(false);
-  const { workSpace }: any = useSelector((state) => state);
+  const { workspace }: any = useSelector((state) => state);
   const { database }: any = useSelector((state) => state);
-  const [taskViewData, setTaskViewData] = useState();
+  const [taskViewData, setTaskViewData] = useState({
+    "name": "Welcome To Bud",
+    "childOf": null,
+    "workSPaceId": "Private",
+    "description": "How to evolve into a super human with your\n\ndigital\n\n\n\nPhilosophy, life, misc",
+    "type": "doc",
+    "uuid": "39b08a3d-12f1-4651-90f7-328952849dca",
+    "workSpaceUUID": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc",
+    "customProperties": [
+        {
+            "title": "Author",
+            "value": "Bud",
+            "type": "text",
+            "id": "3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc",
+            "order": 4
+        },
+        {
+            "title": "ISBN",
+            "value": "QWDE-DJJC-1234",
+            "type": "text",
+            "id": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee",
+            "order": 5
+        }
+    ],
+    "properties": [
+        {
+            "title": "Tags",
+            "value": [
+                "no-tag"
+            ],
+            "type": "tags",
+            "id": "3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc1",
+            "order": 1
+        },
+        {
+            "title": "Priority",
+            "value": "High",
+            "type": "priority",
+            "id": "3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc2",
+            "order": 2
+        },
+        {
+            "title": "Status",
+            "value": "not_started",
+            "type": "status",
+            "id": "3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3",
+            "order": 3
+        },
+        {
+            "title": "Date",
+            "value": null,
+            "type": "date",
+            "id": "3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4",
+            "order": 4,
+            "startDate": "2023-07-24T07:41:54.818Z",
+            "endDate": "2023-07-29T07:42:05.191Z"
+        }
+    ],
+    "checkList": [
+        {
+            "id": "abcd",
+            "checked": true,
+            "title": "Do homework",
+            "createdAt": "",
+            "updatedAt": ""
+        },
+        {
+            "id": "efjh",
+            "checked": false,
+            "title": "Buy Milk",
+            "createdAt": "",
+            "updatedAt": ""
+        },
+        {
+            "id": "ijkl",
+            "checked": false,
+            "title": "Repair something",
+            "createdAt": "",
+            "updatedAt": ""
+        },
+        {
+            "id": "mnop",
+            "checked": true,
+            "title": "Lol key",
+            "createdAt": "",
+            "updatedAt": ""
+        }
+    ]
+});
+  const [statusPanels, setStatusPanels] = useState([]);
 
   // Row Hover Effect
   const onItemHovered = React.useCallback((args: GridMouseEventArgs) => {
     const [_, row] = args.location;
     setHoverRow(args.kind !== 'cell' ? undefined : row);
-  }, []);
+  }, [hoverRow, workspace, databaseData, databaseEntries, database]);
 
   // console.log('TABLE GOV', databaseData);
   //
@@ -84,7 +173,7 @@ export default function TableView({
         bgCell: '#464856',
       };
     },
-    [hoverRow]
+    [hoverRow, workspace, databaseData, databaseEntries, database]
   );
 
   function getData([col, row]: Item): GridCell {
@@ -380,7 +469,7 @@ export default function TableView({
     } else if (data && databaseEntries.length !== data.length) {
       updateData();
     }
-  }, [databaseEntries]);
+  }, [databaseEntries, databaseData, workspace, database]);
 
   // Add New Column
   const newColumnInput = useRef(null);
@@ -482,24 +571,84 @@ export default function TableView({
     console.log(data);
   };
 
+  useLayoutEffect(() => {
+    // Get Database entries
+    const sortedContent = [];
+    databaseData.entries.map((item) => {
+      const document = workspace.workSpaceDocs.filter(
+        (obj) => obj.uuid === item.documentID
+      );
+      sortedContent.push(document[0]);
+    });
+
+    const data: any[] = [];
+    databaseData.propertyPresets.status.options.map((item: any) => {
+      const entries = [];
+      // Optimize The Code
+      sortedContent.forEach((entry: any) => {
+        entry.properties.forEach((property: any) => {
+          if (property.title === 'Status') {
+            if (property.value === item.key) {
+              entries.push({
+                title: entry.name,
+                description: item.description,
+                childs: [],
+                entry,
+              });
+            }
+          }
+        });
+      });
+
+      data.push({
+        status: item.title,
+        headerText: item.title,
+        colorIcon: item.color,
+        items: entries,
+      });
+    });
+
+    console.log("STAT", data)
+    setStatusPanels(data);
+  }, [databaseData, databaseEntries, workspace, database]);
+
   const getTaskView = () => {
-    console.log('Changes', taskViewData);
+    console.log('', taskViewData);
     const taskViewDataTemp = { ...taskViewData };
     taskViewDataTemp.entry = taskViewDataTemp;
-
-    console.log("Task View Data", taskViewDataTemp);
     return taskViewDataTemp;
   };
 
+  // console.log("VAYYA", databaseEntries)
+
+  const getCheckedItemsCount = () => {
+    const temp  = getTaskView()
+      var checkedNum = 0;
+      temp?.entry?.checkList.forEach((item: any) => {
+      if (item.checked == true) {
+        checkedNum++;
+      }
+    });
+    return checkedNum
+  }
+
+  
+
   return (
     <div className="table-wrapper" id="table-wrapper">
-      {taskViewOpen && (
-        <TaskView
+      {(
+        <TaskViewTable
           data={getTaskView()}
           title={databaseData.title}
           showTaskViewModal={taskViewOpen}
+          databaseEntries={databaseData.entries}
           setShowTaskViewModal={setTaskViewOpen}
           item={getTaskView()}
+          status={getTaskView()?.properties[2].value}
+          level={0}
+          checkedNum={getCheckedItemsCount()}
+          subChild={false}
+          statusPanels={statusPanels}
         />
       )}
 

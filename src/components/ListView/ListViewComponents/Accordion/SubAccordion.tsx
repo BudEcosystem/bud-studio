@@ -107,16 +107,6 @@ function SubAccordion({
         setShowTaskViewModal(true);
       }}
     >
-      {/* <TaskView
-        data={data}
-        title={title}
-        showTaskViewModal={showTaskViewModal}
-        setShowTaskViewModal={setShowTaskViewModal}
-        status={status}
-        item={item}
-        databaseEntries={databaseEntries}
-        statusPanels={statusPanels}
-      /> */}
       <div className="headerSubComponentContainer">
         <HeaderSubComp
           index={index}
