@@ -60,14 +60,102 @@ export default function TableView({
   const [taskViewOpen, setTaskViewOpen] = useState(false);
   const { workspace }: any = useSelector((state) => state);
   const { database }: any = useSelector((state) => state);
-  const [taskViewData, setTaskViewData] = useState();
-  const [statusPanels, setStatusPanels] = useState(null);
+  const [taskViewData, setTaskViewData] = useState({
+    "name": "Welcome To Bud",
+    "childOf": null,
+    "workSPaceId": "Private",
+    "description": "How to evolve into a super human with your\n\ndigital\n\n\n\nPhilosophy, life, misc",
+    "type": "doc",
+    "uuid": "39b08a3d-12f1-4651-90f7-328952849dca",
+    "workSpaceUUID": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc",
+    "customProperties": [
+        {
+            "title": "Author",
+            "value": "Bud",
+            "type": "text",
+            "id": "3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc",
+            "order": 4
+        },
+        {
+            "title": "ISBN",
+            "value": "QWDE-DJJC-1234",
+            "type": "text",
+            "id": "3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee",
+            "order": 5
+        }
+    ],
+    "properties": [
+        {
+            "title": "Tags",
+            "value": [
+                "no-tag"
+            ],
+            "type": "tags",
+            "id": "3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc1",
+            "order": 1
+        },
+        {
+            "title": "Priority",
+            "value": "High",
+            "type": "priority",
+            "id": "3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc2",
+            "order": 2
+        },
+        {
+            "title": "Status",
+            "value": "not_started",
+            "type": "status",
+            "id": "3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3",
+            "order": 3
+        },
+        {
+            "title": "Date",
+            "value": null,
+            "type": "date",
+            "id": "3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4",
+            "order": 4,
+            "startDate": "2023-07-24T07:41:54.818Z",
+            "endDate": "2023-07-29T07:42:05.191Z"
+        }
+    ],
+    "checkList": [
+        {
+            "id": "abcd",
+            "checked": true,
+            "title": "Do homework",
+            "createdAt": "",
+            "updatedAt": ""
+        },
+        {
+            "id": "efjh",
+            "checked": false,
+            "title": "Buy Milk",
+            "createdAt": "",
+            "updatedAt": ""
+        },
+        {
+            "id": "ijkl",
+            "checked": false,
+            "title": "Repair something",
+            "createdAt": "",
+            "updatedAt": ""
+        },
+        {
+            "id": "mnop",
+            "checked": true,
+            "title": "Lol key",
+            "createdAt": "",
+            "updatedAt": ""
+        }
+    ]
+});
+  const [statusPanels, setStatusPanels] = useState([]);
 
   // Row Hover Effect
   const onItemHovered = React.useCallback((args: GridMouseEventArgs) => {
     const [_, row] = args.location;
     setHoverRow(args.kind !== 'cell' ? undefined : row);
-  }, []);
+  }, [hoverRow, workspace, databaseData, databaseEntries, database]);
 
   // console.log('TABLE GOV', databaseData);
   //
@@ -85,7 +173,7 @@ export default function TableView({
         bgCell: '#464856',
       };
     },
-    [hoverRow]
+    [hoverRow, workspace, databaseData, databaseEntries, database]
   );
 
   function getData([col, row]: Item): GridCell {
@@ -381,7 +469,7 @@ export default function TableView({
     } else if (data && databaseEntries.length !== data.length) {
       updateData();
     }
-  }, [databaseEntries, databaseData]);
+  }, [databaseEntries, databaseData, workspace, database]);
 
   // Add New Column
   const newColumnInput = useRef(null);
@@ -520,8 +608,9 @@ export default function TableView({
       });
     });
 
+    console.log("STAT", data)
     setStatusPanels(data);
-  }, [databaseData, databaseEntries]);
+  }, [databaseData, databaseEntries, workspace, database]);
 
   const getTaskView = () => {
     console.log('', taskViewData);
@@ -547,7 +636,7 @@ export default function TableView({
 
   return (
     <div className="table-wrapper" id="table-wrapper">
-      {taskViewOpen && (
+      {(
         <TaskViewTable
           data={getTaskView()}
           title={databaseData.title}
