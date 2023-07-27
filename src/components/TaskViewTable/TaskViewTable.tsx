@@ -101,35 +101,23 @@ function TaskViewTable({
       });
     });
 
-    // databaseEntries.map((dbentry, i) => {
-    //   if (dbentry.documentID === data.entry.uuid) {
-    //     console.log(dbentry);
-    //     dbentry?.childs?.map((child, j) => {
-    //       workspace.workSpaceDocs.forEach((doc: any, i: any) => {
-    //         if (doc.uuid == child.documentID) {
-    //           TaskArray.push(doc);
-    //         }
-    //       });
-    //     });
-    //   }
-    // });
     setToDoId(TaskArray);
   }, [data, workspace, databaseEntries]);
 
   const formattedStatus = status
         .replace(/_/g, ' ')
-        .replace(/\b\w/g, (match) => match.toUpperCase());
+        .replace(/\b\w/g, (match: any) => match.toUpperCase());
 
   useEffect(() => {
-    statusPanels.map((item, i) => {
+    statusPanels.map((item: any, i: any) => {
       const formattedStatus = status
         .replace(/_/g, ' ')
-        .replace(/\b\w/g, (match) => match.toUpperCase());
+        .replace(/\b\w/g, (match: any) => match.toUpperCase());
       if (item.status === formattedStatus) {
         setStatusColor(item.colorIcon);
       }
     });
-  });
+  }, [databaseEntries, data, workspace]);
 
   const dispatch = useDispatch();
   const flagcolors = {
@@ -139,7 +127,7 @@ function TaskViewTable({
     Normal: '#3D4047',
   };
 
-  const getFlagColor = (flagColor) => {
+  const getFlagColor = (flagColor: any) => {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +146,7 @@ function TaskViewTable({
 
   // Local State
   const [priorityPopoverVisible, setPriorityPopoverVisible] = useState(false);
-  const setPriority = (priority) => {
+  const setPriority = (priority: any) => {
     dispatch(
       updateDocumentStatusById({ documentID: data.entry.uuid, priority })
     );
@@ -170,7 +158,7 @@ function TaskViewTable({
       const localData = workspace.applicationData[data.entry.uuid];
       setLocalState(localData[0]);
     }
-  }, [data]);
+  }, [data, databaseEntries, workspace]);
 
   const handleDragOver = (event: any) => {
     event.preventDefault();

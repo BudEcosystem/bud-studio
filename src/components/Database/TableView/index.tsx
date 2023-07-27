@@ -381,7 +381,7 @@ export default function TableView({
     } else if (data && databaseEntries.length !== data.length) {
       updateData();
     }
-  }, [databaseEntries]);
+  }, [databaseEntries, databaseData]);
 
   // Add New Column
   const newColumnInput = useRef(null);
@@ -524,17 +524,26 @@ export default function TableView({
   }, [databaseData, databaseEntries]);
 
   const getTaskView = () => {
-    console.log('Changes', taskViewData);
+    console.log('', taskViewData);
     const taskViewDataTemp = { ...taskViewData };
     taskViewDataTemp.entry = taskViewDataTemp;
-
-    console.log("Task View Data", taskViewDataTemp);
     return taskViewDataTemp;
   };
 
-  console.log("VAYYA", getTaskView())
+  // console.log("VAYYA", databaseEntries)
 
-  var checkedNum = 0;
+  const getCheckedItemsCount = () => {
+    const temp  = getTaskView()
+      var checkedNum = 0;
+      temp?.entry?.checkList.forEach((item: any) => {
+      if (item.checked == true) {
+        checkedNum++;
+      }
+    });
+    return checkedNum
+  }
+
+  
 
   return (
     <div className="table-wrapper" id="table-wrapper">
@@ -548,7 +557,7 @@ export default function TableView({
           item={getTaskView()}
           status={getTaskView()?.properties[2].value}
           level={0}
-          checkedNum={checkedNum}
+          checkedNum={getCheckedItemsCount()}
           subChild={false}
           statusPanels={statusPanels}
         />
