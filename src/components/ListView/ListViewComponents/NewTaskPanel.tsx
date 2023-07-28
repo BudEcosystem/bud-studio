@@ -206,7 +206,7 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
           className="flexCenter newTaskPanelItems"
         >
           {item.logo}
-          {searchClicked && (
+          {(searchClicked || workspaceDocsSearchKey) && (
             <AddNewTaskinput
               onKeyDown={onEscapeButtonPressed}
               placeholder={item.name}
