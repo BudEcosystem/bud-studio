@@ -5,6 +5,7 @@
  */
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   DataEditor,
@@ -59,6 +60,12 @@ export default function TableView({
   const [hoverRow, setHoverRow] = React.useState<number | undefined>(undefined);
   const [taskViewOpen, setTaskViewOpen] = useState(false);
   const { workspace }: any = useSelector((state) => state);
+  const {
+    workSpaceDocs,
+    currentWorkspace,
+    workspaceDocsSearchKey,
+    triggerTaskCreation,
+  } = workspace;
   const { database }: any = useSelector((state) => state);
   const [taskViewData, setTaskViewData] = useState({
     "name": "Welcome To Bud",
@@ -179,8 +186,8 @@ export default function TableView({
   function getData([col, row]: Item): GridCell {
     const rowData = data[row];
     const newDataArr = [];
-    rowData.properties.map((item) => newDataArr.push(item));
-    rowData.customProperties.map((item) => newDataArr.push(item));
+    rowData?.properties?.map((item) => newDataArr.push(item));
+    rowData?.customProperties?.map((item) => newDataArr.push(item));
     // console.log(newDataArr, col, rowData, columns);
 
     const matchingItem = newDataArr.find((item) => item.order === col);
@@ -192,7 +199,7 @@ export default function TableView({
         copyData: '4',
         data: {
           kind: 'document-cell',
-          title: rowData.name,
+          title: rowData?.name,
           uuid: '123',
           onOpenClick: () => {
             console.log('ROWDATAGOV', rowData);
@@ -384,7 +391,102 @@ export default function TableView({
   const onAddRowDrag = (e: DraggableEvent, ui: DraggableData) => {
     // Push The State
     const newData = [...data];
-    newData.push({ name: '' });
+    console.log(newData,"popopo")
+    newData.push( {
+      name: 'Untitled',
+      childOf: null,
+      workSPaceId: 'Private',
+      description: '',
+      type: 'doc',
+      uuid: '39b08a3d-12f1-4651-90f7-328952849dca',
+      workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+      customProperties: [
+        {
+          title: 'Author',
+          value: 'Bud',
+          type: 'text',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc',
+          order: 4,
+        },
+        {
+          title: 'ISBN',
+          value: 'QWDE-DJJC-1234',
+          type: 'text',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee',
+          order: 5,
+        },
+      ], // User defined Properties
+      properties: [
+        {
+          title: 'Tags',
+          value: ['no-tag'],
+          type: 'tags',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc1',
+          order: 1,
+        },
+        {
+          title: 'Priority',
+          value: 'Normal',
+          type: 'priority',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc2',
+          order: 2,
+        },
+        {
+          title: 'Status',
+          value: 'not_started',
+          type: 'status',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
+          order: 3,
+        },
+        {
+          title: 'Date',
+          value: null,
+          type: 'date',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
+          order: 4,
+          startDate: null,
+          endDate: null
+        },
+      ],
+      checkList: [
+        {
+          id: 'abcd',
+          checked: false,
+          title: 'Do homework',
+          createdAt: '',
+          updatedAt: '',
+        },
+        {
+          id: 'efjh',
+          checked: true,
+          title: 'Buy Milk',
+          createdAt: '',
+          updatedAt: '',
+        },
+        {
+          id: 'ijkl',
+          checked: false,
+          title: 'Repair something',
+          createdAt: '',
+          updatedAt: '',
+        },
+        {
+          id: 'mnop',
+          checked: true,
+          title: 'Lol key',
+          createdAt: '',
+          updatedAt: '',
+        },
+      ],
+
+      // System Defined Properties
+      // {39b08a3d-12f1-4651-90f7-328952849xyz
+      //   tags: ['no-tag'],
+      //   priority: 'Normal',
+      //   status: 'Not Started',
+      //   date: null,
+      // },
+    },);
     setData(newData);
   };
 
@@ -417,37 +519,56 @@ export default function TableView({
 
   useEffect(() => {
     const updateData = () => {
-      console.log('Prepare Data Called');
-      console.log(databaseEntries);
+      console.log("SATYAM", databaseEntries);
 
       const column:
         | React.SetStateAction<GridColumn[]>
         | { title: any; order: any }[] = [{ title: 'Document', order: 0 }];
 
-      // Properties
-      // column.push(
-      //   {
-      //     title: 'Status',
-      //     order: 1,
-      //   },
-      //   {
-      //     title: 'Tags',
-      //     order: 2,
-      //   },
-      //   {
-      //     title: 'Priority',
-      //     order: 3,
-      //   }
-      // );
+        const searchFilterData: any[] = [];
 
-      // databaseEntries.forEach((entry) => {
-      // System Defined Properties
-      databaseEntries[0].properties.forEach((property) => {
+        if(workspaceDocsSearchKey) {
+          console.log("NNN", workspaceDocsSearchKey)
+          databaseEntries.forEach((doc: any) => {
+            const name = doc.name.toLowerCase();
+            
+            if(name.includes(workspaceDocsSearchKey)) {
+              searchFilterData.push(doc)
+            }
+          })
+          console.log("SEEK", searchFilterData)
+
+      // if(searchFilterData.length == 0) {
+      //   searchFilterData.push([])
+      // }
+
+      searchFilterData?.[0]?.properties?.forEach((property: any) => {
         column.push({ title: property.title, order: property.order });
       });
 
       // User Defined Properties
-      databaseEntries[0].customProperties.forEach((property) => {
+      searchFilterData?.[0]?.customProperties?.forEach((property: any) => {
+        column.push({ title: property.title, order: property.order });
+      });
+      // });
+
+      // Set The Columns
+      setColumns(column);
+
+      console.log('Entries', searchFilterData);
+
+      // Prepare Thw Data
+
+      setData(searchFilterData);
+    }
+
+    else {
+      databaseEntries[0].properties.forEach((property: any) => {
+        column.push({ title: property.title, order: property.order });
+      });
+
+      // User Defined Properties
+      databaseEntries[0].customProperties.forEach((property: any) => {
         column.push({ title: property.title, order: property.order });
       });
       // });
@@ -460,6 +581,8 @@ export default function TableView({
       // Prepare Thw Data
 
       setData(databaseEntries);
+    }
+
     };
 
     // For Smooth Re-rendering
@@ -469,7 +592,8 @@ export default function TableView({
     } else if (data && databaseEntries.length !== data.length) {
       updateData();
     }
-  }, [databaseEntries, databaseData, workspace, database]);
+    updateData()
+  }, [databaseEntries, databaseData, workspace, database, workspaceDocsSearchKey]);
 
   // Add New Column
   const newColumnInput = useRef(null);

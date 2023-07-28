@@ -63,6 +63,8 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
   const { newTaskClicked, selectedItemIndex } = list;
   const { newTaskClickedtable } = table;
   const { workspace }: any = useSelector((state) => state);
+  const { workspaceDocsSearchKey } = workspace;
+  const [searchKeyName, setSearchkeyName] = useState(workspaceDocsSearchKey)
   const [name, setName] = useState('');
   const { color } = workspace;
   const [showThreeDotsOption, setShowThreeDotsOption] = useState(false);
@@ -188,6 +190,11 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
       );
     }
   };
+
+  const handleSearchChange = (e: any) => {
+    setSearchkeyName(e.target.value)
+  }
+
   const conditionalOptions = (item: any, i: any) => {
     if (item.name === 'Search') {
       return (
@@ -205,6 +212,8 @@ function NewTaskPanel({ view, changeDatabaseView }: any) {
               placeholder={item.name}
               id="searchInputHeader"
               ref={inputRef}
+              value={searchKeyName ? searchKeyName : ""}
+              onChange={handleSearchChange}
             />
           )}
           {!searchClicked && (
