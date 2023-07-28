@@ -185,8 +185,8 @@ export default function TableView({
   function getData([col, row]: Item): GridCell {
     const rowData = data[row];
     const newDataArr = [];
-    rowData.properties.map((item) => newDataArr.push(item));
-    rowData.customProperties.map((item) => newDataArr.push(item));
+    rowData?.properties?.map((item) => newDataArr.push(item));
+    rowData?.customProperties?.map((item) => newDataArr.push(item));
     // console.log(newDataArr, col, rowData, columns);
 
     const matchingItem = newDataArr.find((item) => item.order === col);
@@ -198,7 +198,7 @@ export default function TableView({
         copyData: '4',
         data: {
           kind: 'document-cell',
-          title: rowData.name,
+          title: rowData?.name,
           uuid: '123',
           onOpenClick: () => {
             console.log('ROWDATAGOV', rowData);
@@ -496,6 +496,7 @@ export default function TableView({
     } else if (data && databaseEntries.length !== data.length) {
       updateData();
     }
+    updateData()
   }, [databaseEntries, databaseData, workspace, database, workspaceDocsSearchKey]);
 
   // Add New Column
