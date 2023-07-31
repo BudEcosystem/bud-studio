@@ -955,7 +955,9 @@ export default function TableView({
         />
       )}
 
-      <Draggable
+      
+      {!workspaceDocsSearchKey && (
+        <Draggable
         axis="y"
         handle=".table-drag-button"
         defaultPosition={{ x: 0, y: 0 }}
@@ -971,6 +973,8 @@ export default function TableView({
           </div>
         </div>
       </Draggable>
+      )}
+      
     </div>
   );
 }
