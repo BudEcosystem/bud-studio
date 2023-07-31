@@ -91,7 +91,7 @@ function TaskViewTable({
 
   useEffect(() => {
     const TaskArray: any = [];
-    console.log("CLL", databaseEntries)
+    console.log("CLL", data)
     const x = solveRec(databaseEntries, data.entry.uuid);
     x.childs.map((child: any, i: any) => {
       workspace.workSpaceDocs.forEach((doc: any, j: any) => {
@@ -196,14 +196,14 @@ function TaskViewTable({
 
   // Persist changes to the local state
   const persistEditorRoot = (editorState: any, editorStateTextString: any) => {
-    dispatch(
-      updateDocumentData({
-        editorState,
-        currentPage: 0,
-        currentDocumentUUID: data.entry.uuid,
-        editorStateTextString,
-      })
-    );
+    // dispatch(
+    //   updateDocumentData({
+    //     editorState,
+    //     currentPage: 0,
+    //     currentDocumentUUID: data.entry.uuid,
+    //     editorStateTextString,
+    //   })
+    // );
   };
 
   const updateStartDate = (date: any) => {
