@@ -1782,6 +1782,9 @@ export const workspaceSlice = createSlice({
       state.workSpaceSortKey = null;
       state.workSpaceSortType = null;
     },
+    addTableDataInWorkSpaceDocs: (state, action: PayloadAction<any>) => {
+      state.workSpaceDocs.push(action.payload)
+    }
   },
 });
 
@@ -1842,5 +1845,6 @@ export const {
   triggerDefaultNewTask,
   setWorkSpaceSortKey,
   clearWorkSpaceSortKey,
+  addTableDataInWorkSpaceDocs
 } = workspaceSlice.actions;
 export default workspaceSlice.reducer;

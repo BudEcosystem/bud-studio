@@ -558,6 +558,19 @@ export const databaseSlice = createSlice({
         }
       });
     },
+    setRowInTableDatabase: (state, action: PayloadAction<any>) => {
+      state.databases.forEach((database) => {
+        if (database.defaultView === 'Table') {
+          if(database.id === action.payload.tableDatabaseId){
+            database.entries.push({
+              documentID: action.payload.obj.uuid,
+              childs: [],
+              statusKey: 'in_progress',
+            })
+          }
+        }
+      });
+    }
   },
 });
 
@@ -588,6 +601,7 @@ export const {
   changeRowOrderTodos,
   addTodosKanban,
   changeRowOrderTodosKanban,
+  setRowInTableDatabase
 } = databaseSlice.actions;
 
 export default databaseSlice.reducer;

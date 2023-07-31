@@ -28,6 +28,8 @@ import {
   TagsCell,
 } from '@glideapps/glide-data-grid-cells';
 
+import {setRowInTableDatabase} from 'redux/slices/database';
+import {addTableDataInWorkSpaceDocs} from 'redux/slices/workspace';
 import { useDispatch, useSelector } from 'react-redux';
 import { moveDatabaseRow } from '@/redux/slices/database';
 import TaskViewTable from '@/components/TaskViewTable/TaskViewTable';
@@ -392,13 +394,13 @@ export default function TableView({
     // Push The State
     const newData = [...data];
     console.log(newData,"popopo")
-    newData.push( {
+    const obj = {
       name: 'Untitled',
       childOf: null,
       workSPaceId: 'Private',
       description: '',
       type: 'doc',
-      uuid: '39b08a3d-12f1-4651-90f7-328952849dca',
+      uuid: uuidv4(),
       workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
       customProperties: [
         {
@@ -421,28 +423,28 @@ export default function TableView({
           title: 'Tags',
           value: ['no-tag'],
           type: 'tags',
-          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc1',
+          id: uuidv4(),
           order: 1,
         },
         {
           title: 'Priority',
           value: 'Normal',
           type: 'priority',
-          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc2',
+          id: uuidv4(),
           order: 2,
         },
         {
           title: 'Status',
           value: 'not_started',
           type: 'status',
-          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc3',
+          id: uuidv4(),
           order: 3,
         },
         {
           title: 'Date',
           value: null,
           type: 'date',
-          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdc4',
+          id: uuidv4(),
           order: 4,
           startDate: null,
           endDate: null
@@ -486,7 +488,10 @@ export default function TableView({
       //   status: 'Not Started',
       //   date: null,
       // },
-    },);
+    }
+    newData.push(obj);
+    dispatch(setRowInTableDatabase({tableDatabaseId: databaseData.id, obj}))
+    dispatch(addTableDataInWorkSpaceDocs(obj))
     setData(newData);
   };
 
@@ -514,7 +519,104 @@ export default function TableView({
     // create new document
     // newData.push({ name: 'untitled' });
     // setData(newData);
-    appendEmptyDocument();
+    // appendEmptyDocument();
+    const obj = {
+      name: 'Untitled1',
+      childOf: null,
+      workSPaceId: 'Private',
+      description: '',
+      type: 'doc',
+      uuid: uuidv4(),
+      workSpaceUUID: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdcc',
+      customProperties: [
+        {
+          title: 'Author',
+          value: 'Bud',
+          type: 'text',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22gcdcc',
+          order: 4,
+        },
+        {
+          title: 'ISBN',
+          value: 'QWDE-DJJC-1234',
+          type: 'text',
+          id: '3717e4c0-6b5e-40f2-abfc-bfa4f22fcdee',
+          order: 5,
+        },
+      ], // User defined Properties
+      properties: [
+        {
+          title: 'Tags',
+          value: ['no-tag'],
+          type: 'tags',
+          id: uuidv4(),
+          order: 1,
+        },
+        {
+          title: 'Priority',
+          value: 'Normal',
+          type: 'priority',
+          id: uuidv4(),
+          order: 2,
+        },
+        {
+          title: 'Status',
+          value: 'not_started',
+          type: 'status',
+          id: uuidv4(),
+          order: 3,
+        },
+        {
+          title: 'Date',
+          value: null,
+          type: 'date',
+          id: uuidv4(),
+          order: 4,
+          startDate: null,
+          endDate: null
+        },
+      ],
+      checkList: [
+        {
+          id: 'abcd',
+          checked: false,
+          title: 'Do homework',
+          createdAt: '',
+          updatedAt: '',
+        },
+        {
+          id: 'efjh',
+          checked: true,
+          title: 'Buy Milk',
+          createdAt: '',
+          updatedAt: '',
+        },
+        {
+          id: 'ijkl',
+          checked: false,
+          title: 'Repair something',
+          createdAt: '',
+          updatedAt: '',
+        },
+        {
+          id: 'mnop',
+          checked: true,
+          title: 'Lol key',
+          createdAt: '',
+          updatedAt: '',
+        },
+      ],
+
+      // System Defined Properties
+      // {39b08a3d-12f1-4651-90f7-328952849xyz
+      //   tags: ['no-tag'],
+      //   priority: 'Normal',
+      //   status: 'Not Started',
+      //   date: null,
+      // },
+    }
+    dispatch(setRowInTableDatabase({tableDatabaseId: databaseData.id, obj}))
+    dispatch(addTableDataInWorkSpaceDocs(obj))
   };
 
   useEffect(() => {
@@ -666,6 +768,8 @@ export default function TableView({
     setData(newData);
     console.log(newData);
   };
+
+  console.log('dayajasd', data, databaseData, databaseEntries,)
 
   // Move To Util Class
   function moveArrayItemToNewIndex(arr, old_index, new_index) {
