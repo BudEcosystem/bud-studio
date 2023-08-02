@@ -41,6 +41,7 @@ import { ReactComponent as DragButtonIcon } from '../../../../public/images/drag
 import '@glideapps/glide-data-grid/dist/index.css';
 import '@glideapps/glide-data-grid-cells/dist/index.css';
 import './table.view.css';
+import TableSort from './SortComponent';
 
 // Grid columns may also provide icon, overlayIcon, menu, style, and theme overrides
 // @ts-ignore
@@ -68,6 +69,17 @@ export default function TableView({
     workspaceDocsSearchKey,
     triggerTaskCreation,
   } = workspace;
+  const {
+    workSpaceFilterKey,
+    workSpaceFiltertype,
+    workSpaceSortKey,
+    workSpaceSortType,
+  } = workspace;
+  const [filterRules, setFilterRules] = useState<any>([]);
+  const [sortRules, setSortRules] = useState<any>([]);
+
+  const [filterType, setFilterType] = useState<string>('chain');
+  const [sortType, setSortType] = useState<string>('chain');
   const { database }: any = useSelector((state) => state);
   const [taskViewData, setTaskViewData] = useState({
     "name": "Welcome To Bud",
@@ -184,6 +196,8 @@ export default function TableView({
     },
     [hoverRow, workspace, databaseData, databaseEntries, database]
   );
+
+  console.log("ASS", workSpaceSortKey)
 
   function getData([col, row]: Item): GridCell {
     const rowData = data[row];
@@ -466,6 +480,50 @@ export default function TableView({
     setData(newData);
   };
 
+  useEffect(() => {
+    if (workspace) {
+      // if (workSpaceFiltertype === 'chain') {
+      //   setFilterType('chain');
+      //   const filterRuleObject = {
+      //     key: workSpaceFilterKey,
+      //     query: '',
+      //     op: 'is',
+      //     condition: null,
+      //   };
+      //   setFilterRules([filterRuleObject]);
+      // } else if (workSpaceFiltertype === 'group') {
+      //   setFilterRules([
+      //     {
+      //       key: 'Name',
+      //       query: '',
+      //       op: 'is',
+      //       condition: null,
+      //     },
+      //   ]);
+      //   setFilterType('group');
+      // }
+      if (workSpaceSortType === 'chain') {
+        setSortType('chain');
+        const sortRuleObject = {
+          key: workSpaceSortKey,
+          query: '',
+          op: 'ASC',
+          condition: null,
+        };
+        setSortRules([sortRuleObject]);
+      } else if (workSpaceSortType === null) {
+        setSortType('chain');
+        setSortRules([]);
+      }
+    }
+  }, [
+    workSpaceFilterKey,
+    workSpaceFiltertype,
+    workspace,
+    workSpaceSortKey,
+    workSpaceSortType,
+  ]);
+
   // const prepareData = () => {
   //   console.log('Data prepration');
   //   console.log(workspace.workSpaceDocs);
@@ -548,34 +606,7 @@ export default function TableView({
         },
       ],
       checkList: [
-        {
-          id: 'abcd',
-          checked: false,
-          title: 'Do homework',
-          createdAt: '',
-          updatedAt: '',
-        },
-        {
-          id: 'efjh',
-          checked: true,
-          title: 'Buy Milk',
-          createdAt: '',
-          updatedAt: '',
-        },
-        {
-          id: 'ijkl',
-          checked: false,
-          title: 'Repair something',
-          createdAt: '',
-          updatedAt: '',
-        },
-        {
-          id: 'mnop',
-          checked: true,
-          title: 'Lol key',
-          createdAt: '',
-          updatedAt: '',
-        },
+        
       ],
 
       // System Defined Properties
@@ -656,6 +687,95 @@ export default function TableView({
       setData(databaseEntries);
     }
 
+    if (sortRules.length > 0) {
+      const priorityOrder: any = {
+        High: 0,
+        Medium: 1,
+        Low: 3,
+        Normal: 2,
+      };
+      const StatusOrder: any = {
+        not_started: 0,
+        in_progress: 1,
+        in_review: 2,
+        done: 3,
+      };
+      const { key, op } = sortRules[0];
+      console.log('sortRules - sorted', key);
+      if (key === 'Name') {
+        if (op === 'ASC') {
+          databaseEntries.sort((a: any, b: any) => a.name.localeCompare(b.name));
+          searchFilterData.sort((a: any, b: any) => a.name.localeCompare(b.name));
+          console.log("CUDD", databaseEntries)
+        }
+        if (op === 'DSC') {
+          databaseEntries.sort((a: any, b: any) => b.name.localeCompare(a.name));
+          searchFilterData.sort((a: any, b: any) => b.name.localeCompare(a.name));
+          console.log("CUDD", databaseEntries)
+        }
+      }
+      if (key === 'Priority') {
+        if (op === 'ASC') {
+          databaseEntries.sort((a: any, b: any) => {
+            const priorityA = a.properties.find((prop: { title: string; }) => prop.title === "Priority").value;
+            const priorityB = b.properties.find((prop: { title: string; }) => prop.title === "Priority").value;
+            
+            return priorityOrder[priorityB] - priorityOrder[priorityA];
+          });
+          searchFilterData.sort((a: any, b: any) => {
+            const priorityA = a.properties.find((prop: { title: string; }) => prop.title === "Priority").value;
+            const priorityB = b.properties.find((prop: { title: string; }) => prop.title === "Priority").value;
+            
+            return priorityOrder[priorityB] - priorityOrder[priorityA];
+          });
+        }
+        if (op === 'DSC') {
+          databaseEntries.sort((a: any, b: any) => {
+            const priorityA = a.properties.find((prop: { title: string; }) => prop.title === "Priority").value;
+            const priorityB = b.properties.find((prop: { title: string; }) => prop.title === "Priority").value;
+            
+            return priorityOrder[priorityA] - priorityOrder[priorityB];
+          });
+          searchFilterData.sort((a: any, b: any) => {
+            const priorityA = a.properties.find((prop: { title: string; }) => prop.title === "Priority").value;
+            const priorityB = b.properties.find((prop: { title: string; }) => prop.title === "Priority").value;
+            
+            return priorityOrder[priorityA] - priorityOrder[priorityB];
+          });
+        }
+      }
+      if (key === 'Status') {
+        if (op === 'ASC') {
+          databaseEntries.sort((a: any, b: any) => {
+            const statusA = a.properties.find((prop: { title: string; }) => prop.title === "Status").value;
+            const statusB = b.properties.find((prop: { title: string; }) => prop.title === "Status").value;
+          
+            return StatusOrder[statusA] - StatusOrder[statusB];
+          });
+          searchFilterData.sort((a: any, b: any) => {
+            const statusA = a.properties.find((prop: { title: string; }) => prop.title === "Status").value;
+            const statusB = b.properties.find((prop: { title: string; }) => prop.title === "Status").value;
+          
+            return StatusOrder[statusA] - StatusOrder[statusB];
+          });
+        }
+        if (op === 'DSC') {
+          databaseEntries.sort((a: any, b: any) => {
+            const statusA = a.properties.find((prop: { title: string; }) => prop.title === "Status").value;
+            const statusB = b.properties.find((prop: { title: string; }) => prop.title === "Status").value;
+          
+            return StatusOrder[statusB] - StatusOrder[statusA];
+          });
+          searchFilterData.sort((a: any, b: any) => {
+            const statusA = a.properties.find((prop: { title: string; }) => prop.title === "Status").value;
+            const statusB = b.properties.find((prop: { title: string; }) => prop.title === "Status").value;
+          
+            return StatusOrder[statusB] - StatusOrder[statusA];
+          });
+        }
+      }
+    }
+
     };
 
     // For Smooth Re-rendering
@@ -666,7 +786,7 @@ export default function TableView({
       updateData();
     }
     updateData()
-  }, [databaseEntries, databaseData, workspace, database, workspaceDocsSearchKey]);
+  }, [databaseEntries, databaseData, workspace, database, workspaceDocsSearchKey, sortRules]);
 
   // Add New Column
   const newColumnInput = useRef(null);
@@ -831,11 +951,25 @@ export default function TableView({
     return checkedNum
   }
 
+  const callBackOnNewSort = (arrayPassed: any) => {
+    setSortRules([...arrayPassed]);
+  };
+
   
 
   return (
+    <>
+    {sortRules.length > 0 && (
+      <div style={{marginRight: "1050px", cursor: "pointer"}}>
+      <TableSort
+        sortRules={sortRules}
+        callBackOnNewFilter={callBackOnNewSort}
+        filterType={'chain'}
+      />
+      </div>
+    )}
     <div className="table-wrapper" id="table-wrapper">
-      {(
+     {(
         <TaskViewTable
           data={getTaskView()}
           title={databaseData.title}
@@ -947,5 +1081,6 @@ export default function TableView({
       )}
       
     </div>
+    </>
   );
 }

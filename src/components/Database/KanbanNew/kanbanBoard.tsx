@@ -226,7 +226,7 @@ function Kanban({
   const callBackOnNewSort = (arrayPassed: any) => {
     setSortRules([...arrayPassed]);
   };
-  console.log('sort', sortRules);
+  console.log('MMMM', sortRules);
 
   function getDocumentIds(obj: any) {
     const documentIds: any[] = [];
