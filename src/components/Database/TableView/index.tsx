@@ -963,13 +963,13 @@ export default function TableView({
 
   return (
     <>
-    {filterRules?.length > 0 && (
+    {/* {filterRules?.length > 0 && (
         <TableFilter
           filterRules={filterRules}
           callBackOnNewFilter={callBackOnNewFilter}
           filterType={filterType}
         />
-      )}
+      )} */}
 
     {sortRules.length > 0 && (
       <TableSort
