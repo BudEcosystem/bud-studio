@@ -15,8 +15,9 @@ import PopOverContent from './Components/PopOver';
 import CustomDropDown from './Components/CustomDropDown';
 
 const KanbanSortWrapper = styled.div`
-  width: 100%;
+  width: 94%;
   display: flex;
+  cursor: pointer;
 `;
 const KanbanSortFirstHalf = styled.div`
   display: flex;
