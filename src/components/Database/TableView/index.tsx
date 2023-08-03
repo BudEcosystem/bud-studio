@@ -42,6 +42,7 @@ import '@glideapps/glide-data-grid/dist/index.css';
 import '@glideapps/glide-data-grid-cells/dist/index.css';
 import './table.view.css';
 import TableSort from './SortComponent';
+import TableFilter from './FilterComponent';
 
 // Grid columns may also provide icon, overlayIcon, menu, style, and theme overrides
 // @ts-ignore
@@ -482,26 +483,26 @@ export default function TableView({
 
   useEffect(() => {
     if (workspace) {
-      // if (workSpaceFiltertype === 'chain') {
-      //   setFilterType('chain');
-      //   const filterRuleObject = {
-      //     key: workSpaceFilterKey,
-      //     query: '',
-      //     op: 'is',
-      //     condition: null,
-      //   };
-      //   setFilterRules([filterRuleObject]);
-      // } else if (workSpaceFiltertype === 'group') {
-      //   setFilterRules([
-      //     {
-      //       key: 'Name',
-      //       query: '',
-      //       op: 'is',
-      //       condition: null,
-      //     },
-      //   ]);
-      //   setFilterType('group');
-      // }
+      if (workSpaceFiltertype === 'chain') {
+        setFilterType('chain');
+        const filterRuleObject = {
+          key: workSpaceFilterKey,
+          query: '',
+          op: 'is',
+          condition: null,
+        };
+        setFilterRules([filterRuleObject]);
+      } else if (workSpaceFiltertype === 'group') {
+        setFilterRules([
+          {
+            key: 'Name',
+            query: '',
+            op: 'is',
+            condition: null,
+          },
+        ]);
+        setFilterType('group');
+      }
       if (workSpaceSortType === 'chain') {
         setSortType('chain');
         const sortRuleObject = {
@@ -955,18 +956,27 @@ export default function TableView({
     setSortRules([...arrayPassed]);
   };
 
+  const callBackOnNewFilter = (arrayPassed: any) => {
+    setFilterRules([...arrayPassed]);
+  };
   
 
   return (
     <>
+    {/* {filterRules?.length > 0 && (
+        <TableFilter
+          filterRules={filterRules}
+          callBackOnNewFilter={callBackOnNewFilter}
+          filterType={filterType}
+        />
+      )} */}
+
     {sortRules.length > 0 && (
-      <div style={{marginRight: "1050px", cursor: "pointer"}}>
       <TableSort
         sortRules={sortRules}
         callBackOnNewFilter={callBackOnNewSort}
         filterType={'chain'}
       />
-      </div>
     )}
     <div className="table-wrapper" id="table-wrapper">
      {(
