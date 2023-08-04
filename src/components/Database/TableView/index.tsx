@@ -79,6 +79,12 @@ export default function TableView({
   const [filterRules, setFilterRules] = useState<any>([]);
   const [sortRules, setSortRules] = useState<any>([]);
 
+  const [filterConditionsGenerated, setFilterConditionsGenerated] =
+    useState('');
+  const [filterRulesWhereArray, setFilterRulesWhere] = useState([]);
+  const [filterRulesOrArray, setFilterRulesOr] = useState([]);
+  const [filterRulesAndArray, setFilterRulesAnd] = useState([]);
+
   const [filterType, setFilterType] = useState<string>('chain');
   const [sortType, setSortType] = useState<string>('chain');
   const { database }: any = useSelector((state) => state);
@@ -963,19 +969,19 @@ export default function TableView({
 
   return (
     <>
-    {/* {filterRules?.length > 0 && (
+    {filterRules?.length > 0 && (
         <TableFilter
           filterRules={filterRules}
           callBackOnNewFilter={callBackOnNewFilter}
           filterType={filterType}
         />
-      )} */}
+      )}
 
     {sortRules.length > 0 && (
       <TableSort
         sortRules={sortRules}
         callBackOnNewFilter={callBackOnNewSort}
-        filterType={'chain'}
+        filterType={sortType}
       />
     )}
     <div className="table-wrapper" id="table-wrapper">
