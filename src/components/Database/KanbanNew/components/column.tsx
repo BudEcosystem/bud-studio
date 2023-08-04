@@ -227,6 +227,7 @@ function Column(props: any) {
       setFilterRulesWhere([]);
     }
   }, [filterRules]);
+
   useEffect(() => {
     const TaskArray: any = [];
     const { sortRules } = props;
@@ -275,6 +276,7 @@ function Column(props: any) {
         }
       });
     });
+
     const filteredArray: any = [];
     TaskArray.forEach((data: any) => {
       const whereFlagArray: any = [];
@@ -331,6 +333,7 @@ function Column(props: any) {
           }
         }
       });
+
       filterRulesAndArray.forEach((ruleData: any) => {
         const { op, key, query } = ruleData;
         if (query !== '' && query !== null) {
@@ -380,6 +383,7 @@ function Column(props: any) {
           }
         }
       });
+      
       filterRulesOrArray.forEach((ruleData: any) => {
         const { op, key, query } = ruleData;
         if (query !== '' && query !== null) {
