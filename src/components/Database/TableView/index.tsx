@@ -179,6 +179,27 @@ export default function TableView({
 });
   const [statusPanels, setStatusPanels] = useState([]);
 
+  useEffect(() => {
+    if (filterRules.length > 0) {
+      const filterRulesWhere = filterRules.filter(
+        (data: any) => data.condition === null
+      );
+      setFilterRulesWhere(filterRulesWhere);
+      const filterRulesAnd = filterRules.filter(
+        (data: any) => data.condition === 'and'
+      );
+      setFilterRulesAnd(filterRulesAnd);
+      const filterRulesOr = filterRules.filter(
+        (data: any) => data.condition === 'or'
+      );
+      setFilterRulesOr(filterRulesOr);
+    } else if (filterRules.length === 0) {
+      setFilterRulesAnd([]);
+      setFilterRulesOr([]);
+      setFilterRulesWhere([]);
+    }
+  }, [filterRules]);
+
   // Row Hover Effect
   const onItemHovered = React.useCallback((args: GridMouseEventArgs) => {
     const [_, row] = args.location;
@@ -649,10 +670,6 @@ export default function TableView({
           })
           console.log("SEEK", searchFilterData)
 
-      // if(searchFilterData.length == 0) {
-      //   searchFilterData.push([])
-      // }
-
       searchFilterData?.[0]?.properties?.forEach((property: any) => {
         column.push({ title: property.title, order: property.order });
       });
@@ -783,6 +800,325 @@ export default function TableView({
       }
     }
 
+    const filteredArray: any = [];
+    const TaskArray: any = []
+
+    if(filterRules.length > 0) {
+
+      databaseEntries.forEach((data: any) => {
+        const updatedObject = Object.assign({}, data, { Name: data.name, Status: data.properties[2].value, User: '', Priority: data.properties[1].value});
+        TaskArray.push(updatedObject) 
+      })
+
+      console.log("GRRR", TaskArray)
+
+    TaskArray.forEach((data: any) => {
+      const whereFlagArray: any = [];
+      const AndFlagArray: any = [];
+      const orFlagArray: any = [];
+      filterRulesWhereArray.forEach((ruleData: any) => {
+        const { op, key, query } = ruleData;
+        if (query !== '' && query !== null) {
+          switch (op) {
+            case 'is':
+              whereFlagArray.push(
+                data[`${key}`]?.toLowerCase() === `${query.toLowerCase()}`
+              );
+              break;
+            case 'is_not':
+              whereFlagArray.push(
+                data[`${key}`]?.toLowerCase() !== `${query.toLowerCase()}`
+              );
+              break;
+            case 'contains':
+              whereFlagArray.push(
+                data[`${key}`]?.toLowerCase().includes(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'does_not_contains':
+              whereFlagArray.push(
+                !data[`${key}`]
+                  ?.toLowerCase()
+                  .includes(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'starts_with':
+              whereFlagArray.push(
+                data[`${key}`]
+                  ?.toLowerCase()
+                  .startsWith(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'ends_with':
+              whereFlagArray.push(
+                data[`${key}`]?.toLowerCase().endsWith(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'is_empty':
+              whereFlagArray.push(
+                data[`${key}`] === '' || data[`${key}`] === null
+              );
+              break;
+            case 'is_not_empty':
+              whereFlagArray.push(
+                data[`${key}`] !== '' || data[`${key}`] !== null
+              );
+              break;
+          }
+        }
+      });
+      filterRulesAndArray.forEach((ruleData: any) => {
+        const { op, key, query } = ruleData;
+        if (query !== '' && query !== null) {
+          switch (op) {
+            case 'is':
+              AndFlagArray.push(
+                data[`${key}`].toLowerCase() === `${query.toLowerCase()}`
+              );
+              break;
+            case 'is_not':
+              AndFlagArray.push(
+                data[`${key}`].toLowerCase() !== `${query.toLowerCase()}`
+              );
+              break;
+            case 'contains':
+              AndFlagArray.push(
+                data[`${key}`].toLowerCase().includes(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'does_not_contains':
+              AndFlagArray.push(
+                !data[`${key}`].toLowerCase().includes(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'starts_with':
+              AndFlagArray.push(
+                data[`${key}`]
+                  .toLowerCase()
+                  .startsWith(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'ends_with':
+              AndFlagArray.push(
+                data[`${key}`].toLowerCase().endsWith(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'is_empty':
+              AndFlagArray.push(
+                data[`${key}`] === '' || data[`${key}`] === null
+              );
+              break;
+            case 'is_not_empty':
+              AndFlagArray.push(
+                data[`${key}`] !== '' || data[`${key}`] !== null
+              );
+              break;
+          }
+        }
+      });
+      filterRulesOrArray.forEach((ruleData: any) => {
+        const { op, key, query } = ruleData;
+        if (query !== '' && query !== null) {
+          switch (op) {
+            case 'is':
+              orFlagArray.push(
+                data[`${key}`].toLowerCase() === `${query.toLowerCase()}`
+              );
+              break;
+            case 'is_not':
+              orFlagArray.push(
+                data[`${key}`].toLowerCase() !== `${query.toLowerCase()}`
+              );
+              break;
+            case 'contains':
+              orFlagArray.push(
+                data[`${key}`].toLowerCase().includes(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'does_not_contains':
+              orFlagArray.push(
+                !data[`${key}`].toLowerCase().includes(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'starts_with':
+              orFlagArray.push(
+                data[`${key}`]
+                  .toLowerCase()
+                  .startsWith(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'ends_with':
+              orFlagArray.push(
+                data[`${key}`].toLowerCase().endsWith(`${query.toLowerCase()}`)
+              );
+              break;
+            case 'is_empty':
+              orFlagArray.push(
+                data[`${key}`] === '' || data[`${key}`] === null
+              );
+              break;
+            case 'is_not_empty':
+              orFlagArray.push(
+                data[`${key}`] !== '' || data[`${key}`] !== null
+              );
+              break;
+          }
+        }
+      });
+      console.log('ttt whereFlagArray', whereFlagArray);
+      console.log('ttt AndFlagArray', AndFlagArray);
+      console.log('ttt orFlagArray', orFlagArray);
+      const andWhereArray = [];
+      const OrArray = [];
+      if (whereFlagArray.length > 0) {
+        andWhereArray.push(
+          whereFlagArray.reduce(
+            (accumulator: any, currentValue: any) => accumulator && currentValue
+          )
+        );
+      }
+      if (AndFlagArray.length > 0) {
+        andWhereArray.push(
+          AndFlagArray.reduce(
+            (accumulator: any, currentValue: any) => accumulator && currentValue
+          )
+        );
+      }
+      if (orFlagArray.length > 0) {
+        OrArray.push(
+          orFlagArray.reduce(
+            (accumulator: any, currentValue: any) => accumulator || currentValue
+          )
+        );
+      }
+
+      const finalArray = [];
+      if (andWhereArray.length > 0) {
+        finalArray.push(
+          andWhereArray.reduce(
+            (accumulator: any, currentValue: any) => accumulator && currentValue
+          )
+        );
+      }
+      if (OrArray.length > 0) {
+        finalArray.push(
+          OrArray.reduce(
+            (accumulator: any, currentValue: any) => accumulator || currentValue
+          )
+        );
+      }
+      let finalFlag = true;
+      if (finalArray.length > 0) {
+        finalFlag = finalArray.reduce(
+          (accumulator: any, currentValue: any) => accumulator || currentValue
+        );
+      }
+      if (finalFlag) {
+        filteredArray.push(data);
+      }
+    });
+
+    if (sortRules.length > 0) {
+      const priorityOrder: any = {
+        High: 0,
+        Medium: 1,
+        Low: 3,
+        Normal: 2,
+      };
+      const StatusOrder: any = {
+        not_started: 0,
+        in_progress: 1,
+        in_review: 2,
+        done: 3,
+      };
+      const { key, op } = sortRules[0];
+      console.log('sortRules - sorted', key);
+      if (key === 'Name') {
+        if (op === 'ASC') {
+          filteredArray.sort((a: any, b: any) => a.name.localeCompare(b.name));
+          console.log("CUDD", databaseEntries)
+        }
+        if (op === 'DSC') {
+     
+          filteredArray.sort((a: any, b: any) => b.name.localeCompare(a.name));
+          console.log("CUDD", databaseEntries)
+        }
+      }
+      if (key === 'Priority') {
+        if (op === 'ASC') {
+          filteredArray.sort((a: any, b: any) => {
+            const priorityA = a.properties.find((prop: { title: string; }) => prop.title === "Priority").value;
+            const priorityB = b.properties.find((prop: { title: string; }) => prop.title === "Priority").value;
+            
+            return priorityOrder[priorityB] - priorityOrder[priorityA];
+          });
+        }
+        if (op === 'DSC') {
+          filteredArray.sort((a: any, b: any) => {
+            const priorityA = a.properties.find((prop: { title: string; }) => prop.title === "Priority").value;
+            const priorityB = b.properties.find((prop: { title: string; }) => prop.title === "Priority").value;
+            
+            return priorityOrder[priorityA] - priorityOrder[priorityB];
+          });
+        }
+      }
+      if (key === 'Status') {
+        if (op === 'ASC') {
+          filteredArray.sort((a: any, b: any) => {
+            const statusA = a.properties.find((prop: { title: string; }) => prop.title === "Status").value;
+            const statusB = b.properties.find((prop: { title: string; }) => prop.title === "Status").value;
+          
+            return StatusOrder[statusA] - StatusOrder[statusB];
+          });
+        }
+        if (op === 'DSC') {
+          filteredArray.sort((a: any, b: any) => {
+            const statusA = a.properties.find((prop: { title: string; }) => prop.title === "Status").value;
+            const statusB = b.properties.find((prop: { title: string; }) => prop.title === "Status").value;
+          
+            return StatusOrder[statusB] - StatusOrder[statusA];
+          });
+        }
+      }
+    }
+
+    if(workspaceDocsSearchKey !='' && workspaceDocsSearchKey) {
+      const searchFilterData: any[] | React.SetStateAction<null> = [];
+      const column:
+        | React.SetStateAction<GridColumn[]>
+        | { title: any; order: any }[] = [{ title: 'Document', order: 0 }];
+
+      filteredArray.forEach((doc: any) => {
+        const name = doc.name.toLowerCase();
+        
+        if(name.includes(workspaceDocsSearchKey)) {
+          searchFilterData.push(doc)
+        }
+      })
+
+  searchFilterData?.[0]?.properties?.forEach((property: any) => {
+    column.push({ title: property.title, order: property.order });
+  });
+
+  // User Defined Properties
+  searchFilterData?.[0]?.customProperties?.forEach((property: any) => {
+    column.push({ title: property.title, order: property.order });
+  });
+  // });
+
+  // Set The Columns
+  setColumns(column);
+
+  // Prepare Thw Data
+
+  setData(searchFilterData);
+}
+
+  else {
+    setData(filteredArray)
+  }
+  }
+    
     };
 
     // For Smooth Re-rendering
@@ -793,7 +1129,7 @@ export default function TableView({
       updateData();
     }
     updateData()
-  }, [databaseEntries, databaseData, workspace, database, workspaceDocsSearchKey, sortRules]);
+  }, [workspace, workspaceDocsSearchKey, sortRules, filterRules]);
 
   // Add New Column
   const newColumnInput = useRef(null);
