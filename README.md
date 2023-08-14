@@ -4,6 +4,8 @@
 Making the world truly Intelligent, one fork at a time
 </p>
 
+![Screenshot](https://bud-public-assets.s3.ap-south-1.amazonaws.com/Icon+image.png)
+
 <br>
 
 
