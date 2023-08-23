@@ -43,10 +43,10 @@ Contributions to BudStudio are welcome! If you'd like to contribute, please foll
 ## Docs
 
 
-## Backers
+<!-- ## Backers
 
 
-## Maintainers
+## Maintainers -->
 
 
 ## License
