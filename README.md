@@ -55,4 +55,4 @@ BudStudio is released under the [MIT License](./LICENSE).
 
 ## Contact
 
-For questions, suggestions, or collaboration opportunities, you can reach out to us at [your@email.com](mailto:your@email.com).
+For questions, suggestions, or collaboration opportunities, you can reach out to us at [contact@bud.studio](mailto:contact@bud.studio).
